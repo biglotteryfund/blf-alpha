@@ -131,6 +131,14 @@ function createAccount(username, password) {
     });
 }
 
+function generateAccountEmail() {
+    return `${uuid()}@example.com`;
+}
+
+function generateAccountPassword() {
+    return `password${uuid()}`;
+}
+
 it('log in and log out', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password);
@@ -144,7 +152,7 @@ it('log in and log out', function() {
 });
 
 it('should prevent invalid log ins', () => {
-    logIn(`${uuid()}@example.com`, 'examplepassword');
+    logIn(generateAccountEmail(), generateAccountPassword());
     cy.findByTestId('form-errors').should(
         'contain',
         `Your username and password aren't quite right`
@@ -155,7 +163,7 @@ it('should prevent invalid log ins', () => {
 
 it('should return error when logging in with invalid password', () => {
     cy.seedUser().then(newUser => {
-        logIn(newUser.username, 'invalidpassword');
+        logIn(newUser.username, generateAccountPassword());
         cy.findByTestId('form-errors').should(
             'contain',
             `Your username and password aren't quite right`
@@ -164,22 +172,21 @@ it('should return error when logging in with invalid password', () => {
 });
 
 it('should rate-limit users attempting to login too often', () => {
-    const fakeEmail = `${Date.now()}@example.com`;
-    const fakePassword = 'hunter2';
-    const maxAttempts = 10;
+    const email = generateAccountEmail();
+    const password = generateAccountPassword();
 
-    times(maxAttempts, function() {
+    times(10, function() {
         cy.loginUser({
-            username: fakeEmail,
-            password: fakePassword
+            username: email,
+            password: password
         }).then(response => {
             expect(response.status).to.eq(200);
         });
     });
 
     cy.loginUser({
-        username: fakeEmail,
-        password: fakePassword,
+        username: email,
+        password: password,
         failOnStatusCode: false
     }).then(response => {
         expect(response.status).to.eq(429);
@@ -188,7 +195,7 @@ it('should rate-limit users attempting to login too often', () => {
 });
 
 it('should prevent registrations with invalid passwords', () => {
-    const username = `${Date.now()}@example.com`;
+    const username = generateAccountEmail();
 
     createAccount(username, '5555555555');
     cy.findByTestId('form-errors').should('contain', 'Password is too weak');
@@ -212,7 +219,7 @@ it('should prevent registrations with invalid passwords', () => {
 });
 
 it('should register and see activation screen', function() {
-    createAccount(`${Date.now()}@example.com`, uuid());
+    createAccount(generateAccountEmail(), generateAccountPassword());
     cy.checkA11y();
     cy.get('body').should(
         'contain',
@@ -221,11 +228,12 @@ it('should register and see activation screen', function() {
 });
 
 it('should email valid users with a token', () => {
-    const now = Date.now();
-    const username = `${now}@example.com`;
+    const username = generateAccountEmail();
+    const password = generateAccountPassword();
+
     cy.registerUser({
         username: username,
-        password: `password${now}`,
+        password: password,
         returnToken: true
     }).then(res => {
         // via https://github.com/auth0/node-jsonwebtoken/issues/162
@@ -256,10 +264,13 @@ function submitPasswordReset(newPassword, oldPassword = null) {
 }
 
 it('should be able to log in and update account details', () => {
-    function updateEmail(password) {
-        const newEmail = `${Date.now()}@example.com`;
+    cy.seedUser().then(user => {
+        logIn(user.username, user.password);
+        const newPassword = generateAccountPassword();
+        submitPasswordReset(newPassword, user.password);
+
         cy.findByText('Change your email address').click();
-        cy.findByLabelText('Email address').type(newEmail);
+        cy.findByLabelText('Email address').type(generateAccountEmail());
         cy.findByLabelText('Password confirmation').type('invalid password');
 
         cy.get('.form-actions').within(() => {
@@ -273,7 +284,7 @@ it('should be able to log in and update account details', () => {
 
         cy.findByLabelText('Password confirmation')
             .clear()
-            .type(password);
+            .type(newPassword);
 
         cy.get('.form-actions').within(() => {
             cy.findByText('Update email address').click();
@@ -283,13 +294,6 @@ it('should be able to log in and update account details', () => {
             'contain',
             'Check your emails to activate your account'
         );
-    }
-
-    cy.seedUser().then(user => {
-        logIn(user.username, user.password);
-        const newPassword = uuid();
-        submitPasswordReset(newPassword, user.password);
-        updateEmail(newPassword);
     });
 });
 
@@ -300,8 +304,7 @@ it('should be able to reset password while logged out', () => {
             returnToken: true
         }).then(response => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
-            const newPassword = uuid();
-            submitPasswordReset(newPassword);
+            submitPasswordReset(generateAccountPassword());
         });
     });
 });
@@ -310,7 +313,7 @@ it('should return forgotten password screen for invalid accounts', () => {
     cy.visit('/user/password/forgot');
 
     cy.findByLabelText('Email address', { exact: false }).type(
-        'not.registered@example.com'
+        generateAccountEmail()
     );
 
     cy.get('.form-actions').within(() => {
