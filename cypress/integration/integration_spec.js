@@ -88,21 +88,15 @@ it('should redirect legacy funding programmes', () => {
 });
 
 it('should protect access to staff-only tools', () => {
-    checkRedirect({
-        from:
-            '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc',
-        to: `/user/staff/login?redirectUrl=${encodeURIComponent(
-            '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc'
-        )}`,
-        status: 302
-    });
-
-    checkRedirect({
-        from: '/tools/survey-results',
-        to: `/user/staff/login?redirectUrl=${encodeURIComponent(
-            '/tools/survey-results'
-        )}`,
-        status: 302
+    [
+        `/tools/survey-results`,
+        `/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc`
+    ].forEach(urlPath => {
+        checkRedirect({
+            from: urlPath,
+            to: `/user/staff/login?redirectUrl=${encodeURIComponent(urlPath)}`,
+            status: 302
+        });
     });
 });
 
