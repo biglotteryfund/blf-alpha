@@ -135,6 +135,9 @@ router
                         logger.info('Password reset request succeeded');
                         renderForgotForm(req, res);
                     }
+                } else {
+                    logger.info('Password reset request for unregistered user');
+                    renderForgotForm(req, res);
                 }
             } catch (error) {
                 logger.warn('Password reset request failed');

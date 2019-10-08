@@ -342,7 +342,7 @@ it('should be able to reset password while logged out', () => {
     });
 });
 
-it.only('should return forgotten password screen for invalid accounts', () => {
+it('should return forgotten password screen for invalid accounts', () => {
     cy.visit('/user/password/forgot');
 
     cy.findByLabelText('Email address', { exact: false }).type(
@@ -355,6 +355,10 @@ it.only('should return forgotten password screen for invalid accounts', () => {
     cy.get('.form-actions').within(() => {
         cy.findByText('Reset password').click();
     });
+
+    cy.findByText('Password reset requested', { exact: false }).should(
+        'be.visible'
+    );
 });
 
 it('should allow survey API responses', () => {
