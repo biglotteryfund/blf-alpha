@@ -49,10 +49,6 @@ Cypress.Commands.add('seedUser', () => {
     return cy.request('POST', '/user/seed').its('body');
 });
 
-Cypress.Commands.add('seedPendingAFAApplication', data => {
-    return cy.request('POST', '/apply/awards-for-all/seed', data).its('body');
-});
-
 Cypress.Commands.add('seedAndLogin', () => {
     return cy.seedUser().then(newUser => {
         return cy.loginUser({

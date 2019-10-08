@@ -368,7 +368,7 @@ it('should allow survey API responses', () => {
 
             // Create all the applications
             applicationExpiryDates.map(expiry => {
-                cy.seedPendingAFAApplication({
+                cy.request('POST', '/apply/awards-for-all/seed', {
                     userId: newUser.id,
                     expiresAt: expiry.toDate()
                 });
