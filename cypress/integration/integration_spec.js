@@ -12,6 +12,17 @@ function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
 }
 
+function checkRedirect({ from, to, isRelative = true, status = 301 }) {
+    cy.request({
+        url: from,
+        followRedirects: false
+    }).then(response => {
+        const expected = isRelative ? `http://localhost:8090${to}` : to;
+        expect(response.status).to.eq(status);
+        expect(response.redirectedToUrl).to.eq(expected);
+    });
+}
+
 it('should have expected cache headers', () => {
     cy.request('/').then(response => {
         expect(response.headers['cache-control']).to.eq(
@@ -42,7 +53,7 @@ it('should 404 unknown routes', () => {
 });
 
 it('should redirect search queries to a google site search', () => {
-    cy.checkRedirect({
+    checkRedirect({
         from: '/search?q=This is my search query',
         to: `https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query`,
         isRelative: false,
@@ -51,8 +62,7 @@ it('should redirect search queries to a google site search', () => {
 });
 
 it('should redirect archived pages to the national archives', () => {
-    const urlPath =
-        '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
+    const urlPath = `/funding/funding-guidance/applying-for-funding/aims-and-outcomes`;
     cy.request(urlPath).then(response => {
         expect(response.body).to.include(
             `http://webarchive.nationalarchives.gov.uk/20171011152352/https://www.biglotteryfund.org.uk${urlPath}`
@@ -86,14 +96,14 @@ it('should redirect legacy funding programmes', () => {
         }
     ]);
 
-    cy.checkRedirect({
+    checkRedirect({
         from: sampleRedirect.originalPath,
         to: sampleRedirect.redirectedPath
     });
 });
 
 it('should protect access to staff-only tools', () => {
-    cy.checkRedirect({
+    checkRedirect({
         from:
             '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc',
         to: `/user/staff/login?redirectUrl=${encodeURIComponent(
@@ -102,7 +112,7 @@ it('should protect access to staff-only tools', () => {
         status: 302
     });
 
-    cy.checkRedirect({
+    checkRedirect({
         from: '/tools/survey-results',
         to: `/user/staff/login?redirectUrl=${encodeURIComponent(
             '/tools/survey-results'
