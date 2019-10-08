@@ -12,14 +12,10 @@ function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
 }
 
-it('should have common headers', () => {
+it('should have expected cache headers', () => {
     cy.request('/').then(response => {
         expect(response.headers['cache-control']).to.eq(
             'max-age=30,s-maxage=300'
-        );
-
-        expect(response.headers['content-security-policy']).to.contain(
-            "default-src 'self'"
         );
     });
 
@@ -31,28 +27,24 @@ it('should have common headers', () => {
 });
 
 it('should 404 unknown routes', () => {
-    cy.request({
-        url: '/not-a-page',
-        failOnStatusCode: false
-    }).then(response => {
-        expect(response.status).to.eq(404);
-        expect(response.body).to.include('Error 404');
-    });
+    function check404(urlPath) {
+        cy.request({
+            url: urlPath,
+            failOnStatusCode: false
+        }).then(response => {
+            expect(response.status).to.eq(404);
+            expect(response.body).to.include('Error 404');
+        });
+    }
 
-    cy.request({
-        url: '/not/a/page',
-        failOnStatusCode: false
-    }).then(response => {
-        expect(response.status).to.eq(404);
-        expect(response.body).to.include('Error 404');
-    });
+    check404('/not-a-page');
+    check404('/not/a/page');
 });
 
 it('should redirect search queries to a google site search', () => {
     cy.checkRedirect({
         from: '/search?q=This is my search query',
-        to:
-            'https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query',
+        to: `https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query`,
         isRelative: false,
         status: 302
     });
