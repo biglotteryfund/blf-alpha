@@ -102,7 +102,7 @@ class PendingApplication extends Model {
     }
     static findExpiredApplications() {
         return this.findAll({
-            attributes: ['id'],
+            attributes: ['id', 'formId'],
             where: {
                 expiresAt: {
                     [Op.lte]: moment().toDate()
@@ -159,7 +159,7 @@ class PendingApplication extends Model {
         return this.findOne({
             attributes: ['updatedAt'],
             where: {
-                id: { [Op.eq]: applicationId },
+                id: { [Op.eq]: applicationId }
             }
         });
     }

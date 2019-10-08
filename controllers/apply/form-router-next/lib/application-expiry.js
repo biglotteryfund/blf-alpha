@@ -151,6 +151,13 @@ const deleteExpiredApplications = async expiredApplications => {
             const dbStatus = await PendingApplication.deleteApplications(
                 applicationIds
             );
+
+            expiredApplications.forEach(application => {
+                logger.info(`Deleting expired application`, {
+                    formId: application.formId
+                });
+            });
+
             return dbStatus === expiredApplications.length;
         } else {
             logger.info(

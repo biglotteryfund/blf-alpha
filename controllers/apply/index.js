@@ -1,6 +1,5 @@
 'use strict';
 const express = require('express');
-const concat = require('lodash/concat');
 const path = require('path');
 
 const {
@@ -22,11 +21,6 @@ const logger = commonLogger.child({
     service: 'application-expiry'
 });
 
-// @TODO remove this logic after seeding past application email queue
-const { EXPIRY_EMAIL_REMINDERS } = require('./awards-for-all/constants');
-const {
-    generateEmailQueueItems
-} = require('./form-router-next/lib/emailQueue');
 const { isNotProduction } = require('../../common/appData');
 
 const router = express.Router();
@@ -81,53 +75,11 @@ router.get('/emails/unsubscribe', async function(req, res) {
  * API: Application Expiry seeder
  */
 
-// @TODO remove this endpoint after seeding past application email queue
-router.post('/handle-expiry/seed', async (req, res) => {
-    if (req.body.secret !== EMAIL_EXPIRY_SECRET && !appData.isTestServer) {
-        return res.status(403).json({ error: 'Invalid secret' });
-    }
-
-    try {
-        let emailQueueItems = [];
-
-        const applications = await PendingApplication.findAllByForm(
-            'awards-for-all'
-        );
-
-        applications.forEach(app => {
-            emailQueueItems = concat(
-                emailQueueItems,
-                generateEmailQueueItems(app, EXPIRY_EMAIL_REMINDERS)
-            );
-        });
-
-        if (emailQueueItems.length > 0) {
-            // NOTE: clear out the existing email queue before running this
-            await ApplicationEmailQueue.createNewQueue(emailQueueItems);
-
-            res.json({
-                status: 'ok',
-                applicationsProcessed: applications.length,
-                emailQueueItemsCreated: emailQueueItems.length
-            });
-        } else {
-            return res(403).json({
-                error: 'No application emails found to insert'
-            });
-        }
-    } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
-    }
-});
-
 /**
  * API: Application Expiry handler
  *
  * Emails users with pending expirations and deletes applications which have expired
  */
-
 router.post('/handle-expiry', async (req, res) => {
     if (req.body.secret !== EMAIL_EXPIRY_SECRET && !appData.isTestServer) {
         return res.status(403).json({ error: 'Invalid secret' });
