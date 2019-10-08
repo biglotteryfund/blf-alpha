@@ -101,18 +101,22 @@ it('should protect access to staff-only tools', () => {
 });
 
 function logIn(username, password) {
+    cy.visit('/user/login');
+
     cy.findByLabelText('Email address')
         .clear()
-        .type(username, { delay: 0 });
+        .type(username);
     cy.findByLabelText('Password')
         .clear()
-        .type(password, { delay: 0 });
+        .type(password);
     cy.get('.form-actions').within(() => {
         cy.findByText('Log in').click();
     });
 }
 
 function createAccount(username, password) {
+    cy.visit('/user/register');
+
     cy.findByLabelText('Email address')
         .clear()
         .type(username, { delay: 0 });
@@ -129,13 +133,9 @@ function createAccount(username, password) {
 
 it('log in and log out', function() {
     cy.seedUser().then(newUser => {
-        cy.visit('/user/login');
         logIn(newUser.username, newUser.password);
 
-        // Log out
-        cy.get('.user-nav__links')
-            .contains('Log out')
-            .click();
+        cy.findByText('Log out', { exact: false }).click();
 
         cy.findByText('You were successfully logged out', {
             exact: false
@@ -144,17 +144,22 @@ it('log in and log out', function() {
 });
 
 it('should prevent invalid log ins', () => {
-    cy.visit('/user/login');
-
-    const messageText = `Your username and password aren't quite right`;
     logIn('not_a_real_account@example.com', 'examplepassword');
-    cy.findByTestId('form-errors').should('contain', messageText);
+    cy.findByTestId('form-errors').should(
+        'contain',
+        `Your username and password aren't quite right`
+    );
 
     cy.checkA11y();
+});
 
+it('should return error when logging in with invalid password', () => {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, 'invalidpassword');
-        cy.findByTestId('form-errors').should('contain', messageText);
+        cy.findByTestId('form-errors').should(
+            'contain',
+            `Your username and password aren't quite right`
+        );
     });
 });
 
@@ -185,8 +190,6 @@ it('should rate-limit users attempting to login too often', () => {
 it('should prevent registrations with invalid passwords', () => {
     const username = `${Date.now()}@example.com`;
 
-    cy.visit('/user/register');
-
     createAccount(username, '5555555555');
     cy.findByTestId('form-errors').should('contain', 'Password is too weak');
 
@@ -209,7 +212,6 @@ it('should prevent registrations with invalid passwords', () => {
 });
 
 it('should register and see activation screen', function() {
-    cy.visit('/user/register');
     createAccount(`${Date.now()}@example.com`, uuid());
     cy.checkA11y();
     cy.get('body').should(
@@ -284,7 +286,6 @@ it('should be able to log in and update account details', () => {
     }
 
     cy.seedUser().then(user => {
-        cy.visit('/user/login');
         logIn(user.username, user.password);
         const newPassword = uuid();
         submitPasswordReset(newPassword, user.password);
