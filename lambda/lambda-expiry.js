@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable no-console */
 const querystring = require('querystring');
 const https = require('https');
 
