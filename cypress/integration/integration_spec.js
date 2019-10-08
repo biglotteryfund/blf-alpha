@@ -23,7 +23,7 @@ it('should have common headers', () => {
         );
     });
 
-    cy.request('/apply/your-idea/1').then(response => {
+    cy.request('/user/login').then(response => {
         expect(response.headers['cache-control']).to.eq(
             'no-store,no-cache,max-age=0'
         );
