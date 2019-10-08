@@ -238,6 +238,14 @@ function initFormRouter({
      * Route: Edit application
      */
     router.get('/edit/:applicationId', function(req, res) {
+        // If this link includes a source (s) parameter, track it
+        // eg. to analyse usage of expiry reminder emails
+        if (get(req.query, 's') === 'expiryEmail') {
+            commonLogger.info('User clicked edit link on expiry email', {
+                service: 'apply',
+                formId: formId
+            });
+        }
         redirectCurrentlyEditing(req, res, req.params.applicationId);
     });
 
