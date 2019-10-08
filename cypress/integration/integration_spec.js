@@ -342,6 +342,21 @@ it('should be able to reset password while logged out', () => {
     });
 });
 
+it.only('should return forgotten password screen for invalid accounts', () => {
+    cy.visit('/user/password/forgot');
+
+    cy.findByLabelText('Email address', { exact: false }).type(
+        'not.registered@example.com',
+        {
+            delay: 0
+        }
+    );
+
+    cy.get('.form-actions').within(() => {
+        cy.findByText('Reset password').click();
+    });
+});
+
 it('should allow survey API responses', () => {
     const dataYes = {
         choice: 'yes',
