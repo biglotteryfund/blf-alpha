@@ -256,26 +256,23 @@ it('should email valid users with a token', () => {
     });
 });
 
-it('should be able to log in and update account details', () => {
-    function changePassword(oldPassword, newPassword) {
+function submitPasswordReset(newPassword, oldPassword = null) {
+    if (oldPassword) {
         cy.findByText('Change your password').click();
-        cy.findByLabelText('Your old password').type(oldPassword, {
-            delay: 0
-        });
-        cy.findByLabelText('Your new password').type(newPassword, {
-            delay: 0
-        });
-        cy.findByLabelText('Password confirmation').type(newPassword, {
-            delay: 0
-        });
-        cy.get('.form-actions').within(() => {
-            cy.findByText('Reset password').click();
-        });
-        cy.findByText('Your password was successfully updated!').should(
-            'be.visible'
-        );
+        cy.findByLabelText('Your old password').type(oldPassword);
     }
 
+    cy.findByLabelText('Your new password').type(newPassword);
+    cy.findByLabelText('Password confirmation').type(newPassword);
+    cy.get('.form-actions').within(() => {
+        cy.findByText('Reset password').click();
+    });
+    cy.findByText('Your password was successfully updated!').should(
+        'be.visible'
+    );
+}
+
+it('should be able to log in and update account details', () => {
     function updateEmail(password) {
         const newEmail = `${Date.now()}@example.com`;
         cy.findByText('Change your email address').click();
@@ -309,35 +306,20 @@ it('should be able to log in and update account details', () => {
         cy.visit('/user/login');
         logIn(user.username, user.password);
         const newPassword = uuid();
-        changePassword(user.password, newPassword);
+        submitPasswordReset(newPassword, user.password);
         updateEmail(newPassword);
     });
 });
 
 it('should be able to reset password while logged out', () => {
     cy.seedUser().then(user => {
-        const request = {
+        cy.request('POST', '/user/password/forgot', {
             username: user.username,
             returnToken: true
-        };
-
-        cy.request('POST', '/user/password/forgot', request).then(response => {
-            const newPassword = uuid();
-
+        }).then(response => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
-
-            cy.findByLabelText('Your new password').type(newPassword, {
-                delay: 0
-            });
-            cy.findByLabelText('Password confirmation').type(newPassword, {
-                delay: 0
-            });
-            cy.get('.form-actions').within(() => {
-                cy.findByText('Reset password').click();
-            });
-            cy.findByText('Your password was successfully updated!').should(
-                'be.visible'
-            );
+            const newPassword = uuid();
+            submitPasswordReset(newPassword);
         });
     });
 });
@@ -346,10 +328,7 @@ it('should return forgotten password screen for invalid accounts', () => {
     cy.visit('/user/password/forgot');
 
     cy.findByLabelText('Email address', { exact: false }).type(
-        'not.registered@example.com',
-        {
-            delay: 0
-        }
+        'not.registered@example.com'
     );
 
     cy.get('.form-actions').within(() => {
