@@ -144,7 +144,7 @@ it('log in and log out', function() {
 });
 
 it('should prevent invalid log ins', () => {
-    logIn('not_a_real_account@example.com', 'examplepassword');
+    logIn(`${uuid()}@example.com`, 'examplepassword');
     cy.findByTestId('form-errors').should(
         'contain',
         `Your username and password aren't quite right`
