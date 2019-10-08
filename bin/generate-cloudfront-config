@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 'use strict';
-/* eslint-disable no-console */
 const { forEach } = require('lodash');
 const config = require('config');
 const fs = require('fs');
 const path = require('path');
-const util = require('util');
-const writeFile = util.promisify(fs.writeFile);
 
 const { generateBehaviours } = require('../common/cloudfront');
 
@@ -15,18 +12,31 @@ const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
 /**
  * For each CloudFront distribution generate a config and store it
  */
-forEach(cloudfrontDistributions, async (distribution, distributionName) => {
+forEach(cloudfrontDistributions, function(distribution, distributionName) {
     const behaviours = generateBehaviours(distribution.origins);
 
-    try {
-        const filePath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);
-        await writeFile(filePath, JSON.stringify(behaviours, null, 2), 'utf8');
-        console.log(
-            `[${distributionName}] Cloudfront configuration with ${
-                behaviours.CacheBehaviors.Items.length
-            } behaviours saved at ${path.relative(process.cwd(), filePath)}.`
-        );
-    } catch (error) {
-        console.error('Error saving config', error);
-    }
+    const filePath = path.join(
+        __dirname,
+        `../config/cloudfront/${distributionName}.json`
+    );
+
+    fs.writeFile(
+        filePath,
+        JSON.stringify(behaviours, null, 2),
+        'utf8',
+        function(err) {
+            if (err) {
+                console.error('Error saving config', err);
+            } else {
+                console.log(
+                    `[${distributionName}] Cloudfront configuration with ${
+                        behaviours.CacheBehaviors.Items.length
+                    } behaviours saved at ${path.relative(
+                        process.cwd(),
+                        filePath
+                    )}.`
+                );
+            }
+        }
+    );
 });
