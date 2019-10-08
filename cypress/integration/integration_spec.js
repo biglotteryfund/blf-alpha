@@ -71,34 +71,19 @@ it('should redirect archived pages to the national archives', () => {
 });
 
 it('should redirect legacy funding programmes', () => {
-    const sampleRedirect = sample([
-        {
-            originalPath: '/global-content/programmes/england/acitve-england',
-            redirectedPath: '/funding/programmes/acitve-england'
-        },
-        {
-            originalPath:
-                '/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities',
-            redirectedPath:
-                '/funding/programmes/green-spaces-and-sustainable-communities'
-        },
-        {
-            originalPath:
-                '/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future',
-            redirectedPath:
-                '/funding/programmes/young-peoples-fund-change-ur-future'
-        },
-        {
-            originalPath:
-                '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
-            redirectedPath:
-                '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
-        }
-    ]);
+    checkRedirect({
+        from: `/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities`,
+        to: `/funding/programmes/green-spaces-and-sustainable-communities`
+    });
 
     checkRedirect({
-        from: sampleRedirect.originalPath,
-        to: sampleRedirect.redirectedPath
+        from: `/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future`,
+        to: `/funding/programmes/young-peoples-fund-change-ur-future`
+    });
+
+    checkRedirect({
+        from: `/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap`,
+        to: `/welsh/funding/programmes/young-peoples-fund-bridging-the-gap`
     });
 });
 
