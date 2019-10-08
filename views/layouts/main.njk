@@ -26,13 +26,6 @@
                 <aside class="announcement-banner announcement-banner--info">
                     ✋ This is a test environment. Please do not share this page.
                 </aside>
-            {% else %}
-                <aside class="announcement-banner">
-                    {{ globalCopy.brand.nameChange | safe }}
-                    <a href="{{ localify('/news/press-releases/2019-01-29/national-lottery-good-cause-funders-unveil-new-brand') }}">
-                        {{ __('global.misc.readMore') }}
-                    </a>
-                </aside>
             {% endif %}
 
             {# Cookie consent #}
