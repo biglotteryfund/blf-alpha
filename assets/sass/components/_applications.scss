@@ -313,18 +313,6 @@ $statuses: (
     }
 }
 
-.submit-actions--complete {
-    .submit-actions__title {
-        color: map-get($statuses, 'complete');
-    }
-
-    .submit-actions__title .icon {
-        vertical-align: middle;
-        position: relative;
-        top: -2px;
-    }
-}
-
 /* =========================================================================
    Application Questions
    ========================================================================= */

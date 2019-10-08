@@ -1197,7 +1197,7 @@ it('should complete get advice form', () => {
         );
         submitStep();
 
-        cy.findAllByText('All sections are complete', { exact: false })
+        cy.findAllByText('Nearly done', { exact: false })
             .first()
             .should('exist');
     });
