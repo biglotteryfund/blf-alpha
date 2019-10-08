@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "start-dev": "nodemon --inspect ./bin/www",
-    "start-test": "DB_CONNECTION_URI=sqlite://:memory && PORT=8090 && TEST_SERVER=true && npm run start",
+    "start-test": "DB_CONNECTION_URI=sqlite://:memory PORT=8090 TEST_SERVER=true npm run start",
     "lint": "eslint . bin/* --ext .js,.vue",
     "format": "prettier --write **/*.{js,scss,vue}",
     "test-unit": "jest --maxWorkers=4",
