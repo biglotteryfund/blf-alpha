@@ -27,7 +27,9 @@ const argv = require('yargs')
 const IS_LIVE = argv.l;
 
 if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
-    console.log('Error: TEST_URL and PROD_URL environment variables must be defined');
+    console.log(
+        'Error: TEST_URL and PROD_URL environment variables must be defined'
+    );
     process.exit(1);
 }
 
@@ -77,7 +79,9 @@ if (customConfig) {
                 routesParams.ref = argv.c;
             }
 
-            console.log(`Fetching "${configFilename}" config file for commit ${routesParams.ref}`);
+            console.log(
+                `Fetching "${configFilename}" config file for commit ${routesParams.ref}`
+            );
 
             // fetch the routes file details
             rp({
@@ -90,7 +94,9 @@ if (customConfig) {
                 .then(response => {
                     let json = JSON.parse(response);
                     let filePath = json.download_url;
-                    console.log(`Got the file data, downloading content from ${filePath}...`);
+                    console.log(
+                        `Got the file data, downloading content from ${filePath}...`
+                    );
 
                     // now fetch the file content itself
                     rp({
@@ -101,15 +107,21 @@ if (customConfig) {
                             beginUpdate(JSON.parse(fileContent));
                         })
                         .catch(err => {
-                            console.log(`Error getting "${configFilename}" config file content`, {
-                                error: err
-                            });
+                            console.log(
+                                `Error getting "${configFilename}" config file content`,
+                                {
+                                    error: err
+                                }
+                            );
                         });
                 })
                 .catch(err => {
-                    console.log(`Error getting "${configFilename}" config file data`, {
-                        error: err
-                    });
+                    console.log(
+                        `Error getting "${configFilename}" config file data`,
+                        {
+                            error: err
+                        }
+                    );
                 });
         })
         .catch(() => {
@@ -120,10 +132,16 @@ if (customConfig) {
 function storeBackup(existingConfig) {
     try {
         const timestamp = moment().format('YYYY-MM-DD-HH-mm-ss');
-        const confPath = path.join(__dirname, `../config/cloudfront/backup/${timestamp}.json`);
+        const confPath = path.join(
+            __dirname,
+            `../config/cloudfront/backup/${timestamp}.json`
+        );
         const backup = {
-            DefaultCacheBehavior: existingConfig.Distribution.DistributionConfig.DefaultCacheBehavior,
-            CacheBehaviors: existingConfig.Distribution.DistributionConfig.CacheBehaviors
+            DefaultCacheBehavior:
+                existingConfig.Distribution.DistributionConfig
+                    .DefaultCacheBehavior,
+            CacheBehaviors:
+                existingConfig.Distribution.DistributionConfig.CacheBehaviors
         };
         fs.writeFileSync(confPath, JSON.stringify(backup, null, 4));
         console.log('A copy of the existing config was saved in ' + confPath);
@@ -146,11 +164,15 @@ function listChanges(pathConfigs) {
 
 function beginUpdate(savedConfig) {
     // create AWS SDK instance
-    AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+    AWS.config.credentials = new AWS.SharedIniFileCredentials({
+        profile: 'default'
+    });
     const cloudfront = new AWS.CloudFront();
 
     // decide which config to use (pass --live to this script to use live)
-    const cloudfrontDistribution = IS_LIVE ? cloudfrontDistributions.live : cloudfrontDistributions.test;
+    const cloudfrontDistribution = IS_LIVE
+        ? cloudfrontDistributions.live
+        : cloudfrontDistributions.test;
 
     // get existing cloudfront config
     const getDistributionConfig = cloudfront
@@ -186,23 +208,37 @@ function beginUpdate(savedConfig) {
 
             // verify what's being changed
             const paths = {
-                before: existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls),
-                after: newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items.map(getUrls)
+                before: existingConfig.Distribution.DistributionConfig.CacheBehaviors.Items.map(
+                    getUrls
+                ),
+                after: newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items.map(
+                    getUrls
+                )
             };
 
-            const pathsAdded = filter(paths.after, obj => !find(paths.before, obj));
-            const pathsRemoved = filter(paths.before, obj => !find(paths.after, obj));
+            const pathsAdded = filter(
+                paths.after,
+                obj => !find(paths.before, obj)
+            );
+            const pathsRemoved = filter(
+                paths.before,
+                obj => !find(paths.after, obj)
+            );
             // warn users about changes
             console.log(
                 'There are currently ' +
-                    existingConfig.Distribution.DistributionConfig.CacheBehaviors.Quantity +
+                    existingConfig.Distribution.DistributionConfig
+                        .CacheBehaviors.Quantity +
                     ' items in the existing behaviours, and ' +
-                    newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Quantity +
+                    newConfigToWrite.Distribution.DistributionConfig
+                        .CacheBehaviors.Quantity +
                     ' in this one.'
             );
 
             if (pathsRemoved.length) {
-                console.log('The following paths will be removed from Cloudfront:');
+                console.log(
+                    'The following paths will be removed from Cloudfront:'
+                );
                 listChanges(pathsRemoved);
             }
 
@@ -233,7 +269,9 @@ function beginUpdate(savedConfig) {
                     // try to update the distribution
                     let updateDistributionConfig = cloudfront
                         .updateDistribution({
-                            DistributionConfig: newConfigToWrite.Distribution.DistributionConfig,
+                            DistributionConfig:
+                                newConfigToWrite.Distribution
+                                    .DistributionConfig,
                             Id: cloudfrontDistribution.distributionId,
                             IfMatch: etag
                         })
@@ -244,14 +282,19 @@ function beginUpdate(savedConfig) {
                         .then(data => {
                             // the update worked
                             console.log(data);
-                            console.log('CloudFront was successfully updated with the new configuration!');
+                            console.log(
+                                'CloudFront was successfully updated with the new configuration!'
+                            );
                         })
                         .catch(updateError => {
                             // failed to update config
                             console.log(JSON.stringify(newConfigToWrite));
-                            console.error('There was an error uploading this config', {
-                                error: updateError
-                            });
+                            console.error(
+                                'There was an error uploading this config',
+                                {
+                                    error: updateError
+                                }
+                            );
                         });
                 } else {
                     console.log('Bailing out!');
