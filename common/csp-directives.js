@@ -1,11 +1,9 @@
 'use strict';
 const { concat } = require('lodash');
-let { CONTENT_API_URL } = require('./secrets');
+const { isNotProduction } = require('./appData');
+const { CONTENT_API_URL } = require('./secrets');
 
-module.exports = function cspDirectives({
-    enableHotjar = false,
-    allowLocalhost = false
-} = {}) {
+module.exports = function cspDirectives() {
     let defaultSrc = [
         "'self'",
         '*.biglotteryfund.org.uk',
@@ -30,9 +28,9 @@ module.exports = function cspDirectives({
         new URL(CONTENT_API_URL).host
     ];
 
-    if (allowLocalhost) {
+    if (isNotProduction) {
         /**
-         * Allow localhost connections in development
+         * Allow localhost connections
          */
         defaultSrc = defaultSrc.concat([
             'http://127.0.0.1:*',
@@ -64,36 +62,34 @@ module.exports = function cspDirectives({
      * Hotjar CSP rules
      * @see https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
      */
-    if (enableHotjar === true) {
-        directives.imgSrc = directives.imgSrc.concat([
-            'https://insights.hotjar.com',
-            'http://static.hotjar.com',
-            'https://static.hotjar.com'
-        ]);
-        directives.scriptSrc = directives.scriptSrc.concat([
-            'http://static.hotjar.com',
-            'https://static.hotjar.com',
-            'https://script.hotjar.com',
-            "'unsafe-eval'",
-            "'unsafe-inline'"
-        ]);
-        directives.connectSrc = directives.connectSrc.concat([
-            'http://*.hotjar.com:*',
-            'https://*.hotjar.com:*',
-            'https://vc.hotjar.io:*',
-            'wss://*.hotjar.com'
-        ]);
-        directives.frameSrc = directives.frameSrc.concat([
-            'https://vars.hotjar.com'
-        ]);
-        directives.childSrc = directives.childSrc.concat([
-            'https://vars.hotjar.com'
-        ]);
-        directives.fontSrc = directives.fontSrc.concat([
-            'http://static.hotjar.com',
-            'https://static.hotjar.com'
-        ]);
-    }
+    directives.imgSrc = directives.imgSrc.concat([
+        'https://insights.hotjar.com',
+        'http://static.hotjar.com',
+        'https://static.hotjar.com'
+    ]);
+    directives.scriptSrc = directives.scriptSrc.concat([
+        'http://static.hotjar.com',
+        'https://static.hotjar.com',
+        'https://script.hotjar.com',
+        "'unsafe-eval'",
+        "'unsafe-inline'"
+    ]);
+    directives.connectSrc = directives.connectSrc.concat([
+        'http://*.hotjar.com:*',
+        'https://*.hotjar.com:*',
+        'https://vc.hotjar.io:*',
+        'wss://*.hotjar.com'
+    ]);
+    directives.frameSrc = directives.frameSrc.concat([
+        'https://vars.hotjar.com'
+    ]);
+    directives.childSrc = directives.childSrc.concat([
+        'https://vars.hotjar.com'
+    ]);
+    directives.fontSrc = directives.fontSrc.concat([
+        'http://static.hotjar.com',
+        'https://static.hotjar.com'
+    ]);
 
     return directives;
 };

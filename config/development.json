@@ -4,8 +4,6 @@
     "base": "http://localhost:3000"
   },
   "features": {
-    "enableAllowLocalhost": false,
-    "enableCloudWatchLogs": false,
     "enableSeeders": true,
     "enableSalesforceConnector": true
   },

@@ -1,6 +1,5 @@
 'use strict';
 const path = require('path');
-const config = require('config');
 const express = require('express');
 const moment = require('moment');
 const i18n = require('i18n-2');
@@ -13,8 +12,6 @@ const slashes = require('connect-slashes');
 const vary = require('vary');
 const Sentry = require('@sentry/node');
 const forEach = require('lodash/forEach');
-
-const features = config.get('features');
 
 const app = express();
 module.exports = app;
@@ -162,10 +159,7 @@ app.use([
     defaultMaxAge,
     helmet({
         contentSecurityPolicy: {
-            directives: cspDirectives({
-                enableHotjar: features.enableHotjar,
-                allowLocalhost: features.enableAllowLocalhost
-            }),
+            directives: cspDirectives(),
             browserSniff: false
         },
         dnsPrefetchControl: { allow: true },
