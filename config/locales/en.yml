@@ -1691,3 +1691,42 @@ applyNext:
     errorUploading: There was an error uploading your file, please try again
     startYourApplication: Start your application
     backToApplications: Back to your applications
+getAdvice:
+  startPage:
+    title: Before you start
+    beforeYouStart:
+      title: Before you start
+      items:
+        - Have a look at our website for information about
+        - <a href="/funding/over10k">funding over £10,000</a>
+        - If you'd rather chat to us on the phone about your idea—<a href="/contact">talk to us</a>
+        - If you need less than £10,000 you can <a href="/apply/awards-for-all">apply straight away</a>
+    whatInformation:
+      title: What information will you need handy for this form?
+      checklist:
+        - title: What you'd like to do
+          description: >
+            Tell us the name of your project, what you'd like to do,
+            how your project involves your community,
+            and how your idea fits in with other local activities in your area.
+        - title: Location of your project
+          description: Tell us where your project will take place.
+        - title: How much money you need
+          description: If you don't know exact amounts—estimates are fine.
+        - title: How long you need the money for
+        - title: About your organisation
+          description: >
+            We need to know your organisation's name,
+            what type of organisation it is—and its main address.
+        - title: Your contact details
+          description: >
+            We're looking for your name, email address and telephone
+            so we can get in touch to talk about your idea.
+            And any communication needs you have.
+    readyToGetAdvice:
+      title: Ready to get advice about your idea?
+      intro: "Here's what happens next:"
+      items:
+        - We'll email you to let you know we got your idea
+        - Then we'll get in touch to talk about your idea within 15 working days.
+    startAction: Get advice on your idea
