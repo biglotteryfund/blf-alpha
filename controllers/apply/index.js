@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 const path = require('path');
+const { get, includes } = require('lodash');
+const { Op } = require('sequelize');
 
 const {
     verifyTokenUnsubscribeApplicationEmails
@@ -69,6 +71,66 @@ router.get('/emails/unsubscribe', async function(req, res) {
     } else {
         res.redirect(req.baseUrl);
     }
+});
+
+// Cleanup applications with outdated field names
+router.post('/migrate-data', async (req, res) => {
+    if (req.body.secret !== EMAIL_EXPIRY_SECRET) {
+        return res.status(403).json({ error: 'Invalid secret' });
+    }
+
+    const replacements = [
+        {
+            from: 'east-dumbartonshire',
+            to: 'east-dunbartonshire'
+        },
+        {
+            from: 'orkney',
+            to: 'orkney-islands'
+        },
+        {
+            from: 'shetland',
+            to: 'shetland-islands'
+        },
+        {
+            from: 'west-dumbartonshire',
+            to: 'west-dunbartonshire'
+        },
+        {
+            from: 'highlands',
+            to: 'highland'
+        }
+    ];
+
+    const invalidRegionNames = replacements.map(_ => _.from);
+
+    const applications = await PendingApplication.findAllByForm(
+        'awards-for-all'
+    );
+
+    const appsToUpdate = applications.filter(app => {
+        return includes(
+            invalidRegionNames,
+            get(app.applicationData, 'projectLocation')
+        );
+    });
+
+    appsToUpdate.map(async app => {
+        app.applicationData.projectLocation = replacements.find(
+            _ => _.from === app.applicationData.projectLocation
+        ).to;
+        return app.update(
+            {
+                applicationData: app.applicationData
+            },
+            { where: { id: { [Op.eq]: app.id } } }
+        );
+    });
+
+    res.send({
+        totalApps: applications.length,
+        toUpdate: appsToUpdate.length
+    });
 });
 
 /**
