@@ -12,18 +12,25 @@ function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
 }
 
-it('should have common headers', () => {
+function checkRedirect({ from, to, isRelative = true, status = 301 }) {
+    cy.request({
+        url: from,
+        followRedirects: false
+    }).then(response => {
+        const expected = isRelative ? `http://localhost:8090${to}` : to;
+        expect(response.status).to.eq(status);
+        expect(response.redirectedToUrl).to.eq(expected);
+    });
+}
+
+it('should have expected cache headers', () => {
     cy.request('/').then(response => {
         expect(response.headers['cache-control']).to.eq(
             'max-age=30,s-maxage=300'
         );
-
-        expect(response.headers['content-security-policy']).to.contain(
-            "default-src 'self'"
-        );
     });
 
-    cy.request('/apply/your-idea/1').then(response => {
+    cy.request('/user/login').then(response => {
         expect(response.headers['cache-control']).to.eq(
             'no-store,no-cache,max-age=0'
         );
@@ -31,36 +38,31 @@ it('should have common headers', () => {
 });
 
 it('should 404 unknown routes', () => {
-    cy.request({
-        url: '/not-a-page',
-        failOnStatusCode: false
-    }).then(response => {
-        expect(response.status).to.eq(404);
-        expect(response.body).to.include('Error 404');
-    });
+    function check404(urlPath) {
+        cy.request({
+            url: urlPath,
+            failOnStatusCode: false
+        }).then(response => {
+            expect(response.status).to.eq(404);
+            expect(response.body).to.include('Error 404');
+        });
+    }
 
-    cy.request({
-        url: '/not/a/page',
-        failOnStatusCode: false
-    }).then(response => {
-        expect(response.status).to.eq(404);
-        expect(response.body).to.include('Error 404');
-    });
+    check404('/not-a-page');
+    check404('/not/a/page');
 });
 
 it('should redirect search queries to a google site search', () => {
-    cy.checkRedirect({
+    checkRedirect({
         from: '/search?q=This is my search query',
-        to:
-            'https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query',
+        to: `https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query`,
         isRelative: false,
         status: 302
     });
 });
 
 it('should redirect archived pages to the national archives', () => {
-    const urlPath =
-        '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
+    const urlPath = `/funding/funding-guidance/applying-for-funding/aims-and-outcomes`;
     cy.request(urlPath).then(response => {
         expect(response.body).to.include(
             `http://webarchive.nationalarchives.gov.uk/20171011152352/https://www.biglotteryfund.org.uk${urlPath}`
@@ -69,69 +71,52 @@ it('should redirect archived pages to the national archives', () => {
 });
 
 it('should redirect legacy funding programmes', () => {
-    const sampleRedirect = sample([
-        {
-            originalPath: '/global-content/programmes/england/acitve-england',
-            redirectedPath: '/funding/programmes/acitve-england'
-        },
-        {
-            originalPath:
-                '/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities',
-            redirectedPath:
-                '/funding/programmes/green-spaces-and-sustainable-communities'
-        },
-        {
-            originalPath:
-                '/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future',
-            redirectedPath:
-                '/funding/programmes/young-peoples-fund-change-ur-future'
-        },
-        {
-            originalPath:
-                '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
-            redirectedPath:
-                '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
-        }
-    ]);
+    checkRedirect({
+        from: `/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities`,
+        to: `/funding/programmes/green-spaces-and-sustainable-communities`
+    });
 
-    cy.checkRedirect({
-        from: sampleRedirect.originalPath,
-        to: sampleRedirect.redirectedPath
+    checkRedirect({
+        from: `/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future`,
+        to: `/funding/programmes/young-peoples-fund-change-ur-future`
+    });
+
+    checkRedirect({
+        from: `/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap`,
+        to: `/welsh/funding/programmes/young-peoples-fund-bridging-the-gap`
     });
 });
 
 it('should protect access to staff-only tools', () => {
-    cy.checkRedirect({
-        from:
-            '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc',
-        to: `/user/staff/login?redirectUrl=${encodeURIComponent(
-            '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc'
-        )}`,
-        status: 302
-    });
-
-    cy.checkRedirect({
-        from: '/tools/survey-results',
-        to: `/user/staff/login?redirectUrl=${encodeURIComponent(
-            '/tools/survey-results'
-        )}`,
-        status: 302
+    [
+        `/tools/survey-results`,
+        `/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc`
+    ].forEach(urlPath => {
+        checkRedirect({
+            from: urlPath,
+            to: `/user/staff/login?redirectUrl=${encodeURIComponent(urlPath)}`,
+            status: 302
+        });
     });
 });
 
 function logIn(username, password) {
+    cy.visit('/user/login');
+
     cy.findByLabelText('Email address')
         .clear()
-        .type(username, { delay: 0 });
+        .type(username);
     cy.findByLabelText('Password')
         .clear()
-        .type(password, { delay: 0 });
+        .type(password);
     cy.get('.form-actions').within(() => {
         cy.findByText('Log in').click();
     });
 }
 
 function createAccount(username, password) {
+    cy.visit('/user/register');
+
     cy.findByLabelText('Email address')
         .clear()
         .type(username, { delay: 0 });
@@ -146,15 +131,19 @@ function createAccount(username, password) {
     });
 }
 
+function generateAccountEmail() {
+    return `${uuid()}@example.com`;
+}
+
+function generateAccountPassword() {
+    return `password${uuid()}`;
+}
+
 it('log in and log out', function() {
     cy.seedUser().then(newUser => {
-        cy.visit('/user/login');
         logIn(newUser.username, newUser.password);
 
-        // Log out
-        cy.get('.user-nav__links')
-            .contains('Log out')
-            .click();
+        cy.findByText('Log out', { exact: false }).click();
 
         cy.findByText('You were successfully logged out', {
             exact: false
@@ -163,37 +152,41 @@ it('log in and log out', function() {
 });
 
 it('should prevent invalid log ins', () => {
-    cy.visit('/user/login');
-
-    const messageText = `Your username and password aren't quite right`;
-    logIn('not_a_real_account@example.com', 'examplepassword');
-    cy.findByTestId('form-errors').should('contain', messageText);
+    logIn(generateAccountEmail(), generateAccountPassword());
+    cy.findByTestId('form-errors').should(
+        'contain',
+        `Your username and password aren't quite right`
+    );
 
     cy.checkA11y();
+});
 
+it('should return error when logging in with invalid password', () => {
     cy.seedUser().then(newUser => {
-        logIn(newUser.username, 'invalidpassword');
-        cy.findByTestId('form-errors').should('contain', messageText);
+        logIn(newUser.username, generateAccountPassword());
+        cy.findByTestId('form-errors').should(
+            'contain',
+            `Your username and password aren't quite right`
+        );
     });
 });
 
 it('should rate-limit users attempting to login too often', () => {
-    const fakeEmail = `${Date.now()}@example.com`;
-    const fakePassword = 'hunter2';
-    const maxAttempts = 10;
+    const email = generateAccountEmail();
+    const password = generateAccountPassword();
 
-    times(maxAttempts, function() {
+    times(10, function() {
         cy.loginUser({
-            username: fakeEmail,
-            password: fakePassword
+            username: email,
+            password: password
         }).then(response => {
             expect(response.status).to.eq(200);
         });
     });
 
     cy.loginUser({
-        username: fakeEmail,
-        password: fakePassword,
+        username: email,
+        password: password,
         failOnStatusCode: false
     }).then(response => {
         expect(response.status).to.eq(429);
@@ -202,9 +195,7 @@ it('should rate-limit users attempting to login too often', () => {
 });
 
 it('should prevent registrations with invalid passwords', () => {
-    const username = `${Date.now()}@example.com`;
-
-    cy.visit('/user/register');
+    const username = generateAccountEmail();
 
     createAccount(username, '5555555555');
     cy.findByTestId('form-errors').should('contain', 'Password is too weak');
@@ -228,8 +219,7 @@ it('should prevent registrations with invalid passwords', () => {
 });
 
 it('should register and see activation screen', function() {
-    cy.visit('/user/register');
-    createAccount(`${Date.now()}@example.com`, uuid());
+    createAccount(generateAccountEmail(), generateAccountPassword());
     cy.checkA11y();
     cy.get('body').should(
         'contain',
@@ -238,11 +228,12 @@ it('should register and see activation screen', function() {
 });
 
 it('should email valid users with a token', () => {
-    const now = Date.now();
-    const username = `${now}@example.com`;
+    const username = generateAccountEmail();
+    const password = generateAccountPassword();
+
     cy.registerUser({
         username: username,
-        password: `password${now}`,
+        password: password,
         returnToken: true
     }).then(res => {
         // via https://github.com/auth0/node-jsonwebtoken/issues/162
@@ -273,10 +264,13 @@ function submitPasswordReset(newPassword, oldPassword = null) {
 }
 
 it('should be able to log in and update account details', () => {
-    function updateEmail(password) {
-        const newEmail = `${Date.now()}@example.com`;
+    cy.seedUser().then(user => {
+        logIn(user.username, user.password);
+        const newPassword = generateAccountPassword();
+        submitPasswordReset(newPassword, user.password);
+
         cy.findByText('Change your email address').click();
-        cy.findByLabelText('Email address').type(newEmail);
+        cy.findByLabelText('Email address').type(generateAccountEmail());
         cy.findByLabelText('Password confirmation').type('invalid password');
 
         cy.get('.form-actions').within(() => {
@@ -290,7 +284,7 @@ it('should be able to log in and update account details', () => {
 
         cy.findByLabelText('Password confirmation')
             .clear()
-            .type(password);
+            .type(newPassword);
 
         cy.get('.form-actions').within(() => {
             cy.findByText('Update email address').click();
@@ -300,14 +294,6 @@ it('should be able to log in and update account details', () => {
             'contain',
             'Check your emails to activate your account'
         );
-    }
-
-    cy.seedUser().then(user => {
-        cy.visit('/user/login');
-        logIn(user.username, user.password);
-        const newPassword = uuid();
-        submitPasswordReset(newPassword, user.password);
-        updateEmail(newPassword);
     });
 });
 
@@ -318,8 +304,7 @@ it('should be able to reset password while logged out', () => {
             returnToken: true
         }).then(response => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
-            const newPassword = uuid();
-            submitPasswordReset(newPassword);
+            submitPasswordReset(generateAccountPassword());
         });
     });
 });
@@ -328,7 +313,7 @@ it('should return forgotten password screen for invalid accounts', () => {
     cy.visit('/user/password/forgot');
 
     cy.findByLabelText('Email address', { exact: false }).type(
-        'not.registered@example.com'
+        generateAccountEmail()
     );
 
     cy.get('.form-actions').within(() => {
@@ -383,7 +368,7 @@ it('should allow survey API responses', () => {
 
             // Create all the applications
             applicationExpiryDates.map(expiry => {
-                cy.seedPendingAFAApplication({
+                cy.request('POST', '/apply/awards-for-all/seed', {
                     userId: newUser.id,
                     expiresAt: expiry.toDate()
                 });

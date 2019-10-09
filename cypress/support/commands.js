@@ -14,20 +14,6 @@ import '@testing-library/cypress/add-commands';
  */
 import 'cypress-file-upload';
 
-Cypress.Commands.add(
-    'checkRedirect',
-    ({ from, to, isRelative = true, status = 301 }) => {
-        cy.request({
-            url: from,
-            followRedirects: false
-        }).then(response => {
-            const expected = isRelative ? `http://localhost:8090${to}` : to;
-            expect(response.status).to.eq(status);
-            expect(response.redirectedToUrl).to.eq(expected);
-        });
-    }
-);
-
 Cypress.Commands.add('getCsrf', () => {
     return cy
         .request('/user/login')
@@ -61,10 +47,6 @@ Cypress.Commands.add(
 
 Cypress.Commands.add('seedUser', () => {
     return cy.request('POST', '/user/seed').its('body');
-});
-
-Cypress.Commands.add('seedPendingAFAApplication', (data) => {
-    return cy.request('POST', '/apply/awards-for-all/seed', data).its('body');
 });
 
 Cypress.Commands.add('seedAndLogin', () => {
