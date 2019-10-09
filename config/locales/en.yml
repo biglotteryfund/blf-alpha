@@ -1558,7 +1558,9 @@ applyNext:
     title: Summary
     introduction: <p>You may complete the sections in any order.</p>
     completeTitle: Nearly done - time to check your answers
-    completeMessage: Have a look at the answers you gave us. And change any if you want to. Once you're happy, click submit.
+    completeMessage: >
+      Have a look at the answers you gave us.
+      And change any if you want to. Once you're happy, click submit.
     incompleteTitle: Your form isn’t complete yet
     incompleteMessage: See what you've got left to do
     expandAll: Expand all sections
