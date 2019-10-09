@@ -1274,8 +1274,10 @@ applyNext:
   summary:
     title: Crynodeb
     introduction: <p>Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
-    completeTitle: Mae’r holl adrannau’n gyflawn
-    completeMessage: Rydych wedi ateb bob cwestiwn gofynnol ar y ffurflen hwn. Cymrwch yr amser i wirio eich atebion, a cliciwch anfon pan rydych yn barod.
+    completeTitle: Bron yna – amser i wirio eich atebion
+    completeMessage: >
+      Cymerwch gipolwg ar eich atebion a gallwch eu newid os dymunwch.
+      Unwaith byddwch yn hapus, rhowch glic ar cyflwyno.
     incompleteTitle: Nid yw eich ffurflen yn gyflawn eto
     incompleteMessage: Gweld beth sydd ar ôl i chi ei wneud
     expandAll: Ehangu pob adran
