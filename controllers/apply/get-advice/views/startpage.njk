@@ -3,8 +3,8 @@
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 
-{% set title = 'Before you start' %}
-{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+{% set copy = __('getAdvice.startPage') %}
+{% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">
@@ -15,59 +15,35 @@
                 prefix = globalCopy.brand.title
             )}}
 
-            <h2>Before you start</h2>
+            <h2>{{ copy.beforeYouStart.title }}</h2>
 
             <ul>
-                <li>Have a look at our website for information about
-                    <a href="{{ localify("/funding/over10k") }}">funding over £10,000</a>
-                </li>
-                <li>If you'd rather chat to us on the phone about
-                    your idea—<a href="{{ localify("/contact") }}">talk to us</a>
-                </li>
-                <li>If you need less than £10,000 you can
-                    <a href="{{ localify("/apply/awards-for-all") }}">apply straight away</a>
-                </li>
+                {% for item in copy.beforeYouStart.items %}
+                    <li>{{ item | safe }}</li>
+                {% endfor %}
             </ul>
 
-            <h2>What Information will you need handy for this form?</h2>
+            <h2>{{ copy.whatInformation.title }}</h2>
 
             <ul>
-                <li>
-                    <strong>What you'd like to do</strong>:
-                    Tell us what you'd like to do, who'll benefit and how your idea
-                    fits with what you do and with other local activities
-                </li>
-                <li>
-                    <strong>Location of your project</strong>:
-                    Tell us where your project will take place
-                </li>
-                <li>
-                    <strong>How much do you want?</strong>:
-                    How much money do you want and how long will you need it for?
-                    If you don't know exact amounts—estimates are fine
-                </li>
-                <li>
-                    <strong>About your organisation</strong>:
-                    We need to know your organisation name, type and main address
-                </li>
-                <li>
-                    <strong>Your contact details</strong>:
-                    We're looking for your name, telephone number and email address
-                    so we can get in touch to talk about your idea
-                </li>
+                {% for item in copy.whatInformation.checklist %}
+                    <li>
+                        <strong>{{ item.title }}</strong>{% if item.description %}: {{ item.description }}{% endif %}
+                    </li>
+                {% endfor %}
             </ul>
 
-            <h2>Ready to get advice about your idea?</h2>
-
-            <p>Here's what happens next:</p>
+            <h2>{{ copy.readyToGetAdvice.title }}</h2>
+            <p>{{ copy.readyToGetAdvice.intro }}</p>
 
             <ul>
-                <li>We'll email you to let you know we got your idea</li>
-                <li>Then we'll get in touch to talk about your idea within 15 working days.</li>
+                {% for item in copy.readyToGetAdvice.items %}
+                    <li>{{ item | safe }}</li>
+                {% endfor %}
             </ul>
 
             <p class="form-actions u-margin-bottom-l">
-                <a href="{{ newUrl }}" class="btn">Get advice on your idea</a>
+                <a href="{{ newUrl }}" class="btn">{{ copy.startAction }}</a>
             </p>
         {% endcall %}
     </main>
