@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const { isDev } = require('../../../common/appData');
 const { initFormRouter } = require('../form-router-next');
 
 const formBuilder = require('./form');
@@ -10,5 +11,5 @@ module.exports = initFormRouter({
     formBuilder: formBuilder,
     startTemplate: path.resolve(__dirname, './views/startpage.njk'),
     confirmationBuilder: confirmationBuilder,
-    enableSalesforceConnector: false
+    enableSalesforceConnector: isDev
 });
