@@ -48,6 +48,10 @@ $breakpointLarge: 840px;
             margin-left: $spacingUnit * 2;
         }
 
+        > li.is-conditional-link {
+            display: none;
+        }
+
         > li > a {
             color: inherit;
             text-decoration: none;
@@ -108,6 +112,10 @@ $breakpointLarge: 840px;
                 text-transform: uppercase;
                 font-weight: font-weight('body', 'bold');
                 margin-top: 6px;
+            }
+
+            &.is-conditional-link {
+                display: none;
             }
         }
 

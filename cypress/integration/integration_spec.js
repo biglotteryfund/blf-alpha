@@ -143,7 +143,9 @@ it('log in and log out', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password);
 
-        cy.findByText('Log out', { exact: false }).click();
+        cy.get('.user-nav__links').within(() => {
+            cy.findByText('Log out', { exact: false }).click();
+        });
 
         cy.findByText('You were successfully logged out', {
             exact: false

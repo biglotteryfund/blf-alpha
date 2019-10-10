@@ -1,4 +1,4 @@
-{% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown %}
+{% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown, iconLogin %}
 {% from "components/language/macros.njk" import languageLink, languageSwitcher with context %}
 
 {% macro globalSearch() %}
@@ -24,7 +24,22 @@
     <div class="global-header__inner">
         <div class="global-header__extra">
             <ul class="global-header__navigation-secondary">
-                <li><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
+                <li class="js-toggle-login">
+                    <a href="{{ globalNavigation.login.url }}">
+                        {{ iconLogin() }}
+                        <span>
+                            {{ globalNavigation.login.label }}
+                        </span>
+                    </a>
+                </li>
+                <li class="js-toggle-login is-conditional-link">
+                    <a href="{{ localify('/user/logout') }}">
+                        {{ iconLogin() }}
+                        <span>
+                            {{ __('user.common.logOut') }}
+                        </span>
+                    </a>
+                </li>
                 {% for item in globalNavigation.secondaryLinks %}
                     <li><a href="{{ item.url }}">{{ item.label }}</a></li>
                 {% endfor %}
@@ -42,6 +57,22 @@
                     </span>
                 </a>
                 <div class="global-header__actions u-dont-print">
+                    <a href="{{ globalNavigation.login.url }}"
+                        class="global-header__toggle js-toggle-login">
+                        {{ iconLogin() }}
+                        <span class="global-header__toggle-label">
+                            {{ globalNavigation.login.label }}
+                        </span>
+                    </a>
+
+                    <a href="{{ localify('/user/logout') }}" 
+                        class="global-header__toggle js-toggle-login is-conditional-link">
+                        {{ iconLogin() }}
+                        <span class="global-header__toggle-label">
+                            {{ __('user.common.logOut') }}
+                        </span>
+                    </a>
+
                     <a href="#global-search"
                        class="global-header__toggle global-header__toggle-search js-toggle-search">
                         {{ iconSearch() }}

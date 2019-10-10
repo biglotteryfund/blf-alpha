@@ -220,6 +220,19 @@ function initHotjarTracking(formId) {
     trackDetailsClicks(scopedFormClass);
 }
 
+// Update the Login link to Logout if user signs in
+function updateSecondaryNav() {
+    $.ajax({
+        type: 'get',
+        url: '/user/session',
+        dataType: 'json'
+    }).then(response => {
+        if (response.isAuthenticated) {
+            $('.js-toggle-login').toggleClass('is-conditional-link');
+        }
+    });
+}
+
 function init() {
     /**
      * Review–step–specific logic
@@ -232,6 +245,7 @@ function init() {
     handleConditionalRadios();
     handleExpandingDetails();
     warnOnUnsavedChanges();
+    updateSecondaryNav();
 
     // Hotjar tagging
     initHotjarTracking('awards-for-all');

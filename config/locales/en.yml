@@ -15,6 +15,7 @@ global:
     ukWide: UK-wide
   nav:
     home: Home
+    login: Log in
     funding: Funding
     local: In your area
     insights: Insights
