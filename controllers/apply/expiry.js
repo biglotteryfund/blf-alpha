@@ -1,26 +1,45 @@
 'use strict';
 const path = require('path');
-const get = require('lodash/get');
+const express = require('express');
 const moment = require('moment');
+const jwt = require('jsonwebtoken');
+const get = require('lodash/get');
 const config = require('config');
 const enableExpiration = config.get('awardsForAll.enableExpiration');
 
-const { sendHtmlEmail } = require('../../../../common/mail');
 const {
-    PendingApplication,
-    ApplicationEmailQueue
-} = require('../../../../db/models');
+    ApplicationEmailQueue,
+    PendingApplication
+} = require('../../db/models');
 
-const { EMAIL_EXPIRY_TEST_ADDRESS } = require('../../../../common/secrets');
-const { getEmailFor, getPhoneFor } = require('../../../../common/contacts');
+const appData = require('../../common/appData');
+const {
+    EMAIL_EXPIRY_TEST_ADDRESS,
+    EMAIL_EXPIRY_SECRET,
+    JWT_SIGNING_TOKEN
+} = require('../../common/secrets');
+const { getEmailFor, getPhoneFor } = require('../../common/contacts');
+const { getAbsoluteUrl } = require('../../common/urls');
+const { sendHtmlEmail } = require('../../common/mail');
 
-const { signTokenUnsubscribeApplicationEmails } = require('./jwt');
-const { getAbsoluteUrl } = require('../../../../common/urls');
-
-const appData = require('../../../../common/appData');
-const logger = require('../../../../common/logger').child({
+const logger = require('../../common/logger').child({
     service: 'application-expiry'
 });
+
+const router = express.Router();
+
+function signUnsubscribeToken(applicationId) {
+    return jwt.sign(
+        {
+            data: {
+                applicationId: applicationId,
+                action: 'unsubscribe'
+            }
+        },
+        JWT_SIGNING_TOKEN,
+        { expiresIn: '30d' }
+    );
+}
 
 /**
  * Email Queue Handler:
@@ -31,7 +50,7 @@ const logger = require('../../../../common/logger').child({
  * -- Updates db
  * returns an array of objects containing emailSent, dbUpdated for each queue
  */
-const sendExpiryEmails = async (req, emailQueue, locale) => {
+async function sendExpiryEmails(req, emailQueue, locale) {
     logger.info('Handling email queue');
 
     if (appData.isNotProduction && !EMAIL_EXPIRY_TEST_ADDRESS) {
@@ -76,7 +95,7 @@ const sendExpiryEmails = async (req, emailQueue, locale) => {
             const getAppData = field =>
                 get(emailToSend.PendingApplication, `applicationData.${field}`);
 
-            const token = signTokenUnsubscribeApplicationEmails(
+            const token = signUnsubscribeToken(
                 emailToSend.PendingApplication.id
             );
 
@@ -89,7 +108,7 @@ const sendExpiryEmails = async (req, emailQueue, locale) => {
                 {
                     template: path.resolve(
                         __dirname,
-                        '../views/expiry-email.njk'
+                        './emails/expiry-email.njk'
                     ),
                     templateData: {
                         projectName: getAppData('projectName'),
@@ -131,7 +150,7 @@ const sendExpiryEmails = async (req, emailQueue, locale) => {
             return returnObj;
         })
     );
-};
+}
 
 /**
  * Handle expired applications:
@@ -139,7 +158,7 @@ const sendExpiryEmails = async (req, emailQueue, locale) => {
  * DELETE promise returns number of records affected directly
  * returns truthy only if no. of del records = no. of expired applications
  */
-const deleteExpiredApplications = async expiredApplications => {
+async function deleteExpiredApplications(expiredApplications) {
     try {
         logger.info('Handling expired applications');
 
@@ -169,9 +188,55 @@ const deleteExpiredApplications = async expiredApplications => {
         logger.error('Error handling expired applications: ', err);
         return { error: err.message };
     }
-};
+}
 
-module.exports = {
-    sendExpiryEmails,
-    deleteExpiredApplications
-};
+/**
+ * API: Application Expiry handler
+ *
+ * Emails users with pending expirations and deletes applications which have expired
+ */
+router.post('/', async (req, res) => {
+    if (req.body.secret !== EMAIL_EXPIRY_SECRET && !appData.isTestServer) {
+        return res.status(403).json({ error: 'Invalid secret' });
+    }
+
+    try {
+        let response = {};
+
+        const [emailQueue, expiredApplications] = await Promise.all([
+            ApplicationEmailQueue.getEmailsToSend(),
+            PendingApplication.findExpiredApplications()
+        ]);
+
+        if (emailQueue.length > 0) {
+            response.emailQueue = await sendExpiryEmails(
+                req,
+                emailQueue,
+                req.i18n.getLocale()
+            );
+        } else {
+            response.emailQueue = [];
+        }
+
+        if (expiredApplications.length > 0) {
+            response.expired = await deleteExpiredApplications(
+                expiredApplications
+            );
+        } else {
+            response.expired = [];
+        }
+
+        logger.info('application expiries processed', {
+            emailsSent: response.emailQueue.length,
+            expiredAppsDeleted: response.expired.length
+        });
+
+        res.json(response);
+    } catch (error) {
+        res.status(400).json({
+            err: error.message
+        });
+    }
+});
+
+module.exports = router;
