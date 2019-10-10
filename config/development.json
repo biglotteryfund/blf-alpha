@@ -1,11 +1,9 @@
 {
   "logLevel": "debug",
-  "domains": {
-    "base": "http://localhost:3000"
-  },
   "features": {
     "enableSeeders": true,
-    "enableSalesforceConnector": true
+    "enableSalesforceConnector": true,
+    "enableNewApplicationDashboards": true
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
