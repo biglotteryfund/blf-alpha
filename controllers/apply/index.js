@@ -6,6 +6,12 @@ const { isNotProduction } = require('../../common/appData');
 
 const router = express.Router();
 
+router.use(function(req, res, next) {
+    res.locals.enableSiteSurvey = false;
+    res.locals.bodyClass = 'has-static-header';
+    next();
+});
+
 if (features.enableNewApplicationDashboards) {
     router.use('/', require('./dashboard'));
 } else {

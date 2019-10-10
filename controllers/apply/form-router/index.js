@@ -67,8 +67,6 @@ function initFormRouter(form) {
         res.locals.copy = copy;
         res.locals.formTitle = copy.title;
         res.locals.isBilingual = form.isBilingual;
-        res.locals.enableSiteSurvey = false;
-        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         next();
     });
 
