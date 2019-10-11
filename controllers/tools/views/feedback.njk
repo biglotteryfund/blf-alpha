@@ -1,30 +1,34 @@
-{% extends "./layout.njk" %}
-{% block title %}Feedback results{% endblock %}
+{% extends "layouts/main.njk" %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/user-status/macro.njk" import staffStatus with context %}
 
 {% block content %}
-    <h1 class="display-4 mb-4">
-        All feedback results
-    </h1>
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            {{ staffStatus(user) }}
 
-    {% for description, items in feedback  %}
-        <h2>{{ description }}: {{ items.length }} responses</h2>
-        <div class="border mb-5" style="max-height: 400px; overflow: auto">
-            <div class="list-group">
-                {% for response in items %}
-                    <div class="list-group-item list-group-item-action flex-column align-items-start"
-                            id="msg-{{ response.id }}">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h3 class="h6">
-                                {{ formatDate(response.createdAt, 'dddd D MMM YYYY (hh:mm a)') }}
-                            </h3>
-                            <a href="#msg-{{ response.id }}">
-                                <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
-                            </a>
-                        </div>
-                        <p class="mb-0">{{ response.message | nl2br | safe }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            <h1 class="t--underline">{{ title }}</h1>
+
+            {% for description, items in feedback  %}
+                <h2>{{ description }} <small>({{ items.length }} responses)</small></h2>
+                <div class="u-margin-bottom-l"  style="max-height: 400px; overflow: auto">
+                    <ul>
+                        {% for item in items %}
+                            <li>
+                                <blockquote class="blockquote">
+                                    <div class="blockquote__text">
+                                        {{ item.message | safe }}
+                                    </div>
+                                    <cite class="blockquote__cite">
+                                        {{ formatDate(item.createdAt.toISOString()) }}
+                                    </cite>
+                                </blockquote>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </main>
 {% endblock %}
