@@ -228,7 +228,9 @@ function updateSecondaryNav() {
         dataType: 'json'
     }).then(response => {
         if (response.isAuthenticated) {
-            $('.js-toggle-login').toggleClass('is-conditional-link');
+            $('.js-toggle-logout').toggleClass('u-hidden');
+        } else {
+            $('.js-toggle-login').toggleClass('u-hidden');
         }
     });
 }

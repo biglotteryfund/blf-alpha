@@ -48,16 +48,16 @@ $breakpointLarge: 840px;
             margin-left: $spacingUnit * 2;
         }
 
-        > li.is-conditional-link {
-            display: none;
-        }
-
         > li > a {
             color: inherit;
             text-decoration: none;
 
             &:hover {
                 text-decoration: underline;
+            }
+
+            &.global-header__login-icon {
+                color: get-color('links', 'base');
             }
         }
     }
@@ -114,8 +114,8 @@ $breakpointLarge: 840px;
                 margin-top: 6px;
             }
 
-            &.is-conditional-link {
-                display: none;
+            &.global-header__login-icon {
+                color: get-color('links', 'base');   
             }
         }
 

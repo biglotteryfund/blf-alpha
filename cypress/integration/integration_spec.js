@@ -103,7 +103,8 @@ it('should protect access to staff-only tools', () => {
 function logIn(username, password, usingGlobalHeader = false) {
     if (usingGlobalHeader) {
         cy.visit('/');
-        cy.get('.global-header__navigation-secondary').within(() => {
+        cy.wait(0);
+        cy.get('.global-header__navigation-secondary .js-toggle-login').within(() => {
             cy.findByText('Log in', { exact: false }).click();
         });
     } else {
@@ -164,7 +165,7 @@ it('log in and log out using global header link', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password, true);
 
-        // cy.wait(2000);
+        cy.wait(0);
         cy.get('.global-header__navigation-secondary').within(() => {
             cy.findByText('Log out', { exact: false }).click();
         });

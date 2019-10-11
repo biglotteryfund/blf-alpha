@@ -24,7 +24,17 @@
     <div class="global-header__inner">
         <div class="global-header__extra">
             <ul class="global-header__navigation-secondary">
-                <li class="js-toggle-login">
+                <noscript>
+                    <li>
+                        <a href="{{ globalNavigation.login.url }}">
+                            {{ iconLogin() }}
+                            <span>
+                                {{ globalNavigation.login.label }}
+                            </span>
+                        </a>
+                    </li>
+                </noscript>
+                <li class="js-toggle-login u-hidden">
                     <a href="{{ globalNavigation.login.url }}">
                         {{ iconLogin() }}
                         <span>
@@ -32,11 +42,11 @@
                         </span>
                     </a>
                 </li>
-                <li class="js-toggle-login is-conditional-link">
-                    <a href="{{ localify('/user/logout') }}">
+                <li class="js-toggle-logout u-hidden">
+                    <a href="{{ globalNavigation.logout.url }}">
                         {{ iconLogin() }}
                         <span>
-                            {{ __('user.common.logOut') }}
+                            {{ globalNavigation.logout.label }}
                         </span>
                     </a>
                 </li>
@@ -58,18 +68,18 @@
                 </a>
                 <div class="global-header__actions u-dont-print">
                     <a href="{{ globalNavigation.login.url }}"
-                        class="global-header__toggle js-toggle-login">
+                        class="global-header__toggle js-toggle-login u-hidden">
                         {{ iconLogin() }}
                         <span class="global-header__toggle-label">
                             {{ globalNavigation.login.label }}
                         </span>
                     </a>
 
-                    <a href="{{ localify('/user/logout') }}" 
-                        class="global-header__toggle js-toggle-login is-conditional-link">
+                    <a href="{{ globalNavigation.logout.url }}" 
+                        class="global-header__toggle js-toggle-logout u-hidden">
                         {{ iconLogin() }}
                         <span class="global-header__toggle-label">
-                            {{ __('user.common.logOut') }}
+                            {{ globalNavigation.logout.label }}
                         </span>
                     </a>
 

@@ -65,8 +65,12 @@ module.exports = function(req, res, next) {
             url: localify(locale)('/')
         },
         login: {
-            label: navCopy.login,
+            label: navCopy.logIn,
             url: localify(locale)('/user/login')
+        },
+        logout: {
+            label: navCopy.logOut,
+            url: localify(locale)('/user/logout')
         },
         primaryLinks: [
             { label: navCopy.funding, url: localify(locale)('/funding') },

@@ -15,7 +15,8 @@ global:
     ukWide: DU gyfan
   nav:
     home: Hafan
-    login: Mewngofnodi
+    logIn: Mewngofnodi
+    logOut: Allgofnodi
     funding: Ariannu
     about: Amdanom ni
     insights: Mewnwelediad
