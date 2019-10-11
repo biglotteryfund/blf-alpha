@@ -56,7 +56,7 @@ $breakpointLarge: 840px;
                 text-decoration: underline;
             }
 
-            &.global-header__login-icon {
+            &.global-header__account-link {
                 color: get-color('links', 'base');
             }
         }
@@ -114,8 +114,12 @@ $breakpointLarge: 840px;
                 margin-top: 6px;
             }
 
-            &.global-header__login-icon {
+            &.global-header__account-link {
                 color: get-color('links', 'base');   
+            }
+
+            &.u-hidden {
+                display: none;
             }
         }
 

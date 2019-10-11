@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
 import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
+import session from './session';
 
 function handleBeforeUnload(e) {
     // Message cannot be customised in Chrome 51+
@@ -222,16 +223,11 @@ function initHotjarTracking(formId) {
 
 // Update the Login link to Logout if user signs in
 function updateSecondaryNav() {
-    $.ajax({
-        type: 'get',
-        url: '/user/session',
-        dataType: 'json'
-    }).then(response => {
-        if (response.isAuthenticated) {
-            $('.js-toggle-logout').toggleClass('u-hidden');
-        } else {
-            $('.js-toggle-login').toggleClass('u-hidden');
-        }
+    session.getUserSession().then(response => {
+        const $accountLink = response.isAuthenticated
+            ? $('.js-toggle-logout')
+            : $('.js-toggle-login');
+        $accountLink.removeClass('js-hidden u-hidden');
     });
 }
 

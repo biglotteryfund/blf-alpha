@@ -26,7 +26,7 @@
             <ul class="global-header__navigation-secondary">
                 <noscript>
                     <li>
-                        <a href="{{ globalNavigation.login.url }}">
+                        <a href="{{ globalNavigation.login.url }}" class="global-header__account-link">
                             {{ iconLogin() }}
                             <span>
                                 {{ globalNavigation.login.label }}
@@ -34,16 +34,16 @@
                         </a>
                     </li>
                 </noscript>
-                <li class="js-toggle-login u-hidden">
-                    <a href="{{ globalNavigation.login.url }}">
+                <li class="js-toggle-login js-hidden">
+                    <a href="{{ globalNavigation.login.url }}" class="global-header__account-link">
                         {{ iconLogin() }}
                         <span>
                             {{ globalNavigation.login.label }}
                         </span>
                     </a>
                 </li>
-                <li class="js-toggle-logout u-hidden">
-                    <a href="{{ globalNavigation.logout.url }}">
+                <li class="js-toggle-logout js-hidden u-hidden">
+                    <a href="{{ globalNavigation.logout.url }}" class="global-header__account-link">
                         {{ iconLogin() }}
                         <span>
                             {{ globalNavigation.logout.label }}
@@ -67,8 +67,8 @@
                     </span>
                 </a>
                 <div class="global-header__actions u-dont-print">
-                    <a href="{{ globalNavigation.login.url }}"
-                        class="global-header__toggle js-toggle-login u-hidden">
+                    <a href="{{ globalNavigation.login.url }}" 
+                        class="global-header__toggle global-header__account-link js-toggle-login js-hidden">
                         {{ iconLogin() }}
                         <span class="global-header__toggle-label">
                             {{ globalNavigation.login.label }}
@@ -76,7 +76,7 @@
                     </a>
 
                     <a href="{{ globalNavigation.logout.url }}" 
-                        class="global-header__toggle js-toggle-logout u-hidden">
+                        class="global-header__toggle global-header__account-link js-toggle-logout js-hidden u-hidden">
                         {{ iconLogin() }}
                         <span class="global-header__toggle-label">
                             {{ globalNavigation.logout.label }}
