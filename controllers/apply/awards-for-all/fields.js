@@ -245,14 +245,28 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function dateOfBirthField(minAge, props) {
+        const exampleDateFormat = '30 02 1980';
         const defaultProps = {
             explanation: localise({
-                en: oneLine`We need their date of birth to help confirm who they are.
-                    And we do check their date of birth. So make sure you've entered it right.
-                    If you don't, it could delay your application.`,
-                cy: oneLine`Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
-                    Rydym yn gwirio eu dyddiad geni. Felly sicrhewch eich bod wedi ei roi yn gywir.
-                    Os nad ydych, gall oedi eich cais.`
+                en: `
+                    <p>
+                        We need their date of birth to help confirm who they are.
+                        And we do check their date of birth. So make sure you've entered it right.
+                        If you don't, it could delay your application.
+                    </p>
+                    <p>
+                        <strong>For example: ${exampleDateFormat}</strong>
+                    </p>
+                `,
+                cy: `
+                    <p>
+                        Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
+                        Rydym yn gwirio eu dyddiad geni. Felly sicrhewch eich bod wedi ei roi yn gywir.
+                        Os nad ydych, gall oedi eich cais.
+                    </p>
+                    <p>
+                        <strong>Er enghraifft: ${exampleDateFormat}</strong>
+                    </p>`
             }),
             type: 'date',
             attributes: {
@@ -1276,20 +1290,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         organisationStartDate: fieldOrganisationStartDate(locale),
-        organisationAddress: fieldAddress(
-            locale,
-            {
-                name: 'organisationAddress',
-                label: localise({
-                    en: `What is the main or registered address of your organisation?`,
-                    cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
-                }),
-                explanation: localise({
-                    en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
-                    cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
-                })
-            }
-        ),
+        organisationAddress: fieldAddress(locale, {
+            name: 'organisationAddress',
+            label: localise({
+                en: `What is the main or registered address of your organisation?`,
+                cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
+            }),
+            explanation: localise({
+                en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
+                cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
+            })
+        }),
         organisationType: fieldOrganisationType(locale),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',
@@ -1606,17 +1617,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        seniorContactEmail: fieldEmail(
-            locale,
-            {
-                name: 'seniorContactEmail',
-                explanation: localise({
-                    en: 'We’ll use this whenever we get in touch about the project',
-                    cy:
-                        'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
-                })
-            }
-        ),
+        seniorContactEmail: fieldEmail(locale, {
+            name: 'seniorContactEmail',
+            explanation: localise({
+                en: 'We’ll use this whenever we get in touch about the project',
+                cy:
+                    'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
+            })
+        }),
         seniorContactPhone: fieldPhone(locale, {
             name: 'seniorContactPhone'
         }),
