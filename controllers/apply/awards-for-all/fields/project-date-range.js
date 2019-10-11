@@ -56,7 +56,7 @@ module.exports = function(locale) {
 
             cy: `<p>
                 Os nad ydych yn gwybod yn union, gall eich dyddiadau fod yn amcangyfrifon.
-                Ond mae angen i chi ddechrau eich prosiect ar ôl 
+                Ond mae angen i chi ddechrau eich prosiect ar neu ar ôl 
                 ${formatAfterDate()}.
             </p>
             <p>
