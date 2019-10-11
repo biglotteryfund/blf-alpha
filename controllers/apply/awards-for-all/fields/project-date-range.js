@@ -97,7 +97,7 @@ module.exports = function(locale) {
                 })
             },
             {
-                type: 'datesRange.startDate.invalid',
+                type: 'dateRange.startDate.invalid',
                 message: localise({
                     en: `Date you start the project must be a real date`,
                     cy: `Rhaid i ddyddiad dechrau’r prosiect fod yn un go iawn`
