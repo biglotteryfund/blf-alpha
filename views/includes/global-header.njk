@@ -24,7 +24,7 @@
     <div class="global-header__inner">
         <div class="global-header__extra">
             <ul class="global-header__navigation-secondary">
-                {% if appData.config.get('features.enableGlobalHeaderLogin') %}
+                {% if enableGlobalHeaderLogin %}
                     <li class="js-toggle-login js-hidden">
                         <a href="{{ globalNavigation.login.url }}" class="global-header__account-link">
                             {{ iconLogin() }}
@@ -61,7 +61,7 @@
                     </span>
                 </a>
                 <div class="global-header__actions u-dont-print">
-                    {% if appData.config.get('features.enableGlobalHeaderLogin') %}
+                    {% if enableGlobalHeaderLogin %}
                         <a href="{{ globalNavigation.login.url }}" 
                             class="global-header__toggle global-header__account-link js-toggle-login js-hidden">
                             {{ iconLogin() }}
