@@ -2,6 +2,7 @@
 'use strict';
 require('dotenv').config();
 const config = require('config');
+const { stripIndents } = require('common-tags');
 
 const has = require('lodash/has');
 
@@ -23,7 +24,7 @@ const argv = require('yargs')
 
 const prompt = require('prompt');
 const AWS = require('aws-sdk');
-const rp = require('request-promise-native');
+const request = require('request-promise-native');
 
 let customBuildNumber = argv.build;
 
@@ -38,12 +39,11 @@ const codeDeployEnvs = {
     }
 };
 
-const CONF = {
+const CONFIG = {
     s3Bucket: 'blf-deployments',
     filenamePattern: /build-(\d+).zip/,
     codedeploy: argv.l ? codeDeployEnvs.live : codeDeployEnvs.test,
-    githubAccount: 'biglotteryfund',
-    githubRepo: 'blf-alpha'
+    githubRepo: 'biglotteryfund/blf-alpha'
 };
 
 // create AWS SDK instance
@@ -57,27 +57,24 @@ if (customBuildNumber) {
     lookupRevisionAndDeploy(customBuildNumber); // try to deploy it!
 } else {
     // ask for one instead
-
     // fetch recent revisions from TEST (eg. to promote to live or re-deploy)
-    let getRevisions = codedeploy
+    // present past revisions to the user
+    codedeploy
         .listApplicationRevisions({
             applicationName: codeDeployEnvs.test.applicationName,
             deployed: 'ignore',
-            s3Bucket: CONF.s3Bucket,
+            s3Bucket: CONFIG.s3Bucket,
             sortBy: 'registerTime',
             sortOrder: 'descending'
         })
-        .promise();
-
-    // present past revisions to the user
-    getRevisions
+        .promise()
         .then(data => {
             console.log('Listing the most recent revisions on TEST:\n');
             let revisions = data.revisions.slice(0, 10);
             let validDeploys = [];
             revisions.forEach(r => {
                 let id = r.s3Location.key;
-                let number = id.match(CONF.filenamePattern);
+                let number = id.match(CONFIG.filenamePattern);
                 if (number && number[1]) {
                     validDeploys.push(parseInt(number[1]));
                     console.log(`\t• Build #${number[1]}`);
@@ -86,7 +83,7 @@ if (customBuildNumber) {
 
             // prompt to ask which revision to deploy
             let promptSchema = {
-                description: `\nWhich revision would you like to deploy to ${CONF.codedeploy.applicationName}?`,
+                description: `\nWhich revision would you like to deploy to ${CONFIG.codedeploy.applicationName}?`,
                 name: 'revisionId',
                 type: 'integer',
                 message: 'Please supply a valid deploy ID',
@@ -121,71 +118,37 @@ function getEnvStatus(env) {
         production: process.env.PROD_URL
     };
 
-    return rp({
-        url: URLs[env] + '/status'
-    }).then(response => {
-        return JSON.parse(response);
+    return request({
+        url: URLs[env] + '/status',
+        json: true
     });
 }
 
-function getCommitsToBeDeployed() {
-    let lookups = [getEnvStatus('test'), getEnvStatus('production')];
-
-    // get server statuses
-    return Promise.all(lookups).then(responses => {
-        let test = responses[0];
-        let prod = responses[1];
-
-        // get the commit IDs
-        let ids = {
-            test: test.COMMIT_ID,
-            prod: prod.COMMIT_ID || 'c54660f391ed5542308d0deb4b87f07ce54ec120' // last build before adding commit_id
-        };
-
-        // first commit this returns will be the one currently on TEST
-        // @TODO what if we're deploying an older build? no way to save its commit ID in AWS
-        let commitList = `https://api.github.com/repos/${CONF.githubAccount}/${CONF.githubRepo}/commits?sha=${ids.test}&per_page=100`;
-
-        // now get commits made before the one currently on TEST
-        return rp
-            .get({
-                url: commitList,
-                headers: {
-                    'User-Agent': 'BLF-Deploy-Tool'
-                }
-            })
-            .then(response => {
-                let commits = JSON.parse(response);
-                let commitsToAdd = [];
-                // filter out commits made before the last PROD deploy
-                for (let i = 0; i < commits.length; i++) {
-                    if (commits[i].sha === ids.prod) {
-                        break;
-                    }
-                    commitsToAdd.push(commits[i]);
-                }
-                return commitsToAdd;
-            });
-    });
+function getCompareUrl() {
+    return Promise.all([getEnvStatus('test'), getEnvStatus('production')]).then(
+        ([test, production]) => {
+            return `https://github.com/${CONFIG.githubRepo}/compare/${production.COMMIT_ID}...${test.COMMIT_ID}`;
+        }
+    );
 }
 
 // make JSON data for deploy config
 function createDeploymentConf(id) {
     return {
-        applicationName: CONF.codedeploy.applicationName,
+        applicationName: CONFIG.codedeploy.applicationName,
         autoRollbackConfiguration: {
             enabled: true,
             events: ['DEPLOYMENT_FAILURE']
         },
         deploymentConfigName: 'CodeDeployDefault.OneAtATime',
-        deploymentGroupName: CONF.codedeploy.deploymentGroupName,
+        deploymentGroupName: CONFIG.codedeploy.deploymentGroupName,
         description: 'Automated deploy',
         fileExistsBehavior: 'OVERWRITE',
         ignoreApplicationStopFailures: false,
         revision: {
             revisionType: 'S3',
             s3Location: {
-                bucket: CONF.s3Bucket,
+                bucket: CONFIG.s3Bucket,
                 bundleType: 'zip',
                 key: `build-${id}.zip`
             }
@@ -196,21 +159,14 @@ function createDeploymentConf(id) {
 
 function verifyCommitsToDeploy() {
     return new Promise((resolve, reject) => {
-        return getCommitsToBeDeployed()
-            .then(commits => {
-                const commitStr = [
-                    'This deployment will push the following commits live:',
-                    commits
-                        .map(
-                            info =>
-                                `- ${info.sha.slice(0, 12)} ${
-                                    info.commit.message
-                                }`
-                        )
-                        .join('\n')
-                ].join('\n');
+        return getCompareUrl()
+            .then(compareUrl => {
+                console.log(stripIndents`
 
-                console.log(commitStr);
+                    The following changes will be deployed:
+                    
+                    ${compareUrl}
+                `);
 
                 prompt.start();
 
@@ -225,7 +181,7 @@ function verifyCommitsToDeploy() {
                     },
                     (err, result) => {
                         if (['y', 'yes'].indexOf(result.yesno) !== -1) {
-                            resolve(commitStr);
+                            resolve();
                         } else {
                             reject('Bailing out!');
                         }
@@ -289,7 +245,7 @@ function getRevision(id) {
             revision: {
                 revisionType: 'S3',
                 s3Location: {
-                    bucket: CONF.s3Bucket,
+                    bucket: CONFIG.s3Bucket,
                     bundleType: 'zip',
                     key: `build-${id}.zip`
                 }
