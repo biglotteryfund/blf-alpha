@@ -104,9 +104,11 @@ function logIn(username, password, usingGlobalHeader = false) {
     if (usingGlobalHeader) {
         cy.visit('/');
         cy.wait(0);
-        cy.get('.global-header__navigation-secondary .js-toggle-login').within(() => {
-            cy.findByText('Log in', { exact: false }).click();
-        });
+        cy.get('.global-header__navigation-secondary .js-toggle-login').within(
+            () => {
+                cy.findByText('Log in', { exact: false }).click();
+            }
+        );
     } else {
         cy.visit('/user/login');
     }
@@ -558,11 +560,10 @@ it('should submit full awards for all application', () => {
                 };
                 break;
             case 'Scotland':
-                location = sample([
-                    { option: 'Glasgow', postcode: 'G1 1DN' },
-                    { option: 'Highlands', postcode: 'KW8 6JF' },
-                    { option: 'Perth & Kinross', postcode: 'PH1 1DA' }
-                ]);
+                location = {
+                    option: 'Highland',
+                    postcode: 'KW8 6JF'
+                };
 
                 break;
             case 'Wales':

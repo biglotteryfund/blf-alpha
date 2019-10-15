@@ -224,12 +224,12 @@ type: `string`
 
 -   **Lanarkshire**: `north-lanarkshire`, `south-lanarkshire`
 -   **Glasgow**: `glasgow`
--   **Highlands & Islands**: `argyll-and-bute`, `highlands`, `western-isles`, `orkney`, `shetland`
+-   **Highlands & Islands**: `argyll-and-bute`, `highland`, `western-isles`, `orkney-islands`, `shetland-islands`
 -   **Lothians**: `edinburgh`, `east-lothian`, `west-lothian`, `midlothian`
 -   **Central Scotland**: `clackmannanshire`, `fife`, `perth-and-kinross`, `stirling`, `falkirk`
 -   **North East Scotland**: `aberdeen-city`, `aberdeenshire`, `angus`, `dundee`, `moray`
 -   **South Scotland**: `east-ayrshire`, `north-ayrshire`, `south-ayrshire`, `dumfries-and-galloway`, `the-scottish-borders`
--   **West of Scotland**: `east-dumbartonshire`, `west-dumbartonshire`, `inverclyde`, `renfrewshire`, `east-renfrewshire`
+-   **West of Scotland**: `east-dunbartonshire`, `west-dunbartonshire`, `inverclyde`, `renfrewshire`, `east-renfrewshire`
 
 #### Northern Ireland
 
