@@ -10,7 +10,7 @@ const router = express.Router();
 function buildBreadcrumbs(req, trail = []) {
     const core = [
         {
-            label: 'Design system',
+            label: 'Design patterns',
             url: req.baseUrl
         }
     ];
