@@ -55,6 +55,10 @@ $breakpointLarge: 840px;
             &:hover {
                 text-decoration: underline;
             }
+
+            &.global-header__account-link {
+                color: get-color('links', 'base');
+            }
         }
     }
 
@@ -108,6 +112,14 @@ $breakpointLarge: 840px;
                 text-transform: uppercase;
                 font-weight: font-weight('body', 'bold');
                 margin-top: 6px;
+            }
+
+            &.global-header__account-link {
+                color: get-color('links', 'base');   
+            }
+
+            &.u-hidden {
+                display: none;
             }
         }
 

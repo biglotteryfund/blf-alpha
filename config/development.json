@@ -5,7 +5,8 @@
   },
   "features": {
     "enableSeeders": true,
-    "enableSalesforceConnector": true
+    "enableSalesforceConnector": true,
+    "enableGlobalHeaderLogin": true
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]

@@ -26,7 +26,8 @@
     "enableHotjar": false,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
-    "enableSeeders": false
+    "enableSeeders": false,
+    "enableGlobalHeaderLogin": false
   },
   "awardsForAll": {
     "allowedCountries": ["england", "scotland", "wales"],
