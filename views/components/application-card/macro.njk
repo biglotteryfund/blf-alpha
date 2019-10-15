@@ -1,0 +1,29 @@
+{% macro applicationCard(props) %}
+    <article class="application-card-new">
+        <header class="application-card-new__header">
+            <h3 class="application-card-new__title u-tone-brand-primary">
+                <a href="#" class="u-link-unstyled">
+                    Northern Ireland Institute for the Disabled
+                </a>
+            </h3>
+            <p class="application-card-new__amount"><strong>Amount requested</strong>: <span class="o-pill">£8,500</span></p>
+        </header>
+
+        <div class="application-card-new__body  u-text-medium">
+            <dl class="o-definition-list o-definition-list--compact">
+                <dt>Project length</dt><dd>2 years</dd>
+                <dt>Location</dt><dd>Northern Ireland </dd>
+                <dt>Organisation</dt><dd>Northern Ireland Institute for the Disabled</dd>
+            </dl>
+
+
+            <p><strong>Progress</strong>: 3 of 7 sections complete</p>
+            <progress value="70" max="100">70 %</progress>
+
+            <p class="u-note">Last updated: {{ formatCalendarTime('2019-10-15T15:35:31.433Z') }}</p>
+
+            <p><a href="#" class="btn">Continue</a></p>
+        </div>
+
+    </article>
+{% endmacro %}

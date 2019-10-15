@@ -294,6 +294,22 @@ $statuses: (
     }
 }
 
+/* =========================================================================
+   Application Card (new)
+   ========================================================================= */
+
+.application-card-new {
+    padding: 12px;
+    max-width: 30em;
+    margin-bottom: $spacingUnit / 2;
+
+    @include mq('medium') {
+        padding: 1em;
+    }
+
+    box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.1);
+}
+
 .application-data-missing {
     color: #865c35;
 }

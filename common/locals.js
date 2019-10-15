@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const isString = require('lodash/isString');
 
 const features = config.get('features');
@@ -162,6 +162,20 @@ module.exports = function(req, res, next) {
         return moment(dateString)
             .locale(locale)
             .format(format);
+    };
+
+    /**
+     * @see https://momentjs.com/docs/#/displaying/calendar-time/
+     *
+     * @param {String} dateString
+     * @return {String}
+     * @param dateString
+     */
+    res.locals.formatCalendarTime = function(dateString) {
+        return moment(dateString)
+            .tz('Europe/London')
+            .locale(locale)
+            .calendar();
     };
 
     /**
