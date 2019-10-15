@@ -24,22 +24,26 @@
     <div class="global-header__inner">
         <div class="global-header__extra">
             <ul class="global-header__navigation-secondary">
-                <li class="js-toggle-login js-hidden">
-                    <a href="{{ globalNavigation.login.url }}" class="global-header__account-link">
-                        {{ iconLogin() }}
-                        <span>
-                            {{ globalNavigation.login.label }}
-                        </span>
-                    </a>
-                </li>
-                <li class="js-toggle-logout js-hidden u-hidden">
-                    <a href="{{ globalNavigation.logout.url }}" class="global-header__account-link">
-                        {{ iconLogin() }}
-                        <span>
-                            {{ globalNavigation.logout.label }}
-                        </span>
-                    </a>
-                </li>
+                {% if appData.config.get('features.enableGlobalHeaderLogin') %}
+                    <li class="js-toggle-login js-hidden">
+                        <a href="{{ globalNavigation.login.url }}" class="global-header__account-link">
+                            {{ iconLogin() }}
+                            <span>
+                                {{ globalNavigation.login.label }}
+                            </span>
+                        </a>
+                    </li>
+                    <li class="js-toggle-logout js-hidden u-hidden">
+                        <a href="{{ globalNavigation.logout.url }}" class="global-header__account-link">
+                            {{ iconLogin() }}
+                            <span>
+                                {{ globalNavigation.logout.label }}
+                            </span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
+                {% endif %}
                 {% for item in globalNavigation.secondaryLinks %}
                     <li><a href="{{ item.url }}">{{ item.label }}</a></li>
                 {% endfor %}
@@ -57,21 +61,23 @@
                     </span>
                 </a>
                 <div class="global-header__actions u-dont-print">
-                    <a href="{{ globalNavigation.login.url }}" 
-                        class="global-header__toggle global-header__account-link js-toggle-login js-hidden">
-                        {{ iconLogin() }}
-                        <span class="global-header__toggle-label">
-                            {{ globalNavigation.login.label }}
-                        </span>
-                    </a>
+                    {% if appData.config.get('features.enableGlobalHeaderLogin') %}
+                        <a href="{{ globalNavigation.login.url }}" 
+                            class="global-header__toggle global-header__account-link js-toggle-login js-hidden">
+                            {{ iconLogin() }}
+                            <span class="global-header__toggle-label">
+                                {{ globalNavigation.login.label }}
+                            </span>
+                        </a>
 
-                    <a href="{{ globalNavigation.logout.url }}" 
-                        class="global-header__toggle global-header__account-link js-toggle-logout js-hidden u-hidden">
-                        {{ iconLogin() }}
-                        <span class="global-header__toggle-label">
-                            {{ globalNavigation.logout.label }}
-                        </span>
-                    </a>
+                        <a href="{{ globalNavigation.logout.url }}" 
+                            class="global-header__toggle global-header__account-link js-toggle-logout js-hidden u-hidden">
+                            {{ iconLogin() }}
+                            <span class="global-header__toggle-label">
+                                {{ globalNavigation.logout.label }}
+                            </span>
+                        </a>
+                    {% endif %}
 
                     <a href="#global-search"
                        class="global-header__toggle global-header__toggle-search js-toggle-search">
