@@ -41,7 +41,11 @@
                     {% endif %}
                     <footer class="programme-overview__actions">
                         <a class="btn btn--small" href="{{ programme.linkUrl }}">
-                            {{ __('global.misc.seeProgramme') }}
+                            {% if copy.sections.availableFunding.callToAction %}
+                                {{ copy.sections.availableFunding.callToAction }}
+                            {% else %}
+                                {{ __('global.misc.seeProgramme') }}
+                            {% endif %}
                         </a>
                     </footer>
                 </article>
