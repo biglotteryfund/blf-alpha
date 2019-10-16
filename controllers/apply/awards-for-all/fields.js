@@ -245,7 +245,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function dateOfBirthField(minAge, props) {
-        const exampleDateFormat = '30 02 1980';
+        const exampleDateFormat = '30 03 1980';
         const defaultProps = {
             explanation: localise({
                 en: `
