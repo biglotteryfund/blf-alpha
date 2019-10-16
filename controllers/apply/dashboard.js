@@ -1,7 +1,8 @@
 'use strict';
-const path = require('path');
 const express = require('express');
 const get = require('lodash/fp/get');
+const isEmpty = require('lodash/isEmpty');
+const moment = require('moment');
 
 const { csrfProtection } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
@@ -18,7 +19,7 @@ router.get(
     csrfProtection,
     requireActiveUser,
     injectCopy('applyNext'),
-    async function(req, res) {
+    async function(req, res, next) {
         function formBuilderFor(formId) {
             return formId === 'standard-enquiry'
                 ? getAdviceFormBuilder
@@ -37,16 +38,49 @@ router.get(
             return application;
         }
 
+        function latestApplication(latestPending, latestSubmitted) {
+            if (moment(latestPending.updatedAt).isAfter(latestSubmitted.updatedAt)) {
+                return enrichPendingApplication(latestPending);
+            } else {
+                return latestSubmitted;
+            }
+        }
+
         try {
             const [latestPending, latestSubmitted] = await Promise.all([
                 PendingApplication.findLatestByUserId(req.user.userData.id),
                 SubmittedApplication.findLatestByUserId(req.user.userData.id)
             ]);
 
-            res.render(path.resolve(__dirname, './views/dashboard-new.njk'), {
+            const [
+                pendingSimpleApps,
+                submittedSimpleApps,
+                pendingStandardApps,
+                submittedStandardApps
+            ] = await Promise.all([
+                PendingApplication.findUserApplicationsByForm({
+                    userId: req.user.userData.id,
+                    formId: 'awards-for-all'
+                }),
+                SubmittedApplication.findUserApplicationsByForm({
+                    userId: req.user.userData.id,
+                    formId: 'awards-for-all'
+                }),
+                PendingApplication.findUserApplicationsByForm({
+                    userId: req.user.userData.id,
+                    formId: 'standard-enquiry'
+                }),
+                SubmittedApplication.findUserApplicationsByForm({
+                    userId: req.user.userData.id,
+                    formId: 'standard-enquiry'
+                })
+            ]);
+
+            res.json({
                 title: 'Dashboard',
-                latestPending: enrichPendingApplication(latestPending),
-                latestSubmitted: latestSubmitted
+                latestApplication: latestApplication(latestPending, latestSubmitted),
+                everAppliedForSimple: !isEmpty(pendingSimpleApps) || !isEmpty(submittedSimpleApps),
+                everAppliedForStandard: !isEmpty(pendingStandardApps) || !isEmpty(submittedStandardApps)
             });
         } catch (err) {
             next(err);
