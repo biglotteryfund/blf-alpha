@@ -51,7 +51,7 @@ module.exports = function(locale) {
                 in the start and end date boxes below.
             </p>
             <p>
-                <strong>For example: ${formatAfterDate('MM DD YYYY')}</strong>
+                <strong>For example: ${formatAfterDate('DD MM YYYY')}</strong>
             </p>`,
 
             cy: `<p>
