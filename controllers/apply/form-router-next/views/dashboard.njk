@@ -66,12 +66,9 @@
 
                         <span class="section-progress-mini__marker">
                             {% if section.status === 'complete' %}
-                                {{ iconTick() }} {{ copy.statusComplete }}
-                            {% elseif section.status === 'incomplete' %}
-                                {{ copy.statusInProgress }}
-                            {% else %}
-                                {{ copy.statusNotStarted }}
+                                {{ iconTick() }}
                             {% endif %}
+                            {{  section.statusLabel }}
                         </span>
                     </li>
                 {% endfor %}
