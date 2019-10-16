@@ -2,5 +2,55 @@
 {% from "./macro.njk" import applicationCard with context %}
 
 {% call sgExample() %}
-    {{ applicationCard() }}
+    {{ applicationCard({
+        projectName: "Example project name",
+        amountRequested: "£8,500",
+        progress: {
+          "sectionsComplete": 2,
+          "sections": [
+            {
+              "slug": "your-project",
+              "label": "Your project",
+              "status": "complete",
+              "statusLabel": "Complete"
+            },
+            {
+              "slug": "beneficiaries",
+              "label": "Who will benefit",
+              "status": "complete",
+              "statusLabel": "Complete"
+            },
+            {
+              "slug": "organisation",
+              "label": "Your organisation",
+              "status": "incomplete",
+              "statusLabel": "In progress"
+            },
+            {
+              "slug": "senior-contact",
+              "label": "Senior contact",
+              "status": "empty",
+              "statusLabel": "Not started"
+            },
+            {
+              "slug": "main-contact",
+              "label": "Main contact",
+              "status": "empty",
+              "statusLabel": "Not started"
+            },
+            {
+              "slug": "bank-details",
+              "label": "Bank details",
+              "status": "empty",
+              "statusLabel": "Not started"
+            },
+            {
+              "slug": "terms-and-conditions",
+              "label": "Terms and conditions",
+              "status": "empty",
+              "statusLabel": "Not started"
+            }
+          ]
+        }
+    }) }}
 {% endcall %}

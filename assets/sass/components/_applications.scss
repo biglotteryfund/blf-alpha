@@ -294,6 +294,12 @@ $statuses: (
     }
 }
 
+// @TODO: Make this part of application card?
+.application-data-missing {
+    color: #865c35;
+}
+
+
 /* =========================================================================
    Application Card (new)
    ========================================================================= */
@@ -308,11 +314,42 @@ $statuses: (
     }
 
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.1);
+
+    .application-card-new__actions {
+        > .btn {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: $spacingUnit;
+        }
+    }
+
+    .application-card-new__meta {
+        margin-top: $spacingUnit;
+        border-top: 1px solid get-color('border', 'base');
+        padding-top: $spacingUnit / 2;
+    }
 }
 
-.application-data-missing {
-    color: #865c35;
+.progress-bar {
+    @include reset-list();
+    display: flex;
+    margin-bottom: $spacingUnit / 2;
+
+    .progress-bar__step {
+        flex: 1 1 auto;
+        height: 12px;
+        border: 1px solid rgba(0,0,0,0.25);
+    }
+
+    .progress-bar__step--complete {
+        background: #609b40;
+    }
+
+    .progress-bar__step--incomplete {
+        background: #c8c8c8;
+    }
 }
+
 
 /* =========================================================================
    Submit Actions
