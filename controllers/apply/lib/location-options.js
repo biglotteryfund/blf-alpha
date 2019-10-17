@@ -326,7 +326,7 @@ module.exports = function(locale = 'en') {
                     label: 'East Ayrshire'
                 },
                 {
-                    value: 'east-dumbartonshire',
+                    value: 'east-dunbartonshire',
                     label: 'East Dunbartonshire'
                 },
                 {
@@ -354,8 +354,8 @@ module.exports = function(locale = 'en') {
                     label: 'Glasgow'
                 },
                 {
-                    value: 'highlands',
-                    label: 'Highlands'
+                    value: 'highland',
+                    label: 'Highland'
                 },
                 {
                     value: 'inverclyde',
@@ -378,8 +378,8 @@ module.exports = function(locale = 'en') {
                     label: 'North Lanarkshire'
                 },
                 {
-                    value: 'orkney',
-                    label: 'Orkney'
+                    value: 'orkney-islands',
+                    label: 'Orkney Islands'
                 },
                 {
                     value: 'perth-and-kinross',
@@ -390,8 +390,8 @@ module.exports = function(locale = 'en') {
                     label: 'Renfrewshire'
                 },
                 {
-                    value: 'shetland',
-                    label: 'Shetland'
+                    value: 'shetland-islands',
+                    label: 'Shetland Islands'
                 },
                 {
                     value: 'south-ayrshire',
@@ -410,7 +410,7 @@ module.exports = function(locale = 'en') {
                     label: 'The Scottish Borders'
                 },
                 {
-                    value: 'west-dumbartonshire',
+                    value: 'west-dunbartonshire',
                     label: 'West Dunbartonshire'
                 },
                 {

@@ -412,6 +412,7 @@ module.exports = function({
                 en: `People who speak Welsh`,
                 cy: `Pobl sy’n siarad Cymraeg`
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -435,6 +436,7 @@ module.exports = function({
                 en: `Northern Ireland community`,
                 cy: `Cymuned Gogledd Iwerddon`
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({

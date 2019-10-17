@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
 import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
+import session from './session';
 
 function handleBeforeUnload(e) {
     // Message cannot be customised in Chrome 51+
@@ -220,6 +221,16 @@ function initHotjarTracking(formId) {
     trackDetailsClicks(scopedFormClass);
 }
 
+// Update the Login link to Logout if user signs in
+function updateSecondaryNav() {
+    session.getUserSession().then(response => {
+        const $accountLink = response.isAuthenticated
+            ? $('.js-toggle-logout')
+            : $('.js-toggle-login');
+        $accountLink.removeClass('js-hidden u-hidden');
+    });
+}
+
 function init() {
     /**
      * Review–step–specific logic
@@ -232,6 +243,7 @@ function init() {
     handleConditionalRadios();
     handleExpandingDetails();
     warnOnUnsavedChanges();
+    updateSecondaryNav();
 
     // Hotjar tagging
     initHotjarTracking('awards-for-all');

@@ -15,6 +15,8 @@ global:
     ukWide: UK-wide
   nav:
     home: Home
+    logIn: Log in
+    logOut: Log out
     funding: Funding
     local: In your area
     insights: Insights
@@ -203,6 +205,7 @@ toplevel:
         title: What funding is available?
         outro: We’d like to talk to you about your ideas early on so we can
           give you the best funding advice, so please call our team on <a href="tel:02890551455">028 9055 1455</a>.
+        callToAction: Find out more
         fundingProgrammes:
         - title: National Lottery Awards for All Northern Ireland
           subTitle: £300–£10,000
@@ -254,8 +257,7 @@ toplevel:
           summaryItems:
           - Under Section 22 of the Dormant Bank and Building Society Accounts Act 2008, we distribute money under direction from the Department of Finance to increase capacity, resilience and sustainability in the Northern Ireland Voluntary, Community and Social Enterprise sector.
           - These funds are not derived from National Lottery activity.
-          - To ensure this funding has maximum impact in communities across Northern Ireland, we will be consulting with the sector in late 2019, with a view to opening the fund for applications in early 2020.
-          - We’ll be sending out details of how to get involved in due course.
+          - To ensure this funding has maximum impact in communities across Northern Ireland, we are consulting with the sector throughout late 2019. Once this is completed, we expect the fund to open for applications in early 2020.
           linkUrl: /funding/programmes/dormant-accounts-fund
       fundingInRegion:
         title: Funding in Northern Ireland
