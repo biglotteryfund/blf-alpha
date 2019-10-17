@@ -39,8 +39,15 @@ router.get(
     injectCopy('applyNext'),
     async function(req, res, next) {
         function latestApplication(latestPending, latestSubmitted) {
-            if (moment(latestPending.updatedAt).isAfter(latestSubmitted.updatedAt)) {
-                return enrichPendingApplication(req.i18n.getLocale(), latestPending);
+            if (
+                moment(latestPending.updatedAt).isAfter(
+                    latestSubmitted.updatedAt
+                )
+            ) {
+                return enrichPendingApplication(
+                    req.i18n.getLocale(),
+                    latestPending
+                );
             } else {
                 return latestSubmitted;
             }
@@ -78,9 +85,16 @@ router.get(
 
             res.json({
                 title: 'Dashboard - Latest Application',
-                latestApplication: latestApplication(latestPending, latestSubmitted),
-                everAppliedForSimple: !isEmpty(pendingSimpleApps) || !isEmpty(submittedSimpleApps),
-                everAppliedForStandard: !isEmpty(pendingStandardApps) || !isEmpty(submittedStandardApps)
+                latestApplication: latestApplication(
+                    latestPending,
+                    latestSubmitted
+                ),
+                everAppliedForSimple:
+                    !isEmpty(pendingSimpleApps) ||
+                    !isEmpty(submittedSimpleApps),
+                everAppliedForStandard:
+                    !isEmpty(pendingStandardApps) ||
+                    !isEmpty(submittedStandardApps)
             });
         } catch (err) {
             next(err);
@@ -95,7 +109,10 @@ router.get(
     injectCopy('applyNext'),
     async function(req, res, next) {
         try {
-            const [pendingApplications, submittedApplications] = await Promise.all([
+            const [
+                pendingApplications,
+                submittedApplications
+            ] = await Promise.all([
                 PendingApplication.findAllByUserId(req.user.userData.id),
                 SubmittedApplication.findAllByUserId(req.user.userData.id)
             ]);
