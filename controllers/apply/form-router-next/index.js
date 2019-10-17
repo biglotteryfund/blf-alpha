@@ -49,8 +49,6 @@ function initFormRouter({
         res.locals.formBaseUrl = req.baseUrl;
 
         res.locals.user = req.user;
-        res.locals.enableSiteSurvey = false;
-        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
         res.locals.userNavigationLinks = [
             {

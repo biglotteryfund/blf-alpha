@@ -27,6 +27,7 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
+    "enableNewApplicationDashboards": false,
     "enableGlobalHeaderLogin": false
   },
   "awardsForAll": {

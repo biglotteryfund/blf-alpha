@@ -91,6 +91,7 @@ class PendingApplication extends Model {
             order: [['createdAt', 'ASC']]
         });
     }
+
     static findUserApplicationsByForm({ userId, formId }) {
         return this.findAll({
             where: {
@@ -100,6 +101,23 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
+
+    static findLatestByUserId(userId) {
+        return this.findOne({
+            where: {
+                userId: { [Op.eq]: userId }
+            },
+            order: [['updatedAt', 'DESC']]
+        });
+    }
+
+    static findAllByUserId(userId) {
+        return this.findAll({
+            where: { userId: { [Op.eq]: userId } },
+            order: [['createdAt', 'DESC']]
+        });
+    }
+
     static findExpiredApplications() {
         return this.findAll({
             attributes: ['id', 'formId'],
@@ -110,6 +128,7 @@ class PendingApplication extends Model {
             }
         });
     }
+
     static deleteApplications(applicationIds) {
         return this.destroy({
             where: {
@@ -117,6 +136,7 @@ class PendingApplication extends Model {
             }
         });
     }
+
     static findApplicationForForm({ formId, applicationId, userId }) {
         return this.findOne({
             where: {
@@ -126,11 +146,13 @@ class PendingApplication extends Model {
             }
         });
     }
+
     static countCompleted(applications) {
         return applications.filter(
             app => app.currentProgressState === 'COMPLETE'
         ).length;
     }
+
     static createNewApplication({ userId, formId, customExpiry = null }) {
         // @TODO: Should this be defined in config?
         const expiresAt = customExpiry
@@ -146,6 +168,7 @@ class PendingApplication extends Model {
             expiresAt: expiresAt
         });
     }
+
     static saveApplicationState(id, data, currentProgressState) {
         return this.update(
             {
@@ -155,6 +178,7 @@ class PendingApplication extends Model {
             { where: { id: { [Op.eq]: id } } }
         );
     }
+
     static lastUpdatedTime(applicationId) {
         return this.findOne({
             attributes: ['updatedAt'],
@@ -163,6 +187,7 @@ class PendingApplication extends Model {
             }
         });
     }
+
     static deleteApplication(id, userId) {
         // Delete any scheduled emails for this application
         ApplicationEmailQueue.deleteEmailsForApplication(id);
@@ -283,6 +308,25 @@ class SubmittedApplication extends Model {
             order: [['createdAt', 'ASC']]
         });
     }
+
+    static findLatestByUserId(userId) {
+        return this.findOne({
+            where: {
+                userId: { [Op.eq]: userId }
+            },
+            order: [['updatedAt', 'DESC']]
+        });
+    }
+
+    static findAllByUserId(userId) {
+        return this.findAll({
+            where: {
+                userId: { [Op.eq]: userId }
+            },
+            order: [['createdAt', 'DESC']]
+        });
+    }
+
     static findUserApplicationsByForm({ userId, formId }) {
         return this.findAll({
             where: {
@@ -292,6 +336,7 @@ class SubmittedApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
+
     static createFromPendingApplication({
         pendingApplication,
         form,
