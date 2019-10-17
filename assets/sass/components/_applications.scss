@@ -180,8 +180,7 @@ $statuses: (
     }
 
     .step-summary__data__answer-inner.has-errors,
-    .step-summary__data__answer-inner.has-featured-errors
-    {
+    .step-summary__data__answer-inner.has-featured-errors {
         border-left: 3px solid get-color('message', 'warning');
         padding-left: $spacingUnit / 2;
     }
@@ -193,8 +192,6 @@ $statuses: (
             color: get-color('message', 'information');
         }
     }
-
-
 
     .step-summary__data:not(.is-stacked) {
         .step-summary__data__question,
@@ -299,21 +296,43 @@ $statuses: (
     color: #865c35;
 }
 
-
 /* =========================================================================
    Application Card (new)
    ========================================================================= */
 
 .application-card-new {
-    padding: 12px;
     max-width: 30em;
     margin-bottom: $spacingUnit / 2;
+    padding: 12px;
 
     @include mq('medium') {
-        padding: 1em;
+        padding: $spacingUnit;
+        padding-right: $spacingUnit * 2;
     }
 
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.1);
+
+    .application-card-new__overview {
+        margin-bottom: $spacingUnit;
+
+        dt {
+            font-weight: font-weight('body', 'bold');
+            display: block;
+            float: left;
+            clear: left;
+            width: 25%;
+            margin: 0 5px 0 0;
+        }
+
+        dt:after {
+            content: ': ';
+        }
+
+        dd {
+            margin-bottom: 4px;
+            @include wrap-words();
+        }
+    }
 
     .application-card-new__actions {
         > .btn {
@@ -330,26 +349,27 @@ $statuses: (
     }
 }
 
-.progress-bar {
+.status-bar {
     @include reset-list();
     display: flex;
     margin-bottom: $spacingUnit / 2;
 
-    .progress-bar__step {
+    .status-bar__step {
         flex: 1 1 auto;
         height: 12px;
-        border: 1px solid rgba(0,0,0,0.25);
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        background-color: white;
     }
 
-    .progress-bar__step--complete {
-        background: #609b40;
+    .status-bar__step--complete {
+        background-color: #4a9e2e;
     }
 
-    .progress-bar__step--incomplete {
-        background: #c8c8c8;
+    .status-bar__step--incomplete {
+        // @TODO: Confirm what #757575 40% should be
+        background-color: lighten(#757575, 40%);
     }
 }
-
 
 /* =========================================================================
    Submit Actions
