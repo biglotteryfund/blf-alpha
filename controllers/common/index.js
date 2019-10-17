@@ -79,44 +79,33 @@ function basicContent({ lang = null, customTemplate = null } = {}) {
                 /**
                  * Determine template to render:
                  * 1. If using a custom template defer to that
-                 * 2. If the response has child pages then render a listing page
-                 * 3. Otherwise, render an information page
+                 * 2. Otherwise, render a "CMS page" which handles child pages and content alike
                  */
                 if (customTemplate) {
                     res.render(customTemplate);
-                } else if (content.children) {
-                    // What layout mode should we use? (eg. do all of the children have an image?)
-                    const missingTrailImages = content.children.some(
-                        page => !page.trailImage
-                    );
-                    const childrenLayoutMode = missingTrailImages
-                        ? 'plain'
-                        : 'heroes';
-                    if (missingTrailImages) {
-                        content.children = content.children.map(page => {
-                            return {
-                                href: page.linkUrl,
-                                label: page.trailText || page.title
-                            };
-                        });
-                    }
-                    res.render(
-                        path.resolve(__dirname, './views/listing-page'),
-                        {
-                            childrenLayoutMode: childrenLayoutMode
-                        }
-                    );
-                } else if (
-                    content.introduction ||
-                    content.segments.length > 0 ||
-                    content.flexibleContent.length > 0
-                ) {
-                    // ↑ information pages must have at least an introduction or some content segments
-                    res.render(
-                        path.resolve(__dirname, './views/information-page')
-                    );
                 } else {
-                    next();
+                    let childrenLayoutMode = false;
+                    if (content.children) {
+                        // What layout mode should we use? (eg. do all of the children have an image?)
+                        const missingTrailImages = content.children.some(
+                            page => !page.trailImage
+                        );
+                        childrenLayoutMode = missingTrailImages
+                            ? 'plain'
+                            : 'heroes';
+                        if (missingTrailImages) {
+                            content.children = content.children.map(page => {
+                                return {
+                                    href: page.linkUrl,
+                                    label: page.trailText || page.title
+                                };
+                            });
+                        }
+                    }
+
+                    res.render(path.resolve(__dirname, './views/cms-page'), {
+                        childrenLayoutMode: childrenLayoutMode
+                    });
                 }
             } else {
                 next();
