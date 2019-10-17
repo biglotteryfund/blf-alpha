@@ -15,7 +15,7 @@
                   method="post"
                   class="js-form-warn-unsaved js-session-form js-apply-{{ formId }}"
                   {% if errors | length > 0 %}data-form-has-errors="1"{% endif %}
-                  {% if step.isMultipart %}enctype="multipart/form-data"{% endif %} 
+                  {% if step.isMultipart %}enctype="multipart/form-data"{% endif %}
                   {% if step.noValidate %}novalidate{% endif %}
                   >
 
@@ -75,8 +75,10 @@
                         <input class="btn" type="submit" value="{{ copy.continue }}"/>
                     </div>
                     <p class="form-actions__secondary form-actions__timestamp">
-                        {{ copy.lastSaveTimeText }} - 
-                        <time datetime="{{ lastSaveTime.dateTime }}">{{ lastSaveTime.calendarTime }}</time>
+                        {{ copy.lastSaveTimeText }} -
+                        <time datetime="{{ formatISODate(updatedAt) }}">
+                            {{ formatCalendarTime(updatedAt) }}
+                        </time>
                     </p>
                 </div>
                 {{ userNavigation(userNavigationLinks, isFooter = true) }}

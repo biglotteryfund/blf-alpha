@@ -27,3 +27,17 @@
         background-color: get-color('brand', 'primary');
     }
 }
+
+/* =========================================================================
+   Pills
+   ========================================================================= */
+
+.o-pill {
+    background-color: get-color('background', 'light-neutral');
+    display: inline-block;
+    vertical-align: baseline;
+    padding: 6px 20px;
+    border-radius: 50px;
+    line-height: 1;
+    position: relative;
+}

@@ -4,6 +4,7 @@ const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
 const flatMap = require('lodash/flatMap');
+const get = require('lodash/fp/get');
 const has = require('lodash/has');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
@@ -17,6 +18,8 @@ const normaliseErrors = require('./normalise-errors');
 
 class FormModel {
     constructor(props, data = {}, locale = 'en') {
+        const localise = get(locale);
+
         this.title = props.title;
         this.startLabel = props.startLabel;
         this.allFields = props.allFields;
@@ -137,10 +140,22 @@ class FormModel {
                 }
             }
 
+            function sectionStatusLabel() {
+                const status = sectionStatus(validation);
+                if (status === 'complete') {
+                    return localise({ en: 'Complete', cy: 'Cyflawn' });
+                } else if (status === 'incomplete') {
+                    return localise({ en: 'In progress', cy: 'Ar ei ganol' });
+                } else {
+                    return localise({ en: 'Not started', cy: 'Heb ddechrau' });
+                }
+            }
+
             section.progress = {
                 slug: section.slug,
                 label: section.shortTitle || section.title,
-                status: sectionStatus(validation)
+                status: sectionStatus(),
+                statusLabel: sectionStatusLabel()
             };
 
             function hasFeaturedErrors() {

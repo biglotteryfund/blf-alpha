@@ -84,13 +84,7 @@ module.exports = function validateModel(formModel) {
             .items(stepSchema)
             .required(),
         hasFeaturedErrors: Joi.boolean().required(),
-        progress: Joi.object({
-            slug: Joi.string().required(),
-            label: Joi.string().required(),
-            status: Joi.string()
-                .valid(['complete', 'incomplete', 'empty'])
-                .required()
-        }).required()
+        progress: Joi.object().required()
     });
 
     const formSchema = Joi.object({

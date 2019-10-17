@@ -1,0 +1,61 @@
+{% macro applicationCard(props) %}
+    <article class="application-card-new">
+        <header class="application-card-new__header">
+            <h3 class="application-card-new__title u-tone-brand-primary">
+                <a href="#" class="u-link-unstyled">
+                    {{ props.projectName | widont | safe }}
+                </a>
+            </h3>
+            <p class="application-card-new__amount">
+                <strong>Amount requested</strong>:
+                <span class="o-pill">{{ props.amountRequested }}</span>
+            </p>
+        </header>
+
+        <dl class="application-card-new__overview u-text-small">
+            {% for item in props.overview %}
+                <dt>{{ item.label }}</dt><dd>{{ item.value }}</dd>
+            {% endfor %}
+        </dl>
+
+        <div class="application-card-new__status u-text-small u-margin-bottom">
+            {% if props.type === 'submitted' %}
+                <p>
+                    <strong>Status</strong>:
+                    Submitted {{ formatCalendarTime(props.submittedAt) }}
+                </p>
+            {% else %}
+                <p>
+                    <strong>Status</strong>:
+                    {{ props.progress.sectionsComplete }} of
+                    {{ props.progress.sections.length }} sections complete
+                </p>
+
+                <ol class="status-bar">
+                    {% for section in props.progress.sections %}
+                        <li class="status-bar__step status-bar__step--{{ section.status }}">
+                            <span class="u-visually-hidden">
+                                {{ section.label }} - {{ section.statusLabel }}
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ol>
+
+                <p>Last updated: {{ formatCalendarTime(props.updatedAt) }}</p>
+            {% endif %}
+        </div>
+
+        <div class="application-card-new__actions">
+            <a href="#" class="btn">Continue with this application</a>
+            <a class="u-text-medium" href="#">Delete</a>
+        </div>
+
+        {% if props.expiresAt %}
+            <div class="application-card-new__meta u-text-small">
+                You have until
+                <strong>{{ formatDate(props.expiresAt) }}</strong>
+                to complete your application
+            </div>
+        {% endif %}
+    </article>
+{% endmacro %}

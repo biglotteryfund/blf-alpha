@@ -93,3 +93,54 @@ Array [
   "termsPersonPosition: Enter the position of the person completing this form",
 ]
 `;
+
+exports[`empty form 2`] = `
+Object {
+  "isComplete": false,
+  "isPristine": true,
+  "sections": Array [
+    Object {
+      "label": "Your project",
+      "slug": "your-project",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Who will benefit",
+      "slug": "beneficiaries",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Your organisation",
+      "slug": "organisation",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Senior contact",
+      "slug": "senior-contact",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Main contact",
+      "slug": "main-contact",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Bank details",
+      "slug": "bank-details",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Terms and conditions",
+      "slug": "terms-and-conditions",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+  ],
+}
+`;

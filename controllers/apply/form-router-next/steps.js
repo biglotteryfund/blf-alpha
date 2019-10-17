@@ -6,7 +6,6 @@ const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 const crypto = require('crypto');
-const moment = require('moment-timezone');
 
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
@@ -46,24 +45,8 @@ module.exports = function(formId, formBuilder) {
                         });
 
                         if (step.isRequired) {
-                            const viewData = {
-                                form: form,
-                                csrfToken: req.csrfToken(),
-                                section: section,
-                                step: step,
-                                stepNumber: stepNumber,
-                                totalSteps: section.steps.length,
-                                previousPage: previousPage,
-                                nextPage: nextPage,
-                                errors: errors
-                            };
-
-                            /**
-                             * Calculate the last successful save time
-                             */
-                            viewData.lastSaveTime = await calcLastSaveTime(
-                                res.locals.currentlyEditingId,
-                                req.i18n.getLocale()
+                            const application = await PendingApplication.lastUpdatedTime(
+                                res.locals.currentlyEditingId
                             );
 
                             /**
@@ -91,7 +74,18 @@ module.exports = function(formId, formBuilder) {
 
                             res.render(
                                 path.resolve(__dirname, './views/step'),
-                                viewData
+                                {
+                                    form: form,
+                                    csrfToken: req.csrfToken(),
+                                    section: section,
+                                    step: step,
+                                    stepNumber: stepNumber,
+                                    totalSteps: section.steps.length,
+                                    previousPage: previousPage,
+                                    nextPage: nextPage,
+                                    errors: errors,
+                                    updatedAt: application.updatedAt
+                                }
                             );
                         } else {
                             res.redirect(nextPage.url);
@@ -105,20 +99,6 @@ module.exports = function(formId, formBuilder) {
             } else {
                 res.redirect(res.locals.formBaseUrl);
             }
-        };
-    }
-
-    async function calcLastSaveTime(applicationId, locale) {
-        const lastUpdatedAt = (
-            await PendingApplication.lastUpdatedTime(applicationId)
-        ).updatedAt;
-
-        return {
-            dateTime: moment(lastUpdatedAt).toISOString(true),
-            calendarTime: moment(lastUpdatedAt)
-                .tz('Europe/London')
-                .locale(locale)
-                .calendar(),
         };
     }
 
@@ -176,7 +156,10 @@ module.exports = function(formId, formBuilder) {
             );
 
             function shouldRenderErrors() {
-                return (errorsForStep.length > 0 && !(req.body.previousBtn || req.body.nextBtn));
+                return (
+                    errorsForStep.length > 0 &&
+                    !(req.body.previousBtn || req.body.nextBtn)
+                );
             }
 
             function determineRedirectUrl() {
@@ -186,10 +169,8 @@ module.exports = function(formId, formBuilder) {
                     currentStepIndex: stepIndex,
                     copy: res.locals.copy
                 });
-            
-                return req.body.previousBtn
-                    ? previousPage.url
-                    : nextPage.url;
+
+                return req.body.previousBtn ? previousPage.url : nextPage.url;
             }
 
             try {

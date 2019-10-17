@@ -3,5 +3,7 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-    {% include "components/" + slug + "/examples.njk" ignore missing %}
+    <div class="u-padded">
+        {% include "components/" + slug + "/examples.njk" ignore missing %}
+    </div>
 {% endblock %}

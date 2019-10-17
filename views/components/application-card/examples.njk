@@ -1,0 +1,89 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import applicationCard with context %}
+
+{% call sgExample('In progress application') %}
+    {{ applicationCard({
+        type: "pending",
+        projectName: "Scout hut extension for The Scouts of Sutton Coldfield",
+        amountRequested: "£8,500",
+        overview: [{
+            label: "Project dates",
+            value: "2 December, 2020–2 December, 2020"
+        }, {
+            label: "Location",
+            value: "Sutton Coldfield"
+        }, {
+            label: "Organisation",
+            value: "The Scouts of Sutton Coldfield"
+        }],
+        progress: {
+          sectionsComplete: 2,
+          sections: [
+            {
+              slug: "your-project",
+              label: "Your project",
+              status: "complete",
+              statusLabel: "Complete"
+            },
+            {
+              slug: "beneficiaries",
+              label: "Who will benefit",
+              status: "complete",
+              statusLabel: "Complete"
+            },
+            {
+              slug: "organisation",
+              label: "Your organisation",
+              status: "incomplete",
+              statusLabel: "In progress"
+            },
+            {
+              slug: "senior-contact",
+              label: "Senior contact",
+              status: "empty",
+              statusLabel: "Not started"
+            },
+            {
+              slug: "main-contact",
+              label: "Main contact",
+              status: "empty",
+              statusLabel: "Not started"
+            },
+            {
+              slug: "bank-details",
+              label: "Bank details",
+              status: "empty",
+              statusLabel: "Not started"
+            },
+            {
+              slug: "terms-and-conditions",
+              label: "Terms and conditions",
+              status: "empty",
+              statusLabel: "Not started"
+            }
+          ]
+        },
+        expiresAt: "2019-12-11T09:00:00.000Z",
+        updatedAt: "2019-10-15T15:35:31.433Z",
+        submittedAt: null
+    }) }}
+{% endcall %}
+
+{% call sgExample('Submitted application') %}
+    {{ applicationCard({
+        type: "submitted",
+        projectName: "Scout hut extension for The Scouts of Sutton Coldfield",
+        amountRequested: "£8,500",
+        overview: [{
+            label: "Project dates",
+            value: "2 December, 2020–2 December, 2020"
+        }, {
+            label: "Location",
+            value: "Sutton Coldfield"
+        }, {
+            label: "Organisation",
+            value: "The Scouts of Sutton Coldfield"
+        }],
+        submittedAt: "2019-10-16T09:35:00.000Z"
+    }) }}
+{% endcall %}
