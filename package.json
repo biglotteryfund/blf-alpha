@@ -119,7 +119,7 @@
     "rate-limiter-flexible": "1.1.6",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "sequelize": "5.19.6",
+    "sequelize": "5.19.8",
     "serve-favicon": "^2.5.0",
     "sitemap": "^4.0.2",
     "slugify": "^1.3.5",
