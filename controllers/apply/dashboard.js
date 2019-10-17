@@ -14,18 +14,18 @@ const getAdviceFormBuilder = require('./get-advice/form');
 
 const router = express.Router();
 
+function formBuilderFor(formId) {
+    return formId === 'standard-enquiry'
+        ? getAdviceFormBuilder
+        : awardsForAllFormBuilder;
+}
+
 router.get(
     '/',
     csrfProtection,
     requireActiveUser,
     injectCopy('applyNext'),
     async function(req, res, next) {
-        function formBuilderFor(formId) {
-            return formId === 'standard-enquiry'
-                ? getAdviceFormBuilder
-                : awardsForAllFormBuilder;
-        }
-
         function enrichPendingApplication(application) {
             const form = formBuilderFor(application.formId)({
                 locale: req.i18n.getLocale(),
@@ -77,10 +77,48 @@ router.get(
             ]);
 
             res.json({
-                title: 'Dashboard',
+                title: 'Dashboard - Latest Application',
                 latestApplication: latestApplication(latestPending, latestSubmitted),
                 everAppliedForSimple: !isEmpty(pendingSimpleApps) || !isEmpty(submittedSimpleApps),
                 everAppliedForStandard: !isEmpty(pendingStandardApps) || !isEmpty(submittedStandardApps)
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+);
+
+router.get(
+    '/all',
+    csrfProtection,
+    requireActiveUser,
+    injectCopy('applyNext'),
+    async function(req, res, next) {
+        // @TODO: can combine this and above to a common enrich function?
+        function enrichPendingApplication(application) {
+            const form = formBuilderFor(application.formId)({
+                locale: req.i18n.getLocale(),
+                data: get('applicationData')(application)
+            });
+
+            application.summary = form.summary;
+            application.progress = form.progress;
+
+            return application;
+        }
+
+        try {
+            const [pendingApplications, submittedApplications] = await Promise.all([
+                PendingApplication.findAllByUserId(req.user.userData.id),
+                SubmittedApplication.findAllByUserId(req.user.userData.id)
+            ]);
+
+            res.json({
+                title: 'Dashboard - All Applications',
+                pendingApplications: pendingApplications.map(
+                    enrichPendingApplication
+                ),
+                submittedApplications: submittedApplications
             });
         } catch (err) {
             next(err);
