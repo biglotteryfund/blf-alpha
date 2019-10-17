@@ -167,7 +167,7 @@
     "sane": "4.1.0",
     "sequelize-cli": "5.5.1",
     "vue": "2.6.10",
-    "vue-i18n": "8.14.1",
+    "vue-i18n": "8.15.0",
     "vue-jest": "3.0.5",
     "vue-loader": "15.7.1",
     "vue-template-compiler": "2.6.10",
