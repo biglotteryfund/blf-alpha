@@ -20,27 +20,27 @@ function formBuilderFor(formId) {
         : awardsForAllFormBuilder;
 }
 
+function enrichPendingApplication(locale, application) {
+    const form = formBuilderFor(application.formId)({
+        locale: locale,
+        data: get('applicationData')(application)
+    });
+
+    application.summary = form.summary;
+    application.progress = form.progress;
+
+    return application;
+}
+
 router.get(
     '/',
     csrfProtection,
     requireActiveUser,
     injectCopy('applyNext'),
     async function(req, res, next) {
-        function enrichPendingApplication(application) {
-            const form = formBuilderFor(application.formId)({
-                locale: req.i18n.getLocale(),
-                data: get('applicationData')(application)
-            });
-
-            application.summary = form.summary;
-            application.progress = form.progress;
-
-            return application;
-        }
-
         function latestApplication(latestPending, latestSubmitted) {
             if (moment(latestPending.updatedAt).isAfter(latestSubmitted.updatedAt)) {
-                return enrichPendingApplication(latestPending);
+                return enrichPendingApplication(req.i18n.getLocale(), latestPending);
             } else {
                 return latestSubmitted;
             }
@@ -94,19 +94,6 @@ router.get(
     requireActiveUser,
     injectCopy('applyNext'),
     async function(req, res, next) {
-        // @TODO: can combine this and above to a common enrich function?
-        function enrichPendingApplication(application) {
-            const form = formBuilderFor(application.formId)({
-                locale: req.i18n.getLocale(),
-                data: get('applicationData')(application)
-            });
-
-            application.summary = form.summary;
-            application.progress = form.progress;
-
-            return application;
-        }
-
         try {
             const [pendingApplications, submittedApplications] = await Promise.all([
                 PendingApplication.findAllByUserId(req.user.userData.id),
@@ -115,9 +102,9 @@ router.get(
 
             res.json({
                 title: 'Dashboard - All Applications',
-                pendingApplications: pendingApplications.map(
-                    enrichPendingApplication
-                ),
+                pendingApplications: pendingApplications.map(application => {
+                    enrichPendingApplication(req.i18n.getLocale(), application);
+                }),
                 submittedApplications: submittedApplications
             });
         } catch (err) {
