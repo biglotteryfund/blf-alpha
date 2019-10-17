@@ -1,0 +1,44 @@
+{% extends "layouts/main.njk" %}
+{% from "components/action-card/macro.njk" import actionCard %}
+{% from "components/application-card/macro.njk" import applicationCard with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
+
+{% block content %}
+    <main role="main" id="content">
+        <section class="content-box u-inner-wide-only">
+            {{ userNavigation() }}
+            <div class="s-prose">
+                <h1 class="t--underline">Latest application</h1>
+
+                <p>
+                    Pick up where you left off, start a new application or
+                    <a href="#">view all active applications</a>
+                </p>
+            </div>
+
+            <div class="flex-grid">
+                <div class="flex-grid__item">
+                    {{ applicationCard(latestApplication) }}
+                </div>
+                <div class="flex-grid__item">
+                    <div>
+                        {% call actionCard({
+                            title: 'We want to use digital to change our work',
+                            link: { url: '#', label: 'Find out more about this strand' }
+                        }) %}
+                            <p>Digital Fund Strand 1 offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.</p>
+                        {% endcall %}
+
+                        {% call actionCard({
+                            title: 'We want to use digital to change our work',
+                            link: { url: '#', label: 'Find out more about this strand' }
+                        }) %}
+                            <p>Digital Fund Strand 1 offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward. We expect grants to last from 1 to 4 years.</p>
+                        {% endcall %}
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+{% endblock %}

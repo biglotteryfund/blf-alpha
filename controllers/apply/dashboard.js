@@ -1,8 +1,11 @@
 'use strict';
+const path = require('path');
 const express = require('express');
-const get = require('lodash/fp/get');
-const isEmpty = require('lodash/isEmpty');
 const moment = require('moment');
+const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
+const isEmpty = require('lodash/isEmpty');
+const sumBy = require('lodash/sumBy');
 
 const { csrfProtection } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
@@ -20,16 +23,65 @@ function formBuilderFor(formId) {
         : awardsForAllFormBuilder;
 }
 
-function enrichPendingApplication(locale, application) {
+function enrichPendingApplication(application, locale) {
     const form = formBuilderFor(application.formId)({
         locale: locale,
         data: get('applicationData')(application)
     });
 
-    application.summary = form.summary;
-    application.progress = form.progress;
+    const localise = get(locale);
 
-    return application;
+    return {
+        type: 'pending',
+        projectName: getOr(
+            localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
+            'projectName'
+        )(application.applicationData),
+        amountRequested: `£${sumBy(
+            getOr([], 'projectBudget', application.applicationData),
+            item => parseInt(item.cost, 10) || 0
+        ).toLocaleString()}`,
+        overview: [
+            {
+                label: 'Project dates',
+                value: '2 December, 2020–2 December, 2020'
+            },
+            {
+                label: 'Location',
+                value: 'Sutton Coldfield'
+            },
+            {
+                label: 'Organisation',
+                value: 'The Scouts of Sutton Coldfield'
+            }
+        ],
+        progress: form.progress,
+        expiresAt: application.expiresAt,
+        updatedAt: application.updatedAt
+    };
+}
+
+function enrichSubmittedApplication(application) {
+    return {
+        type: 'submitted',
+        projectName: 'Scout hut extension for The Scouts of Sutton Coldfield',
+        amountRequested: '£8,500',
+        overview: [
+            {
+                label: 'Project dates',
+                value: '2 December, 2020–2 December, 2020'
+            },
+            {
+                label: 'Location',
+                value: 'Sutton Coldfield'
+            },
+            {
+                label: 'Organisation',
+                value: 'The Scouts of Sutton Coldfield'
+            }
+        ],
+        submittedAt: '2019-10-15T15:35:31.433Z'
+    };
 }
 
 router.get(
@@ -45,11 +97,11 @@ router.get(
                 )
             ) {
                 return enrichPendingApplication(
-                    req.i18n.getLocale(),
-                    latestPending
+                    latestPending,
+                    req.i18n.getLocale()
                 );
             } else {
-                return latestSubmitted;
+                return enrichSubmittedApplication(latestSubmitted);
             }
         }
 
@@ -83,7 +135,7 @@ router.get(
                 })
             ]);
 
-            res.json({
+            res.render(path.resolve(__dirname, './views/dashboard'), {
                 title: 'Dashboard - Latest Application',
                 latestApplication: latestApplication(
                     latestPending,
