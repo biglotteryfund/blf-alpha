@@ -220,16 +220,8 @@ test('validate model shape', () => {
 
 test('empty form', () => {
     const form = formBuilder();
-
     expect(mapMessageSummary(form.validation)).toMatchSnapshot();
-
-    expect(form.progress.isComplete).toBeFalsy();
-    expect(form.progress.isPristine).toBeTruthy();
-
-    const allSectionsEmpty = form.progress.sections.every(
-        section => section.status === 'empty'
-    );
-    expect(allSectionsEmpty).toBeTruthy();
+    expect(form.progress).toMatchSnapshot();
 });
 
 test.each(['england', 'scotland', 'northern-ireland', 'wales'])(
