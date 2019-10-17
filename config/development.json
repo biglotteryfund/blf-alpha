@@ -3,7 +3,8 @@
   "features": {
     "enableSeeders": true,
     "enableSalesforceConnector": true,
-    "enableNewApplicationDashboards": true
+    "enableNewApplicationDashboards": true,
+    "enableGlobalHeaderLogin": true
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]

@@ -15,12 +15,11 @@ module.exports = function(locale) {
 
     const minDate = moment().add(MIN_START_DATE.amount, MIN_START_DATE.unit);
 
-    function formatAfterDate() {
+    function formatAfterDate(format = 'D MMMM YYYY') {
         return minDate
             .clone()
-            .subtract(1, 'days')
             .locale(locale)
-            .format('D MMMM YYYY');
+            .format(format);
     }
 
     return {
@@ -35,7 +34,7 @@ module.exports = function(locale) {
         explanation: localise({
             en: `<p>
                 If you don't know exactly, your dates can be estimates.
-                But you need to start your project after
+                But you need to start your project on or after
                 ${formatAfterDate()}.
             </p>
             <p>
@@ -50,11 +49,14 @@ module.exports = function(locale) {
             <p>
                 Just let us know the date you plan to hold the event
                 in the start and end date boxes below.
+            </p>
+            <p>
+                <strong>For example: ${formatAfterDate('DD MM YYYY')}</strong>
             </p>`,
 
             cy: `<p>
                 Os nad ydych yn gwybod yn union, gall eich dyddiadau fod yn amcangyfrifon.
-                Ond mae angen i chi ddechrau eich prosiect ar ôl 
+                Ond mae angen i chi ddechrau eich prosiect ar neu ar ôl 
                 ${formatAfterDate()}.
             </p>
             <p>
@@ -71,6 +73,9 @@ module.exports = function(locale) {
             <p>
                 Gadewch i ni wybod y dyddiad rydych yn bwriadu cynnal y
                 digwyddiad yn y bocsys dyddiad dechrau a gorffen isod. 
+            </p>
+            <p>
+                <strong>Er enghraifft: ${formatAfterDate('DD MM YYYY')}</strong>
             </p>`
         }),
         type: 'date-range',
@@ -97,7 +102,7 @@ module.exports = function(locale) {
                 })
             },
             {
-                type: 'datesRange.startDate.invalid',
+                type: 'dateRange.startDate.invalid',
                 message: localise({
                     en: `Date you start the project must be a real date`,
                     cy: `Rhaid i ddyddiad dechrau’r prosiect fod yn un go iawn`

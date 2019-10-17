@@ -159,3 +159,10 @@
         display: none !important;
     }
 }
+
+// hide JS things for users with JS
+.js-on {
+    .js-hidden {
+        display: none !important;
+    }
+}

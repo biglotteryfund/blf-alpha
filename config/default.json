@@ -27,7 +27,8 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
-    "enableNewApplicationDashboards": false
+    "enableNewApplicationDashboards": false,
+    "enableGlobalHeaderLogin": false
   },
   "awardsForAll": {
     "allowedCountries": ["england", "scotland", "wales"],

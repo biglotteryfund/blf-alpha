@@ -37,11 +37,7 @@ function handleSessionExpiration() {
     const handleActivity = () => {
         if (isAuthenticated) {
             // Extend their session
-            $.ajax({
-                type: 'get',
-                url: '/user/session',
-                dataType: 'json'
-            }).then(response => {
+            getUserSession().then(response => {
                 // Reset the timeout clock
                 expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
                 isAuthenticated = response.isAuthenticated;
@@ -58,6 +54,14 @@ function handleSessionExpiration() {
     $('body').on('click keypress', debounce(handleActivity, 1000));
 }
 
+function getUserSession() {
+    return $.ajax({
+        type: 'get',
+        url: '/user/session',
+        dataType: 'json'
+    });
+}
+
 function init() {
     const pageHasSessionForm = $('form.js-session-form').length !== 0;
     if (pageHasSessionForm) {
@@ -66,5 +70,6 @@ function init() {
 }
 
 export default {
-    init
+    init,
+    getUserSession
 };

@@ -100,8 +100,18 @@ it('should protect access to staff-only tools', () => {
     });
 });
 
-function logIn(username, password) {
-    cy.visit('/user/login');
+function logIn(username, password, usingGlobalHeader = false) {
+    if (usingGlobalHeader) {
+        cy.visit('/');
+        cy.wait(0);
+        cy.get('.global-header__navigation-secondary .js-toggle-login').within(
+            () => {
+                cy.findByText('Log in', { exact: false }).click();
+            }
+        );
+    } else {
+        cy.visit('/user/login');
+    }
 
     cy.findByLabelText('Email address')
         .clear()
@@ -143,7 +153,24 @@ it('log in and log out', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password);
 
-        cy.findByText('Log out', { exact: false }).click();
+        cy.get('.user-nav__links').within(() => {
+            cy.findByText('Log out', { exact: false }).click();
+        });
+
+        cy.findByText('You were successfully logged out', {
+            exact: false
+        }).should('be.visible');
+    });
+});
+
+it('log in and log out using global header link', function() {
+    cy.seedUser().then(newUser => {
+        logIn(newUser.username, newUser.password, true);
+
+        cy.wait(0);
+        cy.get('.global-header__navigation-secondary').within(() => {
+            cy.findByText('Log out', { exact: false }).click();
+        });
 
         cy.findByText('You were successfully logged out', {
             exact: false
@@ -533,11 +560,10 @@ it('should submit full awards for all application', () => {
                 };
                 break;
             case 'Scotland':
-                location = sample([
-                    { option: 'Glasgow', postcode: 'G1 1DN' },
-                    { option: 'Highlands', postcode: 'KW8 6JF' },
-                    { option: 'Perth & Kinross', postcode: 'PH1 1DA' }
-                ]);
+                location = {
+                    option: 'Highland',
+                    postcode: 'KW8 6JF'
+                };
 
                 break;
             case 'Wales':
