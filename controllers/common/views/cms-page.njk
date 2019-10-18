@@ -21,50 +21,14 @@
     <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %}>
         {% block contentPrimary %}
 
-            {% if content.introduction %}
-                <section class="content-box u-inner-wide-only">
-                    {{ breadcrumbTrail(breadcrumbs) }}
-
-                    <div class="s-prose u-constrained-content-wide">
-                        {% if not pageHero.image %}
-                            <h1>{{ content.title }}</h1>
-                        {% endif %}
-                        {{ content.introduction | safe }}
-                    </div>
-                    {% if not childrenLayoutMode %}
-                        {% if content.segments.length > 0 %}
-                            {{ segmentLinks(content.segments) }}
-                        {% endif %}
-                        {% if content.flexibleContent %}
-                            {{ segmentLinks(content.flexibleContent, anchor = flexAnchor) }}
-                        {% endif %}
-                    {% endif %}
-                </section>
-            {% endif %}
-
-            {# Content segments #}
-            {% if content.segments.length > 0 %}
-                <div class="u-inner-wide-only u-constrained-content-wide">
-                    {% for contentSegment in content.segments %}
-                        {% call segment(
-                            id = 'segment-' + loop.index,
-                            title = contentSegment.title,
-                            imagePath = contentSegment.photo
-                        ) %}
-                            {{ contentSegment.content | safe }}
-                        {% endcall %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-
             {# Flexible content #}
             {% if content.flexibleContent %}
                 {% for part in content.flexibleContent %}
                     <section class="content-box u-inner-wide-only"
                              id="{{ flexAnchor + '-' + loop.index }}">
 
-                        {# Show breadcrumbs inside the first item's container if they weren't already shown #}
-                        {% if loop.first and not content.introduction %}
+                        {# Show breadcrumbs inside the first item's container #}
+                        {% if loop.first %}
                             {{ breadcrumbTrail(breadcrumbs) }}
                         {% endif %}
 

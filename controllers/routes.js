@@ -130,7 +130,9 @@ const funding = {
         isNotProduction
             ? {
                   path: '/*',
-                  router: basicContent()
+                  router: basicContent({
+                      cmsPage: true
+                  })
               }
             : {}
     ]
