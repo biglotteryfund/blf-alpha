@@ -26,7 +26,7 @@ module.exports = function({ locale, data = {} }) {
         )}</a> and we will be happy to help you.
 </p>
 <p>
-    We have emailed you a copy of your application form.
+    We’ll email a copy of your answers to your main and senior contact.
     Please keep this for your records as you may need to refer to it.
 </p>
 <p>
@@ -53,7 +53,7 @@ module.exports = function({ locale, data = {} }) {
         )}">${getEmailFor(country)}</a> a byddwn yn hapus i’ch helpu.
 </p>
 <p>
-    Rydym wedi e-bostio copi o’ch ffurflen gais ichi. 
+    Byddwn yn e-bostio copi o’ch atebion i’ch prif gyswllt a’ch uwch gyswllt.
     Cadwch hwn ar gyfer eich cofnodion rhag ofn bydd angen ichi gyfeirio ato.
 </p>
 <p>
