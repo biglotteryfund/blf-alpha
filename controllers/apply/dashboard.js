@@ -33,6 +33,7 @@ function enrichPendingApplication(application, locale) {
 
     return {
         type: 'pending',
+        formId: application.formId,
         projectName: getOr(
             localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
             'projectName'
@@ -64,6 +65,7 @@ function enrichPendingApplication(application, locale) {
 function enrichSubmittedApplication(application) {
     return {
         type: 'submitted',
+        formId: application.formId,
         projectName: 'Scout hut extension for The Scouts of Sutton Coldfield',
         amountRequested: '£8,500',
         overview: [
@@ -84,70 +86,64 @@ function enrichSubmittedApplication(application) {
     };
 }
 
+/**
+ * Determine the latest application to show and
+ * prepare application data for display in the view.
+ */
+async function getLatestApplication(userId, locale) {
+    const [pending, submitted] = await Promise.all([
+        PendingApplication.findLatestByUserId(userId),
+        SubmittedApplication.findLatestByUserId(userId)
+    ]);
+
+    if (pending && submitted) {
+        if (moment(pending.updatedAt).isAfter(submitted.updatedAt)) {
+            return enrichPendingApplication(pending, locale);
+        } else {
+            return enrichSubmittedApplication(submitted);
+        }
+    } else if (submitted) {
+        return enrichSubmittedApplication(submitted);
+    } else if (pending) {
+        return enrichPendingApplication(pending, locale);
+    }
+}
+
 router.get(
     '/',
     csrfProtection,
     requireActiveUser,
     injectCopy('applyNext'),
     async function(req, res, next) {
-        function latestApplication(latestPending, latestSubmitted) {
-            if (
-                moment(latestPending.updatedAt).isAfter(
-                    latestSubmitted.updatedAt
-                )
-            ) {
-                return enrichPendingApplication(
-                    latestPending,
-                    req.i18n.getLocale()
-                );
-            } else {
-                return enrichSubmittedApplication(latestSubmitted);
-            }
-        }
-
         try {
-            const [latestPending, latestSubmitted] = await Promise.all([
-                PendingApplication.findLatestByUserId(req.user.userData.id),
-                SubmittedApplication.findLatestByUserId(req.user.userData.id)
-            ]);
-
-            const [
-                pendingSimpleApps,
-                submittedSimpleApps,
-                pendingStandardApps,
-                submittedStandardApps
-            ] = await Promise.all([
+            /**
+             * Check for existing pending applications
+             * Used to determine if "start a new application" action card
+             * is in a primary or secondary style.
+             * Secondary if we have a pending application for the product
+             */
+            const [pendingSimple, pendingStandard] = await Promise.all([
                 PendingApplication.findUserApplicationsByForm({
                     userId: req.user.userData.id,
                     formId: 'awards-for-all'
                 }),
-                SubmittedApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
-                    formId: 'awards-for-all'
-                }),
                 PendingApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
-                    formId: 'standard-enquiry'
-                }),
-                SubmittedApplication.findUserApplicationsByForm({
                     userId: req.user.userData.id,
                     formId: 'standard-enquiry'
                 })
             ]);
 
-            res.render(path.resolve(__dirname, './views/dashboard'), {
+            const viewData = {
                 title: 'Dashboard - Latest Application',
-                latestApplication: latestApplication(
-                    latestPending,
-                    latestSubmitted
+                latestApplication: await getLatestApplication(
+                    req.user.userData.id,
+                    req.i18n.getLocale()
                 ),
-                everAppliedForSimple:
-                    !isEmpty(pendingSimpleApps) ||
-                    !isEmpty(submittedSimpleApps),
-                everAppliedForStandard:
-                    !isEmpty(pendingStandardApps) ||
-                    !isEmpty(submittedStandardApps)
-            });
+                hasPendingSimpleApplication: !isEmpty(pendingSimple),
+                hasPendingStandardApplication: !isEmpty(pendingStandard)
+            };
+
+            res.render(path.resolve(__dirname, './views/dashboard'), viewData);
         } catch (err) {
             next(err);
         }

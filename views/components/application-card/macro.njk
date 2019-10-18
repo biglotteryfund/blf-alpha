@@ -1,6 +1,10 @@
 {% macro applicationCard(props) %}
     <article class="application-card-new">
         <header class="application-card-new__header">
+            {# @TODO: Remove, for debugging only #}
+            {% if props.type and props.formId %}
+                <p>{{  props.formId }}: {{ props.type }}</p>
+            {% endif %}
             <h3 class="application-card-new__title u-tone-brand-primary">
                 <a href="#" class="u-link-unstyled">
                     {{ props.projectName | widont | safe }}
@@ -46,7 +50,7 @@
         </div>
 
         <div class="application-card-new__actions">
-            <a href="#" class="btn">Continue with this application</a>
+            <a href="#" class="btn btn--small">Continue with this application</a>
             <a class="u-text-medium" href="#">Delete</a>
         </div>
 
