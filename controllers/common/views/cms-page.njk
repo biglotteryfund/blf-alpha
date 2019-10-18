@@ -18,7 +18,6 @@
         {{ hero(title, pageHero.image) }}
     {% endif %}
 
-
     <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %}>
         {% block contentPrimary %}
 
@@ -75,7 +74,7 @@
 
                         {# Show links to the child pages inside the first item if it's a single-item list #}
                         {% if loop.last and
-                            childrenLayoutMode === 'plain' and
+                            childrenLayoutMode === 'list' and
                             content.children.length > 0 and
                             content.flexibleContent.length === 1 %}
                             {{ sectionLinks(content.children) }}
@@ -88,7 +87,7 @@
 
 
         {% if content.children.length > 0 %}
-            {% if childrenLayoutMode === 'heroes' %}
+            {% if childrenLayoutMode === 'grid' %}
                 <section class="u-inner">
                     <ul class="flex-grid">
                         {% for page in content.children %}
@@ -102,7 +101,7 @@
                         {% endfor %}
                     </ul>
                 </section>
-            {% elseif childrenLayoutMode === 'plain' and content.flexibleContent.length > 1 %}
+            {% elseif childrenLayoutMode === 'list' and content.flexibleContent.length > 1 %}
                 {# Show the child page links if they weren't shown above (eg. multi-item flexible content #}
                 <section class="content-box u-inner-wide-only">
                     {{ sectionLinks(content.children) }}

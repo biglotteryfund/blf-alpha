@@ -84,23 +84,36 @@ function basicContent({ lang = null, customTemplate = null } = {}) {
                 if (customTemplate) {
                     res.render(customTemplate);
                 } else {
-                    let childrenLayoutMode = false;
+                    let childrenLayoutMode = 'list';
+                    const childPageDisplay = content.childPageDisplay;
+
+                    // This page should show a grid of child images
+                    // but do they all have images we can use?
                     if (content.children) {
-                        // What layout mode should we use? (eg. do all of the children have an image?)
                         const missingTrailImages = content.children.some(
                             page => !page.trailImage
                         );
-                        childrenLayoutMode = missingTrailImages
-                            ? 'plain'
-                            : 'heroes';
-                        if (missingTrailImages) {
-                            content.children = content.children.map(page => {
-                                return {
-                                    href: page.linkUrl,
-                                    label: page.trailText || page.title
-                                };
-                            });
+                        if (
+                            childPageDisplay === 'grid' &&
+                            !missingTrailImages
+                        ) {
+                            childrenLayoutMode = 'grid';
+                        } else if (
+                            !childPageDisplay ||
+                            childPageDisplay === 'none'
+                        ) {
+                            childrenLayoutMode = false;
                         }
+                    }
+
+                    // Reformat the child pages for plain-text links
+                    if (content.children && childrenLayoutMode === 'list') {
+                        content.children = content.children.map(page => {
+                            return {
+                                href: page.linkUrl,
+                                label: page.trailText || page.title
+                            };
+                        });
                     }
 
                     res.render(path.resolve(__dirname, './views/cms-page'), {
