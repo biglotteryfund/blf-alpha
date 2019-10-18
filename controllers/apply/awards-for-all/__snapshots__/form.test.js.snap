@@ -142,5 +142,6 @@ Object {
       "statusLabel": "Not started",
     },
   ],
+  "sectionsComplete": 0,
 }
 `;
