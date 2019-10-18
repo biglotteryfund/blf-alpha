@@ -91,15 +91,15 @@ router.get(
                 SubmittedApplication.findAllByUserId(req.user.userData.id)
             ]);
 
-            res.json({
+            const viewData = {
                 title: 'Dashboard - All Applications',
                 pendingApplications: pendingApplications.map(application => {
-                    enrichPendingApplication(application, req.i18n.getLocale());
+                    return enrichPendingApplication(application, req.i18n.getLocale());
                 }),
-                submittedApplications: submittedApplications.map(application => {
-                    enrichSubmittedApplication(application);
-                })
-            });
+                submittedApplications: submittedApplications.map(enrichSubmittedApplication)
+            };
+
+            res.render(path.resolve(__dirname, './views/dashboard-all'), viewData);
         } catch (err) {
             next(err);
         }

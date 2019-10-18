@@ -1,0 +1,62 @@
+{% extends "layouts/main.njk" %}
+{% from "components/action-card/macro.njk" import actionCard %}
+{% from "components/application-card/macro.njk" import applicationCard with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
+
+{% block content %}
+    <main role="main" id="content">
+        <section class="content-box u-inner-wide-only">
+            {{ userNavigation() }}
+            {% if pendingApplications.length > 0 %}
+                <div class="s-prose">
+                    <h1 class="t--underline">Applications in progress</h1>
+                </div>
+            {% endif %}
+
+            <div class="flex-grid">
+                {% for application in pendingApplications %}
+                    <div class="flex-grid__item">
+                        {{ applicationCard(application) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if submittedApplications.length > 0 %}
+                <div class="s-prose">
+                    <h1 class="t--underline">Submitted applications</h1>
+                </div>
+            {% endif %}
+
+            <div class="flex-grid">
+                {% for application in submittedApplications %}
+                    <div class="flex-grid__item">
+                        {{ applicationCard(application) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex-grid__item">
+                <div>
+                    {{ actionCard({
+                        title: 'New idea',
+                        description: 'Get advice on your idea to help your community thrive, if you need more than £10,000 of funding from us.',
+                        link: {
+                            url: localify('/apply/get-advice/start'),
+                            label: 'Get advice on your idea'
+                        }
+                    }, isSecondary = true) }}
+
+                    {{ actionCard({
+                        title: 'New application',
+                        description: 'You can create a new funding application for National Lottery Awards for All here for anything up to £10,000.',
+                        link: {
+                            url: localify('/apply/awards-for-all/start'),
+                            label: 'Start a new application'
+                        }
+                    }, isSecondary = true) }}
+                </div>
+            </div>
+
+        </section>
+    </main>
+{% endblock %}
