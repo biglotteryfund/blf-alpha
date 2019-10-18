@@ -1,11 +1,11 @@
 {% macro actionCard(props, isSecondary = false) %}
     <div class="action-card">
         <header class="action-card__header">
-            <h3 class="action-card__title{% if not isSecondary %} u-tone-brand-primary{% endif %}">
+            <h3 class="t4 action-card__title{% if not isSecondary %} u-tone-brand-primary{% endif %}">
                 {{ props.title | widont | safe }}
             </h3>
         </header>
-        <div class="action-card__body u-text-medium">
+        <div class="action-card__body u-text-small">
             <p>{{ props.description | safe }}</p>
         </div>
         {% if props.link.url %}

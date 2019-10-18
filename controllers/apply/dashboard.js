@@ -11,6 +11,7 @@ const { csrfProtection } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
+const { formatDateRange } = require('./lib/formatters');
 
 const awardsForAllFormBuilder = require('./awards-for-all/form');
 const getAdviceFormBuilder = require('./get-advice/form');
@@ -24,66 +25,135 @@ function formBuilderFor(formId) {
 }
 
 function enrichPendingApplication(application, locale) {
-    const form = formBuilderFor(application.formId)({
-        locale: locale,
-        data: get('applicationData')(application)
-    });
-
+    const data = application.applicationData;
+    const form = formBuilderFor(application.formId)({ locale, data });
     const localise = get(locale);
 
-    return {
-        type: 'pending',
-        formId: application.formId,
-        projectName: getOr(
-            localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
-            'projectName'
-        )(application.applicationData),
-        amountRequested: `£${sumBy(
-            getOr([], 'projectBudget', application.applicationData),
-            item => parseInt(item.cost, 10) || 0
-        ).toLocaleString()}`,
-        overview: [
-            {
-                label: 'Project dates',
-                value: '2 December, 2020–2 December, 2020'
-            },
-            {
-                label: 'Location',
-                value: 'Sutton Coldfield'
-            },
-            {
-                label: 'Organisation',
-                value: 'The Scouts of Sutton Coldfield'
-            }
-        ],
-        progress: form.progress,
-        expiresAt: application.expiresAt,
-        updatedAt: application.updatedAt
-    };
+    if (application.formId === 'standard-enquiry') {
+        return {
+            type: 'pending',
+            id: application.id,
+            formId: application.formId,
+            projectName: getOr(
+                localise({ en: 'Untitled proposal', cy: '' }),
+                'projectName'
+            )(data),
+            amountRequested: `£${data.projectCosts.toLocaleString()}`,
+            overview: [
+                {
+                    label: 'Project length',
+                    value: `${data.projectDurationYears} years`
+                },
+                {
+                    label: 'Location',
+                    value: data.projectLocation
+                },
+                {
+                    label: 'Organisation',
+                    value:
+                        data.organisationTradingName ||
+                        data.organisationLegalName
+                }
+            ],
+            progress: form.progress,
+            expiresAt: application.expiresAt,
+            updatedAt: application.updatedAt
+        };
+    } else {
+        return {
+            type: 'pending',
+            id: application.id,
+            formId: application.formId,
+            projectName: getOr(
+                localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
+                'projectName'
+            )(data),
+            amountRequested: `£${sumBy(
+                getOr([], 'projectBudget', data),
+                item => parseInt(item.cost, 10) || 0
+            ).toLocaleString()}`,
+            overview: [
+                {
+                    label: 'Project dates',
+                    value: formatDateRange(locale)(data.projectDateRange)
+                },
+                {
+                    label: 'Location',
+                    value: data.projectLocation
+                },
+                {
+                    label: 'Organisation',
+                    value:
+                        data.organisationTradingName ||
+                        data.organisationLegalName
+                }
+            ],
+            progress: form.progress,
+            expiresAt: application.expiresAt,
+            updatedAt: application.updatedAt
+        };
+    }
 }
 
 function enrichSubmittedApplication(application) {
-    return {
-        type: 'submitted',
-        formId: application.formId,
-        projectName: 'Scout hut extension for The Scouts of Sutton Coldfield',
-        amountRequested: '£8,500',
-        overview: [
-            {
-                label: 'Project dates',
-                value: '2 December, 2020–2 December, 2020'
-            },
-            {
-                label: 'Location',
-                value: 'Sutton Coldfield'
-            },
-            {
-                label: 'Organisation',
-                value: 'The Scouts of Sutton Coldfield'
+    const data = application.salesforceSubmission.application;
+
+    if (application.formId === 'standard-enquiry') {
+        return {
+            type: 'submitted',
+            id: application.id,
+            formId: application.formId,
+            projectName: data.projectName,
+            amountRequested: `£${data.projectCosts.toLocaleString()}`,
+            overview: [
+                {
+                    label: 'Project length',
+                    value: `${data.projectDurationYears} years`
+                },
+                {
+                    label: 'Location',
+                    value: data.projectLocation
+                },
+                {
+                    label: 'Organisation',
+                    value:
+                        data.organisationTradingName ||
+                        data.organisationLegalName
+                }
+            ],
+            submittedAt: application.createdAt,
+            link: {
+                url: `/apply/get-advice/edit/${application.id}`,
+                label: 'Continue'
             }
-        ],
-        submittedAt: '2019-10-15T15:35:31.433Z'
-    };
+        };
+    } else {
+        return {
+            type: 'submitted',
+            id: application.id,
+            formId: application.formId,
+            projectName: data.projectName,
+            amountRequested: `£${sumBy(
+                getOr([], 'projectBudget', data),
+                item => parseInt(item.cost, 10) || 0
+            ).toLocaleString()}`,
+            overview: [
+                {
+                    label: 'Project dates',
+                    value: '2 December, 2020–2 December, 2020'
+                },
+                {
+                    label: 'Location',
+                    value: 'Sutton Coldfield'
+                },
+                {
+                    label: 'Organisation',
+                    value: 'The Scouts of Sutton Coldfield'
+                }
+            ],
+            submittedAt: application.createdAt
+        };
+    }
 }
 
 /**

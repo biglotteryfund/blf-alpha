@@ -18,7 +18,8 @@
 
         <dl class="application-card-new__overview u-text-small">
             {% for item in props.overview %}
-                <dt>{{ item.label }}</dt><dd>{{ item.value }}</dd>
+                <dt>{{ item.label }}</dt>
+                <dd>{% if item.value %}{{ item.value }}{% else %}not yet completed{% endif %}</dd>
             {% endfor %}
         </dl>
 
@@ -50,7 +51,8 @@
         </div>
 
         <div class="application-card-new__actions">
-            <a href="#" class="btn btn--small">Continue with this application</a>
+            <a href="{{ localify('/apply/' + props.formId + '/edit/' + props.id) }}"
+               class="btn btn--small">Continue</a>
             <a class="u-text-medium" href="#">Delete</a>
         </div>
 
