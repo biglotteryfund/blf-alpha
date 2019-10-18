@@ -28,7 +28,7 @@ exports[`confirmation builder should return confirmation text based on country 1
   and we will be happy to help you.
 </p>
 <p>
-  We have emailed you a copy of your application form.
+  We’ll email a copy of your answers to your main and senior contact.
     Please keep this for your records as you may need to refer to it.
 </p>
 <p>
@@ -68,7 +68,7 @@ exports[`confirmation builder should return confirmation text based on country 2
   and we will be happy to help you.
 </p>
 <p>
-  We have emailed you a copy of your application form.
+  We’ll email a copy of your answers to your main and senior contact.
     Please keep this for your records as you may need to refer to it.
 </p>
 <p>

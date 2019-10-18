@@ -1310,6 +1310,10 @@ applyNext:
   edit: Golygu
   submit: Anfon cais
   lastSaveTimeText: Arbediad llwyddiannus diwethaf
+  localSaveWarning:
+    title: Ni fydd arbed y gwaith i’ch cyfrifiadur yn gweithio
+    body: Mae’n edrych fel eich bod yn ceisio arbed eich ffurflen ar-lein i’ch cyfrifiadur. Bydd hyn yn golygu ni fydd run o’ch atebion yn cael eu harbed. A phan fyddwch yn clicio anfon ar y diwedd, ni fydd eich cais yn mynd i unman.
+    cta: Ewch a fi’n ôl i’r ffurflen ar-lein
   fields:
     fullName:
       firstName: Enw cyntaf

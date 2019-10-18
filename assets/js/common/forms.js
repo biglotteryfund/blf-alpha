@@ -231,6 +231,14 @@ function updateSecondaryNav() {
     });
 }
 
+// Shows an error/warning if a user saves a local copy of the form
+// and attempts to use it locally (which will fail)
+function showLocalSaveWarning() {
+    if (window.location.protocol === 'file:') {
+        $('#js-form-local-save-message').show();
+    }
+}
+
 function init() {
     /**
      * Review–step–specific logic
@@ -244,6 +252,7 @@ function init() {
     handleExpandingDetails();
     warnOnUnsavedChanges();
     updateSecondaryNav();
+    showLocalSaveWarning();
 
     // Hotjar tagging
     initHotjarTracking('awards-for-all');

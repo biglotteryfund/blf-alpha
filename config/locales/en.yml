@@ -1593,6 +1593,10 @@ applyNext:
   edit: Edit
   submit: Submit application
   lastSaveTimeText: Last successful save
+  localSaveWarning:
+    title: Saving the form to your computer won’t work
+    body: It looks like you're trying to save your online form to your computer. This means none of your answers will be saved. And when you click submit at the end, your application won’t go anywhere.
+    cta: Take me back to the online form
   fields:
     fullName:
       firstName: First name

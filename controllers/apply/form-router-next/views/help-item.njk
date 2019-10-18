@@ -1,16 +1,32 @@
 {% extends "layouts/main.njk" %}
-{% from "components/feedback.njk" import inlineFeedback with context %}
-{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/form-header/macro.njk" import formHeaderWithData with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
+{% macro closeButton() %}
+    <p class="u-margin-top js-only"><a href="javascript:window.close();" class="btn">{{ copy.common.closeThisPage }}</a></p>
+    <noscript>
+        <p class="u-margin-top"><a href="../" class="btn">{{ copy.common.backToApplications }}</a></p>
+    </noscript>
+{% endmacro %}
+
 {% block content %}
     <main role="main" id="content">
-        {% call contentBox() %}
+
+        <div class="content-box u-inner-wide-only">
+            {{ userNavigation(userNavigationLinks) }}
+
+            {{ formHeaderWithData(formTitle, form.summary.title) }}
+
+            <aside class="u-pull-right">
+                {{ closeButton() }}
+            </aside>
 
             <div class="form-header">
                 <h1 class="form-header__title">{{ title }}</h1>
             </div>
+
 
             {% if item === 'bank-statement' %}
                 <div class="s-prose u-constrained">
@@ -19,11 +35,8 @@
                 </div>
             {% endif %}
 
-            <p class="u-margin-top js-only"><a href="javascript:window.close();" class="btn">{{ copy.common.closeThisPage }}</a></p>
-            <noscript>
-                <p class="u-margin-top"><a href="../" class="btn">{{ copy.common.backToApplications }}</a></p>
-            </noscript>
+            {{ closeButton() }}
 
-        {% endcall %}
+        </div>
     </main>
 {% endblock %}
