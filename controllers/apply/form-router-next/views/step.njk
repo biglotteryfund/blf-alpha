@@ -11,6 +11,7 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
+
             <form action=""
                   method="post"
                   class="js-form-warn-unsaved js-session-form js-apply-{{ formId }}"
@@ -24,6 +25,17 @@
                 {{ userNavigation(userNavigationLinks) }}
 
                 {{ formHeaderWithData(formTitle, form.summary.title) }}
+
+                <div class="form-errors u-margin-bottom-l u-hidden" id="js-form-local-save-message">
+                    <h2 class="form-errors__title">{{ copy.localSaveWarning.title }}</h2>
+                    <div class="form-errors__body">
+                        <p>{{ copy.localSaveWarning.body }}</p>
+                        <a class="btn btn--outline btn--warning btn--small"
+                           href="{{ getAbsoluteUrl(formBaseUrl) }}?src=offlineApp">
+                            {{ copy.localSaveWarning.cta }}
+                        </a>
+                    </div>
+                </div>
 
                 {% if step.message %}
                     <div class="message message--info message--minor" role="alert">
