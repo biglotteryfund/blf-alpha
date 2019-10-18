@@ -241,7 +241,7 @@ module.exports = function(formId, formBuilder) {
                      */
                     if (step.preFlightCheck) {
                         try {
-                            await step.preFlightCheck();
+                            await step.preFlightCheck(dataToStore);
                         } catch (errors) {
                             // There was a validation error, so return users to the form
                             const renderStep = renderStepFor(

@@ -816,9 +816,9 @@ module.exports = function({
      *
      * Bails early if we're in a test server to avoid extra lookups.
      */
-    function bankAccountPreFlightCheck() {
-        const sortCode = get('bankSortCode')(data);
-        const accountNumber = get('bankAccountNumber')(data);
+    function bankAccountPreFlightCheck(submittedData) {
+        const sortCode = get('bankSortCode')(submittedData);
+        const accountNumber = get('bankAccountNumber')(submittedData);
 
         function messagesForStatus(bankStatus) {
             let messages = [];
