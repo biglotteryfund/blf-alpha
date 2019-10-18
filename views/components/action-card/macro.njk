@@ -1,14 +1,16 @@
-{% macro actionCard(props) %}
-    <div class="card">
-        <header class="card__header">
-            <h3 class="card__title">{{ props.title }}</h3>
+{% macro actionCard(props, isSecondary = false) %}
+    <div class="action-card">
+        <header class="action-card__header">
+            <h3 class="action-card__title{% if not isSecondary %} u-tone-brand-primary{% endif %}">
+                {{ props.title | widont | safe }}
+            </h3>
         </header>
-        <div class="card__body">
-            {{ caller() }}
+        <div class="action-card__body u-text-medium">
+            <p>{{ props.description | safe }}</p>
         </div>
         {% if props.link.url %}
-            <div class="card__footer">
-                <a href="{{ props.link.url }}" class="btn btn--medium">
+            <div class="action-card__footer">
+                <a href="{{ props.link.url }}" class="btn btn--medium{% if isSecondary %} btn--outline{% endif %}">
                     {{ props.link.label }}
                 </a>
             </div>
