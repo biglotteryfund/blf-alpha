@@ -2,7 +2,9 @@
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
+const orderBy = require('lodash/orderBy');
 const { oneLine } = require('common-tags');
+const config = require('config');
 
 const Joi = require('../lib/joi-extensions');
 
@@ -50,6 +52,67 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectCountries() {
+        const allowedCountries = config.get(
+            'standardFundingProposal.allowedCountries'
+        );
+
+        function options() {
+            function label(country) {
+                let result = '';
+                if (country === 'england') {
+                    result = localise({
+                        en: 'England',
+                        cy: 'Lloegr'
+                    });
+                } else if (country === 'scotland') {
+                    result = localise({
+                        en: 'Scotland',
+                        cy: 'Yr Alban'
+                    });
+                } else if (country === 'northern-ireland') {
+                    result = localise({
+                        en: 'Northern Ireland',
+                        cy: 'Gogledd Iwerddon'
+                    });
+                } else if (country === 'wales') {
+                    result = localise({
+                        en: 'Wales',
+                        cy: 'Cymru'
+                    });
+                }
+
+                if (allowedCountries.includes(country) === false) {
+                    result += localise({
+                        en: ' (coming soon)',
+                        cy: ' (Dod yn fuan)'
+                    });
+                }
+
+                return result;
+            }
+
+            const options = [
+                'england',
+                'scotland',
+                'wales',
+                'northern-ireland'
+            ].map(function(country) {
+                const option = { value: country, label: label(country) };
+
+                if (allowedCountries.includes(country) === false) {
+                    option.attributes = { disabled: 'disabled' };
+                }
+
+                return option;
+            });
+
+            return orderBy(
+                options,
+                ['attributes.disabled', 'label'],
+                ['desc', 'asc']
+            );
+        }
+
         return new CheckboxField({
             locale: locale,
             name: 'projectCountries',
@@ -65,36 +128,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu
                     anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
             }),
-            options: [
-                {
-                    label: localise({
-                        en: 'England',
-                        cy: 'Lloegr'
-                    }),
-                    value: 'england'
-                },
-                {
-                    label: localise({
-                        en: 'Scotland',
-                        cy: 'Yr Alban'
-                    }),
-                    value: 'scotland'
-                },
-                {
-                    label: localise({
-                        en: 'Northern Ireland',
-                        cy: 'Gogledd Iwerddon'
-                    }),
-                    value: 'northern-ireland'
-                },
-                {
-                    label: localise({
-                        en: 'Wales',
-                        cy: 'Cymru'
-                    }),
-                    value: 'wales'
-                }
-            ],
+            options: options(),
             messages: [
                 {
                     type: 'base',

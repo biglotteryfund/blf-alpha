@@ -34,6 +34,9 @@
     "allowedCountries": ["england", "scotland", "wales"],
     "enableExpiration": true
   },
+  "standardFundingProposal": {
+    "allowedCountries": ["northern-ireland"]
+  },
   "session": {
     "cookie": "blf-alpha-session",
     "expiryInSeconds": 7200

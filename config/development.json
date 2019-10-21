@@ -8,5 +8,8 @@
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
+  },
+  "standardFundingProposal": {
+    "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
   }
 }
