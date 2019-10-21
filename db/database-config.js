@@ -10,7 +10,13 @@ const commonConfig = {
             collate: 'utf8mb4_general_ci'
         }
     },
-    pool: { max: 5, min: 1, idle: 10000 }
+    pool: { max: 5, min: 1, idle: 10000 },
+    retry: {
+        match: [
+            'Deadlock found when trying to get lock; try restarting transaction'
+        ],
+        max: 3
+    }
 };
 
 module.exports = {
