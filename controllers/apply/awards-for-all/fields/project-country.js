@@ -1,6 +1,5 @@
 'use strict';
 const get = require('lodash/fp/get');
-const has = require('lodash/has');
 const orderBy = require('lodash/orderBy');
 const { oneLine } = require('common-tags');
 const config = require('config');
@@ -64,10 +63,6 @@ module.exports = function(locale) {
         );
     }
 
-    const activeOptions = options().filter(
-        option => has(option, 'attributes.disabled') === false
-    );
-
     return {
         name: 'projectCountry',
         label: localise({
@@ -86,7 +81,7 @@ module.exports = function(locale) {
         options: options(),
         isRequired: true,
         schema: Joi.string()
-            .valid(activeOptions.map(option => option.value))
+            .valid(options().map(option => option.value))
             .required(),
         messages: [
             {
