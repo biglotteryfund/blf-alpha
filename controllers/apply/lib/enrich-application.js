@@ -76,19 +76,18 @@ function enrichPending(application, locale) {
     const form = formBuilderFor(application.formId)({ locale, data });
     const localise = get(locale);
 
-    function createPending({ projectName, amountRequested, overview, link }) {
-        return {
-            type: 'pending',
-            id: application.id,
-            formId: application.formId,
-            projectName: projectName,
-            amountRequested: amountRequested,
-            overview: overview,
-            progress: form.progress,
-            expiresAt: application.expiresAt,
-            updatedAt: application.updatedAt,
-            link: link
-        };
+    function createPending(props) {
+        return Object.assign(
+            {
+                type: 'pending',
+                id: application.id,
+                formId: application.formId,
+                expiresAt: application.expiresAt,
+                updatedAt: application.updatedAt,
+                progress: form.progress
+            },
+            props
+        );
     }
 
     if (application.formId === 'standard-enquiry') {
@@ -101,7 +100,8 @@ function enrichPending(application, locale) {
             link: {
                 url: `/apply/get-advice/edit/${application.id}`,
                 label: 'Continue'
-            }
+            },
+            deleteUrl: `/apply/get-advice/delete/${application.id}`
         });
     } else {
         return createPending({
@@ -113,7 +113,8 @@ function enrichPending(application, locale) {
             link: {
                 url: `/apply/awards-for-all/edit/${application.id}`,
                 label: 'Continue'
-            }
+            },
+            deleteUrl: `/apply/get-advice/delete/${application.id}`
         });
     }
 }
@@ -121,16 +122,17 @@ function enrichPending(application, locale) {
 function enrichSubmitted(application, locale) {
     const data = application.salesforceSubmission.application;
 
-    function createSubmitted({ amountRequested, overview }) {
-        return {
-            type: 'submitted',
-            id: application.id,
-            formId: application.formId,
-            projectName: data.projectName,
-            amountRequested: amountRequested,
-            overview: overview,
-            submittedAt: application.createdAt
-        };
+    function createSubmitted(props) {
+        return Object.assign(
+            {
+                type: 'submitted',
+                id: application.id,
+                formId: application.formId,
+                submittedAt: application.createdAt,
+                projectName: data.projectName
+            },
+            props
+        );
     }
 
     if (application.formId === 'standard-enquiry') {
