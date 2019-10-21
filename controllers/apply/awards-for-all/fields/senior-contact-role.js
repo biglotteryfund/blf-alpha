@@ -73,9 +73,12 @@ module.exports = function(locale, data) {
             if (isCharityOrCompany && projectCountry !== 'scotland') {
                 result.push(
                     localise({
-                        en: oneLine`Your senior contact must be listed as a
-                            member of your organisation's board or committee
-                            with the Charity Commission/Companies House.`,
+                        en: oneLine`If you're a company, your senior contact
+                            must be listed as a member of your organisation's
+                            board with Companies House.
+                            If you're an unincorporated Charity, your Senior
+                            contact should be listed as a Trustee on the
+                            Charities regulator website.`,
 
                         cy: oneLine`Rhaid i’r uwch gyswllt fod wedi ei restru
                             fel aelod o fwrdd neu bwyllgor eich sefydliad gyda’r
