@@ -2,66 +2,46 @@
 const get = require('lodash/fp/get');
 const orderBy = require('lodash/orderBy');
 const { oneLine } = require('common-tags');
-const config = require('config');
 
 const Joi = require('../../lib/joi-extensions');
 
 module.exports = function(locale) {
     const localise = get(locale);
-    const allowedCountries = config.get('awardsForAll.allowedCountries');
 
-    function options() {
-        function label(country) {
-            let result = '';
-            if (country === 'england') {
-                result = localise({
+    const options = orderBy(
+        [
+            {
+                value: 'england',
+                label: localise({
                     en: 'England',
                     cy: 'Lloegr'
-                });
-            } else if (country === 'scotland') {
-                result = localise({
+                })
+            },
+            {
+                value: 'scotland',
+                label: localise({
                     en: 'Scotland',
                     cy: 'Yr Alban'
-                });
-            } else if (country === 'northern-ireland') {
-                result = localise({
-                    en: 'Northern Ireland',
-                    cy: 'Gogledd Iwerddon'
-                });
-            } else if (country === 'wales') {
-                result = localise({
+                })
+            },
+            {
+                value: 'wales',
+                label: localise({
                     en: 'Wales',
                     cy: 'Cymru'
-                });
+                })
+            },
+            {
+                value: 'northern-ireland',
+                label: localise({
+                    en: 'Northern Ireland',
+                    cy: 'Gogledd Iwerddon'
+                })
             }
-
-            if (allowedCountries.includes(country) === false) {
-                result += localise({
-                    en: ' (coming soon)',
-                    cy: ' (Dod yn fuan)'
-                });
-            }
-
-            return result;
-        }
-
-        const countries = ['england', 'scotland', 'wales', 'northern-ireland'];
-        const options = countries.map(function(country) {
-            const option = { value: country, label: label(country) };
-
-            if (allowedCountries.includes(country) === false) {
-                option.attributes = { disabled: 'disabled' };
-            }
-
-            return option;
-        });
-
-        return orderBy(
-            options,
-            ['attributes.disabled', 'label'],
-            ['desc', 'asc']
-        );
-    }
+        ],
+        ['label'],
+        ['asc']
+    );
 
     return {
         name: 'projectCountry',
@@ -78,10 +58,10 @@ module.exports = function(locale) {
                 anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
         }),
         type: 'radio',
-        options: options(),
+        options: options,
         isRequired: true,
         schema: Joi.string()
-            .valid(options().map(option => option.value))
+            .valid(options.map(option => option.value))
             .required(),
         messages: [
             {
