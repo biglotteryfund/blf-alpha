@@ -235,5 +235,6 @@ function formatterFor(field, locale = 'en') {
 
 module.exports = {
     formatterFor,
+    formatBudget,
     formatDateRange
 };

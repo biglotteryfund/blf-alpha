@@ -8,7 +8,10 @@ const { csrfProtection } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
-const { enrichPendingApplication, enrichSubmittedApplication } = require('./lib/enrich-application');
+const {
+    enrichPendingApplication,
+    enrichSubmittedApplication
+} = require('./lib/enrich-application');
 
 const router = express.Router();
 
@@ -26,10 +29,10 @@ async function getLatestApplication(userId, locale) {
         if (moment(pending.updatedAt).isAfter(submitted.updatedAt)) {
             return enrichPendingApplication(pending, locale);
         } else {
-            return enrichSubmittedApplication(submitted);
+            return enrichSubmittedApplication(submitted, locale);
         }
     } else if (submitted) {
-        return enrichSubmittedApplication(submitted);
+        return enrichSubmittedApplication(submitted, locale);
     } else if (pending) {
         return enrichPendingApplication(pending, locale);
     }
@@ -94,12 +97,25 @@ router.get(
             const viewData = {
                 title: 'Dashboard - All Applications',
                 pendingApplications: pendingApplications.map(application => {
-                    return enrichPendingApplication(application, req.i18n.getLocale());
+                    return enrichPendingApplication(
+                        application,
+                        req.i18n.getLocale()
+                    );
                 }),
-                submittedApplications: submittedApplications.map(enrichSubmittedApplication)
+                submittedApplications: submittedApplications.map(
+                    application => {
+                        return enrichSubmittedApplication(
+                            application,
+                            req.i18n.getLocale()
+                        );
+                    }
+                )
             };
 
-            res.render(path.resolve(__dirname, './views/dashboard-all'), viewData);
+            res.render(
+                path.resolve(__dirname, './views/dashboard-all'),
+                viewData
+            );
         } catch (err) {
             next(err);
         }

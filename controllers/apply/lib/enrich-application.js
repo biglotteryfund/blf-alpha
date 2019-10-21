@@ -1,9 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
-const getOr = require('lodash/fp/getOr');
-const sumBy = require('lodash/sumBy');
 
-const { formatDateRange } = require('./formatters');
+const { formatBudget, formatDateRange } = require('./formatters');
 const awardsForAllFormBuilder = require('../awards-for-all/form');
 const getAdviceFormBuilder = require('../get-advice/form');
 
@@ -13,8 +11,66 @@ function formBuilderFor(formId) {
         : awardsForAllFormBuilder;
 }
 
+function formatCurrency(value) {
+    return `£${value.toLocaleString()}`;
+}
+
+function formatYears(value, locale) {
+    const localise = get(locale);
+
+    return `${value} ${localise({
+        en: 'years',
+        cy: 'blynedd'
+    })}`;
+}
+
+function simpleOverview(data, locale) {
+    const localise = get(locale);
+
+    return [
+        {
+            label: localise({
+                en: 'Project dates',
+                cy: 'Dyddiadau’r prosiect'
+            }),
+            value: data.projectDateRange
+                ? formatDateRange(locale)(data.projectDateRange)
+                : null
+        },
+        {
+            label: localise({ en: 'Location', cy: '' }),
+            value: data.projectLocation
+        },
+        {
+            label: localise({ en: 'Organisation', cy: 'Sefydliad' }),
+            value: data.organisationTradingName || data.organisationLegalName
+        }
+    ];
+}
+
+function standardOverview(data, locale) {
+    const localise = get(locale);
+
+    return [
+        {
+            label: localise({ en: 'Project length', cy: '' }),
+            value: data.projectDurationYears
+                ? formatYears(data.projectDurationYears, locale)
+                : null
+        },
+        {
+            label: localise({ en: 'Location', cy: '' }),
+            value: data.projectLocation
+        },
+        {
+            label: localise({ en: 'Organisation', cy: '' }),
+            value: data.organisationTradingName || data.organisationLegalName
+        }
+    ];
+}
+
 function enrichPendingApplication(application, locale) {
-    const data = application.applicationData;
+    const data = application.applicationData || {};
     const form = formBuilderFor(application.formId)({ locale, data });
     const localise = get(locale);
 
@@ -23,68 +79,41 @@ function enrichPendingApplication(application, locale) {
             type: 'pending',
             id: application.id,
             formId: application.formId,
-            projectName: getOr(
+            projectName:
+                data.projectName ||
                 localise({ en: 'Untitled proposal', cy: '' }),
-                'projectName'
-            )(data),
-            amountRequested: `£${data.projectCosts.toLocaleString()}`,
-            overview: [
-                {
-                    label: 'Project length',
-                    value: `${data.projectDurationYears} years`
-                },
-                {
-                    label: 'Location',
-                    value: data.projectLocation
-                },
-                {
-                    label: 'Organisation',
-                    value:
-                        data.organisationTradingName ||
-                        data.organisationLegalName
-                }
-            ],
+            amountRequested: formatCurrency(data.projectCosts || 0),
+            overview: standardOverview(data, locale),
             progress: form.progress,
             expiresAt: application.expiresAt,
-            updatedAt: application.updatedAt
+            updatedAt: application.updatedAt,
+            link: {
+                url: `/apply/get-advice/edit/${application.id}`,
+                label: 'Continue'
+            }
         };
     } else {
         return {
             type: 'pending',
             id: application.id,
             formId: application.formId,
-            projectName: getOr(
+            projectName:
+                data.projectName ||
                 localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
-                'projectName'
-            )(data),
-            amountRequested: `£${sumBy(
-                getOr([], 'projectBudget', data),
-                item => parseInt(item.cost, 10) || 0
-            ).toLocaleString()}`,
-            overview: [
-                {
-                    label: 'Project dates',
-                    value: formatDateRange(locale)(data.projectDateRange)
-                },
-                {
-                    label: 'Location',
-                    value: data.projectLocation
-                },
-                {
-                    label: 'Organisation',
-                    value:
-                        data.organisationTradingName ||
-                        data.organisationLegalName
-                }
-            ],
+            amountRequested: formatBudget(locale)(data.projectBudget),
+            overview: simpleOverview(data, locale),
             progress: form.progress,
             expiresAt: application.expiresAt,
-            updatedAt: application.updatedAt
+            updatedAt: application.updatedAt,
+            link: {
+                url: `/apply/awards-for-all/edit/${application.id}`,
+                label: 'Continue'
+            }
         };
     }
 }
 
-function enrichSubmittedApplication(application) {
+function enrichSubmittedApplication(application, locale) {
     const data = application.salesforceSubmission.application;
 
     if (application.formId === 'standard-enquiry') {
@@ -94,27 +123,8 @@ function enrichSubmittedApplication(application) {
             formId: application.formId,
             projectName: data.projectName,
             amountRequested: `£${data.projectCosts.toLocaleString()}`,
-            overview: [
-                {
-                    label: 'Project length',
-                    value: `${data.projectDurationYears} years`
-                },
-                {
-                    label: 'Location',
-                    value: data.projectLocation
-                },
-                {
-                    label: 'Organisation',
-                    value:
-                        data.organisationTradingName ||
-                        data.organisationLegalName
-                }
-            ],
-            submittedAt: application.createdAt,
-            link: {
-                url: `/apply/get-advice/edit/${application.id}`,
-                label: 'Continue'
-            }
+            overview: standardOverview(data, locale),
+            submittedAt: application.createdAt
         };
     } else {
         return {
@@ -122,24 +132,8 @@ function enrichSubmittedApplication(application) {
             id: application.id,
             formId: application.formId,
             projectName: data.projectName,
-            amountRequested: `£${sumBy(
-                getOr([], 'projectBudget', data),
-                item => parseInt(item.cost, 10) || 0
-            ).toLocaleString()}`,
-            overview: [
-                {
-                    label: 'Project dates',
-                    value: '2 December, 2020–2 December, 2020'
-                },
-                {
-                    label: 'Location',
-                    value: 'Sutton Coldfield'
-                },
-                {
-                    label: 'Organisation',
-                    value: 'The Scouts of Sutton Coldfield'
-                }
-            ],
+            amountRequested: formatBudget(locale)(data.projectBudget),
+            overview: simpleOverview(data, locale),
             submittedAt: application.createdAt
         };
     }

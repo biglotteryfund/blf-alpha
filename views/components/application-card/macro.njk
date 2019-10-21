@@ -1,10 +1,6 @@
 {% macro applicationCard(props) %}
     <article class="application-card-new">
         <header class="application-card-new__header">
-            {# @TODO: Remove, for debugging only #}
-            {% if props.type and props.formId %}
-                <p>{{  props.formId }}: {{ props.type }}</p>
-            {% endif %}
             <h3 class="application-card-new__title u-tone-brand-primary">
                 <a href="#" class="u-link-unstyled">
                     {{ props.projectName | widont | safe }}
@@ -12,7 +8,13 @@
             </h3>
             <p class="application-card-new__amount">
                 <strong>Amount requested</strong>:
-                <span class="o-pill">{{ props.amountRequested }}</span>
+                <span class="o-pill">
+                    {% if props.amountRequested %}
+                        {{ props.amountRequested }}
+                    {% else %}
+                        not completed
+                    {% endif %}
+                </span>
             </p>
         </header>
 
@@ -50,11 +52,14 @@
             {% endif %}
         </div>
 
-        <div class="application-card-new__actions">
-            <a href="{{ localify('/apply/' + props.formId + '/edit/' + props.id) }}"
-               class="btn btn--small">Continue</a>
-            <a class="u-text-medium" href="#">Delete</a>
-        </div>
+        {% if props.link %}
+            <div class="application-card-new__actions">
+                <a href="{{ props.link.url }}"
+                   class="btn btn--small">{{ props.link.label }}</a>
+                <a class="u-text-medium" href="#">Delete</a>
+            </div>
+        {% endif %}
+
 
         {% if props.expiresAt %}
             <div class="application-card-new__meta u-text-small">
