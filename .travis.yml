@@ -26,7 +26,7 @@ cache:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
 script:
-  - npm audit --production
+#  - npm audit --production
   - npm run lint
   - npm run test-unit
   - npm run build-production
