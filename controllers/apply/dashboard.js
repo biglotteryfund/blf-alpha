@@ -4,16 +4,15 @@ const express = require('express');
 const moment = require('moment');
 const isEmpty = require('lodash/isEmpty');
 
-const { csrfProtection } = require('../../common/cached');
+const { noStore } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
-const {
-    enrichPendingApplication,
-    enrichSubmittedApplication
-} = require('./lib/enrich-application');
+const { enrichPending, enrichSubmitted } = require('./lib/enrich-application');
 
 const router = express.Router();
+
+router.use(noStore, requireActiveUser, injectCopy('applyNext.dashboardNew'));
 
 /**
  * Determine the latest application to show and
@@ -27,99 +26,73 @@ async function getLatestApplication(userId, locale) {
 
     if (pending && submitted) {
         if (moment(pending.updatedAt).isAfter(submitted.updatedAt)) {
-            return enrichPendingApplication(pending, locale);
+            return enrichPending(pending, locale);
         } else {
-            return enrichSubmittedApplication(submitted, locale);
+            return enrichSubmitted(submitted, locale);
         }
     } else if (submitted) {
-        return enrichSubmittedApplication(submitted, locale);
+        return enrichSubmitted(submitted, locale);
     } else if (pending) {
-        return enrichPendingApplication(pending, locale);
+        return enrichPending(pending, locale);
     }
 }
 
-router.get(
-    '/',
-    csrfProtection,
-    requireActiveUser,
-    injectCopy('applyNext'),
-    async function(req, res, next) {
-        try {
-            /**
-             * Check for existing pending applications
-             * Used to determine if "start a new application" action card
-             * is in a primary or secondary style.
-             * Secondary if we have a pending application for the product
-             */
-            const [pendingSimple, pendingStandard] = await Promise.all([
-                PendingApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
-                    formId: 'awards-for-all'
-                }),
-                PendingApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
-                    formId: 'standard-enquiry'
-                })
-            ]);
+router.get('/', async function(req, res, next) {
+    const { copy } = res.locals;
 
-            const viewData = {
-                title: 'Dashboard - Latest Application',
-                latestApplication: await getLatestApplication(
-                    req.user.userData.id,
-                    req.i18n.getLocale()
-                ),
-                hasPendingSimpleApplication: !isEmpty(pendingSimple),
-                hasPendingStandardApplication: !isEmpty(pendingStandard)
-            };
+    try {
+        /**
+         * Check for existing pending applications
+         * Used to determine if "start a new application" action card
+         * is in a primary or secondary style.
+         * Secondary if we have a pending application for the product
+         */
+        const [pendingSimple, pendingStandard] = await Promise.all([
+            PendingApplication.findUserApplicationsByForm({
+                userId: req.user.id,
+                formId: 'awards-for-all'
+            }),
+            PendingApplication.findUserApplicationsByForm({
+                userId: req.user.id,
+                formId: 'standard-enquiry'
+            })
+        ]);
 
-            res.render(path.resolve(__dirname, './views/dashboard'), viewData);
-        } catch (err) {
-            next(err);
-        }
+        res.render(path.resolve(__dirname, './views/dashboard'), {
+            title: copy.latest.title,
+            latestApplication: await getLatestApplication(
+                req.user.id,
+                req.i18n.getLocale()
+            ),
+            hasPendingSimpleApplication: !isEmpty(pendingSimple),
+            hasPendingStandardApplication: !isEmpty(pendingStandard)
+        });
+    } catch (err) {
+        next(err);
     }
-);
+});
 
-router.get(
-    '/all',
-    csrfProtection,
-    requireActiveUser,
-    injectCopy('applyNext'),
-    async function(req, res, next) {
-        try {
-            const [
-                pendingApplications,
-                submittedApplications
-            ] = await Promise.all([
-                PendingApplication.findAllByUserId(req.user.userData.id),
-                SubmittedApplication.findAllByUserId(req.user.userData.id)
-            ]);
+router.get('/all', async function(req, res, next) {
+    const { copy } = res.locals;
 
-            const viewData = {
-                title: 'Dashboard - All Applications',
-                pendingApplications: pendingApplications.map(application => {
-                    return enrichPendingApplication(
-                        application,
-                        req.i18n.getLocale()
-                    );
-                }),
-                submittedApplications: submittedApplications.map(
-                    application => {
-                        return enrichSubmittedApplication(
-                            application,
-                            req.i18n.getLocale()
-                        );
-                    }
-                )
-            };
+    try {
+        const [pendingApplications, submittedApplications] = await Promise.all([
+            PendingApplication.findAllByUserId(req.user.id),
+            SubmittedApplication.findAllByUserId(req.user.id)
+        ]);
 
-            res.render(
-                path.resolve(__dirname, './views/dashboard-all'),
-                viewData
-            );
-        } catch (err) {
-            next(err);
-        }
+        res.render(path.resolve(__dirname, './views/dashboard-all'), {
+            title: copy.all.title,
+            pendingApplications: pendingApplications.map(application =>
+                enrichPending(application, req.i18n.getLocale())
+            ),
+            submittedApplications: submittedApplications.map(application =>
+                enrichSubmitted(application, req.i18n.getLocale())
+            )
+        });
+    } catch (err) {
+        next(err);
     }
-);
+});
 
 module.exports = router;

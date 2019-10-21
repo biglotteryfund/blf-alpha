@@ -99,6 +99,7 @@ module.exports = function() {
 
     function makeUserObject(user) {
         return {
+            id: user.id,
             userType: user.constructor.name,
             userData: user
         };

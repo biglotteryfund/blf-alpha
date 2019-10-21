@@ -69,7 +69,7 @@ function standardOverview(data, locale) {
     ];
 }
 
-function enrichPendingApplication(application, locale) {
+function enrichPending(application, locale) {
     const data = application.applicationData || {};
     const form = formBuilderFor(application.formId)({ locale, data });
     const localise = get(locale);
@@ -113,7 +113,7 @@ function enrichPendingApplication(application, locale) {
     }
 }
 
-function enrichSubmittedApplication(application, locale) {
+function enrichSubmitted(application, locale) {
     const data = application.salesforceSubmission.application;
 
     if (application.formId === 'standard-enquiry') {
@@ -140,6 +140,6 @@ function enrichSubmittedApplication(application, locale) {
 }
 
 module.exports = {
-    enrichPendingApplication,
-    enrichSubmittedApplication
+    enrichPending,
+    enrichSubmitted
 };

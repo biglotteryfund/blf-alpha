@@ -7,41 +7,47 @@
     <main role="main" id="content">
         <section class="content-box u-inner-wide-only">
             {{ userNavigation() }}
-            <div class="s-prose">
-                <h1 class="t--underline">Latest application</h1>
 
-                <p>
-                    Pick up where you left off, start a new application or
-                    <a href="{{ localify('/apply/all' ) }}">view all active applications</a>
-                </p>
-            </div>
+            <h1 class="t--underline">{{ title }}</h1>
 
-            <div class="flex-grid">
-                <div class="flex-grid__item">
-                    {{ applicationCard(latestApplication) }}
+            {% if latestApplication %}
+                <div class="s-prose">
+                    <p>
+                        Pick up where you left off, start a new application or
+                        <a href="{{ localify('/apply/all' ) }}">view all active applications</a>
+                    </p>
                 </div>
-                <div class="flex-grid__item">
-                    <div>
-                        {{ actionCard({
-                            title: 'Funding under £10,000: Start an application',
-                            description: "National Lottery Awards for All—a quick way to apply for smaller amounts of funding between £300 and £10,000.",
-                            link: {
-                                url: localify('/apply/awards-for-all/start'),
-                                label: 'Start a new application'
-                            }
-                        }, isSecondary = hasPendingSimpleApplication) }}
 
-                        {{ actionCard({
-                            title: 'Funding over £10,000: Get advice',
-                            description: "Get advice on your idea to help your community thrive, if you need more than £10,000 funding from us.",
-                            link: {
-                                url: localify('/apply/get-advice/start'),
-                                label: 'Get advice on your idea'
-                            }
-                        }, isSecondary = hasPendingStandardApplication) }}
+                <div class="flex-grid">
+                    <div class="flex-grid__item">
+                        {{ applicationCard(latestApplication) }}
+                    </div>
+                    <div class="flex-grid__item">
+                        <div> {# Needed for multiple cards inside a flex-grid row #}
+                            {{ actionCard(
+                                copy.actions.simple,
+                                isSecondary = hasPendingSimpleApplication
+                            ) }}
+
+                            {{ actionCard(
+                                copy.actions.standard,
+                                isSecondary = hasPendingStandardApplication
+                            ) }}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="s-prose"><p>{{ copy.noApplications }}</p></div>
+
+                <div class="flex-grid">
+                    <div class="flex-grid__item">
+                        {{ actionCard(copy.actions.simple) }}
+                    </div>
+                    <div class="flex-grid__item">
+                        {{ actionCard(copy.actions.standard) }}
+                    </div>
+                </div>
+            {% endif %}
 
         </section>
     </main>

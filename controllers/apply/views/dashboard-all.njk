@@ -5,58 +5,62 @@
 
 {% block content %}
     <main role="main" id="content">
-        <section class="content-box u-inner-wide-only">
-            {{ userNavigation() }}
-            {% if pendingApplications.length > 0 %}
-                <div class="s-prose">
-                    <h1 class="t--underline">Applications in progress</h1>
-                </div>
-            {% endif %}
+        {% if pendingApplications.length === 0 and submittedApplications.length === 0 %}
+            <section class="content-box u-inner-wide-only">
+                {{ userNavigation() }}
 
-            <div class="flex-grid">
-                {% for application in pendingApplications %}
+                <h1 class="u-visually-hidden">{{ title }}</h1>
+
+                <div class="s-prose"><p>{{ copy.noApplications }}</p></div>
+
+                <div class="flex-grid">
                     <div class="flex-grid__item">
-                        {{ applicationCard(application) }}
+                        {{ actionCard(copy.actions.simple) }}
                     </div>
-                {% endfor %}
-            </div>
-
-            {% if submittedApplications.length > 0 %}
-                <div class="s-prose">
-                    <h1 class="t--underline">Submitted applications</h1>
-                </div>
-            {% endif %}
-
-            <div class="flex-grid">
-                {% for application in submittedApplications %}
                     <div class="flex-grid__item">
-                        {{ applicationCard(application) }}
+                        {{ actionCard(copy.actions.standard) }}
                     </div>
-                {% endfor %}
-            </div>
-
-            <div class="flex-grid__item">
-                <div>
-                    {{ actionCard({
-                        title: 'New idea',
-                        description: 'Get advice on your idea to help your community thrive, if you need more than £10,000 of funding from us.',
-                        link: {
-                            url: localify('/apply/get-advice/start'),
-                            label: 'Get advice on your idea'
-                        }
-                    }, isSecondary = true) }}
-
-                    {{ actionCard({
-                        title: 'New application',
-                        description: 'You can create a new funding application for National Lottery Awards for All here for anything up to £10,000.',
-                        link: {
-                            url: localify('/apply/awards-for-all/start'),
-                            label: 'Start a new application'
-                        }
-                    }, isSecondary = true) }}
                 </div>
-            </div>
+            </section>
+        {% else %}
+            <section class="content-box u-inner-wide-only">
+               {{ userNavigation() }}
 
-        </section>
+                <h1 class="u-visually-hidden">{{ title }}</h1>
+
+                {% if pendingApplications.length > 0 %}
+                    <h2 class="t--underline">Applications in progress</h2>
+                    <div class="flex-grid u-margin-bottom-l">
+                        {% for application in pendingApplications %}
+                            <div class="flex-grid__item">
+                                {{ applicationCard(application) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if submittedApplications.length > 0 %}
+                    <h2 class="t--underline">Submitted applications</h2>
+                    <div class="flex-grid">
+                        {% for application in submittedApplications %}
+                            <div class="flex-grid__item">
+                                {{ applicationCard(application) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </section>
+
+            <section class="u-padded u-inner-wide-only">
+                <div class="flex-grid">
+                    <div class="flex-grid__item">
+                        {{ actionCard(copy.actions.simple, isSecondary = true) }}
+                    </div>
+                    <div class="flex-grid__item">
+                        {{ actionCard(copy.actions.standard, isSecondary = true) }}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
     </main>
 {% endblock %}
