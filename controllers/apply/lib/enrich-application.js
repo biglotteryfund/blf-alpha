@@ -1,20 +1,24 @@
 'use strict';
 const get = require('lodash/fp/get');
+const sumBy = require('lodash/sumBy');
 
 const awardsForAllFormBuilder = require('../awards-for-all/form');
 const getAdviceFormBuilder = require('../get-advice/form');
 
 const { findLocationName } = require('./location-options');
-const {
-    formatBudget,
-    formatCurrency,
-    formatDateRange
-} = require('./formatters');
+const { formatCurrency, formatDateRange } = require('./formatters');
 
 function formBuilderFor(formId) {
     return formId === 'standard-enquiry'
         ? getAdviceFormBuilder
         : awardsForAllFormBuilder;
+}
+
+function formatBudgetTotal(value) {
+    if (value) {
+        const total = sumBy(value, item => parseInt(item.cost, 10) || 0);
+        return `£${total.toLocaleString()}`;
+    }
 }
 
 function formatYears(value, locale) {
@@ -108,7 +112,7 @@ function enrichPending(application, locale) {
             projectName:
                 data.projectName ||
                 localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
-            amountRequested: formatBudget(locale)(data.projectBudget),
+            amountRequested: formatBudgetTotal(data.projectBudget),
             overview: simpleOverview(data, locale),
             link: {
                 url: `/apply/awards-for-all/edit/${application.id}`,
@@ -142,7 +146,7 @@ function enrichSubmitted(application, locale) {
         });
     } else {
         return createSubmitted({
-            amountRequested: formatBudget(locale)(data.projectBudget),
+            amountRequested: formatBudgetTotal(data.projectBudget),
             overview: simpleOverview(data, locale)
         });
     }
