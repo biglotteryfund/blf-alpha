@@ -76,68 +76,73 @@ function enrichPending(application, locale) {
     const form = formBuilderFor(application.formId)({ locale, data });
     const localise = get(locale);
 
-    if (application.formId === 'standard-enquiry') {
+    function createPending({ projectName, amountRequested, overview, link }) {
         return {
             type: 'pending',
             id: application.id,
             formId: application.formId,
+            projectName: projectName,
+            amountRequested: amountRequested,
+            overview: overview,
+            progress: form.progress,
+            expiresAt: application.expiresAt,
+            updatedAt: application.updatedAt,
+            link: link
+        };
+    }
+
+    if (application.formId === 'standard-enquiry') {
+        return createPending({
             projectName:
                 data.projectName ||
                 localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: formatCurrency(data.projectCosts || 0),
             overview: standardOverview(data, locale),
-            progress: form.progress,
-            expiresAt: application.expiresAt,
-            updatedAt: application.updatedAt,
             link: {
                 url: `/apply/get-advice/edit/${application.id}`,
                 label: 'Continue'
             }
-        };
+        });
     } else {
-        return {
-            type: 'pending',
-            id: application.id,
-            formId: application.formId,
+        return createPending({
             projectName:
                 data.projectName ||
                 localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
             amountRequested: formatBudget(locale)(data.projectBudget),
             overview: simpleOverview(data, locale),
-            progress: form.progress,
-            expiresAt: application.expiresAt,
-            updatedAt: application.updatedAt,
             link: {
                 url: `/apply/awards-for-all/edit/${application.id}`,
                 label: 'Continue'
             }
-        };
+        });
     }
 }
 
 function enrichSubmitted(application, locale) {
     const data = application.salesforceSubmission.application;
 
+    function createSubmitted({ amountRequested, overview }) {
+        return {
+            type: 'submitted',
+            id: application.id,
+            formId: application.formId,
+            projectName: data.projectName,
+            amountRequested: amountRequested,
+            overview: overview,
+            submittedAt: application.createdAt
+        };
+    }
+
     if (application.formId === 'standard-enquiry') {
-        return {
-            type: 'submitted',
-            id: application.id,
-            formId: application.formId,
-            projectName: data.projectName,
+        return createSubmitted({
             amountRequested: `£${data.projectCosts.toLocaleString()}`,
-            overview: standardOverview(data, locale),
-            submittedAt: application.createdAt
-        };
+            overview: standardOverview(data, locale)
+        });
     } else {
-        return {
-            type: 'submitted',
-            id: application.id,
-            formId: application.formId,
-            projectName: data.projectName,
+        return createSubmitted({
             amountRequested: formatBudget(locale)(data.projectBudget),
-            overview: simpleOverview(data, locale),
-            submittedAt: application.createdAt
-        };
+            overview: simpleOverview(data, locale)
+        });
     }
 }
 
