@@ -1,7 +1,8 @@
 'use strict';
 const get = require('lodash/fp/get');
+const flatMap = require('lodash/fp/flatMap');
 
-module.exports = function(locale = 'en') {
+function locationOptions(locale = 'en') {
     const localise = get(locale);
 
     const england = [
@@ -595,4 +596,19 @@ module.exports = function(locale = 'en') {
     ];
 
     return { england, northernIreland, scotland, wales };
-};
+}
+
+function findLocationName(value) {
+    const { england, northernIreland, scotland, wales } = locationOptions();
+    const flatMapOptions = flatMap(groups => groups.options);
+    const allOptions = [].concat(
+        flatMapOptions(england),
+        flatMapOptions(northernIreland),
+        flatMapOptions(scotland),
+        flatMapOptions(wales)
+    );
+    const match = allOptions.find(option => option.value === value);
+    return match ? match.label : null;
+}
+
+module.exports = { locationOptions, findLocationName };

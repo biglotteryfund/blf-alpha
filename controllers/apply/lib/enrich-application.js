@@ -2,6 +2,7 @@
 const get = require('lodash/fp/get');
 
 const { formatBudget, formatDateRange } = require('./formatters');
+const { findLocationName } = require('./location-options');
 const awardsForAllFormBuilder = require('../awards-for-all/form');
 const getAdviceFormBuilder = require('../get-advice/form');
 
@@ -39,7 +40,7 @@ function simpleOverview(data, locale) {
         },
         {
             label: localise({ en: 'Location', cy: '' }),
-            value: data.projectLocation
+            value: findLocationName(data.projectLocation)
         },
         {
             label: localise({ en: 'Organisation', cy: 'Sefydliad' }),
@@ -60,7 +61,7 @@ function standardOverview(data, locale) {
         },
         {
             label: localise({ en: 'Location', cy: '' }),
-            value: data.projectLocation
+            value: findLocationName(data.projectLocation)
         },
         {
             label: localise({ en: 'Organisation', cy: '' }),
