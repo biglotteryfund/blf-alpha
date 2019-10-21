@@ -1,19 +1,20 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-const { formatBudget, formatDateRange } = require('./formatters');
-const { findLocationName } = require('./location-options');
 const awardsForAllFormBuilder = require('../awards-for-all/form');
 const getAdviceFormBuilder = require('../get-advice/form');
+
+const { findLocationName } = require('./location-options');
+const {
+    formatBudget,
+    formatCurrency,
+    formatDateRange
+} = require('./formatters');
 
 function formBuilderFor(formId) {
     return formId === 'standard-enquiry'
         ? getAdviceFormBuilder
         : awardsForAllFormBuilder;
-}
-
-function formatCurrency(value) {
-    return `£${value.toLocaleString()}`;
 }
 
 function formatYears(value, locale) {
