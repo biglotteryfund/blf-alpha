@@ -84,41 +84,7 @@ module.exports = function({
                     }),
                     fields: [fields.projectCountry]
                 }
-            ],
-            /**
-             * We are rolling out this form on a per-country basis
-             * so we need to show a message to direct applicants to the old form
-             * if they are applying for a country we don't support yet
-             */
-            message: {
-                title: localise({
-                    en: `Applying for a project in Northern Ireland?`,
-                    cy: `Ymgeisio am brosiect yng Ngogledd Iwerddon?`
-                }),
-                body: localise({
-                    en: `<p>
-                        <a href="/funding/programmes/awards-for-all-northern-ireland">
-                            You'll need to download an application form to apply
-                        </a>.
-                    </p>
-                    <p>
-                        Only applicants in Wales, Scotland or England can apply
-                        through our new online form at the moment. We're working
-                        on making this available across the whole of the UK.
-                    </p>`,
-                    cy: `<p>
-                        <a href="/funding/programmes/awards-for-all-northern-ireland">
-                            Byddwch angen lawrlwytho ffurflen gais i ymgeisio
-                        </a>.
-                    </p>
-                    <p>
-                        Ymgeiswyr yng Nghymru, Yr Alban neu Loegr yn unig
-                        gall ymgeisio drwy ein ffurflen gais newydd ar-lein
-                        ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn ar
-                        gael ledled Prydain.
-                    </p>`
-                })
-            }
+            ]
         };
     }
 

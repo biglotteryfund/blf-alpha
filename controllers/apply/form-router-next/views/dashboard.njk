@@ -107,12 +107,6 @@
 
             {{ userNavigation(userNavigationLinks) }}
 
-            {% if formId === 'awards-for-all' %}
-                <div class="message message--info message--minor" role="alert">
-                    {{  copy.dashboard.locationMessage | safe }}
-                </div>
-            {% endif %}
-
             {{ userStatus(user) }}
 
             {% if alertMessage %}
