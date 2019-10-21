@@ -4,6 +4,7 @@ const express = require('express');
 const moment = require('moment');
 const isEmpty = require('lodash/isEmpty');
 
+const { localify } = require('../../common/urls');
 const { noStore } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
@@ -12,7 +13,29 @@ const { enrichPending, enrichSubmitted } = require('./lib/enrich-application');
 
 const router = express.Router();
 
-router.use(noStore, requireActiveUser, injectCopy('applyNext.dashboardNew'));
+router.use(
+    noStore,
+    requireActiveUser,
+    injectCopy('applyNext.dashboardNew'),
+    function(req, res, next) {
+        res.locals.userNavigationLinks = [
+            {
+                url: req.baseUrl,
+                label: 'Latest application'
+            },
+            {
+                url: `${req.baseUrl}/all`,
+                label: 'All applications'
+            },
+            {
+                url: localify(req.i18n.getLocale())('/user'),
+                label: 'Account'
+            }
+        ];
+
+        next();
+    }
+);
 
 /**
  * Determine the latest application to show and

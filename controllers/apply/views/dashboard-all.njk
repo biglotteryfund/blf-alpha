@@ -7,7 +7,7 @@
     <main role="main" id="content">
         {% if pendingApplications.length === 0 and submittedApplications.length === 0 %}
             <section class="content-box u-inner-wide-only">
-                {{ userNavigation() }}
+                {{ userNavigation(userNavigationLinks) }}
 
                 <h1 class="u-visually-hidden">{{ title }}</h1>
 
@@ -24,7 +24,7 @@
             </section>
         {% else %}
             <section class="content-box u-inner-wide-only">
-               {{ userNavigation() }}
+               {{ userNavigation(userNavigationLinks) }}
 
                 <h1 class="u-visually-hidden">{{ title }}</h1>
 
