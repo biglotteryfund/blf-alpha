@@ -2,9 +2,9 @@
     <article class="application-card-new">
         <header class="application-card-new__header">
             <h{{ headingLevel }} class="application-card-new__title u-tone-brand-primary">
-                {% if props.link.url %}<a href="{{ props.link.url }}" class="u-link-unstyled">{% endif %}
+                {% if props.editUrl %}<a href="{{ props.editUrl }}" class="u-link-unstyled">{% endif %}
                     {{ props.projectName | widont | safe }}
-                {% if props.link.url %}</a>{% endif %}
+                {% if props.editUrl %}</a>{% endif %}
             </h{{ headingLevel }}>
             <p class="application-card-new__amount">
                 <strong>Amount requested</strong>:
@@ -48,10 +48,10 @@
             {% endif %}
         </div>
 
-        {% if props.link %}
+        {% if props.editUrl %}
             <div class="application-card-new__actions">
-                <a href="{{ props.link.url }}"
-                   class="btn btn--small">{{ props.link.label }}</a>
+                <a href="{{ props.editUrl }}"
+                   class="btn btn--small">Continue with this application</a>
                 {% if props.deleteUrl %}
                     <a class="u-text-medium" href="{{ props.deleteUrl }}">Delete</a>
                 {% endif %}
