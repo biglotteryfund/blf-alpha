@@ -2,6 +2,7 @@
 const path = require('path');
 const express = require('express');
 const passport = require('passport');
+const features = require('config').get('features');
 
 const logger = require('../../common/logger').child({
     service: 'user'
@@ -93,7 +94,12 @@ router
                             if (LoginRateLimiter.hasConsumedPoints()) {
                                 await LoginRateLimiter.clearRateLimit();
                             }
-                            redirectUrlWithFallback(req, res, '/apply');
+
+                            if (features.enableNewApplicationDashboards) {
+                                redirectUrlWithFallback(req, res, '/apply');
+                            } else {
+                                redirectUrlWithFallback(req, res, '/user');
+                            }
                         }
                     });
                 } else {

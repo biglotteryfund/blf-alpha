@@ -50,24 +50,45 @@ function initFormRouter({
 
         res.locals.user = req.user;
 
-        res.locals.userNavigationLinks = [
-            {
-                url: `${req.baseUrl}/summary`,
-                label: res.locals.copy.navigation.summary
-            },
-            {
-                url: req.baseUrl,
-                label: res.locals.copy.navigation.applications
-            },
-            {
-                url: localify(req.i18n.getLocale())('/user'),
-                label: res.locals.copy.navigation.account
-            },
-            {
-                url: localify(req.i18n.getLocale())('/user/logout'),
-                label: res.locals.copy.navigation.logOut
-            }
-        ];
+        if (features.enableNewApplicationDashboards) {
+            res.locals.userNavigationLinks = [
+                {
+                    url: `${req.baseUrl}/summary`,
+                    label: res.locals.copy.navigation.summary
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/apply'),
+                    label: 'Latest application'
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/apply/all'),
+                    label: 'All applications'
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user'),
+                    label: 'Account'
+                }
+            ];
+        } else {
+            res.locals.userNavigationLinks = [
+                {
+                    url: `${req.baseUrl}/summary`,
+                    label: res.locals.copy.navigation.summary
+                },
+                {
+                    url: req.baseUrl,
+                    label: res.locals.copy.navigation.applications
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user'),
+                    label: res.locals.copy.navigation.account
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user/logout'),
+                    label: res.locals.copy.navigation.logOut
+                }
+            ];
+        }
 
         next();
     }
