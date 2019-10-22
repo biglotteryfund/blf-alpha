@@ -1,11 +1,11 @@
-{% macro applicationCard(props) %}
+{% macro applicationCard(props, headingLevel = '3') %}
     <article class="application-card-new">
         <header class="application-card-new__header">
-            <h3 class="application-card-new__title u-tone-brand-primary">
+            <h{{ headingLevel }} class="application-card-new__title u-tone-brand-primary">
                 {% if props.link.url %}<a href="{{ props.link.url }}" class="u-link-unstyled">{% endif %}
                     {{ props.projectName | widont | safe }}
                 {% if props.link.url %}</a>{% endif %}
-            </h3>
+            </h{{ headingLevel }}>
             <p class="application-card-new__amount">
                 <strong>Amount requested</strong>:
                 <span class="o-pill">
