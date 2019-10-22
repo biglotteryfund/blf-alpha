@@ -18,6 +18,8 @@ function formatBudgetTotal(value) {
     if (value) {
         const total = sumBy(value, item => parseInt(item.cost, 10) || 0);
         return `£${total.toLocaleString()}`;
+    } else {
+        return `£0`;
     }
 }
 
@@ -103,7 +105,7 @@ function enrichPending(application, locale) {
             overview: standardOverview(data, locale),
             link: {
                 url: `/apply/get-advice/edit/${application.id}`,
-                label: 'Continue'
+                label: 'Continue with this application'
             },
             deleteUrl: `/apply/get-advice/delete/${application.id}`
         });
@@ -116,7 +118,7 @@ function enrichPending(application, locale) {
             overview: simpleOverview(data, locale),
             link: {
                 url: `/apply/awards-for-all/edit/${application.id}`,
-                label: 'Continue'
+                label: 'Continue with this application'
             },
             deleteUrl: `/apply/get-advice/delete/${application.id}`
         });
