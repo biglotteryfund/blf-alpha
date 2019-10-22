@@ -67,6 +67,7 @@ module.exports = function(formId, formBuilder) {
                                         section: section.slug,
                                         step: stepNumber,
                                         errorType: item.type,
+                                        joiErrorType: item.joiType,
                                         applicationId: anonymisedId
                                     });
                                 });

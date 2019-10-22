@@ -68,6 +68,7 @@ module.exports = function normaliseErrors({
             return {
                 param: name,
                 type: match.type,
+                joiType: detail.type,
                 msg: match.message,
                 field: formField
             };
