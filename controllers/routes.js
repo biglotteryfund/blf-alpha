@@ -63,7 +63,7 @@ const toplevel = {
  * Funding section
  * @type {Section}
  */
-const funding = {
+let funding = {
     path: '/funding',
     pages: [
         {
@@ -126,17 +126,20 @@ const funding = {
         {
             path: '/funding-guidance/*',
             router: basicContent()
-        },
-        isNotProduction
-            ? {
-                  path: '/*',
-                  router: basicContent({
-                      cmsPage: true
-                  })
-              }
-            : {}
+        }
     ]
 };
+
+// Add Funding subpages in non-prod environments
+// @TODO progress to production when ready
+if (isNotProduction) {
+    funding.pages.push({
+        path: '/*',
+        router: basicContent({
+            cmsPage: true
+        })
+    });
+}
 
 /**
  * Insights section
