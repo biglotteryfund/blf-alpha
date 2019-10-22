@@ -2,7 +2,7 @@
   "logLevel": "debug",
   "features": {
     "enableSeeders": true,
-    "enableSalesforceConnector": true,
+    "enableSalesforceConnector": false,
     "enableNewApplicationDashboards": true,
     "enableGlobalHeaderLogin": true
   },

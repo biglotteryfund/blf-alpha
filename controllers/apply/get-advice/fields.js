@@ -21,7 +21,7 @@ const {
     NameField
 } = require('../lib/field-types');
 
-const locationOptions = require('../lib/location-options');
+const { locationOptions } = require('../lib/location-options');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);

@@ -306,9 +306,12 @@ $statuses: (
     margin-bottom: $spacingUnit / 2;
     padding: 12px;
 
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 1 0%;
+
     @include mq('medium') {
-        padding: $spacingUnit;
-        padding-right: $spacingUnit * 2;
+        padding: $spacingUnit $spacingUnit * 2 $spacingUnit $spacingUnit;
     }
 
     .application-card-new__overview {
@@ -319,8 +322,7 @@ $statuses: (
             display: block;
             float: left;
             clear: left;
-            width: 25%;
-            margin: 0 5px 0 0;
+            margin: 0 .5em 0 0;
         }
 
         dt:after {
@@ -334,6 +336,8 @@ $statuses: (
     }
 
     .application-card-new__actions {
+        margin-bottom: $spacingUnit;
+
         > .btn {
             display: inline-block;
             vertical-align: middle;
@@ -342,9 +346,9 @@ $statuses: (
     }
 
     .application-card-new__meta {
-        margin-top: $spacingUnit;
         border-top: 1px solid get-color('border', 'base');
         padding-top: $spacingUnit / 2;
+        margin-top: auto;
     }
 }
 
@@ -352,12 +356,17 @@ $statuses: (
     @include reset-list();
     display: flex;
     margin-bottom: $spacingUnit / 2;
+    border: 1px solid rgba(0, 0, 0, 0.25);
 
     .status-bar__step {
         flex: 1 1 auto;
         height: 12px;
-        border: 1px solid rgba(0, 0, 0, 0.25);
+        border-right: 1px solid rgba(0, 0, 0, 0.25);
         background-color: white;
+
+        &:last-child {
+            border-right: none;
+        }
     }
 
     .status-bar__step--complete {

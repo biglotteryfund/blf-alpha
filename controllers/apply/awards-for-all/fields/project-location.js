@@ -4,7 +4,7 @@ const flatMap = require('lodash/flatMap');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
-const locationOptions = require('../../lib/location-options');
+const { locationOptions } = require('../../lib/location-options');
 
 module.exports = function(locale, data) {
     const localise = get(locale);

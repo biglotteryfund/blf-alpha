@@ -177,6 +177,9 @@ class FormModel {
         this.progress = {
             isComplete: formIsEmpty === false && this.validation.error === null,
             isPristine: formIsEmpty === true,
+            sectionsComplete: this.sections.filter(
+                section => section.progress.status === 'complete'
+            ).length,
             sections: this.sections.map(section => section.progress)
         };
 

@@ -1,86 +1,95 @@
 'use strict';
+const path = require('path');
 const express = require('express');
-const get = require('lodash/fp/get');
-const isEmpty = require('lodash/isEmpty');
 const moment = require('moment');
+const isEmpty = require('lodash/isEmpty');
 
-const { csrfProtection } = require('../../common/cached');
+const { localify } = require('../../common/urls');
+const { noStore } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
-
-const awardsForAllFormBuilder = require('./awards-for-all/form');
-const getAdviceFormBuilder = require('./get-advice/form');
+const { enrichPending, enrichSubmitted } = require('./lib/enrich-application');
 
 const router = express.Router();
 
-function formBuilderFor(formId) {
-    return formId === 'standard-enquiry'
-        ? getAdviceFormBuilder
-        : awardsForAllFormBuilder;
+function injectNavigationLinks(req, res, next) {
+    res.locals.userNavigationLinks = [
+        {
+            url: req.baseUrl,
+            label: 'Latest application'
+        },
+        {
+            url: `${req.baseUrl}/all`,
+            label: 'All applications'
+        },
+        {
+            url: localify(req.i18n.getLocale())('/user'),
+            label: 'Account'
+        }
+    ];
+
+    next();
 }
 
-function enrichPendingApplication(locale, application) {
-    const form = formBuilderFor(application.formId)({
-        locale: locale,
-        data: get('applicationData')(application)
-    });
+/**
+ * Determine the latest application to show and
+ * prepare application data for display in the view.
+ */
+async function getLatestApplication(userId, locale) {
+    const [pending, submitted] = await Promise.all([
+        PendingApplication.findLatestByUserId(userId),
+        SubmittedApplication.findLatestByUserId(userId)
+    ]);
 
-    application.summary = form.summary;
-    application.progress = form.progress;
-
-    return application;
+    if (pending && submitted) {
+        if (moment(pending.updatedAt).isAfter(submitted.updatedAt)) {
+            return enrichPending(pending, locale);
+        } else {
+            return enrichSubmitted(submitted, locale);
+        }
+    } else if (submitted) {
+        return enrichSubmitted(submitted, locale);
+    } else if (pending) {
+        return enrichPending(pending, locale);
+    }
 }
 
 router.get(
     '/',
-    csrfProtection,
+    noStore,
     requireActiveUser,
-    injectCopy('applyNext'),
+    injectCopy('applyNext.dashboardNew'),
+    injectNavigationLinks,
     async function(req, res, next) {
-        function latestApplication(latestPending, latestSubmitted) {
-            if (moment(latestPending.updatedAt).isAfter(latestSubmitted.updatedAt)) {
-                return enrichPendingApplication(req.i18n.getLocale(), latestPending);
-            } else {
-                return latestSubmitted;
-            }
-        }
+        const { copy } = res.locals;
 
         try {
-            const [latestPending, latestSubmitted] = await Promise.all([
-                PendingApplication.findLatestByUserId(req.user.userData.id),
-                SubmittedApplication.findLatestByUserId(req.user.userData.id)
-            ]);
-
-            const [
-                pendingSimpleApps,
-                submittedSimpleApps,
-                pendingStandardApps,
-                submittedStandardApps
-            ] = await Promise.all([
+            /**
+             * Check for existing pending applications
+             * Used to determine if "start a new application" action card
+             * is in a primary or secondary style.
+             * Secondary if we have a pending application for the product
+             */
+            const [pendingSimple, pendingStandard] = await Promise.all([
                 PendingApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
-                    formId: 'awards-for-all'
-                }),
-                SubmittedApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
+                    userId: req.user.id,
                     formId: 'awards-for-all'
                 }),
                 PendingApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
-                    formId: 'standard-enquiry'
-                }),
-                SubmittedApplication.findUserApplicationsByForm({
-                    userId: req.user.userData.id,
+                    userId: req.user.id,
                     formId: 'standard-enquiry'
                 })
             ]);
 
-            res.json({
-                title: 'Dashboard - Latest Application',
-                latestApplication: latestApplication(latestPending, latestSubmitted),
-                everAppliedForSimple: !isEmpty(pendingSimpleApps) || !isEmpty(submittedSimpleApps),
-                everAppliedForStandard: !isEmpty(pendingStandardApps) || !isEmpty(submittedStandardApps)
+            res.render(path.resolve(__dirname, './views/dashboard'), {
+                title: copy.latest.title,
+                latestApplication: await getLatestApplication(
+                    req.user.id,
+                    req.i18n.getLocale()
+                ),
+                hasPendingSimpleApplication: !isEmpty(pendingSimple),
+                hasPendingStandardApplication: !isEmpty(pendingStandard)
             });
         } catch (err) {
             next(err);
@@ -90,22 +99,30 @@ router.get(
 
 router.get(
     '/all',
-    csrfProtection,
+    noStore,
     requireActiveUser,
-    injectCopy('applyNext'),
+    injectCopy('applyNext.dashboardNew'),
+    injectNavigationLinks,
     async function(req, res, next) {
+        const { copy } = res.locals;
+
         try {
-            const [pendingApplications, submittedApplications] = await Promise.all([
-                PendingApplication.findAllByUserId(req.user.userData.id),
-                SubmittedApplication.findAllByUserId(req.user.userData.id)
+            const [
+                pendingApplications,
+                submittedApplications
+            ] = await Promise.all([
+                PendingApplication.findAllByUserId(req.user.id),
+                SubmittedApplication.findAllByUserId(req.user.id)
             ]);
 
-            res.json({
-                title: 'Dashboard - All Applications',
-                pendingApplications: pendingApplications.map(application => {
-                    enrichPendingApplication(req.i18n.getLocale(), application);
-                }),
-                submittedApplications: submittedApplications
+            res.render(path.resolve(__dirname, './views/dashboard-all'), {
+                title: copy.all.title,
+                pendingApplications: pendingApplications.map(application =>
+                    enrichPending(application, req.i18n.getLocale())
+                ),
+                submittedApplications: submittedApplications.map(application =>
+                    enrichSubmitted(application, req.i18n.getLocale())
+                )
             });
         } catch (err) {
             next(err);
