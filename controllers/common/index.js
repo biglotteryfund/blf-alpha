@@ -26,10 +26,7 @@ function getChildrenLayoutMode(content) {
         );
         if (childPageDisplay === 'grid' && !missingTrailImages) {
             childrenLayoutMode = 'grid';
-        } else if (
-            !childPageDisplay ||
-            childPageDisplay === 'none'
-        ) {
+        } else if (!childPageDisplay || childPageDisplay === 'none') {
             childrenLayoutMode = false;
         }
     }
@@ -100,6 +97,10 @@ function basicContent({
         injectBreadcrumbs,
         (req, res, next) => {
             const { content } = res.locals;
+
+            if (!content) {
+                return next();
+            }
 
             /**
              * Determine template to render:
