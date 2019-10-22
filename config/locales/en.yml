@@ -1559,6 +1559,9 @@ applyNext:
   dashboardNew:
     latest:
       title: Latest application
+      introduction: >
+        <p>Pick up where you left off, start a new application or
+        <a href="/apply/all">view all active applications</a>.</p>
     all:
       title: All applications
     noApplications: You don't have any online applications with The National Lottery Community fund right now.

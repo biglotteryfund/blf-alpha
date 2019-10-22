@@ -8,15 +8,9 @@
         <section class="content-box u-inner-wide-only">
             {{ userNavigation(userNavigationLinks) }}
 
-            <h1 class="t--underline">{{ title }}</h1>
-
             {% if latestApplication %}
-                <div class="s-prose">
-                    <p>
-                        Pick up where you left off, start a new application or
-                        <a href="{{ localify('/apply/all' ) }}">view all active applications</a>
-                    </p>
-                </div>
+                <div class="s-prose">{{ copy.latest.introduction | safe }}</div>
+                <h1 class="t--underline">{{ title }}</h1>
 
                 <div class="flex-grid">
                     <div class="flex-grid__item">
@@ -28,7 +22,6 @@
                                 copy.actions.simple,
                                 isSecondary = hasPendingSimpleApplication
                             ) }}
-
                             {{ actionCard(
                                 copy.actions.standard,
                                 isSecondary = hasPendingStandardApplication
@@ -37,6 +30,7 @@
                     </div>
                 </div>
             {% else %}
+                <h1 class="u-visually-hidden">{{ title }}</h1>
                 <div class="s-prose"><p>{{ copy.noApplications }}</p></div>
 
                 <div class="flex-grid">
