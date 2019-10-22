@@ -18,7 +18,7 @@ const {
     EMAIL_EXPIRY_SECRET,
     JWT_SIGNING_TOKEN
 } = require('../../common/secrets');
-const { getEmailFor, getPhoneFor } = require('../../common/contacts');
+const { getPhoneFor } = require('../../common/contacts');
 const { getAbsoluteUrl } = require('../../common/urls');
 const { sendHtmlEmail } = require('../../common/mail');
 
@@ -39,6 +39,16 @@ function signUnsubscribeToken(applicationId) {
         JWT_SIGNING_TOKEN,
         { expiresIn: '30d' }
     );
+}
+
+function getEmailFor(country) {
+    const options = {
+        'default': 'general.enquiries@tnlcommunityfund.org.uk',
+        'scotland': 'advicescotland@tnlcommunityfund.org.uk',
+        'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
+        'wales': 'wales@tnlcommunityfund.org.uk'
+    };
+    return options[country] || options.default;
 }
 
 /**
