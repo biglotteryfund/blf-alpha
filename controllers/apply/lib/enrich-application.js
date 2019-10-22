@@ -125,6 +125,7 @@ function enrichPending(application, locale) {
 
 function enrichSubmitted(application, locale) {
     const data = application.salesforceSubmission.application;
+    const localise = get(locale);
 
     function createSubmitted(props) {
         return Object.assign(
@@ -132,8 +133,7 @@ function enrichSubmitted(application, locale) {
                 type: 'submitted',
                 id: application.id,
                 formId: application.formId,
-                submittedAt: application.createdAt,
-                projectName: data.projectName
+                submittedAt: application.createdAt
             },
             props
         );
@@ -141,11 +141,17 @@ function enrichSubmitted(application, locale) {
 
     if (application.formId === 'standard-enquiry') {
         return createSubmitted({
+            projectName:
+                data.projectName ||
+                localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: `£${data.projectCosts.toLocaleString()}`,
             overview: standardOverview(data, locale)
         });
     } else {
         return createSubmitted({
+            projectName:
+                data.projectName ||
+                localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
             amountRequested: formatBudgetTotal(data.projectBudget),
             overview: simpleOverview(data, locale)
         });
