@@ -1,6 +1,7 @@
 'use strict';
 
 const { basicContent, flexibleContent, staticPage } = require('./common');
+const { isNotProduction } = require('../common/appData');
 
 /**
  * @typedef {object} Section
@@ -125,7 +126,15 @@ const funding = {
         {
             path: '/funding-guidance/*',
             router: basicContent()
-        }
+        },
+        isNotProduction
+            ? {
+                  path: '/*',
+                  router: basicContent({
+                      cmsPage: true
+                  })
+              }
+            : {}
     ]
 };
 
