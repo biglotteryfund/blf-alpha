@@ -29,6 +29,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     const projectCountries = getOr([], 'projectCountries')(data);
 
     function fieldProjectName() {
+        const maxLength = 80;
         return new Field({
             name: 'projectName',
             label: localise({
@@ -39,12 +40,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'The project name should be simple and to the point',
                 cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
             }),
+            maxLength: maxLength,
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: 'Enter a project name',
                         cy: 'Rhowch enw prosiect'
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Project name must be ${maxLength} characters or less`,
+                        cy: `Rhaid i enw’r prosiect fod yn llai na ${maxLength} nod`
                     })
                 }
             ]
@@ -202,6 +211,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectLocationDescription() {
+        const maxLength = 255;
         return new Field({
             locale: locale,
             name: 'projectLocationDescription',
@@ -215,7 +225,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     'Yorkshire' or 'Glasgow, Cardiff and Belfast'`,
                 cy: ``
             }),
-            isRequired: false
+            isRequired: false,
+            maxLength: maxLength,
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Project locations must be ${maxLength} characters or less`,
+                        cy: `Rhaid i leoliadau’r prosiect fod yn llai na ${maxLength} nod`
+                    })
+                }
+            ]
         });
     }
 
@@ -275,7 +295,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             options: [
-                { label: localise({ en: '1 years', cy: '' }), value: 1 },
+                { label: localise({ en: '1 year', cy: '' }), value: 1 },
                 { label: localise({ en: '2 years', cy: '' }), value: 2 },
                 { label: localise({ en: '3 years', cy: '' }), value: 3 },
                 { label: localise({ en: '4 years', cy: '' }), value: 4 },
@@ -428,6 +448,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldOrganisationLegalName() {
+        const maxLength = 255;
         return new Field({
             locale: locale,
             name: 'organisationLegalName',
@@ -444,6 +465,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     or something else entirely.`,
                 cy: ``
             }),
+            maxLength: maxLength,
             messages: [
                 {
                     type: 'base',
@@ -451,12 +473,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         en: 'Enter the full legal name of the organisation',
                         cy: 'Rhowch enw cyfreithiol llawn eich sefydliad'
                     })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Full legal name of organisation must be ${maxLength} characters or less`,
+                        cy: `Rhaid i’r enw cyfreithiol llawn fod yn llai na ${maxLength} nod`
+                    })
                 }
             ]
         });
     }
 
     function fieldOrganisationTradingName() {
+        const maxLength = 255;
         return new Field({
             locale: locale,
             name: 'organisationTradingName',
@@ -471,6 +501,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             isRequired: false,
             schema: Joi.string()
+                .max(maxLength)
                 .allow('')
                 .optional()
                 .invalid(Joi.ref('organisationLegalName')),
@@ -480,6 +511,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en: 'Trading name must not be the same as legal name',
                         cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Organisation's day-to-day name must be ${maxLength} characters or less`,
+                        cy: `Rhaid i enw dydd i ddydd y sefydliad fod yn llai na ${maxLength} nod`
                     })
                 }
             ]
@@ -780,6 +818,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldContactCommunicationNeeds() {
+        const maxLength = 255;
         return new Field({
             locale: locale,
             name: 'contactCommunicationNeeds',
@@ -791,9 +830,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu penodol sydd gan y cyswllt hwn.`
             }),
-            type: 'text',
             isRequired: false,
-            messages: []
+            maxLength: maxLength,
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Particular communication needs must be ${maxLength} characters or less`,
+                        cy: `Rhaid i’r anghenion cyfathrebu penodol fod yn llai na ${maxLength} nod`
+                    })
+                }
+            ]
         });
     }
 

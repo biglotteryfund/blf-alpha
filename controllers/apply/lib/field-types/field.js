@@ -36,6 +36,7 @@ class Field {
 
         this.isRequired = props.isRequired !== false;
 
+        this._maxLength = props.maxLength || 255;
         this.schema = props.schema ? props.schema : this.defaultSchema();
 
         // @TODO Should this merge based on key rather than a plain concat?
@@ -62,12 +63,11 @@ class Field {
      * also allows it to be accessed by the instance
      */
     defaultSchema() {
+        const baseSchema = Joi.string().max(this._maxLength);
         if (this.isRequired) {
-            return Joi.string().required();
+            return baseSchema.required();
         } else {
-            return Joi.string()
-                .allow('')
-                .optional();
+            return baseSchema.allow('').optional();
         }
     }
 
