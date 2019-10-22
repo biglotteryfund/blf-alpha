@@ -6,7 +6,8 @@
   },
   "features": {
     "enableHotjar": true,
-    "enableGlobalHeaderLogin": true
+    "enableGlobalHeaderLogin": true,
+    "enableNewApplicationDashboards": true
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
