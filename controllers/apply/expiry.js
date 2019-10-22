@@ -18,7 +18,6 @@ const {
     EMAIL_EXPIRY_SECRET,
     JWT_SIGNING_TOKEN
 } = require('../../common/secrets');
-const { getPhoneFor } = require('../../common/contacts');
 const { getAbsoluteUrl } = require('../../common/urls');
 const { sendHtmlEmail } = require('../../common/mail');
 
@@ -42,13 +41,23 @@ function signUnsubscribeToken(applicationId) {
 }
 
 function getEmailFor(country) {
-    const options = {
-        'default': 'general.enquiries@tnlcommunityfund.org.uk',
+    const countryEmail = {
         'scotland': 'advicescotland@tnlcommunityfund.org.uk',
         'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
         'wales': 'wales@tnlcommunityfund.org.uk'
-    };
-    return options[country] || options.default;
+    }[country];
+
+    return countryEmail || 'general.enquiries@tnlcommunityfund.org.uk';
+}
+
+function getPhoneFor(country) {
+    const countryPhone = {
+        'scotland': '0300 123 7110',
+        'northern-ireland': '028 9055 1455',
+        'wales': '0300 123 0735'
+    }[country];
+
+    return countryPhone || '0345 4 10 20 30';
 }
 
 /**
