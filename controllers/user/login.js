@@ -93,7 +93,7 @@ router
                             if (LoginRateLimiter.hasConsumedPoints()) {
                                 await LoginRateLimiter.clearRateLimit();
                             }
-                            redirectUrlWithFallback(req, res, '/user');
+                            redirectUrlWithFallback(req, res, '/apply');
                         }
                     });
                 } else {

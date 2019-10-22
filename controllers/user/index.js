@@ -64,20 +64,37 @@ router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
     if (req.user) {
         res.locals.user = req.user;
 
-        res.locals.userNavigationLinks = [
-            {
-                url: localify(req.i18n.getLocale())('/apply/awards-for-all'),
-                label: res.locals.copy.navigation.applications
-            },
-            {
-                url: localify(req.i18n.getLocale())('/user'),
-                label: res.locals.copy.navigation.account
-            },
-            {
-                url: localify(req.i18n.getLocale())('/user/logout'),
-                label: res.locals.copy.navigation.logOut
-            }
-        ];
+        if (features.enableNewApplicationDashboards) {
+            res.locals.userNavigationLinks = [
+                {
+                    url: localify(req.i18n.getLocale())('/apply'),
+                    label: 'Latest application'
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/apply/all'),
+                    label: 'All applications'
+                },
+                {
+                    url: req.baseUrl,
+                    label: 'Account'
+                }
+            ];
+        } else {
+            res.locals.userNavigationLinks = [
+                {
+                    url: localify(req.i18n.getLocale())('/apply/awards-for-all'),
+                    label: res.locals.copy.navigation.applications
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user'),
+                    label: res.locals.copy.navigation.account
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user/logout'),
+                    label: res.locals.copy.navigation.logOut
+                }
+            ];
+        }
     }
 
     next();

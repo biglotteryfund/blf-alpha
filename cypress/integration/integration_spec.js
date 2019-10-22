@@ -153,7 +153,7 @@ it('log in and log out', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password);
 
-        cy.get('.user-nav__links').within(() => {
+        cy.get('.global-header__navigation-secondary').within(() => {
             cy.findByText('Log out', { exact: false }).click();
         });
 
@@ -293,6 +293,11 @@ function submitPasswordReset(newPassword, oldPassword = null) {
 it('should be able to log in and update account details', () => {
     cy.seedUser().then(user => {
         logIn(user.username, user.password);
+
+        cy.get('.user-nav__links').within(() => {
+            cy.findByText('Account').click();
+        });
+
         const newPassword = generateAccountPassword();
         submitPasswordReset(newPassword, user.password);
 
@@ -502,7 +507,7 @@ it('should submit full awards for all application', () => {
     }
 
     function startApplication() {
-        cy.findByText('Start new application').click();
+        cy.findByText('Start a new application').click();
         times(5, function() {
             cy.findByLabelText('Yes').click();
             cy.findByText('Continue').click();
@@ -1105,7 +1110,7 @@ it('should complete get advice form', () => {
 
         acceptCookieConsent();
 
-        cy.findAllByText('Start new application').click();
+        cy.findAllByText('Get advice on your idea').click();
 
         cy.get('.form-actions').within(() => {
             cy.findAllByText('Get advice on your idea').click();
