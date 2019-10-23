@@ -338,7 +338,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     <li>What difference your project will make</li>
                     <li>Is it something new, or are you continuing
                         something that has worked well previously?
-                        We want to fund both types of ideas</li>
+                        We want to fund both types of projects</li>
                 </ul>`
             }),
             type: 'textarea',

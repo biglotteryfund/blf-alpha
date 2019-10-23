@@ -195,7 +195,6 @@ app.use('/patterns', require('./controllers/pattern-library'));
 /**
  * Handle Aliases
  */
-
 aliases.forEach(redirect => {
     app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
 });

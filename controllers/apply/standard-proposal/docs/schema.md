@@ -1,6 +1,6 @@
-# Get advice on your idea
+# Your funding proposal
 
-The following documents the data schema for the get advice on your idea form when submitted to Salesforce.
+The following documents the data schema for the standard product funding proposal form when submitted to Salesforce.
 
 ## Changelog
 

@@ -3,7 +3,7 @@
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 
-{% set copy = __('getAdvice.startPage') %}
+{% set copy = __('yourFundingProposal.startPage') %}
 {% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
@@ -33,11 +33,11 @@
                 {% endfor %}
             </ul>
 
-            <h2>{{ copy.readyToGetAdvice.title }}</h2>
-            <p>{{ copy.readyToGetAdvice.intro }}</p>
+            <h2>{{ copy.ready.title }}</h2>
+            <p>{{ copy.ready.intro }}</p>
 
             <ul>
-                {% for item in copy.readyToGetAdvice.items %}
+                {% for item in copy.ready.items %}
                     <li>{{ item | safe }}</li>
                 {% endfor %}
             </ul>

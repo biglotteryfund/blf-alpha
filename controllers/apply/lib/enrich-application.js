@@ -4,14 +4,14 @@ const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
 
 const awardsForAllFormBuilder = require('../awards-for-all/form');
-const getAdviceFormBuilder = require('../get-advice/form');
+const standardProposalFormBuilder = require('../standard-proposal/form');
 
 const { findLocationName } = require('./location-options');
 const { formatCurrency, formatDateRange } = require('./formatters');
 
 function formBuilderFor(formId) {
     return formId === 'standard-enquiry'
-        ? getAdviceFormBuilder
+        ? standardProposalFormBuilder
         : awardsForAllFormBuilder;
 }
 
@@ -102,8 +102,8 @@ function enrichPending(application, locale) {
                 localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: formatCurrency(data.projectCosts || 0),
             overview: standardOverview(data, locale),
-            editUrl: `/apply/get-advice/edit/${application.id}`,
-            deleteUrl: `/apply/get-advice/delete/${application.id}`
+            editUrl: `/apply/your-funding-proposal/edit/${application.id}`,
+            deleteUrl: `/apply/your-funding-proposal/delete/${application.id}`
         });
     } else {
         return createPending({

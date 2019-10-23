@@ -176,9 +176,7 @@ const aliases = {
     //===== Misc/other =====//
     '/contact-us': '/contact',
     '/news-and-events': '/news',
-    '/research/open-data': '/data#open-data',
-    // A4a prototype redirect
-    '/apply-next/simple': '/apply/awards-for-all'
+    '/research/open-data': '/data#open-data'
 };
 
 /**

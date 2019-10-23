@@ -2,7 +2,7 @@
 
 module.exports = function() {
     return {
-        title: `Thanks for telling us about your idea`,
+        title: `Thanks for telling us your proposal`,
         body: `<p>
             We've emailed you a copy of what you wrote along
             with information about what happens next.
@@ -11,7 +11,7 @@ module.exports = function() {
         </p>
         <h2>What happens next?</h2>
         <p>
-            Your idea has been passed on to one of our funding officers.
+            Your proposal has been passed on to one of our funding officers.
             They'll respond in around <strong>15 working days</strong>,
             to give you some advice on how likely we are to fund it and
             which programme you might apply to.
