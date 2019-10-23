@@ -48,6 +48,8 @@ module.exports = function(req, res, next) {
     res.locals.enableSiteSurvey = true;
     res.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
     res.locals.enableGlobalHeaderLogin = features.enableGlobalHeaderLogin;
+    res.locals.enableNewApplicationDashboards =
+        features.enableNewApplicationDashboards;
 
     /**
      * Global copy
