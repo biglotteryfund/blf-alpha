@@ -1,6 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 const sumBy = require('lodash/sumBy');
+const toInteger = require('lodash/toInteger');
 
 const awardsForAllFormBuilder = require('../awards-for-all/form');
 const getAdviceFormBuilder = require('../get-advice/form');
@@ -15,10 +16,8 @@ function formBuilderFor(formId) {
 }
 
 function formatBudgetTotal(value) {
-    if (value) {
-        const total = sumBy(value, item => parseInt(item.cost, 10) || 0);
-        return `£${total.toLocaleString()}`;
-    }
+    const total = value ? sumBy(value, item => toInteger(item.cost) || 0) : 0;
+    return `£${total.toLocaleString()}`;
 }
 
 function formatYears(value, locale) {
@@ -77,7 +76,8 @@ function standardOverview(data, locale) {
 
 function enrichPending(application, locale) {
     const data = application.applicationData || {};
-    const form = formBuilderFor(application.formId)({ locale, data });
+    const formBuilder = formBuilderFor(application.formId);
+    const form = formBuilder({ locale, data });
     const localise = get(locale);
 
     function createPending(props) {
@@ -98,13 +98,11 @@ function enrichPending(application, locale) {
         return createPending({
             projectName:
                 data.projectName ||
+                // @TODO: i18n
                 localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: formatCurrency(data.projectCosts || 0),
             overview: standardOverview(data, locale),
-            link: {
-                url: `/apply/get-advice/edit/${application.id}`,
-                label: 'Continue'
-            },
+            editUrl: `/apply/get-advice/edit/${application.id}`,
             deleteUrl: `/apply/get-advice/delete/${application.id}`
         });
     } else {
@@ -114,11 +112,8 @@ function enrichPending(application, locale) {
                 localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
             amountRequested: formatBudgetTotal(data.projectBudget),
             overview: simpleOverview(data, locale),
-            link: {
-                url: `/apply/awards-for-all/edit/${application.id}`,
-                label: 'Continue'
-            },
-            deleteUrl: `/apply/get-advice/delete/${application.id}`
+            editUrl: `/apply/awards-for-all/edit/${application.id}`,
+            deleteUrl: `/apply/awards-for-all/delete/${application.id}`
         });
     }
 }
@@ -143,6 +138,7 @@ function enrichSubmitted(application, locale) {
         return createSubmitted({
             projectName:
                 data.projectName ||
+                // @TODO: i18n
                 localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: `£${data.projectCosts.toLocaleString()}`,
             overview: standardOverview(data, locale)

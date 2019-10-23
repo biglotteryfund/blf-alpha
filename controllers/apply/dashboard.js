@@ -71,7 +71,12 @@ router.get(
              * is in a primary or secondary style.
              * Secondary if we have a pending application for the product
              */
-            const [pendingSimple, pendingStandard] = await Promise.all([
+            const [
+                latestApplication,
+                pendingSimple,
+                pendingStandard
+            ] = await Promise.all([
+                getLatestApplication(req.user.id, req.i18n.getLocale()),
                 PendingApplication.findUserApplicationsByForm({
                     userId: req.user.id,
                     formId: 'awards-for-all'
@@ -84,10 +89,7 @@ router.get(
 
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 title: copy.latest.title,
-                latestApplication: await getLatestApplication(
-                    req.user.id,
-                    req.i18n.getLocale()
-                ),
+                latestApplication: latestApplication,
                 hasPendingSimpleApplication: !isEmpty(pendingSimple),
                 hasPendingStandardApplication: !isEmpty(pendingStandard)
             });
