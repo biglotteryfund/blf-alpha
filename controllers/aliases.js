@@ -178,7 +178,9 @@ const aliases = {
     '/news-and-events': '/news',
     '/research/open-data': '/data#open-data',
     // A4a prototype redirect
-    '/apply-next/simple': '/apply/awards-for-all'
+    '/apply-next/simple': '/apply/awards-for-all',
+    // Standard prototype redirect
+    '/apply/get-advice': '/apply/your-funding-proposal'
 };
 
 /**

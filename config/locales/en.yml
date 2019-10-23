@@ -1600,7 +1600,7 @@ applyNext:
         title: "Funding over £10,000: Get advice"
         description: "Get advice on your idea to help your community thrive, if you need more than £10,000 funding from us."
         link:
-          url: /apply/get-advice/start
+          url: /apply/your-funding-proposal/start
           label: Get advice on your idea
   summary:
     title: Summary

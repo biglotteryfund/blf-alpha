@@ -1106,7 +1106,7 @@ it('should complete get advice form', () => {
     }
 
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/get-advice');
+        cy.visit('/apply/your-funding-proposal');
 
         acceptCookieConsent();
 

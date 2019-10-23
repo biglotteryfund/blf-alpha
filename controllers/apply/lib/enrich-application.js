@@ -102,8 +102,8 @@ function enrichPending(application, locale) {
                 localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: formatCurrency(data.projectCosts || 0),
             overview: standardOverview(data, locale),
-            editUrl: `/apply/get-advice/edit/${application.id}`,
-            deleteUrl: `/apply/get-advice/delete/${application.id}`
+            editUrl: `/apply/your-funding-proposal/edit/${application.id}`,
+            deleteUrl: `/apply/your-funding-proposal/delete/${application.id}`
         });
     } else {
         return createPending({
