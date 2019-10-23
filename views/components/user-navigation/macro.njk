@@ -14,18 +14,18 @@
                         <li class="user-nav__pagination-link user-nav__pagination-link--prev">
                             <span class="user-nav__pagination-arrow">←</span>
                             <div class="user-nav__pagination-btn-container">
-                                <input class="btn-link" name="previousBtn" type="submit" formaction="" value="{{ __('applyNext.navigation.previous') }}"/>
+                                <input class="btn-link" name="previousBtn" type="submit" formaction="" formnovalidate value="{{ __('applyNext.navigation.previous') }}"/>
                                 <span class="user-nav__pagination-subtitle">
                                     {{ previousPage.label }}
                                 </span>
-                            </div>   
-                            
+                            </div>
+
                         </li>
                     {% endif %}
                     {% if nextPage %}
                         <li class="user-nav__pagination-link user-nav__pagination-link--next">
                             <div class="user-nav__pagination-btn-container">
-                                <input class="btn-link" name="nextBtn" type="submit" formaction="" value="{{ __('applyNext.navigation.next') }}"/>
+                                <input class="btn-link" name="nextBtn" type="submit" formaction="" formnovalidate value="{{ __('applyNext.navigation.next') }}"/>
                                 <span class="user-nav__pagination-subtitle">
                                     {{ nextPage.label }}
                                 </span>
