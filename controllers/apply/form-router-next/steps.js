@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+const has = require('lodash/has');
 const findIndex = require('lodash/findIndex');
 const includes = require('lodash/includes');
 const omit = require('lodash/omit');
@@ -157,7 +158,7 @@ module.exports = function(formId, formBuilder) {
             );
 
             function isPaginationLinks() {
-                return req.body.previousBtn || req.body.nextBtn;
+                return has(req.body, 'previousBtn') || has(req.body, 'nextBtn');
             }
 
             function shouldRenderErrors() {
@@ -222,7 +223,7 @@ module.exports = function(formId, formBuilder) {
                      * Run any pre-flight checks for this steps
                      * eg. custom validations which don't run in Joi
                      */
-                    if (step.preFlightCheck) {
+                    if (step.preFlightCheck && isPaginationLinks() === false) {
                         try {
                             await step.preFlightCheck(dataToStore);
                         } catch (errors) {
