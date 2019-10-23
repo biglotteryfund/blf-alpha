@@ -1069,7 +1069,7 @@ it('should submit full awards for all application', () => {
     });
 });
 
-it('should complete get advice form', () => {
+it('should complete standard your funding proposal form', () => {
     const mock = {
         projectName: faker.lorem.words(5),
         projectCountries: ['England'],
@@ -1110,10 +1110,10 @@ it('should complete get advice form', () => {
 
         acceptCookieConsent();
 
-        cy.findAllByText('Get advice on your idea').click();
+        cy.findAllByText('Tell us your new proposal').click();
 
         cy.get('.form-actions').within(() => {
-            cy.findAllByText('Get advice on your idea').click();
+            cy.findAllByText('Tell us your proposal').click();
         });
 
         cy.findAllByText('Start')

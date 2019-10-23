@@ -212,7 +212,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     const form = {
         title: localise({
-            en: 'Get advice on your idea',
+            en: 'Your funding proposal',
             cy: ''
         }),
         startLabel: localise({

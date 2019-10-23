@@ -1597,11 +1597,11 @@ applyNext:
           url: /apply/awards-for-all/start
           label: Start a new application
       standard:
-        title: "Funding over £10,000: Get advice"
-        description: "Get advice on your idea to help your community thrive, if you need more than £10,000 funding from us."
+        title: "Funding over £10,000: Tell us your proposal"
+        description: "If you need more than £10,000 funding from us—tell us your proposal for a project to help your community thrive."
         link:
           url: /apply/your-funding-proposal/start
-          label: Get advice on your idea
+          label: Tell us your new proposal
   summary:
     title: Summary
     introduction: <p>You may complete the sections in any order.</p>
@@ -1775,9 +1775,9 @@ yourFundingProposal:
             so we can get in touch to talk about your idea.
             And any communication needs you have.
     ready:
-      title: Ready to get advice about your idea?
+      title: Ready to tell us your proposal?
       intro: "Here's what happens next:"
       items:
-        - We'll email you to let you know we got your idea
-        - Then we'll get in touch to talk about your idea within 15 working days.
-    startAction: Get advice on your idea
+        - We'll email you to let you know we got your proposal
+        - Then we'll get in touch to talk about your proposal within 15 working days.
+    startAction: Tell us your proposal
