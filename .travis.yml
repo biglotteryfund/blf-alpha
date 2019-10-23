@@ -11,7 +11,6 @@ dist: xenial
 
 # Defaults
 language: node_js
-node_js: '12'
 
 before_install:
   # Required for Cypress on xenial
