@@ -14,7 +14,7 @@ function signTokenActivate(userId, dateOfActivationAttempt) {
     };
 
     return jwt.sign(payload, JWT_SIGNING_TOKEN, {
-        expiresIn: '1h' // Short-lived token
+        expiresIn: '3h' // Short-lived token
     });
 }
 
@@ -54,7 +54,7 @@ function verifyTokenActivate(token, userId) {
 function signTokenPasswordReset(userId) {
     const payload = { data: { userId: userId, reason: 'resetpassword' } };
     return jwt.sign(payload, JWT_SIGNING_TOKEN, {
-        expiresIn: '1h' // Short-lived token
+        expiresIn: '3h' // Short-lived token
     });
 }
 
