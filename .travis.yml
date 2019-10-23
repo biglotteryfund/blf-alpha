@@ -11,12 +11,10 @@ dist: xenial
 
 # Defaults
 language: node_js
-node_js: 'lts/*'
 
 before_install:
   # Required for Cypress on xenial
   # Subset of https://docs.cypress.io/guides/guides/continuous-integration.html#Docker
-  - npm install -g npm
   - sudo apt-get install -y libgconf-2-4
 
 # Cache locations

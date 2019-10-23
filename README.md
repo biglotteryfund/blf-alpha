@@ -21,7 +21,7 @@ You can run the main app without having the other two services set up locally.
 You'll need the following tools installed in order to run the project locally:
 
 -   Git
--   Node.js v10+
+-   Node.js v12+
 -   MySQL v5.7+
 -   [AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) configured on your machine
 
@@ -229,5 +229,3 @@ Once completed, you can run a particular seed file using the `--seed` argument. 
 ```
 npx sequelize-cli db:seed --seed db/seeders/pending-applications
 ```
-
-

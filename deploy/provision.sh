@@ -16,7 +16,7 @@ service clamav-daemon start
 service clamav-daemon status
 
 # Install Node
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 apt-get install -y nodejs
 
 # Install AWS CLI (to fetch secrets from parameter store)
