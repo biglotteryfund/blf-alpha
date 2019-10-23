@@ -17,6 +17,7 @@ function getTransports() {
     if (enableCloudWatchLogs()) {
         return [
             new WinstonCloudWatch({
+                level: process.env.LOG_LEVEL || config.get('logLevel'),
                 awsRegion: config.get('aws.region'),
                 logGroupName: `/tnlcf/${environment}/app`,
                 logStreamName: `build-${buildNumber}`,
