@@ -1743,7 +1743,7 @@ applyNext:
     errorUploading: There was an error uploading your file, please try again
     startYourApplication: Start your application
     backToApplications: Back to your applications
-getAdvice:
+yourFundingProposal:
   startPage:
     title: Before you start
     beforeYouStart:
@@ -1774,7 +1774,7 @@ getAdvice:
             We're looking for your name, email address and telephone
             so we can get in touch to talk about your idea.
             And any communication needs you have.
-    readyToGetAdvice:
+    ready:
       title: Ready to get advice about your idea?
       intro: "Here's what happens next:"
       items:

@@ -4,14 +4,14 @@ const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
 
 const awardsForAllFormBuilder = require('../awards-for-all/form');
-const getAdviceFormBuilder = require('../standard-proposal/form');
+const standardProposalFormBuilder = require('../standard-proposal/form');
 
 const { findLocationName } = require('./location-options');
 const { formatCurrency, formatDateRange } = require('./formatters');
 
 function formBuilderFor(formId) {
     return formId === 'standard-enquiry'
-        ? getAdviceFormBuilder
+        ? standardProposalFormBuilder
         : awardsForAllFormBuilder;
 }
 
