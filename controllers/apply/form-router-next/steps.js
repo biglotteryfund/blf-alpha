@@ -156,11 +156,12 @@ module.exports = function(formId, formBuilder) {
                 stepFields.map(f => f.name).includes(item.param)
             );
 
+            function isPaginationLinks() {
+                return req.body.previousBtn || req.body.nextBtn;
+            }
+
             function shouldRenderErrors() {
-                return (
-                    errorsForStep.length > 0 &&
-                    !(req.body.previousBtn || req.body.nextBtn)
-                );
+                return errorsForStep.length > 0 && !isPaginationLinks();
             }
 
             function determineRedirectUrl() {
