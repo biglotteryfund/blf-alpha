@@ -6123,46 +6123,6 @@ Array [
     "to": "/welsh/data#open-data",
   },
   Object {
-    "from": "/apply-next/simple",
-    "to": "/apply/awards-for-all",
-  },
-  Object {
-    "from": "/welsh/apply-next/simple",
-    "to": "/welsh/apply/awards-for-all",
-  },
-  Object {
-    "from": "/england/apply-next/simple",
-    "to": "/apply/awards-for-all",
-  },
-  Object {
-    "from": "/welsh/england/apply-next/simple",
-    "to": "/welsh/apply/awards-for-all",
-  },
-  Object {
-    "from": "/scotland/apply-next/simple",
-    "to": "/apply/awards-for-all",
-  },
-  Object {
-    "from": "/welsh/scotland/apply-next/simple",
-    "to": "/welsh/apply/awards-for-all",
-  },
-  Object {
-    "from": "/northernireland/apply-next/simple",
-    "to": "/apply/awards-for-all",
-  },
-  Object {
-    "from": "/welsh/northernireland/apply-next/simple",
-    "to": "/welsh/apply/awards-for-all",
-  },
-  Object {
-    "from": "/wales/apply-next/simple",
-    "to": "/apply/awards-for-all",
-  },
-  Object {
-    "from": "/welsh/wales/apply-next/simple",
-    "to": "/welsh/apply/awards-for-all",
-  },
-  Object {
     "from": "/apply/get-advice",
     "to": "/apply/your-funding-proposal",
   },
