@@ -2,8 +2,6 @@
 const path = require('path');
 const express = require('express');
 const has = require('lodash/has');
-const findIndex = require('lodash/findIndex');
-const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 const crypto = require('crypto');
@@ -23,12 +21,7 @@ module.exports = function(formId, formBuilder) {
                 data: data
             });
 
-            const sectionIndex = findIndex(
-                form.sections,
-                s => s.slug === sectionSlug
-            );
-
-            const section = form.sections[sectionIndex];
+            const section = form.findSectionBySlug(sectionSlug);
 
             if (!section) {
                 return res.redirect(res.locals.formBaseUrl);
@@ -188,7 +181,7 @@ module.exports = function(formId, formBuilder) {
                     const uploadedFieldNamesWithErrors = Object.keys(
                         preparedFiles.valuesByField
                     ).filter(fieldName =>
-                        includes(errorsForStep.map(e => e.param), fieldName)
+                        errorsForStep.map(e => e.param).includes(fieldName)
                     );
                     dataToStore = omit(
                         dataToStore,
