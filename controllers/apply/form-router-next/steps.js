@@ -162,7 +162,9 @@ module.exports = function(formId, formBuilder) {
             }
 
             function shouldRenderErrors() {
-                return errorsForStep.length > 0 && !isPaginationLinks();
+                return (
+                    errorsForStep.length > 0 && isPaginationLinks() === false
+                );
             }
 
             function determineRedirectUrl() {
