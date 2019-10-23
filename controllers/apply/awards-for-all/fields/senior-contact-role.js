@@ -40,7 +40,8 @@ module.exports = function(locale, data) {
                 localise({
                     en: oneLine`As you're a company, your senior contact needs
                         to be listed as one of your board members on Companies House.`,
-                    cy: `` // @TODO: i18n
+                    cy: oneLine`Gan eich bod yn gwmni, rhaid i’ch uwch gyswllt gael
+                        ei restru fel un o’ch aelodau bwrdd ar Dŷ’r Cwmnïau.`
                 })
             );
         }
@@ -55,7 +56,9 @@ module.exports = function(locale, data) {
                     en: oneLine`As you're a registered charity (that's not also a company),
                         your senior contact needs to be listed as one of your trustees
                         with your charity regulator.`,
-                    cy: `` // @TODO: i18n
+                    cy: oneLine`Gan eich bod yn elusen gofrestredig (sydd hefyd ddim yn gwmni),
+                        rhaid i’ch uwch gyswllt gael ei restru fel un o’ch
+                        ymddiriedolwyr gyda’ch rheolydd elusennol.`
                 })
             );
         }
