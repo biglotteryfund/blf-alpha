@@ -11,6 +11,13 @@ const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
 const { prepareFilesForUpload, scanAndUpload } = require('./lib/file-uploads');
 
+function anonymiseId(id) {
+    return crypto
+        .createHash('md5')
+        .update(id)
+        .digest('hex');
+}
+
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
@@ -59,10 +66,7 @@ module.exports = function(formId, formBuilder) {
                     res.locals.hotJarTagList = [
                         'App: User shown form error after submitting'
                     ];
-                    const anonymisedId = crypto
-                        .createHash('md5')
-                        .update(res.locals.currentlyEditingId)
-                        .digest('hex');
+
                     errors.forEach(item => {
                         logger.info(item.msg, {
                             service: 'step-validations',
@@ -71,7 +75,9 @@ module.exports = function(formId, formBuilder) {
                             step: stepNumber,
                             errorType: item.type,
                             joiErrorType: item.joiType,
-                            applicationId: anonymisedId
+                            applicationId: anonymiseId(
+                                res.locals.currentlyEditingId
+                            )
                         });
                     });
                 }
