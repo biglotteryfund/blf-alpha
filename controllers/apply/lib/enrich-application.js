@@ -98,6 +98,7 @@ function enrichPending(application, locale) {
         return createPending({
             projectName:
                 data.projectName ||
+                // @TODO: i18n
                 localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: formatCurrency(data.projectCosts || 0),
             overview: standardOverview(data, locale),
@@ -137,6 +138,7 @@ function enrichSubmitted(application, locale) {
         return createSubmitted({
             projectName:
                 data.projectName ||
+                // @TODO: i18n
                 localise({ en: 'Untitled proposal', cy: '' }),
             amountRequested: `£${data.projectCosts.toLocaleString()}`,
             overview: standardOverview(data, locale)

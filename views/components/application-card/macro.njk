@@ -17,6 +17,7 @@
         <dl class="application-card-new__overview u-text-small">
             {% for item in props.overview %}
                 <dt>{{ item.label }}</dt>
+                {# @TODO: i18n #}
                 <dd>{% if item.value %}{{ item.value }}{% else %}not yet completed{% endif %}</dd>
             {% endfor %}
         </dl>
@@ -24,11 +25,13 @@
         <div class="application-card-new__status u-text-small u-margin-bottom">
             {% if props.type === 'submitted' %}
                 <p>
+                    {# @TODO: i18n #}
                     <strong>Status</strong>:
                     Submitted {{ formatCalendarTime(props.submittedAt) }}
                 </p>
             {% else %}
                 <p>
+                    {# @TODO: i18n #}
                     <strong>Status</strong>:
                     {{ props.progress.sectionsComplete }} of
                     {{ props.progress.sections.length }} sections complete
@@ -51,6 +54,7 @@
         {% if props.editUrl %}
             <div class="application-card-new__actions">
                 <a href="{{ props.editUrl }}"
+                   {# @TODO: i18n #}
                    class="btn btn--small">Continue with this application</a>
                 {% if props.deleteUrl %}
                     <a class="u-text-medium" href="{{ props.deleteUrl }}">Delete</a>
@@ -60,6 +64,7 @@
 
 
         {% if props.expiresAt %}
+            {# @TODO: i18n #}
             <div class="application-card-new__meta u-text-small">
                 You have until
                 <strong>{{ formatDate(props.expiresAt) }}</strong>
