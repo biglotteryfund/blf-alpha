@@ -27,10 +27,10 @@ module.exports = function(formId, formBuilder) {
                 return res.redirect(res.locals.formBaseUrl);
             }
 
-            const sectionUrl = `${res.locals.formBaseUrl}/${section.slug}`;
-
             if (!stepNumber) {
-                return res.redirect(`${sectionUrl}/1`);
+                return res.redirect(
+                    `${res.locals.formBaseUrl}/${section.slug}/1`
+                );
             }
 
             const stepIndex = parseInt(stepNumber, 10) - 1;
