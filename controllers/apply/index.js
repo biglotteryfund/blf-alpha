@@ -29,7 +29,7 @@ if (isNotProduction) {
     router.use('/get-advice', require('./get-advice'));
 }
 
-router.get('/emails/unsubscribe', require('./unsubscribe'));
-router.post('/handle-expiry', require('./expiry'));
+router.use('/emails/unsubscribe', require('./unsubscribe'));
+router.use('/handle-expiry', require('./expiry'));
 
 module.exports = router;
