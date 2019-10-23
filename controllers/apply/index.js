@@ -26,7 +26,7 @@ router.use('/your-idea', require('./reaching-communities'));
 router.use('/awards-for-all', require('./awards-for-all'));
 
 if (isNotProduction) {
-    router.use('/get-advice', require('./get-advice'));
+    router.use('/get-advice', require('./standard-proposal'));
 }
 
 router.use('/emails/unsubscribe', require('./unsubscribe'));

@@ -4,7 +4,7 @@ const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
 
 const awardsForAllFormBuilder = require('../awards-for-all/form');
-const getAdviceFormBuilder = require('../get-advice/form');
+const getAdviceFormBuilder = require('../standard-proposal/form');
 
 const { findLocationName } = require('./location-options');
 const { formatCurrency, formatDateRange } = require('./formatters');
