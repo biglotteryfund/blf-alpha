@@ -1,14 +1,22 @@
 'use strict';
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
-const foutWithAClass = require('postcss-fout-with-a-class').default;
+const foftLoadedClasses = require('postcss-foft-classes');
 
 module.exports = {
     plugins: [
         autoprefixer(),
-        foutWithAClass({
-            families: ['caecilia', 'caecilia-sans-text'],
-            className: 'fonts-loaded'
+        foftLoadedClasses({
+            groups: [
+                {
+                    families: ['caecilia'],
+                    classNames: ['fonts-loaded']
+                },
+                {
+                    families: ['caecilia-sans-text'],
+                    classNames: ['fonts-loaded']
+                }
+            ]
         }),
         cssnano()
     ]
