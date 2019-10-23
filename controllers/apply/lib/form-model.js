@@ -244,6 +244,11 @@ class FormModel {
         };
     }
 
+    findSectionBySlug(slug) {
+        const sectionIndex = findIndex(this.sections, s => s.slug === slug);
+        return this.sections[sectionIndex];
+    }
+
     getCurrentSteps() {
         return flatMap(this.sections, 'steps');
     }

@@ -2,8 +2,6 @@
 const path = require('path');
 const express = require('express');
 const has = require('lodash/has');
-const findIndex = require('lodash/findIndex');
-const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 const crypto = require('crypto');
@@ -12,6 +10,13 @@ const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
 const { prepareFilesForUpload, scanAndUpload } = require('./lib/file-uploads');
+
+function anonymiseId(id) {
+    return crypto
+        .createHash('md5')
+        .update(id)
+        .digest('hex');
+}
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -23,83 +28,74 @@ module.exports = function(formId, formBuilder) {
                 data: data
             });
 
-            const sectionIndex = findIndex(
-                form.sections,
-                s => s.slug === sectionSlug
-            );
+            const section = form.findSectionBySlug(sectionSlug);
 
-            const section = form.sections[sectionIndex];
+            if (!section) {
+                return res.redirect(res.locals.formBaseUrl);
+            }
 
-            if (section) {
-                const sectionUrl = `${res.locals.formBaseUrl}/${section.slug}`;
+            if (!stepNumber) {
+                return res.redirect(
+                    `${res.locals.formBaseUrl}/${section.slug}/1`
+                );
+            }
 
-                if (stepNumber) {
-                    const stepIndex = parseInt(stepNumber, 10) - 1;
-                    const step = section.steps[stepIndex];
+            const stepIndex = parseInt(stepNumber, 10) - 1;
+            const step = section.steps[stepIndex];
 
-                    if (step) {
-                        const { nextPage, previousPage } = form.pagination({
-                            baseUrl: res.locals.formBaseUrl,
-                            sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex,
-                            copy: res.locals.copy
-                        });
+            if (!step) {
+                return res.redirect(res.locals.formBaseUrl);
+            }
 
-                        if (step.isRequired) {
-                            const application = await PendingApplication.lastUpdatedTime(
+            const { nextPage, previousPage } = form.pagination({
+                baseUrl: res.locals.formBaseUrl,
+                sectionSlug: req.params.section,
+                currentStepIndex: stepIndex,
+                copy: res.locals.copy
+            });
+
+            if (step.isRequired) {
+                const application = await PendingApplication.lastUpdatedTime(
+                    res.locals.currentlyEditingId
+                );
+
+                /**
+                 * Log validation errors along with section and step metadata
+                 */
+                if (errors.length > 0) {
+                    res.locals.hotJarTagList = [
+                        'App: User shown form error after submitting'
+                    ];
+
+                    errors.forEach(item => {
+                        logger.info(item.msg, {
+                            service: 'step-validations',
+                            fieldName: item.param,
+                            section: section.slug,
+                            step: stepNumber,
+                            errorType: item.type,
+                            joiErrorType: item.joiType,
+                            applicationId: anonymiseId(
                                 res.locals.currentlyEditingId
-                            );
-
-                            /**
-                             * Log validation errors along with section and step metadata
-                             */
-                            if (errors.length > 0) {
-                                res.locals.hotJarTagList = [
-                                    'App: User shown form error after submitting'
-                                ];
-                                const anonymisedId = crypto
-                                    .createHash('md5')
-                                    .update(res.locals.currentlyEditingId)
-                                    .digest('hex');
-                                errors.forEach(item => {
-                                    logger.info(item.msg, {
-                                        service: 'step-validations',
-                                        fieldName: item.param,
-                                        section: section.slug,
-                                        step: stepNumber,
-                                        errorType: item.type,
-                                        joiErrorType: item.joiType,
-                                        applicationId: anonymisedId
-                                    });
-                                });
-                            }
-
-                            res.render(
-                                path.resolve(__dirname, './views/step'),
-                                {
-                                    form: form,
-                                    csrfToken: req.csrfToken(),
-                                    section: section,
-                                    step: step,
-                                    stepNumber: stepNumber,
-                                    totalSteps: section.steps.length,
-                                    previousPage: previousPage,
-                                    nextPage: nextPage,
-                                    errors: errors,
-                                    updatedAt: application.updatedAt
-                                }
-                            );
-                        } else {
-                            res.redirect(nextPage.url);
-                        }
-                    } else {
-                        res.redirect(res.locals.formBaseUrl);
-                    }
-                } else {
-                    res.redirect(`${sectionUrl}/1`);
+                            )
+                        });
+                    });
                 }
+
+                res.render(path.resolve(__dirname, './views/step'), {
+                    form: form,
+                    csrfToken: req.csrfToken(),
+                    section: section,
+                    step: step,
+                    stepNumber: stepNumber,
+                    totalSteps: section.steps.length,
+                    previousPage: previousPage,
+                    nextPage: nextPage,
+                    errors: errors,
+                    updatedAt: application.updatedAt
+                });
             } else {
-                res.redirect(res.locals.formBaseUrl);
+                res.redirect(nextPage.url);
             }
         };
     }
@@ -191,7 +187,7 @@ module.exports = function(formId, formBuilder) {
                     const uploadedFieldNamesWithErrors = Object.keys(
                         preparedFiles.valuesByField
                     ).filter(fieldName =>
-                        includes(errorsForStep.map(e => e.param), fieldName)
+                        errorsForStep.map(e => e.param).includes(fieldName)
                     );
                     dataToStore = omit(
                         dataToStore,
