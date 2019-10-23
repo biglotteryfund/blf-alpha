@@ -18,8 +18,6 @@ router.use(function(req, res, next) {
 
 if (features.enableNewApplicationDashboards) {
     router.use('/', require('./dashboard'));
-    router.get('/awards-for-all', (req, res) => res.redirect(req.baseUrl));
-    router.get('/get-advice', (req, res) => res.redirect(req.baseUrl));
 } else {
     router.get('/', (req, res) => res.redirect('/'));
 }

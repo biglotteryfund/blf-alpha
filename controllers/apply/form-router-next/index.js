@@ -15,7 +15,7 @@ const {
     ApplicationEmailQueue
 } = require('../../../db/models');
 
-const commonLogger = require('../../../common/logger');
+const logger = require('../../../common/logger').child({ service: 'apply' });
 const { localify } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
@@ -160,13 +160,9 @@ function initFormRouter({
         requireActiveUserWithCallback(req => {
             // Track attempts to submit form steps when session is expired/invalid
             if (req.method === 'POST') {
-                commonLogger.info(
-                    'User submitted POST data without valid session',
-                    {
-                        service: 'apply',
-                        formId: formId
-                    }
-                );
+                logger.info('User submitted POST data without valid session', {
+                    formId: formId
+                });
             }
         }),
         handleMultipartFormData,
@@ -218,7 +214,9 @@ function initFormRouter({
 
     function redirectCurrentlyEditing(req, res, applicationId) {
         set(req.session, currentlyEditingSessionKey(), applicationId);
+        logger.debug(`Setting currently editing id: ${applicationId}`);
         req.session.save(() => {
+            logger.debug(`Set currently editing id: ${applicationId}`);
             res.redirect(`${req.baseUrl}/summary`);
         });
     }
@@ -242,10 +240,7 @@ function initFormRouter({
                 await ApplicationEmailQueue.createNewQueue(emailsToQueue);
             }
 
-            commonLogger.info('Application created', {
-                service: 'apply',
-                formId: formId
-            });
+            logger.info('Application created', { formId });
 
             redirectCurrentlyEditing(req, res, application.id);
         } catch (error) {
@@ -260,10 +255,7 @@ function initFormRouter({
         // If this link includes a source (s) parameter, track it
         // eg. to analyse usage of expiry reminder emails
         if (req.query.s === 'expiryEmail') {
-            commonLogger.info('User clicked edit link on expiry email', {
-                service: 'apply',
-                formId: formId
-            });
+            logger.info('User clicked edit link on expiry email', { formId });
         }
         redirectCurrentlyEditing(req, res, req.params.applicationId);
     });
@@ -307,6 +299,7 @@ function initFormRouter({
         const currentEditingId = get(req.session, currentlyEditingSessionKey());
 
         if (currentEditingId) {
+            logger.debug(`Currently editing: ${currentEditingId}`);
             res.locals.currentlyEditingId = currentEditingId;
 
             try {
@@ -338,12 +331,14 @@ function initFormRouter({
                     res.redirect(req.baseUrl);
                 }
             } catch (error) {
+                logger.debug(`Unable to find application ${currentEditingId}`);
                 Sentry.captureException(
                     new Error(`Unable to find application ${currentEditingId}`)
                 );
                 res.redirect(req.baseUrl);
             }
         } else {
+            logger.debug(`No currently editing id`);
             res.redirect(req.baseUrl);
         }
     });
