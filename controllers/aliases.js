@@ -176,9 +176,7 @@ const aliases = {
     //===== Misc/other =====//
     '/contact-us': '/contact',
     '/news-and-events': '/news',
-    '/research/open-data': '/data#open-data',
-    // Standard prototype redirect
-    '/apply/get-advice': '/apply/your-funding-proposal'
+    '/research/open-data': '/data#open-data'
 };
 
 /**

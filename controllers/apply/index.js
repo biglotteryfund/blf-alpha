@@ -26,6 +26,11 @@ router.use('/your-idea', require('./reaching-communities'));
 router.use('/awards-for-all', require('./awards-for-all'));
 
 if (isNotProduction) {
+    // Handle prototype url redirect temporarily
+    router.get('/get-advice', (req, res) =>
+        res.redirect(`${req.baseUrl}/your-funding-proposal`)
+    );
+
     router.use('/your-funding-proposal', require('./standard-proposal'));
 }
 

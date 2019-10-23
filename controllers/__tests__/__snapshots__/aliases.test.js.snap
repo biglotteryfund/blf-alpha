@@ -6122,45 +6122,5 @@ Array [
     "from": "/welsh/wales/research/open-data",
     "to": "/welsh/data#open-data",
   },
-  Object {
-    "from": "/apply/get-advice",
-    "to": "/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/welsh/apply/get-advice",
-    "to": "/welsh/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/england/apply/get-advice",
-    "to": "/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/welsh/england/apply/get-advice",
-    "to": "/welsh/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/scotland/apply/get-advice",
-    "to": "/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/welsh/scotland/apply/get-advice",
-    "to": "/welsh/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/northernireland/apply/get-advice",
-    "to": "/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/welsh/northernireland/apply/get-advice",
-    "to": "/welsh/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/wales/apply/get-advice",
-    "to": "/apply/your-funding-proposal",
-  },
-  Object {
-    "from": "/welsh/wales/apply/get-advice",
-    "to": "/welsh/apply/your-funding-proposal",
-  },
 ]
 `;
