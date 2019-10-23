@@ -13,10 +13,8 @@ module.exports = function(locale, data) {
     const currentOrganisationType = get('organisationType')(data);
     const currentOrganisationSubType = get('organisationSubType')(data);
 
-    const isCompany = [
-        ORGANISATION_TYPES.CIO,
-        ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-    ].includes(currentOrganisationType);
+    const isCompany =
+        currentOrganisationType === ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY;
 
     const isRegisteredCharity = [
         ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
