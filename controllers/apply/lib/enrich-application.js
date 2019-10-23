@@ -1,6 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 const sumBy = require('lodash/sumBy');
+const toInteger = require('lodash/toInteger');
 
 const awardsForAllFormBuilder = require('../awards-for-all/form');
 const getAdviceFormBuilder = require('../get-advice/form');
@@ -15,12 +16,8 @@ function formBuilderFor(formId) {
 }
 
 function formatBudgetTotal(value) {
-    if (value) {
-        const total = sumBy(value, item => parseInt(item.cost, 10) || 0);
-        return `£${total.toLocaleString()}`;
-    } else {
-        return `£0`;
-    }
+    const total = value ? sumBy(value, item => toInteger(item.cost) || 0) : 0;
+    return `£${total.toLocaleString()}`;
 }
 
 function formatYears(value, locale) {
