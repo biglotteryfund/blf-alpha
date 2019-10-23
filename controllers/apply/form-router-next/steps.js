@@ -30,76 +30,73 @@ module.exports = function(formId, formBuilder) {
 
             const section = form.sections[sectionIndex];
 
-            if (section) {
-                const sectionUrl = `${res.locals.formBaseUrl}/${section.slug}`;
+            if (!section) {
+                return res.redirect(res.locals.formBaseUrl);
+            }
 
-                if (stepNumber) {
-                    const stepIndex = parseInt(stepNumber, 10) - 1;
-                    const step = section.steps[stepIndex];
+            const sectionUrl = `${res.locals.formBaseUrl}/${section.slug}`;
 
-                    if (step) {
-                        const { nextPage, previousPage } = form.pagination({
-                            baseUrl: res.locals.formBaseUrl,
-                            sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex,
-                            copy: res.locals.copy
-                        });
+            if (stepNumber) {
+                const stepIndex = parseInt(stepNumber, 10) - 1;
+                const step = section.steps[stepIndex];
 
-                        if (step.isRequired) {
-                            const application = await PendingApplication.lastUpdatedTime(
-                                res.locals.currentlyEditingId
-                            );
+                if (step) {
+                    const { nextPage, previousPage } = form.pagination({
+                        baseUrl: res.locals.formBaseUrl,
+                        sectionSlug: req.params.section,
+                        currentStepIndex: stepIndex,
+                        copy: res.locals.copy
+                    });
 
-                            /**
-                             * Log validation errors along with section and step metadata
-                             */
-                            if (errors.length > 0) {
-                                res.locals.hotJarTagList = [
-                                    'App: User shown form error after submitting'
-                                ];
-                                const anonymisedId = crypto
-                                    .createHash('md5')
-                                    .update(res.locals.currentlyEditingId)
-                                    .digest('hex');
-                                errors.forEach(item => {
-                                    logger.info(item.msg, {
-                                        service: 'step-validations',
-                                        fieldName: item.param,
-                                        section: section.slug,
-                                        step: stepNumber,
-                                        errorType: item.type,
-                                        joiErrorType: item.joiType,
-                                        applicationId: anonymisedId
-                                    });
+                    if (step.isRequired) {
+                        const application = await PendingApplication.lastUpdatedTime(
+                            res.locals.currentlyEditingId
+                        );
+
+                        /**
+                         * Log validation errors along with section and step metadata
+                         */
+                        if (errors.length > 0) {
+                            res.locals.hotJarTagList = [
+                                'App: User shown form error after submitting'
+                            ];
+                            const anonymisedId = crypto
+                                .createHash('md5')
+                                .update(res.locals.currentlyEditingId)
+                                .digest('hex');
+                            errors.forEach(item => {
+                                logger.info(item.msg, {
+                                    service: 'step-validations',
+                                    fieldName: item.param,
+                                    section: section.slug,
+                                    step: stepNumber,
+                                    errorType: item.type,
+                                    joiErrorType: item.joiType,
+                                    applicationId: anonymisedId
                                 });
-                            }
-
-                            res.render(
-                                path.resolve(__dirname, './views/step'),
-                                {
-                                    form: form,
-                                    csrfToken: req.csrfToken(),
-                                    section: section,
-                                    step: step,
-                                    stepNumber: stepNumber,
-                                    totalSteps: section.steps.length,
-                                    previousPage: previousPage,
-                                    nextPage: nextPage,
-                                    errors: errors,
-                                    updatedAt: application.updatedAt
-                                }
-                            );
-                        } else {
-                            res.redirect(nextPage.url);
+                            });
                         }
+
+                        res.render(path.resolve(__dirname, './views/step'), {
+                            form: form,
+                            csrfToken: req.csrfToken(),
+                            section: section,
+                            step: step,
+                            stepNumber: stepNumber,
+                            totalSteps: section.steps.length,
+                            previousPage: previousPage,
+                            nextPage: nextPage,
+                            errors: errors,
+                            updatedAt: application.updatedAt
+                        });
                     } else {
-                        res.redirect(res.locals.formBaseUrl);
+                        res.redirect(nextPage.url);
                     }
                 } else {
-                    res.redirect(`${sectionUrl}/1`);
+                    res.redirect(res.locals.formBaseUrl);
                 }
             } else {
-                res.redirect(res.locals.formBaseUrl);
+                res.redirect(`${sectionUrl}/1`);
             }
         };
     }
