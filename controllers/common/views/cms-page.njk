@@ -23,13 +23,15 @@
 
             {# Flexible content #}
             {% if content.flexibleContent %}
+
                 {% for part in content.flexibleContent %}
                     <section class="content-box u-inner-wide-only"
                              id="{{ flexAnchor + '-' + loop.index }}">
 
-                        {# Show breadcrumbs inside the first item's container #}
+                        {# Show breadcrumbs and links inside the first item's container #}
                         {% if loop.first %}
                             {{ breadcrumbTrail(breadcrumbs) }}
+                            {{ segmentLinks(content.flexibleContent, anchor = flexAnchor) }}
                         {% endif %}
 
                         <div class="s-prose u-constrained-content-wide">
