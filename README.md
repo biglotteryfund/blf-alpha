@@ -168,22 +168,10 @@ The broad project structure is as follows
 | **cypress**     | Cypress end-to-end test code                                                                         |
 | **db**          | Model definitions and database config code                                                           |
 | **deploy**      | CodeDeploy scripts and Nginx config                                                                  |
-| **middleware**  | Common middleware. **Deprecated in favour of living in `common` or inline in `server.js`**           |
+| **lambda**      | Contains one-off lambda functions that support the app                                               |
 | **public**      | Public assets. Built stylesheets and client-side JavaScript is output here                           |
 | **views**       | Used for shared layouts and components only, all other template files live alongside controller code |
 | **server.js**   | Main entry point for the app                                                                         |
-
-### Feature code structure
-
-The majority of the app code lives under `controllers/` with functionality grouped by feature. A typical structure is the following:
-
-| Name       | Description                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------------- |
-| `lib/`     | Helper code specific to this feature, includes tests collocated next to the code being tested                 |
-| `views/`   | Nunjucks view templates specific to this feature                                                              |
-| `index.js` | Router code for the feature, routes within this may be broken down into smaller files depending on complexity |
-
-We are still evolving this code but the idea is to only lift code up into `common/` or other top-level directories when it is used by more than two features and the abstraction is clear. Otherwise we favour grouping code distinctly by feature.
 
 ## Deployment
 
