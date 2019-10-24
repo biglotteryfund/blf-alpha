@@ -188,9 +188,27 @@ function flexibleContent() {
     return router;
 }
 
+function renderFlexibleContentChild(req, res, entry) {
+    const breadcrumbs = entry.parent
+        ? res.locals.breadcrumbs.concat([
+              {
+                  label: entry.parent.title,
+                  url: entry.parent.linkUrl
+              },
+              { label: res.locals.title }
+          ])
+        : res.locals.breadcrumbs.concat([{ label: res.locals.title }]);
+
+    res.render(path.resolve(__dirname, './views/flexible-content'), {
+        breadcrumbs: breadcrumbs,
+        flexibleContent: entry.content
+    });
+}
+
 module.exports = {
     basicContent,
     flexibleContent,
+    renderFlexibleContentChild,
     staticPage,
     getChildrenLayoutMode
 };

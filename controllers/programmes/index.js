@@ -11,11 +11,12 @@ const {
     injectHeroImage,
     setCommonLocals
 } = require('../../common/inject-content');
-const { basicContent } = require('../common');
 const { buildArchiveUrl } = require('../../common/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');
 const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
+
+const { basicContent, renderFlexibleContentChild } = require('../common');
 
 const router = express.Router();
 
@@ -209,26 +210,8 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
 
         setCommonLocals({ res, entry });
 
-        if (entry.entryType === 'contentPage') {
-            setCommonLocals({ res, entry: entry });
-
-            const breadcrumbs = entry.parent
-                ? res.locals.breadcrumbs.concat([
-                      {
-                          label: entry.parent.title,
-                          url: entry.parent.linkUrl
-                      },
-                      { label: res.locals.title }
-                  ])
-                : res.locals.breadcrumbs.concat([{ label: res.locals.title }]);
-
-            res.render(
-                path.resolve(__dirname, '../common/views/flexible-content'),
-                {
-                    breadcrumbs: breadcrumbs,
-                    flexibleContent: entry.content
-                }
-            );
+        if (entry && entry.entryType === 'contentPage') {
+            renderFlexibleContentChild(req, res, entry);
         } else if (get(entry, 'contentSections', []).length > 0) {
             /**
              * Programme Detail page
@@ -254,7 +237,11 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
             next();
         }
     } catch (error) {
-        next(error);
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 });
 
