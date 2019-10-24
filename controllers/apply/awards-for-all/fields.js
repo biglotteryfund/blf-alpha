@@ -495,6 +495,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         })
                     },
                     {
+                        type: 'number.integer',
+                        key: 'cost',
+                        message: localise({
+                            en: 'Use whole numbers only, eg. 360',
+                            cy: 'Defnyddiwch rifau cyflawn yn unig, e.e. 360'
+                        })
+                    },
+                    {
                         type: 'array.min',
                         message: localise({
                             en: 'Enter at least one item',
