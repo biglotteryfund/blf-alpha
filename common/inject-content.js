@@ -40,8 +40,7 @@ function setCommonLocals({ res, entry }) {
     res.locals.openGraph = get('openGraph')(entry);
 
     res.locals.previewStatus = {
-        isDraftOrVersion:
-            entry.status === 'draft' || entry.status === 'version',
+        isPreviewOrShareLink: res.locals.PREVIEW_MODE,
         lastUpdated: moment(entry.dateUpdated.date).format(
             'Do MMM YYYY [at] h:mma'
         )
