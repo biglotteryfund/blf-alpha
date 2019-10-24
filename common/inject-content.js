@@ -235,23 +235,6 @@ async function injectResearchEntry(req, res, next) {
     }
 }
 
-async function injectOurPeople(req, res, next) {
-    try {
-        res.locals.ourPeople = await contentApi.getOurPeople({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
-
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
 function injectMerchandise({ locale = null, showAll = false }) {
     return async (req, res, next) => {
         try {
@@ -275,7 +258,6 @@ module.exports = {
     injectHeroImage,
     injectListingContent,
     injectMerchandise,
-    injectOurPeople,
     injectResearch,
     injectResearchEntry,
     setCommonLocals,
