@@ -129,15 +129,7 @@ class PendingApplication extends Model {
         });
     }
 
-    static deleteApplications(applicationIds) {
-        return this.destroy({
-            where: {
-                id: { [Op.in]: applicationIds }
-            }
-        });
-    }
-
-    static findApplicationForForm({ formId, applicationId, userId }) {
+    static findForUser({ applicationId, userId, formId }) {
         return this.findOne({
             where: {
                 id: { [Op.eq]: applicationId },
@@ -188,7 +180,7 @@ class PendingApplication extends Model {
         });
     }
 
-    static deleteApplication(id, userId) {
+    static delete(id, userId) {
         // Delete any scheduled emails for this application
         ApplicationEmailQueue.deleteEmailsForApplication(id);
 
@@ -196,6 +188,14 @@ class PendingApplication extends Model {
             where: {
                 userId: { [Op.eq]: userId },
                 id: { [Op.eq]: id }
+            }
+        });
+    }
+
+    static deleteBatch(applicationIds) {
+        return this.destroy({
+            where: {
+                id: { [Op.in]: applicationIds }
             }
         });
     }

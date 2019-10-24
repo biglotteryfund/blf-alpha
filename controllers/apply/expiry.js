@@ -182,13 +182,9 @@ async function deleteExpiredApplications(expiredApplications) {
         logger.info('Handling expired applications');
 
         if (enableExpiration) {
-            const applicationIds = expiredApplications.map(
-                application => application.id
-            );
+            const ids = expiredApplications.map(application => application.id);
 
-            const dbStatus = await PendingApplication.deleteApplications(
-                applicationIds
-            );
+            const dbStatus = await PendingApplication.deleteBatch(ids);
 
             expiredApplications.forEach(application => {
                 logger.info(`Deleting expired application`, {

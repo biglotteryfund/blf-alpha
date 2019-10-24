@@ -9,6 +9,12 @@
             <section class="content-box u-inner-wide-only">
                 {{ userNavigation(userNavigationLinks) }}
 
+                {% if alertMessage %}
+                    <div class="message" role="alert">
+                        {{ alertMessage }}
+                    </div>
+                {% endif %}
+
                 <h1 class="u-visually-hidden">{{ title }}</h1>
 
                 <div class="s-prose"><p>{{ copy.noApplications }}</p></div>
@@ -25,6 +31,12 @@
         {% else %}
             <section class="content-box u-inner-wide-only">
                {{ userNavigation(userNavigationLinks) }}
+
+                {% if alertMessage %}
+                    <div class="message" role="alert">
+                        {{ alertMessage }}
+                    </div>
+                {% endif %}
 
                 <h1 class="u-visually-hidden">{{ title }}</h1>
 

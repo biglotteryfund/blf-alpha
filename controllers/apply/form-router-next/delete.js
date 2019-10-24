@@ -1,8 +1,10 @@
 'use strict';
 const express = require('express');
 const path = require('path');
+const features = require('config').get('features');
 
 const { PendingApplication } = require('../../../db/models');
+const { localify } = require('../../../common/urls');
 const logger = require('../../../common/logger').child({ service: 'apply' });
 
 module.exports = function(formId) {
@@ -11,14 +13,14 @@ module.exports = function(formId) {
     router
         .route('/:applicationId')
         .get(async function(req, res) {
-            if (req.params.applicationId && req.user) {
-                const application = await PendingApplication.findApplicationForForm(
-                    {
-                        formId: formId,
-                        applicationId: req.params.applicationId,
-                        userId: req.user.userData.id
-                    }
-                );
+            const { applicationId } = req.params;
+
+            if (applicationId && req.user) {
+                const application = await PendingApplication.findForUser({
+                    formId: formId,
+                    applicationId: applicationId,
+                    userId: req.user.id
+                });
 
                 if (application) {
                     res.render(path.resolve(__dirname, './views/delete'), {
@@ -33,16 +35,24 @@ module.exports = function(formId) {
             }
         })
         .post(async function(req, res, next) {
-            try {
-                await PendingApplication.deleteApplication(
-                    req.params.applicationId,
-                    req.user.userData.id
-                );
+            const { applicationId } = req.params;
 
-                logger.info('Application deleted', {
-                    applicationId: req.params.applicationId
-                });
-                res.redirect(res.locals.formBaseUrl + '?s=applicationDeleted');
+            try {
+                await PendingApplication.delete(applicationId, req.user.id);
+
+                logger.info('Application deleted', { applicationId });
+
+                if (features.enableNewApplicationDashboards) {
+                    res.redirect(
+                        localify(req.i18n.getLocale())(
+                            '/apply/all?s=applicationDeleted'
+                        )
+                    );
+                } else {
+                    res.redirect(
+                        res.locals.formBaseUrl + '?s=applicationDeleted'
+                    );
+                }
             } catch (error) {
                 next(error);
             }
