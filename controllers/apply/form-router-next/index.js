@@ -214,9 +214,7 @@ function initFormRouter({
 
     function redirectCurrentlyEditing(req, res, applicationId) {
         set(req.session, currentlyEditingSessionKey(), applicationId);
-        logger.debug(`Setting currently editing id: ${applicationId}`);
         req.session.save(() => {
-            logger.debug(`Set currently editing id: ${applicationId}`);
             res.redirect(`${req.baseUrl}/summary`);
         });
     }
@@ -299,7 +297,6 @@ function initFormRouter({
         const currentEditingId = get(req.session, currentlyEditingSessionKey());
 
         if (currentEditingId) {
-            logger.debug(`Currently editing: ${currentEditingId}`);
             res.locals.currentlyEditingId = currentEditingId;
 
             try {
@@ -331,14 +328,12 @@ function initFormRouter({
                     res.redirect(req.baseUrl);
                 }
             } catch (error) {
-                logger.debug(`Unable to find application ${currentEditingId}`);
                 Sentry.captureException(
                     new Error(`Unable to find application ${currentEditingId}`)
                 );
                 res.redirect(req.baseUrl);
             }
         } else {
-            logger.debug(`No currently editing id`);
             res.redirect(req.baseUrl);
         }
     });
