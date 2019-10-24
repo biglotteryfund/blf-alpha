@@ -7,9 +7,9 @@ const {
     injectBreadcrumbs,
     injectListingContent,
     injectStrategicProgramme,
-    injectStrategicProgrammes,
     setCommonLocals
 } = require('../../common/inject-content');
+const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 
@@ -22,11 +22,21 @@ router.use(injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-router.get('/', injectListingContent, injectStrategicProgrammes, function(
-    req,
-    res
-) {
-    res.render(path.resolve(__dirname, './views/strategic-investments'));
+router.get('/', injectListingContent, async function(req, res, next) {
+    try {
+        res.render(path.resolve(__dirname, './views/strategic-investments'), {
+            strategicProgrammes: await contentApi.getStrategicProgrammes({
+                locale: req.i18n.getLocale(),
+                requestParams: req.query
+            })
+        });
+    } catch (error) {
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
+    }
 });
 
 router.get('/:slug/:childPageSlug?', injectStrategicProgramme, function(

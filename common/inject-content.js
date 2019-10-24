@@ -220,24 +220,6 @@ async function injectStrategicProgramme(req, res, next) {
     }
 }
 
-async function injectStrategicProgrammes(req, res, next) {
-    try {
-        res.locals.strategicProgrammes = await contentApi.getStrategicProgrammes(
-            {
-                locale: req.i18n.getLocale(),
-                requestParams: req.query
-            }
-        );
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
 async function injectResearch(req, res, next) {
     try {
         const research = await contentApi.getResearch({
@@ -324,7 +306,6 @@ module.exports = {
     injectResearch,
     injectResearchEntry,
     injectStrategicProgramme,
-    injectStrategicProgrammes,
     setCommonLocals,
     setHeroLocals
 };
