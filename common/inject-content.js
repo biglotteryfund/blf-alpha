@@ -193,48 +193,6 @@ async function injectFundingProgramme(req, res, next) {
     }
 }
 
-async function injectResearch(req, res, next) {
-    try {
-        const research = await contentApi.getResearch({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
-        res.locals.researchEntries = research.result;
-        res.locals.researchMeta = research.meta;
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
-async function injectResearchEntry(req, res, next) {
-    try {
-        // Assumes a parameter of :slug in the request
-        const { slug } = req.params;
-        if (slug) {
-            const entry = await contentApi.getResearch({
-                slug: slug,
-                locale: req.i18n.getLocale(),
-                requestParams: req.query
-            });
-
-            res.locals.researchEntry = entry;
-            setCommonLocals({ res, entry });
-        }
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
 function injectMerchandise({ locale = null, showAll = false }) {
     return async (req, res, next) => {
         try {
@@ -258,8 +216,6 @@ module.exports = {
     injectHeroImage,
     injectListingContent,
     injectMerchandise,
-    injectResearch,
-    injectResearchEntry,
     setCommonLocals,
     setHeroLocals
 };
