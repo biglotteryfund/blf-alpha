@@ -47,10 +47,15 @@ module.exports = function cspDirectives() {
             'localhost',
             'stats.g.doubleclick.net',
             'via.placeholder.com',
-            'biglotteryfund-assets.imgix.net'
+            'biglotteryfund-assets.imgix.net',
+            'i.ytimg.com'
         ]),
         fontSrc: concat(defaultSrc, ['data:', 'use.typekit.net']),
-        styleSrc: concat(defaultSrc, ["'unsafe-inline'", '*.typekit.net']),
+        styleSrc: concat(defaultSrc, [
+            "'unsafe-inline'",
+            '*.typekit.net',
+            'fonts.googleapis.com'
+        ]),
         scriptSrc: concat(defaultSrc, ["'unsafe-eval'", "'unsafe-inline'"]),
         childSrc: concat(defaultSrc, ['www.google.com']),
         connectSrc: defaultSrc,
