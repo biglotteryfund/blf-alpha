@@ -50,7 +50,11 @@ module.exports = function cspDirectives() {
             'biglotteryfund-assets.imgix.net',
             'i.ytimg.com'
         ]),
-        fontSrc: concat(defaultSrc, ['data:', 'use.typekit.net']),
+        fontSrc: concat(defaultSrc, [
+            'data:',
+            'use.typekit.net',
+            'fonts.googleapis.com'
+        ]),
         styleSrc: concat(defaultSrc, [
             "'unsafe-inline'",
             '*.typekit.net',
