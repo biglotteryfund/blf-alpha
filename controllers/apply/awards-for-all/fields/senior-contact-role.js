@@ -9,22 +9,101 @@ const rolesFor = require('../lib/roles');
 module.exports = function(locale, data) {
     const localise = get(locale);
 
+    const projectCountry = get('projectCountry')(data);
     const currentOrganisationType = get('organisationType')(data);
     const currentOrganisationSubType = get('organisationSubType')(data);
+
+    const isCompany =
+        currentOrganisationType === ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY;
+
+    const isRegisteredCharity = [
+        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
+    ].includes(currentOrganisationType);
 
     /**
      * Statutory bodies require a sub-type,
      * some of which allow free text input for roles.
      */
-    function isFreeText() {
-        return (
-            currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
-            [
-                STATUTORY_BODY_TYPES.PRISON_SERVICE,
-                STATUTORY_BODY_TYPES.FIRE_SERVICE,
-                STATUTORY_BODY_TYPES.POLICE_AUTHORITY
-            ].includes(currentOrganisationSubType)
-        );
+    const isFreeText =
+        currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
+        [
+            STATUTORY_BODY_TYPES.PRISON_SERVICE,
+            STATUTORY_BODY_TYPES.FIRE_SERVICE,
+            STATUTORY_BODY_TYPES.POLICE_AUTHORITY
+        ].includes(currentOrganisationSubType);
+
+    function warnings() {
+        let result = [];
+
+        if (isCompany) {
+            result.push(
+                localise({
+                    en: oneLine`As you're a company, your senior contact needs
+                        to be listed as one of your board members on Companies House.`,
+                    cy: oneLine`Gan eich bod yn gwmni, rhaid i’ch uwch gyswllt gael
+                        ei restru fel un o’ch aelodau bwrdd ar Dŷ’r Cwmnïau.`
+                })
+            );
+        }
+
+        /**
+         * Scotland doesn't include trustees in their charity commission
+         * data, so don't show this message in Scotland.
+         */
+        if (isRegisteredCharity && projectCountry !== 'scotland') {
+            result.push(
+                localise({
+                    en: oneLine`As you're a registered charity (that's not also a company),
+                        your senior contact needs to be listed as one of your trustees
+                        with your charity regulator.`,
+                    cy: oneLine`Gan eich bod yn elusen gofrestredig (sydd hefyd ddim yn gwmni),
+                        rhaid i’ch uwch gyswllt gael ei restru fel un o’ch
+                        ymddiriedolwyr gyda’ch rheolydd elusennol.`
+                })
+            );
+        }
+
+        if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
+            result.push(
+                localise({
+                    en: oneLine`As a charity, your senior contact can be one of
+                        your organisation's trustees. This can include trustees
+                        taking on the role of Chair, Vice Chair or Treasurer.`,
+
+                    cy: oneLine`Fel elusen, gall eich uwch gyswllt fod yn un o
+                        ymddiriedolwyr eich sefydliad. Gall hyn gynnwys
+                        ymddiriedolwyr yn cymryd rôl fel Cadeirydd,
+                        Is-gadeirydd neu Drysorydd.  `
+                })
+            );
+        }
+
+        if (isRegisteredCharity) {
+            result.push(
+                localise({
+                    en: oneLine`As a registered charity, your senior contact
+                        must be one of your organisation's trustees. This can
+                        include trustees taking on the role of Chair,
+                        Vice Chair or Treasurer.`,
+
+                    cy: oneLine`Fel elusen gofrestredig, rhaid i’ch uwch gyswllt fod
+                        yn un o ymddiriedolwyr eich sefydliad. Gall hyn gynnwys
+                        ymddiriedolwyr yn cymryd rôl fel Cadeirydd,
+                        Is-gadeirydd neu Drysorydd. `
+                })
+            );
+        }
+
+        if (currentOrganisationType === ORGANISATION_TYPES.SCHOOL) {
+            result.push(
+                localise({
+                    en: `As a school, your senior contact must be the headteacher`,
+                    cy: `Fel ysgol, rhaid i’ch uwch gyswllt fod y prifathro`
+                })
+            );
+        }
+
+        return result;
     }
 
     return {
@@ -34,7 +113,7 @@ module.exports = function(locale, data) {
             en: `<p>
                 You told us what sort of organisation you are earlier.
                 ${
-                    isFreeText()
+                    isFreeText
                         ? oneLine`So the senior contact role should be someone
                           in a position of authority in your organisation.`
                         : oneLine`So the senior contact role options we're
@@ -45,7 +124,7 @@ module.exports = function(locale, data) {
             cy: `<p>
                 Fe ddywedoch wrthym ba fath o sefydliad ydych yn gynharach.
                 ${
-                    isFreeText()
+                    isFreeText
                         ? oneLine`Felly dylai rôl yr uwch gyswllt fod yn rhywun
                           mewn safle o awdurdod yn eich sefydliad`
                         : oneLine`Felly mae’r opsiynau rôl uwch gyswllt rydym
@@ -55,81 +134,8 @@ module.exports = function(locale, data) {
                 }
             </p>`
         }),
-        get warnings() {
-            let result = [];
-
-            const projectCountry = get('projectCountry')(data);
-
-            const isCharityOrCompany = [
-                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                ORGANISATION_TYPES.CIO,
-                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-            ].includes(currentOrganisationType);
-
-            /**
-             * Scotland doesn't include trustees in their charity commission
-             * data, so don't show this message in Scotland.
-             */
-            if (isCharityOrCompany && projectCountry !== 'scotland') {
-                result.push(
-                    localise({
-                        en: oneLine`Your senior contact must be listed as a
-                            member of your organisation's board or committee
-                            with the Charity Commission/Companies House.`,
-
-                        cy: oneLine`Rhaid i’r uwch gyswllt fod wedi ei restru
-                            fel aelod o fwrdd neu bwyllgor eich sefydliad gyda’r
-                            Comisiwn Elusennol/Tŷ’r Cwmnïau.`
-                    })
-                );
-            }
-
-            if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
-                result.push(
-                    localise({
-                        en: oneLine`As a charity, your senior contact can be one of
-                            your organisation's trustees. This can include trustees
-                            taking on the role of Chair, Vice Chair or Treasurer.`,
-
-                        cy: oneLine`Fel elusen, gall eich uwch gyswllt fod yn un o
-                            ymddiriedolwyr eich sefydliad. Gall hyn gynnwys
-                            ymddiriedolwyr yn cymryd rôl fel Cadeirydd,
-                            Is-gadeirydd neu Drysorydd.  `
-                    })
-                );
-            }
-
-            if (
-                currentOrganisationType ===
-                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
-            ) {
-                result.push(
-                    localise({
-                        en: oneLine`As a registered charity, your senior contact
-                            must be one of your organisation's trustees. This can
-                            include trustees taking on the role of Chair,
-                            Vice Chair or Treasurer.`,
-
-                        cy: oneLine`Fel elusen gofrestredig, rhaid i’ch uwch gyswllt fod
-                            yn un o ymddiriedolwyr eich sefydliad. Gall hyn gynnwys
-                            ymddiriedolwyr yn cymryd rôl fel Cadeirydd,
-                            Is-gadeirydd neu Drysorydd. `
-                    })
-                );
-            }
-
-            if (currentOrganisationType === ORGANISATION_TYPES.SCHOOL) {
-                result.push(
-                    localise({
-                        en: `As a school, your senior contact must be the headteacher`,
-                        cy: `Fel ysgol, rhaid i’ch uwch gyswllt fod y prifathro`
-                    })
-                );
-            }
-
-            return result;
-        },
-        type: isFreeText() ? 'text' : 'radio',
+        warnings: warnings(),
+        type: isFreeText ? 'text' : 'radio',
         options: rolesFor({
             locale: locale,
             organisationType: currentOrganisationType,
@@ -137,7 +143,7 @@ module.exports = function(locale, data) {
         }),
         isRequired: true,
         get schema() {
-            if (isFreeText()) {
+            if (isFreeText) {
                 return Joi.string().required();
             } else {
                 return Joi.string()
@@ -148,7 +154,7 @@ module.exports = function(locale, data) {
         messages: [
             {
                 type: 'base',
-                message: isFreeText()
+                message: isFreeText
                     ? localise({ en: 'Enter a role', cy: 'Rhowch rôl ' })
                     : localise({ en: 'Choose a role', cy: 'Dewiswch rôl ' })
             },
