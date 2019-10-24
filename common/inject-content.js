@@ -194,32 +194,6 @@ async function injectFundingProgramme(req, res, next) {
     }
 }
 
-async function injectStrategicProgramme(req, res, next) {
-    try {
-        // Assumes a parameter of :slug and :childPageSlug? in the request
-        const { slug, childPageSlug } = req.params;
-        if (slug) {
-            const querySlug = childPageSlug ? `${slug}/${childPageSlug}` : slug;
-
-            const entry = await contentApi.getStrategicProgrammes({
-                slug: querySlug,
-                locale: req.i18n.getLocale(),
-                requestParams: req.query
-            });
-
-            res.locals.strategicProgramme = entry;
-            setCommonLocals({ res, entry });
-        }
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
 async function injectResearch(req, res, next) {
     try {
         const research = await contentApi.getResearch({
@@ -305,7 +279,6 @@ module.exports = {
     injectOurPeople,
     injectResearch,
     injectResearchEntry,
-    injectStrategicProgramme,
     setCommonLocals,
     setHeroLocals
 };
