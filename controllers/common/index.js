@@ -1,8 +1,8 @@
 'use strict';
-const express = require('express');
-const { isEmpty, get } = require('lodash');
 const path = require('path');
+const express = require('express');
 const Sentry = require('@sentry/node');
+const isEmpty = require('lodash/isEmpty');
 
 const {
     injectBreadcrumbs,
@@ -14,24 +14,7 @@ const {
 const { isWelsh } = require('../../common/urls');
 const contentApi = require('../../common/content-api');
 
-function getChildrenLayoutMode(content) {
-    let childrenLayoutMode = 'list';
-    const childPageDisplay = get(content, 'childPageDisplay');
-
-    // This page should show a grid of child images
-    // but do they all have images we can use?
-    if (content.children) {
-        const missingTrailImages = content.children.some(
-            page => !page.trailImage
-        );
-        if (childPageDisplay === 'grid' && !missingTrailImages) {
-            childrenLayoutMode = 'grid';
-        } else if (!childPageDisplay || childPageDisplay === 'none') {
-            childrenLayoutMode = false;
-        }
-    }
-    return childrenLayoutMode;
-}
+const { getLayoutMode } = require('./lib/get-layout-mode');
 
 function staticPage({
     lang = null,
@@ -112,7 +95,7 @@ function basicContent({
             if (customTemplate) {
                 res.render(customTemplate);
             } else if (cmsPage) {
-                const childrenLayoutMode = getChildrenLayoutMode(content);
+                const childrenLayoutMode = getLayoutMode(content);
 
                 // Reformat the child pages for plain-text links
                 if (content.children && childrenLayoutMode === 'list') {
@@ -206,9 +189,8 @@ function renderFlexibleContentChild(req, res, entry) {
 }
 
 module.exports = {
+    staticPage,
     basicContent,
     flexibleContent,
-    renderFlexibleContentChild,
-    staticPage,
-    getChildrenLayoutMode
+    renderFlexibleContentChild
 };
