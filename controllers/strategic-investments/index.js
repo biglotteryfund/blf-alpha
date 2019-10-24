@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat, get, set, startsWith } = require('lodash');
+const { get, set, startsWith } = require('lodash');
 
 const {
     injectBreadcrumbs,
@@ -14,11 +14,12 @@ const contentApi = require('../../common/content-api');
 const router = express.Router();
 
 router.use(injectBreadcrumbs, (req, res, next) => {
-    const routerCrumb = {
-        label: req.i18n.__('funding.strategics.title'),
-        url: req.baseUrl
-    };
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [routerCrumb]);
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat([
+        {
+            label: req.i18n.__('funding.strategics.title'),
+            url: req.baseUrl
+        }
+    ]);
     next();
 });
 
@@ -58,22 +59,16 @@ router.get('/:slug/:childPageSlug?', injectStrategicProgramme, function(
                 'content.flexibleContent',
                 strategicProgramme.content
             );
-            let breadcrumbs;
 
-            if (strategicProgramme.parent) {
-                const parentProgrammeCrumb = {
-                    label: strategicProgramme.parent.title,
-                    url: strategicProgramme.parent.linkUrl
-                };
-                breadcrumbs = concat(res.locals.breadcrumbs, [
-                    parentProgrammeCrumb,
-                    { label: res.locals.title }
-                ]);
-            } else {
-                breadcrumbs = concat(res.locals.breadcrumbs, [
-                    { label: res.locals.title }
-                ]);
-            }
+            const breadcrumbs = strategicProgramme.parent
+                ? res.locals.breadcrumbs.concat([
+                      {
+                          label: strategicProgramme.parent.title,
+                          url: strategicProgramme.parent.linkUrl
+                      },
+                      { label: res.locals.title }
+                  ])
+                : res.locals.breadcrumbs.concat([{ label: res.locals.title }]);
 
             res.render(
                 path.resolve(__dirname, '../common/views/flexible-content'),
@@ -85,7 +80,7 @@ router.get('/:slug/:childPageSlug?', injectStrategicProgramme, function(
         } else {
             // Render a standard Strategic page
             res.render(path.resolve(__dirname, './views/strategic-programme'), {
-                breadcrumbs: concat(res.locals.breadcrumbs, {
+                breadcrumbs: res.locals.breadcrumbs.concat({
                     label: res.locals.title
                 })
             });
