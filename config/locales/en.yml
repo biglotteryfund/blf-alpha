@@ -1589,6 +1589,7 @@ applyNext:
     all:
       title: All applications
     noApplications: You don't have any online applications with The National Lottery Community fund right now.
+    applicationDeleted: Your application was successfully deleted
     actions:
       simple:
         title: "Funding under £10,000: Start an application"

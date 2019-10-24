@@ -117,6 +117,11 @@ router.get(
                 SubmittedApplication.findAllByUserId(req.user.id)
             ]);
 
+            if (req.query.s === 'applicationDeleted') {
+                res.locals.alertMessage = copy.applicationDeleted;
+                res.locals.hotJarTagList = ['User deleted an application'];
+            }
+
             res.render(path.resolve(__dirname, './views/dashboard-all'), {
                 title: copy.all.title,
                 pendingApplications: pendingApplications.map(application =>

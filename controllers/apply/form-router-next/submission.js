@@ -140,7 +140,7 @@ module.exports = function(
              * Delete the pending application once the
              * SubmittedApplication has been created.
              */
-            await PendingApplication.deleteApplication(
+            await PendingApplication.delete(
                 currentApplication.id,
                 req.user.userData.id
             );

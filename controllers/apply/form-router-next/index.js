@@ -300,7 +300,7 @@ function initFormRouter({
             res.locals.currentlyEditingId = currentEditingId;
 
             try {
-                const currentApplication = await PendingApplication.findApplicationForForm(
+                const currentApplication = await PendingApplication.findForUser(
                     {
                         formId: formId,
                         applicationId: currentEditingId,
