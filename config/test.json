@@ -1,5 +1,4 @@
 {
-  "logLevel": "debug",
   "aws": {
     "s3": {
       "formUploadBucket": "tnlcf-uploads-test"

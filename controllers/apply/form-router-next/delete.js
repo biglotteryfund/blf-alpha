@@ -12,10 +12,6 @@ module.exports = function(formId) {
         .route('/:applicationId')
         .get(async function(req, res) {
             if (req.params.applicationId && req.user) {
-                logger.debug(
-                    `Looking up application ${req.params.applicationId}`
-                );
-
                 const application = await PendingApplication.findApplicationForForm(
                     {
                         formId: formId,
@@ -30,9 +26,6 @@ module.exports = function(formId) {
                         csrfToken: req.csrfToken()
                     });
                 } else {
-                    logger.debug(
-                        `Failed to find application for ${req.params.applicationId}`
-                    );
                     return res.redirect(res.locals.formBaseUrl);
                 }
             } else {
