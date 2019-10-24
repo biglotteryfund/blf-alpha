@@ -164,35 +164,6 @@ async function injectFlexibleContent(req, res, next) {
     }
 }
 
-/**
- * Inject funding programme detail
- * Assumes a parameter of :slug in the request
- */
-async function injectFundingProgramme(req, res, next) {
-    try {
-        let slug = req.params.programmeSlug;
-        if (req.params.childPageSlug) {
-            slug += `/${req.params.childPageSlug}`;
-        }
-
-        const entry = await contentApi.getFundingProgramme({
-            slug: slug,
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
-
-        res.locals.fundingProgramme = entry;
-        setCommonLocals({ res, entry });
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
 function injectMerchandise({ locale = null, showAll = false }) {
     return async (req, res, next) => {
         try {
@@ -212,7 +183,6 @@ module.exports = {
     injectBreadcrumbs,
     injectCopy,
     injectFlexibleContent,
-    injectFundingProgramme,
     injectHeroImage,
     injectListingContent,
     injectMerchandise,
