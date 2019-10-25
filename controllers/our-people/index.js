@@ -42,8 +42,6 @@ router.get('/', injectHeroImage('mental-health-foundation-new'), async function(
         res.render(path.resolve(__dirname, './views/our-people'), {
             ourPeopleLinks: mapLinks(people)
         });
-
-        next();
     } catch (error) {
         next(error);
     }
