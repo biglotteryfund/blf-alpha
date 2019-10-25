@@ -274,7 +274,11 @@ it('should email valid users with a token', () => {
     });
 });
 
-function submitPasswordReset(newPassword, oldPassword = null) {
+function submitPasswordReset(
+    newPassword,
+    oldPassword = null,
+    expectError = false
+) {
     if (oldPassword) {
         cy.findByText('Change your password').click();
         cy.findByLabelText('Your old password').type(oldPassword);
@@ -285,9 +289,17 @@ function submitPasswordReset(newPassword, oldPassword = null) {
     cy.get('.form-actions').within(() => {
         cy.findByText('Reset password').click();
     });
-    cy.findByText('Your password was successfully updated!').should(
-        'be.visible'
-    );
+
+    if (expectError) {
+        cy.findByTestId('form-errors').should(
+            'contain',
+            'There was a problem with your submission'
+        );
+    } else {
+        cy.findByText('Your password was successfully updated!').should(
+            'be.visible'
+        );
+    }
 }
 
 it('should be able to log in and update account details', () => {
@@ -337,6 +349,20 @@ it('should be able to reset password while logged out', () => {
         }).then(response => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
             submitPasswordReset(generateAccountPassword());
+        });
+    });
+});
+
+it('should throw errors on multiple error requests on pwd reset', () => {
+    const weakPassword = 'password123';
+    cy.seedUser().then(user => {
+        cy.request('POST', '/user/password/forgot', {
+            username: user.username,
+            returnToken: true
+        }).then(response => {
+            cy.visit(`/user/password/reset?token=${response.body.token}`);
+            submitPasswordReset(weakPassword, null, true);
+            submitPasswordReset(weakPassword, null, true);
         });
     });
 });
@@ -1075,7 +1101,7 @@ it('should complete standard your funding proposal form', () => {
         projectCountries: ['England'],
         projectLocation: 'Derbyshire',
         projectLocationDescription: faker.lorem.words(5),
-        projectCosts: random(10000, 5000000),
+        projectCosts: random(10001, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
         yourIdeaProject: faker.lorem.words(random(50, 250)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),

@@ -10,6 +10,8 @@ const {
 } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 
+const { renderFlexibleContentChild } = require('../common');
+
 const router = express.Router();
 
 router.use(injectBreadcrumbs, (req, res, next) => {
@@ -53,24 +55,8 @@ router.get('/:slug/:child_slug?', async function(req, res, next) {
          * Render a plain content page if specified,
          * otherwise render a standard Strategic page
          */
-        if (entry.entryType === 'contentPage') {
-            const breadcrumbs = entry.parent
-                ? res.locals.breadcrumbs.concat([
-                      {
-                          label: entry.parent.title,
-                          url: entry.parent.linkUrl
-                      },
-                      { label: res.locals.title }
-                  ])
-                : res.locals.breadcrumbs.concat([{ label: res.locals.title }]);
-
-            res.render(
-                path.resolve(__dirname, '../common/views/flexible-content'),
-                {
-                    breadcrumbs: breadcrumbs,
-                    flexibleContent: entry.content
-                }
-            );
+        if (entry && entry.entryType === 'contentPage') {
+            renderFlexibleContentChild(req, res, entry);
         } else if (entry) {
             res.render(path.resolve(__dirname, './views/strategic-programme'), {
                 strategicProgramme: entry,
@@ -82,7 +68,11 @@ router.get('/:slug/:child_slug?', async function(req, res, next) {
             next();
         }
     } catch (error) {
-        next(error);
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 });
 

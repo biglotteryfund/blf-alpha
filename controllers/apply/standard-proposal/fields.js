@@ -251,7 +251,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `This can be an estimate`,
                 cy: ``
             }),
-            minAmount: 10000,
+            minAmount: 10001,
             messages: [
                 {
                     type: 'base',

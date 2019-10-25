@@ -16,9 +16,9 @@ const { MATERIAL_SUPPLIER } = require('../../common/secrets');
 const { generateHtmlEmail, sendEmail } = require('../../common/mail');
 const {
     injectBreadcrumbs,
-    injectListingContent,
-    injectMerchandise
+    injectListingContent
 } = require('../../common/inject-content');
+const contentApi = require('../../common/content-api');
 const { csrfProtection, noStore } = require('../../common/cached');
 const { Order } = require('../../db/models');
 
@@ -165,113 +165,123 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
 
 router
     .route('/')
-    .all(csrfProtection, injectListingContent, injectBreadcrumbs)
-    .get(injectMerchandise({}), (req, res) => {
-        renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
-    })
-    .post(
-        injectMerchandise({}),
-        map(materialFields, field => field.validator(field)),
-        (req, res) => {
-            req.body = mapValues(req.body, sanitise);
-            const errors = validationResult(req);
-
-            if (errors.isEmpty()) {
-                const details = req.body;
-                const availableItems = res.locals.availableItems;
-
-                const itemsToEmail = req.session[sessionOrderKey].map(item => {
-                    const material = availableItems.find(
-                        i => i.itemId === item.materialId
-                    );
-                    const product = material.products.find(
-                        p => p.id === item.productId
-                    );
-                    // prevent someone who really loves plaques from hacking the form to increase the maximum
-                    if (item.quantity > material.maximum) {
-                        item.quantity = material.maximum;
-                    }
-                    return {
-                        name: product.name ? product.name : material.title,
-                        code: product.code,
-                        quantity: item.quantity
-                    };
+    .all(
+        csrfProtection,
+        injectListingContent,
+        injectBreadcrumbs,
+        async function(req, res, next) {
+            try {
+                res.locals.availableItems = await contentApi.getMerchandise({
+                    locale: req.i18n.getLocale()
                 });
-
-                const orderText = makeOrderText(itemsToEmail, details);
-
-                storeOrderSummary({
-                    orderItems: itemsToEmail,
-                    orderDetails: details
-                })
-                    .then(async () => {
-                        const customerSendTo = details.yourEmail;
-                        const supplierSendTo = appData.isNotProduction
-                            ? customerSendTo
-                            : MATERIAL_SUPPLIER;
-
-                        const customerHtml = await generateHtmlEmail({
-                            template: path.resolve(
-                                __dirname,
-                                './views/order-email.njk'
-                            ),
-                            templateData: {
-                                locale: req.i18n.getLocale(),
-                                copy: req.i18n.__('materials.orderEmail')
-                            }
-                        });
-
-                        const customerEmail = sendEmail({
-                            name: 'material_customer',
-                            mailConfig: {
-                                sendTo: customerSendTo,
-                                subject:
-                                    'Thank you for your The National Lottery Community Fund order',
-                                type: 'html',
-                                content: customerHtml
-                            }
-                        });
-
-                        const supplierEmail = sendEmail({
-                            name: 'material_supplier',
-                            mailConfig: {
-                                sendTo: supplierSendTo,
-                                sendMode: 'bcc',
-                                subject: `Order from The National Lottery Community Fund website - ${moment().format(
-                                    'dddd, MMMM Do YYYY, h:mm:ss a'
-                                )}`,
-                                type: 'text',
-                                content: orderText
-                            }
-                        });
-
-                        return Promise.all([customerEmail, supplierEmail]).then(
-                            () => {
-                                // Clear order details if successful
-                                delete req.session[sessionOrderKey];
-                                delete req.session[sessionBlockedItemKey];
-                                req.session.save(() => {
-                                    renderForm(
-                                        req,
-                                        res,
-                                        FORM_STATES.SUBMISSION_SUCCESS
-                                    );
-                                });
-                            }
-                        );
-                    })
-                    .catch(err => {
-                        Sentry.captureException(err);
-                        renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
-                    });
-            } else {
-                // The form has failed validation
-                res.locals.formErrors = errors.array();
-                res.locals.formValues = req.body;
-                renderForm(req, res, FORM_STATES.VALIDATION_ERROR);
+                next();
+            } catch (error) {
+                next(error);
             }
         }
-    );
+    )
+    .get((req, res) => {
+        renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
+    })
+    .post(map(materialFields, field => field.validator(field)), (req, res) => {
+        req.body = mapValues(req.body, sanitise);
+        const errors = validationResult(req);
+
+        if (errors.isEmpty()) {
+            const details = req.body;
+            const availableItems = res.locals.availableItems;
+
+            const itemsToEmail = req.session[sessionOrderKey].map(item => {
+                const material = availableItems.find(
+                    i => i.itemId === item.materialId
+                );
+                const product = material.products.find(
+                    p => p.id === item.productId
+                );
+                // prevent someone who really loves plaques from hacking the form to increase the maximum
+                if (item.quantity > material.maximum) {
+                    item.quantity = material.maximum;
+                }
+                return {
+                    name: product.name ? product.name : material.title,
+                    code: product.code,
+                    quantity: item.quantity
+                };
+            });
+
+            const orderText = makeOrderText(itemsToEmail, details);
+
+            storeOrderSummary({
+                orderItems: itemsToEmail,
+                orderDetails: details
+            })
+                .then(async () => {
+                    const customerSendTo = details.yourEmail;
+                    const supplierSendTo = appData.isNotProduction
+                        ? customerSendTo
+                        : MATERIAL_SUPPLIER;
+
+                    const customerHtml = await generateHtmlEmail({
+                        template: path.resolve(
+                            __dirname,
+                            './views/order-email.njk'
+                        ),
+                        templateData: {
+                            locale: req.i18n.getLocale(),
+                            copy: req.i18n.__('materials.orderEmail')
+                        }
+                    });
+
+                    const customerEmail = sendEmail({
+                        name: 'material_customer',
+                        mailConfig: {
+                            sendTo: customerSendTo,
+                            subject:
+                                'Thank you for your The National Lottery Community Fund order',
+                            type: 'html',
+                            content: customerHtml
+                        }
+                    });
+
+                    const supplierEmail = sendEmail({
+                        name: 'material_supplier',
+                        mailConfig: {
+                            sendTo: supplierSendTo,
+                            sendMode: 'bcc',
+                            subject: `Order from The National Lottery Community Fund website - ${moment().format(
+                                'dddd, MMMM Do YYYY, h:mm:ss a'
+                            )}`,
+                            type: 'text',
+                            content: orderText
+                        }
+                    });
+
+                    return Promise.all([customerEmail, supplierEmail]).then(
+                        () => {
+                            // Clear order details if successful
+                            delete req.session[sessionOrderKey];
+                            delete req.session[sessionBlockedItemKey];
+                            req.session.save(() => {
+                                renderForm(
+                                    req,
+                                    res,
+                                    FORM_STATES.SUBMISSION_SUCCESS
+                                );
+                            });
+                        }
+                    );
+                })
+                .catch(err => {
+                    Sentry.captureException(err);
+                    renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+                });
+        } else {
+            // The form has failed validation
+            res.locals.formErrors = errors.array();
+            res.locals.formValues = req.body;
+            renderForm(req, res, FORM_STATES.VALIDATION_ERROR);
+        }
+    });
 
 /**
  * Handle adding and removing items
