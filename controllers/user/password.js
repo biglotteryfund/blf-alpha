@@ -243,6 +243,12 @@ router
             }
         } else {
             // Handle an unauthorised user who submitted the form with a token
+
+            // Retaining token in body for subsequent requests
+            req.body.token
+            ? req.session.token = req.body.token
+            : req.body.token = req.session.token;
+
             const { token } = req.body;
             if (!token) {
                 redirectForLocale(req, res, '/user/login');
