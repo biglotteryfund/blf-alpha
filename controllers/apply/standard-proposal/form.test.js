@@ -62,7 +62,7 @@ test('invalid form', () => {
     const result = form.validate({
         projectCountries: 'invalid-country',
         projectLocation: null,
-        projectCosts: 5000,
+        projectCosts: 10000,
         projectDurationYears: 10,
         organisationLegalName: 'Same organisation name',
         organisationTradingName: 'Same organisation name'
