@@ -14,7 +14,7 @@ const {
 const { isWelsh } = require('../../common/urls');
 const contentApi = require('../../common/content-api');
 
-const { getLayoutMode } = require('./lib/get-layout-mode');
+const getLayoutMode = require('./lib/get-layout-mode');
 
 function staticPage({
     lang = null,

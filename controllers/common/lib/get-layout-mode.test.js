@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const { getLayoutMode } = require('./get-layout-mode');
+const getLayoutMode = require('./get-layout-mode');
 
 test('should work out feasible child page layout mode', () => {
     expect(
