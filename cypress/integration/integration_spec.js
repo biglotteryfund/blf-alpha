@@ -274,7 +274,11 @@ it('should email valid users with a token', () => {
     });
 });
 
-function submitPasswordReset(newPassword, oldPassword = null, expectError = false) {
+function submitPasswordReset(
+    newPassword,
+    oldPassword = null,
+    expectError = false
+) {
     if (oldPassword) {
         cy.findByText('Change your password').click();
         cy.findByLabelText('Your old password').type(oldPassword);
@@ -1097,7 +1101,7 @@ it('should complete standard your funding proposal form', () => {
         projectCountries: ['England'],
         projectLocation: 'Derbyshire',
         projectLocationDescription: faker.lorem.words(5),
-        projectCosts: random(10000, 5000000),
+        projectCosts: random(10001, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
         yourIdeaProject: faker.lorem.words(random(50, 250)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
