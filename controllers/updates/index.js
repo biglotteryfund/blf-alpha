@@ -11,6 +11,7 @@ const {
     injectHeroImage
 } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
+const checkPreviewMode = require('../../common/check-preview-mode');
 
 const router = express.Router();
 
@@ -54,6 +55,13 @@ router.get(
         }
     }
 );
+
+function shouldRedirectLinkUrl(req, entry) {
+    return (
+        req.baseUrl + req.path !== entry.linkUrl &&
+        checkPreviewMode(req.query).isPreview === false
+    );
+}
 
 /**
  * Press releases handler
@@ -101,10 +109,7 @@ router.get(
                 );
             } else {
                 const entry = response.result;
-                if (
-                    req.baseUrl + req.path !== entry.linkUrl &&
-                    !res.locals.PREVIEW_MODE
-                ) {
+                if (shouldRedirectLinkUrl(req, entry)) {
                     res.redirect(entry.linkUrl);
                 } else if (entry.articleLink) {
                     res.redirect(entry.articleLink);
@@ -212,10 +217,7 @@ router.get(
                 });
             } else {
                 const entry = response.result;
-                if (
-                    req.baseUrl + req.path !== entry.linkUrl &&
-                    !res.locals.PREVIEW_MODE
-                ) {
+                if (shouldRedirectLinkUrl(req, entry)) {
                     res.redirect(entry.linkUrl);
                 } else if (entry.content.length > 0) {
                     res.locals.isBilingual =
