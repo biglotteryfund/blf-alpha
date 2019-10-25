@@ -181,7 +181,7 @@ app.use([
     express.urlencoded({ extended: true }),
     require('./common/session')(app),
     require('./common/passport')(),
-    require('./common/preview'),
+    require('./common/preview-auth'),
     require('./common/locals')
 ]);
 
