@@ -59,7 +59,7 @@ router.get('/:slug', async function(req, res, next) {
         const entry = find(people, item => item.slug === req.params.slug);
 
         if (entry) {
-            setCommonLocals({ res, entry });
+            setCommonLocals(req, res, entry);
 
             res.render(path.resolve(__dirname, './views/profiles'), {
                 entry: entry,
