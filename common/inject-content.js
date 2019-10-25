@@ -164,28 +164,12 @@ async function injectFlexibleContent(req, res, next) {
     }
 }
 
-function injectMerchandise({ locale = null, showAll = false }) {
-    return async (req, res, next) => {
-        try {
-            const localeToUse = locale ? locale : req.i18n.getLocale();
-            res.locals.availableItems = await contentApi.getMerchandise(
-                localeToUse,
-                showAll
-            );
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-}
-
 module.exports = {
     injectBreadcrumbs,
     injectCopy,
     injectFlexibleContent,
     injectHeroImage,
     injectListingContent,
-    injectMerchandise,
     setCommonLocals,
     setHeroLocals
 };
