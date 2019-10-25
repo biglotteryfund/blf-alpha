@@ -32,23 +32,27 @@ function staticPage({
         injectBreadcrumbs,
         async function(req, res, next) {
             const { copy } = res.locals;
-            const shouldRedirectLang =
-                (disableLanguageLink === true || isEmpty(copy)) &&
-                isWelsh(req.originalUrl);
-            if (shouldRedirectLang) {
+
+            function shouldRedirectLang() {
+                return (
+                    (disableLanguageLink === true || isEmpty(copy)) &&
+                    isWelsh(req.originalUrl)
+                );
+            }
+
+            if (shouldRedirectLang()) {
                 next();
             } else {
                 /**
                  * Inject project stories if we've been provided any slugs to fetch
                  */
+                let stories;
                 if (projectStorySlugs.length > 0) {
                     try {
-                        res.locals.stories = await contentApi.getProjectStories(
-                            {
-                                locale: req.i18n.getLocale(),
-                                slugs: projectStorySlugs
-                            }
-                        );
+                        stories = await contentApi.getProjectStories({
+                            locale: req.i18n.getLocale(),
+                            slugs: projectStorySlugs
+                        });
                     } catch (error) {
                         Sentry.captureException(error);
                     }
@@ -57,13 +61,49 @@ function staticPage({
                 res.render(template, {
                     title: copy.title,
                     description: copy.description || false,
-                    isBilingual: disableLanguageLink === false
+                    isBilingual: disableLanguageLink === false,
+                    stories: stories
                 });
             }
         }
     );
 
     return router;
+}
+
+function renderCMSPage(res, content) {
+    const childrenLayoutMode = getLayoutMode(content);
+
+    // Reformat the child pages for plain-text links
+    if (content.children && childrenLayoutMode === 'list') {
+        content.children = content.children.map(page => {
+            return {
+                href: page.linkUrl,
+                label: page.trailText || page.title
+            };
+        });
+    }
+
+    res.render(path.resolve(__dirname, './views/cms-page'), {
+        childrenLayoutMode: childrenLayoutMode
+    });
+}
+
+function renderListingPage(res, content) {
+    // What layout mode should we use? (eg. do all of the children have an image?)
+    const missingTrailImages = content.children.some(page => !page.trailImage);
+    const childrenLayoutMode = missingTrailImages ? 'plain' : 'heroes';
+    if (missingTrailImages) {
+        content.children = content.children.map(page => {
+            return {
+                href: page.linkUrl,
+                label: page.trailText || page.title
+            };
+        });
+    }
+    res.render(path.resolve(__dirname, './views/listing-page'), {
+        childrenLayoutMode: childrenLayoutMode
+    });
 }
 
 function basicContent({
@@ -95,48 +135,15 @@ function basicContent({
             if (customTemplate) {
                 res.render(customTemplate);
             } else if (cmsPage) {
-                const childrenLayoutMode = getLayoutMode(content);
-
-                // Reformat the child pages for plain-text links
-                if (content.children && childrenLayoutMode === 'list') {
-                    content.children = content.children.map(page => {
-                        return {
-                            href: page.linkUrl,
-                            label: page.trailText || page.title
-                        };
-                    });
-                }
-
-                res.render(path.resolve(__dirname, './views/cms-page'), {
-                    childrenLayoutMode: childrenLayoutMode
-                });
+                renderCMSPage(res, content);
             } else if (content.children) {
-                // @TODO eventually deprecate these templates in favour of CMS pages (above)
-
-                // What layout mode should we use? (eg. do all of the children have an image?)
-                const missingTrailImages = content.children.some(
-                    page => !page.trailImage
-                );
-                const childrenLayoutMode = missingTrailImages
-                    ? 'plain'
-                    : 'heroes';
-                if (missingTrailImages) {
-                    content.children = content.children.map(page => {
-                        return {
-                            href: page.linkUrl,
-                            label: page.trailText || page.title
-                        };
-                    });
-                }
-                res.render(path.resolve(__dirname, './views/listing-page'), {
-                    childrenLayoutMode: childrenLayoutMode
-                });
+                // @TODO: Deprecate these templates in favour of CMS pages (above)
+                renderListingPage(res, content);
             } else if (
                 content.introduction ||
                 content.segments.length > 0 ||
                 content.flexibleContent.length > 0
             ) {
-                // ↑ information pages must have at least an introduction or some content segments
                 res.render(path.resolve(__dirname, './views/information-page'));
             } else {
                 next();
