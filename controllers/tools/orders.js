@@ -11,8 +11,9 @@ const reverse = require('lodash/reverse');
 const sortBy = require('lodash/sortBy');
 const take = require('lodash/take');
 
-const { injectMerchandise } = require('../../common/inject-content');
 const { Order } = require('../../db/models');
+const contentApi = require('../../common/content-api');
+
 const { getDateRange } = require('./helpers');
 
 const router = express.Router();
@@ -92,47 +93,44 @@ function summariseOrders(orders) {
     };
 }
 
-router.get(
-    '/',
-    injectMerchandise({ locale: 'en', showAll: true }),
-    async (req, res, next) => {
-        try {
-            const dateRange = getDateRange(req.query.start, req.query.end);
+router.get('/', async function(req, res, next) {
+    try {
+        const dateRange = getDateRange(req.query.start, req.query.end);
 
-            const [oldestOrder, orderData] = await Promise.all([
-                Order.getOldestOrder(),
-                Order.getAllOrders(dateRange).then(summariseOrders)
-            ]);
+        const [materials, oldestOrder, orderData] = await Promise.all([
+            contentApi.getMerchandise({ locale: 'en', showAll: true }),
+            Order.getOldestOrder(),
+            Order.getAllOrders(dateRange).then(summariseOrders)
+        ]);
 
-            const materials = res.locals.availableItems;
-
-            res.locals.getItemName = function(code) {
-                // we have to search twice here because we only know the product code
-                // so we have to find the material first (for its name) then check the product
-                const material = materials.find(i =>
-                    i.products.find(j => j.code === code)
-                );
-
-                if (material) {
-                    const product = material.products.find(
-                        p => p.code === code
-                    );
-                    return product.name ? product.name : material.title;
-                } else {
-                    return 'Unknown item';
-                }
-            };
-
-            res.render(path.resolve(__dirname, './views/orders'), {
-                data: orderData,
-                oldestOrderDate: moment(oldestOrder.createdAt).toDate(),
-                dateRange: dateRange,
-                materials: materials
+        res.locals.getItemName = function(code) {
+            /**
+             * we have to search twice here because we only know the product code
+             * so we have to find the material first then check the product
+             */
+            const material = materials.find(function(item) {
+                return item.products.find(product => product.code === code);
             });
-        } catch (error) {
-            next(error);
-        }
+
+            if (material) {
+                const product = material.products.find(
+                    product => product.code === code
+                );
+                return product.name ? product.name : material.title;
+            } else {
+                return 'Unknown item';
+            }
+        };
+
+        res.render(path.resolve(__dirname, './views/orders'), {
+            data: orderData,
+            oldestOrderDate: moment(oldestOrder.createdAt).toDate(),
+            dateRange: dateRange,
+            materials: materials
+        });
+    } catch (error) {
+        next(error);
     }
-);
+});
 
 module.exports = router;

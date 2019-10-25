@@ -1,20 +1,22 @@
 'use strict';
-const { concat, get, groupBy, head, map, set, startsWith } = require('lodash');
-const express = require('express');
 const path = require('path');
+const express = require('express');
+const compact = require('lodash/compact');
+const get = require('lodash/get');
+const groupBy = require('lodash/groupBy');
 
 const {
     injectBreadcrumbs,
     injectCopy,
     injectHeroImage,
-    injectFundingProgramme,
     setCommonLocals
 } = require('../../common/inject-content');
-const { basicContent } = require('../common');
 const { buildArchiveUrl } = require('../../common/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');
 const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
+
+const { basicContent, renderFlexibleContentChild } = require('../common');
 
 const router = express.Router();
 
@@ -23,7 +25,7 @@ router.use(injectBreadcrumbs, (req, res, next) => {
         label: req.i18n.__('funding.programmes.title'),
         url: req.baseUrl
     };
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [routerCrumb]);
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat([routerCrumb]);
     next();
 });
 
@@ -61,10 +63,7 @@ router.get(
 
             const groupedProgrammes =
                 locationParam && locationParam !== 'ukWide'
-                    ? groupBy(
-                          concat(programmes, ukWideProgrammes),
-                          'area.label'
-                      )
+                    ? groupBy(programmes.concat(ukWideProgrammes), 'area.label')
                     : null;
 
             if (parseInt(req.query.min, 10) === 10000) {
@@ -99,10 +98,9 @@ router.get(
                 res.locals.breadcrumbs[1].url = req.baseUrl;
             }
 
-            const activeBreadcrumbsSummary = map(
-                res.locals.breadcrumbs,
-                'label'
-            ).join(', ');
+            const activeBreadcrumbsSummary = res.locals.breadcrumbs
+                .map(breadcrumb => breadcrumb.label)
+                .join(', ');
 
             res.render(path.resolve(__dirname, './views/programmes-list'), {
                 programmes,
@@ -147,13 +145,11 @@ router.get(
              * Group programmes alpha-numerically
              */
             const groupedProgrammes = groupBy(programmes, function(programme) {
-                const firstLetter = head(
-                    programme.title.split('')
-                ).toUpperCase();
+                const firstLetter = programme.title.split('')[0].toUpperCase();
                 return /\d/.test(firstLetter) ? '#' : firstLetter;
             });
 
-            const breadcrumbs = concat(res.locals.breadcrumbs, [
+            const breadcrumbs = res.locals.breadcrumbs.concat([
                 { label: res.locals.title }
             ]);
 
@@ -166,12 +162,12 @@ router.get(
                 ukWide: regionsCopy.ukWide
             };
 
-            const locationLinks = map(locations, function(value, key) {
-                return {
+            const locationLinks = Object.entries(locations).map(
+                ([key, value]) => ({
                     url: `${req.baseUrl}${req.path}?location=${key}`,
                     label: value
-                };
-            });
+                })
+            );
 
             if (locationParam) {
                 breadcrumbs.push({
@@ -204,85 +200,50 @@ router.use('/digital-fund', require('../digital-fund'));
 /**
  * Programme detail
  */
-router.get(
-    '/:programmeSlug/:childPageSlug?',
-    injectFundingProgramme,
-    (req, res, next) => {
-        const { currentPath, fundingProgramme } = res.locals;
+router.get('/:slug/:child_slug?', async (req, res, next) => {
+    try {
+        const entry = await contentApi.getFundingProgramme({
+            slug: compact([req.params.slug, req.params.child_slug]).join('/'),
+            locale: req.i18n.getLocale(),
+            requestParams: req.query
+        });
 
-        /* Only render if not using an external path */
-        if (
-            fundingProgramme &&
-            startsWith(currentPath, fundingProgramme.linkUrl)
-        ) {
-            if (get(fundingProgramme, 'entryType') === 'contentPage') {
-                setCommonLocals({ res, entry: fundingProgramme });
-                set(
-                    res.locals,
-                    'content.flexibleContent',
-                    fundingProgramme.content
-                );
+        setCommonLocals({ res, entry });
 
-                let breadcrumbs;
-
-                if (fundingProgramme.parent) {
-                    const parentProgrammeCrumb = {
-                        label: fundingProgramme.parent.title,
-                        url: fundingProgramme.parent.linkUrl
-                    };
-                    breadcrumbs = concat(res.locals.breadcrumbs, [
-                        parentProgrammeCrumb,
-                        { label: res.locals.title }
-                    ]);
-                } else {
-                    breadcrumbs = concat(res.locals.breadcrumbs, [
-                        { label: res.locals.title }
-                    ]);
-                }
-
-                res.render(
-                    path.resolve(__dirname, '../common/views/flexible-content'),
-                    {
-                        breadcrumbs: breadcrumbs,
-                        flexibleContent: fundingProgramme.content
-                    }
-                );
-            } else if (
-                get(fundingProgramme, 'contentSections', []).length > 0
-            ) {
-                /**
-                 * Programme Detail page
-                 */
-                res.render(path.resolve(__dirname, './views/programme'), {
-                    entry: fundingProgramme,
-                    breadcrumbs: concat(res.locals.breadcrumbs, [
-                        { label: res.locals.title }
-                    ])
-                });
-            } else if (get(fundingProgramme, 'isArchived') === true) {
-                /**
-                 * Archived programme
-                 */
-                res.render(
-                    path.resolve(__dirname, './views/archived-programme'),
-                    {
-                        entry: fundingProgramme,
-                        archiveUrl: buildArchiveUrl(
-                            fundingProgramme.legacyPath
-                        ),
-                        breadcrumbs: concat(res.locals.breadcrumbs, [
-                            { label: res.locals.title }
-                        ])
-                    }
-                );
-            } else {
-                next();
-            }
+        if (entry && entry.entryType === 'contentPage') {
+            renderFlexibleContentChild(req, res, entry);
+        } else if (get(entry, 'contentSections', []).length > 0) {
+            /**
+             * Programme Detail page
+             */
+            res.render(path.resolve(__dirname, './views/programme'), {
+                entry: entry,
+                breadcrumbs: res.locals.breadcrumbs.concat([
+                    { label: res.locals.title }
+                ])
+            });
+        } else if (get(entry, 'isArchived') === true) {
+            /**
+             * Archived programme
+             */
+            res.render(path.resolve(__dirname, './views/archived-programme'), {
+                entry: entry,
+                archiveUrl: buildArchiveUrl(entry.legacyPath),
+                breadcrumbs: res.locals.breadcrumbs.concat([
+                    { label: res.locals.title }
+                ])
+            });
+        } else {
+            next();
+        }
+    } catch (error) {
+        if (error.statusCode >= 500) {
+            next(error);
         } else {
             next();
         }
     }
-);
+});
 
 router.use(
     '/building-better-opportunities/*',

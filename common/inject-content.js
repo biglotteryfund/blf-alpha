@@ -164,120 +164,12 @@ async function injectFlexibleContent(req, res, next) {
     }
 }
 
-/**
- * Inject funding programme detail
- * Assumes a parameter of :slug in the request
- */
-async function injectFundingProgramme(req, res, next) {
-    try {
-        let slug = req.params.programmeSlug;
-        if (req.params.childPageSlug) {
-            slug += `/${req.params.childPageSlug}`;
-        }
-
-        const entry = await contentApi.getFundingProgramme({
-            slug: slug,
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
-
-        res.locals.fundingProgramme = entry;
-        setCommonLocals({ res, entry });
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
-async function injectResearch(req, res, next) {
-    try {
-        const research = await contentApi.getResearch({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
-        res.locals.researchEntries = research.result;
-        res.locals.researchMeta = research.meta;
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
-async function injectResearchEntry(req, res, next) {
-    try {
-        // Assumes a parameter of :slug in the request
-        const { slug } = req.params;
-        if (slug) {
-            const entry = await contentApi.getResearch({
-                slug: slug,
-                locale: req.i18n.getLocale(),
-                requestParams: req.query
-            });
-
-            res.locals.researchEntry = entry;
-            setCommonLocals({ res, entry });
-        }
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
-async function injectOurPeople(req, res, next) {
-    try {
-        res.locals.ourPeople = await contentApi.getOurPeople({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
-
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
-function injectMerchandise({ locale = null, showAll = false }) {
-    return async (req, res, next) => {
-        try {
-            const localeToUse = locale ? locale : req.i18n.getLocale();
-            res.locals.availableItems = await contentApi.getMerchandise(
-                localeToUse,
-                showAll
-            );
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-}
-
 module.exports = {
     injectBreadcrumbs,
     injectCopy,
     injectFlexibleContent,
-    injectFundingProgramme,
     injectHeroImage,
     injectListingContent,
-    injectMerchandise,
-    injectOurPeople,
-    injectResearch,
-    injectResearchEntry,
     setCommonLocals,
     setHeroLocals
 };

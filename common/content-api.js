@@ -339,7 +339,7 @@ function getDataStats({ locale, query = {}, requestParams = {} }) {
     }).then(response => response.data.attributes);
 }
 
-function getMerchandise(locale, showAll = false) {
+function getMerchandise({ locale, showAll = false } = {}) {
     let params = {};
     if (showAll) {
         params.all = 'true';
