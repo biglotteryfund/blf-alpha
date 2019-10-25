@@ -244,6 +244,10 @@ router
         } else {
             // Handle an unauthorised user who submitted the form with a token
             const { token } = req.body;
+
+            // Retaining token for subsequent requests
+            res.locals.token = token;
+
             if (!token) {
                 redirectForLocale(req, res, '/user/login');
             } else {
