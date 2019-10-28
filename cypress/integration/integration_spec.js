@@ -1098,8 +1098,10 @@ it('should submit full awards for all application', () => {
 it('should complete standard your funding proposal form', () => {
     const mock = {
         projectName: faker.lorem.words(5),
-        projectCountries: ['England'],
-        projectLocation: 'Derbyshire',
+        projectCountries: sampleSize(
+            ['England', 'Scotland', 'Northern Ireland'],
+            random(1, 2)
+        ),
         projectLocationDescription: faker.lorem.words(5),
         projectCosts: random(10001, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
@@ -1158,9 +1160,24 @@ it('should complete standard your funding proposal form', () => {
 
         submitStep();
 
-        cy.findByLabelText('Where will your project take place?').select(
-            mock.projectLocation
-        );
+        function randomProjectLocation() {
+            if (mock.projectCountries.includes('Northern Ireland')) {
+                return 'Derry and Strabane';
+            } else if (mock.projectCountries.includes('Scotland')) {
+                return 'Highland';
+            } else if (mock.projectCountries.includes('Wales')) {
+                return 'Caerphilly';
+            } else {
+                return 'Bath and North East Somerset';
+            }
+        }
+
+        if (mock.projectCountries.length === 1) {
+            cy.findByLabelText('Where will your project take place?').select(
+                randomProjectLocation()
+            );
+        }
+
         cy.findByLabelText('Project location', { exact: false }).type(
             mock.projectLocationDescription
         );
@@ -1172,8 +1189,10 @@ it('should complete standard your funding proposal form', () => {
         );
         submitStep();
 
-        cy.findByLabelText(mock.projectDurationYears).click();
-        submitStep();
+        if (mock.projectCountries.length === 1) {
+            cy.findByLabelText(mock.projectDurationYears).click();
+            submitStep();
+        }
 
         cy.findByLabelText('What would you like to do?')
             .invoke('val', mock.yourIdeaProject)
@@ -1242,6 +1261,12 @@ it('should complete standard your funding proposal form', () => {
         cy.findAllByText('Nearly done', { exact: false })
             .first()
             .should('exist');
+
+        cy.findAllByText('Submit application')
+            .first()
+            .click();
+
+        cy.get('h1').should('contain', 'Thanks for telling us your proposal');
     });
 });
 
