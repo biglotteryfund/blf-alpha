@@ -5,17 +5,11 @@ const Sentry = require('@sentry/node');
 
 const { Users } = require('../../db/models');
 const {
-    requireUserAuth,
-    redirectUrlWithFallback
+    redirectUrlWithFallback,
+    requireUnactivatedUser
 } = require('../../common/authed');
-const {
-    injectCopy,
-    injectBreadcrumbs
-} = require('../../common/inject-content');
-
-const logger = require('../../common/logger').child({
-    service: 'user'
-});
+const { injectCopy } = require('../../common/inject-content');
+const logger = require('../../common/logger').child({ service: 'user' });
 
 const { verifyTokenActivate } = require('./lib/jwt');
 const sendActivationEmail = require('./lib/activation-email');
@@ -29,18 +23,7 @@ function renderTemplate(req, res) {
 
 router
     .route('/')
-    .all(
-        requireUserAuth,
-        injectCopy('user.activate'),
-        injectBreadcrumbs,
-        function(req, res, next) {
-            if (req.user.userData.is_active) {
-                redirectUrlWithFallback(req, res, '/user');
-            } else {
-                next();
-            }
-        }
-    )
+    .all(requireUnactivatedUser, injectCopy('user.activate'))
     .get(async function(req, res) {
         if (req.query.token) {
             try {
