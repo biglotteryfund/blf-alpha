@@ -75,6 +75,18 @@ function requireActiveUserWithCallback(cb) {
     return (req, res, next) => requireActiveUser(req, res, next, cb);
 }
 
+function requiredUnactivatedUser(req, res, next) {
+    if (
+        req.isAuthenticated() &&
+        isStaff(req.user) === false &&
+        isActivated(req.user) === false
+    ) {
+        redirectUrlWithFallback(req, res, '/user');
+    } else {
+        next();
+    }
+}
+
 /**
  * Required staff auth
  * Middleware to require that the visitor is logged in as a staff user
@@ -91,7 +103,11 @@ function requireStaffAuth(req, res, next) {
             });
         }
     } else {
-        res.redirect(`/user/staff/login?redirectUrl=${encodeURIComponent(req.originalUrl)}`);
+        res.redirect(
+            `/user/staff/login?redirectUrl=${encodeURIComponent(
+                req.originalUrl
+            )}`
+        );
     }
 }
 
@@ -114,6 +130,7 @@ module.exports = {
     requireNoAuth,
     requireUserAuth,
     requireActiveUser,
+    requiredUnactivatedUser,
     requireStaffAuth,
     requireNotStaffAuth,
     redirectUrlWithFallback,
