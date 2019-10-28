@@ -9,10 +9,7 @@ const { localify } = require('../../common/urls');
 const { sanitise } = require('../../common/sanitise');
 const logger = require('../../common/logger').child({ service: 'user' });
 const { csrfProtection } = require('../../common/cached');
-const {
-    injectCopy,
-    injectBreadcrumbs
-} = require('../../common/inject-content');
+const { injectCopy } = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback
@@ -50,12 +47,7 @@ function renderForm(req, res, data = null, errors = []) {
 
 router
     .route('/')
-    .all(
-        requireNoAuth,
-        csrfProtection,
-        injectCopy('user.register'),
-        injectBreadcrumbs
-    )
+    .all(requireNoAuth, csrfProtection, injectCopy('user.register'))
     .get(renderForm)
     .post(async function handleRegister(req, res, next) {
         const validationResult = validateSchema(

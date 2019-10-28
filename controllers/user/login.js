@@ -13,10 +13,7 @@ const {
     RateLimiter
 } = require('../../common/rate-limiter');
 
-const {
-    injectCopy,
-    injectBreadcrumbs
-} = require('../../common/inject-content');
+const { injectCopy } = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback
@@ -45,12 +42,7 @@ function renderRateLimitError(req, res, minutesLeft) {
 
 router
     .route('/')
-    .all(
-        csrfProtection,
-        requireNoAuth,
-        injectCopy('user.login'),
-        injectBreadcrumbs
-    )
+    .all(csrfProtection, requireNoAuth, injectCopy('user.login'))
     .get(function(req, res) {
         if (req.query.s) {
             res.locals.alertMessage = req.i18n.__(

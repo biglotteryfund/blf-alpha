@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const concat = require('lodash/concat');
 const Sentry = require('@sentry/node');
 
 const { Users } = require('../../db/models');
@@ -13,10 +12,7 @@ const {
     localify
 } = require('../../common/urls');
 const { requireNoAuth } = require('../../common/authed');
-const {
-    injectCopy,
-    injectBreadcrumbs
-} = require('../../common/inject-content');
+const { injectCopy } = require('../../common/inject-content');
 
 const logger = require('../../common/logger').child({
     service: 'user'
@@ -100,9 +96,6 @@ function renderResetForm(req, res, data = null, errors = []) {
 }
 
 function renderResetFormExpired(req, res) {
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-        label: 'Reset password'
-    });
     res.render(path.resolve(__dirname, './views/reset-password-expired'));
 }
 
@@ -111,7 +104,7 @@ function renderResetFormExpired(req, res) {
  */
 router
     .route('/forgot')
-    .all(requireNoAuth, injectCopy('user.forgottenPassword'), injectBreadcrumbs)
+    .all(requireNoAuth, injectCopy('user.forgottenPassword'))
     .get(renderForgotForm)
     .post(async function(req, res) {
         const validationResult = validateSchema(
@@ -159,7 +152,7 @@ router
  */
 router
     .route('/reset')
-    .all(injectCopy('user.resetPassword'), injectBreadcrumbs)
+    .all(injectCopy('user.resetPassword'))
     .get(async (req, res) => {
         function token() {
             return req.query.token ? req.query.token : res.locals.token;

@@ -8,10 +8,7 @@ const {
     requireUserAuth,
     redirectUrlWithFallback
 } = require('../../common/authed');
-const {
-    injectCopy,
-    injectBreadcrumbs
-} = require('../../common/inject-content');
+const { injectCopy } = require('../../common/inject-content');
 
 const logger = require('../../common/logger').child({
     service: 'user'
@@ -27,20 +24,17 @@ function renderTemplate(req, res) {
     res.render(template);
 }
 
+function requireNotActivated(req, res, next) {
+    if (req.user.userData.is_active) {
+        redirectUrlWithFallback(req, res, '/user');
+    } else {
+        next();
+    }
+}
+
 router
     .route('/')
-    .all(
-        requireUserAuth,
-        injectCopy('user.activate'),
-        injectBreadcrumbs,
-        function(req, res, next) {
-            if (req.user.userData.is_active) {
-                redirectUrlWithFallback(req, res, '/user');
-            } else {
-                next();
-            }
-        }
-    )
+    .all(requireUserAuth, injectCopy('user.activate'), requireNotActivated)
     .get(async function(req, res) {
         if (req.query.token) {
             try {
