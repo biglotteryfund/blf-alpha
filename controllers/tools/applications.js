@@ -62,65 +62,6 @@ function applicationsByDay(responses) {
     });
 }
 
-function minMaxAvg(arr) {
-    const sorted = arr.slice().sort((a, b) => a - b);
-    return {
-        lowest: sorted[0] || 0,
-        highest: sorted[sorted.length - 1] || 0,
-        average: mean(sorted) || 0
-    };
-}
-
-function measureTimeTaken(data) {
-    const appDurations = data.map(row => {
-        const created = moment(row.startedAt);
-        const submitted = moment(row.createdAt);
-        return submitted.diff(created, 'minutes');
-    });
-    let results = minMaxAvg(appDurations);
-
-    // convert the larger amounts to days
-    const minutesToDays = input => input / 60 / 24;
-    results.average = minutesToDays(results.average);
-    results.highest = minutesToDays(results.highest);
-
-    return results;
-}
-
-function measureWordCounts(data) {
-    const wordCounts = data.map(function(item) {
-        return item.applicationSummary
-            .map(_ => _.value)
-            .join(' ')
-            .split(' ').length;
-    });
-
-    return minMaxAvg(wordCounts);
-}
-
-function countRequestedAmount(data) {
-    const amounts = data.map(item => {
-        const row = item.applicationOverview.find(function(row) {
-            return (
-                row.label === 'Requested amount' ||
-                row.label === 'Swm y gofynnwyd amdano'
-            );
-        });
-
-        return parseInt(
-            get(row, 'value', 0)
-                .replace('£', '')
-                .replace(/,/g, ''),
-            10
-        );
-    });
-
-    const values = minMaxAvg(amounts);
-    values.total = sum(amounts);
-
-    return values;
-}
-
 function filterByCountry(country, appType) {
     return function(item) {
         if (!country) {
@@ -182,6 +123,75 @@ function getApplicationTitle(applicationId) {
     const formBuilder = formBuilderFor(applicationId);
     const form = formBuilder();
     return form.title;
+}
+
+function submittedApplicationStatistics(submittedApplications) {
+    function minMaxAvg(arr) {
+        const sorted = arr.slice().sort((a, b) => a - b);
+        return {
+            lowest: sorted[0] || 0,
+            highest: sorted[sorted.length - 1] || 0,
+            average: mean(sorted) || 0
+        };
+    }
+
+    function measureTimeTaken(data) {
+        const appDurations = data.map(row => {
+            const created = moment(row.startedAt);
+            const submitted = moment(row.createdAt);
+            return submitted.diff(created, 'minutes');
+        });
+
+        let results = minMaxAvg(appDurations);
+
+        // convert the larger amounts to days
+        const minutesToDays = input => input / 60 / 24;
+        results.average = minutesToDays(results.average);
+        results.highest = minutesToDays(results.highest);
+
+        return results;
+    }
+
+    function measureWordCounts(data) {
+        const wordCounts = data.map(function(item) {
+            return item.applicationSummary
+                .map(_ => _.value)
+                .join(' ')
+                .split(' ').length;
+        });
+
+        return minMaxAvg(wordCounts);
+    }
+
+    function countRequestedAmount(data) {
+        const amounts = data.map(item => {
+            const row = item.applicationOverview.find(function(row) {
+                return (
+                    row.label === 'Requested amount' ||
+                    row.label === 'Swm y gofynnwyd amdano'
+                );
+            });
+
+            return parseInt(
+                get(row, 'value', 0)
+                    .replace('£', '')
+                    .replace(/,/g, ''),
+                10
+            );
+        });
+
+        const values = minMaxAvg(amounts);
+        values.total = sum(amounts);
+
+        return values;
+    }
+
+    return {
+        appDurations: measureTimeTaken(submittedApplications),
+        wordCount: measureWordCounts(submittedApplications),
+        requestedAmount: countRequestedAmount(submittedApplications),
+        totalSubmitted: submittedApplications.length
+    };
 }
 
 router.get('/', function(req, res) {
@@ -301,15 +311,9 @@ router.get('/:applicationId', async (req, res, next) => {
             return appType;
         });
 
-        const submittedApplications = appTypes.find(_ => _.id === 'submitted')
-            .applications;
-
-        const statistics = {
-            appDurations: measureTimeTaken(submittedApplications),
-            wordCount: measureWordCounts(submittedApplications),
-            requestedAmount: countRequestedAmount(submittedApplications),
-            totalSubmitted: submittedApplications.length
-        };
+        const statistics = submittedApplicationStatistics(
+            appTypes.find(item => item.id === 'submitted').applications
+        );
 
         const title = 'Applications';
 
