@@ -5,7 +5,7 @@
 
     <p>
         <strong>Your National Lottery Awards for All application isn’t finished yet.</strong><br/>
-        We noticed you started applying{% if projectName %} for {{ projectName }}{% endif %}. But you haven’t finished your application.
+        We noticed you started applying{% if projectName %} for {{ projectName | safe }}{% endif %}. But you haven’t finished your application.
     </p>
 
     <p>

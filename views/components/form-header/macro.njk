@@ -21,7 +21,7 @@
     <div class="form-header u-tone-background-tint u-padded u-flush">
         {% if projectName %}
             <p class="form-header__prefix">{{ formTitle }}</p>
-            <p class="t2 form-header__title u-wrap-words" data-hj-suppress>{{ projectName }}</p>
+            <p class="t2 form-header__title u-wrap-words" data-hj-suppress>{{ projectName | safe }}</p>
         {% else %}
             <p class="t2 form-header__title u-wrap-words">{{ formTitle }}</p>
         {% endif %}
