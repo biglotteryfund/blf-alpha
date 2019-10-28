@@ -37,7 +37,7 @@ function voteDataFor(responses) {
         .startOf('day')
         .diff(oldestResponseDate.startOf('day'), 'days');
 
-    const voteData = times(daysInRange, function(n) {
+    return times(daysInRange, function(n) {
         const key = oldestResponseDate
             .clone()
             .add(n, 'days')
@@ -58,8 +58,6 @@ function voteDataFor(responses) {
             y: yesPercentageForDay
         };
     });
-
-    return voteData;
 }
 
 function recentStatsFor(responses) {

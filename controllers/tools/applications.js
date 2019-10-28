@@ -2,26 +2,34 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const concat = require('lodash/concat');
+const get = require('lodash/get');
 const groupBy = require('lodash/groupBy');
 const maxBy = require('lodash/maxBy');
-const get = require('lodash/get');
 const mean = require('lodash/mean');
-const uniqBy = require('lodash/uniqBy');
 const minBy = require('lodash/minBy');
+const sum = require('lodash/sum');
 const times = require('lodash/times');
+const uniqBy = require('lodash/uniqBy');
 
 const {
     PendingApplication,
     SubmittedApplication,
     Feedback
 } = require('../../db/models');
-const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
+
+const getDateRange = require('./lib/get-date-range');
+
+const awardsForAllFormBuilder = require('../apply/awards-for-all/form');
+const standardProposalFormBuilder = require('../apply/standard-proposal/form');
 
 const router = express.Router();
 
-const DATE_FORMAT = 'YYYY-MM-DD';
+function formBuilderFor(formId) {
+    return formId === 'standard-enquiry'
+        ? standardProposalFormBuilder
+        : awardsForAllFormBuilder;
+}
 
 function applicationsByDay(responses) {
     if (responses.length === 0) {
@@ -29,7 +37,7 @@ function applicationsByDay(responses) {
     }
 
     const grouped = groupBy(responses, function(response) {
-        return moment(response.createdAt).format(DATE_FORMAT);
+        return moment(response.createdAt).format('YYYY-MM-DD');
     });
 
     const newestResponse = maxBy(responses, response => response.createdAt);
@@ -40,11 +48,11 @@ function applicationsByDay(responses) {
         .startOf('day')
         .diff(oldestResponseDate.startOf('day'), 'days');
 
-    const dayData = times(daysInRange + 1, function(n) {
+    return times(daysInRange + 1, function(n) {
         const key = oldestResponseDate
             .clone()
             .add(n, 'days')
-            .format(DATE_FORMAT);
+            .format('YYYY-MM-DD');
         const responsesForDay = grouped[key] || [];
 
         return {
@@ -52,65 +60,6 @@ function applicationsByDay(responses) {
             y: responsesForDay.length
         };
     });
-
-    return dayData;
-}
-
-function minMaxAvg(arr) {
-    const sorted = arr.slice().sort((a, b) => a - b);
-    return {
-        lowest: sorted[0] || 0,
-        highest: sorted[sorted.length - 1] || 0,
-        average: mean(sorted) || 0
-    };
-}
-
-function measureTimeTaken(data) {
-    const appDurations = data.map(row => {
-        const created = moment(row.startedAt);
-        const submitted = moment(row.createdAt);
-        return submitted.diff(created, 'minutes');
-    });
-    let results = minMaxAvg(appDurations);
-
-    // convert the larger amounts to days
-    const minutesToDays = input => input / 60 / 24;
-    results.average = minutesToDays(results.average);
-    results.highest = minutesToDays(results.highest);
-
-    return results;
-}
-
-function measureWordCounts(data) {
-    const wordCounts = data.map(
-        d =>
-            d.applicationSummary
-                .map(_ => _.value)
-                .join(' ')
-                .split(' ').length
-    );
-    return minMaxAvg(wordCounts);
-}
-
-function countRequestedAmount(data) {
-    const amounts = data.map(item => {
-        const row = item.applicationOverview.find(
-            _ =>
-                _.label === 'Requested amount' ||
-                _.label === 'Swm y gofynnwyd amdano'
-        );
-        return parseInt(
-            get(row, 'value', 0)
-                .replace('£', '')
-                .replace(/,/g, ''),
-            10
-        );
-    });
-    let values = minMaxAvg(amounts);
-    values.total = amounts.reduce((acc, cur) => {
-        return acc + cur;
-    }, 0);
-    return values;
 }
 
 function filterByCountry(country, appType) {
@@ -125,12 +74,13 @@ function filterByCountry(country, appType) {
             if (appType === 'pending') {
                 appCountry = get(item, 'applicationData.projectCountry');
             } else {
-                const rowCountry = item.applicationSummary.find(
-                    _ =>
-                        _.label ===
+                const rowCountry = item.applicationSummary.find(function(row) {
+                    return (
+                        row.label ===
                             'What country will your project be based in?' ||
-                        _.label === 'Pa wlad fydd eich prosiect wedi’i leoli?'
-                );
+                        row.label === 'Pa wlad fydd eich prosiect wedi’i leoli?'
+                    );
+                });
                 appCountry = get(rowCountry, 'value');
             }
 
@@ -154,64 +104,94 @@ function titleCase(str) {
 }
 
 function getColourForCountry(countryName) {
-    let colour = '';
-    switch (countryName) {
-        case 'England':
-            colour = '#f95d6a';
-            break;
-        case 'Northern Ireland':
-            colour = '#2f4b7c';
-            break;
-        case 'Scotland':
-            colour = '#a05195';
-            break;
-        case 'Wales':
-            colour = '#ffa600';
-            break;
-        case 'Location unspecified':
-            colour = '#cccccc';
-            break;
-        default:
-            colour = '#e5007d';
-            break;
-    }
-    return colour;
+    const colourMappings = {
+        'England': '#f95d6a',
+        'Northern Ireland': '#2f4b7c',
+        'Scotland': '#a05195',
+        'Wales': '#ffa600',
+        'Location unspecified': '#cccccc'
+    };
+
+    return colourMappings[countryName] || '#e5007d';
 }
 
 function getDataStudioUrlForForm(formId) {
-    let url;
-    switch (formId) {
-        case 'awards-for-all':
-            url = DATA_STUDIO_AFA_URL;
-            break;
-        default:
-            url = null;
-            break;
-    }
-    return url;
+    return formId === 'awards-for-all' ? DATA_STUDIO_AFA_URL : null;
 }
 
-function addCountry(row) {
-    // Convert Sequelize instance into a plain object so we can modify it
-    const data = row.get({
-        plain: true
-    });
-    data.country = data.applicationCountry
-        ? data.applicationCountry
-        : get(data, 'applicationData.projectCountry');
-    return data;
+function getApplicationTitle(applicationId) {
+    const formBuilder = formBuilderFor(applicationId);
+    const form = formBuilder();
+    return form.title;
 }
 
-function getFeedbackDescriptionByAppId(appId) {
-    let description;
-    switch (appId) {
-        case 'awards-for-all':
-            description = 'National Lottery Awards for All';
-            break;
-        default:
-            break;
+function submittedApplicationStatistics(submittedApplications) {
+    function minMaxAvg(arr) {
+        const sorted = arr.slice().sort((a, b) => a - b);
+        return {
+            lowest: sorted[0] || 0,
+            highest: sorted[sorted.length - 1] || 0,
+            average: mean(sorted) || 0
+        };
     }
-    return description;
+
+    function measureTimeTaken(data) {
+        const appDurations = data.map(row => {
+            const created = moment(row.startedAt);
+            const submitted = moment(row.createdAt);
+            return submitted.diff(created, 'minutes');
+        });
+
+        let results = minMaxAvg(appDurations);
+
+        // convert the larger amounts to days
+        const minutesToDays = input => input / 60 / 24;
+        results.average = minutesToDays(results.average);
+        results.highest = minutesToDays(results.highest);
+
+        return results;
+    }
+
+    function measureWordCounts(data) {
+        const wordCounts = data.map(function(item) {
+            return item.applicationSummary
+                .map(_ => _.value)
+                .join(' ')
+                .split(' ').length;
+        });
+
+        return minMaxAvg(wordCounts);
+    }
+
+    function countRequestedAmount(data) {
+        const amounts = data.map(item => {
+            const row = item.applicationOverview.find(function(row) {
+                return (
+                    row.label === 'Requested amount' ||
+                    row.label === 'Swm y gofynnwyd amdano'
+                );
+            });
+
+            return parseInt(
+                get(row, 'value', 0)
+                    .replace('£', '')
+                    .replace(/,/g, ''),
+                10
+            );
+        });
+
+        const values = minMaxAvg(amounts);
+        values.total = sum(amounts);
+
+        return values;
+    }
+
+    return {
+        appDurations: measureTimeTaken(submittedApplications),
+        wordCount: measureWordCounts(submittedApplications),
+        requestedAmount: countRequestedAmount(submittedApplications),
+        totalSubmitted: submittedApplications.length
+    };
 }
 
 router.get('/', function(req, res) {
@@ -219,47 +199,53 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:applicationId', async (req, res, next) => {
-    try {
-        let dateRange = getDateRange(req.query.start, req.query.end);
-        const defaultPeriod = {
-            amount: 30,
-            units: 'days'
-        };
-        if (!dateRange) {
-            dateRange = {
-                start: moment()
-                    .subtract(defaultPeriod.amount, defaultPeriod.units)
-                    .toDate(),
-                end: moment().toDate()
-            };
-        }
-        const country = req.query.country;
-        const countryTitle = country ? titleCase(country) : false;
-        const applicationTitle = titleCase(req.params.applicationId);
-        const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
+    const { applicationId } = req.params;
 
-        const feedbackDescription = getFeedbackDescriptionByAppId(
-            req.params.applicationId
-        );
-        const feedback = feedbackDescription
-            ? await Feedback.findByDescription(feedbackDescription)
-            : null;
+    const dateRange = getDateRange(req.query.start, req.query.end) || {
+        start: moment()
+            .subtract(30, 'days')
+            .toDate(),
+        end: moment().toDate()
+    };
 
-        const getApplications = async appType => {
-            const applications =
-                appType === 'pending'
-                    ? await PendingApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      )
-                    : await SubmittedApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      );
-            return applications
-                .map(addCountry)
+    const country = req.query.country;
+    const countryTitle = country ? titleCase(country) : false;
+    const applicationTitle = getApplicationTitle(applicationId);
+    const dataStudioUrl = getDataStudioUrlForForm(applicationId);
+
+    async function getApplications(appType) {
+        if (appType === 'submitted') {
+            return SubmittedApplication.findAllByForm(applicationId, dateRange)
+                .map(function(row) {
+                    // Convert Sequelize instance into a plain object so we can modify it
+                    const data = row.get({ plain: true });
+                    data.country = data.applicationCountry
+                        ? data.applicationCountry
+                        : get(data, 'applicationData.projectCountry');
+                    return data;
+                })
                 .filter(filterByCountry(country, appType));
-        };
+        } else {
+            return PendingApplication.findAllByForm(applicationId, dateRange)
+                .map(function(row) {
+                    const formBuilder = formBuilderFor(applicationId);
+                    const form = formBuilder({
+                        locale: req.i18n.getLocale(),
+                        data: row.applicationData
+                    });
+                    // Convert Sequelize instance into a plain object so we can modify it
+                    const data = row.get({ plain: true });
+                    data.country = form.summary.country;
+                    return data;
+                })
+                .filter(filterByCountry(country, appType));
+        }
+    }
+
+    try {
+        const feedback = await Feedback.findByDescription(
+            getApplicationTitle(applicationId)
+        );
 
         const appTypes = [
             {
@@ -278,7 +264,7 @@ router.get('/:applicationId', async (req, res, next) => {
 
         const getAppsToday = dataset => {
             const appsToday = dataset.find(
-                _ => _.x === moment().format(DATE_FORMAT)
+                _ => _.x === moment().format('YYYY-MM-DD')
             );
             return appsToday ? appsToday.y : 0;
         };
@@ -325,15 +311,9 @@ router.get('/:applicationId', async (req, res, next) => {
             return appType;
         });
 
-        const submittedApplications = appTypes.find(_ => _.id === 'submitted')
-            .applications;
-
-        const statistics = {
-            appDurations: measureTimeTaken(submittedApplications),
-            wordCount: measureWordCounts(submittedApplications),
-            requestedAmount: countRequestedAmount(submittedApplications),
-            totalSubmitted: submittedApplications.length
-        };
+        const statistics = submittedApplicationStatistics(
+            appTypes.find(item => item.id === 'submitted').applications
+        );
 
         const title = 'Applications';
 
@@ -349,30 +329,27 @@ router.get('/:applicationId', async (req, res, next) => {
         ];
 
         if (countryTitle) {
-            if (!req.query.start) {
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
-                    {
-                        label: countryTitle
-                    }
-                ]);
-            } else {
-                let label = moment(dateRange.start).format(DATE_FORMAT);
+            if (req.query.start) {
+                let label = moment(dateRange.start).format('YYYY-MM-DD');
                 if (req.query.end) {
-                    label += ' — ' + moment(dateRange.end).format(DATE_FORMAT);
+                    label += ' — ' + moment(dateRange.end).format('YYYY-MM-DD');
                 }
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
+
+                extraBreadcrumbs = extraBreadcrumbs.concat([
                     {
                         label: countryTitle,
-                        url: req.baseUrl + req.path + '?country=' + country
+                        url: `${req.baseUrl}${req.path}?country=${country}`
                     },
-                    {
-                        label: label
-                    }
+                    { label: label }
+                ]);
+            } else {
+                extraBreadcrumbs = extraBreadcrumbs.concat([
+                    { label: countryTitle }
                 ]);
             }
         }
 
-        let breadcrumbs = concat(res.locals.breadcrumbs, extraBreadcrumbs);
+        let breadcrumbs = res.locals.breadcrumbs.concat(extraBreadcrumbs);
 
         res.render(path.resolve(__dirname, './views/applications'), {
             title: `${applicationTitle} | ${title}`,
@@ -384,8 +361,7 @@ router.get('/:applicationId', async (req, res, next) => {
             country: country,
             countryTitle: countryTitle,
             dataStudioUrl: dataStudioUrl,
-            feedback: feedback,
-            defaultPeriod: defaultPeriod
+            feedback: feedback
         });
     } catch (error) {
         next(error);
