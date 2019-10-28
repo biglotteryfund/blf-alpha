@@ -2,22 +2,23 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const concat = require('lodash/concat');
+const get = require('lodash/get');
 const groupBy = require('lodash/groupBy');
 const maxBy = require('lodash/maxBy');
-const get = require('lodash/get');
 const mean = require('lodash/mean');
-const uniqBy = require('lodash/uniqBy');
 const minBy = require('lodash/minBy');
+const sum = require('lodash/sum');
 const times = require('lodash/times');
+const uniqBy = require('lodash/uniqBy');
 
 const {
     PendingApplication,
     SubmittedApplication,
     Feedback
 } = require('../../db/models');
-const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
+
+const getDateRange = require('./lib/get-date-range');
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ function applicationsByDay(responses) {
         .startOf('day')
         .diff(oldestResponseDate.startOf('day'), 'days');
 
-    const dayData = times(daysInRange + 1, function(n) {
+    return times(daysInRange + 1, function(n) {
         const key = oldestResponseDate
             .clone()
             .add(n, 'days')
@@ -52,8 +53,6 @@ function applicationsByDay(responses) {
             y: responsesForDay.length
         };
     });
-
-    return dayData;
 }
 
 function minMaxAvg(arr) {
@@ -82,23 +81,25 @@ function measureTimeTaken(data) {
 }
 
 function measureWordCounts(data) {
-    const wordCounts = data.map(
-        d =>
-            d.applicationSummary
-                .map(_ => _.value)
-                .join(' ')
-                .split(' ').length
-    );
+    const wordCounts = data.map(function(item) {
+        return item.applicationSummary
+            .map(_ => _.value)
+            .join(' ')
+            .split(' ').length;
+    });
+
     return minMaxAvg(wordCounts);
 }
 
 function countRequestedAmount(data) {
     const amounts = data.map(item => {
-        const row = item.applicationOverview.find(
-            _ =>
-                _.label === 'Requested amount' ||
-                _.label === 'Swm y gofynnwyd amdano'
-        );
+        const row = item.applicationOverview.find(function(row) {
+            return (
+                row.label === 'Requested amount' ||
+                row.label === 'Swm y gofynnwyd amdano'
+            );
+        });
+
         return parseInt(
             get(row, 'value', 0)
                 .replace('£', '')
@@ -106,10 +107,10 @@ function countRequestedAmount(data) {
             10
         );
     });
-    let values = minMaxAvg(amounts);
-    values.total = amounts.reduce((acc, cur) => {
-        return acc + cur;
-    }, 0);
+
+    const values = minMaxAvg(amounts);
+    values.total = sum(amounts);
+
     return values;
 }
 
@@ -125,12 +126,13 @@ function filterByCountry(country, appType) {
             if (appType === 'pending') {
                 appCountry = get(item, 'applicationData.projectCountry');
             } else {
-                const rowCountry = item.applicationSummary.find(
-                    _ =>
-                        _.label ===
+                const rowCountry = item.applicationSummary.find(function(row) {
+                    return (
+                        row.label ===
                             'What country will your project be based in?' ||
-                        _.label === 'Pa wlad fydd eich prosiect wedi’i leoli?'
-                );
+                        row.label === 'Pa wlad fydd eich prosiect wedi’i leoli?'
+                    );
+                });
                 appCountry = get(rowCountry, 'value');
             }
 
@@ -179,16 +181,7 @@ function getColourForCountry(countryName) {
 }
 
 function getDataStudioUrlForForm(formId) {
-    let url;
-    switch (formId) {
-        case 'awards-for-all':
-            url = DATA_STUDIO_AFA_URL;
-            break;
-        default:
-            url = null;
-            break;
-    }
-    return url;
+    return formId === 'awards-for-all' ? DATA_STUDIO_AFA_URL : null;
 }
 
 function addCountry(row) {
@@ -202,14 +195,22 @@ function addCountry(row) {
     return data;
 }
 
+function getApplicationTitle(appId) {
+    let title;
+    if (appId === 'awards-for-all') {
+        title = 'National Lottery Awards for All';
+    } else {
+        title = 'Your funding proposal';
+    }
+    return title;
+}
+
 function getFeedbackDescriptionByAppId(appId) {
     let description;
-    switch (appId) {
-        case 'awards-for-all':
-            description = 'National Lottery Awards for All';
-            break;
-        default:
-            break;
+    if (appId === 'awards-for-all') {
+        description = 'National Lottery Awards for All';
+    } else {
+        description = 'Your funding proposal';
     }
     return description;
 }
@@ -235,7 +236,7 @@ router.get('/:applicationId', async (req, res, next) => {
         }
         const country = req.query.country;
         const countryTitle = country ? titleCase(country) : false;
-        const applicationTitle = titleCase(req.params.applicationId);
+        const applicationTitle = getApplicationTitle(req.params.applicationId);
         const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
 
         const feedbackDescription = getFeedbackDescriptionByAppId(
@@ -349,30 +350,27 @@ router.get('/:applicationId', async (req, res, next) => {
         ];
 
         if (countryTitle) {
-            if (!req.query.start) {
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
-                    {
-                        label: countryTitle
-                    }
-                ]);
-            } else {
+            if (req.query.start) {
                 let label = moment(dateRange.start).format(DATE_FORMAT);
                 if (req.query.end) {
                     label += ' — ' + moment(dateRange.end).format(DATE_FORMAT);
                 }
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
+
+                extraBreadcrumbs = extraBreadcrumbs.concat([
                     {
                         label: countryTitle,
-                        url: req.baseUrl + req.path + '?country=' + country
+                        url: `${req.baseUrl}${req.path}?country=${country}`
                     },
-                    {
-                        label: label
-                    }
+                    { label: label }
+                ]);
+            } else {
+                extraBreadcrumbs = extraBreadcrumbs.concat([
+                    { label: countryTitle }
                 ]);
             }
         }
 
-        let breadcrumbs = concat(res.locals.breadcrumbs, extraBreadcrumbs);
+        let breadcrumbs = res.locals.breadcrumbs.concat(extraBreadcrumbs);
 
         res.render(path.resolve(__dirname, './views/applications'), {
             title: `${applicationTitle} | ${title}`,
