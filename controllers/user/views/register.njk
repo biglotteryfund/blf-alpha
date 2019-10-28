@@ -11,12 +11,6 @@
 
             <h1 class="t--underline">{{ title }}</h1>
 
-            {% if alertMessage %}
-                <div class="message" role="alert">
-                    {{ alertMessage | safe }}
-                </div>
-            {% endif %}
-
             <form action="" method="post" autocomplete="off">
                 {{ formErrors(
                     title = __('global.misc.errorTitle'),

@@ -56,14 +56,18 @@ router
         );
 
         /**
-         * Generic fallback error
+         * Fallback error
          * Shown when there is an error authenticating or attempting to register with an existing user
          * This messages needs to be generic to avoid exposing the account state.
          */
-        const genericError = req.i18n.__(
-            res.locals.copy.genericError,
-            localify(req.i18n.getLocale())('/user/password/forgot')
-        );
+        const fallbackErrors = [
+            {
+                msg: req.i18n.__(
+                    res.locals.copy.genericError,
+                    localify(req.i18n.getLocale())('/user/password/forgot')
+                )
+            }
+        ];
 
         if (validationResult.isValid) {
             try {
@@ -82,8 +86,12 @@ router
                         );
                     });
 
-                    res.locals.alertMessage = genericError;
-                    renderForm(req, res, validationResult.value);
+                    renderForm(
+                        req,
+                        res,
+                        validationResult.value,
+                        fallbackErrors
+                    );
                 } else {
                     const newUser = await Users.createUser({
                         username: sanitise(username),
@@ -108,8 +116,7 @@ router
             } catch (error) {
                 logger.warn('Registration failed', error);
                 Sentry.captureException(error);
-                res.locals.alertMessage = genericError;
-                renderForm(req, res, validationResult.value);
+                renderForm(req, res, validationResult.value, fallbackErrors);
             }
         } else {
             /**
@@ -119,6 +126,7 @@ router
                 const hasPasswordIssue = validationResult.messages.some(
                     _ => _.param === 'password'
                 );
+
                 if (hasPasswordIssue) {
                     res.locals.hotJarTagList = [
                         'User: Error on password creation'

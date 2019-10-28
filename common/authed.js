@@ -75,7 +75,7 @@ function requireActiveUserWithCallback(cb) {
     return (req, res, next) => requireActiveUser(req, res, next, cb);
 }
 
-function requiredUnactivatedUser(req, res, next) {
+function requireUnactivatedUser(req, res, next) {
     if (
         req.isAuthenticated() &&
         isStaff(req.user) === false &&
@@ -130,7 +130,7 @@ module.exports = {
     requireNoAuth,
     requireUserAuth,
     requireActiveUser,
-    requiredUnactivatedUser,
+    requireUnactivatedUser,
     requireStaffAuth,
     requireNotStaffAuth,
     redirectUrlWithFallback,

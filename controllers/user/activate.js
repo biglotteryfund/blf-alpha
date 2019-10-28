@@ -6,7 +6,7 @@ const Sentry = require('@sentry/node');
 const { Users } = require('../../db/models');
 const {
     redirectUrlWithFallback,
-    requiredUnactivatedUser
+    requireUnactivatedUser
 } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 const logger = require('../../common/logger').child({ service: 'user' });
@@ -23,7 +23,7 @@ function renderTemplate(req, res) {
 
 router
     .route('/')
-    .all(requiredUnactivatedUser, injectCopy('user.activate'))
+    .all(requireUnactivatedUser, injectCopy('user.activate'))
     .get(async function(req, res) {
         if (req.query.token) {
             try {
