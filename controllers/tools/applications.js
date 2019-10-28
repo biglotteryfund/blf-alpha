@@ -20,9 +20,16 @@ const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
 const getDateRange = require('./lib/get-date-range');
 
+const awardsForAllFormBuilder = require('../apply/awards-for-all/form');
+const standardProposalFormBuilder = require('../apply/standard-proposal/form');
+
 const router = express.Router();
 
-const DATE_FORMAT = 'YYYY-MM-DD';
+function formBuilderFor(formId) {
+    return formId === 'standard-enquiry'
+        ? standardProposalFormBuilder
+        : awardsForAllFormBuilder;
+}
 
 function applicationsByDay(responses) {
     if (responses.length === 0) {
@@ -30,7 +37,7 @@ function applicationsByDay(responses) {
     }
 
     const grouped = groupBy(responses, function(response) {
-        return moment(response.createdAt).format(DATE_FORMAT);
+        return moment(response.createdAt).format('YYYY-MM-DD');
     });
 
     const newestResponse = maxBy(responses, response => response.createdAt);
@@ -45,7 +52,7 @@ function applicationsByDay(responses) {
         const key = oldestResponseDate
             .clone()
             .add(n, 'days')
-            .format(DATE_FORMAT);
+            .format('YYYY-MM-DD');
         const responsesForDay = grouped[key] || [];
 
         return {
@@ -156,63 +163,25 @@ function titleCase(str) {
 }
 
 function getColourForCountry(countryName) {
-    let colour = '';
-    switch (countryName) {
-        case 'England':
-            colour = '#f95d6a';
-            break;
-        case 'Northern Ireland':
-            colour = '#2f4b7c';
-            break;
-        case 'Scotland':
-            colour = '#a05195';
-            break;
-        case 'Wales':
-            colour = '#ffa600';
-            break;
-        case 'Location unspecified':
-            colour = '#cccccc';
-            break;
-        default:
-            colour = '#e5007d';
-            break;
-    }
-    return colour;
+    const colourMappings = {
+        'England': '#f95d6a',
+        'Northern Ireland': '#2f4b7c',
+        'Scotland': '#a05195',
+        'Wales': '#ffa600',
+        'Location unspecified': '#cccccc'
+    };
+
+    return colourMappings[countryName] || '#e5007d';
 }
 
 function getDataStudioUrlForForm(formId) {
     return formId === 'awards-for-all' ? DATA_STUDIO_AFA_URL : null;
 }
 
-function addCountry(row) {
-    // Convert Sequelize instance into a plain object so we can modify it
-    const data = row.get({
-        plain: true
-    });
-    data.country = data.applicationCountry
-        ? data.applicationCountry
-        : get(data, 'applicationData.projectCountry');
-    return data;
-}
-
-function getApplicationTitle(appId) {
-    let title;
-    if (appId === 'awards-for-all') {
-        title = 'National Lottery Awards for All';
-    } else {
-        title = 'Your funding proposal';
-    }
-    return title;
-}
-
-function getFeedbackDescriptionByAppId(appId) {
-    let description;
-    if (appId === 'awards-for-all') {
-        description = 'National Lottery Awards for All';
-    } else {
-        description = 'Your funding proposal';
-    }
-    return description;
+function getApplicationTitle(applicationId) {
+    const formBuilder = formBuilderFor(applicationId);
+    const form = formBuilder();
+    return form.title;
 }
 
 router.get('/', function(req, res) {
@@ -220,47 +189,53 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:applicationId', async (req, res, next) => {
-    try {
-        let dateRange = getDateRange(req.query.start, req.query.end);
-        const defaultPeriod = {
-            amount: 30,
-            units: 'days'
-        };
-        if (!dateRange) {
-            dateRange = {
-                start: moment()
-                    .subtract(defaultPeriod.amount, defaultPeriod.units)
-                    .toDate(),
-                end: moment().toDate()
-            };
-        }
-        const country = req.query.country;
-        const countryTitle = country ? titleCase(country) : false;
-        const applicationTitle = getApplicationTitle(req.params.applicationId);
-        const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
+    const { applicationId } = req.params;
 
-        const feedbackDescription = getFeedbackDescriptionByAppId(
-            req.params.applicationId
-        );
-        const feedback = feedbackDescription
-            ? await Feedback.findByDescription(feedbackDescription)
-            : null;
+    const dateRange = getDateRange(req.query.start, req.query.end) || {
+        start: moment()
+            .subtract(30, 'days')
+            .toDate(),
+        end: moment().toDate()
+    };
 
-        const getApplications = async appType => {
-            const applications =
-                appType === 'pending'
-                    ? await PendingApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      )
-                    : await SubmittedApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      );
-            return applications
-                .map(addCountry)
+    const country = req.query.country;
+    const countryTitle = country ? titleCase(country) : false;
+    const applicationTitle = getApplicationTitle(applicationId);
+    const dataStudioUrl = getDataStudioUrlForForm(applicationId);
+
+    async function getApplications(appType) {
+        if (appType === 'submitted') {
+            return SubmittedApplication.findAllByForm(applicationId, dateRange)
+                .map(function(row) {
+                    // Convert Sequelize instance into a plain object so we can modify it
+                    const data = row.get({ plain: true });
+                    data.country = data.applicationCountry
+                        ? data.applicationCountry
+                        : get(data, 'applicationData.projectCountry');
+                    return data;
+                })
                 .filter(filterByCountry(country, appType));
-        };
+        } else {
+            return PendingApplication.findAllByForm(applicationId, dateRange)
+                .map(function(row) {
+                    const formBuilder = formBuilderFor(applicationId);
+                    const form = formBuilder({
+                        locale: req.i18n.getLocale(),
+                        data: row.applicationData
+                    });
+                    // Convert Sequelize instance into a plain object so we can modify it
+                    const data = row.get({ plain: true });
+                    data.country = form.summary.country;
+                    return data;
+                })
+                .filter(filterByCountry(country, appType));
+        }
+    }
+
+    try {
+        const feedback = await Feedback.findByDescription(
+            getApplicationTitle(applicationId)
+        );
 
         const appTypes = [
             {
@@ -279,7 +254,7 @@ router.get('/:applicationId', async (req, res, next) => {
 
         const getAppsToday = dataset => {
             const appsToday = dataset.find(
-                _ => _.x === moment().format(DATE_FORMAT)
+                _ => _.x === moment().format('YYYY-MM-DD')
             );
             return appsToday ? appsToday.y : 0;
         };
@@ -351,9 +326,9 @@ router.get('/:applicationId', async (req, res, next) => {
 
         if (countryTitle) {
             if (req.query.start) {
-                let label = moment(dateRange.start).format(DATE_FORMAT);
+                let label = moment(dateRange.start).format('YYYY-MM-DD');
                 if (req.query.end) {
-                    label += ' — ' + moment(dateRange.end).format(DATE_FORMAT);
+                    label += ' — ' + moment(dateRange.end).format('YYYY-MM-DD');
                 }
 
                 extraBreadcrumbs = extraBreadcrumbs.concat([
@@ -382,8 +357,7 @@ router.get('/:applicationId', async (req, res, next) => {
             country: country,
             countryTitle: countryTitle,
             dataStudioUrl: dataStudioUrl,
-            feedback: feedback,
-            defaultPeriod: defaultPeriod
+            feedback: feedback
         });
     } catch (error) {
         next(error);
