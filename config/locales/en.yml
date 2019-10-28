@@ -400,6 +400,7 @@ toplevel:
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
+    disclaimer: For thematic statistics (eg. environmental, health and wellbeing, etc), we've counted projects which include these themes, but not exclusively.
     openData:
       title: Grant Data
       linkPrefix: Grants data

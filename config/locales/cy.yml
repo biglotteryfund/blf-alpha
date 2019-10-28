@@ -292,6 +292,7 @@ toplevel:
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
+    disclaimer: Am ystadegau thematig (e.e. amgylcheddol, iechyd a lles, a.y.y.b.), rydym wedi cyfri prosiectau sy’n cynnwys y themâu hyn, ond nid yn gyfan gwbl.
     openData:
       title: Data am Grantiau
       linkPrefix: Data grantiau
