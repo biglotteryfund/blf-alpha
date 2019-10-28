@@ -79,7 +79,7 @@
     "bcryptjs": "^2.4.3",
     "clamscan": "1.1.0",
     "common-tags": "1.8.0",
-    "config": "3.2.3",
+    "config": "3.2.4",
     "connect-session-sequelize": "6.0.0",
     "connect-slashes": "^1.4.0",
     "csurf": "^1.10.0",
