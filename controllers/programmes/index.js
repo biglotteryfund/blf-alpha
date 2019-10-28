@@ -208,7 +208,7 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
             requestParams: req.query
         });
 
-        setCommonLocals({ res, entry });
+        setCommonLocals(req, res, entry);
 
         if (entry && entry.entryType === 'contentPage') {
             renderFlexibleContentChild(req, res, entry);

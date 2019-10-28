@@ -84,7 +84,7 @@ router.get('/:slug', injectBreadcrumbs, async function(req, res, next) {
             requestParams: req.query
         });
 
-        setCommonLocals({ res, entry });
+        setCommonLocals(req, res, entry);
 
         if (entry) {
             res.render(path.resolve(__dirname, './views/insights-detail'), {

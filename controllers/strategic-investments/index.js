@@ -49,7 +49,7 @@ router.get('/:slug/:child_slug?', async function(req, res, next) {
             requestParams: req.query
         });
 
-        setCommonLocals({ res, entry });
+        setCommonLocals(req, res, entry);
 
         /**
          * Render a plain content page if specified,

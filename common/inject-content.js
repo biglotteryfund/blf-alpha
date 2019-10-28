@@ -5,6 +5,7 @@ const Sentry = require('@sentry/node');
 
 const { localify } = require('./urls');
 const contentApi = require('./content-api');
+const checkPreviewMode = require('./check-preview-mode');
 
 /*
  * Populate hero image (with social image URLs too)
@@ -33,14 +34,14 @@ function setHeroLocals({ res, entry }) {
  * - pageHero (with optional fallback)
  * - optional custom theme colour
  */
-function setCommonLocals({ res, entry }) {
+function setCommonLocals(req, res, entry) {
     res.locals.title = entry.title;
 
     res.locals.isBilingual = entry.availableLanguages.length === 2;
     res.locals.openGraph = get('openGraph')(entry);
 
     res.locals.previewStatus = {
-        isPreviewOrShareLink: res.locals.PREVIEW_MODE,
+        isPreview: checkPreviewMode(req.query).isPreview,
         lastUpdated: moment(entry.dateUpdated.date).format(
             'Do MMM YYYY [at] h:mma'
         )
@@ -128,15 +129,15 @@ function injectBreadcrumbs(req, res, next) {
 
 async function injectListingContent(req, res, next) {
     try {
-        const content = await contentApi.getListingPage({
+        const entry = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
             requestParams: req.query
         });
 
-        if (content) {
-            res.locals.content = content;
-            setCommonLocals({ res, entry: content });
+        if (entry) {
+            res.locals.content = entry;
+            setCommonLocals(req, res, entry);
         }
 
         next();
@@ -147,15 +148,15 @@ async function injectListingContent(req, res, next) {
 
 async function injectFlexibleContent(req, res, next) {
     try {
-        const content = await contentApi.getFlexibleContent({
+        const entry = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
             requestParams: req.query
         });
 
-        if (content) {
-            res.locals.content = content;
-            setCommonLocals({ res, entry: content });
+        if (entry) {
+            res.locals.content = entry;
+            setCommonLocals(req, res, entry);
         }
 
         next();
