@@ -248,20 +248,26 @@ router.get('/:applicationId', async (req, res, next) => {
             ? await Feedback.findByDescription(feedbackDescription)
             : null;
 
-        const getApplications = async appType => {
-            const applications =
-                appType === 'pending'
-                    ? await PendingApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      )
-                    : await SubmittedApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      );
+        const getPendingApplications = async () => {
+            const applications = await PendingApplication.findAllByForm(
+                req.params.applicationId,
+                dateRange
+            );
+
             return applications
                 .map(addCountry)
-                .filter(filterByCountry(country, appType));
+                .filter(filterByCountry(country, 'pending'));
+        };
+
+        const getSubmittedApplications = async () => {
+            const applications = await SubmittedApplication.findAllByForm(
+                req.params.applicationId,
+                dateRange
+            );
+
+            return applications
+                .map(addCountry)
+                .filter(filterByCountry(country, 'submitted'));
         };
 
         const appTypes = [
@@ -269,13 +275,13 @@ router.get('/:applicationId', async (req, res, next) => {
                 id: 'pending',
                 title: 'In-progress applications created',
                 verb: 'in progress',
-                applications: await getApplications('pending')
+                applications: await getPendingApplications()
             },
             {
                 id: 'submitted',
                 title: 'Submitted applications',
                 verb: 'submitted',
-                applications: await getApplications('submitted')
+                applications: await getSubmittedApplications()
             }
         ];
 
