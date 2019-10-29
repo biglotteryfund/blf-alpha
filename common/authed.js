@@ -81,9 +81,9 @@ function requireUnactivatedUser(req, res, next) {
         isStaff(req.user) === false &&
         isActivated(req.user) === false
     ) {
-        redirectUrlWithFallback(req, res, '/user');
-    } else {
         next();
+    } else {
+        redirectUrlWithFallback(req, res, '/user');
     }
 }
 
