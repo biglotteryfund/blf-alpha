@@ -224,41 +224,43 @@ router.get('/:applicationId', async (req, res, next) => {
     const country = req.query.country;
     const countryTitle = country ? titleCase(country) : false;
 
-    async function getPendingApplications() {
-        const applications = await PendingApplication.findAllByForm(
+    function getPendingApplications() {
+        return PendingApplication.findAllByForm(
             req.params.applicationId,
             dateRange
-        );
+        ).then(applications => {
+            return applications
+                .map(function(row) {
+                    const formBuilder = formBuilderFor(
+                        req.params.applicationId
+                    );
 
-        return applications
-            .map(function(row) {
-                const formBuilder = formBuilderFor(req.params.applicationId);
+                    const form = formBuilder({
+                        locale: req.i18n.getLocale(),
+                        data: row.applicationData
+                    });
 
-                const form = formBuilder({
-                    locale: req.i18n.getLocale(),
-                    data: row.applicationData
-                });
-
-                const data = row.get({ plain: true });
-                data.country = form.summary.country;
-                return data;
-            })
-            .filter(filterByCountry(country, 'pending'));
+                    const data = row.get({ plain: true });
+                    data.country = form.summary.country;
+                    return data;
+                })
+                .filter(filterByCountry(country, 'pending'));
+        });
     }
 
-    async function getSubmittedApplications() {
-        const applications = await SubmittedApplication.findAllByForm(
+    function getSubmittedApplications() {
+        return SubmittedApplication.findAllByForm(
             req.params.applicationId,
             dateRange
-        );
-
-        return applications
-            .map(function(application) {
-                const data = application.get({ plain: true });
-                data.country = data.applicationCountry;
-                return data;
-            })
-            .filter(filterByCountry(country, 'submitted'));
+        ).then(applications => {
+            return applications
+                .map(function(application) {
+                    const data = application.get({ plain: true });
+                    data.country = data.applicationCountry;
+                    return data;
+                })
+                .filter(filterByCountry(country, 'submitted'));
+        });
     }
 
     try {
