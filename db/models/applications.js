@@ -77,12 +77,17 @@ class PendingApplication extends Model {
         });
     }
 
-    static findAllByForm(formId, dateRange) {
-        return this.findAll({
-            where: {
-                formId: { [Op.eq]: formId },
+    static findAllByForm(formId, dateRange = {}) {
+        let whereClause = {
+            formId: { [Op.eq]: formId }
+        };
+        if (dateRange.start && dateRange.end) {
+            whereClause = {
                 createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
-            },
+            };
+        }
+        return this.findAll({
+            where: whereClause,
             order: [['createdAt', 'ASC']]
         });
     }
@@ -289,12 +294,17 @@ class SubmittedApplication extends Model {
         });
     }
 
-    static findAllByForm(formId, dateRange) {
-        return this.findAll({
-            where: {
-                formId: { [Op.eq]: formId },
+    static findAllByForm(formId, dateRange = {}) {
+        let whereClause = {
+            formId: { [Op.eq]: formId }
+        };
+        if (dateRange.start && dateRange.end) {
+            whereClause = {
                 createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
-            },
+            };
+        }
+        return this.findAll({
+            where: whereClause,
             order: [['createdAt', 'ASC']]
         });
     }
