@@ -200,17 +200,6 @@ function getDataStudioUrlForForm(formId) {
     return url;
 }
 
-function addCountry(row) {
-    // Convert Sequelize instance into a plain object so we can modify it
-    const data = row.get({
-        plain: true
-    });
-    data.country = data.applicationCountry
-        ? data.applicationCountry
-        : get(data, 'applicationData.projectCountry');
-    return data;
-}
-
 function getApplicationTitle(applicationId) {
     const formBuilder = formBuilderFor(applicationId);
     const form = formBuilder();
@@ -255,7 +244,20 @@ router.get('/:applicationId', async (req, res, next) => {
             );
 
             return applications
-                .map(addCountry)
+                .map(function(row) {
+                    const formBuilder = formBuilderFor(
+                        req.params.applicationId
+                    );
+
+                    const form = formBuilder({
+                        locale: req.i18n.getLocale(),
+                        data: row.applicationData
+                    });
+
+                    const data = row.get({ plain: true });
+                    data.country = form.summary.country;
+                    return data;
+                })
                 .filter(filterByCountry(country, 'pending'));
         };
 
@@ -266,7 +268,11 @@ router.get('/:applicationId', async (req, res, next) => {
             );
 
             return applications
-                .map(addCountry)
+                .map(function(application) {
+                    const data = application.get({ plain: true });
+                    data.country = data.applicationCountry;
+                    return data;
+                })
                 .filter(filterByCountry(country, 'submitted'));
         };
 
