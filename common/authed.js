@@ -52,7 +52,11 @@ function requireUserAuth(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user) === false) {
         next();
     } else {
-        redirectWithReturnUrl(req, res, '/user/login');
+        if (req.query.s) {
+            redirectWithReturnUrl(req, res, `/user/login?s=${req.query.s}`);
+        } else {
+            redirectWithReturnUrl(req, res, '/user/login');
+        }
     }
 }
 
