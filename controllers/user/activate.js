@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const Sentry = require('@sentry/node');
 
 const { Users } = require('../../db/models');
 const {
@@ -36,10 +35,6 @@ router
                 redirectUrlWithFallback(req, res, '/user?s=activationComplete');
             } catch (error) {
                 logger.warn('Activation token failed');
-                Sentry.withScope(scope => {
-                    scope.setLevel('warning');
-                    Sentry.captureException(error);
-                });
                 res.locals.tokenError = true;
                 renderTemplate(req, res);
             }

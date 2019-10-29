@@ -79,12 +79,6 @@ router
 
                 if (existingUser) {
                     logger.info('Account already exists');
-                    Sentry.withScope(scope => {
-                        scope.setLevel('info');
-                        Sentry.captureMessage(
-                            'A user tried to register with an existing email address'
-                        );
-                    });
 
                     renderForm(
                         req,
