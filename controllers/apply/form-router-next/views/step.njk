@@ -37,13 +37,6 @@
                     </div>
                 </div>
 
-                {% if step.message %}
-                    <div class="message message--info message--minor" role="alert">
-                        <p><strong>{{ step.message.title | safe }}</strong></p>
-                        <p>{{ step.message.body | safe }}</p>
-                    </div>
-                {% endif %}
-
                 <div class="form-header">
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">

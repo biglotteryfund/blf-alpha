@@ -31,7 +31,6 @@
     "enableGlobalHeaderLogin": false
   },
   "awardsForAll": {
-    "allowedCountries": ["england", "scotland", "wales"],
     "enableExpiration": true
   },
   "standardFundingProposal": {
