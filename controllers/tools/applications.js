@@ -19,9 +19,18 @@ const {
 const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
+const awardsForAllFormBuilder = require('../apply/awards-for-all/form');
+const standardProposalFormBuilder = require('../apply/standard-proposal/form');
+
 const router = express.Router();
 
 const DATE_FORMAT = 'YYYY-MM-DD';
+
+function formBuilderFor(formId) {
+    return formId === 'standard-enquiry'
+        ? standardProposalFormBuilder
+        : awardsForAllFormBuilder;
+}
 
 function applicationsByDay(responses) {
     if (responses.length === 0) {
@@ -202,16 +211,10 @@ function addCountry(row) {
     return data;
 }
 
-function getFeedbackDescriptionByAppId(appId) {
-    let description;
-    switch (appId) {
-        case 'awards-for-all':
-            description = 'National Lottery Awards for All';
-            break;
-        default:
-            break;
-    }
-    return description;
+function getApplicationTitle(applicationId) {
+    const formBuilder = formBuilderFor(applicationId);
+    const form = formBuilder();
+    return form.title;
 }
 
 router.get('/', function(req, res) {
@@ -235,10 +238,10 @@ router.get('/:applicationId', async (req, res, next) => {
         }
         const country = req.query.country;
         const countryTitle = country ? titleCase(country) : false;
-        const applicationTitle = titleCase(req.params.applicationId);
+        const applicationTitle = getApplicationTitle(req.params.applicationId);
         const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
 
-        const feedbackDescription = getFeedbackDescriptionByAppId(
+        const feedbackDescription = getApplicationTitle(
             req.params.applicationId
         );
         const feedback = feedbackDescription
