@@ -211,22 +211,57 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:applicationId', async (req, res, next) => {
-    try {
-        let dateRange = getDateRange(req.query.start, req.query.end);
-        const defaultPeriod = {
-            amount: 30,
-            units: 'days'
+    let dateRange = getDateRange(req.query.start, req.query.end);
+    if (!dateRange) {
+        dateRange = {
+            start: moment()
+                .subtract(30, 'days')
+                .toDate(),
+            end: moment().toDate()
         };
-        if (!dateRange) {
-            dateRange = {
-                start: moment()
-                    .subtract(defaultPeriod.amount, defaultPeriod.units)
-                    .toDate(),
-                end: moment().toDate()
-            };
-        }
-        const country = req.query.country;
-        const countryTitle = country ? titleCase(country) : false;
+    }
+
+    const country = req.query.country;
+    const countryTitle = country ? titleCase(country) : false;
+
+    async function getPendingApplications() {
+        const applications = await PendingApplication.findAllByForm(
+            req.params.applicationId,
+            dateRange
+        );
+
+        return applications
+            .map(function(row) {
+                const formBuilder = formBuilderFor(req.params.applicationId);
+
+                const form = formBuilder({
+                    locale: req.i18n.getLocale(),
+                    data: row.applicationData
+                });
+
+                const data = row.get({ plain: true });
+                data.country = form.summary.country;
+                return data;
+            })
+            .filter(filterByCountry(country, 'pending'));
+    }
+
+    async function getSubmittedApplications() {
+        const applications = await SubmittedApplication.findAllByForm(
+            req.params.applicationId,
+            dateRange
+        );
+
+        return applications
+            .map(function(application) {
+                const data = application.get({ plain: true });
+                data.country = data.applicationCountry;
+                return data;
+            })
+            .filter(filterByCountry(country, 'submitted'));
+    }
+
+    try {
         const applicationTitle = getApplicationTitle(req.params.applicationId);
         const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
 
@@ -236,45 +271,6 @@ router.get('/:applicationId', async (req, res, next) => {
         const feedback = feedbackDescription
             ? await Feedback.findByDescription(feedbackDescription)
             : null;
-
-        const getPendingApplications = async () => {
-            const applications = await PendingApplication.findAllByForm(
-                req.params.applicationId,
-                dateRange
-            );
-
-            return applications
-                .map(function(row) {
-                    const formBuilder = formBuilderFor(
-                        req.params.applicationId
-                    );
-
-                    const form = formBuilder({
-                        locale: req.i18n.getLocale(),
-                        data: row.applicationData
-                    });
-
-                    const data = row.get({ plain: true });
-                    data.country = form.summary.country;
-                    return data;
-                })
-                .filter(filterByCountry(country, 'pending'));
-        };
-
-        const getSubmittedApplications = async () => {
-            const applications = await SubmittedApplication.findAllByForm(
-                req.params.applicationId,
-                dateRange
-            );
-
-            return applications
-                .map(function(application) {
-                    const data = application.get({ plain: true });
-                    data.country = data.applicationCountry;
-                    return data;
-                })
-                .filter(filterByCountry(country, 'submitted'));
-        };
 
         const appTypes = [
             {
@@ -399,8 +395,7 @@ router.get('/:applicationId', async (req, res, next) => {
             country: country,
             countryTitle: countryTitle,
             dataStudioUrl: dataStudioUrl,
-            feedback: feedback,
-            defaultPeriod: defaultPeriod
+            feedback: feedback
         });
     } catch (error) {
         next(error);
