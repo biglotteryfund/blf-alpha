@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+const moment = require('moment-timezone');
 
 const { Feedback } = require('../../db/models');
 const { sanitise } = require('../../common/sanitise');
@@ -27,9 +28,11 @@ async function renderDownload(req, res, next) {
     if (feedback.length > 0) {
         const preparedResults = feedback.map(item => {
             return {
-                date: item.createdAt.toISOString(),
-                page: item.description,
-                response: item.message
+                'Date': item.createdAt.toISOString(),
+                'Date description': moment(item.createdAt)
+                    .tz('Europe/London')
+                    .format('D MMMM, YYYY h:ma'),
+                'Message': item.message
             };
         });
 
