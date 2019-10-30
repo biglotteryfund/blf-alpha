@@ -543,6 +543,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'What type of organisation are you?',
                 cy: 'Pa fath o sefydliad ydych chi?'
             }),
+            explanation: localise({
+                en: `If you're both a charity and a company—just pick ‘Not-for-profit company’ below.`,
+                cy: `Os ydych yn elusen ac yn gwmni—dewiswch ‘Cwmni di-elw’ isod.`
+            }),
             options: [
                 {
                     value: 'unregistered-vco',
