@@ -28,7 +28,7 @@ function chartData(users) {
         .startOf('day')
         .diff(oldestDate.startOf('day'), 'days');
 
-    return times(daysInRange, function(n) {
+    return times(daysInRange + 1, function(n) {
         const key = oldestDate
             .clone()
             .add(n, 'days')
@@ -69,7 +69,10 @@ router.get('/', async (req, res, next) => {
             chartData: chartData(allUsers.rows),
             totalUsers: allUsers.count,
             totalActiveUsers: active.length,
-            totalInactiveUsers: inactive.length
+            totalInactiveUsers: inactive.length,
+            totalActivePercentage: Math.round(
+                (active.length / allUsers.count) * 100
+            )
         });
     } catch (error) {
         next(error);

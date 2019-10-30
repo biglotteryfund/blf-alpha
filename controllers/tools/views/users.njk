@@ -32,8 +32,8 @@
                     title: 'users activated',
                     showNumberBeforeTitle: true
                 }, {
-                    value: totalInactiveUsers,
-                    title: 'users not yet activated',
+                    value: totalActivePercentage + '% activated',
+                    title: totalInactiveUsers + ' users not yet activated',
                     showNumberBeforeTitle: true
                 }]) }}
             </div>
@@ -72,9 +72,6 @@
                         scaleLabel: {
                             display: false,
                             labelString: 'Date'
-                        },
-                        ticks: {
-                            source: 'data'
                         },
                         time: {
                             round: 'day',
