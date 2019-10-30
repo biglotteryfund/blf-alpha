@@ -1288,6 +1288,29 @@ applyNext:
       title: Cais newydd
       body: Gallwch greu cais ariannu newydd am %s yma
       cta: Dechrau cais newydd
+  dashboardNew:
+    latest:
+      title: Latest application (WELSH)
+      introduction: >
+        <p>Pick up where you left off, start a new application or
+        <a href="/apply/all">view all active applications</a>. (WELSH)</p>
+    all:
+      title: All applications (WELSH)
+    noApplications: You don't have any online applications with The National Lottery Community fund right now. (WELSH)
+    applicationDeleted: Your application was successfully deleted (WELSH)
+    actions:
+      simple:
+        title: "Funding under £10,000: Start an application (WELSH)"
+        description: National Lottery Awards for All—a quick way to apply for smaller amounts of funding between £300 and £10,000. (WELSH)
+        link:
+          url: /apply/awards-for-all/start
+          label: Start a new application (WELSH)
+      standard:
+        title: "Funding over £10,000: Tell us your proposal (WELSH)"
+        description: "If you need more than £10,000 funding from us—tell us your proposal for a project to help your community thrive. (WELSH)"
+        link:
+          url: /apply/your-funding-proposal/start
+          label: Tell us your new proposal (WELSH)
   summary:
     title: Crynodeb
     introduction: <p>Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
