@@ -16,7 +16,7 @@ const {
 } = require('../../../db/models');
 
 const logger = require('../../../common/logger').child({ service: 'apply' });
-const { localify } = require('../../../common/urls');
+const { localify, isWelsh, removeWelsh } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
@@ -31,7 +31,8 @@ function initFormRouter({
     eligibilityBuilder = null,
     confirmationBuilder,
     enableSalesforceConnector = true,
-    expiryEmailPeriods = null
+    expiryEmailPeriods = null,
+    isBilingual = true
 }) {
     const router = express.Router();
 
@@ -40,6 +41,12 @@ function initFormRouter({
     }
 
     function setCommonLocals(req, res, next) {
+        res.locals.isBilingual = isBilingual;
+
+        if (isBilingual === false && isWelsh(req.originalUrl)) {
+            return res.redirect(removeWelsh(req.originalUrl));
+        }
+
         const form = formBuilder({
             locale: req.i18n.getLocale()
         });
