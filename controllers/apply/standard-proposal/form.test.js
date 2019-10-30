@@ -18,7 +18,7 @@ function mockResponse(overrides = {}) {
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
-        yourIdeaProject: faker.lorem.words(random(50, 250)),
+        yourIdeaProject: faker.lorem.words(random(50, 500)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationLegalName: 'Example organisation',

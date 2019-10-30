@@ -342,7 +342,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 </ul>`
             }),
             type: 'textarea',
-            maxWords: 250,
+            maxWords: 500,
             messages: [
                 {
                     type: 'base',

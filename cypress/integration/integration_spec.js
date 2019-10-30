@@ -1105,7 +1105,7 @@ it('should complete standard your funding proposal form', () => {
         projectLocationDescription: faker.lorem.words(5),
         projectCosts: random(10001, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
-        yourIdeaProject: faker.lorem.words(random(50, 250)),
+        yourIdeaProject: faker.lorem.words(random(50, 500)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
