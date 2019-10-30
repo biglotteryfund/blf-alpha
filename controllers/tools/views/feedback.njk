@@ -12,6 +12,8 @@
 
             {% for description, items in feedback  %}
                 <h2>{{ description }} <small>({{ items.length }} responses)</small></h2>
+                <p><a class="btn btn--outline btn--small" href="?download={{ description }}">Download as CSV</a></p>
+
                 <div class="u-margin-bottom-l"  style="max-height: 400px; overflow: auto">
                     <ul>
                         {% for item in items %}
