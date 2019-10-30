@@ -39,13 +39,14 @@ class Feedback extends Model {
             })
         ]);
     }
-    static findAllByDescription() {
+
+    static findAllGroupedByDescription() {
         return this.findAll({
             order: [['description', 'ASC'], ['updatedAt', 'DESC']]
         }).then(groupBy(result => result.description.toLowerCase()));
     }
 
-    static findByDescription(description) {
+    static findAllForDescription(description) {
         return this.findAll({
             where: {
                 description: {
