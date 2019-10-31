@@ -1,8 +1,7 @@
 'use strict';
 const express = require('express');
-const features = require('config').get('features');
 
-const { isNotProduction } = require('../../common/appData');
+const { renderNotFound } = require('../errors');
 
 const router = express.Router();
 
@@ -16,23 +15,32 @@ router.use(function(req, res, next) {
     next();
 });
 
-if (features.enableStandardApplications) {
-    router.use('/', require('./dashboard'));
-} else {
-    router.get('/', (req, res) => res.redirect('/'));
-}
+router.use(
+    '/',
+    function(req, res, next) {
+        if (res.locals.enableStandardApplications) {
+            next();
+        } else {
+            res.redirect('/');
+        }
+    },
+    require('./dashboard')
+);
 
 router.use('/your-idea', require('./reaching-communities'));
 router.use('/awards-for-all', require('./awards-for-all'));
 
-if (isNotProduction) {
-    // Handle prototype url redirect temporarily
-    router.get('/get-advice', (req, res) =>
-        res.redirect(`${req.baseUrl}/your-funding-proposal`)
-    );
-
-    router.use('/your-funding-proposal', require('./standard-proposal'));
-}
+router.use(
+    '/your-funding-proposal',
+    function(req, res, next) {
+        if (res.locals.enableStandardApplications) {
+            next();
+        } else {
+            renderNotFound(req, res);
+        }
+    },
+    require('./standard-proposal')
+);
 
 router.use('/emails/unsubscribe', require('./unsubscribe'));
 router.use('/handle-expiry', require('./expiry'));
