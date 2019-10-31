@@ -43,11 +43,11 @@ function simpleOverview(data, locale) {
                 : null
         },
         {
-            label: localise({ en: 'Location', cy: 'Location (WELSH)' }),
+            label: localise({ en: 'Location', cy: 'Lleoliad' }),
             value: findLocationName(data.projectLocation)
         },
         {
-            label: localise({ en: 'Organisation', cy: 'Sefydliad' }),
+            label: localise({ en: 'Organisation', cy: 'Mudiad' }),
             value: data.organisationTradingName || data.organisationLegalName
         }
     ];
@@ -67,17 +67,11 @@ function standardOverview(data, locale) {
                 : null
         },
         {
-            label: localise({
-                en: 'Location',
-                cy: 'Location (WELSH)'
-            }),
+            label: localise({ en: 'Location', cy: 'Lleoliad' }),
             value: findLocationName(data.projectLocation)
         },
         {
-            label: localise({
-                en: 'Organisation',
-                cy: 'Organisation (WELSH)'
-            }),
+            label: localise({ en: 'Organisation', cy: 'Mudiad' }),
             value: data.organisationTradingName || data.organisationLegalName
         }
     ];
@@ -107,7 +101,6 @@ function enrichPending(application, locale) {
         return createPending({
             projectName:
                 data.projectName ||
-                // @TODO: i18n
                 localise({
                     en: 'Untitled proposal',
                     cy: 'Untitled proposal (WELSH)'
@@ -150,7 +143,6 @@ function enrichSubmitted(application, locale) {
         return createSubmitted({
             projectName:
                 data.projectName ||
-                // @TODO: i18n
                 localise({
                     en: 'Untitled proposal',
                     cy: 'Untitled proposal (WELSH)'
