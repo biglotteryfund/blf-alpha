@@ -1,6 +1,5 @@
 {% extends "layouts/main.njk" %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
-{% from "components/user-status/macro.njk" import userStatus with context %}
 
 {% macro resendButton() %}
     <form action="" method="POST">
@@ -13,7 +12,12 @@
         <div class="content-box u-inner-wide-only">
 
             {{ userNavigation(userNavigationLinks) }}
-            {{ userStatus(user) }}
+
+            {% if not tokenError and resendSuccessful %}
+                <div class="message" role="alert">
+                    {{ copy.resendMessage | safe }}
+                </div>
+            {% endif %}
 
             <h1 class="t--underline">{{ title }}</h1>
 
@@ -22,21 +26,14 @@
                     <p>{{ copy.errorMessage }}</p>
                     <p>{{ resendButton() }}</p>
                 {% else %}
-
-                    {% if resendSuccessful %}
-                        <div class="message" role="alert">
-                            {{ copy.resendMessage | safe }}
-                        </div>
-                    {% endif %}
-
-                    <p>{{ __(copy.introduction, user.userData.username) | safe }}</p>
+                    {{ __(copy.introduction, user.userData.username) | safe }}
 
                     <h2>{{ copy.notReceived.title }}</h2>
                     {{ __(copy.notReceived.body, localify('/user/update-email')) | safe }}
                     <p>{{ resendButton() }}</p>
 
                     <h2>{{ copy.contact.title }}</h2>
-                    {{ copy.contact.body | safe }}
+                    {{ __(copy.contact.body, localify('/contact')) | safe }}
                 {% endif %}
             </div>
         </div>

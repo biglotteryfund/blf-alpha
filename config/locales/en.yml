@@ -1271,8 +1271,12 @@ user:
   activate:
     title: Activate your account
     introduction: >
-      An email has been sent to <strong>%s</strong>.
-      To activate your account, please click on the link in the email.
+      <p>Before you start your application, we need to make sure <strong>%s</strong> is your email address.</p>
+      <p>To confirm your email address:</p>
+      <ul>
+        <li>Check your emails (you should’ve got one from us)</li>
+        <li>Click on the link in our activation email</li>
+      </ul>
     email:
       subject: Activate your The National Lottery Community Fund website account
       body: >
@@ -1285,22 +1289,25 @@ user:
         <p>Thanks,</p>
         <p>The National Lottery Community Fund</p>
     errorMessage: Your activation link was invalid or has expired.
-    resendLabel: Re-send activation link
-    resendMessage: Activation link re-sent
+    resendLabel: Send activation link again
+    resendMessage: >
+      <strong>We’ve sent you another activation link</strong> - check your emails for a new link
     notReceived:
-      title: Not received anything?
+      title: >
+        If you didn’t get an email from us:
       body: >
-        <p>The activation email make take a few minutes to arrive, if you've not received one:</p>
         <ul>
-            <li>Check your spam mail box</li>
-            <li>
-                Check your email address is correct, if not <a href="%s">update your email address</a>
-            </li>
+          <li>Wait a few moments - it might take a couple of minutes to arrive</li>
+          <li>Check your spam folder</li>
+          <li>
+            Check your email address is correct - if it isn’t, <a href="%s">update your email address</a>
+          </li>
+          <li>Send the activation link, again</li>
         </ul>
     contact:
       title: Still not working?
       body: >
-        <p>Contact us on <strong>0345 4 10 20 30</strong></p>
+        <a href="%s">Contact us for help</a>
 apply:
   error:
     title: There was a problem with your submission
