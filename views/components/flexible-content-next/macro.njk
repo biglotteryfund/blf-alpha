@@ -1,0 +1,93 @@
+{% from "components/callout/macro.njk" import callout %}
+{% from "components/child-pages/macro.njk" import childPages %}
+{% from "components/media-aside/macro.njk" import mediaAside %}
+{% from "components/related-content/macro.njk" import relatedContent %}
+{% from "components/segment-links/macro.njk" import segmentLinks %}
+
+{% set flexAnchor = 'item' %}
+
+{% macro flexibleContent(flexibleContent, children = null, breadcrumbs = null) %}
+    {% if flexibleContent.length > 0 %}
+        {% set mediaAsideCycler = cycler(true, false) %}
+
+        {% for part in flexibleContent %}
+
+            {% if part.type === 'childPageList' and children.length > 0 %}
+                {% set useContentBox = part.displayMode !== 'grid' %}
+
+                {% if useContentBox %}
+                    <section class="content-box u-inner-wide-only" id="{{ flexAnchor + '-' + loop.index }}">
+                {% endif %}
+
+                {{ childPages(children, part.displayMode) }}
+
+                {% if useContentBox %}
+                    </section>
+                {% endif %}
+            {% else %}
+                <section class="content-box u-inner-wide-only" id="{{ flexAnchor + '-' + loop.index }}">
+                    {% if (breadcrumbs and loop.first) %}
+                        {{ breadcrumbs | safe }}
+                    {% endif %}
+
+                    {% if part.title %}
+                        <h2 class="t1">{{ part.title }}</h2>
+                    {% endif %}
+
+                    {% if part.type === 'mediaAside' %}
+                        {{ mediaAside(
+                            quoteText = part.quoteText,
+                            link = { "label": part.linkText, "url": part.linkUrl },
+                            image = { "url": part.photo, "caption": part.photoCaption },
+                            isReversed = mediaAsideCycler.next() if mediaAsideCycler else false
+                        ) }}
+                    {% elseif part.type === 'relatedContent' %}
+                        {{ relatedContent(
+                            articles = part.content,
+                            title = part.heading,
+                            usePromo = true
+                        ) }}
+                    {% elseif part.type === 'tableOfContents' and flexibleContent %}
+                        <div class="s-prose u-constrained-content-wide">
+                            {{ part.content | safe }}
+                        </div>
+                        {{ segmentLinks(flexibleContent, anchor = flexAnchor) }}
+                    {% else %}
+                        <div class="s-prose u-constrained-content-wide">
+                            {% if part.type === 'contentArea' %}
+                                {{ part.content | safe }}
+                            {% elseif part.type === 'inlineFigure' %}
+                                <figure>
+                                    <img src="{{ part.photo }}" alt="{{ part.caption }}">
+                                    <figcaption>{{ part.photoCaption }}</figcaption>
+                                </figure>
+                            {% elseif part.type === 'quote' %}
+                                <blockquote class="blockquote">
+                                    <div class="blockquote__text">
+                                        {{ part.quoteText | widont | safe }}
+                                    </div>
+                                    {% if part.attribution %}
+                                        <cite class="blockquote__cite">{{ part.attribution }}</cite>
+                                    {% endif %}
+                                </blockquote>
+                            {% elseif part.type === 'gridBlocks' %}
+                                {% if part.introduction %}
+                                    {{ part.introduction | safe }}
+                                {% endif %}
+                                <div class="flex-grid flex-grid--2up">
+                                    {% for blockContent in part.content %}
+                                        <div class="flex-grid__item">
+                                            <div class="u-tone-background-tint u-padded">
+                                                {{ blockContent | safe }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </section>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

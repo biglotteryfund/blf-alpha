@@ -1,0 +1,38 @@
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+
+{% macro grid(children) %}
+    <section class="u-inner">
+        <ul class="flex-grid">
+            {% for page in children %}
+                <li class="flex-grid__item">
+                    {{ miniatureHero({
+                        "title": page.trailText | default(page.title, true),
+                        "linkUrl": page.linkUrl,
+                        "image": { "url": page.trailImage if page.trailImage else page.photo }
+                    }, isLarge = true) }}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endmacro %}
+
+{% macro list(children) %}
+    <ul class="section-links">
+        {% for page in children %}
+            <li class="section-links__item">
+                <a class="section-links__link" href="{{ page.linkUrl }}">
+                    {{ page.trailText or page.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro childPages(children, mode) %}
+    {% if (mode === 'grid') %}
+        {{ grid(children) }}
+    {% else %}
+        {{ list(children) }}
+    {% endif %}
+{% endmacro %}
+
