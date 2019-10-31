@@ -3,7 +3,7 @@
     <article class="application-card-new">
         <header class="application-card-new__header">
             <h{{ headingLevel }} class="application-card-new__title u-tone-brand-primary">
-                {% if props.editUrl %}<a href="{{ props.editUrl }}" class="u-link-unstyled">{% endif %}
+                {% if props.editUrl %}<a href="{{ localify(props.editUrl) }}" class="u-link-unstyled">{% endif %}
                     {{ props.projectName | widont | safe }}
                 {% if props.editUrl %}</a>{% endif %}
             </h{{ headingLevel }}>
@@ -30,7 +30,6 @@
                 </p>
             {% else %}
                 <p>
-                    {# @TODO: i18n #}
                     <strong>{{ cardCopy.status }}</strong>:
                     {{ __(
                         cardCopy.sectionsCompleted,
@@ -49,28 +48,23 @@
                     {% endfor %}
                 </ol>
 
-                <p>Last updated: {{ formatCalendarTime(props.updatedAt) }}</p>
+                <p>{{ cardCopy.lastUpdated }}: {{ formatCalendarTime(props.updatedAt) }}</p>
             {% endif %}
         </div>
 
         {% if props.editUrl %}
             <div class="application-card-new__actions">
-                <a href="{{ props.editUrl }}"
-                   {# @TODO: i18n #}
-                   class="btn btn--small">Continue with this application</a>
+                <a href="{{ localify(props.editUrl) }}"
+                   class="btn btn--small">{{ cardCopy.continue }}</a>
                 {% if props.deleteUrl %}
                     <a class="u-text-medium" href="{{ props.deleteUrl }}">Delete</a>
                 {% endif %}
             </div>
         {% endif %}
 
-
         {% if props.expiresAt %}
-            {# @TODO: i18n #}
             <div class="application-card-new__meta u-text-small">
-                You have until
-                <strong>{{ formatDate(props.expiresAt) }}</strong>
-                to complete your application
+                {{ __(cardCopy.expiresAt, formatDate(props.expiresAt)) | safe }}
             </div>
         {% endif %}
     </article>

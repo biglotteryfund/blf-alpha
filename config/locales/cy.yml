@@ -1258,12 +1258,17 @@ applyNext:
     account: Cyfrif
     logOut: Allgofnodi
     summary: Crynodeb
+    latestApplication: Latest application (WELSH)
+    allApplications: All applications (WELSH)
   applicationCards:
     amountRequested: Amount requested (WELSH)
     notYetCompleted: heb ei gwblhau eto
     status: Status (WELSH)
     submitted: Submitted (WELSH)
     sectionsCompleted: "%s of %s sections complete (WELSH)"
+    lastUpdated: Last updated (WELSH)
+    continue: Continue with this application (WELSH)
+    expiresAt: You have until <strong>%s</strong> to complete your application (WELSH)
   startApplication:
     title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
     intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000

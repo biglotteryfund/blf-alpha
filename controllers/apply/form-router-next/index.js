@@ -57,42 +57,43 @@ function initFormRouter({
 
         res.locals.user = req.user;
 
+        const localeUrl = localify(req.i18n.getLocale());
         if (features.enableNewApplicationDashboards) {
             res.locals.userNavigationLinks = [
                 {
                     url: `${req.baseUrl}/summary`,
-                    label: res.locals.copy.navigation.summary
+                    label: req.i18n.__('applyNext.navigation.summary')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/apply'),
-                    label: 'Latest application'
+                    url: localeUrl('/apply'),
+                    label: req.i18n.__('applyNext.navigation.latestApplication')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/apply/all'),
-                    label: 'All applications'
+                    url: localeUrl('/apply/all'),
+                    label: req.i18n.__('applyNext.navigation.allApplications')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user'),
-                    label: 'Account'
+                    url: localeUrl('/user'),
+                    label: req.i18n.__('applyNext.navigation.account')
                 }
             ];
         } else {
             res.locals.userNavigationLinks = [
                 {
                     url: `${req.baseUrl}/summary`,
-                    label: res.locals.copy.navigation.summary
+                    label: req.i18n.__('applyNext.navigation.summary')
                 },
                 {
                     url: req.baseUrl,
-                    label: res.locals.copy.navigation.applications
+                    label: req.i18n.__('applyNext.navigation.applications')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user'),
-                    label: res.locals.copy.navigation.account
+                    url: localeUrl('/user'),
+                    label: req.i18n.__('applyNext.navigation.account')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user/logout'),
-                    label: res.locals.copy.navigation.logOut
+                    url: localeUrl('/user/logout'),
+                    label: req.i18n.__('applyNext.navigation.logOut')
                 }
             ];
         }
