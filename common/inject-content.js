@@ -1,9 +1,9 @@
 'use strict';
-const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
 const Sentry = require('@sentry/node');
+const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
 
-const { localify } = require('./urls');
 const contentApi = require('./content-api');
 const checkPreviewMode = require('./check-preview-mode');
 
@@ -92,17 +92,7 @@ function injectCopy(lang) {
 }
 
 function injectBreadcrumbs(req, res, next) {
-    const locale = req.i18n.getLocale();
-
     const breadcrumbs = getOr([], 'breadcrumbs')(res.locals);
-
-    const ancestors = res.locals.customAncestors || [];
-    ancestors.forEach(ancestor => {
-        breadcrumbs.push({
-            label: ancestor.title,
-            url: localify(locale)(`/${ancestor.path}`)
-        });
-    });
 
     const getTitle = get('title');
     const injectedTitle = res.locals.title || getTitle(res.locals.content);
