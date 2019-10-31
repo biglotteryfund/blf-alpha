@@ -57,7 +57,9 @@
                 <a href="{{ localify(props.editUrl) }}"
                    class="btn btn--small">{{ cardCopy.continue }}</a>
                 {% if props.deleteUrl %}
-                    <a class="u-text-medium" href="{{ props.deleteUrl }}">Delete</a>
+                    <a class="u-text-medium" href="{{ props.deleteUrl }}">
+                        {{ cardCopy.delete }}
+                    </a>
                 {% endif %}
             </div>
         {% endif %}

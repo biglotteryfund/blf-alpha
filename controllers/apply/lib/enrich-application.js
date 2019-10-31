@@ -58,10 +58,7 @@ function standardOverview(data, locale) {
 
     return [
         {
-            label: localise({
-                en: 'Project length',
-                cy: 'Project length (WELSH)'
-            }),
+            label: localise({ en: 'Project length', cy: 'Hyd y prosiect' }),
             value: data.projectDurationYears
                 ? formatYears(data.projectDurationYears, locale)
                 : null
@@ -101,10 +98,7 @@ function enrichPending(application, locale) {
         return createPending({
             projectName:
                 data.projectName ||
-                localise({
-                    en: 'Untitled proposal',
-                    cy: 'Untitled proposal (WELSH)'
-                }),
+                localise({ en: 'Untitled proposal', cy: 'Cynnig heb deitl' }),
             amountRequested: formatCurrency(data.projectCosts || 0),
             overview: standardOverview(data, locale),
             editUrl: `/apply/your-funding-proposal/edit/${application.id}`,
@@ -143,10 +137,7 @@ function enrichSubmitted(application, locale) {
         return createSubmitted({
             projectName:
                 data.projectName ||
-                localise({
-                    en: 'Untitled proposal',
-                    cy: 'Untitled proposal (WELSH)'
-                }),
+                localise({ en: 'Untitled proposal', cy: 'Cynnig heb deitl' }),
             amountRequested: `£${data.projectCosts.toLocaleString()}`,
             overview: standardOverview(data, locale)
         });
