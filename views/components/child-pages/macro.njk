@@ -28,8 +28,8 @@
     </ul>
 {% endmacro %}
 
-{% macro showChildPages(children, desiredMode) %}
-    {% if (children | allHaveTrailImages and desiredMode === 'grid') %}
+{% macro childPages(children, mode) %}
+    {% if (mode === 'grid') %}
         {{ grid(children) }}
     {% else %}
         {{ list(children) }}
