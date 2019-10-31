@@ -230,8 +230,17 @@ forEach(routes, function(section, sectionId) {
      * Used for determining top-level section for navigation and breadcrumbs
      */
     router.use(function(req, res, next) {
-        res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
-        res.locals.sectionUrl = localify(req.i18n.getLocale())(req.baseUrl);
+        const sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
+        const sectionUrl = localify(req.i18n.getLocale())(req.baseUrl);
+
+        res.locals.sectionTitle = sectionTitle;
+        res.locals.sectionUrl = sectionUrl;
+
+        /**
+         * Set top-level breadcrumb for current section
+         */
+        res.locals.breadcrumbs = [{ label: sectionTitle, url: sectionUrl }];
+
         next();
     });
 

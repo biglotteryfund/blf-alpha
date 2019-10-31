@@ -94,33 +94,26 @@ function injectCopy(lang) {
 function injectBreadcrumbs(req, res, next) {
     const locale = req.i18n.getLocale();
 
-    if (res.locals.sectionTitle && res.locals.sectionUrl) {
-        const topLevelCrumb = {
-            label: res.locals.sectionTitle,
-            url: res.locals.sectionUrl
-        };
+    const breadcrumbs = getOr([], 'breadcrumbs')(res.locals);
 
-        const ancestors = res.locals.customAncestors || [];
-        const ancestorCrumbs = ancestors.map(ancestor => {
-            return {
-                label: ancestor.title,
-                url: localify(locale)(`/${ancestor.path}`)
-            };
+    const ancestors = res.locals.customAncestors || [];
+    ancestors.forEach(ancestor => {
+        breadcrumbs.push({
+            label: ancestor.title,
+            url: localify(locale)(`/${ancestor.path}`)
         });
+    });
 
-        const breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs]);
+    const getTitle = get('title');
+    const injectedTitle = res.locals.title || getTitle(res.locals.content);
 
-        const getTitle = get('title');
-        const injectedTitle = res.locals.title || getTitle(res.locals.content);
-
-        if (injectedTitle) {
-            breadcrumbs.push({
-                label: injectedTitle
-            });
-        }
-
-        res.locals.breadcrumbs = breadcrumbs;
+    if (injectedTitle) {
+        breadcrumbs.push({
+            label: injectedTitle
+        });
     }
+
+    res.locals.breadcrumbs = breadcrumbs;
 
     next();
 }
