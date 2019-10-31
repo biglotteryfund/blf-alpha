@@ -195,9 +195,6 @@
                 </div>
             {% else %}
                 <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
-                {% if form.progress.isPristine %}
-                    {{ startButton() }}
-                {% endif %}
             {% endif %}
 
             {% if not expandSections %}
