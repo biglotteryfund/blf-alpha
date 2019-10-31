@@ -4,7 +4,6 @@ const express = require('express');
 const compact = require('lodash/compact');
 
 const {
-    injectBreadcrumbs,
     injectListingContent,
     setCommonLocals
 } = require('../../common/inject-content');
@@ -14,13 +13,11 @@ const { renderFlexibleContentChild } = require('../common');
 
 const router = express.Router();
 
-router.use(injectBreadcrumbs, (req, res, next) => {
-    res.locals.breadcrumbs = res.locals.breadcrumbs.concat([
-        {
-            label: req.i18n.__('funding.strategics.title'),
-            url: req.baseUrl
-        }
-    ]);
+router.use(function(req, res, next) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+        label: req.i18n.__('funding.strategics.title'),
+        url: req.baseUrl
+    });
     next();
 });
 
