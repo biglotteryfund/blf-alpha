@@ -100,9 +100,7 @@ function injectBreadcrumbs(req, res, next) {
             url: res.locals.sectionUrl
         };
 
-        const ancestors =
-            res.locals.customAncestors ||
-            getOr([], 'ancestors')(res.locals.content);
+        const ancestors = res.locals.customAncestors || [];
         const ancestorCrumbs = ancestors.map(ancestor => {
             return {
                 label: ancestor.title,
