@@ -16,7 +16,7 @@ router.use(function(req, res, next) {
     next();
 });
 
-if (features.enableNewApplicationDashboards) {
+if (features.enableStandardApplications) {
     router.use('/', require('./dashboard'));
 } else {
     router.get('/', (req, res) => res.redirect('/'));
