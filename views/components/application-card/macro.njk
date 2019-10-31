@@ -1,13 +1,14 @@
 {% macro applicationCard(props, headingLevel = '3') %}
+    {% set cardCopy = __('applyNext.applicationCards') %}
     <article class="application-card-new">
         <header class="application-card-new__header">
             <h{{ headingLevel }} class="application-card-new__title u-tone-brand-primary">
-                {% if props.editUrl %}<a href="{{ props.editUrl }}" class="u-link-unstyled">{% endif %}
+                {% if props.editUrl %}<a href="{{ localify(props.editUrl) }}" class="u-link-unstyled">{% endif %}
                     {{ props.projectName | widont | safe }}
                 {% if props.editUrl %}</a>{% endif %}
             </h{{ headingLevel }}>
             <p class="application-card-new__amount">
-                <strong>Amount requested</strong>:
+                <strong>{{ cardCopy.amountRequested }}</strong>:
                 <span class="o-pill">
                     {{ props.amountRequested }}
                 </span>
@@ -17,24 +18,24 @@
         <dl class="application-card-new__overview u-text-small">
             {% for item in props.overview %}
                 <dt>{{ item.label }}</dt>
-                {# @TODO: i18n #}
-                <dd>{% if item.value %}{{ item.value }}{% else %}not yet completed{% endif %}</dd>
+                <dd>{% if item.value %}{{ item.value }}{% else %}{{ cardCopy.notYetCompleted }}{% endif %}</dd>
             {% endfor %}
         </dl>
 
         <div class="application-card-new__status u-text-small u-margin-bottom">
             {% if props.type === 'submitted' %}
                 <p>
-                    {# @TODO: i18n #}
-                    <strong>Status</strong>:
-                    Submitted {{ formatCalendarTime(props.submittedAt) }}
+                    <strong>{{ cardCopy.status }}</strong>:
+                    {{ cardCopy.submitted }} {{ formatCalendarTime(props.submittedAt) }}
                 </p>
             {% else %}
                 <p>
-                    {# @TODO: i18n #}
-                    <strong>Status</strong>:
-                    {{ props.progress.sectionsComplete }} of
-                    {{ props.progress.sections.length }} sections complete
+                    <strong>{{ cardCopy.status }}</strong>:
+                    {{ __(
+                        cardCopy.sectionsCompleted,
+                        props.progress.sectionsComplete,
+                        props.progress.sections.length
+                    ) }}
                 </p>
 
                 <ol class="status-bar">
@@ -47,28 +48,25 @@
                     {% endfor %}
                 </ol>
 
-                <p>Last updated: {{ formatCalendarTime(props.updatedAt) }}</p>
+                <p>{{ cardCopy.lastUpdated }}: {{ formatCalendarTime(props.updatedAt) }}</p>
             {% endif %}
         </div>
 
         {% if props.editUrl %}
             <div class="application-card-new__actions">
-                <a href="{{ props.editUrl }}"
-                   {# @TODO: i18n #}
-                   class="btn btn--small">Continue with this application</a>
+                <a href="{{ localify(props.editUrl) }}"
+                   class="btn btn--small">{{ cardCopy.continue }}</a>
                 {% if props.deleteUrl %}
-                    <a class="u-text-medium" href="{{ props.deleteUrl }}">Delete</a>
+                    <a class="u-text-medium" href="{{ props.deleteUrl }}">
+                        {{ cardCopy.delete }}
+                    </a>
                 {% endif %}
             </div>
         {% endif %}
 
-
         {% if props.expiresAt %}
-            {# @TODO: i18n #}
             <div class="application-card-new__meta u-text-small">
-                You have until
-                <strong>{{ formatDate(props.expiresAt) }}</strong>
-                to complete your application
+                {{ __(cardCopy.expiresAt, formatDate(props.expiresAt)) | safe }}
             </div>
         {% endif %}
     </article>

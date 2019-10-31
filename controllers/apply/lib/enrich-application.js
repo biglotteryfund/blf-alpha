@@ -43,11 +43,11 @@ function simpleOverview(data, locale) {
                 : null
         },
         {
-            label: localise({ en: 'Location', cy: '' }),
+            label: localise({ en: 'Location', cy: 'Lleoliad' }),
             value: findLocationName(data.projectLocation)
         },
         {
-            label: localise({ en: 'Organisation', cy: 'Sefydliad' }),
+            label: localise({ en: 'Organisation', cy: 'Mudiad' }),
             value: data.organisationTradingName || data.organisationLegalName
         }
     ];
@@ -58,17 +58,17 @@ function standardOverview(data, locale) {
 
     return [
         {
-            label: localise({ en: 'Project length', cy: '' }),
+            label: localise({ en: 'Project length', cy: 'Hyd y prosiect' }),
             value: data.projectDurationYears
                 ? formatYears(data.projectDurationYears, locale)
                 : null
         },
         {
-            label: localise({ en: 'Location', cy: '' }),
+            label: localise({ en: 'Location', cy: 'Lleoliad' }),
             value: findLocationName(data.projectLocation)
         },
         {
-            label: localise({ en: 'Organisation', cy: '' }),
+            label: localise({ en: 'Organisation', cy: 'Mudiad' }),
             value: data.organisationTradingName || data.organisationLegalName
         }
     ];
@@ -98,8 +98,7 @@ function enrichPending(application, locale) {
         return createPending({
             projectName:
                 data.projectName ||
-                // @TODO: i18n
-                localise({ en: 'Untitled proposal', cy: '' }),
+                localise({ en: 'Untitled proposal', cy: 'Cynnig heb deitl' }),
             amountRequested: formatCurrency(data.projectCosts || 0),
             overview: standardOverview(data, locale),
             editUrl: `/apply/your-funding-proposal/edit/${application.id}`,
@@ -138,8 +137,7 @@ function enrichSubmitted(application, locale) {
         return createSubmitted({
             projectName:
                 data.projectName ||
-                // @TODO: i18n
-                localise({ en: 'Untitled proposal', cy: '' }),
+                localise({ en: 'Untitled proposal', cy: 'Cynnig heb deitl' }),
             amountRequested: `£${data.projectCosts.toLocaleString()}`,
             overview: standardOverview(data, locale)
         });

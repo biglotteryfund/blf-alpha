@@ -9,10 +9,7 @@ const { localify, redirectForLocale } = require('../../common/urls');
 const { noStore } = require('../../common/cached');
 const { requireNotStaffAuth } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
-
-const logger = require('../../common/logger').child({
-    service: 'user'
-});
+const logger = require('../../common/logger');
 
 const router = express.Router();
 
@@ -42,7 +39,7 @@ if (features.enableSeeders) {
             username: username,
             password: password,
             isActive: true
-        }).then((newUser) => {
+        }).then(newUser => {
             res.json({ username, password, id: newUser.id });
         });
     });
@@ -64,34 +61,35 @@ router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
     if (req.user) {
         res.locals.user = req.user;
 
+        const localeUrl = localify(req.i18n.getLocale());
         if (features.enableNewApplicationDashboards) {
             res.locals.userNavigationLinks = [
                 {
-                    url: localify(req.i18n.getLocale())('/apply'),
-                    label: 'Latest application'
+                    url: localeUrl('/apply'),
+                    label: req.i18n.__('applyNext.navigation.latestApplication')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/apply/all'),
-                    label: 'All applications'
+                    url: localeUrl('/apply/all'),
+                    label: req.i18n.__('applyNext.navigation.allApplications')
                 },
                 {
                     url: req.baseUrl,
-                    label: 'Account'
+                    label: req.i18n.__('applyNext.navigation.account')
                 }
             ];
         } else {
             res.locals.userNavigationLinks = [
                 {
-                    url: localify(req.i18n.getLocale())('/apply/awards-for-all'),
-                    label: res.locals.copy.navigation.applications
+                    url: localeUrl('/apply/awards-for-all'),
+                    label: req.i18n.__('applyNext.navigation.applications')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user'),
-                    label: res.locals.copy.navigation.account
+                    url: localeUrl('/user'),
+                    label: req.i18n.__('applyNext.navigation.account')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user/logout'),
-                    label: res.locals.copy.navigation.logOut
+                    url: localeUrl('/user/logout'),
+                    label: req.i18n.__('applyNext.navigation.logOut')
                 }
             ];
         }
@@ -109,7 +107,7 @@ router.use('/update-email', require('./update-email'));
 
 router.get('/logout', function(req, res) {
     req.logout();
-    logger.info('User logout');
+    logger.info('User logout', { service: 'user' });
     req.session.save(() => {
         redirectForLocale(req, res, '/user/login?s=loggedOut');
     });

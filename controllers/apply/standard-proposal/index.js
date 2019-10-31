@@ -12,5 +12,6 @@ module.exports = initFormRouter({
     formBuilder: formBuilder,
     startTemplate: path.resolve(__dirname, './views/startpage.njk'),
     confirmationBuilder: confirmationBuilder,
-    enableSalesforceConnector: features.enableSalesforceConnector
+    enableSalesforceConnector: features.enableSalesforceConnector,
+    isBilingual: false
 });
