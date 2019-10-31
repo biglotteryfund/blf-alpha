@@ -52,7 +52,8 @@ function requireUserAuth(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user) === false) {
         next();
     } else {
-        redirectWithReturnUrl(req, res, '/user/login');
+        const returnUrl = req.query.s ? `/user/login?s=${req.query.s}` : '/user/login';
+        redirectWithReturnUrl(req, res, returnUrl);
     }
 }
 

@@ -163,6 +163,23 @@ it('log in and log out', function() {
     });
 });
 
+it('activate user account without logging in', function() {
+    const username = generateAccountEmail();
+    const password = generateAccountPassword();
+
+    cy.registerUser({
+        username: username,
+        password: password,
+        returnToken: true
+    }).then(res => {
+        cy.visit(`/user/activate?token=${res.body.token}`);
+
+        cy.findByText('Your account was successfully activated!').should(
+            'be.visible'
+        );
+    });
+});
+
 it('log in and log out using global header link', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password, true);

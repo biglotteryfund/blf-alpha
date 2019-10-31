@@ -22,15 +22,12 @@ function renderTemplate(req, res) {
 
 router
     .route('/')
-    .all(requireUnactivatedUser, injectCopy('user.activate'))
+    .all(injectCopy('user.activate'))
     .get(async function(req, res) {
         if (req.query.token) {
             try {
-                await verifyTokenActivate(
-                    req.query.token,
-                    req.user.userData.id
-                );
-                await Users.activateUser(req.user.userData.id);
+                const decodedData = await verifyTokenActivate(req.query.token);
+                await Users.activateUser(decodedData.userId);
                 logger.info('Activation succeeded');
                 redirectUrlWithFallback(req, res, '/user?s=activationComplete');
             } catch (error) {
@@ -42,7 +39,7 @@ router
             renderTemplate(req, res);
         }
     })
-    .post(async function(req, res, next) {
+    .post(requireUnactivatedUser, async function(req, res, next) {
         try {
             await sendActivationEmail(req, req.user.userData);
 

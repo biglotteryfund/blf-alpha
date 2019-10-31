@@ -18,13 +18,13 @@ function signTokenActivate(userId, dateOfActivationAttempt) {
     });
 }
 
-function verifyTokenActivate(token, userId) {
+function verifyTokenActivate(token) {
     return new Promise((resolve, reject) => {
         // We have to use try/catch here because jwt.verify() doesn't support async callbacks
         // @see https://stackoverflow.com/a/54419385
         try {
             const decoded = jwt.verify(token, JWT_SIGNING_TOKEN);
-            Users.findByPk(userId)
+            Users.findByPk(decoded.data.userId)
                 .then(user => {
                     // Ensure that the token's stored date matches the one in the database
                     // (eg. it's the most recently-generated link)
@@ -34,7 +34,6 @@ function verifyTokenActivate(token, userId) {
 
                     if (
                         decoded.data.reason === 'activate' &&
-                        decoded.data.userId === userId &&
                         isNewestLink
                     ) {
                         resolve(decoded.data);
