@@ -1162,8 +1162,12 @@ user:
   activate:
     title: Actifadu eich cyfrif
     introduction: >
-      Mae e-bost wedi ei anfon at <strong>%s</strong>.
-      I actifadu eich cyfrif, cliciwch ar y ddolen yn yr e-bost.
+      <p>Cyn i chi ddechrau eich cais, rydym angen sicrhau mae <strong>%s</strong> yw eich cyfeiriad e-bost.</p>
+      <p>I gadarnhau eich cyfeiriad e-bost:</p>
+      <ul>
+        <li>Gwiriwch eich e-byst (dylech fod wedi cael un gennym)</li>
+        <li>Cliciwch ar y ddolen yn ein e-bost actifadu</li>
+      </ul>
     email:
       subject: Actifadu eich cyfrif gwefan Cronfa Gymunedol y Loteri Genedlaethol
       body: >
@@ -1176,22 +1180,25 @@ user:
         <p>Diolch,</p>
         <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
     errorMessage: Roedd eich dolen actifadu yn annilys neu wedi dod i ben.
-    resendLabel: Ail-anfon dolen actifadu
-    resendMessage: Dolen actifadu wedi ei ail-anfon
+    resendLabel: Anfon dolen actifadu eto
+    resendMessage: >
+      <strong>Rydym wedi anfon dolen actifadu arall i chi</strong> - gwiriwch eich e-byst am ddolen newydd
     notReceived:
-      title: Heb dderbyn unrhyw beth?
+      title: >
+        Os na gafoch e-bost gennym:
       body: >
-        <p>Gall yr e-bost actifadu gymryd rhai munudau i’ch cyrraedd, os nad ydych wedi ei dderbyn:</p>
         <ul>
-            <li>Gwiriwch eich blwch post sbam</li>
-            <li>
-                Gwiriwch bod eich cyfeiriad e-bost yn gywir, os na, <a href="%s">diweddarwch eich cyfeiriad e-bost</a>
-            </li>
+          <li>Disgwyliwch ychydig funudau – gall gymryd rhai munudau i gyrraedd</li>
+          <li>Gwiriwch eich mewnflwch sbam</li>
+          <li>
+            Gwiriwch bod eich cyfeiriad e-bost yn gywir - os nad yw’n gywir, <a href="%s">diweddarwch eich cyfeiriad e-bost</a>
+          </li>
+          <li>Anfon y ddolen actifadu eto</li>
         </ul>
     contact:
       title: Dal ddim yn gweithio?
       body: >
-        <p>Cysylltwch â ni ar <strong>0345 4 10 20 30</strong></p>
+        <a href="%s">Cysylltwch â ni am gymorth</a>
 apply:
   error:
     title: Cafwyd problem gyda'ch cyflwyniad
