@@ -1593,7 +1593,7 @@ applyNext:
         description: "If you need more than £10,000 funding from us—tell us your proposal for a project to help your community thrive."
         link:
           url: /apply/your-funding-proposal/start
-          label: Tell us your new proposal
+          label: Start your proposal
   summary:
     title: Summary
     introduction: <p>You may complete the sections in any order.</p>
@@ -1772,4 +1772,4 @@ yourFundingProposal:
       items:
         - We'll email you to let you know we got your proposal
         - Then we'll get in touch to talk about your proposal within 15 working days.
-    startAction: Tell us your proposal
+    startAction: Start your proposal
