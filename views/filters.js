@@ -82,6 +82,10 @@ function removeQuery(str) {
     return str.split('?')[0];
 }
 
+function allHaveTrailImages(pages) {
+    return pages && pages.length > 0 ? pages.every(_ => _.trailImage) : false;
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -95,5 +99,6 @@ module.exports = {
     removeQueryParam,
     addQueryParam,
     stripTrailingSlashes,
-    removeQuery
+    removeQuery,
+    allHaveTrailImages
 };

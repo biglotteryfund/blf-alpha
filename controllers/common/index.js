@@ -14,8 +14,6 @@ const {
 const { isWelsh } = require('../../common/urls');
 const contentApi = require('../../common/content-api');
 
-const getLayoutMode = require('./lib/get-layout-mode');
-
 function staticPage({
     lang = null,
     template = null,
@@ -71,24 +69,6 @@ function staticPage({
     return router;
 }
 
-function renderCMSPage(res, content) {
-    const childrenLayoutMode = getLayoutMode(content);
-
-    // Reformat the child pages for plain-text links
-    if (content.children && childrenLayoutMode === 'list') {
-        content.children = content.children.map(page => {
-            return {
-                href: page.linkUrl,
-                label: page.trailText || page.title
-            };
-        });
-    }
-
-    res.render(path.resolve(__dirname, './views/cms-page'), {
-        childrenLayoutMode: childrenLayoutMode
-    });
-}
-
 function renderListingPage(res, content) {
     // What layout mode should we use? (eg. do all of the children have an image?)
     const missingTrailImages = content.children.some(page => !page.trailImage);
@@ -135,7 +115,7 @@ function basicContent({
             if (customTemplate) {
                 res.render(customTemplate);
             } else if (cmsPage) {
-                renderCMSPage(res, content);
+                res.render(path.resolve(__dirname, './views/cms-page'));
             } else if (content.children) {
                 // @TODO: Deprecate these templates in favour of CMS pages (above)
                 renderListingPage(res, content);
