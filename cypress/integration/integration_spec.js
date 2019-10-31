@@ -267,7 +267,7 @@ it('should register and see activation screen', function() {
     cy.checkA11y();
     cy.get('body').should(
         'contain',
-        'Check your emails to activate your account'
+        'Activate your account'
     );
 });
 
@@ -353,7 +353,7 @@ it('should be able to log in and update account details', () => {
 
         cy.get('body').should(
             'contain',
-            'Check your emails to activate your account'
+            'Activate your account'
         );
     });
 });
