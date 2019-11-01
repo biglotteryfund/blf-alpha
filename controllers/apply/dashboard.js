@@ -13,6 +13,14 @@ const { enrichPending, enrichSubmitted } = require('./lib/enrich-application');
 
 const router = express.Router();
 
+function checkFeatureEnabled(req, res, next) {
+    if (res.locals.enableStandardApplications) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+}
+
 /**
  * Determine the latest application to show and
  * prepare application data for display in the view.
@@ -61,6 +69,7 @@ router.get(
     requireActiveUser,
     injectCopy('applyNext.dashboardNew'),
     injectNavigationLinks,
+    checkFeatureEnabled,
     async function(req, res, next) {
         const { copy } = res.locals;
 
@@ -105,6 +114,7 @@ router.get(
     requireActiveUser,
     injectCopy('applyNext.dashboardNew'),
     injectNavigationLinks,
+    checkFeatureEnabled,
     async function(req, res, next) {
         const { copy } = res.locals;
 

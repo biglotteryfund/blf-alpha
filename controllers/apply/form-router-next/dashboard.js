@@ -2,7 +2,6 @@
 const express = require('express');
 const path = require('path');
 const get = require('lodash/get');
-const features = require('config').get('features');
 
 const {
     PendingApplication,
@@ -14,7 +13,7 @@ module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
     router.route('/').get(async function(req, res, next) {
-        if (features.enableStandardApplications) {
+        if (res.locals.enableStandardApplications) {
             return res.redirect(localify(req.i18n.getLocale())('/apply'));
         }
 

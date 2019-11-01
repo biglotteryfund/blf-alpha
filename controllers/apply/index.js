@@ -15,17 +15,7 @@ router.use(function(req, res, next) {
     next();
 });
 
-router.use(
-    '/',
-    function(req, res, next) {
-        if (res.locals.enableStandardApplications) {
-            next();
-        } else {
-            res.redirect('/');
-        }
-    },
-    require('./dashboard')
-);
+router.use('/', require('./dashboard'));
 
 router.use('/your-idea', require('./reaching-communities'));
 router.use('/awards-for-all', require('./awards-for-all'));
