@@ -150,10 +150,8 @@ async function sendExpiryEmails(req, emailQueue) {
                     templateData: {
                         isBilingual: isBilingual,
                         projectName: getAppData('projectName'),
-                        countryPhoneNumber: getPhoneFor(
-                            getAppData('projectCountry')
-                        ),
-                        countryEmail: getEmailFor(getAppData('projectCountry')),
+                        countryPhoneNumber: getPhoneFor(projectCountry),
+                        countryEmail: getEmailFor(projectCountry),
                         application: emailToSend.PendingApplication,
                         unsubscribeLink: unsubscribeUrl,
                         expiryDate: expiryDates
