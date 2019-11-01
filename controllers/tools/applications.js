@@ -19,18 +19,9 @@ const {
 const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
-const awardsForAllFormBuilder = require('../apply/awards-for-all/form');
-const standardProposalFormBuilder = require('../apply/standard-proposal/form');
-
 const router = express.Router();
 
 const DATE_FORMAT = 'YYYY-MM-DD';
-
-function formBuilderFor(formId) {
-    return formId === 'standard-enquiry'
-        ? standardProposalFormBuilder
-        : awardsForAllFormBuilder;
-}
 
 function applicationsByDay(responses) {
     if (responses.length === 0) {
@@ -201,9 +192,27 @@ function getDataStudioUrlForForm(formId) {
 }
 
 function getApplicationTitle(applicationId) {
-    const formBuilder = formBuilderFor(applicationId);
-    const form = formBuilder();
-    return form.title;
+    let title;
+    switch (applicationId) {
+        case 'awards-for-all':
+            title = 'National Lottery Awards for All';
+            break;
+        case 'standard-enquiry':
+            title = 'Your funding proposal';
+            break;
+        default:
+            break;
+    }
+    return title;
+}
+
+function getProjectCountry(applicationId, applicationData) {
+    if (applicationId === 'awards-for-all') {
+        return get(applicationData, 'projectCountry');
+    } else if (applicationId === 'standard-enquiry') {
+        const countries = get(applicationData, 'projectCountries', []);
+        return countries.length > 1 ? 'uk-wide' : countries[0];
+    }
 }
 
 router.get('/', function(req, res) {
@@ -231,17 +240,11 @@ router.get('/:applicationId', async (req, res, next) => {
         ).then(applications => {
             return applications
                 .map(function(row) {
-                    const formBuilder = formBuilderFor(
-                        req.params.applicationId
-                    );
-
-                    const form = formBuilder({
-                        locale: req.i18n.getLocale(),
-                        data: row.applicationData
-                    });
-
                     const data = row.get({ plain: true });
-                    data.country = form.summary.country;
+                    data.country = getProjectCountry(
+                        req.params.applicationId,
+                        row.applicationData
+                    );
                     return data;
                 })
                 .filter(filterByCountry(country, 'pending'));
