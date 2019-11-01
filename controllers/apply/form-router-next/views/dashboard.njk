@@ -1,7 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/icons.njk" import iconTick, iconBin %}
-{% from "components/user-status/macro.njk" import userStatus with context %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block title %}{{ copy.dashboard.title }} | {{ formTitle }} | {% endblock %}
@@ -106,8 +105,6 @@
         <section class="content-box u-inner-wide-only">
 
             {{ userNavigation(userNavigationLinks) }}
-
-            {{ userStatus(user) }}
 
             {% if alertMessage %}
                 <div class="message" role="alert">

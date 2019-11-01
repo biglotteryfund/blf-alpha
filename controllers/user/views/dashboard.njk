@@ -1,6 +1,5 @@
 {% extends "layouts/main.njk" %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
-{% from "components/user-status/macro.njk" import userStatus with context %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block content %}
@@ -8,8 +7,6 @@
         <div class="content-box u-inner-wide-only">
 
             {{ userNavigation(userNavigationLinks) }}
-
-            {{ userStatus(user) }}
 
             {% if enableStandardApplications %}
                 <h1 class="t--underline">{{ title }}</h1>
