@@ -2,7 +2,6 @@
 const path = require('path');
 const express = require('express');
 const passport = require('passport');
-const features = require('config').get('features');
 
 const logger = require('../../common/logger').child({
     service: 'user'
@@ -87,7 +86,7 @@ router
                                 await LoginRateLimiter.clearRateLimit();
                             }
 
-                            if (features.enableStandardApplications) {
+                            if (res.locals.enableStandardApplications) {
                                 redirectUrlWithFallback(req, res, '/apply');
                             } else {
                                 redirectUrlWithFallback(req, res, '/user');
