@@ -58,45 +58,24 @@ function initFormRouter({
         res.locals.user = req.user;
 
         const localeUrl = localify(req.i18n.getLocale());
-        if (features.enableStandardApplications) {
-            res.locals.userNavigationLinks = [
-                {
-                    url: `${req.baseUrl}/summary`,
-                    label: req.i18n.__('applyNext.navigation.summary')
-                },
-                {
-                    url: localeUrl('/apply'),
-                    label: req.i18n.__('applyNext.navigation.latestApplication')
-                },
-                {
-                    url: localeUrl('/apply/all'),
-                    label: req.i18n.__('applyNext.navigation.allApplications')
-                },
-                {
-                    url: localeUrl('/user'),
-                    label: req.i18n.__('applyNext.navigation.account')
-                }
-            ];
-        } else {
-            res.locals.userNavigationLinks = [
-                {
-                    url: `${req.baseUrl}/summary`,
-                    label: req.i18n.__('applyNext.navigation.summary')
-                },
-                {
-                    url: req.baseUrl,
-                    label: req.i18n.__('applyNext.navigation.applications')
-                },
-                {
-                    url: localeUrl('/user'),
-                    label: req.i18n.__('applyNext.navigation.account')
-                },
-                {
-                    url: localeUrl('/user/logout'),
-                    label: req.i18n.__('applyNext.navigation.logOut')
-                }
-            ];
-        }
+        res.locals.userNavigationLinks = [
+            {
+                url: `${req.baseUrl}/summary`,
+                label: req.i18n.__('applyNext.navigation.summary')
+            },
+            {
+                url: localeUrl('/apply'),
+                label: req.i18n.__('applyNext.navigation.latestApplication')
+            },
+            {
+                url: localeUrl('/apply/all'),
+                label: req.i18n.__('applyNext.navigation.allApplications')
+            },
+            {
+                url: localeUrl('/user'),
+                label: req.i18n.__('applyNext.navigation.account')
+            }
+        ];
 
         next();
     }
@@ -180,9 +159,11 @@ function initFormRouter({
     );
 
     /**
-     * Route: Dashboard
+     * Route: Redirect form root to dashboard
      */
-    router.use('/', require('./dashboard')(formId, formBuilder));
+    router.get('/', function(req, res) {
+        return res.redirect(localify(req.i18n.getLocale())('/apply'));
+    });
 
     /**
      * Route: Questions list

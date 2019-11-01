@@ -33,9 +33,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -92,13 +91,7 @@ Object {
         "FieldLevelEncryptionId": "",
         "ForwardedValues": Object {
           "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "standard-preview",
-              ],
-              "Quantity": 1,
-            },
+            "Forward": "none",
           },
           "Headers": Object {
             "Items": Array [
@@ -153,9 +146,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -220,9 +212,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -284,9 +275,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -354,9 +344,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -422,9 +411,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -485,9 +473,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -552,13 +539,7 @@ Object {
         "FieldLevelEncryptionId": "",
         "ForwardedValues": Object {
           "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "standard-preview",
-              ],
-              "Quantity": 1,
-            },
+            "Forward": "none",
           },
           "Headers": Object {
             "Items": Array [
@@ -613,9 +594,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -680,9 +660,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -744,9 +723,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -814,9 +792,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -882,9 +859,8 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
-                "standard-preview",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -1054,9 +1030,8 @@ Object {
         "WhitelistedNames": Object {
           "Items": Array [
             "blf-alpha-session",
-            "standard-preview",
           ],
-          "Quantity": 2,
+          "Quantity": 1,
         },
       },
       "Headers": Object {

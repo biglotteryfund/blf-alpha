@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const path = require('path');
-const features = require('config').get('features');
 
 const { PendingApplication } = require('../../../db/models');
 const { localify } = require('../../../common/urls');
@@ -42,17 +41,11 @@ module.exports = function(formId) {
 
                 logger.info('Application deleted', { applicationId });
 
-                if (features.enableStandardApplications) {
-                    res.redirect(
-                        localify(req.i18n.getLocale())(
-                            '/apply/all?s=applicationDeleted'
-                        )
-                    );
-                } else {
-                    res.redirect(
-                        res.locals.formBaseUrl + '?s=applicationDeleted'
-                    );
-                }
+                res.redirect(
+                    localify(req.i18n.getLocale())(
+                        '/apply/all?s=applicationDeleted'
+                    )
+                );
             } catch (error) {
                 next(error);
             }
