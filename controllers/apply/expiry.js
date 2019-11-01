@@ -69,7 +69,7 @@ function getPhoneFor(country) {
  * -- Updates db
  * returns an array of objects containing emailSent, dbUpdated for each queue
  */
-async function sendExpiryEmails(req, emailQueue, locale) {
+async function sendExpiryEmails(req, emailQueue) {
     logger.info('Handling email queue');
 
     if (appData.isNotProduction && !EMAIL_EXPIRY_TEST_ADDRESS) {
@@ -78,28 +78,40 @@ async function sendExpiryEmails(req, emailQueue, locale) {
 
     return await Promise.all(
         emailQueue.map(async emailToSend => {
+            const getAppData = field =>
+                get(emailToSend.PendingApplication, `applicationData.${field}`);
+
+            const projectCountry = getAppData('projectCountry');
+
+            const isBilingual = projectCountry === 'wales';
+
             let subjectLine = '';
 
             switch (emailToSend.emailType) {
                 case 'AFA_ONE_MONTH':
                     subjectLine = {
                         en: 'You have one month to finish your application',
-                        cy: ''
-                    }[locale];
+                        cy: 'Mae gennych fis i orffen eich cais'
+                    };
                     break;
                 case 'AFA_ONE_WEEK':
                     subjectLine = {
                         en: 'You have one week to finish your application',
-                        cy: ''
-                    }[locale];
+                        cy: 'Mae gennych wythnos i orffen eich cais'
+                    };
                     break;
                 case 'AFA_ONE_DAY':
                     subjectLine = {
                         en: 'You have one day to finish your application',
-                        cy: ''
-                    }[locale];
+                        cy: 'Mae gennych ddiwrnod i orffen eich cais'
+                    };
                     break;
             }
+
+            // Combine subject lines for bilingual emails
+            subjectLine = isBilingual
+                ? [subjectLine.en, subjectLine.cy].join(' / ')
+                : subjectLine.en;
 
             const addressToSendTo = appData.isNotProduction
                 ? EMAIL_EXPIRY_TEST_ADDRESS
@@ -111,17 +123,23 @@ async function sendExpiryEmails(req, emailQueue, locale) {
                 subject: subjectLine
             };
 
-            const getAppData = field =>
-                get(emailToSend.PendingApplication, `applicationData.${field}`);
-
             const token = signUnsubscribeToken(
                 emailToSend.PendingApplication.id
             );
 
-            const unsubscribeUrl = getAbsoluteUrl(
-                req,
-                '/apply/emails/unsubscribe?token=' + token
-            );
+            const dateFormat = 'D MMMM, YYYY';
+            const expiresOn = moment(emailToSend.PendingApplication.expiresAt);
+
+            const expiryDates = {
+                en: expiresOn.format(dateFormat),
+                cy: expiresOn.locale('cy').format(dateFormat)
+            };
+
+            const baseLink = `/apply/emails/unsubscribe?token=${token}`;
+            const unsubscribeUrl = {
+                en: getAbsoluteUrl(req, baseLink),
+                cy: getAbsoluteUrl(req, `/welsh${baseLink}`)
+            };
 
             let emailStatus = await sendHtmlEmail(
                 {
@@ -130,6 +148,7 @@ async function sendExpiryEmails(req, emailQueue, locale) {
                         './emails/expiry-email.njk'
                     ),
                     templateData: {
+                        isBilingual: isBilingual,
                         projectName: getAppData('projectName'),
                         countryPhoneNumber: getPhoneFor(
                             getAppData('projectCountry')
@@ -137,11 +156,7 @@ async function sendExpiryEmails(req, emailQueue, locale) {
                         countryEmail: getEmailFor(getAppData('projectCountry')),
                         application: emailToSend.PendingApplication,
                         unsubscribeLink: unsubscribeUrl,
-                        expiryDate: moment(
-                            emailToSend.PendingApplication.expiresAt
-                        )
-                            .locale(locale)
-                            .format('D MMMM, YYYY')
+                        expiryDate: expiryDates
                     }
                 },
                 mailParams
@@ -224,11 +239,7 @@ router.post('/', async (req, res) => {
         ]);
 
         if (emailQueue.length > 0) {
-            response.emailQueue = await sendExpiryEmails(
-                req,
-                emailQueue,
-                req.i18n.getLocale()
-            );
+            response.emailQueue = await sendExpiryEmails(req, emailQueue);
         } else {
             response.emailQueue = [];
         }

@@ -49,9 +49,15 @@ router.get('/', async function(req, res) {
                     './form-router-next/views/unsubscribed'
                 ),
                 {
-                    title: 'Unsubscription successful',
-                    message: `We will no longer email you about your application's expiration.`
-                }
+                    en: {
+                        title: 'Unsubscription successful',
+                        message: `We will no longer email you about your application's expiration.`
+                    },
+                    cy: {
+                        title: 'Tanysgrifiad llwyddiannus',
+                        message: `Ni fyddwn yn eich e-bostio rhagor am derfyn amser eich cais.`
+                    }
+                }[req.i18n.getLocale()]
             );
         } catch (error) {
             logger.warn('Email unsubscribe token failed', {
