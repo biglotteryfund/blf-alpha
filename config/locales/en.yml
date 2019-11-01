@@ -1757,6 +1757,15 @@ applyNext:
 yourFundingProposal:
   startPage:
     title: Before you start
+    applyingForNorthernIreland:
+      title: >
+        <strong>Applying for a project in Northern Ireland?</strong>
+      description: Great - you're in the right place.
+    applyingForWalesScotlandEngland:
+      title: >
+        <strong>Applying for a project in Wales, Scotland or England?</strong>
+      description: >
+        You'll need to look at <a href="/funding/over10k">our programme pages for funding over £10,000</a> to find out how to apply.
     beforeYouStart:
       title: Before you start
       items:
