@@ -27,7 +27,7 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
-    "enableStandardApplications": false
+    "enableStandardApplications": true
   },
   "awardsForAll": {
     "enableExpiration": true
