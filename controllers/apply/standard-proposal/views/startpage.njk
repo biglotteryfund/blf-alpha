@@ -15,11 +15,13 @@
                 prefix = globalCopy.brand.title
             )}}
 
-            <h2>{{ copy.applyingForNorthernIreland.title }}</h2>
-            <p>{{ copy.applyingForNorthernIreland.description }}</p>
+            <div class="message message--info message--minor" role="alert">
+                {{ copy.applyingForNorthernIreland.title | safe }}
+                <p>{{ copy.applyingForNorthernIreland.description }}</p>
 
-            <h2>{{ copy.applyingForWalesScotlandEngland.title }}</h2>
-            <p>{{ copy.applyingForWalesScotlandEngland.description | safe }}</p>
+                {{ copy.applyingForWalesScotlandEngland.title | safe }}
+                <p>{{ copy.applyingForWalesScotlandEngland.description | safe }}</p>
+            </div>
 
             <h2>{{ copy.beforeYouStart.title }}</h2>
 
