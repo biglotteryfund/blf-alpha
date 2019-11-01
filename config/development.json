@@ -2,8 +2,7 @@
   "logLevel": "debug",
   "features": {
     "enableSeeders": true,
-    "enableSalesforceConnector": false,
-    "enableStandardApplications": true
+    "enableSalesforceConnector": false
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
