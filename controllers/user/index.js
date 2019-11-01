@@ -62,7 +62,7 @@ router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
         res.locals.user = req.user;
 
         const localeUrl = localify(req.i18n.getLocale());
-        if (features.enableNewApplicationDashboards) {
+        if (features.enableStandardApplications) {
             res.locals.userNavigationLinks = [
                 {
                     url: localeUrl('/apply'),

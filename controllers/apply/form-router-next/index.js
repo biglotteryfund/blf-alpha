@@ -58,7 +58,7 @@ function initFormRouter({
         res.locals.user = req.user;
 
         const localeUrl = localify(req.i18n.getLocale());
-        if (features.enableNewApplicationDashboards) {
+        if (features.enableStandardApplications) {
             res.locals.userNavigationLinks = [
                 {
                     url: `${req.baseUrl}/summary`,

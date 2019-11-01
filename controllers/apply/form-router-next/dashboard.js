@@ -14,7 +14,7 @@ module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
     router.route('/').get(async function(req, res, next) {
-        if (features.enableNewApplicationDashboards) {
+        if (features.enableStandardApplications) {
             return res.redirect(localify(req.i18n.getLocale())('/apply'));
         }
 

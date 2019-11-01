@@ -87,7 +87,7 @@ router
                                 await LoginRateLimiter.clearRateLimit();
                             }
 
-                            if (features.enableNewApplicationDashboards) {
+                            if (features.enableStandardApplications) {
                                 redirectUrlWithFallback(req, res, '/apply');
                             } else {
                                 redirectUrlWithFallback(req, res, '/user');
