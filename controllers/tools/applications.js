@@ -19,18 +19,9 @@ const {
 const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
-const awardsForAllFormBuilder = require('../apply/awards-for-all/form');
-const standardProposalFormBuilder = require('../apply/standard-proposal/form');
-
 const router = express.Router();
 
 const DATE_FORMAT = 'YYYY-MM-DD';
-
-function formBuilderFor(formId) {
-    return formId === 'standard-enquiry'
-        ? standardProposalFormBuilder
-        : awardsForAllFormBuilder;
-}
 
 function applicationsByDay(responses) {
     if (responses.length === 0) {
@@ -200,10 +191,27 @@ function getDataStudioUrlForForm(formId) {
     return url;
 }
 
-function getApplicationTitle(applicationId) {
-    const formBuilder = formBuilderFor(applicationId);
-    const form = formBuilder();
-    return form.title;
+function addCountry(row) {
+    // Convert Sequelize instance into a plain object so we can modify it
+    const data = row.get({
+        plain: true
+    });
+    data.country = data.applicationCountry
+        ? data.applicationCountry
+        : get(data, 'applicationData.projectCountry');
+    return data;
+}
+
+function getFeedbackDescriptionByAppId(appId) {
+    let description;
+    switch (appId) {
+        case 'awards-for-all':
+            description = 'National Lottery Awards for All';
+            break;
+        default:
+            break;
+    }
+    return description;
 }
 
 router.get('/', function(req, res) {
@@ -211,81 +219,60 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:applicationId', async (req, res, next) => {
-    let dateRange = getDateRange(req.query.start, req.query.end);
-    if (!dateRange) {
-        dateRange = {
-            start: moment()
-                .subtract(30, 'days')
-                .toDate(),
-            end: moment().toDate()
-        };
-    }
-
-    const country = req.query.country;
-    const countryTitle = country ? titleCase(country) : false;
-
-    function getPendingApplications() {
-        return PendingApplication.findAllByForm(
-            req.params.applicationId,
-            dateRange
-        ).then(applications => {
-            return applications
-                .map(function(row) {
-                    const formBuilder = formBuilderFor(
-                        req.params.applicationId
-                    );
-
-                    const form = formBuilder({
-                        locale: req.i18n.getLocale(),
-                        data: row.applicationData
-                    });
-
-                    const data = row.get({ plain: true });
-                    data.country = form.summary.country;
-                    return data;
-                })
-                .filter(filterByCountry(country, 'pending'));
-        });
-    }
-
-    function getSubmittedApplications() {
-        return SubmittedApplication.findAllByForm(
-            req.params.applicationId,
-            dateRange
-        ).then(applications => {
-            return applications
-                .map(function(application) {
-                    const data = application.get({ plain: true });
-                    data.country = data.applicationCountry;
-                    return data;
-                })
-                .filter(filterByCountry(country, 'submitted'));
-        });
-    }
-
     try {
-        const applicationTitle = getApplicationTitle(req.params.applicationId);
+        let dateRange = getDateRange(req.query.start, req.query.end);
+        const defaultPeriod = {
+            amount: 30,
+            units: 'days'
+        };
+        if (!dateRange) {
+            dateRange = {
+                start: moment()
+                    .subtract(defaultPeriod.amount, defaultPeriod.units)
+                    .toDate(),
+                end: moment().toDate()
+            };
+        }
+        const country = req.query.country;
+        const countryTitle = country ? titleCase(country) : false;
+        const applicationTitle = titleCase(req.params.applicationId);
         const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
 
-        const feedbackDescription = getApplicationTitle(
+        const feedbackDescription = getFeedbackDescriptionByAppId(
             req.params.applicationId
         );
         const feedback = feedbackDescription
             ? await Feedback.findAllForDescription(feedbackDescription)
             : null;
 
+        const getApplications = async appType => {
+            const applications =
+                appType === 'pending'
+                    ? await PendingApplication.findAllByForm(
+                          req.params.applicationId,
+                          dateRange
+                      )
+                    : await SubmittedApplication.findAllByForm(
+                          req.params.applicationId,
+                          dateRange
+                      );
+            return applications
+                .map(addCountry)
+                .filter(filterByCountry(country, appType));
+        };
+
         const appTypes = [
             {
                 id: 'pending',
                 title: 'In-progress applications created',
                 verb: 'in progress',
-                applications: await getPendingApplications()
+                applications: await getApplications('pending')
             },
             {
                 id: 'submitted',
                 title: 'Submitted applications',
                 verb: 'submitted',
-                applications: await getSubmittedApplications()
+                applications: await getApplications('submitted')
             }
         ];
 
@@ -397,7 +384,8 @@ router.get('/:applicationId', async (req, res, next) => {
             country: country,
             countryTitle: countryTitle,
             dataStudioUrl: dataStudioUrl,
-            feedback: feedback
+            feedback: feedback,
+            defaultPeriod: defaultPeriod
         });
     } catch (error) {
         next(error);
