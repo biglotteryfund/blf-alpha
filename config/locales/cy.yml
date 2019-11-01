@@ -1313,6 +1313,8 @@ applyNext:
         <a href="/apply/all">weld pob cais gweithredol</a>.</p>
     all:
       title: Holl geisiadau
+      inProgress: Ceisiadau agored
+      submitted: Ceisiadau wedi’u hanfon
     noApplications: You don't have any online applications with The National Lottery Community fund right now.
     applicationDeleted: Mae eich cais wedi’i ddileu’n llwyddiannus
     actions:

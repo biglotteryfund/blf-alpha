@@ -41,7 +41,7 @@
                 <h1 class="u-visually-hidden">{{ title }}</h1>
 
                 {% if pendingApplications.length > 0 %}
-                    <h2 class="t--underline">Applications in progress</h2>
+                    <h2 class="t--underline">{{ copy.all.inProgress }}</h2>
                     <div class="flex-grid u-margin-bottom-l">
                         {% for application in pendingApplications %}
                             <div class="flex-grid__item">
@@ -52,7 +52,7 @@
                 {% endif %}
 
                 {% if submittedApplications.length > 0 %}
-                    <h2 class="t--underline">Submitted applications</h2>
+                    <h2 class="t--underline">{{ copy.all.submitted }}</h2>
                     <div class="flex-grid">
                         {% for application in submittedApplications %}
                             <div class="flex-grid__item">

@@ -1596,6 +1596,8 @@ applyNext:
         <a href="/apply/all">view all active applications</a>.</p>
     all:
       title: All applications
+      inProgress: Applications in progress
+      submitted: Submitted applications
     noApplications: You don't have any online applications with The National Lottery Community fund right now.
     applicationDeleted: Your application was successfully deleted
     actions:
