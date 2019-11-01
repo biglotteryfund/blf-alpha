@@ -1160,7 +1160,7 @@ user:
   activate:
     title: Actifadu eich cyfrif
     introduction: >
-      <p>Cyn i chi ddechrau eich cais, rydym angen sicrhau mae <strong>%s</strong> yw eich cyfeiriad e-bost.</p>
+      <p>Cyn i chi ddechrau eich cais, rydym angen sicrhau mae <strong class="u-tone-brand-primary">%s</strong> yw eich cyfeiriad e-bost.</p>
       <p>I gadarnhau eich cyfeiriad e-bost:</p>
       <ul>
         <li>Gwiriwch eich e-byst (dylech fod wedi cael un gennym)</li>

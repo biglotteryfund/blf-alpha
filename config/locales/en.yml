@@ -1269,7 +1269,7 @@ user:
   activate:
     title: Activate your account
     introduction: >
-      <p>Before you start your application, we need to make sure <strong>%s</strong> is your email address.</p>
+      <p>Before you start your application, we need to make sure <strong class="u-tone-brand-primary">%s</strong> is your email address.</p>
       <p>To confirm your email address:</p>
       <ul>
         <li>Check your emails (you should’ve got one from us)</li>
