@@ -1,13 +1,3 @@
-{% macro userStatus(user) %}
-    {% if user %}
-        {% if user.userType === 'user' and not user.userData.is_active %}
-            <p class="message" role="alert">
-                {{ __('user.common.activationRequired') | safe }}
-            </p>
-        {% endif %}
-    {% endif %}
-{% endmacro %}
-
 {% macro staffStatus(user) %}
     {% if user %}
         <div class="user-status">

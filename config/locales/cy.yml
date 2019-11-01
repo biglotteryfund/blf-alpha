@@ -1081,8 +1081,6 @@ user:
       emailUpdated: Mae eich cyfeiriad e-bost wedi ei ddiweddaru’n llwyddiannus!
       loggedOut: Rydych wedi allgofnodi’n llwyddiannus.
       passwordResetRequest: Cais am ail-osod cyfrinair. Os yw’r cyfeiriad e-bost yn gywir, byddwch yn derbyn cyfarwyddiadau pellach dros e-bost.
-    activationRequired: >
-      Nawr, rydym angen sicrhau fod y cyfeiriad e-bost rydych newydd ei ddarparu yn gywir. Gwiriwch eich e-byst i actifadu eich cyfrif. Neu a oes angen i ni <a href="/welsh/user/activate">ail-anfon y ddolen actifadu</a>?
   validationMessages:
     emailInvalid: Rhowch gyfeiriad e-bost dilys
     oldPasswordRequired: Rhowch eich cyfrinair presennol
