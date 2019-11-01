@@ -62,12 +62,8 @@
 
             <h2>
                 Date range:
-                {% if dateRange %}
-                    {{ formatDate(dateRange.start) }} &mdash;
-                    {{ formatDate(dateRange.end) }}
-                {% else %}
-                    the last {{defaultPeriod.amount}} {{defaultPeriod.unit}}
-                {% endif %}
+                {{ formatDate(dateRange.start) }} &mdash;
+                {{ formatDate(dateRange.end) }}
                 <a class="js-datepicker-trigger datepicker" href="javascript://">Change dates?</a>
                 {% if dateRange %}
                     <a class="datepicker" href="?">or Reset dates?</a>
@@ -323,9 +319,9 @@
                 ) }}
             </div>
 
-            {% if feedback %}
+            {% if feedback.length > 0 %}
+                <h3>Successful applicant feedback <small>({{ feedback.length }} responses)</small></h3>
                 <div class="u-margin-bottom-l"  style="max-height: 400px; overflow: auto">
-                    <h3>Successful applicant feedback <small>({{ feedback.length }} responses)</small></h3>
                     <ul>
                         {% for f in feedback %}
                             <li>

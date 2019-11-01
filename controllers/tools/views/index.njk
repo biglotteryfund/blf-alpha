@@ -9,28 +9,7 @@
 
             <h1 class="t--underline">{{ title }}</h1>
 
-            {{ sectionLinks([
-                {
-                    href: '/tools/users',
-                    label: 'User accounts summary'
-                },
-                {
-                    href: '/tools/applications/awards-for-all',
-                    label: 'Awards for All online application statistics'
-                },
-                {
-                    href: '/tools/survey-results',
-                    label: 'Site satisfaction survey results'
-                },
-                {
-                    href: '/tools/feedback-results',
-                    label: 'Page feedback survey responses'
-                },
-                {
-                    href: '/tools/order-stats',
-                    label: 'Statistics on recent material orders'
-                }
-            ]) }}
+            {{ sectionLinks(links) }}
         </div>
     </main>
 {% endblock %}
