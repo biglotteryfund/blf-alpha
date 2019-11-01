@@ -12,9 +12,10 @@ router.use(
 );
 
 router.use((req, res, next) => {
-    res.locals.breadcrumbs = res.locals.breadcrumbs.concat([
-        { label: res.locals.title, url: req.baseUrl }
-    ]);
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+        label: res.locals.title,
+        url: req.baseUrl
+    });
     next();
 });
 
@@ -26,7 +27,7 @@ router.get('/eligibility', (req, res) => {
     const title = res.locals.copy.fullEligiblity.title;
     res.render(path.resolve(__dirname, './views/full-eligibility'), {
         title: title,
-        breadcrumbs: res.locals.breadcrumbs.concat([{ label: title }])
+        breadcrumbs: res.locals.breadcrumbs.concat({ label: title })
     });
 });
 
@@ -34,9 +35,9 @@ router.get('/strand-1', function(req, res) {
     res.render(path.resolve(__dirname, './views/strand'), {
         title: res.locals.copy.strand1.title,
         currentStrand: 'strand1',
-        breadcrumbs: res.locals.breadcrumbs.concat([
-            { label: res.locals.copy.strand1.shortTitle }
-        ])
+        breadcrumbs: res.locals.breadcrumbs.concat({
+            label: res.locals.copy.strand1.shortTitle
+        })
     });
 });
 
@@ -44,9 +45,9 @@ router.get('/strand-2', function(req, res) {
     res.render(path.resolve(__dirname, './views/strand'), {
         title: res.locals.copy.strand2.title,
         currentStrand: 'strand2',
-        breadcrumbs: res.locals.breadcrumbs.concat([
-            { label: res.locals.copy.strand2.shortTitle }
-        ])
+        breadcrumbs: res.locals.breadcrumbs.concat({
+            label: res.locals.copy.strand2.shortTitle
+        })
     });
 });
 

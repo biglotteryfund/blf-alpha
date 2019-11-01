@@ -148,9 +148,9 @@ router.get(
                 return /\d/.test(firstLetter) ? '#' : firstLetter;
             });
 
-            const breadcrumbs = res.locals.breadcrumbs.concat([
-                { label: res.locals.title }
-            ]);
+            const breadcrumbs = res.locals.breadcrumbs.concat({
+                label: res.locals.title
+            });
 
             const regionsCopy = req.i18n.__('global.regions');
             const locations = {
@@ -217,9 +217,9 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
              */
             res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
-                breadcrumbs: res.locals.breadcrumbs.concat([
-                    { label: res.locals.title }
-                ])
+                breadcrumbs: res.locals.breadcrumbs.concat({
+                    label: res.locals.title
+                })
             });
         } else if (get(entry, 'isArchived') === true) {
             /**
@@ -228,9 +228,9 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
             res.render(path.resolve(__dirname, './views/archived-programme'), {
                 entry: entry,
                 archiveUrl: buildArchiveUrl(entry.legacyPath),
-                breadcrumbs: res.locals.breadcrumbs.concat([
-                    { label: res.locals.title }
-                ])
+                breadcrumbs: res.locals.breadcrumbs.concat({
+                    label: res.locals.title
+                })
             });
         } else {
             next();
