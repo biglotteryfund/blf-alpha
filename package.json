@@ -76,13 +76,14 @@
     "@sentry/browser": "5.7.1",
     "@sentry/integrations": "5.7.1",
     "@sentry/node": "5.7.1",
-    "aws-sdk": "2.559.0",
+    "aws-sdk": "2.560.0",
     "bcryptjs": "^2.4.3",
     "clamscan": "1.1.0",
     "common-tags": "1.8.0",
     "config": "3.2.4",
     "connect-session-sequelize": "6.0.0",
     "connect-slashes": "^1.4.0",
+    "cookie-parser": "1.4.4",
     "csurf": "^1.10.0",
     "details-element-polyfill": "2.4.0",
     "dompurify": "2.0.7",
@@ -175,6 +176,6 @@
     "vue-template-compiler": "2.6.10",
     "wait-on": "3.3.0",
     "webpack": "4.41.2",
-    "webpack-cli": "3.3.9"
+    "webpack-cli": "3.3.10"
   }
 }

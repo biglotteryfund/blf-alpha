@@ -1155,10 +1155,10 @@ it('should complete standard your funding proposal form', () => {
 
         acceptCookieConsent();
 
-        cy.findAllByText('Tell us your new proposal').click();
+        cy.findAllByText('Start your proposal').click();
 
         cy.get('.form-actions').within(() => {
-            cy.findAllByText('Tell us your proposal').click();
+            cy.findAllByText('Start your proposal').click();
         });
 
         cy.findAllByText('Start')

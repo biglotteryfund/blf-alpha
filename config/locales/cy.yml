@@ -1263,6 +1263,18 @@ applyNext:
     account: Cyfrif
     logOut: Allgofnodi
     summary: Crynodeb
+    latestApplication: Cais diweddaraf
+    allApplications: Holl geisiadau
+  applicationCards:
+    amountRequested: Swm y gofynnwyd amdano
+    notYetCompleted: heb ei gwblhau eto
+    status: Statws
+    submitted: Wedi’i gyflwyno
+    sectionsCompleted: "%s rhan o %s wedi’i gwblhau"
+    lastUpdated: Wedi’i ddiweddaru diwethaf
+    continue: Parhau â’r cais hwn
+    delete: Dileu
+    expiresAt: Mae gennych nes <strong>%s</strong> i gwblhau eich cais
   startApplication:
     title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
     intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
@@ -1293,6 +1305,29 @@ applyNext:
       title: Cais newydd
       body: Gallwch greu cais ariannu newydd am %s yma
       cta: Dechrau cais newydd
+  dashboardNew:
+    latest:
+      title: Cais diweddaraf
+      introduction: >
+        <p>Parhau o le orffennoch chi ddiwethaf, dechrau cais newydd neu
+        <a href="/apply/all">weld pob cais gweithredol</a>.</p>
+    all:
+      title: Holl geisiadau
+    noApplications: You don't have any online applications with The National Lottery Community fund right now.
+    applicationDeleted: Mae eich cais wedi’i ddileu’n llwyddiannus
+    actions:
+      simple:
+        title: "Ariannu o dan £10,000: Dechrau cais"
+        description: Arian i Bawb y Loteri Genedlaethol - ffordd sydyn o ymgeisio am symiau llai o arian grant rhwng £300 a £10,000.
+        link:
+          url: /welsh/apply/awards-for-all/start
+          label: Dechrau cais newydd
+      standard:
+        title: "Ariannu dros £10,000: Dywedwch wrthym eich cynnig"
+        description: "Os oes arnoch angen mwy na £10,000 o arian gennym - dywedwch wrthym eich cynnig ar gyfer prosiect i helpu eich cymuned i ffynnu"
+        link:
+          url: /welsh/apply/your-funding-proposal/start
+          label: Dechrau eich cynnig
   summary:
     title: Crynodeb
     introduction: <p>Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>

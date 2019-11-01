@@ -3,8 +3,7 @@
   "features": {
     "enableSeeders": true,
     "enableSalesforceConnector": false,
-    "enableNewApplicationDashboards": true,
-    "enableGlobalHeaderLogin": true
+    "enableStandardApplications": true
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]

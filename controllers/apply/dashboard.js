@@ -13,25 +13,6 @@ const { enrichPending, enrichSubmitted } = require('./lib/enrich-application');
 
 const router = express.Router();
 
-function injectNavigationLinks(req, res, next) {
-    res.locals.userNavigationLinks = [
-        {
-            url: req.baseUrl,
-            label: 'Latest application'
-        },
-        {
-            url: `${req.baseUrl}/all`,
-            label: 'All applications'
-        },
-        {
-            url: localify(req.i18n.getLocale())('/user'),
-            label: 'Account'
-        }
-    ];
-
-    next();
-}
-
 /**
  * Determine the latest application to show and
  * prepare application data for display in the view.
@@ -53,6 +34,25 @@ async function getLatestApplication(userId, locale) {
     } else if (pending) {
         return enrichPending(pending, locale);
     }
+}
+
+function injectNavigationLinks(req, res, next) {
+    res.locals.userNavigationLinks = [
+        {
+            url: req.baseUrl,
+            label: req.i18n.__('applyNext.navigation.latestApplication')
+        },
+        {
+            url: `${req.baseUrl}/all`,
+            label: req.i18n.__('applyNext.navigation.allApplications')
+        },
+        {
+            url: localify(req.i18n.getLocale())('/user'),
+            label: req.i18n.__('applyNext.navigation.account')
+        }
+    ];
+
+    next();
 }
 
 router.get(

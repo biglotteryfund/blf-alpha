@@ -16,7 +16,7 @@ const {
 } = require('../../../db/models');
 
 const logger = require('../../../common/logger').child({ service: 'apply' });
-const { localify } = require('../../../common/urls');
+const { localify, isWelsh, removeWelsh } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
@@ -31,7 +31,8 @@ function initFormRouter({
     eligibilityBuilder = null,
     confirmationBuilder,
     enableSalesforceConnector = true,
-    expiryEmailPeriods = null
+    expiryEmailPeriods = null,
+    isBilingual = true
 }) {
     const router = express.Router();
 
@@ -40,6 +41,12 @@ function initFormRouter({
     }
 
     function setCommonLocals(req, res, next) {
+        res.locals.isBilingual = isBilingual;
+
+        if (isBilingual === false && isWelsh(req.originalUrl)) {
+            return res.redirect(removeWelsh(req.originalUrl));
+        }
+
         const form = formBuilder({
             locale: req.i18n.getLocale()
         });
@@ -50,42 +57,43 @@ function initFormRouter({
 
         res.locals.user = req.user;
 
-        if (features.enableNewApplicationDashboards) {
+        const localeUrl = localify(req.i18n.getLocale());
+        if (features.enableStandardApplications) {
             res.locals.userNavigationLinks = [
                 {
                     url: `${req.baseUrl}/summary`,
-                    label: res.locals.copy.navigation.summary
+                    label: req.i18n.__('applyNext.navigation.summary')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/apply'),
-                    label: 'Latest application'
+                    url: localeUrl('/apply'),
+                    label: req.i18n.__('applyNext.navigation.latestApplication')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/apply/all'),
-                    label: 'All applications'
+                    url: localeUrl('/apply/all'),
+                    label: req.i18n.__('applyNext.navigation.allApplications')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user'),
-                    label: 'Account'
+                    url: localeUrl('/user'),
+                    label: req.i18n.__('applyNext.navigation.account')
                 }
             ];
         } else {
             res.locals.userNavigationLinks = [
                 {
                     url: `${req.baseUrl}/summary`,
-                    label: res.locals.copy.navigation.summary
+                    label: req.i18n.__('applyNext.navigation.summary')
                 },
                 {
                     url: req.baseUrl,
-                    label: res.locals.copy.navigation.applications
+                    label: req.i18n.__('applyNext.navigation.applications')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user'),
-                    label: res.locals.copy.navigation.account
+                    url: localeUrl('/user'),
+                    label: req.i18n.__('applyNext.navigation.account')
                 },
                 {
-                    url: localify(req.i18n.getLocale())('/user/logout'),
-                    label: res.locals.copy.navigation.logOut
+                    url: localeUrl('/user/logout'),
+                    label: req.i18n.__('applyNext.navigation.logOut')
                 }
             ];
         }

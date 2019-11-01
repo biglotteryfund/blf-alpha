@@ -42,7 +42,7 @@ module.exports = function(formId) {
 
                 logger.info('Application deleted', { applicationId });
 
-                if (features.enableNewApplicationDashboards) {
+                if (features.enableStandardApplications) {
                     res.redirect(
                         localify(req.i18n.getLocale())(
                             '/apply/all?s=applicationDeleted'

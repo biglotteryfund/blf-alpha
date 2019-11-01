@@ -6,7 +6,6 @@
   },
   "features": {
     "enableHotjar": true,
-    "enableGlobalHeaderLogin": true,
-    "enableNewApplicationDashboards": true
+    "enableStandardApplications": true
   }
 }

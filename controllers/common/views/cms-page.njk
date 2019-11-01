@@ -1,11 +1,6 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/segment-links/macro.njk" import segmentLinks %}
-{% from "components/segment/macro.njk" import segment %}
-{% from "components/flexible-content/macro.njk" import flexibleContentPart %}
-{% from "components/miniature-hero/macro.njk" import miniatureHero %}
-{% from "components/section-links/macro.njk" import sectionLinks %}
+{% from "components/flexible-content-next/macro.njk" import flexibleContent %}
 
 {% extends "layouts/main.njk" %}
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
@@ -20,66 +15,13 @@
 
     <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %}>
         {% block contentPrimary %}
-
-            {# Flexible content #}
             {% if content.flexibleContent %}
-
-                {% for part in content.flexibleContent %}
-                    <section class="content-box u-inner-wide-only"
-                             id="{{ flexAnchor + '-' + loop.index }}">
-
-                        {# Show breadcrumbs and links inside the first item's container #}
-                        {% if loop.first %}
-                            {{ breadcrumbTrail(breadcrumbs) }}
-                            {{ segmentLinks(content.flexibleContent, anchor = flexAnchor) }}
-                        {% endif %}
-
-                        <div class="s-prose u-constrained-content-wide">
-                            {{ flexibleContentPart(part) }}
-                        </div>
-
-                        {# Show links to the child pages inside the first item if it's a single-item list #}
-                        {% if loop.last and
-                            childrenLayoutMode === 'list' and
-                            content.children.length > 0 and
-                            content.flexibleContent.length === 1 %}
-                            {{ sectionLinks(content.children) }}
-                        {% endif %}
-                    </section>
-                {% endfor %}
+                {{ flexibleContent(
+                    content.flexibleContent,
+                    children = content.children,
+                    breadcrumbs = breadcrumbTrail(breadcrumbs)
+                ) }}
             {% endif %}
-
         {% endblock %}
-
-
-        {% if content.children.length > 0 %}
-            {% if childrenLayoutMode === 'grid' %}
-                <section class="u-inner">
-                    <ul class="flex-grid">
-                        {% for page in content.children %}
-                            <li class="flex-grid__item">
-                                {{ miniatureHero({
-                                    "title": page.trailText | default(page.title, true),
-                                    "linkUrl": page.linkUrl,
-                                    "image": { "url": page.trailImage if page.trailImage else page.photo }
-                                }, isLarge = true) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </section>
-            {% elseif childrenLayoutMode === 'list' and content.flexibleContent.length > 1 %}
-                {# Show the child page links if they weren't shown above (eg. multi-item flexible content #}
-                <section class="content-box u-inner-wide-only">
-                    {{ sectionLinks(content.children) }}
-                </section>
-            {% endif %}
-        {% endif %}
-
-        {% if content.outro %}
-            {% call contentBox() %}
-                {{ content.outro | safe }}
-            {% endcall %}
-        {% endif %}
-
     </main>
 {% endblock %}
