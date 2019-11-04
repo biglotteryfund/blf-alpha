@@ -39,7 +39,7 @@ module.exports = function(formId) {
             try {
                 await PendingApplication.delete(applicationId, req.user.id);
 
-                logger.info('Application deleted', { applicationId });
+                logger.info('Application deleted', { formId, applicationId });
 
                 if (res.locals.enableStandardApplications) {
                     res.redirect(
