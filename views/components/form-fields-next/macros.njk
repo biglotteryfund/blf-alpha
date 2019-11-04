@@ -1,4 +1,4 @@
-{% from "components/icons.njk" import iconBin %}
+{% from "components/icons.njk" import iconBin, iconTick %}
 {% from "components/details/macro.njk" import details %}
 
 {% macro formErrors(title, errors) %}
@@ -655,4 +655,23 @@
                 {% endif %}
             {% endif %}
     </div>
+{% endmacro %}
+
+{% macro continueButton() %}
+    <button type="submit"
+            class="btn btn--save js-save-btn"
+            data-interstitial="Saving"
+            data-complete="Progress saved">
+
+        <span class="btn__icon btn__icon-left btn--save__icon">{{ iconTick() }}</span>
+
+        <span class="btn--save__label js-save-btn-label">
+            {{ copy.continue }}
+        </span>
+
+        <span class="btn__icon btn__icon-left btn--save__dots">
+            {# Do not add linebreaks/spaces - needed for layout purposes #}
+            <span>.</span><span>.</span><span>.</span>
+        </span>
+    </button>
 {% endmacro %}
