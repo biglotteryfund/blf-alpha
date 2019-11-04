@@ -240,45 +240,55 @@ function showLocalSaveWarning() {
 }
 
 function animateSaveButtons() {
-    $('.js-save-btn-form').on('submit', function(event) {
-        event.preventDefault();
+    $('.js-save-btn-form')
+        .find('input[type="submit"], button[type="submit"]')
+        .on('click', function(event) {
+            // Prevent previous / next buttons from triggering animations
+            const targetName = $(this).attr('name');
+            if (['previousBtn', 'nextBtn'].indexOf(targetName) !== -1) {
+                return;
+            }
 
-        const $form = $(this);
-        const $btn = $form.find('.js-save-btn');
-        const $label = $btn.find('.js-save-btn-label');
+            // Prevent form submission initially
+            event.preventDefault();
 
-        // animation is 0.3s long x 3 (with a 0.3s delay, eg. 1.2 total)
-        const cssDotAnimationDuration = 300 * 4;
-        const cssIconAnimationDuration = 300;
+            const $form = $(this)
+                .parents('form')
+                .first();
+            const $btn = $form.find('.js-save-btn');
+            const $label = $btn.find('.js-save-btn-label');
 
-        const text = {
-            interstitial: $btn.data('interstitial'),
-            complete: $btn.data('complete')
-        };
+            // animation is 0.3s long x 3 (with a 0.3s delay, eg. 1.2 total)
+            const cssDotAnimationDuration = 300 * 4;
+            const cssIconAnimationDuration = 300;
 
-        const classes = {
-            loading: 'is-loading',
-            complete: 'is-complete'
-        };
+            const text = {
+                interstitial: $btn.data('interstitial'),
+                complete: $btn.data('complete')
+            };
 
-        const setBtnLabel = text => {
-            $label.text(text);
-        };
+            const classes = {
+                loading: 'is-loading',
+                complete: 'is-complete'
+            };
 
-        $btn.addClass(classes.loading);
-        setBtnLabel(text.interstitial);
+            const setBtnLabel = text => {
+                $label.text(text);
+            };
 
-        window.setTimeout(function() {
-            setBtnLabel(text.complete);
-            $btn.addClass(classes.complete);
-        }, cssDotAnimationDuration);
+            $btn.addClass(classes.loading);
+            setBtnLabel(text.interstitial);
 
-        window.setTimeout(function() {
-            // Remove this event binding and re-trigger the submit request
-            $form.off(event);
-            $form.submit();
-        }, cssDotAnimationDuration + cssIconAnimationDuration);
-    });
+            window.setTimeout(function() {
+                setBtnLabel(text.complete);
+                $btn.addClass(classes.complete);
+            }, cssDotAnimationDuration);
+
+            window.setTimeout(function() {
+                // Re-trigger the submit request
+                $form.submit();
+            }, cssDotAnimationDuration + cssIconAnimationDuration);
+        });
 }
 
 function init() {
