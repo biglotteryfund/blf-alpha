@@ -93,6 +93,13 @@ export default {
                 this.budgetRows.length > 1 &&
                 index !== this.budgetRows.length - 1
             );
+        },
+        onlyNumber($event) {
+            let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+            // disallow commas and periods
+            if (keyCode === 46 || keyCode === 44) {
+                $event.preventDefault();
+            }
         }
     }
 };
@@ -144,6 +151,7 @@ export default {
                             step="1"
                             :max="maxBudget"
                             class="ff-currency__input"
+                            @keypress="onlyNumber($event)"
                         />
                     </div>
                 </div>
