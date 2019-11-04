@@ -22,6 +22,7 @@ $btnConf: (
 );
 
 $buttonColor: get-color('brand', 'primary');
+$buttonColorDarker: #DB0079; // Passes contrast a11y tests for use with smaller text
 
 @mixin getBtnVertPadding($conf) {
     $height: map-get($conf, 'desiredHeight');
@@ -154,8 +155,8 @@ $buttonColor: get-color('brand', 'primary');
  */
 .btn.btn--outline {
     background-color: transparent !important;
-    color: $buttonColor !important;
-    border: 3px solid $buttonColor;
+    color: $buttonColorDarker !important;
+    border: 3px solid $buttonColorDarker;
 
     @include on-interact {
         background-color: transparent;
@@ -396,6 +397,91 @@ $buttonColor: get-color('brand', 'primary');
             // allow long buttons to wrap but not over-stretch.
             max-width: 35em;
             white-space: nowrap;
+        }
+    }
+}
+
+
+
+.btn--save {
+    // Update the .js-save-btn timings in forms.js if changing these values
+    $iconAnimationDuration: 0.3s;
+    $dotAnimationDuration: 0.3s;
+
+    // Override this otherwise clicks keep the button with its active colour
+    // which fails a11y tests
+    &:active {
+        background-color: $buttonColor;
+    }
+
+    width: 320px; // to allow for Welsh
+
+    // Animation to bob the save icon into view
+    @keyframes save-icon {
+        0% {
+            transform: scale(0.4);
+            top: 0;
+        }
+        50% {
+            top: -10px;
+        }
+        100% {
+            transform: scale(1.0);
+            top: 0;
+        }
+    }
+
+    // Animation to toggle the appearance of loading dots
+    @keyframes appear {
+        100% {
+            opacity: 1;
+        }
+    }
+
+    // Hide the save/tick icon by default
+    .btn--save__icon {
+        transition: all $iconAnimationDuration ease-in;
+        visibility: hidden;
+        position: relative;
+    }
+
+    .btn--save__dots {
+        span {
+            display: inline;
+            opacity: 0;
+        }
+    }
+
+    // Show each dot one-by-one after a delay when loading
+    &.is-loading {
+        .btn--save__dots span {
+            animation-name: appear;
+            animation-duration: $dotAnimationDuration;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @for $i from 1 through 3 {
+            .btn--save__dots span:nth-child(#{$i}) {
+                animation-delay: ($i * $dotAnimationDuration);
+            }
+        }
+    }
+
+    // When the dots have loaded, replace them with a new button
+    &.is-complete {
+        background-color: #4a9e2e;
+
+        // Hide the dots
+        .btn--save__dots {
+            visibility: hidden;
+        }
+
+        // Trigger the icon animation
+        .btn--save__icon {
+            visibility: visible;
+            animation-name: save-icon;
+            animation-duration: $iconAnimationDuration;
+            animation-iteration-count: 1;
         }
     }
 }

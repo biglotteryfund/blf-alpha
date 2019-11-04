@@ -6,6 +6,7 @@
 (function() {
     window.AppConfig = {
         environment: '{{ appData.environment }}',
+        isTestServer: {% if appData.isTestServer %}true{% else %}false{% endif %},
         locale: '{{ locale }}',
         localePrefix: '{{ localePrefix }}',
         sessionExpirySeconds: {{ appData.config.get('session.expiryInSeconds') }}

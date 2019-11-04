@@ -1,6 +1,8 @@
 {% extends "layouts/main.njk" %}
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
+{% from "components/icons.njk" import iconBin, iconTick %}
+
 
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
@@ -14,7 +16,7 @@
 
             <form action=""
                   method="post"
-                  class="js-form-warn-unsaved js-session-form js-apply-{{ formId }}"
+                  class="js-form-warn-unsaved js-session-form js-save-btn-form js-apply-{{ formId }}"
                   {% if errors | length > 0 %}data-form-has-errors="1"{% endif %}
                   {% if step.isMultipart %}enctype="multipart/form-data"{% endif %}
                   {% if step.noValidate %}novalidate{% endif %}
@@ -77,7 +79,22 @@
 
                 <div class="form-actions form-actions--flex">
                     <div class="form-actions__primary">
-                        <input class="btn" type="submit" value="{{ copy.continue }}"/>
+                        <button type="submit"
+                                class="btn btn--save js-save-btn"
+                                data-interstitial="{{ __('applyNext.saving') }}"
+                                data-complete="{{ __('applyNext.progressSaved') }}">
+
+                            <span class="btn__icon btn__icon-left btn--save__icon">{{ iconTick() }}</span>
+
+                            <span class="btn--save__label js-save-btn-label">
+                                {{ __('applyNext.continue') }}
+                            </span>
+
+                            <span class="btn__icon btn__icon-left btn--save__dots">
+                                {# Do not add linebreaks/spaces - needed for layout purposes #}
+                                <span>.</span><span>.</span><span>.</span>
+                            </span>
+                        </button>
                     </div>
                     <p class="form-actions__secondary form-actions__timestamp">
                         {{ copy.lastSaveTimeText }} -

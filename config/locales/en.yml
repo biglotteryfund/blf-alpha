@@ -1647,6 +1647,8 @@ applyNext:
   statusComplete: Complete
   change: Change
   continue: Continue
+  saving: Saving
+  progressSaved: Progress saved
   edit: Edit
   submit: Submit application
   lastSaveTimeText: Last successful save
