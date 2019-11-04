@@ -7,7 +7,7 @@
             <div class="s-prose">
                 <h1>{{ title }}</h1>
                 <div class="message" role="alert">{{ message | safe }}</div>
-                <p><a class="btn" href="/">{{ __('global.misc.back') | capitalize }}</a></p>
+                <p><a class="btn" href="{{ localify('/') }}">{{ __('global.misc.back') | capitalize }}</a></p>
             </div>
         </div>
     </main>

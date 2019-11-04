@@ -1,6 +1,16 @@
 {% extends "views/layouts/emails.njk" %}
 
 {% block content %}
+
+    {% if isBilingual %}
+        <p>
+            <strong>
+                Bilingual message – please scroll down for Welsh.<br />
+                Neges ddwyieithog – y Gymraeg i’w weld isod.
+            </strong>
+        </p>
+    {% endif %}
+
     <p>Hello,</p>
 
     <p>
@@ -9,7 +19,7 @@
     </p>
 
     <p>
-        <strong>You have until {{ expiryDate }} to finish your application.</strong><br/>
+        <strong>You have until {{ expiryDate.en }} to finish your application.</strong><br/>
         If you don’t complete your application before that time, we’ll delete it - so that we can keep your data safe.
     </p>
 
@@ -20,7 +30,7 @@
 
     <p>
         <strong>If you don’t want more reminders from us</strong><br/>
-        You can <a href="{{ unsubscribeLink }}">tell us to stop sending emails</a> that remind you about your application.
+        You can <a href="{{ unsubscribeLink.en }}">tell us to stop sending emails</a> that remind you about your application.
     </p>
 
     <p>
@@ -29,7 +39,49 @@
     </p>
 
     <p>
-        <strong>Best wishes,</strong><br/>
-        <strong>The National Lottery Awards for All Team</strong>
+        <strong>
+            Best wishes,<br/>
+            The National Lottery Awards for All Team
+        </strong>
     </p>
+
+
+    {% if isBilingual %}
+        <hr />
+
+        <p>Helo,</p>
+
+        <p>
+            <strong>Nid yw eich cais Arian i Bawb y Loteri Genedlaethol wedi’i gwblhau eto.</strong><br />
+            Fe sylweddolom eich bod wedi dechrau ymgeisio{% if projectName %} am {{ projectName | safe }}{% endif %}. Ond nid ydych wedi cwblhau eich cais.
+        </p>
+
+        <p>
+            <strong>Mae gennych tan {{ expiryDate.cy }} i orffen eich cais.</strong><br />
+            Os nad ydych yn cwblhau eich cais cyn hynny, byddwn yn ei ddileu – felly gallwn gadw eich data yn ddiogel.
+        </p>
+
+        <p>
+            <strong>I orffen eich cais</strong><br />
+            <a href="https://www.tnlcommunityfund.org.uk/welsh/apply/awards-for-all/edit/{{ application.id }}?s=expiryEmail">Mewngofnodwch i'ch cyfrif ac ateb gweddill y cwestiynau</a>.
+        </p>
+
+        <p>
+            <strong>Os nad ydych eisiau mwy o nodiadau atgoffa gennym</strong><br />
+            <a href="{{ unsubscribeLink.cy }}">Gallwch ddweud wrthym i stopio anfon e-byst  sy’n eich atgoffa am eich cais</a>.
+        </p>
+
+        <p>
+            <strong>Os oes gennych unrhyw gwestiynau</strong><br />
+            Gallwch ffonio {{ countryPhoneNumber }}. Neu e-bostiwch cymru@cronfagymunedolylg.org.uk. Byddwn yn hapus i’ch helpu.
+        </p>
+
+        <p>
+            <strong>
+                Cofion,<br />
+                Tîm Arian i Bawb y Loteri Genedlaethol
+            </strong>
+        </p>
+    {% endif %}
+
 {% endblock %}
