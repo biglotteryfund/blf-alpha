@@ -15,7 +15,7 @@ module.exports = function budgetItems(joi) {
                         .max(255)
                         .required(),
                     cost: joi
-                        .number()
+                        .friendlyNumber()
                         .min(1)
                         .integer()
                         .required()
