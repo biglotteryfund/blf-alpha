@@ -270,11 +270,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.min',
                     message: localise({
-                        en: oneLine`If you need £10,000 or less from us,
-                            you can apply today through
+                        en: oneLine`The amount you ask for must be more than £10,000.
+                            If you need less than £10,000, apply today through
                             <a href="/funding/under10k">
                                 National Lottery Awards for All
-                            </a>.`,
+                            </a>`,
                         cy: ``
                     })
                 }
