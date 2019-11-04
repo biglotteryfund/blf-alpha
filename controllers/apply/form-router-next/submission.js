@@ -48,7 +48,10 @@ module.exports = function(
                     data: currentApplicationData
                 });
 
-                logger.info('Submission successful');
+                logger.info('Submission successful', {
+                    formId: formId
+                });
+
                 res.render(path.resolve(__dirname, './views/confirmation'), {
                     title: confirmation.title,
                     confirmation: confirmation,
@@ -58,7 +61,9 @@ module.exports = function(
         }
 
         try {
-            logger.info('Submission started');
+            logger.info('Submission started', {
+                formId: formId
+            });
 
             /**
              * Increment submission attempts
@@ -94,7 +99,9 @@ module.exports = function(
                     salesforceFormData
                 );
 
-                logger.info('FormData record created');
+                logger.info('FormData record created', {
+                    formId: formId
+                });
 
                 const contentVersionPromises = form
                     .getCurrentFields()
@@ -117,7 +124,9 @@ module.exports = function(
 
                 await Promise.all(contentVersionPromises);
             } else {
-                logger.debug(`Skipped salesforce submission for ${formId}`);
+                logger.debug(`Skipped salesforce submission`, {
+                    formId: formId
+                });
             }
 
             /**
