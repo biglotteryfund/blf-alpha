@@ -1,9 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const compact = require('lodash/compact');
 
-const appData = require('../../common/appData');
 const { requireStaffAuth } = require('../../common/authed');
 const { noStore } = require('../../common/cached');
 
@@ -22,7 +20,7 @@ router.use(noStore, requireStaffAuth, function(req, res, next) {
 router.route('/').get((req, res) => {
     res.render(path.resolve(__dirname, './views/index'), {
         title: 'Staff tools',
-        links: compact([
+        links: [
             {
                 href: '/tools/users',
                 label: 'User accounts summary'
@@ -31,7 +29,7 @@ router.route('/').get((req, res) => {
                 href: '/tools/applications/awards-for-all',
                 label: 'Awards for All application statistics'
             },
-            appData.isNotProduction && {
+            {
                 href: '/tools/applications/standard-enquiry',
                 label: 'Your funding proposal application statistics'
             },
@@ -47,7 +45,7 @@ router.route('/').get((req, res) => {
                 href: '/tools/order-stats',
                 label: 'Statistics on recent material orders'
             }
-        ])
+        ]
     });
 });
 
