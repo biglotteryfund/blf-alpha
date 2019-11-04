@@ -1,6 +1,8 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields-next/macros.njk" import formErrors, formField, continueButton with context %}
+{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
+{% from "components/icons.njk" import iconBin, iconTick %}
+
 
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
@@ -77,7 +79,22 @@
 
                 <div class="form-actions form-actions--flex">
                     <div class="form-actions__primary">
-                        {{ continueButton() }}
+                        <button type="submit"
+                                class="btn btn--save js-save-btn"
+                                data-interstitial="{{ __('applyNext.saving') }}"
+                                data-complete="{{ __('applyNext.progressSaved') }}">
+
+                            <span class="btn__icon btn__icon-left btn--save__icon">{{ iconTick() }}</span>
+
+                            <span class="btn--save__label js-save-btn-label">
+                                {{ __('applyNext.continue') }}
+                            </span>
+
+                            <span class="btn__icon btn__icon-left btn--save__dots">
+                                {# Do not add linebreaks/spaces - needed for layout purposes #}
+                                <span>.</span><span>.</span><span>.</span>
+                            </span>
+                        </button>
                     </div>
                     <p class="form-actions__secondary form-actions__timestamp">
                         {{ copy.lastSaveTimeText }} -
