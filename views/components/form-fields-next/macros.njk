@@ -660,13 +660,13 @@
 {% macro continueButton() %}
     <button type="submit"
             class="btn btn--save js-save-btn"
-            data-interstitial="Saving"
-            data-complete="Progress saved">
+            data-interstitial="{{ __('applyNext.saving') }}"
+            data-complete="{{ __('applyNext.progressSaved') }}">
 
         <span class="btn__icon btn__icon-left btn--save__icon">{{ iconTick() }}</span>
 
         <span class="btn--save__label js-save-btn-label">
-            {{ copy.continue }}
+            {{ __('applyNext.continue') }}
         </span>
 
         <span class="btn__icon btn__icon-left btn--save__dots">

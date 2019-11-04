@@ -1364,6 +1364,8 @@ applyNext:
   statusComplete: Cyflawn
   change: Newid
   continue: Parhau
+  saving: Yn arbed
+  progressSaved: Cynnydd wedi’i arbed
   edit: Golygu
   submit: Anfon cais
   lastSaveTimeText: Arbediad llwyddiannus diwethaf

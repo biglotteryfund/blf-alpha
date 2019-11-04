@@ -407,7 +407,7 @@ $buttonColor: get-color('brand', 'primary');
     $iconAnimationDuration: 0.3s;
     $dotAnimationDuration: 0.3s;
 
-    width: 300px;
+    width: 320px; // to allow for Welsh
 
     // Animation to bob the save icon into view
     @keyframes save-icon {
