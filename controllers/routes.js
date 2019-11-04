@@ -133,12 +133,25 @@ let funding = {
 // Add Funding subpages in non-prod environments
 // @TODO progress to production when ready
 if (isNotProduction) {
-    funding.pages.push({
-        path: '/*',
-        router: basicContent({
-            cmsPage: true
-        })
-    });
+    funding.pages.push(
+        {
+            path: `/managing-your-grant/promoting-your-project/order-free-plaques-stickers-bunting-and-more`,
+            router: require('./materials')
+        },
+        {
+            path: `/managing-your-grant/promoting-your-project/download-our-logo-to-tell-people-about-your-national-lottery-funding`,
+            router: basicContent({
+                lang: 'funding.guidance.logos',
+                customTemplate: 'static-pages/logos'
+            })
+        },
+        {
+            path: '/*',
+            router: basicContent({
+                cmsPage: true
+            })
+        }
+    );
 }
 
 /**
