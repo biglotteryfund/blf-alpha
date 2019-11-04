@@ -306,8 +306,11 @@ function init() {
     updateSecondaryNav();
     showLocalSaveWarning();
 
-    // Launch this feature in non-prod envs (for now)
-    if (window.AppConfig.environment !== 'production') {
+    // Launch this feature in non-prod envs (for now) and don't add extra delays for automated tests
+    if (
+        window.AppConfig.environment !== 'production' &&
+        !window.AppConfig.isTestServer
+    ) {
         animateSaveButtons();
     }
 
