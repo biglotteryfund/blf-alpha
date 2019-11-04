@@ -149,7 +149,7 @@ export default {
                 </div>
                 <div class="ff-budget-row__action">
                     <button
-                        class="btn btn--small btn--outline"
+                        class="btn btn--small btn--outline btn--outline--filled"
                         type="button"
                         @click="removeItem(lineItem)"
                         v-if="canDelete(index)"

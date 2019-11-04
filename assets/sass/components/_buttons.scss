@@ -157,6 +157,10 @@ $buttonColor: get-color('brand', 'primary');
     color: $buttonColor !important;
     border: 3px solid $buttonColor;
 
+    &.btn--outline--filled {
+        background-color: white !important;
+    }
+
     @include on-interact {
         background-color: transparent;
         border-color: darken($buttonColor, 10%);
@@ -406,6 +410,12 @@ $buttonColor: get-color('brand', 'primary');
     // Update the .js-save-btn timings in forms.js if changing these values
     $iconAnimationDuration: 0.3s;
     $dotAnimationDuration: 0.3s;
+
+    // Override this otherwise clicks keep the button with its active colour
+    // which fails a11y tests
+    &:active {
+        background-color: $buttonColor;
+    }
 
     width: 320px; // to allow for Welsh
 
