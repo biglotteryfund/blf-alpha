@@ -22,6 +22,7 @@ $btnConf: (
 );
 
 $buttonColor: get-color('brand', 'primary');
+$buttonColorDarker: #DB0079; // Passes contrast a11y tests for use with smaller text
 
 @mixin getBtnVertPadding($conf) {
     $height: map-get($conf, 'desiredHeight');
@@ -154,12 +155,8 @@ $buttonColor: get-color('brand', 'primary');
  */
 .btn.btn--outline {
     background-color: transparent !important;
-    color: $buttonColor !important;
-    border: 3px solid $buttonColor;
-
-    &.btn--outline--filled {
-        background-color: white !important;
-    }
+    color: $buttonColorDarker !important;
+    border: 3px solid $buttonColorDarker;
 
     @include on-interact {
         background-color: transparent;
