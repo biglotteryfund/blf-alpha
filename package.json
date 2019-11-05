@@ -83,7 +83,6 @@
     "config": "3.2.4",
     "connect-session-sequelize": "6.0.0",
     "connect-slashes": "^1.4.0",
-    "cookie-parser": "1.4.4",
     "csurf": "^1.10.0",
     "details-element-polyfill": "2.4.0",
     "dompurify": "2.0.7",
