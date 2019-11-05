@@ -191,27 +191,28 @@ function getDataStudioUrlForForm(formId) {
     return url;
 }
 
-function addCountry(row) {
-    // Convert Sequelize instance into a plain object so we can modify it
-    const data = row.get({
-        plain: true
-    });
-    data.country = data.applicationCountry
-        ? data.applicationCountry
-        : get(data, 'applicationData.projectCountry');
-    return data;
-}
-
-function getFeedbackDescriptionByAppId(appId) {
-    let description;
-    switch (appId) {
+function getApplicationTitle(applicationId) {
+    let title;
+    switch (applicationId) {
         case 'awards-for-all':
-            description = 'National Lottery Awards for All';
+            title = 'National Lottery Awards for All';
+            break;
+        case 'standard-enquiry':
+            title = 'Your funding proposal';
             break;
         default:
             break;
     }
-    return description;
+    return title;
+}
+
+function getProjectCountry(applicationId, applicationData) {
+    if (applicationId === 'awards-for-all') {
+        return get(applicationData, 'projectCountry');
+    } else if (applicationId === 'standard-enquiry') {
+        const countries = get(applicationData, 'projectCountries', []);
+        return countries.length > 1 ? 'uk-wide' : countries[0];
+    }
 }
 
 router.get('/', function(req, res) {
@@ -219,60 +220,75 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:applicationId', async (req, res, next) => {
-    try {
-        let dateRange = getDateRange(req.query.start, req.query.end);
-        const defaultPeriod = {
-            amount: 30,
-            units: 'days'
+    let dateRange = getDateRange(req.query.start, req.query.end);
+    if (!dateRange) {
+        dateRange = {
+            start: moment()
+                .subtract(30, 'days')
+                .toDate(),
+            end: moment().toDate()
         };
-        if (!dateRange) {
-            dateRange = {
-                start: moment()
-                    .subtract(defaultPeriod.amount, defaultPeriod.units)
-                    .toDate(),
-                end: moment().toDate()
-            };
-        }
-        const country = req.query.country;
-        const countryTitle = country ? titleCase(country) : false;
-        const applicationTitle = titleCase(req.params.applicationId);
+    }
+
+    const country = req.query.country;
+    const countryTitle = country ? titleCase(country) : false;
+
+    function getPendingApplications() {
+        return PendingApplication.findAllByForm(
+            req.params.applicationId,
+            dateRange
+        ).then(applications => {
+            return applications
+                .map(function(row) {
+                    const data = row.get({ plain: true });
+                    data.country = getProjectCountry(
+                        req.params.applicationId,
+                        row.applicationData
+                    );
+                    return data;
+                })
+                .filter(filterByCountry(country, 'pending'));
+        });
+    }
+
+    function getSubmittedApplications() {
+        return SubmittedApplication.findAllByForm(
+            req.params.applicationId,
+            dateRange
+        ).then(applications => {
+            return applications
+                .map(function(application) {
+                    const data = application.get({ plain: true });
+                    data.country = data.applicationCountry;
+                    return data;
+                })
+                .filter(filterByCountry(country, 'submitted'));
+        });
+    }
+
+    try {
+        const applicationTitle = getApplicationTitle(req.params.applicationId);
         const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
 
-        const feedbackDescription = getFeedbackDescriptionByAppId(
+        const feedbackDescription = getApplicationTitle(
             req.params.applicationId
         );
         const feedback = feedbackDescription
             ? await Feedback.findAllForDescription(feedbackDescription)
             : null;
 
-        const getApplications = async appType => {
-            const applications =
-                appType === 'pending'
-                    ? await PendingApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      )
-                    : await SubmittedApplication.findAllByForm(
-                          req.params.applicationId,
-                          dateRange
-                      );
-            return applications
-                .map(addCountry)
-                .filter(filterByCountry(country, appType));
-        };
-
         const appTypes = [
             {
                 id: 'pending',
                 title: 'In-progress applications created',
                 verb: 'in progress',
-                applications: await getApplications('pending')
+                applications: await getPendingApplications()
             },
             {
                 id: 'submitted',
                 title: 'Submitted applications',
                 verb: 'submitted',
-                applications: await getApplications('submitted')
+                applications: await getSubmittedApplications()
             }
         ];
 
@@ -384,8 +400,7 @@ router.get('/:applicationId', async (req, res, next) => {
             country: country,
             countryTitle: countryTitle,
             dataStudioUrl: dataStudioUrl,
-            feedback: feedback,
-            defaultPeriod: defaultPeriod
+            feedback: feedback
         });
     } catch (error) {
         next(error);
