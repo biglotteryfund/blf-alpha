@@ -36,14 +36,14 @@ module.exports = function(eligibilityBuilder, formId) {
             }
         })
         .get(function(req, res) {
-            const { currentStepNumber, formBaseUrl } = res.locals;
+            const { currentStepNumber } = res.locals;
 
             res.render(templatePath, {
                 csrfToken: req.csrfToken(),
                 eligibilityStatus: 'pending',
                 backUrl:
                     currentStepNumber === 1
-                        ? formBaseUrl
+                        ? res.locals.sectionUrl
                         : `${req.baseUrl}/${currentStepNumber - 1}`
             });
         })

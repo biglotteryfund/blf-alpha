@@ -31,7 +31,7 @@ module.exports = function(formId, formBuilder) {
             const section = form.findSectionBySlug(sectionSlug);
 
             if (!section) {
-                return res.redirect(res.locals.formBaseUrl);
+                return res.redirect(res.locals.sectionUrl);
             }
 
             if (!stepNumber) {
@@ -44,7 +44,7 @@ module.exports = function(formId, formBuilder) {
             const step = section.steps[stepIndex];
 
             if (!step) {
-                return res.redirect(res.locals.formBaseUrl);
+                return res.redirect(res.locals.sectionUrl);
             }
 
             const { nextPage, previousPage } = form.pagination({
