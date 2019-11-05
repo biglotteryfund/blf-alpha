@@ -2,14 +2,14 @@
     {% set cardCopy = __('applyNext.applicationCards') %}
     <article class="application-card">
         <header class="application-card__header">
-            <h{{ headingLevel }} class="application-card__title u-tone-brand-primary">
+            <h{{ headingLevel }} class="application-card__title u-tone-brand-primary" data-hj-suppress>
                 {% if props.editUrl %}<a href="{{ localify(props.editUrl) }}" class="u-link-unstyled">{% endif %}
                     {{ props.projectName | widont | safe }}
                 {% if props.editUrl %}</a>{% endif %}
             </h{{ headingLevel }}>
             <p class="application-card__amount">
                 <strong>{{ cardCopy.amountRequested }}</strong>:
-                <span class="o-pill">
+                <span class="o-pill" data-hj-suppress>
                     {{ props.amountRequested }}
                 </span>
             </p>
@@ -18,7 +18,7 @@
         <dl class="application-card__overview u-text-small">
             {% for item in props.overview %}
                 <dt>{{ item.label }}</dt>
-                <dd>{% if item.value %}{{ item.value }}{% else %}{{ cardCopy.notYetCompleted }}{% endif %}</dd>
+                <dd data-hj-suppress>{% if item.value %}{{ item.value }}{% else %}{{ cardCopy.notYetCompleted }}{% endif %}</dd>
             {% endfor %}
         </dl>
 
