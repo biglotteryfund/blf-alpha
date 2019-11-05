@@ -70,6 +70,7 @@ module.exports = function(formId, formBuilder) {
                     errors.forEach(item => {
                         logger.info(item.msg, {
                             service: 'step-validations',
+                            formId: formId,
                             fieldName: item.param,
                             section: section.slug,
                             step: stepNumber,
