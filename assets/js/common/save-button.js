@@ -4,7 +4,6 @@ function animateSaveButtons() {
     $('.js-save-btn-form')
         .find('input[type="submit"], button[type="submit"]')
         .on('click', function(event) {
-            console.log('got this');
             // Prevent previous / next buttons from triggering animations
             const targetName = $(this).attr('name');
             if (['previousBtn', 'nextBtn'].indexOf(targetName) !== -1) {
