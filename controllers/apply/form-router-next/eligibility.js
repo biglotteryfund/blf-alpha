@@ -21,6 +21,7 @@ module.exports = function(eligibilityBuilder, formId) {
                 locale: req.i18n.getLocale()
             });
 
+            res.locals.title = res.locals.copy.eligibility.title;
             res.locals.eligibility = eligibility;
 
             const currentStepNumber = parseInt(req.params.step);
