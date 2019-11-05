@@ -6,7 +6,7 @@ const postcode = require('postcode');
  */
 module.exports = function postcodeString(joi) {
     return {
-        base: joi.string(),
+        base: joi.string().trim(),
         name: 'string',
         language: {
             postcode: 'did not seem to be a valid postcode'

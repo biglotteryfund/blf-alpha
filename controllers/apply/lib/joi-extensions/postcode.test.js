@@ -12,6 +12,9 @@ test('valid postcodes', () => {
         ['RG45AY', true],
         ['NE69 7AW', true],
         ['SE23 2NF', true],
+        [' SE23 2NF', true],
+        ['SE23 2NF ', true],
+        [' SE23 2NF ', true],
         ['Definitely wrong', false],
         ['12FSSD', false],
         ['1A1 1AA', false],
@@ -22,11 +25,11 @@ test('valid postcodes', () => {
         ['BT35 8GE', true]
     ].forEach(([postcode, shouldBeValid]) => {
         if (shouldBeValid === true) {
-            expect(Joi.attempt(postcode, schema)).toEqual(postcode);
+            expect(Joi.attempt(postcode, schema)).toEqual(postcode.trim());
         } else {
             const invalidPostcode = schema.validate(postcode);
             expect(invalidPostcode.error.message).toContain(
-                'did not seem to be a valid postcode'
+                `did not seem to be a valid postcode`
             );
         }
     });
