@@ -86,67 +86,6 @@ $statuses: (
 }
 
 /* =========================================================================
-   Section Progress Mini
-   e.g. within application cards on dashboard screen
-   ========================================================================= */
-
-.section-progress-mini {
-    display: flex;
-    align-items: center;
-
-    font-size: 13px;
-    font-weight: font-weight('body', 'semibold');
-    background-color: get-color('background', 'light-neutral');
-    border-left: 3px solid map-get($statuses, 'empty');
-    margin-bottom: 3px;
-    padding-left: $spacingUnit / 2;
-
-    .section-progress-mini__title {
-        flex: 1 1 auto;
-        margin: 0;
-    }
-
-    .section-progress-mini__marker {
-        font-size: 12px;
-        flex: 0 0 100px;
-    }
-
-    .section-progress-mini__marker {
-        flex: 0 0 100px;
-
-        color: white;
-        text-align: center;
-        font-size: 12px;
-        font-weight: font-weight('body', 'semibold');
-        padding: $spacingUnit / 2;
-        background-color: map-get($statuses, 'empty');
-
-        svg {
-            margin-right: 2px;
-            vertical-align: middle;
-            position: relative;
-            top: -1px;
-        }
-    }
-
-    &.section-progress-mini--complete {
-        border-left-color: map-get($statuses, 'complete');
-
-        .section-progress-mini__marker {
-            background-color: map-get($statuses, 'complete');
-        }
-    }
-
-    &.section-progress-mini--incomplete {
-        border-left-color: map-get($statuses, 'incomplete');
-
-        .section-progress-mini__marker {
-            background-color: map-get($statuses, 'incomplete');
-        }
-    }
-}
-
-/* =========================================================================
    Step Summary
    ========================================================================= */
 
@@ -244,63 +183,6 @@ $statuses: (
    ========================================================================= */
 
 .application-card {
-    background-color: get-color('background', 'light-neutral');
-    margin-bottom: $spacingUnit;
-    font-size: 16px;
-
-    .application-card__minor-title {
-        font-family: font-stack('display');
-        font-weight: font-weight('display', 'semibold');
-        margin-bottom: 3px;
-        font-size: 16px;
-    }
-
-    .application-card__summary {
-        padding: $spacingUnit;
-        margin-right: $spacingUnit;
-    }
-
-    .application-card__progress {
-        padding: $spacingUnit / 2;
-        background-color: #eeeeee;
-    }
-    .application-card__progress__status {
-        background-color: get-color('background', 'light-neutral');
-        padding: $spacingUnit / 2;
-        margin-bottom: 5px;
-    }
-
-    @include mq('medium') {
-        display: flex;
-
-        .application-card__summary {
-            flex: 1 1 auto;
-        }
-
-        .application-card__progress {
-            flex: 0 0 40%;
-        }
-
-        .application-card__progress {
-            display: flex;
-            flex-direction: column;
-        }
-        .application-card__progress__status {
-            flex: 1 1 auto;
-        }
-    }
-}
-
-// @TODO: Make this part of application card?
-.application-data-missing {
-    color: #865c35;
-}
-
-/* =========================================================================
-   Application Card (new)
-   ========================================================================= */
-
-.application-card-new {
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.1);
     margin-bottom: $spacingUnit / 2;
     padding: 12px;
@@ -313,7 +195,7 @@ $statuses: (
         padding: $spacingUnit $spacingUnit * 2 $spacingUnit $spacingUnit;
     }
 
-    .application-card-new__overview {
+    .application-card__overview {
         margin-bottom: $spacingUnit;
 
         dt {
@@ -334,7 +216,7 @@ $statuses: (
         }
     }
 
-    .application-card-new__actions {
+    .application-card__actions {
         margin-bottom: $spacingUnit;
 
         > .btn {
@@ -344,7 +226,7 @@ $statuses: (
         }
     }
 
-    .application-card-new__meta {
+    .application-card__meta {
         border-top: 1px solid get-color('border', 'base');
         padding-top: $spacingUnit / 2;
         margin-top: auto;

@@ -1,13 +1,13 @@
 {% macro applicationCard(props, headingLevel = '3') %}
     {% set cardCopy = __('applyNext.applicationCards') %}
-    <article class="application-card-new">
-        <header class="application-card-new__header">
-            <h{{ headingLevel }} class="application-card-new__title u-tone-brand-primary">
+    <article class="application-card">
+        <header class="application-card__header">
+            <h{{ headingLevel }} class="application-card__title u-tone-brand-primary">
                 {% if props.editUrl %}<a href="{{ localify(props.editUrl) }}" class="u-link-unstyled">{% endif %}
                     {{ props.projectName | widont | safe }}
                 {% if props.editUrl %}</a>{% endif %}
             </h{{ headingLevel }}>
-            <p class="application-card-new__amount">
+            <p class="application-card__amount">
                 <strong>{{ cardCopy.amountRequested }}</strong>:
                 <span class="o-pill">
                     {{ props.amountRequested }}
@@ -15,14 +15,14 @@
             </p>
         </header>
 
-        <dl class="application-card-new__overview u-text-small">
+        <dl class="application-card__overview u-text-small">
             {% for item in props.overview %}
                 <dt>{{ item.label }}</dt>
                 <dd>{% if item.value %}{{ item.value }}{% else %}{{ cardCopy.notYetCompleted }}{% endif %}</dd>
             {% endfor %}
         </dl>
 
-        <div class="application-card-new__status u-text-small u-margin-bottom">
+        <div class="application-card__status u-text-small u-margin-bottom">
             {% if props.type === 'submitted' %}
                 <p>
                     <strong>{{ cardCopy.status }}</strong>:
@@ -53,7 +53,7 @@
         </div>
 
         {% if props.editUrl %}
-            <div class="application-card-new__actions">
+            <div class="application-card__actions">
                 <a href="{{ localify(props.editUrl) }}"
                    class="btn btn--small">{{ cardCopy.continue }}</a>
                 {% if props.deleteUrl %}
@@ -65,7 +65,7 @@
         {% endif %}
 
         {% if props.expiresAt %}
-            <div class="application-card-new__meta u-text-small">
+            <div class="application-card__meta u-text-small">
                 {{ __(cardCopy.expiresAt, formatDate(props.expiresAt)) | safe }}
             </div>
         {% endif %}

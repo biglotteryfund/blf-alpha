@@ -86,11 +86,7 @@ router
                                 await LoginRateLimiter.clearRateLimit();
                             }
 
-                            if (res.locals.enableStandardApplications) {
-                                redirectUrlWithFallback(req, res, '/apply');
-                            } else {
-                                redirectUrlWithFallback(req, res, '/user');
-                            }
+                            redirectUrlWithFallback(req, res, '/apply');
                         }
                     });
                 } else {

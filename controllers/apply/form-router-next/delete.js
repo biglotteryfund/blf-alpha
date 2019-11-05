@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 
 const { PendingApplication } = require('../../../db/models');
-const { localify } = require('../../../common/urls');
 const logger = require('../../../common/logger').child({ service: 'apply' });
 
 module.exports = function(formId) {
@@ -27,10 +26,10 @@ module.exports = function(formId) {
                         csrfToken: req.csrfToken()
                     });
                 } else {
-                    return res.redirect(res.locals.formBaseUrl);
+                    return res.redirect(res.locals.sectionUrl);
                 }
             } else {
-                res.redirect(res.locals.formBaseUrl);
+                res.redirect(res.locals.sectionUrl);
             }
         })
         .post(async function(req, res, next) {
@@ -41,17 +40,9 @@ module.exports = function(formId) {
 
                 logger.info('Application deleted', { formId, applicationId });
 
-                if (res.locals.enableStandardApplications) {
-                    res.redirect(
-                        localify(req.i18n.getLocale())(
-                            '/apply/all?s=applicationDeleted'
-                        )
-                    );
-                } else {
-                    res.redirect(
-                        res.locals.formBaseUrl + '?s=applicationDeleted'
-                    );
-                }
+                res.redirect(
+                    `${res.locals.sectionUrl}/all?s=applicationDeleted`
+                );
             } catch (error) {
                 next(error);
             }

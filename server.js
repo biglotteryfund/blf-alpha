@@ -5,7 +5,6 @@ const moment = require('moment');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const nunjucks = require('nunjucks');
-const cookieParser = require('cookie-parser');
 const cacheControl = require('express-cache-controller');
 const favicon = require('serve-favicon');
 const helmet = require('helmet');
@@ -25,7 +24,7 @@ if (appData.isDev) {
 }
 
 const { localify, makeWelsh } = require('./common/urls');
-const { SENTRY_DSN, SESSION_SECRET } = require('./common/secrets');
+const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const cspDirectives = require('./common/csp-directives');
@@ -180,7 +179,6 @@ app.use([
     }),
     express.json(),
     express.urlencoded({ extended: true }),
-    cookieParser(SESSION_SECRET),
     require('./common/session')(app),
     require('./common/passport')(),
     require('./common/preview-auth'),
