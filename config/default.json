@@ -26,8 +26,7 @@
     "enableHotjar": false,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
-    "enableSeeders": false,
-    "enableStandardApplications": true
+    "enableSeeders": false
   },
   "awardsForAll": {
     "enableExpiration": true

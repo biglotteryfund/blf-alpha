@@ -41,17 +41,11 @@ module.exports = function(formId) {
 
                 logger.info('Application deleted', { formId, applicationId });
 
-                if (res.locals.enableStandardApplications) {
-                    res.redirect(
-                        localify(req.i18n.getLocale())(
-                            '/apply/all?s=applicationDeleted'
-                        )
-                    );
-                } else {
-                    res.redirect(
-                        res.locals.formBaseUrl + '?s=applicationDeleted'
-                    );
-                }
+                res.redirect(
+                    localify(req.i18n.getLocale())(
+                        '/apply/all?s=applicationDeleted'
+                    )
+                );
             } catch (error) {
                 next(error);
             }

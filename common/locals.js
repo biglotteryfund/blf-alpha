@@ -1,14 +1,12 @@
 'use strict';
 const config = require('config');
 const moment = require('moment-timezone');
-const get = require('lodash/get');
 const isString = require('lodash/isString');
 
 const features = config.get('features');
 
 const appData = require('./appData');
 const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
-const { getParameter } = require('./parameter-store');
 
 /**
  * Set request locals
@@ -49,12 +47,6 @@ module.exports = function(req, res, next) {
      */
     res.locals.enableSiteSurvey = true;
     res.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
-
-    res.locals.enableStandardApplications =
-        get(req.cookies, 'standard-preview') ===
-        getParameter('awardsForAll.secret') // re-purpose preview secret
-            ? true
-            : features.enableStandardApplications;
 
     /**
      * Global copy
