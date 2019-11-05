@@ -193,8 +193,8 @@ function initFormRouter({
             res.redirect(`${req.baseUrl}/eligibility/1`);
         } else if (startTemplate) {
             res.render(startTemplate, {
-                backUrl: req.baseUrl,
-                newUrl
+                backUrl: localify(req.i18n.getLocale())('/apply'),
+                newUrl: newUrl
             });
         } else {
             res.redirect(newUrl);
