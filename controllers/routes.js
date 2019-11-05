@@ -51,10 +51,6 @@ const toplevel = {
         {
             path: '/user',
             router: require('./user')
-        },
-        {
-            path: '/apply',
-            router: require('./apply')
         }
     ]
 };
@@ -194,11 +190,21 @@ const updates = {
     pages: [{ path: '/', router: require('./updates') }]
 };
 
+/**
+ * Apply section
+ * @type {Section}
+ */
+const apply = {
+    path: '/apply',
+    pages: [{ path: '/', router: require('./apply') }]
+};
+
 module.exports = {
     toplevel: toplevel,
     funding: funding,
     insights: insights,
     talk: talk,
     about: about,
-    updates: updates
+    updates: updates,
+    apply: apply
 };
