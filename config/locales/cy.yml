@@ -1310,7 +1310,7 @@ applyNext:
       title: Cais diweddaraf
       introduction: >
         <p>Parhau o le orffennoch chi ddiwethaf, dechrau cais newydd neu
-        <a href="/apply/all">weld pob cais gweithredol</a>.</p>
+        <a href="/welsh/apply/all">weld pob cais gweithredol</a>.</p>
     all:
       title: Holl geisiadau
       inProgress: Ceisiadau agored

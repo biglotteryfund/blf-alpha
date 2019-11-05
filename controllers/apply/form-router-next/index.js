@@ -57,22 +57,21 @@ function initFormRouter({
 
         res.locals.user = req.user;
 
-        const localeUrl = localify(req.i18n.getLocale());
         res.locals.userNavigationLinks = [
             {
                 url: `${req.baseUrl}/summary`,
                 label: req.i18n.__('applyNext.navigation.summary')
             },
             {
-                url: localeUrl('/apply'),
+                url: res.locals.sectionUrl,
                 label: req.i18n.__('applyNext.navigation.latestApplication')
             },
             {
-                url: localeUrl('/apply/all'),
+                url: `${res.locals.sectionUrl}/all`,
                 label: req.i18n.__('applyNext.navigation.allApplications')
             },
             {
-                url: localeUrl('/user'),
+                url: localify(req.i18n.getLocale())('/user'),
                 label: req.i18n.__('applyNext.navigation.account')
             }
         ];
@@ -162,7 +161,7 @@ function initFormRouter({
      * Route: Redirect to apply dashboard
      */
     router.get('/', function(req, res) {
-        res.redirect(localify(req.i18n.getLocale())('/apply'));
+        res.redirect(res.locals.sectionUrl);
     });
 
     /**
