@@ -50,14 +50,6 @@ import(/* webpackChunkName: "common" */ './common/index').then(common => {
 
 import(/* webpackChunkName: "vue-apps" */ './vue-apps/index').then(vueApps => {
     vueApps.init();
-
-    // We need to ensure the Vue apps bind events on submit buttons first
-    // before we add more bindings to the form save buttons
-    import(/* webpackChunkName: "save-button" */ './common/save-button').then(
-        saveButton => {
-            saveButton.init();
-        }
-    );
 });
 
 if (featureIsEnabled('analytics')) {

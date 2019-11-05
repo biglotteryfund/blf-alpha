@@ -52,7 +52,7 @@ function animateSaveButtons() {
         });
 }
 
-export const init = () => {
+function init() {
     // Launch this feature in non-prod envs (for now) and don't add extra delays for automated tests
     if (
         window.AppConfig.environment !== 'production' &&
@@ -60,4 +60,8 @@ export const init = () => {
     ) {
         animateSaveButtons();
     }
+}
+
+export default {
+    init
 };
