@@ -900,11 +900,11 @@ module.exports = function({
                 but photos of your bank statements are absolutely fine.
             </strong></p>
             
-            <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
+            <div class="o-media--constrained u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
                     <img src="/assets/images/apply/afa-bank-statement-example-small.png"
                          alt="An example of a bank statement we need from you"
-                         class="o-media__figure-gutter"
+                         class="o-media__figure o-media__figure-gutter"
                          width="300" />
                     <span class="u-visually-hidden">Opens in a new window</span>
                  </a>
@@ -952,11 +952,11 @@ module.exports = function({
                 ond mae lluniau o’ch cyfriflenni banc yn hollol iawn.
             </strong></p>
             
-            <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
+            <div class="o-media--constrained u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
                     <img src="/assets/images/apply/afa-bank-statement-example-small-welsh.jpg"
                          alt="Enghraifft o gyfriflen banc rydym ei angen gennych"
-                         class="o-media__figure-gutter"
+                         class="o-media__figure o-media__figure-gutter"
                          width="300" />
                     <span class="u-visually-hidden">Yn agor mewn ffenest newydd</span>
                  </a>
