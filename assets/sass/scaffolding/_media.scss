@@ -4,7 +4,7 @@
 // The classic Nicole Sullivan original. Image alongside text.
 // Source: https://philipwalton.github.io/solved-by-flexbox/demos/media-object/
 
-.o-media {
+@mixin media-object() {
     display: flex;
     align-items: flex-start;
 
@@ -17,5 +17,22 @@
     }
     .o-media__body {
         flex: 1;
+    }
+}
+
+.o-media {
+    @include media-object();
+}
+
+// A version of the above which only applies in larger layouts
+// Media figures gain space below when used on smaller screens (eg. vertical layout)
+.o-media--constrained {
+    @include mq('medium-minor', 'max') {
+        .o-media__figure {
+            margin-bottom: $spacingUnit;
+        }
+    }
+    @include mq('medium-minor') {
+        @include media-object();
     }
 }
