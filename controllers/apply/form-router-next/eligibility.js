@@ -56,7 +56,7 @@ module.exports = function(eligibilityBuilder, formId) {
             renderPending(req, res);
         })
         .post(async function(req, res) {
-            const { currentStepNumber, totalSteps } = res.locals;
+            const { currentStep, currentStepNumber, totalSteps } = res.locals;
 
             if (req.body.eligibility === 'yes') {
                 if (currentStepNumber === totalSteps) {
@@ -85,7 +85,10 @@ module.exports = function(eligibilityBuilder, formId) {
                 renderPending(req, res, [
                     {
                         param: 'eligibility',
-                        msg: res.locals.copy.eligibility.invalidChoice
+                        msg: res.locals.copy.eligibility.invalidChoice,
+                        field: {
+                            label: currentStep.question
+                        }
                     }
                 ]);
             }
