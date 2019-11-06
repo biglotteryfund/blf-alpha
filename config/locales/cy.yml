@@ -1403,6 +1403,7 @@ applyNext:
     conditionalNote: "<strong>Nodyn</strong>: gall y maes hwn fod yn ddewisol gan ddibynnu ar eich atebion eraill"
   eligibility:
     title: Gwiriad cymhwysedd
+    invalidChoice: Answer yes or no (WELSH)
     successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
     unsuccessfulTitle: Mae'n ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
     whatNow: Beth nesaf?
