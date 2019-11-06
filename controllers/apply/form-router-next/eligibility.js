@@ -85,10 +85,8 @@ module.exports = function(eligibilityBuilder, formId) {
                 renderPending(req, res, [
                     {
                         param: 'eligibility',
-                        msg: res.locals.copy.eligibility.invalidChoice,
-                        field: {
-                            label: currentStep.question
-                        }
+                        label: currentStep.question,
+                        msg: res.locals.copy.eligibility.invalidChoice
                     }
                 ]);
             }

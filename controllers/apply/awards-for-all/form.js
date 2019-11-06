@@ -792,36 +792,36 @@ module.exports = function({
                 case 'INVALID_ACCOUNT':
                     messages = [
                         {
+                            label: fields.bankSortCode.label,
                             msg: localise({
                                 en: `This sort code is not valid with this account number`,
                                 cy:
                                     'Nid yw’r cod didoli’n ddilys â’r rhif cyfrif hwn'
                             }),
-                            param: 'bankSortCode',
-                            field: fields.bankSortCode
+                            param: 'bankSortCode'
                         },
                         {
+                            param: 'bankAccountNumber',
+                            label: fields.bankAccountNumber.label,
                             msg: localise({
                                 en: `This account number is not valid with this sort code`,
                                 cy:
                                     'Nid yw’r rhif cyfrif yn ddilys â’r cod didoli hwn'
-                            }),
-                            param: 'bankAccountNumber',
-                            field: fields.bankAccountNumber
+                            })
                         }
                     ];
                     break;
                 case 'INVALID_BACS':
                     messages = [
                         {
+                            param: 'bankAccountNumber',
+                            label: fields.bankAccountNumber.label,
                             msg: localise({
                                 en: oneLine`This bank account cannot receive BACS payments,
                                     which is a requirement for funding`,
                                 cy: oneLine`Ni all y cyfrif banc hwn dderbyn taliadau BACS, 
                                     sy’n ofynnol i gael eich ariannu.`
-                            }),
-                            param: 'bankAccountNumber',
-                            field: fields.bankAccountNumber
+                            })
                         }
                     ];
                     break;
