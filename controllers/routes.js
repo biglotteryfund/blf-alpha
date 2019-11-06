@@ -105,7 +105,7 @@ let funding = {
             router: basicContent()
         },
         {
-            path: `/managing-your-grant/promoting-your-project/order-free-material`,
+            path: `/managing-your-grant/promoting-your-project/order-free-materials`,
             router: require('./materials')
         },
         {
