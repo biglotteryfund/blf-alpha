@@ -1,5 +1,5 @@
 'use strict';
-const { includes, concat } = require('lodash');
+const { concat } = require('lodash');
 const express = require('express');
 
 const { getAbsoluteUrl } = require('../common/urls');
@@ -9,11 +9,7 @@ const { noStore } = require('../common/cached');
 const router = express.Router();
 
 router.get('/', noStore, (req, res) => {
-    const shouldIndex =
-        includes(
-            ['www.biglotteryfund.org.uk', 'www.tnlcommunityfund.org.uk'],
-            req.get('host')
-        ) === true;
+    const shouldIndex = req.get('host') === 'apply.tnlcommunityfund.org.uk';
 
     // Merge archived paths with internal / deliberately excluded URLs
     const disallowList = concat(

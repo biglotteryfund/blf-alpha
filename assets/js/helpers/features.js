@@ -23,12 +23,10 @@ export const isDoNotTrack =
 
 /* Disable analytics outside of the real domain to avoid polluting data. */
 function shouldBlockAnalytics() {
-    return (
-        window.AppConfig.environment === 'production' &&
-        ['www.biglotteryfund.org.uk', 'www.tnlcommunityfund.org.uk'].indexOf(
-            window.location.hostname
-        ) === -1
-    );
+    const isProduction = window.AppConfig.environment === 'production';
+    const isProdDomain =
+        window.location.hostname === 'www.tnlcommunityfund.org.uk';
+    return !isProduction && !isProdDomain;
 }
 
 export const FEATURES = [

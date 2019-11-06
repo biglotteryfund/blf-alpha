@@ -10,7 +10,7 @@ describe('domain redirect', () => {
             method: 'GET',
             url: '/some/example/url/',
             headers: {
-                'Host': 'www.biglotteryfund.org.uk',
+                'Host': 'apply.tnlcommunityfund.org.uk',
                 'X-Forwarded-Proto': 'https'
             }
         });
