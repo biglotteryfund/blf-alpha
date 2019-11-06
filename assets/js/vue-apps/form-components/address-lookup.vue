@@ -81,19 +81,25 @@ export default {
             } catch (e) {} // eslint-disable-line no-empty
         }
 
-        this.$el.form.addEventListener('submit', e => {
-            if (this.shouldWarn()) {
-                alert(this.$t('address.warningForIncomplete'));
-                trackEvent(
-                    'Form warning',
-                    'Postcode lookup',
-                    'Typed but not submitted'
-                );
-                // Prevent form submission (for nested)
-                e.preventDefault();
-                document.querySelector('.js-address-lookup').scrollIntoView();
+        $('input[type="submit"], button[type="submit"]', this.$el.form).on(
+            'click',
+            e => {
+                if (this.shouldWarn()) {
+                    // Prevent form submission (for nested)
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    alert(this.$t('address.warningForIncomplete'));
+                    trackEvent(
+                        'Form warning',
+                        'Postcode lookup',
+                        'Typed but not submitted'
+                    );
+                    document
+                        .querySelector('.js-address-lookup')
+                        .scrollIntoView();
+                }
             }
-        });
+        );
     },
     methods: {
         shouldWarn() {
