@@ -8,7 +8,7 @@ import session from './session';
  * Common modules that are run across the site.
  * (Non-Vue components)
  */
-export const init = () => {
+function init() {
     fitvids();
 
     forEach(
@@ -21,4 +21,6 @@ export const init = () => {
     tabs.init();
     forms.init();
     session.init();
-};
+}
+
+export default { init };

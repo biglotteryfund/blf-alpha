@@ -16,6 +16,7 @@ module.exports = function cspDirectives() {
         '*.youtube.com',
         '*.vimeo.com',
         'cdn.polyfill.io',
+        '*.sentry-cdn.com',
         'cdn.syndication.twimg.com',
         'maxcdn.bootstrapcdn.com',
         'ajax.googleapis.com',

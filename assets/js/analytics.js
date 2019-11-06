@@ -1,5 +1,4 @@
 /* global ga */
-
 import forEach from 'lodash/forEach';
 import { trackEvent } from './helpers/metrics';
 
