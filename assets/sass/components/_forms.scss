@@ -535,6 +535,10 @@ $inputOutline: 3px solid get-color('border', 'outline');
                 flex-grow: 2;
             }
 
+            .ff-budget__row-amount {
+                min-width: 160px;
+            }
+
             .ff-budget-row__action {
                 min-width: 190px;
                 text-align: right;
