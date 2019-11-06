@@ -66,7 +66,7 @@ i18n.expressBind(app, {
 
 /**
  * Old domain redirect
- * Redirect requests from www.biglotteryfund.org.uk
+ * Redirect requests from apply.tnlcommunityfund.org.uk
  */
 app.use(require('./controllers/domain-redirect'));
 
