@@ -2683,6 +2683,286 @@ Array [
     "to": "/welsh/funding/programmes/all",
   },
   Object {
+    "from": "/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
+  },
+  Object {
+    "from": "/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/social-media",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/social-media",
+  },
+  Object {
+    "from": "/funding/funding-guidance/managing-your-funding/press",
+    "to": "/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding/press",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding/press",
+    "to": "/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/press",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding/press",
+    "to": "/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/press",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding/press",
+    "to": "/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/press",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding/press",
+    "to": "/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/press",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/your-local-press",
+  },
+  Object {
+    "from": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
+  },
+  Object {
+    "from": "/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
+  },
+  Object {
+    "from": "/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+  },
+  Object {
+    "from": "/funding/under10k/managing-your-grant",
+    "to": "/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/welsh/funding/under10k/managing-your-grant",
+    "to": "/welsh/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/england/funding/under10k/managing-your-grant",
+    "to": "/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/welsh/england/funding/under10k/managing-your-grant",
+    "to": "/welsh/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/scotland/funding/under10k/managing-your-grant",
+    "to": "/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/under10k/managing-your-grant",
+    "to": "/welsh/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/northernireland/funding/under10k/managing-your-grant",
+    "to": "/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/under10k/managing-your-grant",
+    "to": "/welsh/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/wales/funding/under10k/managing-your-grant",
+    "to": "/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/welsh/wales/funding/under10k/managing-your-grant",
+    "to": "/welsh/funding/managing-your-grant/under-10k",
+  },
+  Object {
     "from": "/funding/funding-guidance",
     "to": "/funding",
   },
@@ -2924,243 +3204,203 @@ Array [
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/funding/funding-guidance/managing-your-funding",
+    "to": "/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/help-with-publicity",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project",
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
+    "to": "/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/logodownloads",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
-  },
-  Object {
-    "from": "/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/welsh/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/welsh/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/england/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/welsh/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/scotland/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/welsh/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/northernireland/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/welsh/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/wales/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/funding/funding-guidance/monitoring-forms",
-  },
-  Object {
-    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/monitoring-forms",
-    "to": "/welsh/funding/funding-guidance/monitoring-forms",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/download-our-logo",
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
+    "to": "/welsh/funding/managing-your-grant/promoting-your-project/order-free-materials",
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/self-evaluation",

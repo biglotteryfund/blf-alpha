@@ -1,7 +1,6 @@
 'use strict';
 
 const { basicContent, flexibleContent, staticPage } = require('./common');
-const { isNotProduction } = require('../common/appData');
 
 /**
  * @typedef {object} Section
@@ -76,14 +75,6 @@ let funding = {
             })
         },
         {
-            path: '/under10k/managing-your-grant',
-            router: staticPage({
-                lang: 'funding.under10k.managingYourGrant',
-                template: 'static-pages/under10k-managing-your-grant',
-                heroSlug: 'funding-under-10k-new'
-            })
-        },
-        {
             path: '/over10k',
             router: staticPage({
                 lang: 'funding.over10k',
@@ -109,33 +100,15 @@ let funding = {
             router: require('./grants')
         },
         {
-            path: `/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos`,
-            router: basicContent({
-                lang: 'funding.guidance.logos',
-                customTemplate: 'static-pages/logos'
-            })
-        },
-        {
-            path: `/funding-guidance/managing-your-funding/ordering-free-materials`,
-            router: require('./materials')
-        },
-        {
             path: '/funding-guidance/*',
             router: basicContent()
-        }
-    ]
-};
-
-// Add Funding subpages in non-prod environments
-// @TODO progress to production when ready
-if (isNotProduction) {
-    funding.pages.push(
+        },
         {
-            path: `/managing-your-grant/promoting-your-project/order-free-plaques-stickers-bunting-and-more`,
+            path: `/managing-your-grant/promoting-your-project/order-free-materials`,
             router: require('./materials')
         },
         {
-            path: `/managing-your-grant/promoting-your-project/download-our-logo-to-tell-people-about-your-national-lottery-funding`,
+            path: `/managing-your-grant/promoting-your-project/download-our-logo`,
             router: basicContent({
                 lang: 'funding.guidance.logos',
                 customTemplate: 'static-pages/logos'
@@ -147,8 +120,8 @@ if (isNotProduction) {
                 cmsPage: true
             })
         }
-    );
-}
+    ]
+};
 
 /**
  * Insights section
