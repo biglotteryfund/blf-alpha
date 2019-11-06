@@ -76,14 +76,6 @@ let funding = {
             })
         },
         {
-            path: '/under10k/managing-your-grant',
-            router: staticPage({
-                lang: 'funding.under10k.managingYourGrant',
-                template: 'static-pages/under10k-managing-your-grant',
-                heroSlug: 'funding-under-10k-new'
-            })
-        },
-        {
             path: '/over10k',
             router: staticPage({
                 lang: 'funding.over10k',
