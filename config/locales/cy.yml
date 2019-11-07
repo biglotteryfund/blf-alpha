@@ -288,7 +288,7 @@ toplevel:
     - label: Chwilio grantiau a ddyfarnwyd
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
-      href: "/welsh/funding/funding-guidance/managing-your-funding"
+      href: "/welsh/funding/managing-your-grant"
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau

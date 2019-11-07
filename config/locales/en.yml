@@ -393,8 +393,8 @@ toplevel:
       href: "/funding/strategic-investments"
     - label: Search all grants
       href: "/funding/grants"
-    - label: Help with managing your grant
-      href: "/funding/funding-guidance/managing-your-funding"
+    - label: Help with managing your funding
+      href: "/funding/managing-your-grant"
   local:
     title: In your area
   data:
