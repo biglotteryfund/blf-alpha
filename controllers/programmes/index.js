@@ -6,11 +6,11 @@ const get = require('lodash/get');
 const groupBy = require('lodash/groupBy');
 
 const {
-    injectBreadcrumbs,
     injectCopy,
     injectHeroImage,
     setCommonLocals
 } = require('../../common/inject-content');
+const { localify } = require('../../common/urls');
 const { buildArchiveUrl } = require('../../common/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');
 const { sMaxAge } = require('../../common/cached');
@@ -20,12 +20,11 @@ const { basicContent, renderFlexibleContentChild } = require('../common');
 
 const router = express.Router();
 
-router.use(injectBreadcrumbs, (req, res, next) => {
-    const routerCrumb = {
+router.use(function(req, res, next) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
         label: req.i18n.__('funding.programmes.title'),
         url: req.baseUrl
-    };
-    res.locals.breadcrumbs = res.locals.breadcrumbs.concat([routerCrumb]);
+    });
     next();
 });
 
@@ -149,9 +148,9 @@ router.get(
                 return /\d/.test(firstLetter) ? '#' : firstLetter;
             });
 
-            const breadcrumbs = res.locals.breadcrumbs.concat([
-                { label: res.locals.title }
-            ]);
+            const breadcrumbs = res.locals.breadcrumbs.concat({
+                label: res.locals.title
+            });
 
             const regionsCopy = req.i18n.__('global.regions');
             const locations = {
@@ -218,9 +217,9 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
              */
             res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
-                breadcrumbs: res.locals.breadcrumbs.concat([
-                    { label: res.locals.title }
-                ])
+                breadcrumbs: res.locals.breadcrumbs.concat({
+                    label: res.locals.title
+                })
             });
         } else if (get(entry, 'isArchived') === true) {
             /**
@@ -229,9 +228,9 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
             res.render(path.resolve(__dirname, './views/archived-programme'), {
                 entry: entry,
                 archiveUrl: buildArchiveUrl(entry.legacyPath),
-                breadcrumbs: res.locals.breadcrumbs.concat([
-                    { label: res.locals.title }
-                ])
+                breadcrumbs: res.locals.breadcrumbs.concat({
+                    label: res.locals.title
+                })
             });
         } else {
             next();
@@ -248,12 +247,12 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
 router.use(
     '/building-better-opportunities/*',
     (req, res, next) => {
-        res.locals.customAncestors = [
-            {
-                title: 'Building Better Opportunities',
-                path: 'funding/programmes/building-better-opportunities'
-            }
-        ];
+        res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+            label: 'Building Better Opportunities',
+            url: localify(req.i18n.getLocale())(
+                `/funding/programmes/building-better-opportunities`
+            )
+        });
         next();
     },
     basicContent()

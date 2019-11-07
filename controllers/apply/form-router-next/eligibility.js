@@ -14,6 +14,22 @@ module.exports = function(eligibilityBuilder, formId) {
 
     const templatePath = path.resolve(__dirname, './views/eligibility');
 
+    function renderPending(req, res, errors = []) {
+        const { currentStepNumber } = res.locals;
+
+        const backUrl =
+            currentStepNumber === 1
+                ? res.locals.sectionUrl
+                : `${req.baseUrl}/${currentStepNumber - 1}`;
+
+        res.render(templatePath, {
+            csrfToken: req.csrfToken(),
+            eligibilityStatus: 'pending',
+            backUrl: backUrl,
+            errors: errors
+        });
+    }
+
     router
         .route('/:step?')
         .all(injectCopy('applyNext'), function(req, res, next) {
@@ -37,19 +53,10 @@ module.exports = function(eligibilityBuilder, formId) {
             }
         })
         .get(function(req, res) {
-            const { currentStepNumber } = res.locals;
-
-            res.render(templatePath, {
-                csrfToken: req.csrfToken(),
-                eligibilityStatus: 'pending',
-                backUrl:
-                    currentStepNumber === 1
-                        ? res.locals.sectionUrl
-                        : `${req.baseUrl}/${currentStepNumber - 1}`
-            });
+            renderPending(req, res);
         })
-        .post(async (req, res) => {
-            const { currentStepNumber, totalSteps } = res.locals;
+        .post(async function(req, res) {
+            const { currentStep, currentStepNumber, totalSteps } = res.locals;
 
             if (req.body.eligibility === 'yes') {
                 if (currentStepNumber === totalSteps) {
@@ -61,7 +68,7 @@ module.exports = function(eligibilityBuilder, formId) {
                 } else {
                     res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
                 }
-            } else {
+            } else if (req.body.eligibility === 'no') {
                 logger.info('Failed eligibility check', {
                     formId: formId,
                     step: currentStepNumber
@@ -74,6 +81,14 @@ module.exports = function(eligibilityBuilder, formId) {
                         'Apply: AFA: Failed eligibility check question'
                     ]
                 });
+            } else {
+                renderPending(req, res, [
+                    {
+                        param: 'eligibility',
+                        label: currentStep.question,
+                        msg: currentStep.errorMessage
+                    }
+                ]);
             }
         });
 

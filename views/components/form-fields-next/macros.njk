@@ -9,9 +9,7 @@
                 <ol class="form-errors__list">
                     {% for error in errors %}
                         <li>
-                            {% if error.field %}
-                                {{ error.field.label | safe }} &ndash;
-                            {% endif %}
+                            {% if error.label %}{{ error.label | safe }} &mdash;{% endif %}
                             {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
                             {{ error.msg | safe }}
                             {% if error.param %}</a>{% endif %}

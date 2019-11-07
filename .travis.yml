@@ -9,6 +9,9 @@ env:
 
 dist: xenial
 
+addons:
+  chrome: stable
+
 # Defaults
 language: node_js
 

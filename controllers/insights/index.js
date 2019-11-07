@@ -5,7 +5,6 @@ const { pick, clone } = require('lodash');
 
 const contentApi = require('../../common/content-api');
 const {
-    injectBreadcrumbs,
     injectCopy,
     injectHeroImage,
     setCommonLocals
@@ -76,7 +75,7 @@ router.get(
     }
 );
 
-router.get('/:slug', injectBreadcrumbs, async function(req, res, next) {
+router.get('/:slug', async function(req, res, next) {
     try {
         const entry = await contentApi.getResearch({
             slug: req.params.slug,
