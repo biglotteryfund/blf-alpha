@@ -2,22 +2,25 @@
 
 module.exports = {
     root: true,
-    extends: 'eslint:recommended',
+    extends: ['eslint:recommended', 'plugin:node/recommended'],
     plugins: ['no-only-tests'],
     env: {
         es6: true,
         node: true
     },
     parserOptions: {
-        ecmaVersion: 2018
+        ecmaVersion: 2020
     },
     rules: {
         'eqeqeq': 'error',
         'no-console': 'warn',
-        'no-only-tests/no-only-tests': 'error',
-        // @TODO: Review if this should be re-enabled
         'require-atomic-updates': 'off',
         'semi': ['error', 'always'],
-        'strict': ['warn', 'safe']
+        'strict': ['warn', 'safe'],
+
+        // Plugins
+        'no-only-tests/no-only-tests': 'error',
+        'node/no-unpublished-require': 'off',
+        'node/shebang': 'off'
     }
 };
