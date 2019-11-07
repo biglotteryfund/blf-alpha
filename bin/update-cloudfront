@@ -27,10 +27,9 @@ const argv = require('yargs')
 const IS_LIVE = argv.l;
 
 if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
-    console.log(
+    throw new Error(
         'Error: TEST_URL and PROD_URL environment variables must be defined'
     );
-    process.exit(1);
 }
 
 // are we restoring an old config?
@@ -39,8 +38,7 @@ if (argv.file) {
     try {
         customConfig = JSON.parse(fs.readFileSync(argv.file, 'utf8'));
     } catch (err) {
-        console.error('Could not read supplied config file');
-        process.exit(1);
+        throw new Error('Could not read supplied config file');
     }
 }
 
@@ -261,8 +259,7 @@ function beginUpdate(savedConfig) {
 
             prompt.get(promptSchema, (err, result) => {
                 if (err) {
-                    console.log('Bailing out!');
-                    process.exit(1);
+                    throw new Error('Bailing out!');
                 } else if (['y', 'yes'].indexOf(result.yesno) !== -1) {
                     console.log('Starting update...');
 
@@ -297,15 +294,11 @@ function beginUpdate(savedConfig) {
                             );
                         });
                 } else {
-                    console.log('Bailing out!');
-                    process.exit(1);
+                    throw new Error('Bailing out!');
                 }
             });
         })
         .catch(err => {
-            // failed to get config
-            console.error('There was an error fetching the config', {
-                error: err
-            });
+            throw err;
         });
 }
