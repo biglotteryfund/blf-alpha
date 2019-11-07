@@ -18,7 +18,7 @@
     "format": "prettier --write **/*.{js,scss,vue}",
     "test-unit": "jest --maxWorkers=4",
     "test": "npm run lint && npm run test-unit",
-    "test-integration": "npm run start-test & wait-on http://localhost:8090 && npx cypress run",
+    "test-integration": "npm run start-test & wait-on http://localhost:8090 && npx cypress run --browser chrome",
     "clean": "del-cli $npm_package_config_dist_root/* ./config/assets.json",
     "build-css-style": "node-sass assets/sass/style.scss --output $npm_package_config_dist_css --source-map $npm_package_config_dist_css && postcss $npm_package_config_dist_css/style.css --replace --map",
     "build-css-emails": "node-sass assets/sass/emails.scss | postcss --no-map -u autoprefixer > $npm_package_config_dist_css/emails.css",
