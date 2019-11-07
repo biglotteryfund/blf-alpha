@@ -1,32 +1,25 @@
 'use strict';
-const reduce = require('lodash/reduce');
-
 const materialFields = require('./material-fields');
 
-module.exports = function normaliseUserInput(userInput) {
-    return reduce(
-        materialFields,
-        (acc, field) => {
-            let fieldLabel = field.emailKey;
-            const originalFieldValue = userInput[field.name];
-            const otherValue = userInput[field.name + 'Other'];
+module.exports = function normaliseUserInput(input) {
+    return Object.values(materialFields).reduce(function(acc, field) {
+        const originalValue = input[field.name];
+        const otherValue = input[`${field.name}Other`];
 
-            // Override value if "other" field is entered.
-            const fieldValue =
-                field.allowOther && otherValue
-                    ? otherValue
-                    : originalFieldValue;
+        /**
+         * Override value if "other" field is entered.
+         */
+        const fieldValue =
+            field.allowOther && otherValue ? otherValue : originalValue;
 
-            if (fieldValue) {
-                acc.push({
-                    key: field.name,
-                    label: fieldLabel,
-                    value: fieldValue
-                });
-            }
+        if (fieldValue) {
+            acc.push({
+                key: field.name,
+                label: field.emailKey,
+                value: fieldValue
+            });
+        }
 
-            return acc;
-        },
-        []
-    );
+        return acc;
+    }, []);
 };
