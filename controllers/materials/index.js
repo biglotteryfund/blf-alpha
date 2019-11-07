@@ -168,6 +168,18 @@ function renderForm(
     });
 }
 
+function itemForEmail(availableItems, item) {
+    const material = availableItems.find(i => i.itemId === item.materialId);
+    const product = material.products.find(p => p.id === item.productId);
+
+    return {
+        name: product.name ? product.name : material.title,
+        code: product.code,
+        quantity:
+            item.quantity > material.maximum ? material.maximum : item.quantity
+    };
+}
+
 router
     .route('/')
     .all(csrfProtection, injectListingContent, async function(req, res, next) {
@@ -188,24 +200,8 @@ router
         const validationResult = validate(userData, req.i18n.getLocale());
 
         if (validationResult.isValid) {
-            const availableItems = res.locals.availableItems;
-
             const itemsToEmail = req.session[sessionOrderKey].map(item => {
-                const material = availableItems.find(
-                    i => i.itemId === item.materialId
-                );
-                const product = material.products.find(
-                    p => p.id === item.productId
-                );
-                // prevent someone who really loves plaques from hacking the form to increase the maximum
-                if (item.quantity > material.maximum) {
-                    item.quantity = material.maximum;
-                }
-                return {
-                    name: product.name ? product.name : material.title,
-                    code: product.code,
-                    quantity: item.quantity
-                };
+                return itemForEmail(res.locals.availableItems, item);
             });
 
             const orderText = makeOrderText(itemsToEmail, userData);
