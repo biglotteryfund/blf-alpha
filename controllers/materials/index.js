@@ -2,7 +2,6 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const Postcode = require('postcode');
 const getOr = require('lodash/fp/getOr');
 const pick = require('lodash/pick');
 const Sentry = require('@sentry/node');
@@ -86,9 +85,7 @@ async function handleSubmission(req, res) {
             await Order.storeOrder({
                 grantAmount: getFieldValue(userData, 'yourGrantAmount'),
                 orderReason: getFieldValue(userData, 'yourReason'),
-                postcodeArea: Postcode.toOutcode(
-                    getFieldValue(userData, 'yourPostcode')
-                ),
+                postcode: getFieldValue(userData, 'yourPostcode'),
                 items: itemsToEmail
                     .filter(item => item.quantity > 0)
                     .map(item => pick(item, ['code', 'quantity']))

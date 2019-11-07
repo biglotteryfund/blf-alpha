@@ -1,7 +1,8 @@
 // @ts-nocheck
 'use strict';
-const moment = require('moment');
 const { Model, Op } = require('sequelize');
+const moment = require('moment');
+const Postcode = require('postcode');
 
 class OrderItem extends Model {
     static init(sequelize, DataTypes) {
@@ -73,7 +74,7 @@ class Order extends Model {
         });
     }
 
-    static storeOrder({ grantAmount, orderReason, postcodeArea, items }) {
+    static storeOrder({ grantAmount, orderReason, postcode, items }) {
         const expiryDate = moment()
             .subtract(5, 'months')
             .toDate();
@@ -85,12 +86,10 @@ class Order extends Model {
                 {
                     grantAmount: grantAmount,
                     orderReason: orderReason,
-                    postcodeArea: postcodeArea,
+                    postcodeArea: Postcode.toOutcode(postcode),
                     items: items
                 },
-                {
-                    include: [{ model: OrderItem, as: 'items' }]
-                }
+                { include: [{ model: OrderItem, as: 'items' }] }
             )
         ]);
     }
