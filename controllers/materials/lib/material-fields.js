@@ -1,204 +1,120 @@
 'use strict';
 const get = require('lodash/fp/get');
-const { check } = require('express-validator/check');
 const Joi = require('@hapi/joi16');
+
 const validateSchema = require('../../../common/validate-schema');
 
-function errorTranslator(prefix) {
-    return function(prop, replacementKeys = []) {
-        return function(value, { req }) {
-            const t = `${prefix}.${prop}`;
-            const replacements = replacementKeys.map(_ => req.i18n.__(_));
-            return replacements.length > 0
-                ? req.i18n.__(t, replacements)
-                : req.i18n.__(t);
-        };
-    };
-}
-
-const translateError = errorTranslator('global.forms');
-const translationLabelBase =
-    'funding.guidance.order-free-materials.formFields.';
-
-function checkClean(fieldName) {
-    return check(fieldName).trim();
-}
-
-function createField(props) {
-    const defaults = {
-        label: translationLabelBase + props.name,
-        required: false
-    };
-
-    return Object.assign({}, defaults, props);
+function localeKeyFor(prop) {
+    return `funding.guidance.order-free-materials.formFields.${prop}`;
 }
 
 const fields = {
-    yourName: createField({
+    yourName: {
+        type: 'text',
         name: 'yourName',
-        type: 'text',
+        label: localeKeyFor('yourName'),
         emailKey: 'Name',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(
-                    translateError('missingFieldError', [field.label])
-                );
-        }
-    }),
-    yourEmail: createField({
-        name: 'yourEmail',
+        required: true
+    },
+    yourEmail: {
         type: 'email',
+        name: 'yourEmail',
+        label: localeKeyFor('yourEmail'),
         emailKey: 'Email address',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]))
-                .isEmail()
-                .withMessage(translateError('invalidEmailError'));
-        }
-    }),
-    yourAddress1: createField({
+        required: true
+    },
+    yourAddress1: {
+        type: 'text',
         name: 'yourAddress1',
-        type: 'text',
+        label: localeKeyFor('yourAddress1'),
         emailKey: 'Address line 1',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(
-                    translateError('missingFieldError', [field.label])
-                );
-        }
-    }),
-    yourAddress2: createField({
+        required: true
+    },
+    yourAddress2: {
+        type: 'text',
         name: 'yourAddress2',
-        type: 'text',
+        label: localeKeyFor('yourAddress2'),
         emailKey: 'Address line 2',
-        required: false,
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourTown: createField({
+        required: false
+    },
+    yourTown: {
+        type: 'text',
         name: 'yourTown',
-        type: 'text',
+        label: localeKeyFor('yourAddress2'),
         emailKey: 'Town/city',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(
-                    translateError('missingFieldError', [field.label])
-                );
-        }
-    }),
-    yourCounty: createField({
+        required: true
+    },
+    yourCounty: {
+        type: 'text',
         name: 'yourCounty',
-        type: 'text',
+        label: localeKeyFor('yourCounty'),
         emailKey: 'County',
-        required: false,
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourCountry: createField({
+        required: false
+    },
+    yourCountry: {
+        type: 'text',
         name: 'yourCountry',
-        type: 'text',
+        label: localeKeyFor('yourCountry'),
         emailKey: 'Country',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(
-                    translateError('missingFieldError', [field.label])
-                );
-        }
-    }),
-    yourPostcode: createField({
+        required: true
+    },
+    yourPostcode: {
+        type: 'text',
         name: 'yourPostcode',
-        type: 'text',
+        label: localeKeyFor('yourPostcode'),
         emailKey: 'Postcode',
-        required: true,
-        validator: function(field) {
-            return checkClean(field.name)
-                .not()
-                .isEmpty()
-                .withMessage(
-                    translateError('missingFieldError', [field.label])
-                );
-        }
-    }),
-    yourProjectName: createField({
-        name: 'yourProjectName',
+        required: true
+    },
+    yourProjectName: {
         type: 'text',
+        name: 'yourProjectName',
+        label: localeKeyFor('yourProjectName'),
         emailKey: 'Project name',
-        required: false,
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourGrantAmount: createField({
+        required: false
+    },
+    yourGrantAmount: {
+        type: 'radio',
         name: 'yourGrantAmount',
-        type: 'radio',
-        allowOther: true,
-        options: [
-            {
-                name: translationLabelBase + 'grantSizes.under10k',
-                value: 'under10k'
-            },
-            {
-                name: translationLabelBase + 'grantSizes.over10k',
-                value: 'over10k'
-            },
-            {
-                name: translationLabelBase + 'grantSizes.dunno',
-                value: 'dunno'
-            }
-        ],
+        label: localeKeyFor('yourGrantAmount'),
         emailKey: 'Grant amount',
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    }),
-    yourReason: createField({
-        name: 'yourReason',
-        type: 'radio',
+        required: false,
         allowOther: true,
         options: [
+            { name: localeKeyFor('grantSizes.under10k'), value: 'under10k' },
+            { name: localeKeyFor('grantSizes.over10k'), value: 'over10k' },
+            { name: localeKeyFor('grantSizes.dunno'), value: 'dunno' }
+        ]
+    },
+    yourReason: {
+        type: 'radio',
+        name: 'yourReason',
+        label: localeKeyFor('yourReason'),
+        emailKey: 'Order reason',
+        allowOther: true,
+        required: false,
+        options: [
             {
-                name: translationLabelBase + 'reasons.event',
+                name: localeKeyFor('reasons.event'),
                 value: 'event'
             },
             {
-                name: translationLabelBase + 'reasons.projectOpening',
+                name: localeKeyFor('reasons.projectOpening'),
                 value: 'projectOpening'
             },
             {
-                name: translationLabelBase + 'reasons.photoOpportunity',
+                name: localeKeyFor('reasons.photoOpportunity'),
                 value: 'photoOpportunity'
             },
             {
-                name: translationLabelBase + 'reasons.mpVisit',
+                name: localeKeyFor('reasons.mpVisit'),
                 value: 'mpVisit'
             },
             {
-                name: translationLabelBase + 'reasons.grantAcknowledgment',
+                name: localeKeyFor('reasons.grantAcknowledgment'),
                 value: 'grantAcknowledgment'
             }
-        ],
-        emailKey: 'Order reason',
-        validator: function(field) {
-            return checkClean(field.name);
-        }
-    })
+        ]
+    }
 };
 
 function validate(data, locale = 'en') {
