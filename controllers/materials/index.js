@@ -195,7 +195,7 @@ router
     .get(function(req, res) {
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })
-    .post(function(req, res) {
+    .post(async function(req, res) {
         const userData = sanitiseRequestBody(req.body);
         const validationResult = validate(userData, req.i18n.getLocale());
 
@@ -206,70 +206,64 @@ router
 
             const orderText = makeOrderText(itemsToEmail, userData);
 
-            storeOrderSummary({
-                orderItems: itemsToEmail,
-                orderDetails: userData
-            })
-                .then(async () => {
-                    const customerSendTo = userData.yourEmail;
-                    const supplierSendTo = appData.isNotProduction
-                        ? customerSendTo
-                        : MATERIAL_SUPPLIER;
-
-                    const customerHtml = await generateHtmlEmail({
-                        template: path.resolve(
-                            __dirname,
-                            './views/order-email.njk'
-                        ),
-                        templateData: {
-                            locale: req.i18n.getLocale(),
-                            copy: req.i18n.__('materials.orderEmail')
-                        }
-                    });
-
-                    const customerEmail = sendEmail({
-                        name: 'material_customer',
-                        mailConfig: {
-                            sendTo: customerSendTo,
-                            subject:
-                                'Thank you for your The National Lottery Community Fund order',
-                            type: 'html',
-                            content: customerHtml
-                        }
-                    });
-
-                    const supplierEmail = sendEmail({
-                        name: 'material_supplier',
-                        mailConfig: {
-                            sendTo: supplierSendTo,
-                            sendMode: 'bcc',
-                            subject: `Order from The National Lottery Community Fund website - ${moment().format(
-                                'dddd, MMMM Do YYYY, h:mm:ss a'
-                            )}`,
-                            type: 'text',
-                            content: orderText
-                        }
-                    });
-
-                    return Promise.all([customerEmail, supplierEmail]).then(
-                        () => {
-                            // Clear order details if successful
-                            delete req.session[sessionOrderKey];
-                            delete req.session[sessionBlockedItemKey];
-                            req.session.save(() => {
-                                renderForm(
-                                    req,
-                                    res,
-                                    FORM_STATES.SUBMISSION_SUCCESS
-                                );
-                            });
-                        }
-                    );
-                })
-                .catch(err => {
-                    Sentry.captureException(err);
-                    renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+            try {
+                await storeOrderSummary({
+                    orderItems: itemsToEmail,
+                    orderDetails: userData
                 });
+
+                const customerSendTo = userData.yourEmail;
+                const supplierSendTo = appData.isNotProduction
+                    ? customerSendTo
+                    : MATERIAL_SUPPLIER;
+
+                const customerHtml = await generateHtmlEmail({
+                    template: path.resolve(
+                        __dirname,
+                        './views/order-email.njk'
+                    ),
+                    templateData: {
+                        locale: req.i18n.getLocale(),
+                        copy: req.i18n.__('materials.orderEmail')
+                    }
+                });
+
+                const customerEmail = sendEmail({
+                    name: 'material_customer',
+                    mailConfig: {
+                        sendTo: customerSendTo,
+                        subject:
+                            'Thank you for your The National Lottery Community Fund order',
+                        type: 'html',
+                        content: customerHtml
+                    }
+                });
+
+                const supplierEmail = sendEmail({
+                    name: 'material_supplier',
+                    mailConfig: {
+                        sendTo: supplierSendTo,
+                        sendMode: 'bcc',
+                        subject: `Order from The National Lottery Community Fund website - ${moment().format(
+                            'dddd, MMMM Do YYYY, h:mm:ss a'
+                        )}`,
+                        type: 'text',
+                        content: orderText
+                    }
+                });
+
+                await Promise.all([customerEmail, supplierEmail]);
+
+                // Clear order details if successful
+                delete req.session[sessionOrderKey];
+                delete req.session[sessionBlockedItemKey];
+                req.session.save(() => {
+                    renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+                });
+            } catch (err) {
+                Sentry.captureException(err);
+                renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+            }
         } else {
             renderForm(
                 req,
