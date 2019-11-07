@@ -4,7 +4,7 @@
 const { validate } = require('./material-fields');
 
 function mapMessages(validationResult) {
-    return validationResult.error.details.map(detail => detail.message);
+    return validationResult.messages.map(item => item.msg);
 }
 
 test('should validate material fields schema', () => {
@@ -12,14 +12,7 @@ test('should validate material fields schema', () => {
         yourEmail: 'notanemail@invalid'
     });
 
-    expect(mapMessages(invalidResult)).toEqual([
-        '"yourName" is required',
-        '"yourEmail" must be a valid email',
-        '"yourAddress1" is required',
-        '"yourTown" is required',
-        '"yourCountry" is required',
-        '"yourPostcode" is required'
-    ]);
+    expect(mapMessages(invalidResult)).toMatchSnapshot();
 
     const validResult = validate({
         yourName: 'Björk Guðmundsdóttir',

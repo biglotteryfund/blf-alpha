@@ -1,4 +1,5 @@
 'use strict';
+const get = require('lodash/fp/get');
 const { check } = require('express-validator/check');
 const Joi = require('@hapi/joi16');
 const validateSchema = require('../../../common/validate-schema');
@@ -200,7 +201,9 @@ const fields = {
     })
 };
 
-function validate(data) {
+function validate(data, locale = 'en') {
+    const localise = get(locale);
+
     const schema = Joi.object({
         yourName: Joi.string().required(),
         yourEmail: Joi.string()
@@ -234,7 +237,74 @@ function validate(data) {
     });
 
     const messages = {
-        username: [{ type: 'base', message: 'Please provide the Name field' }]
+        yourName: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Please provide the 'Name' field`,
+                    cy: `Darparwch y maes 'Eich enw'`
+                })
+            }
+        ],
+        yourEmail: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Please provide the 'Email address' field`,
+                    cy: `Darparwch y maes 'Eich cyfeiriad e-bost'`
+                })
+            },
+            {
+                type: 'string.email',
+                message: localise({
+                    en: `Please provide a valid email address`,
+                    cy: `Rhowch gyfeiriad e-bost dilys`
+                })
+            }
+        ],
+        yourAddress1: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Please provide the 'Address line 1' field`,
+                    cy: `Darparwch y maes 'Eich cyfeiriad llinell 1'`
+                })
+            }
+        ],
+        yourAddress2: [],
+        yourTown: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Please provide the 'Town/city' field`,
+                    cy: `Darparwch y maes 'Eich tref/dinas'`
+                })
+            }
+        ],
+        yourCounty: [],
+        yourCountry: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Please provide the 'Country' field`,
+                    cy: `Darparwch y maes 'Eich gwlad'`
+                })
+            }
+        ],
+        yourPostcode: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Please provide the 'Postcode' field`,
+                    cy: `Darparwch y maes 'Eich côd post'`
+                })
+            }
+        ],
+        yourProjectName: [],
+        yourGrantAmount: [],
+        yourGrantAmountOther: [],
+        yourReason: [],
+        yourReasonOther: []
     };
 
     return validateSchema({ schema, messages }, data);
