@@ -23,7 +23,7 @@ const {
     verifyTokenPasswordReset
 } = require('./lib/jwt');
 const schemas = require('./lib/account-schemas');
-const validateSchema = require('./lib/validate-schema');
+const validateSchema = require('../../common/validate-schema');
 
 const router = express.Router();
 

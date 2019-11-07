@@ -15,7 +15,7 @@ const {
     redirectUrlWithFallback
 } = require('../../common/authed');
 
-const validateSchema = require('./lib/validate-schema');
+const validateSchema = require('../../common/validate-schema');
 const { newAccounts } = require('./lib/account-schemas');
 const sendActivationEmail = require('./lib/activation-email');
 
