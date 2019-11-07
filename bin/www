@@ -58,15 +58,11 @@ function startServer() {
 
         switch (error.code) {
             case 'EACCES':
-                console.error(
+                throw new Error(
                     `${describePortBinding()} requires elevated privileges`
                 );
-                process.exit(1);
-                break;
             case 'EADDRINUSE':
-                console.error(`${describePortBinding()} is already in use`);
-                process.exit(1);
-                break;
+                throw new Error(`${describePortBinding()} is already in use`);
             default:
                 throw error;
         }

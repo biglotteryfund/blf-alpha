@@ -7,10 +7,9 @@ const { stripIndents } = require('common-tags');
 const has = require('lodash/has');
 
 if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
-    console.log(
-        'Error: TEST_URL and PROD_URL environment variables must be defined'
+    throw new Error(
+        'TEST_URL and PROD_URL environment variables must be defined'
     );
-    process.exit(1);
 }
 
 const argv = require('yargs')
@@ -229,8 +228,7 @@ function deployRevision(id) {
                 pushOutDeploy(env, id);
             })
             .catch(err => {
-                console.log(err);
-                process.exit(1);
+                throw err;
             });
     } else {
         pushOutDeploy(env, id);
