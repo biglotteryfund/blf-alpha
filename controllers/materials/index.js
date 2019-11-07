@@ -10,20 +10,18 @@ const Sentry = require('@sentry/node');
 
 const router = express.Router();
 
+const { Order } = require('../../db/models');
 const appData = require('../../common/appData');
-const { sanitise } = require('../../common/sanitise');
-const { MATERIAL_SUPPLIER } = require('../../common/secrets');
-const { generateHtmlEmail, sendEmail } = require('../../common/mail');
-const { injectListingContent } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 const { csrfProtection, noStore } = require('../../common/cached');
-const { Order } = require('../../db/models');
+const { generateHtmlEmail, sendEmail } = require('../../common/mail');
+const { injectListingContent } = require('../../common/inject-content');
+const { MATERIAL_SUPPLIER } = require('../../common/secrets');
+const { sanitise } = require('../../common/sanitise');
 
-const {
-    materialFields,
-    makeOrderText,
-    normaliseUserInput
-} = require('./helpers');
+const materialFields = require('./lib/material-fields');
+const makeOrderText = require('./lib/make-order-text');
+const normaliseUserInput = require('./lib/normalise-user-input');
 
 const FORM_STATES = {
     NOT_SUBMITTED: 'NOT_SUBMITTED',

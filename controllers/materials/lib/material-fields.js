@@ -1,5 +1,4 @@
 'use strict';
-const { reduce } = require('lodash');
 const { check } = require('express-validator/check');
 
 function errorTranslator(prefix) {
@@ -15,7 +14,8 @@ function errorTranslator(prefix) {
 }
 
 const translateError = errorTranslator('global.forms');
-const translationLabelBase = 'funding.guidance.order-free-materials.formFields.';
+const translationLabelBase =
+    'funding.guidance.order-free-materials.formFields.';
 
 function checkClean(fieldName) {
     return check(fieldName).trim();
@@ -30,7 +30,7 @@ function createField(props) {
     return Object.assign({}, defaults, props);
 }
 
-const materialFields = {
+module.exports = {
     yourName: createField({
         name: 'yourName',
         type: 'text',
@@ -40,7 +40,9 @@ const materialFields = {
             return checkClean(field.name)
                 .not()
                 .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
+                .withMessage(
+                    translateError('missingFieldError', [field.label])
+                );
         }
     }),
     yourEmail: createField({
@@ -66,7 +68,9 @@ const materialFields = {
             return checkClean(field.name)
                 .not()
                 .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
+                .withMessage(
+                    translateError('missingFieldError', [field.label])
+                );
         }
     }),
     yourAddress2: createField({
@@ -87,7 +91,9 @@ const materialFields = {
             return checkClean(field.name)
                 .not()
                 .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
+                .withMessage(
+                    translateError('missingFieldError', [field.label])
+                );
         }
     }),
     yourCounty: createField({
@@ -108,7 +114,9 @@ const materialFields = {
             return checkClean(field.name)
                 .not()
                 .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
+                .withMessage(
+                    translateError('missingFieldError', [field.label])
+                );
         }
     }),
     yourPostcode: createField({
@@ -120,7 +128,9 @@ const materialFields = {
             return checkClean(field.name)
                 .not()
                 .isEmpty()
-                .withMessage(translateError('missingFieldError', [field.label]));
+                .withMessage(
+                    translateError('missingFieldError', [field.label])
+                );
         }
     }),
     yourProjectName: createField({
@@ -186,69 +196,4 @@ const materialFields = {
             return checkClean(field.name);
         }
     })
-};
-
-function normaliseUserInput(userInput) {
-    return reduce(
-        materialFields,
-        (acc, field) => {
-            let fieldLabel = field.emailKey;
-            const originalFieldValue = userInput[field.name];
-            const otherValue = userInput[field.name + 'Other'];
-
-            // Override value if "other" field is entered.
-            const fieldValue = field.allowOther && otherValue ? otherValue : originalFieldValue;
-
-            if (fieldValue) {
-                acc.push({
-                    key: field.name,
-                    label: fieldLabel,
-                    value: fieldValue
-                });
-            }
-
-            return acc;
-        },
-        []
-    );
-}
-
-/**
- * Create text for order email
- */
-function makeOrderText(items, details) {
-    const orderSummary = reduce(
-        items,
-        (acc, item) => {
-            if (item.quantity > 0) {
-                acc.push(`\t- x${item.quantity} ${item.code} (item: ${item.name})`);
-            }
-            return acc;
-        },
-        []
-    );
-
-    // parse their details (eg. merge "other" responses into their parent fields)
-    // then build it into a string for the order email
-    const customerDetails = normaliseUserInput(details).map(d => `\t${d.label}: ${d.value}`);
-
-    const text = `
-A new order has been received from The National Lottery Community Fund website. The order details are below:
-
-${orderSummary.join('\n')}
-
-The customer's personal details are below:
-
-${customerDetails.join('\n')}
-
-This email has been automatically generated from The National Lottery Community Fund website.
-If you have feedback, please contact digital.monitoring@tnlcommunityfund.org.uk.`;
-
-    return text.trim();
-}
-
-module.exports = {
-    materialFields,
-    makeOrderText,
-    normaliseUserInput
 };
