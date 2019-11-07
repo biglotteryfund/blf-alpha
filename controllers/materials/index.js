@@ -40,19 +40,15 @@ function renderForm(
     data = null,
     errors = []
 ) {
-    const lang = req.i18n.__('funding.guidance.order-free-materials');
-    const availableItems = res.locals.availableItems;
-    const orders = req.session[sessionOrderKey] || [];
-
     res.render(path.resolve(__dirname, './views/materials'), {
-        copy: lang,
+        copy: req.i18n.__('funding.guidance.order-free-materials'),
         breadcrumbs: res.locals.breadcrumbs.concat({
             label: res.locals.content.title
         }),
         csrfToken: req.csrfToken(),
-        materials: availableItems,
+        materials: res.locals.availableItems,
         formFields: fields,
-        orders: orders,
+        orders: req.session[sessionOrderKey] || [],
         orderStatus: status,
         formActionBase: req.baseUrl,
         formAnchorName: 'your-details',
