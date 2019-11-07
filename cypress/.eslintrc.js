@@ -12,5 +12,9 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2017,
         sourceType: 'module'
+    },
+    rules: {
+        'node/no-unsupported-features/es-syntax': 'off',
+        'node/no-unpublished-import': 'off'
     }
 };
