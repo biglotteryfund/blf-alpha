@@ -31,6 +31,7 @@ module.exports = function({ locale }) {
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
         noLabel: localise({ en: 'No', cy: 'Nac oes' }),
+        errorMessage: localise({ en: 'Answer Yes or No', cy: 'Oes / Nac oes' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your organisation does not have at least two unconnected people on the board or committee`,
@@ -58,6 +59,7 @@ module.exports = function({ locale }) {
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Ydw' }),
         noLabel: localise({ en: 'No', cy: 'Nac ydw' }),
+        errorMessage: localise({ en: 'Answer Yes or No', cy: 'Ydw / Nac ydw' }),
         ineligible: {
             reason: localise({
                 en: `This is because you can only apply for funding between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished in about ${maxProjectDurationLabel} through National Lottery Awards for All, and it sounds like you need a different amount of funding from us.`,
@@ -89,6 +91,7 @@ module.exports = function({ locale }) {
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
         noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
+        errorMessage: localise({ en: 'Answer Yes or No', cy: 'Ydi / Nac ydi' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your project doesn't start at least ${minStartDateLabel} from when you plan to submit your application.`,
@@ -114,6 +117,7 @@ module.exports = function({ locale }) {
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
         noLabel: localise({ en: 'No', cy: 'Nac oes' }),
+        errorMessage: localise({ en: 'Answer Yes or No', cy: 'Oes / Nac oes' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your organisation doesn't have a UK bank account in the legal name of your organisation.`,
@@ -141,6 +145,7 @@ module.exports = function({ locale }) {
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Ydw' }),
         noLabel: localise({ en: 'No', cy: 'Nac ydw' }),
+        errorMessage: localise({ en: 'Answer Yes or No', cy: 'Ydw / Nac ydw' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your organisation was set up more than ${orgMinAgeLabel} ago and hasn't produced annual accounts yet.`,

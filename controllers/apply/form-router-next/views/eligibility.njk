@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields-next/macros.njk" import formField with context %}
+{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
@@ -34,10 +34,12 @@
                     prefix = prefix if eligibilityStatus !== 'eligible'
                 )}}
 
-                <form method="post" class="u-constrained-wide u-constrained-content">
+                <form method="post" class="u-constrained-wide" novalidate>
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}
+
+                    {{ formErrors(__('global.misc.errorTitle'), errors) }}
 
                     {{ formField({
                         type: 'radio',
@@ -53,7 +55,7 @@
                             label: currentStep.noLabel,
                             value: "no"
                         }]
-                    }) }}
+                    }, errors) }}
 
                     <div class="form-actions">
                         <input class="btn" type="submit" value="{{ copy.continue }}" />

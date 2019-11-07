@@ -2,6 +2,7 @@
 const concat = require('lodash/concat');
 const filter = require('lodash/fp/filter');
 const flatMap = require('lodash/flatMap');
+const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/has');
 const head = require('lodash/head');
@@ -62,15 +63,15 @@ module.exports = function normaliseErrors({
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
         const matchingMessages = messagesForError(fieldMessages, detail);
-        const formField = getOr({}, name)(formFields);
+        const fieldLabel = get(`${name}.label`)(formFields);
 
         return matchingMessages.map(match => {
             return {
                 param: name,
-                type: match.type,
-                joiType: detail.type,
                 msg: match.message,
-                field: formField
+                label: fieldLabel,
+                type: match.type,
+                joiType: detail.type
             };
         });
     });
