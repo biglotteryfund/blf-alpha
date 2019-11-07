@@ -1,8 +1,8 @@
 'use strict';
-const materialFields = require('./material-fields');
+const { fields } = require('./material-fields');
 
 module.exports = function normaliseUserInput(input) {
-    return Object.values(materialFields).reduce(function(acc, field) {
+    return Object.values(fields).reduce(function(acc, field) {
         const originalValue = input[field.name];
         const otherValue = input[`${field.name}Other`];
 

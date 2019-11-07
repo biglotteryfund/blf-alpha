@@ -1,5 +1,6 @@
 'use strict';
 const { check } = require('express-validator/check');
+const Joi = require('@hapi/joi');
 
 function errorTranslator(prefix) {
     return function(prop, replacementKeys = []) {
@@ -30,7 +31,7 @@ function createField(props) {
     return Object.assign({}, defaults, props);
 }
 
-module.exports = {
+const fields = {
     yourName: createField({
         name: 'yourName',
         type: 'text',
@@ -196,4 +197,48 @@ module.exports = {
             return checkClean(field.name);
         }
     })
+};
+
+function validateSchema(data) {
+    const schema = Joi.object({
+        yourName: Joi.string().required(),
+        yourEmail: Joi.string()
+            .email()
+            .required(),
+        yourAddress1: Joi.string().required(),
+        yourAddress2: Joi.string()
+            .allow('')
+            .optional(),
+        yourTown: Joi.string().required(),
+        yourCounty: Joi.string()
+            .allow('')
+            .optional(),
+        yourCountry: Joi.string().required(),
+        yourPostcode: Joi.string().required(),
+        yourProjectName: Joi.string()
+            .allow('')
+            .optional(),
+        yourGrantAmount: Joi.string()
+            .allow('')
+            .optional(),
+        yourGrantAmountOther: Joi.string()
+            .allow('')
+            .optional(),
+        yourReason: Joi.string()
+            .allow('')
+            .optional(),
+        yourReasonOther: Joi.string()
+            .allow('')
+            .optional()
+    });
+
+    return schema.validate(data, {
+        abortEarly: false,
+        stripUnknown: true
+    });
+}
+
+module.exports = {
+    fields,
+    validateSchema
 };

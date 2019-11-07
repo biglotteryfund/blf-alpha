@@ -19,7 +19,7 @@ const { injectListingContent } = require('../../common/inject-content');
 const { MATERIAL_SUPPLIER } = require('../../common/secrets');
 const { sanitise } = require('../../common/sanitise');
 
-const materialFields = require('./lib/material-fields');
+const { fields } = require('./lib/material-fields');
 const makeOrderText = require('./lib/make-order-text');
 const normaliseUserInput = require('./lib/normalise-user-input');
 
@@ -152,7 +152,7 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
         }),
         csrfToken: req.csrfToken(),
         materials: availableItems,
-        formFields: materialFields,
+        formFields: fields,
         orders: orders,
         orderStatus: status,
         formActionBase: req.baseUrl,
@@ -176,7 +176,7 @@ router
     .get((req, res) => {
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })
-    .post(map(materialFields, field => field.validator(field)), (req, res) => {
+    .post(map(fields, field => field.validator(field)), (req, res) => {
         req.body = mapValues(req.body, sanitise);
         const errors = validationResult(req);
 
