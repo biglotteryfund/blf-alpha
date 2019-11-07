@@ -86,7 +86,7 @@ module.exports = function(eligibilityBuilder, formId) {
                     {
                         param: 'eligibility',
                         label: currentStep.question,
-                        msg: res.locals.copy.eligibility.invalidChoice
+                        msg: currentStep.errorMessage
                     }
                 ]);
             }

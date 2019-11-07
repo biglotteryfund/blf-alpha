@@ -1683,7 +1683,6 @@ applyNext:
     conditionalNote: "<strong>Note</strong>: this field may be optional depending on your other answers"
   eligibility:
     title: Eligibility checker
-    invalidChoice: Answer yes or no
     successfulTitle: Great! You're eligible to apply to %s
     unsuccessfulTitle: Sorry, you're not eligible to apply at this time
     whatNow: What now?
