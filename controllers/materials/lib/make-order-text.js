@@ -1,22 +1,12 @@
 'use strict';
-const reduce = require('lodash/reduce');
 const { stripIndents } = require('common-tags');
 
 const normaliseUserInput = require('./normalise-user-input');
 
 function summariseOrder(items) {
-    return reduce(
-        items,
-        (acc, item) => {
-            if (item.quantity > 0) {
-                acc.push(
-                    `\t- x${item.quantity} ${item.code} (item: ${item.name})`
-                );
-            }
-            return acc;
-        },
-        []
-    );
+    return items
+        .filter(item => item.quantity > 0)
+        .map(item => `\t- x${item.quantity} ${item.code} (item: ${item.name})`);
 }
 
 module.exports = function makeOrderText(items, details) {
