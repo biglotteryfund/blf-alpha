@@ -14,10 +14,7 @@ const appData = require('../../common/appData');
 const { sanitise } = require('../../common/sanitise');
 const { MATERIAL_SUPPLIER } = require('../../common/secrets');
 const { generateHtmlEmail, sendEmail } = require('../../common/mail');
-const {
-    injectBreadcrumbs,
-    injectListingContent
-} = require('../../common/inject-content');
+const { injectListingContent } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 const { csrfProtection, noStore } = require('../../common/cached');
 const { Order } = require('../../db/models');
@@ -152,6 +149,9 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
 
     res.render(path.resolve(__dirname, './views/materials'), {
         copy: lang,
+        breadcrumbs: res.locals.breadcrumbs.concat({
+            label: res.locals.content.title
+        }),
         csrfToken: req.csrfToken(),
         materials: availableItems,
         formFields: materialFields,
@@ -165,21 +165,16 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
 
 router
     .route('/')
-    .all(
-        csrfProtection,
-        injectListingContent,
-        injectBreadcrumbs,
-        async function(req, res, next) {
-            try {
-                res.locals.availableItems = await contentApi.getMerchandise({
-                    locale: req.i18n.getLocale()
-                });
-                next();
-            } catch (error) {
-                next(error);
-            }
+    .all(csrfProtection, injectListingContent, async function(req, res, next) {
+        try {
+            res.locals.availableItems = await contentApi.getMerchandise({
+                locale: req.i18n.getLocale()
+            });
+            next();
+        } catch (error) {
+            next(error);
         }
-    )
+    })
     .get((req, res) => {
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })

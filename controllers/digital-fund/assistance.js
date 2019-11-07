@@ -16,7 +16,7 @@ function render(req, res, formData = null, errors = []) {
     const title = res.locals.copy.assistance.title;
     res.render(path.resolve(__dirname, './views/assistance'), {
         title: title,
-        breadcrumbs: res.locals.breadcrumbs.concat([{ label: title }]),
+        breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
         formData: formData,
         errors: errors
     });

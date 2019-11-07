@@ -1,5 +1,5 @@
 'use strict';
-const { concat, clone, pick, isEmpty, get } = require('lodash');
+const { clone, pick, isEmpty, get } = require('lodash');
 const path = require('path');
 const config = require('config');
 const Sentry = require('@sentry/node');
@@ -8,7 +8,6 @@ const nunjucks = require('nunjucks');
 const querystring = require('querystring');
 
 const {
-    injectBreadcrumbs,
     injectCopy,
     injectHeroImage,
     setHeroLocals
@@ -20,17 +19,13 @@ const grantsService = require('./grants-service');
 
 const router = express.Router();
 
-router.use(
-    sMaxAge(604800 /* 7 days in seconds */),
-    injectBreadcrumbs,
-    (req, res, next) => {
-        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-            label: req.i18n.__('funding.pastGrants.search.title'),
-            url: req.baseUrl
-        });
-        next();
-    }
-);
+router.use(sMaxAge(604800 /* 7 days in seconds */), function(req, res, next) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+        label: req.i18n.__('funding.pastGrants.search.title'),
+        url: req.baseUrl
+    });
+    next();
+});
 
 function buildPagination(req, paginationMeta, currentQuery = {}) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
@@ -266,7 +261,7 @@ router.get(
                         recipientLocalAuthorities: data.facets.localAuthorities,
                         totalAwarded: data.meta.totalAwarded.toLocaleString(),
                         totalResults: data.meta.totalResults.toLocaleString(),
-                        breadcrumbs: concat(res.locals.breadcrumbs, {
+                        breadcrumbs: res.locals.breadcrumbs.concat({
                             label: organisation.name
                         }),
                         pagination: buildPagination(req, data.meta.pagination)
@@ -326,7 +321,7 @@ router.get(
                     grant: grant,
                     projectStory: projectStory,
                     fundingProgramme: fundingProgramme,
-                    breadcrumbs: concat(res.locals.breadcrumbs, {
+                    breadcrumbs: res.locals.breadcrumbs.concat({
                         label: data.result.title
                     })
                 });

@@ -1,15 +1,11 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat, isArray, pick, get } = require('lodash');
+const { isArray, pick, get } = require('lodash');
 
 const { buildArchiveUrl } = require('../../common/archived');
 const { localify } = require('../../common/urls');
-const {
-    injectBreadcrumbs,
-    injectCopy,
-    injectHeroImage
-} = require('../../common/inject-content');
+const { injectCopy, injectHeroImage } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 const checkPreviewMode = require('../../common/check-preview-mode');
 
@@ -22,13 +18,10 @@ const heroSlug = 'pawzitive-letterbox-new';
  */
 router.get(
     '/',
-    injectBreadcrumbs,
     injectCopy('news'),
     injectHeroImage(heroSlug),
     async (req, res, next) => {
         try {
-            const { copy, breadcrumbs } = res.locals;
-
             // We make two requests here to ensure we get a distinct amount
             // of each content type (blogposts and people stories)
             // otherwise there may be zero entries of one kind
@@ -45,10 +38,8 @@ router.get(
             });
 
             res.render(path.resolve(__dirname, `./views/landing`), {
-                title: copy.title,
                 blogposts: blogposts.result,
-                peopleStories: peopleStories.result,
-                breadcrumbs: concat(breadcrumbs, { label: copy.title })
+                peopleStories: peopleStories.result
             });
         } catch (e) {
             next(e);
@@ -68,7 +59,6 @@ function shouldRedirectLinkUrl(req, entry) {
  */
 router.get(
     '/press-releases/:date?/:slug?',
-    injectBreadcrumbs,
     injectCopy('news'),
     injectHeroImage(heroSlug),
     async (req, res, next) => {
@@ -102,7 +92,7 @@ router.get(
                             localify(req.i18n.getLocale())('/news-and-events'),
                             finalPressReleaseArchiveDate
                         ),
-                        breadcrumbs: concat(breadcrumbs, {
+                        breadcrumbs: breadcrumbs.concat({
                             label: typeCopy.plural
                         })
                     }
@@ -125,8 +115,7 @@ router.get(
                             description: entry.summary,
                             socialImage: get(entry, 'thumbnail.large', false),
                             entry: entry,
-                            breadcrumbs: concat(
-                                res.locals.breadcrumbs,
+                            breadcrumbs: res.locals.breadcrumbs.concat(
                                 {
                                     label: typeCopy.plural,
                                     url: res.locals.localify(
@@ -152,7 +141,6 @@ router.get(
  */
 router.get(
     '/:updateType(blog|people-stories)/:date?/:slug?',
-    injectBreadcrumbs,
     injectCopy('news'),
     injectHeroImage(heroSlug),
     async (req, res, next) => {
@@ -198,13 +186,14 @@ router.get(
                     return title;
                 };
 
-                let crumbs = concat(res.locals.breadcrumbs, {
+                const crumbs = res.locals.breadcrumbs.concat({
                     label: typeCopy.plural,
                     url: res.locals.localify(`${req.baseUrl}/${updateType}`)
                 });
+
                 const crumbName = getCrumbName(response.meta);
                 if (crumbName) {
-                    crumbs = concat(crumbs, { label: crumbName });
+                    crumbs.push({ label: crumbName });
                 }
 
                 res.render(path.resolve(__dirname, './views/listing/blog'), {
@@ -232,8 +221,7 @@ router.get(
                             description: entry.summary,
                             socialImage: get(entry, 'thumbnail.large', false),
                             entry: entry,
-                            breadcrumbs: concat(
-                                res.locals.breadcrumbs,
+                            breadcrumbs: res.locals.breadcrumbs.concat(
                                 {
                                     label: typeCopy.singular,
                                     url: res.locals.localify(

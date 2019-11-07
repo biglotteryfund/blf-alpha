@@ -65,7 +65,7 @@ router.get('/', async (req, res, next) => {
         const title = 'User accounts summary';
         res.render(path.resolve(__dirname, './views/users'), {
             title: title,
-            breadcrumbs: res.locals.breadcrumbs.concat([{ label: title }]),
+            breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
             chartData: chartData(allUsers.rows),
             totalUsers: allUsers.count,
             totalActiveUsers: active.length,

@@ -1,9 +1,8 @@
 'use strict';
-const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
 const Sentry = require('@sentry/node');
+const get = require('lodash/fp/get');
 
-const { localify } = require('./urls');
 const contentApi = require('./content-api');
 const checkPreviewMode = require('./check-preview-mode');
 
@@ -91,42 +90,6 @@ function injectCopy(lang) {
     };
 }
 
-function injectBreadcrumbs(req, res, next) {
-    const locale = req.i18n.getLocale();
-
-    if (res.locals.sectionTitle && res.locals.sectionUrl) {
-        const topLevelCrumb = {
-            label: res.locals.sectionTitle,
-            url: res.locals.sectionUrl
-        };
-
-        const ancestors =
-            res.locals.customAncestors ||
-            getOr([], 'ancestors')(res.locals.content);
-        const ancestorCrumbs = ancestors.map(ancestor => {
-            return {
-                label: ancestor.title,
-                url: localify(locale)(`/${ancestor.path}`)
-            };
-        });
-
-        const breadcrumbs = flatten([topLevelCrumb, ancestorCrumbs]);
-
-        const getTitle = get('title');
-        const injectedTitle = res.locals.title || getTitle(res.locals.content);
-
-        if (injectedTitle) {
-            breadcrumbs.push({
-                label: injectedTitle
-            });
-        }
-
-        res.locals.breadcrumbs = breadcrumbs;
-    }
-
-    next();
-}
-
 async function injectListingContent(req, res, next) {
     try {
         const entry = await contentApi.getListingPage({
@@ -166,7 +129,6 @@ async function injectFlexibleContent(req, res, next) {
 }
 
 module.exports = {
-    injectBreadcrumbs,
     injectCopy,
     injectFlexibleContent,
     injectHeroImage,

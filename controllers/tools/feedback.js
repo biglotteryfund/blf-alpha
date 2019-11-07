@@ -15,7 +15,7 @@ async function render(req, res) {
 
     res.render(path.resolve(__dirname, './views/feedback'), {
         title: title,
-        breadcrumbs: res.locals.breadcrumbs.concat([{ label: title }]),
+        breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
         feedback
     });
 }
