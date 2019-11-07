@@ -3,13 +3,14 @@ const path = require('path');
 const express = require('express');
 const moment = require('moment');
 const Postcode = require('postcode');
-const reduce = require('lodash/reduce');
+const pick = require('lodash/pick');
 const some = require('lodash/some');
 const Sentry = require('@sentry/node');
+const { oneLine } = require('common-tags');
 
 const { Order } = require('../../db/models');
-const appData = require('../../common/appData');
 const contentApi = require('../../common/content-api');
+const { isNotProduction } = require('../../common/appData');
 const { csrfProtection, noStore } = require('../../common/cached');
 const { generateHtmlEmail, sendEmail } = require('../../common/mail');
 const { injectListingContent } = require('../../common/inject-content');
@@ -32,15 +33,173 @@ const FORM_STATES = {
 const sessionOrderKey = 'materialOrders';
 const sessionBlockedItemKey = 'materialBlockedItem';
 
-function modifyItems(req) {
+function renderForm(
+    req,
+    res,
+    status = FORM_STATES.NOT_SUBMITTED,
+    data = null,
+    errors = []
+) {
+    const lang = req.i18n.__('funding.guidance.order-free-materials');
+    const availableItems = res.locals.availableItems;
+    const orders = req.session[sessionOrderKey] || [];
+
+    // @TODO: Remove this if/when migrating materials form fields to use new shared fields
+    // Function for finding errors from a form array
+    res.locals.getFormErrorForField = function(errorList, fieldName) {
+        if (errorList && errorList.length > 0) {
+            return errorList.find(e => e.param === fieldName);
+        }
+    };
+
+    res.render(path.resolve(__dirname, './views/materials'), {
+        copy: lang,
+        breadcrumbs: res.locals.breadcrumbs.concat({
+            label: res.locals.content.title
+        }),
+        csrfToken: req.csrfToken(),
+        materials: availableItems,
+        formFields: fields,
+        orders: orders,
+        orderStatus: status,
+        formActionBase: req.baseUrl,
+        formAnchorName: 'your-details',
+        formValues: data,
+        formErrors: errors,
+        FORM_STATES
+    });
+}
+
+function itemForEmail(availableItems, item) {
+    const material = availableItems.find(i => i.itemId === item.materialId);
+    const product = material.products.find(p => p.id === item.productId);
+
+    return {
+        name: product.name ? product.name : material.title,
+        code: product.code,
+        quantity:
+            item.quantity > material.maximum ? material.maximum : item.quantity
+    };
+}
+
+function getFieldValue(userData, fieldName) {
+    const field = normaliseUserInput(userData).find(
+        item => item.key === fieldName
+    );
+
+    return field ? field.value : null;
+}
+
+async function handleSubmission(req, res) {
+    const userData = sanitiseRequestBody(req.body);
+    const validationResult = validate(userData, req.i18n.getLocale());
+
+    if (validationResult.isValid) {
+        const itemsToEmail = req.session[sessionOrderKey].map(item => {
+            return itemForEmail(res.locals.availableItems, item);
+        });
+
+        const orderText = makeOrderText(itemsToEmail, userData);
+
+        try {
+            await Order.storeOrder({
+                grantAmount: getFieldValue(userData, 'yourGrantAmount'),
+                orderReason: getFieldValue(userData, 'yourReason'),
+                postcodeArea: Postcode.toOutcode(
+                    getFieldValue(userData, 'yourPostcode')
+                ),
+                items: itemsToEmail
+                    .filter(item => item.quantity > 0)
+                    .map(item => pick(item, ['code', 'quantity']))
+            });
+
+            const customerHtml = await generateHtmlEmail({
+                template: path.resolve(__dirname, './views/order-email.njk'),
+                templateData: {
+                    locale: req.i18n.getLocale(),
+                    copy: req.i18n.__('materials.orderEmail')
+                }
+            });
+
+            await Promise.all([
+                sendEmail({
+                    name: 'material_customer',
+                    mailConfig: {
+                        sendTo: userData.yourEmail,
+                        subject: oneLine`Thank you for your The National
+                                Lottery Community Fund order`,
+                        type: 'html',
+                        content: customerHtml
+                    }
+                }),
+                sendEmail({
+                    name: 'material_supplier',
+                    mailConfig: {
+                        sendTo: isNotProduction
+                            ? userData.yourEmail
+                            : MATERIAL_SUPPLIER,
+                        sendMode: 'bcc',
+                        subject: oneLine`Order from The National Lottery
+                                Community Fund website - ${moment().format(
+                                    'dddd, MMMM Do YYYY, h:mm:ss a'
+                                )}`,
+                        type: 'text',
+                        content: orderText
+                    }
+                })
+            ]);
+
+            delete req.session[sessionOrderKey];
+            delete req.session[sessionBlockedItemKey];
+            req.session.save(() => {
+                renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+            });
+        } catch (err) {
+            Sentry.captureException(err);
+            renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+        }
+    } else {
+        renderForm(
+            req,
+            res,
+            FORM_STATES.VALIDATION_ERROR,
+            validationResult.value,
+            validationResult.messages
+        );
+    }
+}
+
+router
+    .route('/')
+    .all(csrfProtection, injectListingContent, async function(req, res, next) {
+        try {
+            res.locals.availableItems = await contentApi.getMerchandise({
+                locale: req.i18n.getLocale()
+            });
+            next();
+        } catch (error) {
+            next(error);
+        }
+    })
+    .get(function(req, res) {
+        renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
+    })
+    .post(handleSubmission);
+
+/**
+ * Handle adding and removing items
+ */
+router.post('/update-basket', noStore, function(req, res) {
+    const userData = sanitiseRequestBody(req.body);
+    // Update the session with ordered items
     const validActions = ['increase', 'decrease'];
 
-    const action = req.body.action;
-    const productId = parseInt(req.body.productId);
-    const materialId = parseInt(req.body.materialId);
-    const maxQuantity = parseInt(req.body.max);
-    const notAllowedWith = req.body.notAllowedWith
-        ? req.body.notAllowedWith.split(',').map(i => parseInt(i))
+    const action = userData.action;
+    const productId = parseInt(userData.productId);
+    const materialId = parseInt(userData.materialId);
+    const maxQuantity = parseInt(userData.max);
+    const notAllowedWith = userData.notAllowedWith
+        ? userData.notAllowedWith.split(',').map(i => parseInt(i))
         : false;
 
     const isValidAction = validActions.indexOf(action) !== -1;
@@ -99,189 +258,6 @@ function modifyItems(req) {
             o => o.quantity > 0
         );
     }
-}
-
-function storeOrderSummary({ orderItems, orderDetails }) {
-    const preparedOrderItems = reduce(
-        orderItems,
-        (acc, orderItem) => {
-            if (orderItem.quantity > 0) {
-                acc.push({
-                    code: orderItem.code,
-                    quantity: orderItem.quantity
-                });
-            }
-            return acc;
-        },
-        []
-    );
-
-    const preparedOrderDetails = normaliseUserInput(orderDetails);
-    const getFieldValue = fieldName => {
-        // some fields are optional and won't be here
-        let field = preparedOrderDetails.find(d => d.key === fieldName);
-        return field ? field.value : null;
-    };
-
-    return Order.storeOrder({
-        grantAmount: getFieldValue('yourGrantAmount'),
-        orderReason: getFieldValue('yourReason'),
-        postcodeArea: Postcode.toOutcode(getFieldValue('yourPostcode')),
-        items: preparedOrderItems
-    });
-}
-
-function renderForm(
-    req,
-    res,
-    status = FORM_STATES.NOT_SUBMITTED,
-    data = null,
-    errors = []
-) {
-    const lang = req.i18n.__('funding.guidance.order-free-materials');
-    const availableItems = res.locals.availableItems;
-    const orders = req.session[sessionOrderKey] || [];
-
-    // @TODO: Remove this if/when migrating materials form fields to use new shared fields
-    // Function for finding errors from a form array
-    res.locals.getFormErrorForField = function(errorList, fieldName) {
-        if (errorList && errorList.length > 0) {
-            return errorList.find(e => e.param === fieldName);
-        }
-    };
-
-    res.render(path.resolve(__dirname, './views/materials'), {
-        copy: lang,
-        breadcrumbs: res.locals.breadcrumbs.concat({
-            label: res.locals.content.title
-        }),
-        csrfToken: req.csrfToken(),
-        materials: availableItems,
-        formFields: fields,
-        orders: orders,
-        orderStatus: status,
-        formActionBase: req.baseUrl,
-        formAnchorName: 'your-details',
-        formValues: data,
-        formErrors: errors,
-        FORM_STATES
-    });
-}
-
-function itemForEmail(availableItems, item) {
-    const material = availableItems.find(i => i.itemId === item.materialId);
-    const product = material.products.find(p => p.id === item.productId);
-
-    return {
-        name: product.name ? product.name : material.title,
-        code: product.code,
-        quantity:
-            item.quantity > material.maximum ? material.maximum : item.quantity
-    };
-}
-
-router
-    .route('/')
-    .all(csrfProtection, injectListingContent, async function(req, res, next) {
-        try {
-            res.locals.availableItems = await contentApi.getMerchandise({
-                locale: req.i18n.getLocale()
-            });
-            next();
-        } catch (error) {
-            next(error);
-        }
-    })
-    .get(function(req, res) {
-        renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
-    })
-    .post(async function(req, res) {
-        const userData = sanitiseRequestBody(req.body);
-        const validationResult = validate(userData, req.i18n.getLocale());
-
-        if (validationResult.isValid) {
-            const itemsToEmail = req.session[sessionOrderKey].map(item => {
-                return itemForEmail(res.locals.availableItems, item);
-            });
-
-            const orderText = makeOrderText(itemsToEmail, userData);
-
-            try {
-                await storeOrderSummary({
-                    orderItems: itemsToEmail,
-                    orderDetails: userData
-                });
-
-                const customerSendTo = userData.yourEmail;
-                const supplierSendTo = appData.isNotProduction
-                    ? customerSendTo
-                    : MATERIAL_SUPPLIER;
-
-                const customerHtml = await generateHtmlEmail({
-                    template: path.resolve(
-                        __dirname,
-                        './views/order-email.njk'
-                    ),
-                    templateData: {
-                        locale: req.i18n.getLocale(),
-                        copy: req.i18n.__('materials.orderEmail')
-                    }
-                });
-
-                const customerEmail = sendEmail({
-                    name: 'material_customer',
-                    mailConfig: {
-                        sendTo: customerSendTo,
-                        subject:
-                            'Thank you for your The National Lottery Community Fund order',
-                        type: 'html',
-                        content: customerHtml
-                    }
-                });
-
-                const supplierEmail = sendEmail({
-                    name: 'material_supplier',
-                    mailConfig: {
-                        sendTo: supplierSendTo,
-                        sendMode: 'bcc',
-                        subject: `Order from The National Lottery Community Fund website - ${moment().format(
-                            'dddd, MMMM Do YYYY, h:mm:ss a'
-                        )}`,
-                        type: 'text',
-                        content: orderText
-                    }
-                });
-
-                await Promise.all([customerEmail, supplierEmail]);
-
-                // Clear order details if successful
-                delete req.session[sessionOrderKey];
-                delete req.session[sessionBlockedItemKey];
-                req.session.save(() => {
-                    renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
-                });
-            } catch (err) {
-                Sentry.captureException(err);
-                renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
-            }
-        } else {
-            renderForm(
-                req,
-                res,
-                FORM_STATES.VALIDATION_ERROR,
-                validationResult.value,
-                validationResult.messages
-            );
-        }
-    });
-
-/**
- * Handle adding and removing items
- */
-router.post('/update-basket', noStore, function(req, res) {
-    req.body = sanitiseRequestBody(req.body);
-    // Update the session with ordered items
-    modifyItems(req);
 
     res.format({
         html: () => {
