@@ -44,14 +44,6 @@ function renderForm(
     const availableItems = res.locals.availableItems;
     const orders = req.session[sessionOrderKey] || [];
 
-    // @TODO: Remove this if/when migrating materials form fields to use new shared fields
-    // Function for finding errors from a form array
-    res.locals.getFormErrorForField = function(errorList, fieldName) {
-        if (errorList && errorList.length > 0) {
-            return errorList.find(e => e.param === fieldName);
-        }
-    };
-
     res.render(path.resolve(__dirname, './views/materials'), {
         copy: lang,
         breadcrumbs: res.locals.breadcrumbs.concat({
