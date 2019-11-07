@@ -93,6 +93,10 @@ function requireUnactivatedUser(req, res, next) {
  * Middleware to require that the visitor is logged in as a staff user
  */
 function requireStaffAuth(req, res, next) {
+    const redirectUrl = `/user/staff/login?redirectUrl=${encodeURIComponent(
+        req.originalUrl
+    )}`;
+
     if (req.isAuthenticated()) {
         if (isStaff(req.user)) {
             next();
@@ -100,15 +104,11 @@ function requireStaffAuth(req, res, next) {
             // Log out regular users and send them to the staff page
             req.logout();
             req.session.save(() => {
-                next();
+                res.redirect(redirectUrl);
             });
         }
     } else {
-        res.redirect(
-            `/user/staff/login?redirectUrl=${encodeURIComponent(
-                req.originalUrl
-            )}`
-        );
+        res.redirect(redirectUrl);
     }
 }
 
