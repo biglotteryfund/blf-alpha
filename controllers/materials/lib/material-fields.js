@@ -1,6 +1,7 @@
 'use strict';
 const { check } = require('express-validator/check');
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi16');
+const validateSchema = require('../../../common/validate-schema');
 
 function errorTranslator(prefix) {
     return function(prop, replacementKeys = []) {
@@ -199,7 +200,7 @@ const fields = {
     })
 };
 
-function validateSchema(data) {
+function validate(data) {
     const schema = Joi.object({
         yourName: Joi.string().required(),
         yourEmail: Joi.string()
@@ -232,13 +233,14 @@ function validateSchema(data) {
             .optional()
     });
 
-    return schema.validate(data, {
-        abortEarly: false,
-        stripUnknown: true
-    });
+    const messages = {
+        username: [{ type: 'base', message: 'Please provide the Name field' }]
+    };
+
+    return validateSchema({ schema, messages }, data);
 }
 
 module.exports = {
     fields,
-    validateSchema
+    validate
 };

@@ -1,14 +1,14 @@
 /* eslint-env jest */
 'use strict';
 
-const { validateSchema } = require('./material-fields');
+const { validate } = require('./material-fields');
 
 function mapMessages(validationResult) {
     return validationResult.error.details.map(detail => detail.message);
 }
 
 test('should validate material fields schema', () => {
-    const invalidResult = validateSchema({
+    const invalidResult = validate({
         yourEmail: 'notanemail@invalid'
     });
 
@@ -21,7 +21,7 @@ test('should validate material fields schema', () => {
         '"yourPostcode" is required'
     ]);
 
-    const validResult = validateSchema({
+    const validResult = validate({
         yourName: 'Björk Guðmundsdóttir',
         yourEmail: 'example@example.com',
         yourAddress1: '3 Embassy Drive',
@@ -37,5 +37,5 @@ test('should validate material fields schema', () => {
         yourReasonOther: 'Other reason'
     });
 
-    expect(validResult.error).toBeNull();
+    expect(validResult.error).toBeUndefined();
 });
