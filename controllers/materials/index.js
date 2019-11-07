@@ -3,12 +3,9 @@ const path = require('path');
 const express = require('express');
 const moment = require('moment');
 const Postcode = require('postcode');
-const { map, mapValues, reduce, some } = require('lodash');
-const { sanitizeBody } = require('express-validator/filter');
-const { validationResult } = require('express-validator/check');
+const reduce = require('lodash/reduce');
+const some = require('lodash/some');
 const Sentry = require('@sentry/node');
-
-const router = express.Router();
 
 const { Order } = require('../../db/models');
 const appData = require('../../common/appData');
@@ -17,11 +14,13 @@ const { csrfProtection, noStore } = require('../../common/cached');
 const { generateHtmlEmail, sendEmail } = require('../../common/mail');
 const { injectListingContent } = require('../../common/inject-content');
 const { MATERIAL_SUPPLIER } = require('../../common/secrets');
-const { sanitise } = require('../../common/sanitise');
+const { sanitiseRequestBody } = require('../../common/sanitise');
 
-const { fields } = require('./lib/material-fields');
+const { fields, validate } = require('./lib/material-fields');
 const makeOrderText = require('./lib/make-order-text');
 const normaliseUserInput = require('./lib/normalise-user-input');
+
+const router = express.Router();
 
 const FORM_STATES = {
     NOT_SUBMITTED: 'NOT_SUBMITTED',
@@ -132,7 +131,13 @@ function storeOrderSummary({ orderItems, orderDetails }) {
     });
 }
 
-function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
+function renderForm(
+    req,
+    res,
+    status = FORM_STATES.NOT_SUBMITTED,
+    data = null,
+    errors = []
+) {
     const lang = req.i18n.__('funding.guidance.order-free-materials');
     const availableItems = res.locals.availableItems;
     const orders = req.session[sessionOrderKey] || [];
@@ -157,6 +162,8 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
         orderStatus: status,
         formActionBase: req.baseUrl,
         formAnchorName: 'your-details',
+        formValues: data,
+        formErrors: errors,
         FORM_STATES
     });
 }
@@ -173,15 +180,14 @@ router
             next(error);
         }
     })
-    .get((req, res) => {
+    .get(function(req, res) {
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })
-    .post(map(fields, field => field.validator(field)), (req, res) => {
-        req.body = mapValues(req.body, sanitise);
-        const errors = validationResult(req);
+    .post(function(req, res) {
+        const userData = sanitiseRequestBody(req.body);
+        const validationResult = validate(userData, req.i18n.getLocale());
 
-        if (errors.isEmpty()) {
-            const details = req.body;
+        if (validationResult.isValid) {
             const availableItems = res.locals.availableItems;
 
             const itemsToEmail = req.session[sessionOrderKey].map(item => {
@@ -202,14 +208,14 @@ router
                 };
             });
 
-            const orderText = makeOrderText(itemsToEmail, details);
+            const orderText = makeOrderText(itemsToEmail, userData);
 
             storeOrderSummary({
                 orderItems: itemsToEmail,
-                orderDetails: details
+                orderDetails: userData
             })
                 .then(async () => {
-                    const customerSendTo = details.yourEmail;
+                    const customerSendTo = userData.yourEmail;
                     const supplierSendTo = appData.isNotProduction
                         ? customerSendTo
                         : MATERIAL_SUPPLIER;
@@ -269,41 +275,40 @@ router
                     renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
                 });
         } else {
-            // The form has failed validation
-            res.locals.formErrors = errors.array();
-            res.locals.formValues = req.body;
-            renderForm(req, res, FORM_STATES.VALIDATION_ERROR);
+            renderForm(
+                req,
+                res,
+                FORM_STATES.VALIDATION_ERROR,
+                validationResult.value,
+                validationResult.messages
+            );
         }
     });
 
 /**
  * Handle adding and removing items
  */
-router.post(
-    '/update-basket',
-    [sanitizeBody('action').escape(), sanitizeBody('code').escape()],
-    noStore,
-    (req, res) => {
-        // Update the session with ordered items
-        modifyItems(req);
+router.post('/update-basket', noStore, function(req, res) {
+    req.body = sanitiseRequestBody(req.body);
+    // Update the session with ordered items
+    modifyItems(req);
 
-        res.format({
-            html: () => {
-                req.session.save(() => {
-                    res.redirect(req.baseUrl);
+    res.format({
+        html: () => {
+            req.session.save(() => {
+                res.redirect(req.baseUrl);
+            });
+        },
+        json: () => {
+            req.session.save(() => {
+                res.send({
+                    status: 'success',
+                    orders: req.session[sessionOrderKey],
+                    itemBlocked: req.session[sessionBlockedItemKey] || false
                 });
-            },
-            json: () => {
-                req.session.save(() => {
-                    res.send({
-                        status: 'success',
-                        orders: req.session[sessionOrderKey],
-                        itemBlocked: req.session[sessionBlockedItemKey] || false
-                    });
-                });
-            }
-        });
-    }
-);
+            });
+        }
+    });
+});
 
 module.exports = router;
