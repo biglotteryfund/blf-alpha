@@ -3,14 +3,9 @@ const { fields } = require('./material-fields');
 
 module.exports = function normaliseUserInput(input) {
     return Object.values(fields).reduce(function(acc, field) {
-        const originalValue = input[field.name];
-        const otherValue = input[`${field.name}Other`];
-
-        /**
-         * Override value if "other" field is entered.
-         */
-        const fieldValue =
-            field.allowOther && otherValue ? otherValue : originalValue;
+        const original = input[field.name];
+        const other = input[`${field.name}Other`];
+        const fieldValue = field.allowOther && other ? other : original;
 
         if (fieldValue) {
             acc.push({

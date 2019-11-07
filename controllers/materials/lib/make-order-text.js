@@ -1,6 +1,5 @@
 'use strict';
 const { stripIndents } = require('common-tags');
-
 const normaliseUserInput = require('./normalise-user-input');
 
 function summariseOrder(items) {
@@ -10,10 +9,6 @@ function summariseOrder(items) {
 }
 
 module.exports = function makeOrderText(items, details) {
-    /**
-     * Parse their details (eg. merge "other" responses into their parent fields)
-     * then build it into a string for the order email
-     */
     const customerDetails = normaliseUserInput(details).map(
         d => `\t${d.label}: ${d.value}`
     );

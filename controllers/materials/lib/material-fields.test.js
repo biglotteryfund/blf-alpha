@@ -1,6 +1,5 @@
 /* eslint-env jest */
 'use strict';
-
 const { validate } = require('./material-fields');
 
 function mapMessages(validationResult) {
