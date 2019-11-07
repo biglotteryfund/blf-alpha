@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+    root: true,
     extends: [
         'eslint:recommended',
         'plugin:vue/strongly-recommended',
