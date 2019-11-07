@@ -3,8 +3,8 @@ const path = require('path');
 const express = require('express');
 const moment = require('moment');
 const Postcode = require('postcode');
+const getOr = require('lodash/fp/getOr');
 const pick = require('lodash/pick');
-const some = require('lodash/some');
 const Sentry = require('@sentry/node');
 const { oneLine } = require('common-tags');
 
@@ -33,13 +33,7 @@ const FORM_STATES = {
 const sessionOrderKey = 'materialOrders';
 const sessionBlockedItemKey = 'materialBlockedItem';
 
-function renderForm(
-    req,
-    res,
-    status = FORM_STATES.NOT_SUBMITTED,
-    data = null,
-    errors = []
-) {
+function renderForm(req, res, status = null, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/materials'), {
         copy: req.i18n.__('funding.guidance.order-free-materials'),
         breadcrumbs: res.locals.breadcrumbs.concat({
@@ -49,7 +43,7 @@ function renderForm(
         materials: res.locals.availableItems,
         formFields: fields,
         orders: req.session[sessionOrderKey] || [],
-        orderStatus: status,
+        orderStatus: status || FORM_STATES.NOT_SUBMITTED,
         formActionBase: req.baseUrl,
         formAnchorName: 'your-details',
         formValues: data,
@@ -74,7 +68,6 @@ function getFieldValue(userData, fieldName) {
     const field = normaliseUserInput(userData).find(
         item => item.key === fieldName
     );
-
     return field ? field.value : null;
 }
 
@@ -174,77 +167,52 @@ router
     })
     .post(handleSubmission);
 
-/**
- * Handle adding and removing items
- */
 router.post('/update-basket', noStore, function(req, res) {
-    const userData = sanitiseRequestBody(req.body);
-    // Update the session with ordered items
-    const validActions = ['increase', 'decrease'];
-
-    const action = userData.action;
-    const productId = parseInt(userData.productId);
-    const materialId = parseInt(userData.materialId);
-    const maxQuantity = parseInt(userData.max);
-    const notAllowedWith = userData.notAllowedWith
-        ? userData.notAllowedWith.split(',').map(i => parseInt(i))
-        : false;
-
-    const isValidAction = validActions.indexOf(action) !== -1;
-
-    // create the basket if empty
-    if (!req.session[sessionOrderKey]) {
-        req.session[sessionOrderKey] = [];
-    }
+    const data = sanitiseRequestBody(req.body);
+    const basket = getOr([], sessionOrderKey)(req.session);
 
     // Reset the blocker flag
     delete req.session[sessionBlockedItemKey];
 
-    if (isValidAction) {
-        let existingProduct = req.session[sessionOrderKey].find(
-            order => order.productId === productId
-        );
-
-        // How many of the current item do they have?
-        const currentItemQuantity = existingProduct
-            ? existingProduct.quantity
-            : 0;
-
-        // Check if their current orders contain a blocker
-        // note that this only works in one direction:
-        // eg. it only checks if the product you're adding has constraints
-        // eg. item A is blocked with item B (but you can add item B first, then add A)
-        // solution is to make item A block item B and item B block item A in the CMS
-        // or track the blocked items here and check both ends.
-        const hasBlockerItem = some(req.session[sessionOrderKey], order => {
-            if (!notAllowedWith) {
-                return;
-            }
-            const itemIsBlocked =
-                notAllowedWith.indexOf(order.materialId) !== -1;
-            return itemIsBlocked && order.quantity > 0;
+    if (['increase', 'decrease'].includes(data.action)) {
+        const existingProduct = basket.find(function(item) {
+            return item.productId === parseInt(data.productId, 10);
         });
 
-        const noSpaceLeft = currentItemQuantity === maxQuantity;
+        const currentQuantity = getOr(0, 'quantity')(existingProduct);
 
-        if (action === 'increase' && (hasBlockerItem || noSpaceLeft)) {
-            // Alert the user that they're blocked from adding this item
+        const blockedIds = data.notAllowedWith
+            ? data.notAllowedWith.split(',').map(id => parseInt(id, 10))
+            : [];
+
+        /**
+         * Check if their current orders contain a blocker
+         * this only checks if the product you're adding has constraints
+         * eg. item A is blocked with item B (but you can add item B first, then add A)
+         */
+        const hasBlockerItem = basket.some(function(order) {
+            return blockedIds.includes(order.materialId) && order.quantity > 0;
+        });
+
+        const itemBlocked =
+            hasBlockerItem || currentQuantity === parseInt(data.max, 10);
+
+        if (data.action === 'increase' && itemBlocked) {
             req.session[sessionBlockedItemKey] = true;
-        } else if (!existingProduct) {
-            req.session[sessionOrderKey].push({
-                productId: productId,
-                materialId: materialId,
+        } else if (existingProduct) {
+            existingProduct.quantity =
+                data.action === 'increase'
+                    ? existingProduct.quantity + 1
+                    : existingProduct.quantity - 1;
+        } else {
+            basket.push({
+                productId: parseInt(data.productId, 10),
+                materialId: parseInt(data.materialId, 10),
                 quantity: 1
             });
-        } else {
-            let q = existingProduct.quantity;
-            existingProduct.quantity = action === 'increase' ? q + 1 : q - 1;
         }
 
-        // remove any empty orders
-        req.session[sessionOrderKey] = req.session[sessionOrderKey].filter(
-            o => o.quantity > 0
-        );
+        req.session[sessionOrderKey] = basket.filter(item => item.quantity > 0);
     }
 
     res.format({
