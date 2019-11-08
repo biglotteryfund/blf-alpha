@@ -2,8 +2,7 @@ import './config';
 import * as Sentry from '@sentry/browser';
 import { Vue as SentryVue } from '@sentry/integrations';
 import Vue from 'vue';
-import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.js';
-import 'details-element-polyfill';
+import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.standalone.js';
 
 import { featureIsEnabled } from './helpers/features';
 
