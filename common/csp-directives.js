@@ -17,7 +17,6 @@ module.exports = function cspDirectives() {
         '*.vimeo.com',
         'cdn.polyfill.io',
         'cdn.syndication.twimg.com',
-        'maxcdn.bootstrapcdn.com',
         'ajax.googleapis.com',
         'cdnjs.cloudflare.com',
         'platform.twitter.com',
