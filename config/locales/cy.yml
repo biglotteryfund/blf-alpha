@@ -1114,17 +1114,6 @@ user:
         <li>Gwiriwch eich e-byst (dylech fod wedi cael un gennym)</li>
         <li>Cliciwch ar y ddolen yn ein e-bost actifadu</li>
       </ul>
-    email:
-      subject: Actifadu eich cyfrif gwefan Cronfa Gymunedol y Loteri Genedlaethol
-      body: >
-        <h1>Cronfa Gymunedol y Loteri Genedlaethol</h1>
-        <h2>Rydych bron yn barod i ymgeisio i’r Gronfa Gymunedol y Loteri Genedlaethol</h2>
-
-        <p>Rydych wedi creu cyfrif â ni gan ddefnyddio’r cyfeiriad e-bost hwn: %s.</p>
-        <p>Nawr, rydych angen <a href="%s">actifadu eich cyfrif</a> i ddechrau ar eich cais.</p>
-
-        <p>Diolch,</p>
-        <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
     errorMessage: Roedd eich dolen actifadu yn annilys neu wedi dod i ben.
     resendLabel: Anfon dolen actifadu eto
     resendMessage: >

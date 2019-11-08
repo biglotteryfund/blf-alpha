@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const moment = require('moment');
+const get = require('lodash/fp/get');
 
 const { sendHtmlEmail } = require('../../../common/mail');
 const { getAbsoluteUrl, localify } = require('../../../common/urls');
@@ -9,37 +10,40 @@ const { Users } = require('../../../db/models');
 const { signTokenActivate } = require('./jwt');
 
 module.exports = async function sendActivationEmail(req, user) {
-    const dateOfActivationAttempt = moment().unix();
-    const token = signTokenActivate(user.id, dateOfActivationAttempt);
+    const locale = req.i18n.getLocale();
+    const localise = get(locale);
+    const now = moment();
+    const { token, expiresAt } = signTokenActivate(user.id, now);
 
-    const urlPath = localify(req.i18n.getLocale())(
-        `/user/activate?token=${token}`
-    );
-    const activationUrl = getAbsoluteUrl(req, urlPath);
-
-    const emailContent = {
-        subject: req.i18n.__('user.activate.email.subject'),
-        body: req.i18n.__(
-            'user.activate.email.body',
-            user.username,
-            activationUrl
-        )
-    };
+    function localisedAbsoluteUrl(urlPath) {
+        return getAbsoluteUrl(req, localify(locale)(urlPath));
+    }
 
     const mailParams = {
         name: 'user_activate_account',
         sendTo: user.username,
-        subject: emailContent.subject
+        subject: localise({
+            en: 'Please confirm your email address',
+            cy: 'Cadarnhewch eich cyfeiriad e-bost'
+        })
     };
 
     const email = await sendHtmlEmail(
         {
             template: path.resolve(
                 __dirname,
-                '../views/emails/email-from-locale.njk'
+                '../views/emails/activate-email.njk'
             ),
             templateData: {
-                body: emailContent.body
+                locale: locale,
+                emailAddress: user.username,
+                activationUrl: localisedAbsoluteUrl(
+                    `/user/activate?token=${token}`
+                ),
+                loginUrl: localisedAbsoluteUrl(`/user/login`),
+                expiryDate: expiresAt
+                    .locale(locale)
+                    .format('H:mm [on] dddd Do MMMM')
             }
         },
         mailParams
@@ -47,7 +51,7 @@ module.exports = async function sendActivationEmail(req, user) {
 
     await Users.updateDateOfActivationAttempt({
         id: user.id,
-        dateOfActivationAttempt: dateOfActivationAttempt
+        dateOfActivationAttempt: now.unix()
     });
 
     return {
