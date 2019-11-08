@@ -1,0 +1,36 @@
+{% extends "views/layouts/emails.njk" %}
+
+{% block content %}
+    {% if locale === 'cy' %}
+
+    {% else %}
+        <p>Hello,</p>
+
+        <p>
+            Thanks for creating an account.
+            We're looking forward to hearing about your idea to help your community thrive.
+        </p>
+
+        <h2>Before applying for funding—activate your account</h2>
+        <p>This will confirm <strong>{{ emailAddress }}</strong> is your email address.</p>
+
+        <p><a href="{{ activationUrl }}" class="btn">Activate your account</a></p>
+
+        <p><strong>This activation link will expire at {{ expiryDate }}</strong></p>
+
+        <p>
+            If you haven't used it by then, you'll need to
+            <a href="{{ loginUrl }}">log in to your account</a> to request the activation link again.
+            We do this to keep your account secure.
+        </p>
+
+        <p>Thanks,<br/>The National Lottery Community Fund</p>
+
+        <hr />
+
+        <p>
+            Button not working? Paste this link into your browser:
+            <a href="{{ activationUrl }}">{{ activationUrl }}</a>
+        </p>
+    {% endif %}
+{% endblock %}

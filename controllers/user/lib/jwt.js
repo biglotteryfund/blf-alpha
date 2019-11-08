@@ -4,18 +4,27 @@ const jwt = require('jsonwebtoken');
 const { JWT_SIGNING_TOKEN } = require('../../../common/secrets');
 const { Users } = require('../../../db/models');
 
+/**
+ * signTokenActivate
+ * @param userId
+ * @param dateOfActivationAttempt Moment date instance
+ * @returns {{expiresAt: Moment, token: string}}
+ */
 function signTokenActivate(userId, dateOfActivationAttempt) {
     const payload = {
         data: {
             userId: userId,
             reason: 'activate',
-            dateOfActivationAttempt: dateOfActivationAttempt
+            dateOfActivationAttempt: dateOfActivationAttempt.unix()
         }
     };
 
-    return jwt.sign(payload, JWT_SIGNING_TOKEN, {
-        expiresIn: '3h' // Short-lived token
-    });
+    return {
+        expiresAt: dateOfActivationAttempt.clone().add('3', 'hours'),
+        token: jwt.sign(payload, JWT_SIGNING_TOKEN, {
+            expiresIn: '3h' // Short-lived token
+        })
+    };
 }
 
 function verifyTokenActivate(token) {
@@ -32,10 +41,7 @@ function verifyTokenActivate(token) {
                         user.date_activation_sent ===
                         decoded.data.dateOfActivationAttempt;
 
-                    if (
-                        decoded.data.reason === 'activate' &&
-                        isNewestLink
-                    ) {
+                    if (decoded.data.reason === 'activate' && isNewestLink) {
                         resolve(decoded.data);
                     } else {
                         reject(new Error('Invalid token reason'));

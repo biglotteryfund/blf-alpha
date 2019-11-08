@@ -8,7 +8,7 @@
 
 body {
     padding: 10px;
-    margin: auto;
+    max-width: 800px;
 }
 
 body,
@@ -64,6 +64,11 @@ a {
     img {
         width: 200px;
     }
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid get-color('border', 'base');
 }
 
 .summary {
@@ -167,4 +172,19 @@ table {
             @include wrap-words();
         }
     }
+}
+
+.btn {
+    font-family: font-stack('display');
+    line-height: 1; // so we can calculate padding for the height
+    font-weight: font-weight('display', 'semibold');
+    color: white;
+    background-color: get-color('brand', 'primary');
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    vertical-align: top;
+    display: inline-block;
+    font-size: 18px;
+    padding: $spacingUnit $spacingUnit * 2;
 }

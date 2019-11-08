@@ -1223,17 +1223,6 @@ user:
         <li>Check your emails (you should’ve got one from us)</li>
         <li>Click on the link in our activation email</li>
       </ul>
-    email:
-      subject: Activate your The National Lottery Community Fund website account
-      body: >
-        <h1>The National Lottery Community Fund</h1>
-        <h2>You’re almost ready to apply for the National Lottery Community Fund</h2>
-
-        <p>You set up an account with us, using this email address: %s.</p>
-        <p>Now you just need to <a href="%s">activate your account</a> to start your application.</p>
-
-        <p>Thanks,</p>
-        <p>The National Lottery Community Fund</p>
     errorMessage: Your activation link was invalid or has expired.
     resendLabel: Send activation link again
     resendMessage: >

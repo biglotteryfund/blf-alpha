@@ -265,10 +265,7 @@ it('should prevent registrations with invalid passwords', () => {
 it('should register and see activation screen', function() {
     createAccount(generateAccountEmail(), generateAccountPassword());
     cy.checkA11y();
-    cy.get('body').should(
-        'contain',
-        'Activate your account'
-    );
+    cy.get('body').should('contain', 'Activate your account');
 });
 
 it('should email valid users with a token', () => {
@@ -286,7 +283,7 @@ it('should email valid users with a token', () => {
         );
         expect(res.body.mailParams.sendTo).to.equal(username);
         expect(res.body.mailParams.subject).to.equal(
-            'Activate your The National Lottery Community Fund website account'
+            'Please confirm your email address'
         );
     });
 });
@@ -351,10 +348,7 @@ it('should be able to log in and update account details', () => {
             cy.findByText('Update email address').click();
         });
 
-        cy.get('body').should(
-            'contain',
-            'Activate your account'
-        );
+        cy.get('body').should('contain', 'Activate your account');
     });
 });
 
