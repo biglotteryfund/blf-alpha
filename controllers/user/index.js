@@ -46,6 +46,22 @@ if (features.enableSeeders) {
 }
 
 /**
+ * Session check endpoint
+ *
+ * Used in AJAX calls to determine the user's logged-in state.
+ * Must appear here (eg. before we require non-staff users)
+ */
+router.get('/session', function(req, res) {
+    res.send({
+        expires: req.session.cookie.expires,
+        maxAge: req.session.cookie.maxAge,
+        originalMaxAge: req.session.cookie.originalMaxAge,
+        isExpired: moment(req.session.cookie.expires).isBefore(moment()),
+        isAuthenticated: req.isAuthenticated()
+    });
+});
+
+/**
  * Public user routes
  * Disallow staff from this point on
  */
@@ -93,16 +109,6 @@ router.get('/logout', function(req, res) {
     logger.info('User logout', { service: 'user' });
     req.session.save(() => {
         redirectForLocale(req, res, '/user/login?s=loggedOut');
-    });
-});
-
-router.get('/session', function(req, res) {
-    res.send({
-        expires: req.session.cookie.expires,
-        maxAge: req.session.cookie.maxAge,
-        originalMaxAge: req.session.cookie.originalMaxAge,
-        isExpired: moment(req.session.cookie.expires).isBefore(moment()),
-        isAuthenticated: req.isAuthenticated()
     });
 });
 
