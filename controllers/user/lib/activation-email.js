@@ -24,7 +24,7 @@ module.exports = async function sendActivationEmail(req, user) {
         sendTo: user.username,
         subject: localise({
             en: 'Please confirm your email address',
-            cy: '@TODO: i18n'
+            cy: 'Cadarnhewch eich cyfeiriad e-bost'
         })
     };
 
