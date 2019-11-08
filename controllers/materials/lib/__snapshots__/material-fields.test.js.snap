@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should validate material fields schema 1`] = `
+Array [
+  "Please provide the 'Name' field",
+  "Please provide a valid email address",
+  "Please provide the 'Address line 1' field",
+  "Please provide the 'Town/city' field",
+  "Please provide the 'Country' field",
+  "Please provide the 'Postcode' field",
+]
+`;

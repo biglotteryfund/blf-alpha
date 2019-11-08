@@ -12,7 +12,7 @@ const { injectCopy } = require('../../common/inject-content');
 const logger = require('../../common/logger').child({ service: 'user' });
 
 const { emailOnly } = require('./lib/account-schemas');
-const validateSchema = require('./lib/validate-schema');
+const validateSchema = require('../../common/validate-schema');
 const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();

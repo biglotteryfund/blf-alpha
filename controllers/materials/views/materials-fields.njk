@@ -1,6 +1,6 @@
 {% macro textInput(fieldName, fieldLabel, inputType = 'text', required = false, extraClasses = false, helpText = false, charLimit = false, showErrorsBelowFields = false) %}
 
-    {% set error = getFormErrorForField(formErrors, fieldName) %}
+    {% set error = formErrors | filter('param', fieldName) | first %}
     {# this is whitespace sensitive so don't add newlines! #}
     {% set placeholderText %}{{ fieldLabel }}{% if required %} *{% endif %}{% endset %}
     {% if not showErrorsBelowFields %}
@@ -35,7 +35,7 @@
 
 {% macro radioButton(fieldName, label, value, required = false, suppressErrors = false, translateOptionLabels = false, hasOther = false) %}
     {% set uniqueId = 'ff-radio-' + fieldName + '-' + value %}
-    {% set error = getFormErrorForField(formErrors, fieldName) %}
+    {% set error = formErrors | filter('param', fieldName) | first %}
     {% if not suppressErrors and error %}
         <p class="ff-error">{{ error.msg }}</p>
     {% endif %}
@@ -53,7 +53,7 @@
 {% macro radios(fieldName, label = false, options, allowOther = false, translateOptionLabels = false, required = false) %}
     {% set otherId = 'js-other-' + fieldName %}
     {% if allowOther %}<div class="js-has-radios" data-other-id="{{ otherId }}">{% endif %}
-    {% set error = getFormErrorForField(formErrors, fieldName) %}
+    {% set error = formErrors | filter('param', fieldName)  | first %}
 
     <fieldset class="form-fieldset">
         <legend class="form-fieldset__legend">{{ label }}{% if required %} *{% endif %}</legend>

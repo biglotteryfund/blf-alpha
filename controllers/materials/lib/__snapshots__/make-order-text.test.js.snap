@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should make order text for email 1`] = `
+"A new order has been received from The National Lottery Community Fund website.
+The order details are below:
+
+- x1 BLF-BR088 (item: Stainless steel plaque)
+- x1 BIG-BANNP (item: Vinyl banner (pink))
+- x2 BIG-EVBLN (item: Balloons)
+
+The customer's personal details are below:
+
+Name: Ann Example
+Email address: ann@example.com
+Address line 1: 1 Plough Place
+Town/city: London
+Country: United Kingdom
+Postcode: EC4A 1DE
+Grant amount: over10k
+Order reason: projectOpening
+
+This email has been automatically generated from The National Lottery Community Fund website.
+If you have feedback, please contact digital.monitoring@tnlcommunityfund.org.uk."
+`;

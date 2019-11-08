@@ -2,28 +2,25 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const Postcode = require('postcode');
-const { map, mapValues, reduce, some } = require('lodash');
-const { sanitizeBody } = require('express-validator/filter');
-const { validationResult } = require('express-validator/check');
+const getOr = require('lodash/fp/getOr');
+const pick = require('lodash/pick');
 const Sentry = require('@sentry/node');
+const { oneLine } = require('common-tags');
 
-const router = express.Router();
-
-const appData = require('../../common/appData');
-const { sanitise } = require('../../common/sanitise');
-const { MATERIAL_SUPPLIER } = require('../../common/secrets');
+const { Order } = require('../../db/models');
+const contentApi = require('../../common/content-api');
+const { isNotProduction } = require('../../common/appData');
+const { csrfProtection, noStore } = require('../../common/cached');
 const { generateHtmlEmail, sendEmail } = require('../../common/mail');
 const { injectListingContent } = require('../../common/inject-content');
-const contentApi = require('../../common/content-api');
-const { csrfProtection, noStore } = require('../../common/cached');
-const { Order } = require('../../db/models');
+const { MATERIAL_SUPPLIER } = require('../../common/secrets');
+const { sanitiseRequestBody } = require('../../common/sanitise');
 
-const {
-    materialFields,
-    makeOrderText,
-    normaliseUserInput
-} = require('./helpers');
+const { fields, validate } = require('./lib/material-fields');
+const makeOrderText = require('./lib/make-order-text');
+const normaliseUserInput = require('./lib/normalise-user-input');
+
+const router = express.Router();
 
 const FORM_STATES = {
     NOT_SUBMITTED: 'NOT_SUBMITTED',
@@ -35,132 +32,119 @@ const FORM_STATES = {
 const sessionOrderKey = 'materialOrders';
 const sessionBlockedItemKey = 'materialBlockedItem';
 
-function modifyItems(req) {
-    const validActions = ['increase', 'decrease'];
-
-    const action = req.body.action;
-    const productId = parseInt(req.body.productId);
-    const materialId = parseInt(req.body.materialId);
-    const maxQuantity = parseInt(req.body.max);
-    const notAllowedWith = req.body.notAllowedWith
-        ? req.body.notAllowedWith.split(',').map(i => parseInt(i))
-        : false;
-
-    const isValidAction = validActions.indexOf(action) !== -1;
-
-    // create the basket if empty
-    if (!req.session[sessionOrderKey]) {
-        req.session[sessionOrderKey] = [];
-    }
-
-    // Reset the blocker flag
-    delete req.session[sessionBlockedItemKey];
-
-    if (isValidAction) {
-        let existingProduct = req.session[sessionOrderKey].find(
-            order => order.productId === productId
-        );
-
-        // How many of the current item do they have?
-        const currentItemQuantity = existingProduct
-            ? existingProduct.quantity
-            : 0;
-
-        // Check if their current orders contain a blocker
-        // note that this only works in one direction:
-        // eg. it only checks if the product you're adding has constraints
-        // eg. item A is blocked with item B (but you can add item B first, then add A)
-        // solution is to make item A block item B and item B block item A in the CMS
-        // or track the blocked items here and check both ends.
-        const hasBlockerItem = some(req.session[sessionOrderKey], order => {
-            if (!notAllowedWith) {
-                return;
-            }
-            const itemIsBlocked =
-                notAllowedWith.indexOf(order.materialId) !== -1;
-            return itemIsBlocked && order.quantity > 0;
-        });
-
-        const noSpaceLeft = currentItemQuantity === maxQuantity;
-
-        if (action === 'increase' && (hasBlockerItem || noSpaceLeft)) {
-            // Alert the user that they're blocked from adding this item
-            req.session[sessionBlockedItemKey] = true;
-        } else if (!existingProduct) {
-            req.session[sessionOrderKey].push({
-                productId: productId,
-                materialId: materialId,
-                quantity: 1
-            });
-        } else {
-            let q = existingProduct.quantity;
-            existingProduct.quantity = action === 'increase' ? q + 1 : q - 1;
-        }
-
-        // remove any empty orders
-        req.session[sessionOrderKey] = req.session[sessionOrderKey].filter(
-            o => o.quantity > 0
-        );
-    }
-}
-
-function storeOrderSummary({ orderItems, orderDetails }) {
-    const preparedOrderItems = reduce(
-        orderItems,
-        (acc, orderItem) => {
-            if (orderItem.quantity > 0) {
-                acc.push({
-                    code: orderItem.code,
-                    quantity: orderItem.quantity
-                });
-            }
-            return acc;
-        },
-        []
-    );
-
-    const preparedOrderDetails = normaliseUserInput(orderDetails);
-    const getFieldValue = fieldName => {
-        // some fields are optional and won't be here
-        let field = preparedOrderDetails.find(d => d.key === fieldName);
-        return field ? field.value : null;
-    };
-
-    return Order.storeOrder({
-        grantAmount: getFieldValue('yourGrantAmount'),
-        orderReason: getFieldValue('yourReason'),
-        postcodeArea: Postcode.toOutcode(getFieldValue('yourPostcode')),
-        items: preparedOrderItems
-    });
-}
-
-function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
-    const lang = req.i18n.__('funding.guidance.order-free-materials');
-    const availableItems = res.locals.availableItems;
-    const orders = req.session[sessionOrderKey] || [];
-
-    // @TODO: Remove this if/when migrating materials form fields to use new shared fields
-    // Function for finding errors from a form array
-    res.locals.getFormErrorForField = function(errorList, fieldName) {
-        if (errorList && errorList.length > 0) {
-            return errorList.find(e => e.param === fieldName);
-        }
-    };
-
+function renderForm(req, res, status = null, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/materials'), {
-        copy: lang,
+        copy: req.i18n.__('funding.guidance.order-free-materials'),
         breadcrumbs: res.locals.breadcrumbs.concat({
             label: res.locals.content.title
         }),
         csrfToken: req.csrfToken(),
-        materials: availableItems,
-        formFields: materialFields,
-        orders: orders,
-        orderStatus: status,
+        materials: res.locals.availableItems,
+        formFields: fields,
+        orders: req.session[sessionOrderKey] || [],
+        orderStatus: status || FORM_STATES.NOT_SUBMITTED,
         formActionBase: req.baseUrl,
         formAnchorName: 'your-details',
+        formValues: data,
+        formErrors: errors,
         FORM_STATES
     });
+}
+
+function itemForEmail(availableItems, item) {
+    const material = availableItems.find(i => i.itemId === item.materialId);
+    const product = material.products.find(p => p.id === item.productId);
+
+    return {
+        name: product.name ? product.name : material.title,
+        code: product.code,
+        quantity:
+            item.quantity > material.maximum ? material.maximum : item.quantity
+    };
+}
+
+function getFieldValue(userData, fieldName) {
+    const field = normaliseUserInput(userData).find(
+        item => item.key === fieldName
+    );
+    return field ? field.value : null;
+}
+
+async function handleSubmission(req, res) {
+    const userData = sanitiseRequestBody(req.body);
+    const validationResult = validate(userData, req.i18n.getLocale());
+
+    if (validationResult.isValid) {
+        const itemsToEmail = req.session[sessionOrderKey].map(item => {
+            return itemForEmail(res.locals.availableItems, item);
+        });
+
+        const orderText = makeOrderText(itemsToEmail, userData);
+
+        try {
+            await Order.storeOrder({
+                grantAmount: getFieldValue(userData, 'yourGrantAmount'),
+                orderReason: getFieldValue(userData, 'yourReason'),
+                postcode: getFieldValue(userData, 'yourPostcode'),
+                items: itemsToEmail
+                    .filter(item => item.quantity > 0)
+                    .map(item => pick(item, ['code', 'quantity']))
+            });
+
+            const customerHtml = await generateHtmlEmail({
+                template: path.resolve(__dirname, './views/order-email.njk'),
+                templateData: {
+                    locale: req.i18n.getLocale(),
+                    copy: req.i18n.__('materials.orderEmail')
+                }
+            });
+
+            await Promise.all([
+                sendEmail({
+                    name: 'material_customer',
+                    mailConfig: {
+                        sendTo: userData.yourEmail,
+                        subject: oneLine`Thank you for your The National
+                                Lottery Community Fund order`,
+                        type: 'html',
+                        content: customerHtml
+                    }
+                }),
+                sendEmail({
+                    name: 'material_supplier',
+                    mailConfig: {
+                        sendTo: isNotProduction
+                            ? userData.yourEmail
+                            : MATERIAL_SUPPLIER,
+                        sendMode: 'bcc',
+                        subject: oneLine`Order from The National Lottery
+                                Community Fund website - ${moment().format(
+                                    'dddd, MMMM Do YYYY, h:mm:ss a'
+                                )}`,
+                        type: 'text',
+                        content: orderText
+                    }
+                })
+            ]);
+
+            delete req.session[sessionOrderKey];
+            delete req.session[sessionBlockedItemKey];
+            req.session.save(() => {
+                renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
+            });
+        } catch (err) {
+            Sentry.captureException(err);
+            renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
+        }
+    } else {
+        renderForm(
+            req,
+            res,
+            FORM_STATES.VALIDATION_ERROR,
+            validationResult.value,
+            validationResult.messages
+        );
+    }
 }
 
 router
@@ -175,137 +159,75 @@ router
             next(error);
         }
     })
-    .get((req, res) => {
+    .get(function(req, res) {
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })
-    .post(map(materialFields, field => field.validator(field)), (req, res) => {
-        req.body = mapValues(req.body, sanitise);
-        const errors = validationResult(req);
+    .post(handleSubmission);
 
-        if (errors.isEmpty()) {
-            const details = req.body;
-            const availableItems = res.locals.availableItems;
+router.post('/update-basket', noStore, function(req, res) {
+    const data = sanitiseRequestBody(req.body);
+    const basket = getOr([], sessionOrderKey)(req.session);
 
-            const itemsToEmail = req.session[sessionOrderKey].map(item => {
-                const material = availableItems.find(
-                    i => i.itemId === item.materialId
-                );
-                const product = material.products.find(
-                    p => p.id === item.productId
-                );
-                // prevent someone who really loves plaques from hacking the form to increase the maximum
-                if (item.quantity > material.maximum) {
-                    item.quantity = material.maximum;
-                }
-                return {
-                    name: product.name ? product.name : material.title,
-                    code: product.code,
-                    quantity: item.quantity
-                };
-            });
+    // Reset the blocker flag
+    delete req.session[sessionBlockedItemKey];
 
-            const orderText = makeOrderText(itemsToEmail, details);
+    if (['increase', 'decrease'].includes(data.action)) {
+        const existingProduct = basket.find(function(item) {
+            return item.productId === parseInt(data.productId, 10);
+        });
 
-            storeOrderSummary({
-                orderItems: itemsToEmail,
-                orderDetails: details
-            })
-                .then(async () => {
-                    const customerSendTo = details.yourEmail;
-                    const supplierSendTo = appData.isNotProduction
-                        ? customerSendTo
-                        : MATERIAL_SUPPLIER;
+        const currentQuantity = getOr(0, 'quantity')(existingProduct);
 
-                    const customerHtml = await generateHtmlEmail({
-                        template: path.resolve(
-                            __dirname,
-                            './views/order-email.njk'
-                        ),
-                        templateData: {
-                            locale: req.i18n.getLocale(),
-                            copy: req.i18n.__('materials.orderEmail')
-                        }
-                    });
+        const blockedIds = data.notAllowedWith
+            ? data.notAllowedWith.split(',').map(id => parseInt(id, 10))
+            : [];
 
-                    const customerEmail = sendEmail({
-                        name: 'material_customer',
-                        mailConfig: {
-                            sendTo: customerSendTo,
-                            subject:
-                                'Thank you for your The National Lottery Community Fund order',
-                            type: 'html',
-                            content: customerHtml
-                        }
-                    });
+        /**
+         * Check if their current orders contain a blocker
+         * this only checks if the product you're adding has constraints
+         * eg. item A is blocked with item B (but you can add item B first, then add A)
+         */
+        const hasBlockerItem = basket.some(function(order) {
+            return blockedIds.includes(order.materialId) && order.quantity > 0;
+        });
 
-                    const supplierEmail = sendEmail({
-                        name: 'material_supplier',
-                        mailConfig: {
-                            sendTo: supplierSendTo,
-                            sendMode: 'bcc',
-                            subject: `Order from The National Lottery Community Fund website - ${moment().format(
-                                'dddd, MMMM Do YYYY, h:mm:ss a'
-                            )}`,
-                            type: 'text',
-                            content: orderText
-                        }
-                    });
+        const itemBlocked =
+            hasBlockerItem || currentQuantity === parseInt(data.max, 10);
 
-                    return Promise.all([customerEmail, supplierEmail]).then(
-                        () => {
-                            // Clear order details if successful
-                            delete req.session[sessionOrderKey];
-                            delete req.session[sessionBlockedItemKey];
-                            req.session.save(() => {
-                                renderForm(
-                                    req,
-                                    res,
-                                    FORM_STATES.SUBMISSION_SUCCESS
-                                );
-                            });
-                        }
-                    );
-                })
-                .catch(err => {
-                    Sentry.captureException(err);
-                    renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
-                });
+        if (data.action === 'increase' && itemBlocked) {
+            req.session[sessionBlockedItemKey] = true;
+        } else if (existingProduct) {
+            existingProduct.quantity =
+                data.action === 'increase'
+                    ? existingProduct.quantity + 1
+                    : existingProduct.quantity - 1;
         } else {
-            // The form has failed validation
-            res.locals.formErrors = errors.array();
-            res.locals.formValues = req.body;
-            renderForm(req, res, FORM_STATES.VALIDATION_ERROR);
+            basket.push({
+                productId: parseInt(data.productId, 10),
+                materialId: parseInt(data.materialId, 10),
+                quantity: 1
+            });
+        }
+
+        req.session[sessionOrderKey] = basket.filter(item => item.quantity > 0);
+    }
+
+    res.format({
+        html: () => {
+            req.session.save(() => {
+                res.redirect(req.baseUrl);
+            });
+        },
+        json: () => {
+            req.session.save(() => {
+                res.send({
+                    status: 'success',
+                    orders: req.session[sessionOrderKey],
+                    itemBlocked: req.session[sessionBlockedItemKey] || false
+                });
+            });
         }
     });
-
-/**
- * Handle adding and removing items
- */
-router.post(
-    '/update-basket',
-    [sanitizeBody('action').escape(), sanitizeBody('code').escape()],
-    noStore,
-    (req, res) => {
-        // Update the session with ordered items
-        modifyItems(req);
-
-        res.format({
-            html: () => {
-                req.session.save(() => {
-                    res.redirect(req.baseUrl);
-                });
-            },
-            json: () => {
-                req.session.save(() => {
-                    res.send({
-                        status: 'success',
-                        orders: req.session[sessionOrderKey],
-                        itemBlocked: req.session[sessionBlockedItemKey] || false
-                    });
-                });
-            }
-        });
-    }
-);
+});
 
 module.exports = router;

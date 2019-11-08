@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 const { newAccounts } = require('./account-schemas');
-const validateSchema = require('./validate-schema');
+const validateSchema = require('../../../common/validate-schema');
 
 describe('account schemas', () => {
     test('new accounts', () => {
