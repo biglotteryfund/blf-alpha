@@ -26,6 +26,7 @@ module.exports = {
         ]
     },
     entry: {
+        head: './assets/js/head.js',
         app: [
             'core-js/modules/es6.promise',
             'core-js/modules/es6.array.iterator',
