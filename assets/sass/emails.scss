@@ -52,6 +52,10 @@ h6 {
     font-size: 12px;
 }
 
+p {
+    margin: 0 0 1em 0;
+}
+
 a {
     color: get-color('links', 'base');
     font-weight: font-weight('display', 'bold');
@@ -187,4 +191,9 @@ table {
     display: inline-block;
     font-size: 18px;
     padding: $spacingUnit $spacingUnit * 2;
+}
+
+.u-no-margin {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
