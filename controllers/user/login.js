@@ -30,13 +30,12 @@ function renderForm(req, res, formValues = null, errors = []) {
 }
 
 function renderRateLimitError(req, res, minutesLeft) {
-    res.status(429).render(
-        path.resolve(__dirname, './views/error-rate-limit'),
-        {
-            title: 'Too many requests',
-            minutesLeft: minutesLeft
-        }
-    );
+    const copy = req.i18n.__('user.rateLimited');
+    res.status(429).render(path.resolve(__dirname, './views/rate-limited'), {
+        copy: copy,
+        title: copy.title,
+        minutesLeft: minutesLeft
+    });
 }
 
 router

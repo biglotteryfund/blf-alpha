@@ -1055,6 +1055,12 @@ user:
     registerLabel: creu cyfrif
     forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
     credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/welsh/user/register">greu cyfrif</a>.
+  rateLimited:
+    title: Gormod o geisiadau
+    message: >
+      Rydych wedi gwneud gormod o geisiadau i fewngofnodi i’ch cyfrif.
+      Arhoswch am ychydig a thrio eto’n fuan.
+    minutesLeft: Gallwch drio eto mewn <strong>%s munud</strong>.
   register:
     title: Creu cyfrif
     actionLabel: Creu cyfrif

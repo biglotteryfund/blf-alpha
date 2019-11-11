@@ -1,0 +1,7 @@
+{% macro backLink(url) %}
+    <p class="u-margin-bottom-s">
+        <a href="{{ url }}" class="u-weight-normal">
+            <span aria-hidden="true">←</span> {{ __('global.misc.back') | capitalize }}
+        </a>
+    </p>
+{% endmacro %}
