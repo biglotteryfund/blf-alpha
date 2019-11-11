@@ -75,19 +75,13 @@
 .cookie-consent {
     display: none;
 
-    color: get-color('text', 'light');
-    background-color: get-color('background', 'dark-neutral');
-    font-size: 15px;
-    padding: 8px 6px;
-    box-shadow: 0px -5px 20px 0px rgba(0, 0, 0, 0.15);
-    border-top: 1px solid lighten(get-color('background', 'dark-neutral'), 10%);
+    background-color: get-color('background', 'light-neutral');
+    font-size: 16px;
+    padding: 12px 6px;
+    border-bottom: 1px solid darken(get-color('background', 'light-neutral'), 10%);
 
     &.is-shown {
         display: block;
-        position: fixed;
-        z-index: 100;
-        bottom: 0;
-        width: 100%;
     }
 
     .cookie-consent__inner {
@@ -117,13 +111,6 @@
     .cookie-consent__actions .btn {
         font-size: 14px;
         white-space: nowrap;
-    }
-
-    a {
-        color: get-color('text', 'light');
-        font-weight: font-weight('body', 'bold');
-        text-decoration: underline;
-        border: none;
     }
 }
 
