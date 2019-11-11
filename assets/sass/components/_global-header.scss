@@ -337,9 +337,11 @@ $breakpointLarge: 840px;
 .global-search {
     margin: 0;
     position: relative;
+    $formColour: #757575;
 
     .global-search__input {
         font-family: font-stack('display');
+        color: $formColour;
         font-size: 16px;
         font-weight: normal;
         border: none;
@@ -369,7 +371,7 @@ $breakpointLarge: 840px;
     }
 
     @media only screen and (min-width: $breakpointSmall) {
-        outline: 2px solid get-color('border', 'base');
+        outline: 1px solid $formColour;
 
         .global-search__input {
             margin: 0;
@@ -388,7 +390,7 @@ $breakpointLarge: 840px;
             .icon {
                 width: 21px;
                 height: 21px;
-                fill: get-color('text', 'base');
+                fill: $formColour;
                 vertical-align: middle;
                 position: relative;
                 top: -2px;
