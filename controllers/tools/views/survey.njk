@@ -2,7 +2,7 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/data.njk" import statsGrid %}
-{% from "components/user-status/macro.njk" import staffStatus with context %}
+{% from "components/staff-status/macro.njk" import staffStatus with context %}
 
 {% block extraHead %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" crossorigin="anonymous"></script>
@@ -15,7 +15,7 @@
             {{ staffStatus(user) }}
 
             <h1 class="t--underline">“Did you find what you were looking for?”</h1>
-            
+
             {% if pathQuery %}
                 <p>
                     Showing results for <code>{{ pathQuery }}</code>,
