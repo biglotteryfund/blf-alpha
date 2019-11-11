@@ -122,7 +122,10 @@ router.get('/', async function(req, res, next) {
             }
         };
 
+        const title = 'Material orders';
         res.render(path.resolve(__dirname, './views/orders'), {
+            title: title,
+            breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
             data: orderData,
             oldestOrderDate: moment(oldestOrder.createdAt).toDate(),
             dateRange: dateRange,
