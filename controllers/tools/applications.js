@@ -14,13 +14,14 @@ const {
     SubmittedApplication,
     Feedback
 } = require('../../db/models');
+const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
+
 const {
-    getDateRange,
+    getDateRangeWithDefault,
     groupByCreatedAt,
     getDaysInRange,
     getOldestDate
 } = require('./lib/date-helpers');
-const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
 const router = express.Router();
 
@@ -212,15 +213,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:applicationId', async (req, res, next) => {
-    let dateRange = getDateRange(req.query.start, req.query.end);
-    if (!dateRange) {
-        dateRange = {
-            start: moment()
-                .subtract(30, 'days')
-                .toDate(),
-            end: moment().toDate()
-        };
-    }
+    const dateRange = getDateRangeWithDefault(req.query.start, req.query.end);
 
     const country = req.query.country;
     const countryTitle = country ? titleCase(country) : false;

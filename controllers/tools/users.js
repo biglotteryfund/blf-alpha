@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 const { Users } = require('../../db/models');
 
 const {
-    getDateRange,
+    getDateRangeWithDefault,
     groupByCreatedAt,
     getOldestDate,
     getDaysInRange
@@ -41,15 +41,10 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try {
-        let dateRange = getDateRange(req.query.start, req.query.end);
-        if (!dateRange) {
-            dateRange = {
-                start: moment()
-                    .subtract(30, 'days')
-                    .toDate(),
-                end: moment().toDate()
-            };
-        }
+        const dateRange = getDateRangeWithDefault(
+            req.query.start,
+            req.query.end
+        );
 
         const allUsers = await Users.findAndCountAll({
             where: {

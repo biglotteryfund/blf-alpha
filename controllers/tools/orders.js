@@ -14,7 +14,7 @@ const take = require('lodash/take');
 const { Order } = require('../../db/models');
 const contentApi = require('../../common/content-api');
 
-const { getDateRange } = require('./lib/date-helpers');
+const { getDateRangeWithDefault } = require('./lib/date-helpers');
 
 const router = express.Router();
 
@@ -95,15 +95,10 @@ function summariseOrders(orders) {
 
 router.get('/', async function(req, res, next) {
     try {
-        let dateRange = getDateRange(req.query.start, req.query.end);
-        if (!dateRange) {
-            dateRange = {
-                start: moment()
-                    .subtract(30, 'days')
-                    .toDate(),
-                end: moment().toDate()
-            };
-        }
+        const dateRange = getDateRangeWithDefault(
+            req.query.start,
+            req.query.end
+        );
 
         const [materials, oldestOrder, orderData] = await Promise.all([
             contentApi.getMerchandise({ locale: 'en', showAll: true }),

@@ -23,7 +23,22 @@ function getDateRange(startVal, endVal) {
             end: end.toDate()
         };
     }
+
     return result;
+}
+
+function getDateRangeWithDefault(startVal, endVal) {
+    const dateRange = getDateRange(startVal, endVal);
+    if (dateRange) {
+        return dateRange;
+    } else {
+        return {
+            start: moment()
+                .subtract(30, 'days')
+                .toDate(),
+            end: moment().toDate()
+        };
+    }
 }
 
 function groupByCreatedAt(items, dateFormat = 'YYYY-MM-DD') {
@@ -50,6 +65,7 @@ function getDaysInRange(items) {
 
 module.exports = {
     getDateRange,
+    getDateRangeWithDefault,
     groupByCreatedAt,
     getOldestDate,
     getNewestDate,
