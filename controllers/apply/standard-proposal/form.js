@@ -216,8 +216,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             cy: ''
         }),
         startLabel: localise({
-            en: 'Start',
-            cy: 'Dechrau'
+            en: 'Start your application',
+            cy: 'Dechrau ar eich cais'
         }),
         allFields,
         summary: summary(),
