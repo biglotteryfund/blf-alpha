@@ -23,6 +23,7 @@
                 });
         });
     </script>
+
     <style>
         .datepicker {
             font-size: 14px;
@@ -165,7 +166,7 @@
                     <tbody>
                     {% for item in data.grantAmounts %}
                         <tr>
-                            <th>{{ item.code }}</th>
+                            <td>{{ item.code }}</td>
                             <td>{{ item.count }}</td>
                         </tr>
                     {% endfor %}
