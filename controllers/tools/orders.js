@@ -14,7 +14,7 @@ const take = require('lodash/take');
 const { Order } = require('../../db/models');
 const contentApi = require('../../common/content-api');
 
-const { getDateRange } = require('./helpers');
+const { getDateRange } = require('./lib/date-helpers');
 
 const router = express.Router();
 

@@ -2,34 +2,27 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const groupBy = require('lodash/groupBy');
-const maxBy = require('lodash/maxBy');
-const minBy = require('lodash/minBy');
+
 const partition = require('lodash/partition');
 const times = require('lodash/times');
 
 const { Op } = require('sequelize');
 const { Users } = require('../../db/models');
+const {
+    groupByCreatedAt,
+    getOldestDate,
+    getDaysInRange
+} = require('./lib/date-helpers');
 
 function chartData(users) {
     if (users.length === 0) {
         return [];
     }
 
-    const grouped = groupBy(users, function(response) {
-        return moment(response.createdAt).format('YYYY-MM-DD');
-    });
+    const grouped = groupByCreatedAt(users);
 
-    const newest = maxBy(users, response => response.createdAt);
-    const oldest = minBy(users, response => response.createdAt);
-    const oldestDate = moment(oldest.createdAt);
-
-    const daysInRange = moment(newest.createdAt)
-        .startOf('day')
-        .diff(oldestDate.startOf('day'), 'days');
-
-    return times(daysInRange + 1, function(n) {
-        const key = oldestDate
+    return times(getDaysInRange(users) + 1, function(n) {
+        const key = moment(getOldestDate(users))
             .clone()
             .add(n, 'days')
             .format('YYYY-MM-DD');

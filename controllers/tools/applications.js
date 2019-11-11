@@ -4,11 +4,9 @@ const express = require('express');
 const moment = require('moment');
 const concat = require('lodash/concat');
 const groupBy = require('lodash/groupBy');
-const maxBy = require('lodash/maxBy');
 const get = require('lodash/get');
 const mean = require('lodash/mean');
 const uniqBy = require('lodash/uniqBy');
-const minBy = require('lodash/minBy');
 const times = require('lodash/times');
 
 const {
@@ -16,7 +14,12 @@ const {
     SubmittedApplication,
     Feedback
 } = require('../../db/models');
-const { getDateRange } = require('./helpers');
+const {
+    getDateRange,
+    groupByCreatedAt,
+    getDaysInRange,
+    getOldestDate
+} = require('./lib/date-helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
 const router = express.Router();
@@ -28,20 +31,11 @@ function applicationsByDay(responses) {
         return [];
     }
 
-    const grouped = groupBy(responses, function(response) {
-        return moment(response.createdAt).format(DATE_FORMAT);
-    });
+    const grouped = groupByCreatedAt(responses, DATE_FORMAT);
+    const oldestDate = moment(getOldestDate(responses));
 
-    const newestResponse = maxBy(responses, response => response.createdAt);
-    const oldestResponse = minBy(responses, response => response.createdAt);
-    const oldestResponseDate = moment(oldestResponse.createdAt);
-
-    const daysInRange = moment(newestResponse.createdAt)
-        .startOf('day')
-        .diff(oldestResponseDate.startOf('day'), 'days');
-
-    const dayData = times(daysInRange + 1, function(n) {
-        const key = oldestResponseDate
+    return times(getDaysInRange(responses) + 1, function(n) {
+        const key = oldestDate
             .clone()
             .add(n, 'days')
             .format(DATE_FORMAT);
@@ -52,8 +46,6 @@ function applicationsByDay(responses) {
             y: responsesForDay.length
         };
     });
-
-    return dayData;
 }
 
 function minMaxAvg(arr) {
@@ -344,11 +336,6 @@ router.get('/:applicationId', async (req, res, next) => {
         const submittedApplications = appTypes.find(_ => _.id === 'submitted')
             .applications;
 
-        const oldestSubmittedApplication = minBy(
-            submittedApplications,
-            response => response.createdAt
-        );
-
         const statistics = {
             appDurations: measureTimeTaken(submittedApplications),
             wordCount: measureWordCounts(submittedApplications),
@@ -402,7 +389,7 @@ router.get('/:applicationId', async (req, res, next) => {
             applicationData: applicationData,
             statistics: statistics,
             dateRange: dateRange,
-            oldestDate: moment(oldestSubmittedApplication.createdAt).toDate(),
+            oldestDate: getOldestDate(submittedApplications),
             now: new Date(),
             country: country,
             countryTitle: countryTitle,
