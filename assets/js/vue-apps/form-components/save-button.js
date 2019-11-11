@@ -53,11 +53,8 @@ function animateSaveButtons() {
 }
 
 function init() {
-    // Launch this feature in non-prod envs (for now) and don't add extra delays for automated tests
-    if (
-        window.AppConfig.environment !== 'production' &&
-        !window.AppConfig.isTestServer
-    ) {
+    // Don't add extra delays for automated tests
+    if (!window.AppConfig.isTestServer) {
         animateSaveButtons();
     }
 }
