@@ -159,7 +159,8 @@ function init(STORAGE_KEY) {
                     }
 
                     // Update the existing one
-                    this.filterSummary.find(
+                    find(
+                        this.filterSummary,
                         i => i.name === payload.name
                     ).label = payload.label;
                 } else {
