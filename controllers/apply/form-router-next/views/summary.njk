@@ -94,7 +94,7 @@
                         </div>
                         <div class="step-summary__data__link">
                             <a href="{{ formBaseUrl }}/{{ step.slug }}#form-field-{{ field.name }}" class="u-edit-link">
-                                {{ copy.change }}
+                                {{ copy.change }} <span class="u-visually-hidden">{{ field.label | safe }}</span>
                             </a>
                         </div>
                     </div>
