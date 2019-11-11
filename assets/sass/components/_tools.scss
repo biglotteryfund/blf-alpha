@@ -5,6 +5,7 @@
 .tools-filter-form {
     display: flex;
     flex-flow: row wrap;
+    margin-bottom: $spacingUnit;
 
     .tools-filter-form__item {
         flex: 0 0 auto;

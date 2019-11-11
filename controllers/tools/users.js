@@ -2,13 +2,14 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-
 const partition = require('lodash/partition');
 const times = require('lodash/times');
 
 const { Op } = require('sequelize');
 const { Users } = require('../../db/models');
+
 const {
+    getDateRange,
     groupByCreatedAt,
     getOldestDate,
     getDaysInRange
@@ -40,13 +41,19 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try {
+        let dateRange = getDateRange(req.query.start, req.query.end);
+        if (!dateRange) {
+            dateRange = {
+                start: moment()
+                    .subtract(30, 'days')
+                    .toDate(),
+                end: moment().toDate()
+            };
+        }
+
         const allUsers = await Users.findAndCountAll({
             where: {
-                createdAt: {
-                    [Op.gte]: moment()
-                        .subtract('3', 'months')
-                        .toDate()
-                }
+                createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
             }
         });
 
@@ -65,7 +72,10 @@ router.get('/', async (req, res, next) => {
             totalInactiveUsers: inactive.length,
             totalActivePercentage: Math.round(
                 (active.length / allUsers.count) * 100
-            )
+            ),
+            dateRange: dateRange,
+            oldestDate: getOldestDate(allUsers.rows),
+            now: new Date()
         });
     } catch (error) {
         next(error);
