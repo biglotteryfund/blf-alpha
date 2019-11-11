@@ -1277,6 +1277,7 @@ applyNext:
       Unwaith byddwch yn hapus, rhowch glic ar cyflwyno.
     incompleteTitle: Nid yw eich ffurflen yn gyflawn eto
     incompleteMessage: Gweld beth sydd ar ôl i chi ei wneud
+    notYetCompleted: Heb ei gwblhau eto
     expandAll: Ehangu pob adran
     collapseAll: Cau pob adran
     showQuestions: Dangos cwestiynau

@@ -1560,6 +1560,7 @@ applyNext:
       And change any if you want to. Once you're happy, click submit.
     incompleteTitle: Your form isn’t complete yet
     incompleteMessage: See what you've got left to do
+    notYetCompleted: Not yet completed
     expandAll: Expand all sections
     collapseAll: Collapse all sections
     showQuestions: Show questions

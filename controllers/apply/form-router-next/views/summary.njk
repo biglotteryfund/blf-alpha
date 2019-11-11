@@ -80,7 +80,7 @@
                                     {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
                                     <span class="s-prose" data-hj-suppress>{{ cleanValue }}</span>
                                 {% else %}
-                                    &ndash;
+                                    <span aria-label="{{ copy.summary.notYetCompleted }}">&ndash;</span>
                                 {% endif %}
 
                                 {% if fieldErrors.length > 0 %}
