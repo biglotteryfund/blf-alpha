@@ -1055,6 +1055,12 @@ user:
     registerLabel: creu cyfrif
     forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
     credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/welsh/user/register">greu cyfrif</a>.
+  rateLimited:
+    title: Too many requests (WELSH)
+    message: >
+      You've made too many attempts to sign into your account.
+      Please wait for a while and try again soon. (WELSH)
+    minutesLeft: You can try again in <strong>%s minutes</strong> (WELSH).
   register:
     title: Creu cyfrif
     actionLabel: Creu cyfrif

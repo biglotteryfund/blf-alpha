@@ -1164,6 +1164,12 @@ user:
     registerLabel: create an account
     forgottenPasswordPrompt: Forgotten your password?
     credentialError: Your username and password aren't quite right. Or you might not have an account, as this is a new application form - try <a href="/user/register">creating an account</a>.
+  rateLimited:
+    title: Too many requests
+    message: >
+      You've made too many attempts to sign into your account.
+      Please wait for a while and try again soon.
+    minutesLeft: You can try again in <strong>%s minutes</strong>.
   register:
     title: Create an account
     actionLabel: Create an account

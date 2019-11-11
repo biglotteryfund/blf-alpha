@@ -1,0 +1,18 @@
+{% extends "layouts/main.njk" %}
+{% from "components/back-link/macro.njk" import backLink with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+
+{% block content %}
+    <main role="main" id="content">
+        {% call contentBox() %}
+            {{ backLink('./') }}
+            <h1 class="t--underline">{{ copy.title }}</h1>
+            <div class="s-prose">
+                <p>{{ copy.message }}</p>
+                {% if minutesLeft %}
+                    <p>{{ __(copy.minutesLeft, minutesLeft) | safe }}</p>
+                {% endif %}
+            </div>
+        {% endcall %}
+    </main>
+{% endblock %}
