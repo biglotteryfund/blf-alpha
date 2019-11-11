@@ -44,13 +44,15 @@
 {%- endmacro %}
 
 {% macro inputText(field) %}
+    {# a11y fix - type=email has a bug in Dragon which doesn't allow voice input #}
+    {% set fieldType = field.type if field.type !== 'email' else 'text' %}
     <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
     <input
         class="ff-text"
-        type="{{ field.type }}"
+        type="{{ fieldType }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         {% if field.value %}value="{{ field.value | safe }}"{% endif %}
