@@ -305,6 +305,7 @@ $inputOutline: 3px solid get-color('border', 'outline');
     .ff-choice__input,
     .ff-choice__label {
         display: table-cell;
+        cursor: pointer;
     }
     .ff-choice__caption {
         font-size: 14px;
