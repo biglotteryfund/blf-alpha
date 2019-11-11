@@ -344,6 +344,11 @@ router.get('/:applicationId', async (req, res, next) => {
         const submittedApplications = appTypes.find(_ => _.id === 'submitted')
             .applications;
 
+        const oldestSubmittedApplication = minBy(
+            submittedApplications,
+            response => response.createdAt
+        );
+
         const statistics = {
             appDurations: measureTimeTaken(submittedApplications),
             wordCount: measureWordCounts(submittedApplications),
@@ -397,6 +402,8 @@ router.get('/:applicationId', async (req, res, next) => {
             applicationData: applicationData,
             statistics: statistics,
             dateRange: dateRange,
+            oldestDate: moment(oldestSubmittedApplication.createdAt).toDate(),
+            now: new Date(),
             country: country,
             countryTitle: countryTitle,
             dataStudioUrl: dataStudioUrl,
