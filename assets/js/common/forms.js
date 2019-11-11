@@ -102,6 +102,7 @@ function handleExpandingDetails() {
                 : $toggleBtn.data('label-closed')
         );
         $('details.js-toggleable').attr('open', isClosed);
+        $toggleBtn.attr('aria-expanded', isClosed);
         isClosed = !isClosed;
     });
 }

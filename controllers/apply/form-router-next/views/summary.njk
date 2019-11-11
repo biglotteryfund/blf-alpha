@@ -204,6 +204,7 @@
                 <p class="u-align-right u-dont-print">
                     <button type="button"
                         class="btn-link u-text-small js-toggle-all-details js-only u-align-right"
+                        aria-expanded="{% if expandSections %}true{% else %}false{% endif %}"
                         data-label-open="{{ copy.summary.collapseAll }}"
                         data-label-closed="{{ copy.summary.expandAll }}">
                     </button>
