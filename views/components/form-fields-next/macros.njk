@@ -280,12 +280,14 @@
                                         {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
                                     />
                                 </div>
-                                <label class="ff-choice__label" for="{{ fieldId }}">
-                                    {{ option.label }}
+                                <div>
+                                    <label class="ff-choice__label" for="{{ fieldId }}">
+                                        {{ option.label }}
+                                    </label>
                                     {% if option.explanation %}
                                         <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
                                     {% endif %}
-                                </label>
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
@@ -305,12 +307,14 @@
                                 {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
                             />
                         </div>
-                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                            {{ option.label }}
+                        <div>
+                            <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                                {{ option.label }}
+                            </label>
                             {% if option.explanation %}
                                 <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
                             {% endif %}
-                        </label>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
@@ -338,12 +342,14 @@
                             {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
                         />
                     </div>
-                    <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                        {{ option.label }}
+                    <div>
+                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ option.label }}
+                        </label>
                         {% if option.explanation %}
                             <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
                         {% endif %}
-                    </label>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
