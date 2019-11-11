@@ -95,7 +95,15 @@ function summariseOrders(orders) {
 
 router.get('/', async function(req, res, next) {
     try {
-        const dateRange = getDateRange(req.query.start, req.query.end);
+        let dateRange = getDateRange(req.query.start, req.query.end);
+        if (!dateRange) {
+            dateRange = {
+                start: moment()
+                    .subtract(30, 'days')
+                    .toDate(),
+                end: moment().toDate()
+            };
+        }
 
         const [materials, oldestOrder, orderData] = await Promise.all([
             contentApi.getMerchandise({ locale: 'en', showAll: true }),
@@ -128,6 +136,7 @@ router.get('/', async function(req, res, next) {
             breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
             data: orderData,
             oldestOrderDate: moment(oldestOrder.createdAt).toDate(),
+            now: new Date(),
             dateRange: dateRange,
             materials: materials
         });

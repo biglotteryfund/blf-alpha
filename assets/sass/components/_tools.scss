@@ -1,0 +1,23 @@
+/* =========================================================================
+   Tools specific components
+   ========================================================================= */
+
+.tools-filter-form {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-end;
+
+    .tools-filter-form__item {
+        flex: 0 0 auto;
+        margin-right: $spacingUnit;
+        padding-bottom: $spacingUnit / 2;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+
+    .tools-filter-form__actions {
+        margin-bottom: 5px;
+    }
+}
