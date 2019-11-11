@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import find from 'lodash/find';
 import sumBy from 'lodash/sumBy';
 import Vue from 'vue';
 import queryString from 'query-string';
@@ -81,7 +82,8 @@ function init() {
             // look up the quantity of a given item, defaulting to its
             // value when the page was loaded (eg. from session cookie)
             getQuantity: function(productId) {
-                let product = this.orderData.find(
+                let product = find(
+                    this.orderData,
                     o => o.productId === parseInt(productId)
                 );
                 return product ? product.quantity : 0;

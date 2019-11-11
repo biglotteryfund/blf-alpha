@@ -1,5 +1,6 @@
 <script>
 import $ from 'jquery';
+import find from 'lodash/find';
 import compact from 'lodash/compact';
 
 import AddressLine from './address-line.vue';
@@ -111,7 +112,7 @@ export default {
             );
         },
         getAddressFromId(udprn) {
-            return this.addressData.find(_ => _.udprn === udprn);
+            return find(this.addressData, _ => _.udprn === udprn);
         },
         formatAddress(address) {
             return {
