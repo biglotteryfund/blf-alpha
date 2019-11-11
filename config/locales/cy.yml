@@ -1271,6 +1271,7 @@ applyNext:
     title: Crynodeb
     introduction: <p>Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
     completeTitle: Bron yna – amser i wirio eich atebion
+    completeTitleConfirm: Amser i wirio eich atebion
     completeMessage: >
       Cymerwch gipolwg ar eich atebion a gallwch eu newid os dymunwch.
       Unwaith byddwch yn hapus, rhowch glic ar cyflwyno.

@@ -216,7 +216,7 @@
 
             {% if form.progress.isComplete %}
                 <form class="submit-actions" action="{{ formBaseUrl }}/submission" method="post">
-                    <h2 class="submit-actions__title">{{ copy.summary.completeTitle }}</h2>
+                    <h2 class="submit-actions__title">{{ copy.summary.completeTitleConfirm }}</h2>
                     <p class="submit-actions__text u-constrained-wide">{{ copy.summary.completeMessage }}</p>
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">

@@ -1554,6 +1554,7 @@ applyNext:
     title: Summary
     introduction: <p>You may complete the sections in any order.</p>
     completeTitle: Nearly done - time to check your answers
+    completeTitleConfirm: Time to check your answers
     completeMessage: >
       Have a look at the answers you gave us.
       And change any if you want to. Once you're happy, click submit.
