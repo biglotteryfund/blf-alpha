@@ -10,40 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.3/daterangepicker.min.js" integrity="sha256-cpdGuiwvKhwkQY18xx0CNJBb9AhGOYKsAz6ea7LaB30=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.3/daterangepicker.min.css" integrity="sha256-DnG3ryf8FsLvOmNjwO9S4+Fpju6QECDbhLbWCtpn7Bc=" crossorigin="anonymous" />
-    <script>
-        $(function() {
-            $('.js-datepicker-trigger')
-                .daterangepicker({
-                    maxDate: new Date(),
-                })
-                .on('apply.daterangepicker', function(event, picker) {
-                    const s = picker.startDate.format('YYYY-MM-DD');
-                    const e = picker.endDate.format('YYYY-MM-DD');
-                    const existingSearch = window.location.search;
-                    const dateQuery = `start=${s}&end=${e}`;
-                    window.location = existingSearch ? `${existingSearch}&${dateQuery}` : `?${dateQuery}`;
-                });
-
-            $('.js-country').change(function() {
-                const c = $(this).val();
-                window.location = (c === 'uk') ? '?' : `?country=${c}`;
-            })
-        });
-    </script>
-    <style>
-        .datepicker {
-            font-size: 14px;
-            vertical-align: middle;
-        }
-        .country-picker label,
-        .country-picker select {
-            font-size: 14px;
-        }
-
-        .country-picker label {
-            font-weight: bold;
-        }
-    </style>
 {% endblock %}
 
 {% block content %}
@@ -60,47 +26,43 @@
                 {%- endif -%}
             </h1>
 
-            <h2>
-                Date range:
-                {{ formatDate(dateRange.start) }} &mdash;
-                {{ formatDate(dateRange.end) }}
-                <a class="js-datepicker-trigger datepicker" href="javascript://">Change dates?</a>
-                {% if dateRange %}
-                    <a class="datepicker" href="?">or Reset dates?</a>
-                {% endif %}
-            </h2>
+            <p>
+                <strong>Date range</strong>: {{ formatDate(dateRange.start) }}–{{ formatDate(dateRange.end) }}
+                (<a href="?">Reset dates</a>)
+            </p>
+
+            <form action="" method="get" class="tools-filter-form">
+
+                <div class="tools-filter-form__item">
+                    <label for="start" class="ff-label">Start date</label>
+                    <input class="ff-text"
+                           type="date"
+                           min="{{ formatDate(oldestDate, "YYYY-MM-DD") }}"
+                           max="{{ formatDate(now, "YYYY-MM-DD") }}"
+                           value="{{ formatDate(dateRange.start, "YYYY-MM-DD") }}"
+                           name="start"
+                           id="start"
+                    >
+                </div>
+                <div class="tools-filter-form__item">
+                    <label for="end" class="ff-label">End date</label>
+                    <input class="ff-text"
+                           type="date"
+                           min="{{ formatDate(oldestDate, "YYYY-MM-DD") }}"
+                           max="{{ formatDate(now, "YYYY-MM-DD") }}"
+                           value="{{ formatDate(dateRange.end, "YYYY-MM-DD") }}"
+                           name="end"
+                           id="end"
+                    >
+                </div>
+
+                <div class="tools-filter-form__item tools-filter-form__actions">
+                    <input class="btn btn--small" type="submit" value="Filter by date"/>
+                </div>
+            </form>
 
             <form class="country-picker u-margin-bottom-l u-margin-top">
-                <label>Choose a country:</label>
-                {% set countries = [
-                    {
-                        'value': 'uk',
-                        'label': 'UK-wide'
-                    },
-                    {
-                        'value': 'england',
-                        'label': 'England'
-                    },
-                    {
-                        'value': 'northern-ireland',
-                        'label': 'Northern Ireland'
-                    },
-                    {
-                        'value': 'scotland',
-                        'label': 'Scotland'
-                    },
-                    {
-                        'value': 'wales',
-                        'label': 'Wales'
-                    }
-                ] %}
-                <select class="js-country">
-                    {% for c in countries %}
-                        <option value="{{ c.value }}"{% if c.value === country %} selected="selected"{% endif %}>
-                            {{ c.label }}
-                        </option>
-                    {% endfor %}
-                </select>
+
             </form>
 
             {% for appType in applicationData %}
