@@ -1155,7 +1155,7 @@ it('should complete standard your funding proposal form', () => {
             cy.findAllByText('Start your proposal').click();
         });
 
-        cy.findAllByText('Start')
+        cy.findAllByText('Start your proposal')
             .first()
             .click();
 
