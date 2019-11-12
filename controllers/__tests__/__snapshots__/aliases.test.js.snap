@@ -6362,5 +6362,45 @@ Array [
     "from": "/welsh/wales/research/open-data",
     "to": "/welsh/data#open-data",
   },
+  Object {
+    "from": "/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/welsh/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/welsh/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/england/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/welsh/england/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/welsh/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/scotland/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/welsh/scotland/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/welsh/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/northernireland/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/welsh/northernireland/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/welsh/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/wales/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/about/customer-service/supplier-zone",
+  },
+  Object {
+    "from": "/welsh/wales/about/customer-service/supplier-zone/contracts-finder",
+    "to": "/welsh/about/customer-service/supplier-zone",
+  },
 ]
 `;
