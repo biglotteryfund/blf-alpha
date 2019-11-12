@@ -185,7 +185,8 @@ const aliases = {
     //===== Misc/other =====//
     '/contact-us': '/contact',
     '/news-and-events': '/news',
-    '/research/open-data': '/data#open-data'
+    '/research/open-data': '/data#open-data',
+    '/about/customer-service/supplier-zone/contracts-finder': '/about/customer-service/supplier-zone'
 };
 
 /**
