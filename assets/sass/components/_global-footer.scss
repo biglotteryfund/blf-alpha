@@ -23,13 +23,13 @@
 
     .global-footer__inner {
         padding: 0;
+        @include clearfix();
 
         @include mq('medium-minor') {
             width: calc(100% - #{$spacingUnit});
             max-width: $maxWidth;
             margin: 0 auto;
             padding: 60px 0;
-            display: flex;
         }
     }
 
@@ -67,19 +67,26 @@
 
         @include mq('medium-minor') {
             padding: 0;
-            flex: 1 1 auto;
+            float: left;
+        }
+    }
+
+    .global-footer__quicklinks {
+        @include mq('medium-minor') {
+            width: 63%;
+            margin-right: 2%;
+        }
+    }
+
+    .global-footer__meta {
+        @include mq('medium-minor') {
+            width: 35%;
         }
     }
 
     .global-footer__meta {
         @include mq('medium-minor', 'max') {
             background-color: darken(get-color('background', 'dark-neutral'), 3%);
-        }
-    }
-
-    .global-footer__quicklinks {
-        @include mq('medium-minor') {
-            order: 1;
         }
     }
 
