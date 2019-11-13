@@ -1500,6 +1500,7 @@ applyNext:
     lastUpdated: Last updated
     continue: Continue with this application
     delete: Delete
+    createdAt: Created %s at %s
     expiresAt: You have until <strong>%s</strong> to complete your application
   startApplication:
     title: Start an application for National Lottery Awards for All

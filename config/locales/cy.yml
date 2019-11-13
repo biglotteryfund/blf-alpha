@@ -1217,6 +1217,7 @@ applyNext:
     lastUpdated: Wedi’i ddiweddaru diwethaf
     continue: Parhau â’r cais hwn
     delete: Dileu
+    createdAt: Created %s at %s (WELSH)
     expiresAt: Mae gennych nes <strong>%s</strong> i gwblhau eich cais
   startApplication:
     title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol

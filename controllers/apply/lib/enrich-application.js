@@ -1,6 +1,5 @@
 'use strict';
 const get = require('lodash/fp/get');
-const moment = require('moment');
 const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
 
@@ -9,12 +8,6 @@ const standardProposalFormBuilder = require('../standard-proposal/form');
 
 const { findLocationName } = require('./location-options');
 const { formatCurrency, formatDateRange } = require('./formatters');
-
-function formatCreatedAt(createdAt, locale) {
-    return moment(createdAt)
-        .locale(locale)
-        .format('DD/MM/YYYY h:mm a');
-}
 
 function formatBudgetTotal(value) {
     const total = value ? sumBy(value, item => toInteger(item.cost) || 0) : 0;
@@ -32,15 +25,13 @@ function formatYears(value, locale) {
 
 function simpleDetails(application, data, locale) {
     const localise = get(locale);
-    const createdDate = formatCreatedAt(application.createdAt, locale);
 
     return {
-        projectName:
-            data.projectName ||
-            localise({
-                en: `Untitled application - ${createdDate}`,
-                cy: `Cais heb deitl - ${createdDate}`
-            }),
+        projectName: data.projectName,
+        untitledName: localise({
+            en: `Untitled application`,
+            cy: `Cais heb deitl`
+        }),
         amountRequested: formatBudgetTotal(data.projectBudget),
         overview: [
             {
@@ -67,15 +58,13 @@ function simpleDetails(application, data, locale) {
 
 function standardDetails(application, data, locale) {
     const localise = get(locale);
-    const createdDate = formatCreatedAt(application.createdAt, locale);
 
     return {
-        projectName:
-            data.projectName ||
-            localise({
-                en: `Untitled proposal - ${createdDate}`,
-                cy: `Cynnig heb deitl - ${createdDate}`
-            }),
+        projectName: data.projectName,
+        untitledName: localise({
+            en: `Untitled proposal`,
+            cy: `Cynnig heb deitl`
+        }),
         amountRequested: formatCurrency(data.projectCosts || 0),
         overview: [
             {
@@ -112,15 +101,21 @@ function enrichPending(application, locale) {
     const formBuilder = formBuilderFor(application.formId);
     const form = formBuilder({ locale, data });
 
+    const urlSlug =
+        application.formId === 'standard-enquiry'
+            ? 'your-funding-proposal'
+            : 'awards-for-all';
+
     const defaults = {
         type: 'pending',
         id: application.id,
         formId: application.formId,
+        createdAt: application.createdAt,
         expiresAt: application.expiresAt,
         updatedAt: application.updatedAt,
         progress: form.progress,
-        editUrl: `/apply/${application.formId}/edit/${application.id}`,
-        deleteUrl: `/apply/${application.formId}/delete/${application.id}`
+        editUrl: `/apply/${urlSlug}/edit/${application.id}`,
+        deleteUrl: `/apply/${urlSlug}/delete/${application.id}`
     };
 
     return Object.assign(
