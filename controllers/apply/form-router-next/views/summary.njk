@@ -80,7 +80,7 @@
                                     {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
                                     <span class="s-prose" data-hj-suppress>{{ cleanValue }}</span>
                                 {% else %}
-                                    &ndash;
+                                    <span aria-label="{{ copy.summary.notYetCompleted }}">&ndash;</span>
                                 {% endif %}
 
                                 {% if fieldErrors.length > 0 %}
@@ -94,7 +94,7 @@
                         </div>
                         <div class="step-summary__data__link">
                             <a href="{{ formBaseUrl }}/{{ step.slug }}#form-field-{{ field.name }}" class="u-edit-link">
-                                {{ copy.change }}
+                                {{ copy.change }} <span class="u-visually-hidden">{{ field.label | safe }}</span>
                             </a>
                         </div>
                     </div>
@@ -204,6 +204,7 @@
                 <p class="u-align-right u-dont-print">
                     <button type="button"
                         class="btn-link u-text-small js-toggle-all-details js-only u-align-right"
+                        aria-expanded="{% if expandSections %}true{% else %}false{% endif %}"
                         data-label-open="{{ copy.summary.collapseAll }}"
                         data-label-closed="{{ copy.summary.expandAll }}">
                     </button>
@@ -216,7 +217,7 @@
 
             {% if form.progress.isComplete %}
                 <form class="submit-actions" action="{{ formBaseUrl }}/submission" method="post">
-                    <h2 class="submit-actions__title">{{ copy.summary.completeTitle }}</h2>
+                    <h2 class="submit-actions__title">{{ copy.summary.completeTitleConfirm }}</h2>
                     <p class="submit-actions__text u-constrained-wide">{{ copy.summary.completeMessage }}</p>
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">

@@ -3,7 +3,7 @@
 
 {% macro formErrors(title, errors) %}
     {% if errors.length > 0 %}
-        <div class="form-errors" data-testid="form-errors">
+        <div class="form-errors js-form-has-errors" data-testid="form-errors">
             <h2 class="form-errors__title">{{ title }}</h2>
             <div class="form-errors__body">
                 <ol class="form-errors__list">
@@ -44,13 +44,15 @@
 {%- endmacro %}
 
 {% macro inputText(field) %}
+    {# a11y fix - type=email has a bug in Dragon which doesn't allow voice input #}
+    {% set fieldType = field.type if field.type !== 'email' else 'text' %}
     <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
     <input
         class="ff-text"
-        type="{{ field.type }}"
+        type="{{ fieldType }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         {% if field.value %}value="{{ field.value | safe }}"{% endif %}
@@ -280,12 +282,14 @@
                                         {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
                                     />
                                 </div>
-                                <label class="ff-choice__label" for="{{ fieldId }}">
-                                    {{ option.label }}
+                                <div>
+                                    <label class="ff-choice__label" for="{{ fieldId }}">
+                                        {{ option.label }}
+                                    </label>
                                     {% if option.explanation %}
                                         <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
                                     {% endif %}
-                                </label>
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
@@ -305,12 +309,14 @@
                                 {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
                             />
                         </div>
-                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                            {{ option.label }}
+                        <div>
+                            <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                                {{ option.label }}
+                            </label>
                             {% if option.explanation %}
                                 <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
                             {% endif %}
-                        </label>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
@@ -338,12 +344,14 @@
                             {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
                         />
                     </div>
-                    <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                        {{ option.label }}
+                    <div>
+                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ option.label }}
+                        </label>
                         {% if option.explanation %}
                             <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
                         {% endif %}
-                    </label>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

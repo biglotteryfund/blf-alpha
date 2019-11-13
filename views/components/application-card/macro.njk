@@ -1,10 +1,11 @@
 {% macro applicationCard(props, headingLevel = '3') %}
     {% set cardCopy = __('applyNext.applicationCards') %}
+    {% set projectName = props.projectName | widont %}
     <article class="application-card">
         <header class="application-card__header">
             <h{{ headingLevel }} class="application-card__title u-tone-brand-primary" data-hj-suppress>
                 {% if props.editUrl %}<a href="{{ localify(props.editUrl) }}" class="u-link-unstyled">{% endif %}
-                    {{ props.projectName | widont | safe }}
+                    {{ projectName | safe }}
                 {% if props.editUrl %}</a>{% endif %}
             </h{{ headingLevel }}>
             <p class="application-card__amount">
@@ -55,7 +56,10 @@
         {% if props.editUrl %}
             <div class="application-card__actions">
                 <a href="{{ localify(props.editUrl) }}"
-                   class="btn btn--small">{{ cardCopy.continue }}</a>
+                   class="btn btn--small">
+                    {{ cardCopy.continue }}
+                    <span class="u-visually-hidden">({{ projectName | safe }})</span>
+                </a>
                 {% if props.deleteUrl %}
                     <a class="u-text-medium" href="{{ props.deleteUrl }}">
                         {{ cardCopy.delete }}
