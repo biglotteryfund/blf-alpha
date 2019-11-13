@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`determine files to upload 1`] = `
+Object {
+  "filesToUpload": Array [
+    Object {
+      "fieldName": "bankStatement",
+      "fileData": Object {
+        "name": "example.pdf",
+        "size": 13264,
+        "type": "application/pdf",
+      },
+    },
+  ],
+  "valuesByField": Object {
+    "bankStatement": Object {
+      "filename": "example.pdf",
+      "size": 13264,
+      "type": "application/pdf",
+    },
+  },
+}
+`;
+
+exports[`trim file names for upload 1`] = `
+Object {
+  "filesToUpload": Array [
+    Object {
+      "fieldName": "bankStatement",
+      "fileData": Object {
+        "name": "example.pdf",
+        "size": 13264,
+        "type": "application/pdf",
+      },
+    },
+  ],
+  "valuesByField": Object {
+    "bankStatement": Object {
+      "filename": "example.pdf",
+      "size": 13264,
+      "type": "application/pdf",
+    },
+  },
+}
+`;
