@@ -2,15 +2,13 @@
 const fs = require('fs');
 const config = require('config');
 const AWS = require('aws-sdk');
-const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
+const isString = require('lodash/isString');
 
 const { isTestServer } = require('../../../../common/appData');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
-const logger = require('../../../../common/logger').child({
-    service: 's3-uploads'
-});
+const logger = require('../../../../common/logger');
 
 const scanFile = require('./scan-file');
 
@@ -29,12 +27,24 @@ const s3 = new AWS.S3({
 function determineFilesToUpload(fields, files) {
     const validFileFields = fields
         .filter(field => field.type === 'file')
-        .filter(field => get(files, field.name).size > 0);
+        .filter(field => files[field.name].size > 0);
 
     return validFileFields.map(field => {
+        const fileData = files[field.name];
+
+        /**
+         * Trim object string values
+         */
+        const trimmedObject = Object.keys(fileData).reduce(function(acc, key) {
+            acc[key] = isString(fileData[key])
+                ? fileData[key].trim()
+                : fileData[key];
+            return acc;
+        }, {});
+
         return {
             fieldName: field.name,
-            fileData: get(files, field.name)
+            fileData: trimmedObject
         };
     });
 }
@@ -50,7 +60,7 @@ function prepareFilesForUpload(fields, files) {
     const keyedByFieldName = keyBy(filesToUpload, 'fieldName');
     const valuesByField = mapValues(keyedByFieldName, function({ fileData }) {
         return {
-            filename: fileData.name,
+            filename: fileData.name.trim(),
             size: fileData.size,
             type: fileData.type
         };
@@ -79,7 +89,9 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
 
         fileStream.on('open', async () => {
             if (isTestServer) {
-                logger.debug(`Skipped uploading file ${uploadKey}`);
+                logger.debug(`Skipped uploading file ${uploadKey}`, {
+                    service: 's3-uploads'
+                });
                 return resolve();
             } else {
                 s3.putObject(

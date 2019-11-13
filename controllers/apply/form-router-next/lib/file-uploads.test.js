@@ -2,40 +2,38 @@
 'use strict';
 const { prepareFilesForUpload } = require('./file-uploads');
 
-describe('prepareFilesForUpload', () => {
-    test('determine files to upload', () => {
-        const mockFields = [
+test('determine files to upload', () => {
+    const result = prepareFilesForUpload(
+        [
             { name: 'bankStatement', type: 'file' },
             { name: 'anotherField', type: 'text' }
-        ];
-
-        const mockFiles = {
+        ],
+        {
             bankStatement: {
                 size: 13264,
                 name: 'example.pdf',
                 type: 'application/pdf'
             }
-        };
+        }
+    );
 
-        const preparedFiles = prepareFilesForUpload(mockFields, mockFiles);
+    expect(result).toMatchSnapshot();
+});
 
-        expect(preparedFiles.filesToUpload).toEqual([
-            {
-                fieldName: 'bankStatement',
-                fileData: {
-                    size: 13264,
-                    name: 'example.pdf',
-                    type: 'application/pdf'
-                }
-            }
-        ]);
-
-        expect(preparedFiles.valuesByField).toEqual({
+test('trim file names for upload', () => {
+    const result = prepareFilesForUpload(
+        [
+            { name: 'bankStatement', type: 'file' },
+            { name: 'anotherField', type: 'text' }
+        ],
+        {
             bankStatement: {
                 size: 13264,
-                filename: 'example.pdf',
+                name: '   example.pdf  ',
                 type: 'application/pdf'
             }
-        });
-    });
+        }
+    );
+
+    expect(result).toMatchSnapshot();
 });
