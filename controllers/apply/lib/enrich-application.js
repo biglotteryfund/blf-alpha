@@ -10,12 +10,6 @@ const standardProposalFormBuilder = require('../standard-proposal/form');
 const { findLocationName } = require('./location-options');
 const { formatCurrency, formatDateRange } = require('./formatters');
 
-function formBuilderFor(formId) {
-    return formId === 'standard-enquiry'
-        ? standardProposalFormBuilder
-        : awardsForAllFormBuilder;
-}
-
 function formatCreatedAt(createdAt, locale) {
     return moment(createdAt)
         .locale(locale)
@@ -36,10 +30,9 @@ function formatYears(value, locale) {
     })}`;
 }
 
-function simpleDetails(data, locale) {
+function simpleDetails(application, data, locale) {
     const localise = get(locale);
-
-    const createdDate = formatCreatedAt(data.createdAt, locale);
+    const createdDate = formatCreatedAt(application.createdAt, locale);
 
     return {
         projectName:
@@ -72,10 +65,9 @@ function simpleDetails(data, locale) {
     };
 }
 
-function standardDetails(data, locale) {
+function standardDetails(application, data, locale) {
     const localise = get(locale);
-
-    const createdDate = formatCreatedAt(data.createdAt, locale);
+    const createdDate = formatCreatedAt(application.createdAt, locale);
 
     return {
         projectName:
@@ -105,72 +97,52 @@ function standardDetails(data, locale) {
     };
 }
 
+function formBuilderFor(formId) {
+    return formId === 'standard-enquiry'
+        ? standardProposalFormBuilder
+        : awardsForAllFormBuilder;
+}
+
+function detailsFor(formId) {
+    return formId === 'standard-enquiry' ? standardDetails : simpleDetails;
+}
+
 function enrichPending(application, locale) {
     const data = application.applicationData || {};
     const formBuilder = formBuilderFor(application.formId);
     const form = formBuilder({ locale, data });
 
-    function createPending(details) {
-        return Object.assign(
-            {
-                type: 'pending',
-                id: application.id,
-                formId: application.formId,
-                expiresAt: application.expiresAt,
-                updatedAt: application.updatedAt,
-                progress: form.progress
-            },
-            details
-        );
-    }
+    const defaults = {
+        type: 'pending',
+        id: application.id,
+        formId: application.formId,
+        expiresAt: application.expiresAt,
+        updatedAt: application.updatedAt,
+        progress: form.progress,
+        editUrl: `/apply/${application.formId}/edit/${application.id}`,
+        deleteUrl: `/apply/${application.formId}/delete/${application.id}`
+    };
 
-    if (application.formId === 'standard-enquiry') {
-        return createPending({
-            projectName: standardDetails(data, locale).projectName,
-            amountRequested: standardDetails(data, locale).amountRequested,
-            overview: standardDetails(data, locale).overview,
-            editUrl: `/apply/your-funding-proposal/edit/${application.id}`,
-            deleteUrl: `/apply/your-funding-proposal/delete/${application.id}`
-        });
-    } else {
-        return createPending({
-            projectName: simpleDetails(data, locale).projectName,
-            amountRequested: simpleDetails(data, locale).amountRequested,
-            overview: simpleDetails(data, locale).overview,
-            editUrl: `/apply/awards-for-all/edit/${application.id}`,
-            deleteUrl: `/apply/awards-for-all/delete/${application.id}`
-        });
-    }
+    return Object.assign(
+        defaults,
+        detailsFor(application.formId)(application, data, locale)
+    );
 }
 
 function enrichSubmitted(application, locale) {
     const data = application.salesforceSubmission.application;
 
-    function createSubmitted(details) {
-        return Object.assign(
-            {
-                type: 'submitted',
-                id: application.id,
-                formId: application.formId,
-                submittedAt: application.createdAt
-            },
-            details
-        );
-    }
+    const defaults = {
+        type: 'submitted',
+        id: application.id,
+        formId: application.formId,
+        submittedAt: application.createdAt
+    };
 
-    if (application.formId === 'standard-enquiry') {
-        return createSubmitted({
-            projectName: standardDetails(data, locale).projectName,
-            amountRequested: standardDetails(data, locale).amountRequested,
-            overview: standardDetails(data, locale).overview
-        });
-    } else {
-        return createSubmitted({
-            projectName: simpleDetails(data, locale).projectName,
-            amountRequested: simpleDetails(data, locale).amountRequested,
-            overview: simpleDetails(data, locale).overview
-        });
-    }
+    return Object.assign(
+        defaults,
+        detailsFor(application.formId)(application, data, locale)
+    );
 }
 
 module.exports = {
