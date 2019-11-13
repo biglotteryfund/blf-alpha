@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const moment = require('moment');
 const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
 
@@ -13,6 +14,12 @@ function formBuilderFor(formId) {
     return formId === 'standard-enquiry'
         ? standardProposalFormBuilder
         : awardsForAllFormBuilder;
+}
+
+function formatCreatedAt(createdAt, locale) {
+    return moment(createdAt)
+        .locale(locale)
+        .format('DD/MM/YYYY h:mm a');
 }
 
 function formatBudgetTotal(value) {
@@ -29,58 +36,81 @@ function formatYears(value, locale) {
     })}`;
 }
 
-function simpleOverview(data, locale) {
+function simpleDetails(data, locale) {
     const localise = get(locale);
 
-    return [
-        {
-            label: localise({
-                en: 'Project dates',
-                cy: 'Dyddiadau’r prosiect'
+    const createdDate = formatCreatedAt(data.createdAt, locale);
+
+    return {
+        projectName:
+            data.projectName ||
+            localise({
+                en: `Untitled application - ${createdDate}`,
+                cy: `Cais heb deitl - ${createdDate}`
             }),
-            value: data.projectDateRange
-                ? formatDateRange(locale)(data.projectDateRange)
-                : null
-        },
-        {
-            label: localise({ en: 'Location', cy: 'Lleoliad' }),
-            value: findLocationName(data.projectLocation)
-        },
-        {
-            label: localise({ en: 'Organisation', cy: 'Mudiad' }),
-            value: data.organisationTradingName || data.organisationLegalName
-        }
-    ];
+        amountRequested: formatBudgetTotal(data.projectBudget),
+        overview: [
+            {
+                label: localise({
+                    en: 'Project dates',
+                    cy: 'Dyddiadau’r prosiect'
+                }),
+                value: data.projectDateRange
+                    ? formatDateRange(locale)(data.projectDateRange)
+                    : null
+            },
+            {
+                label: localise({ en: 'Location', cy: 'Lleoliad' }),
+                value: findLocationName(data.projectLocation)
+            },
+            {
+                label: localise({ en: 'Organisation', cy: 'Mudiad' }),
+                value:
+                    data.organisationTradingName || data.organisationLegalName
+            }
+        ]
+    };
 }
 
-function standardOverview(data, locale) {
+function standardDetails(data, locale) {
     const localise = get(locale);
 
-    return [
-        {
-            label: localise({ en: 'Project length', cy: 'Hyd y prosiect' }),
-            value: data.projectDurationYears
-                ? formatYears(data.projectDurationYears, locale)
-                : null
-        },
-        {
-            label: localise({ en: 'Location', cy: 'Lleoliad' }),
-            value: findLocationName(data.projectLocation)
-        },
-        {
-            label: localise({ en: 'Organisation', cy: 'Mudiad' }),
-            value: data.organisationTradingName || data.organisationLegalName
-        }
-    ];
+    const createdDate = formatCreatedAt(data.createdAt, locale);
+
+    return {
+        projectName:
+            data.projectName ||
+            localise({
+                en: `Untitled proposal - ${createdDate}`,
+                cy: `Cynnig heb deitl - ${createdDate}`
+            }),
+        amountRequested: formatCurrency(data.projectCosts || 0),
+        overview: [
+            {
+                label: localise({ en: 'Project length', cy: 'Hyd y prosiect' }),
+                value: data.projectDurationYears
+                    ? formatYears(data.projectDurationYears, locale)
+                    : null
+            },
+            {
+                label: localise({ en: 'Location', cy: 'Lleoliad' }),
+                value: findLocationName(data.projectLocation)
+            },
+            {
+                label: localise({ en: 'Organisation', cy: 'Mudiad' }),
+                value:
+                    data.organisationTradingName || data.organisationLegalName
+            }
+        ]
+    };
 }
 
 function enrichPending(application, locale) {
     const data = application.applicationData || {};
     const formBuilder = formBuilderFor(application.formId);
     const form = formBuilder({ locale, data });
-    const localise = get(locale);
 
-    function createPending(props) {
+    function createPending(details) {
         return Object.assign(
             {
                 type: 'pending',
@@ -90,27 +120,23 @@ function enrichPending(application, locale) {
                 updatedAt: application.updatedAt,
                 progress: form.progress
             },
-            props
+            details
         );
     }
 
     if (application.formId === 'standard-enquiry') {
         return createPending({
-            projectName:
-                data.projectName ||
-                localise({ en: 'Untitled proposal', cy: 'Cynnig heb deitl' }),
-            amountRequested: formatCurrency(data.projectCosts || 0),
-            overview: standardOverview(data, locale),
+            projectName: standardDetails(data, locale).projectName,
+            amountRequested: standardDetails(data, locale).amountRequested,
+            overview: standardDetails(data, locale).overview,
             editUrl: `/apply/your-funding-proposal/edit/${application.id}`,
             deleteUrl: `/apply/your-funding-proposal/delete/${application.id}`
         });
     } else {
         return createPending({
-            projectName:
-                data.projectName ||
-                localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
-            amountRequested: formatBudgetTotal(data.projectBudget),
-            overview: simpleOverview(data, locale),
+            projectName: simpleDetails(data, locale).projectName,
+            amountRequested: simpleDetails(data, locale).amountRequested,
+            overview: simpleDetails(data, locale).overview,
             editUrl: `/apply/awards-for-all/edit/${application.id}`,
             deleteUrl: `/apply/awards-for-all/delete/${application.id}`
         });
@@ -119,9 +145,8 @@ function enrichPending(application, locale) {
 
 function enrichSubmitted(application, locale) {
     const data = application.salesforceSubmission.application;
-    const localise = get(locale);
 
-    function createSubmitted(props) {
+    function createSubmitted(details) {
         return Object.assign(
             {
                 type: 'submitted',
@@ -129,25 +154,21 @@ function enrichSubmitted(application, locale) {
                 formId: application.formId,
                 submittedAt: application.createdAt
             },
-            props
+            details
         );
     }
 
     if (application.formId === 'standard-enquiry') {
         return createSubmitted({
-            projectName:
-                data.projectName ||
-                localise({ en: 'Untitled proposal', cy: 'Cynnig heb deitl' }),
-            amountRequested: `£${data.projectCosts.toLocaleString()}`,
-            overview: standardOverview(data, locale)
+            projectName: standardDetails(data, locale).projectName,
+            amountRequested: standardDetails(data, locale).amountRequested,
+            overview: standardDetails(data, locale).overview
         });
     } else {
         return createSubmitted({
-            projectName:
-                data.projectName ||
-                localise({ en: 'Untitled application', cy: 'Cais heb deitl' }),
-            amountRequested: formatBudgetTotal(data.projectBudget),
-            overview: simpleOverview(data, locale)
+            projectName: simpleDetails(data, locale).projectName,
+            amountRequested: simpleDetails(data, locale).amountRequested,
+            overview: simpleDetails(data, locale).overview
         });
     }
 }
