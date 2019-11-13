@@ -117,7 +117,7 @@ module.exports = function(
                                 applicationId: currentApplication.id,
                                 filename: field.value.filename
                             }).then(versionData => {
-                                return salesforce.contentsVersion({
+                                return salesforce.contentVersion({
                                     recordId: salesforceRecordId,
                                     attachmentName: `${
                                         field.name
