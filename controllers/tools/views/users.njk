@@ -14,7 +14,39 @@
             {{ staffStatus(user) }}
 
             <h1 class="u-margin-bottom-s">{{ title }}</h1>
-            <p>Showing users registered in the last <strong>3 months</strong></p>
+
+            <p>
+                {{ formatDate(dateRange.start) }}–{{ formatDate(dateRange.end) }}
+                (<a href="?">Reset dates</a>)
+            </p>
+
+            <form action="" method="get" class="tools-filter-form">
+                <div class="tools-filter-form__item">
+                    <label for="start" class="ff-label">Start date</label>
+                    <input class="ff-text"
+                           type="date"
+                           min="{{ formatDate(oldestDate, "YYYY-MM-DD") }}"
+                           max="{{ formatDate(now, "YYYY-MM-DD") }}"
+                           value="{{ formatDate(dateRange.start, "YYYY-MM-DD") }}"
+                           name="start"
+                           id="start"
+                    >
+                </div>
+                <div class="tools-filter-form__item">
+                    <label for="end" class="ff-label">End date</label>
+                    <input class="ff-text"
+                           type="date"
+                           min="{{ formatDate(oldestDate, "YYYY-MM-DD") }}"
+                           max="{{ formatDate(now, "YYYY-MM-DD") }}"
+                           value="{{ formatDate(dateRange.end, "YYYY-MM-DD") }}"
+                           name="end"
+                           id="end"
+                    >
+                </div>
+                <div class="tools-filter-form__item tools-filter-form__actions">
+                    <input class="btn btn--small" type="submit" value="Filter by date"/>
+                </div>
+            </form>
 
             <h2 class="u-no-margin">Users registered per day</h2>
             <div class="u-margin-bottom">
