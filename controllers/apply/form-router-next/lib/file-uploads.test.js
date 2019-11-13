@@ -2,24 +2,23 @@
 'use strict';
 const { prepareFilesForUpload } = require('./file-uploads');
 
-describe('prepareFilesForUpload', () => {
-    test('determine files to upload', () => {
-        const mockFields = [
+test('determine files to upload', () => {
+    const result = prepareFilesForUpload(
+        [
             { name: 'bankStatement', type: 'file' },
             { name: 'anotherField', type: 'text' }
-        ];
-
-        const mockFiles = {
+        ],
+        {
             bankStatement: {
                 size: 13264,
                 name: 'example.pdf',
                 type: 'application/pdf'
             }
-        };
+        }
+    );
 
-        const preparedFiles = prepareFilesForUpload(mockFields, mockFiles);
-
-        expect(preparedFiles.filesToUpload).toEqual([
+    expect(result).toEqual({
+        filesToUpload: [
             {
                 fieldName: 'bankStatement',
                 fileData: {
@@ -28,14 +27,40 @@ describe('prepareFilesForUpload', () => {
                     type: 'application/pdf'
                 }
             }
-        ]);
-
-        expect(preparedFiles.valuesByField).toEqual({
+        ],
+        valuesByField: {
             bankStatement: {
                 size: 13264,
                 filename: 'example.pdf',
                 type: 'application/pdf'
             }
-        });
+        }
     });
+});
+
+test('trim file names for upload', () => {
+    const result = prepareFilesForUpload(
+        [
+            { name: 'bankStatement', type: 'file' },
+            { name: 'anotherField', type: 'text' }
+        ],
+        {
+            bankStatement: {
+                size: 13264,
+                name: '   example.pdf  ',
+                type: 'application/pdf'
+            }
+        }
+    );
+
+    expect(result.filesToUpload).toEqual([
+        {
+            fieldName: 'bankStatement',
+            fileData: {
+                size: 13264,
+                name: 'example.pdf',
+                type: 'application/pdf'
+            }
+        }
+    ]);
 });
