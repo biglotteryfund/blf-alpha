@@ -133,7 +133,8 @@ module.exports = function(
                     await Promise.all(contentVersionPromises);
                 } catch (error) {
                     logger.error('Error creating ContentVersion', error, {
-                        formId: formId
+                        formId: formId,
+                        applicationId: currentApplication.id
                     });
                 }
             } else {
