@@ -2,7 +2,6 @@
 const fs = require('fs');
 const config = require('config');
 const AWS = require('aws-sdk');
-const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
 
@@ -29,12 +28,18 @@ const s3 = new AWS.S3({
 function determineFilesToUpload(fields, files) {
     const validFileFields = fields
         .filter(field => field.type === 'file')
-        .filter(field => get(files, field.name).size > 0);
+        .filter(field => files[field.name].size > 0);
 
     return validFileFields.map(field => {
+        const fileData = files[field.name];
+
         return {
             fieldName: field.name,
-            fileData: get(files, field.name)
+            fileData: {
+                name: fileData.name.trim(),
+                size: fileData.size,
+                type: fileData.type
+            }
         };
     });
 }
@@ -50,7 +55,7 @@ function prepareFilesForUpload(fields, files) {
     const keyedByFieldName = keyBy(filesToUpload, 'fieldName');
     const valuesByField = mapValues(keyedByFieldName, function({ fileData }) {
         return {
-            filename: fileData.name,
+            filename: fileData.name.trim(),
             size: fileData.size,
             type: fileData.type
         };

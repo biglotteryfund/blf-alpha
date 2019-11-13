@@ -53,14 +53,23 @@ test('trim file names for upload', () => {
         }
     );
 
-    expect(result.filesToUpload).toEqual([
-        {
-            fieldName: 'bankStatement',
-            fileData: {
+    expect(result).toEqual({
+        filesToUpload: [
+            {
+                fieldName: 'bankStatement',
+                fileData: {
+                    size: 13264,
+                    name: 'example.pdf',
+                    type: 'application/pdf'
+                }
+            }
+        ],
+        valuesByField: {
+            bankStatement: {
                 size: 13264,
-                name: 'example.pdf',
+                filename: 'example.pdf',
                 type: 'application/pdf'
             }
         }
-    ]);
+    });
 });
