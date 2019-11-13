@@ -240,15 +240,6 @@ function showLocalSaveWarning() {
     }
 }
 
-// Scroll the error container into view if it exists
-function scrollErrorsIntoView() {
-    const $formErrors = $('.js-form-has-errors').first();
-    if ($formErrors.length > 0) {
-        $formErrors[0].scrollIntoView();
-    }
-
-}
-
 function init() {
     /**
      * Review–step–specific logic
@@ -263,7 +254,6 @@ function init() {
     warnOnUnsavedChanges();
     updateSecondaryNav();
     showLocalSaveWarning();
-    scrollErrorsIntoView();
 
     // Hotjar tagging
     initHotjarTracking('awards-for-all');
