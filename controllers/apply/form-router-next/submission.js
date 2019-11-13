@@ -9,9 +9,7 @@ const {
 } = require('../../../db/models');
 
 const appData = require('../../../common/appData');
-const logger = require('../../../common/logger').child({
-    service: 'salesforce'
-});
+const commonLogger = require('../../../common/logger');
 
 const salesforceService = require('./lib/salesforce');
 const { buildMultipartData } = require('./lib/file-uploads');
@@ -24,6 +22,11 @@ module.exports = function(
     enableSalesforceConnector
 ) {
     const router = express.Router();
+
+    const logger = commonLogger.child({
+        service: 'salesforce',
+        formId: formId
+    });
 
     /**
      * Route: Submission
@@ -48,9 +51,7 @@ module.exports = function(
                     data: currentApplicationData
                 });
 
-                logger.info('Submission successful', {
-                    formId: formId
-                });
+                logger.info('Submission successful');
 
                 res.render(path.resolve(__dirname, './views/confirmation'), {
                     title: confirmation.title,
@@ -61,9 +62,7 @@ module.exports = function(
         }
 
         try {
-            logger.info('Submission started', {
-                formId: formId
-            });
+            logger.info('Submission started');
 
             /**
              * Increment submission attempts
@@ -99,34 +98,43 @@ module.exports = function(
                     salesforceFormData
                 );
 
-                logger.info('FormData record created', {
-                    formId: formId
-                });
+                logger.info('FormData record created');
 
-                const contentVersionPromises = form
-                    .getCurrentFields()
-                    .filter(field => field.type === 'file')
-                    .map(async function(field) {
-                        return buildMultipartData({
-                            formId: formId,
-                            applicationId: currentApplication.id,
-                            filename: field.value.filename
-                        }).then(versionData => {
-                            return salesforce.contentVersion({
-                                recordId: salesforceRecordId,
-                                attachmentName: `${field.name}${path.extname(
-                                    field.value.filename
-                                )}`,
-                                versionData: versionData
+                /**
+                 * We can consider an application "submitted" once the
+                 * main FormData record has been created.
+                 *
+                 * Consider ContentVersion step optional
+                 * but log an error for investigation if upload fails.
+                 */
+                try {
+                    const contentVersionPromises = form
+                        .getCurrentFields()
+                        .filter(field => field.type === 'file')
+                        .map(async function(field) {
+                            return buildMultipartData({
+                                formId: formId,
+                                applicationId: currentApplication.id,
+                                filename: field.value.filename
+                            }).then(versionData => {
+                                return salesforce.contentVersion({
+                                    recordId: salesforceRecordId,
+                                    attachmentName: `${
+                                        field.name
+                                    }${path.extname(field.value.filename)}`,
+                                    versionData: versionData
+                                });
                             });
                         });
-                    });
 
-                await Promise.all(contentVersionPromises);
+                    await Promise.all(contentVersionPromises);
+                } catch (error) {
+                    logger.error('Error creating ContentVersion', error, {
+                        applicationId: currentApplication.id
+                    });
+                }
             } else {
-                logger.debug(`Skipped salesforce submission`, {
-                    formId: formId
-                });
+                logger.debug(`Skipped salesforce submission`);
             }
 
             /**
