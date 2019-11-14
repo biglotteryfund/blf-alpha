@@ -69,7 +69,7 @@ function normaliseErrors({ validationError, errorMessages }) {
 }
 
 /**
- * This is structurally the same as validate-form.js in form-router-next.
+ * This is structurally the same as validate-form.js in form-router.
  * If we reach a point where we're happy with the abstraction and the use-cases
  * don't diverge we could merge these together.
  * @TODO: Merge with validate-form?
