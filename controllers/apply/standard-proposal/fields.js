@@ -122,7 +122,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             );
         }
 
-        return new CheckboxField({
+        return new RadioField({
             locale: locale,
             name: 'projectCountries',
             label: localise({
@@ -138,6 +138,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
             }),
             options: options(),
+            /**
+             * Treat single options as an array to account for
+             * pending proposals that used checkbox selection.
+             *
+             * Multiple selection disabled until UK-portfolio is enabled.
+             * @TODO: Remove and switch back to checkbox when launching UK-portfolio
+             */
+            schema: Joi.array()
+                .items(
+                    Joi.string().valid(options().map(option => option.value))
+                )
+                .single(),
             messages: [
                 {
                     type: 'base',
