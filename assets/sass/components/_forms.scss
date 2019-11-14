@@ -179,7 +179,9 @@
    ========================================================================= */
 
 $inputPadding: 6px 12px;
-$inputOutline: 3px solid get-color('border', 'outline');
+$inputOutlineWidth: 3px;
+$inputOutlineColour: get-color('border', 'outline');
+$inputOutline: $inputOutlineWidth solid $inputOutlineColour;
 
 /**
  * Field labels
@@ -302,73 +304,95 @@ $inputOutline: 3px solid get-color('border', 'outline');
             }
         }
 
+        // Radio button component
+        //
+        // Styles taken from https://design-system.service.gov.uk/components/radios/
+
+        $radioRadius: 32px;
+        $radioBorder: 2px;
+        $radioTotalSize: $radioRadius + ($radioBorder * 2);
+        $labelOffset: $radioRadius + 10px;
+
         &.ff-choice__option--radio {
             position: relative;
-            min-height: 40px;
             display: block;
-            clear: left;
-            margin-top: 20px;
+            min-height: $radioRadius;
+            margin-top: $spacingUnit;
 
+            // Hide the real radio input by making it transparent
             input[type='radio'] {
                 cursor: pointer;
                 position: absolute;
                 z-index: 1;
-                top: -2px;
-                left: -2px;
-                width: 44px;
-                height: 44px;
+                top: -#{$radioBorder / 2};
+                left: -#{$radioBorder / 2};
+                width: $radioTotalSize;
+                height: $radioTotalSize;
                 margin: 0;
                 opacity: 0;
+
+                // Focus state for radio input
+                // (eg. outline the radio button)
                 &:focus+.ff-choice__label:before {
-                    border-width:4px;
-                    box-shadow:0 0 0 4px #fd0
+                    border-width: $radioBorder * 2;
+                    box-shadow: 0 0 0 $inputOutlineWidth $inputOutlineColour;
                 }
+
+                // Checked state for radio input
+                // (eg. show the filled circle)
                 &:checked+.ff-choice__label:after {
-                    opacity:1
+                    opacity: 1
                 }
+
+                // Disabled state for radio input
+                // (eg. normal cursor and faded input)
                 &:disabled,
                 &:disabled+.ff-choice__label {
-                    cursor:default
+                    cursor: default;
                 }
+
                 &:disabled+.ff-choice__label {
-                    opacity:.5
+                    opacity: .5;
                 }
+            }
+
+            .ff-choice__label,
+            .ff-choice__caption {
+                padding-left: $labelOffset;
             }
 
             .ff-choice__label {
                 display: inline-block;
-                padding: 6px 0px 0px 50px;
+                vertical-align: middle;
 
-
+                // Draw an outline for a radio button
                 &:before {
                     content: "";
                     position: absolute;
                     top: 0;
                     left: 0;
-                    width: 40px;
-                    height: 40px;
-                    border: 2px solid currentColor;
+                    width: $radioRadius;
+                    height: $radioRadius;
+                    border: $radioBorder solid currentColor;
                     border-radius: 50%;
                     background: transparent;
                 }
 
+                // Draw a filled-in circle for a checked radio button
                 &:after {
                     content: "";
                     position: absolute;
-                    top: 10px;
-                    left: 10px;
+                    top: #{$radioRadius / 4};
+                    left: #{$radioRadius / 4};
                     width: 0;
                     height: 0;
-                    border: 10px solid currentColor;
+                    border: #{$radioRadius / 4} solid currentColor;
                     border-radius: 50%;
                     opacity: 0;
                     background: currentColor;
                 }
             }
 
-            .ff-choice__caption {
-                padding-left: 50px;
-            }
         }
 
     }
