@@ -5,17 +5,10 @@ const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
-const {
-    BENEFICIARY_GROUPS,
-    CONTACT_EXCLUDED_TYPES,
-    MAX_BUDGET_TOTAL_GBP,
-    MIN_AGE_MAIN_CONTACT,
-    MIN_AGE_SENIOR_CONTACT,
-    MIN_BUDGET_TOTAL_GBP,
-    ORGANISATION_TYPES,
-    STATUTORY_BODY_TYPES,
-    FREE_TEXT_MAXLENGTH
-} = require('./constants');
+
+const EmailField = require('../lib/field-types/email');
+const PhoneField = require('../lib/field-types/phone');
+const NameField = require('../lib/field-types/name');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -32,14 +25,24 @@ const fieldProjectDateRange = require('./fields/project-date-range');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldEducationNumber = require('./fields/education-number');
-const fieldPhone = require('./fields/phone');
-const fieldEmail = require('./fields/email');
 const fieldAddress = require('./fields/address');
 const fieldBankStatement = require('./fields/bank-statement');
 const fieldBuildingSocietyNumber = require('./fields/building-society-number');
 const fieldBankAccountNumber = require('./fields/bank-account-number');
 const fieldBankSortCode = require('./fields/bank-sort-code');
 const fieldBankAccountName = require('./fields/bank-account-name');
+
+const {
+    BENEFICIARY_GROUPS,
+    CONTACT_EXCLUDED_TYPES,
+    MAX_BUDGET_TOTAL_GBP,
+    MIN_AGE_MAIN_CONTACT,
+    MIN_AGE_SENIOR_CONTACT,
+    MIN_BUDGET_TOTAL_GBP,
+    ORGANISATION_TYPES,
+    STATUTORY_BODY_TYPES,
+    FREE_TEXT_MAXLENGTH
+} = require('./constants');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -188,60 +191,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
 
         return { ...defaultProps, ...props };
-    }
-
-    function nameField(props) {
-        const combined = {
-            ...{
-                type: 'full-name',
-                isRequired: true
-            },
-            ...props
-        };
-
-        combined.messages = [
-            {
-                type: 'base',
-                message: localise({
-                    en: 'Enter first and last name',
-                    cy: 'Rhowch enw cyntaf a chyfenw'
-                })
-            },
-            {
-                type: 'any.empty',
-                key: 'firstName',
-                message: localise({
-                    en: 'Enter first name',
-                    cy: 'Rhowch enw cyntaf'
-                })
-            },
-            {
-                type: 'string.max',
-                key: 'firstName',
-                message: localise({
-                    en: `First name must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                    cy: `Rhaid i’r enw cyntaf fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
-                })
-            },
-            {
-                type: 'string.max',
-                key: 'lastName',
-                message: localise({
-                    en: `Last name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                    cy: `Rhaid i’r cyfenw fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                })
-            },
-            {
-                type: 'any.empty',
-                key: 'lastName',
-                message: localise({
-                    en: 'Enter last name',
-                    cy: 'Rhowch gyfenw'
-                })
-            }
-        ].concat(props.messages || []);
-
-        return combined;
     }
 
     function dateOfBirthField(minAge, props) {
@@ -1422,7 +1371,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         totalIncomeYear: fieldTotalIncomeYear(locale),
-        mainContactName: nameField({
+        mainContactName: new NameField({
+            locale: locale,
             name: 'mainContactName',
             label: localise({
                 en: 'Full name of main contact',
@@ -1448,7 +1398,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                                      have the same surname. Remember we can't fund projects
                                      where the two contacts are married or related by blood.</span>`,
                             cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
-                                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau 
+                                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau
                                      lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`
                         })
                     );
@@ -1510,21 +1460,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        mainContactEmail: fieldEmail(
-            locale,
-            {
-                name: 'mainContactEmail',
-                explanation: localise({
-                    en:
-                        'We’ll use this whenever we get in touch about the project',
-                    cy:
-                        'Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect'
-                }),
-                schema: Joi.string()
-                    .email()
-                    .invalid(Joi.ref('seniorContactEmail'))
-            },
-            [
+        mainContactEmail: new EmailField({
+            locale: locale,
+            name: 'mainContactEmail',
+            explanation: localise({
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`
+            }),
+            schema: Joi.string()
+                .email()
+                .invalid(Joi.ref('seniorContactEmail')),
+            messages: [
                 {
                     type: 'any.invalid',
                     message: localise({
@@ -1533,8 +1479,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 }
             ]
-        ),
-        mainContactPhone: fieldPhone(locale, {
+        }),
+        mainContactPhone: new PhoneField({
+            locale: locale,
             name: 'mainContactPhone'
         }),
         mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
@@ -1563,7 +1510,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         seniorContactRole: fieldSeniorContactRole(locale, data),
-        seniorContactName: nameField({
+        seniorContactName: new NameField({
+            locale: locale,
             name: 'seniorContactName',
             label: localise({
                 en: 'Full name of senior contact',
@@ -1625,15 +1573,16 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        seniorContactEmail: fieldEmail(locale, {
+        seniorContactEmail: new EmailField({
+            locale: locale,
             name: 'seniorContactEmail',
             explanation: localise({
-                en: 'We’ll use this whenever we get in touch about the project',
-                cy:
-                    'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`
             })
         }),
-        seniorContactPhone: fieldPhone(locale, {
+        seniorContactPhone: new PhoneField({
+            locale: locale,
             name: 'seniorContactPhone'
         }),
         seniorContactLanguagePreference: fieldContactLanguagePreference(
