@@ -1,5 +1,6 @@
 'use strict';
 const find = require('lodash/fp/find');
+const castArray = require('lodash/castArray');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
@@ -32,8 +33,15 @@ class RadioField extends Field {
     }
 
     get displayValue() {
-        const match = find(option => option.value === this.value)(this.options);
-        return match ? match.label : '';
+        if (this.value) {
+            const choices = castArray(this.value);
+            const match = find(option => option.value === choices[0])(
+                this.options
+            );
+            return match ? match.label : '';
+        } else {
+            return '';
+        }
     }
 }
 
