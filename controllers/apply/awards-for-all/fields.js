@@ -7,6 +7,7 @@ const { oneLine } = require('common-tags');
 const Joi = require('../lib/joi-extensions');
 
 const EmailField = require('../lib/field-types/email');
+const PhoneField = require('../lib/field-types/phone');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -23,7 +24,6 @@ const fieldProjectDateRange = require('./fields/project-date-range');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldEducationNumber = require('./fields/education-number');
-const fieldPhone = require('./fields/phone');
 const fieldAddress = require('./fields/address');
 const fieldBankStatement = require('./fields/bank-statement');
 const fieldBuildingSocietyNumber = require('./fields/building-society-number');
@@ -1532,7 +1532,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         }),
-        mainContactPhone: fieldPhone(locale, {
+        mainContactPhone: new PhoneField({
+            locale: locale,
             name: 'mainContactPhone'
         }),
         mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
@@ -1631,7 +1632,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`
             })
         }),
-        seniorContactPhone: fieldPhone(locale, {
+        seniorContactPhone: new PhoneField({
+            locale: locale,
             name: 'seniorContactPhone'
         }),
         seniorContactLanguagePreference: fieldContactLanguagePreference(
