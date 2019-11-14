@@ -165,14 +165,6 @@ function initFormRouter({
     });
 
     /**
-     * Route: Questions list
-     */
-    router.use(
-        '/questions',
-        require('./questions')(formId, formBuilder, eligibilityBuilder)
-    );
-
-    /**
      * Route: Eligibility
      */
     if (eligibilityBuilder) {
