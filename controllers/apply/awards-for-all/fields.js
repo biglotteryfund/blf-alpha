@@ -8,6 +8,7 @@ const Joi = require('../lib/joi-extensions');
 
 const EmailField = require('../lib/field-types/email');
 const PhoneField = require('../lib/field-types/phone');
+const NameField = require('../lib/field-types/name');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -190,60 +191,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
 
         return { ...defaultProps, ...props };
-    }
-
-    function nameField(props) {
-        const combined = {
-            ...{
-                type: 'full-name',
-                isRequired: true
-            },
-            ...props
-        };
-
-        combined.messages = [
-            {
-                type: 'base',
-                message: localise({
-                    en: 'Enter first and last name',
-                    cy: 'Rhowch enw cyntaf a chyfenw'
-                })
-            },
-            {
-                type: 'any.empty',
-                key: 'firstName',
-                message: localise({
-                    en: 'Enter first name',
-                    cy: 'Rhowch enw cyntaf'
-                })
-            },
-            {
-                type: 'string.max',
-                key: 'firstName',
-                message: localise({
-                    en: `First name must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                    cy: `Rhaid i’r enw cyntaf fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
-                })
-            },
-            {
-                type: 'string.max',
-                key: 'lastName',
-                message: localise({
-                    en: `Last name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                    cy: `Rhaid i’r cyfenw fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                })
-            },
-            {
-                type: 'any.empty',
-                key: 'lastName',
-                message: localise({
-                    en: 'Enter last name',
-                    cy: 'Rhowch gyfenw'
-                })
-            }
-        ].concat(props.messages || []);
-
-        return combined;
     }
 
     function dateOfBirthField(minAge, props) {
@@ -1424,7 +1371,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         totalIncomeYear: fieldTotalIncomeYear(locale),
-        mainContactName: nameField({
+        mainContactName: new NameField({
+            locale: locale,
             name: 'mainContactName',
             label: localise({
                 en: 'Full name of main contact',
@@ -1450,7 +1398,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                                      have the same surname. Remember we can't fund projects
                                      where the two contacts are married or related by blood.</span>`,
                             cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
-                                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau 
+                                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau
                                      lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`
                         })
                     );
@@ -1562,7 +1510,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         seniorContactRole: fieldSeniorContactRole(locale, data),
-        seniorContactName: nameField({
+        seniorContactName: new NameField({
+            locale: locale,
             name: 'seniorContactName',
             label: localise({
                 en: 'Full name of senior contact',

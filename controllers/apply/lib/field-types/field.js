@@ -42,6 +42,8 @@ class Field {
         // @TODO Should this merge based on key rather than a plain concat?
         this.messages = this.defaultMessages().concat(props.messages || []);
 
+        this.warnings = props.warnings || [];
+
         this.value = undefined;
         this.errors = [];
         this.featuredErrors = [];
