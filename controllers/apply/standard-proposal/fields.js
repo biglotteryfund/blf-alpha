@@ -15,7 +15,6 @@ const {
     PhoneField,
     CurrencyField,
     RadioField,
-    CheckboxField,
     SelectField,
     AddressField,
     NameField
