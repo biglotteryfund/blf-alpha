@@ -212,6 +212,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldProjectLocationDescription() {
         const maxLength = 255;
+        const baseSchema = Joi.string().max(maxLength);
+
         return new Field({
             locale: locale,
             name: 'projectLocationDescription',
@@ -225,9 +227,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     'Yorkshire' or 'Glasgow, Cardiff and Belfast'`,
                 cy: ``
             }),
-            isRequired: false,
+            isRequired: projectCountries.length > 1,
+            schema: Joi.when('projectCountries', {
+                is: Joi.array().min(2),
+                then: baseSchema.required(),
+                otherwise: baseSchema.allow('').optional()
+            }),
             maxLength: maxLength,
             messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us all of the locations that you'll be running your project in`,
+                        cy: ''
+                    })
+                },
                 {
                     type: 'string.max',
                     message: localise({

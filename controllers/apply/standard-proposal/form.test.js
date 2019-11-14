@@ -15,7 +15,7 @@ function mockResponse(overrides = {}) {
         projectName: 'My project',
         projectCountries: ['england'],
         projectLocation: 'derbyshire',
-        projectLocationDescription: 'optional description',
+        projectLocationDescription: 'description',
         projectCosts: '250,000',
         projectDurationYears: 3,
         yourIdeaProject: faker.lorem.words(random(50, 500)),
@@ -112,8 +112,7 @@ test('organisation sub-type required for statutory-body', function() {
 test('language preference required in wales', function() {
     const form = formBuilder({
         data: mockResponse({
-            projectCountries: ['england', 'wales'],
-            projectLocation: 'swansea'
+            projectCountries: ['england', 'wales']
         })
     });
 
@@ -124,7 +123,6 @@ test('language preference required in wales', function() {
     const formValid = formBuilder({
         data: mockResponse({
             projectCountries: ['england', 'wales'],
-            projectLocation: 'swansea',
             contactLanguagePreference: 'welsh'
         })
     });
@@ -155,4 +153,19 @@ test.each([
     const expected = omit(data, fieldName);
     const result = form.validate(expected);
     expect(result.error).toBeNull();
+});
+
+test('projectLocationDescription required if multiple countries selected', function() {
+    const form = formBuilder({
+        data: mockResponse({
+            projectCountries: ['england', 'wales'],
+            projectLocationDescription: null
+        })
+    });
+
+    expect(mapMessages(form.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Tell us all of the locations')
+        ])
+    );
 });
