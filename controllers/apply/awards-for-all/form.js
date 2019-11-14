@@ -28,26 +28,8 @@ const { getContactFullName } = require('./lib/contacts');
 const { isTestServer } = require('../../../common/appData');
 const { checkBankAccountDetails } = require('./lib/bank-api');
 
-module.exports = function({
-    locale = 'en',
-    data = {},
-    showAllFields = false
-} = {}) {
+module.exports = function({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);
-
-    const conditionalFields = (fields, filteredFields) => {
-        const filteredFieldNames = filteredFields.map(_ => _.name);
-        const allFields = compact(
-            fields.map(f => {
-                if (filteredFieldNames.indexOf(f.name) === -1) {
-                    f.isConditional = true;
-                }
-                return f;
-            })
-        );
-
-        return showAllFields ? allFields : filteredFields;
-    };
 
     const currentOrganisationType = get('organisationType')(data);
 
@@ -107,17 +89,13 @@ module.exports = function({
                      * on the project country, so don't include them if
                      * the country hasn't been provided yet.
                      */
-                    get fields() {
-                        const allFields = [
-                            fields.projectLocation,
-                            fields.projectLocationDescription,
-                            fields.projectPostcode
-                        ];
-                        return conditionalFields(
-                            allFields,
-                            has('projectCountry')(data) ? allFields : []
-                        );
-                    }
+                    fields: has('projectCountry')(data)
+                        ? [
+                              fields.projectLocation,
+                              fields.projectLocationDescription,
+                              fields.projectPostcode
+                          ]
+                        : []
                 }
             ]
         };
@@ -225,21 +203,10 @@ module.exports = function({
                         en: 'Specific groups of people',
                         cy: 'Grwpiau penodol o bobl'
                     }),
-                    get fields() {
-                        const allFields = [
-                            fields.beneficiariesGroups,
-                            fields.beneficiariesGroupsOther
-                        ];
-                        return conditionalFields(
-                            allFields,
-                            compact([
-                                groupsCheck === 'yes' &&
-                                    fields.beneficiariesGroups,
-                                groupsCheck === 'yes' &&
-                                    fields.beneficiariesGroupsOther
-                            ])
-                        );
-                    }
+                    fields: compact([
+                        groupsCheck === 'yes' && fields.beneficiariesGroups,
+                        groupsCheck === 'yes' && fields.beneficiariesGroupsOther
+                    ])
                 }
             ]
         };
@@ -263,12 +230,9 @@ module.exports = function({
                         en: 'Ethnic background',
                         cy: 'Cefndir ethnig'
                     }),
-                    fields: conditionalFields(
-                        [fields.beneficiariesEthnicBackground],
-                        includeIfBeneficiaryType(
-                            BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
-                            [fields.beneficiariesEthnicBackground]
-                        )
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                        [fields.beneficiariesEthnicBackground]
                     )
                 }
             ]
@@ -281,11 +245,9 @@ module.exports = function({
             fieldsets: [
                 {
                     legend: localise({ en: 'Gender', cy: 'Rhyw' }),
-                    fields: conditionalFields(
-                        [fields.beneficiariesGroupsGender],
-                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.GENDER, [
-                            fields.beneficiariesGroupsGender
-                        ])
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.GENDER,
+                        [fields.beneficiariesGroupsGender]
                     )
                 }
             ]
@@ -298,12 +260,9 @@ module.exports = function({
             fieldsets: [
                 {
                     legend: localise({ en: 'Age', cy: 'Oedran' }),
-                    fields: conditionalFields(
-                        [fields.beneficiariesGroupsAge],
-                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
-                            fields.beneficiariesGroupsAge
-                        ])
-                    )
+                    fields: includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
+                        fields.beneficiariesGroupsAge
+                    ])
                 }
             ]
         };
@@ -318,12 +277,9 @@ module.exports = function({
                         en: 'Disabled people',
                         cy: 'Pobl anabl'
                     }),
-                    fields: conditionalFields(
-                        [fields.beneficiariesGroupsDisabledPeople],
-                        includeIfBeneficiaryType(
-                            BENEFICIARY_GROUPS.DISABLED_PEOPLE,
-                            [fields.beneficiariesGroupsDisabledPeople]
-                        )
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.DISABLED_PEOPLE,
+                        [fields.beneficiariesGroupsDisabledPeople]
                     )
                 }
             ]
@@ -342,19 +298,13 @@ module.exports = function({
                         en: 'Religion or belief',
                         cy: 'Crefydd neu gred'
                     }),
-                    get fields() {
-                        const allFields = [
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.RELIGION,
+                        [
                             fields.beneficiariesGroupsReligion,
                             fields.beneficiariesGroupsReligionOther
-                        ];
-                        return conditionalFields(
-                            allFields,
-                            includeIfBeneficiaryType(
-                                BENEFICIARY_GROUPS.RELIGION,
-                                allFields
-                            )
-                        );
-                    }
+                        ]
+                    )
                 }
             ]
         };
@@ -385,12 +335,9 @@ module.exports = function({
                         en: `People who speak Welsh`,
                         cy: `Pobl sy’n siarad Cymraeg`
                     }),
-                    fields: conditionalFields(
-                        [fields.beneficiariesWelshLanguage],
-                        includeIfCountry('wales', [
-                            fields.beneficiariesWelshLanguage
-                        ])
-                    )
+                    fields: includeIfCountry('wales', [
+                        fields.beneficiariesWelshLanguage
+                    ])
                 }
             ]
         };
@@ -409,12 +356,9 @@ module.exports = function({
                         en: `Northern Ireland community`,
                         cy: `Cymuned Gogledd Iwerddon`
                     }),
-                    fields: conditionalFields(
-                        [fields.beneficiariesNorthernIrelandCommunity],
-                        includeIfCountry('northern-ireland', [
-                            fields.beneficiariesNorthernIrelandCommunity
-                        ])
-                    )
+                    fields: includeIfCountry('northern-ireland', [
+                        fields.beneficiariesNorthernIrelandCommunity
+                    ])
                 }
             ]
         };
@@ -497,12 +441,9 @@ module.exports = function({
             fieldsets: [
                 {
                     legend: title,
-                    fields: conditionalFields(
-                        [fields.organisationSubTypeStatutoryBody],
-                        includeIfOrganisationType(
-                            ORGANISATION_TYPES.STATUTORY_BODY,
-                            [fields.organisationSubTypeStatutoryBody]
-                        )
+                    fields: includeIfOrganisationType(
+                        ORGANISATION_TYPES.STATUTORY_BODY,
+                        [fields.organisationSubTypeStatutoryBody]
                     )
                 }
             ]
@@ -540,21 +481,11 @@ module.exports = function({
                         en: 'Registration numbers',
                         cy: 'Rhifau cofrestru'
                     }),
-                    get fields() {
-                        const allFields = [
-                            fields.companyNumber,
-                            fields.charityNumber,
-                            fields.educationNumber
-                        ];
-                        return conditionalFields(
-                            allFields,
-                            compact([
-                                includeCompanyNumber && fields.companyNumber,
-                                includeCharityNumber && fields.charityNumber,
-                                includeEducationNumber && fields.educationNumber
-                            ])
-                        );
-                    }
+                    fields: compact([
+                        includeCompanyNumber && fields.companyNumber,
+                        includeCharityNumber && fields.charityNumber,
+                        includeEducationNumber && fields.educationNumber
+                    ])
                 }
             ]
         };
@@ -581,16 +512,9 @@ module.exports = function({
                         en: 'Organisation finances',
                         cy: 'Cyllid y sefydliad'
                     }),
-                    get fields() {
-                        const allFields = [
-                            fields.accountingYearDate,
-                            fields.totalIncomeYear
-                        ];
-                        return conditionalFields(
-                            allFields,
-                            includeAccountDetails ? allFields : []
-                        );
-                    }
+                    fields: includeAccountDetails
+                        ? [fields.accountingYearDate, fields.totalIncomeYear]
+                        : []
                 }
             ]
         };
@@ -638,36 +562,20 @@ module.exports = function({
                             sefydliad a ariennir yn cwrdd â’n gofynion monitro.
                         </p>`
                     }),
-                    get fields() {
-                        const allFields = [
-                            fields.seniorContactRole,
-                            fields.seniorContactName,
+                    fields: compact([
+                        fields.seniorContactRole,
+                        fields.seniorContactName,
+                        includeAddressAndDob() &&
                             fields.seniorContactDateOfBirth,
-                            fields.seniorContactAddress,
+                        includeAddressAndDob() && fields.seniorContactAddress,
+                        includeAddressAndDob() &&
                             fields.seniorContactAddressHistory,
-                            fields.seniorContactEmail,
-                            fields.seniorContactPhone,
+                        fields.seniorContactEmail,
+                        fields.seniorContactPhone,
+                        isForCountry('wales') &&
                             fields.seniorContactLanguagePreference,
-                            fields.seniorContactCommunicationNeeds
-                        ];
-
-                        const filteredFields = compact([
-                            fields.seniorContactRole,
-                            fields.seniorContactName,
-                            includeAddressAndDob() &&
-                                fields.seniorContactDateOfBirth,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddress,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddressHistory,
-                            fields.seniorContactEmail,
-                            fields.seniorContactPhone,
-                            isForCountry('wales') &&
-                                fields.seniorContactLanguagePreference,
-                            fields.seniorContactCommunicationNeeds
-                        ]);
-                        return conditionalFields(allFields, filteredFields);
-                    }
+                        fields.seniorContactCommunicationNeeds
+                    ])
                 }
             ]
         };
@@ -734,36 +642,18 @@ module.exports = function({
                             `
                         });
                     },
-                    get fields() {
-                        const allFields = compact([
-                            fields.mainContactName,
-                            fields.mainContactDateOfBirth,
-                            fields.mainContactAddress,
+                    fields: compact([
+                        fields.mainContactName,
+                        includeAddressAndDob() && fields.mainContactDateOfBirth,
+                        includeAddressAndDob() && fields.mainContactAddress,
+                        includeAddressAndDob() &&
                             fields.mainContactAddressHistory,
-                            fields.mainContactEmail,
-                            fields.mainContactPhone,
+                        fields.mainContactEmail,
+                        fields.mainContactPhone,
+                        isForCountry('wales') &&
                             fields.mainContactLanguagePreference,
-                            fields.mainContactCommunicationNeeds
-                        ]);
-
-                        return conditionalFields(
-                            allFields,
-                            compact([
-                                fields.mainContactName,
-                                includeAddressAndDob() &&
-                                    fields.mainContactDateOfBirth,
-                                includeAddressAndDob() &&
-                                    fields.mainContactAddress,
-                                includeAddressAndDob() &&
-                                    fields.mainContactAddressHistory,
-                                fields.mainContactEmail,
-                                fields.mainContactPhone,
-                                isForCountry('wales') &&
-                                    fields.mainContactLanguagePreference,
-                                fields.mainContactCommunicationNeeds
-                            ])
-                        );
-                    }
+                        fields.mainContactCommunicationNeeds
+                    ])
                 }
             ]
         };
