@@ -1164,33 +1164,7 @@ apply:
     title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
     intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
     callToAction: Dechrau cais newydd
-  dashboard:
-    title: Eich ceisiadau
-    introduction: >
-      <p>Yma, gallwch barhau â chais rydych eisoes wedi dechrau.
-      Gallwch hefyd ddechrau <a href="%s">cais newydd</a> a gweld unrhyw
-      geisiadau rydych eisoes wedi ei gyflwyno ar-lein. Gallwch hefyd weld y
-      <a href="%s">cwestiynau bydd yn cael ei gofyn i chi</a> pan fyddwch yn ymgeisio.</p>
-    inProgressTitle: Ar ei ganol
-    submitted: Wedi’i gyflwyno
-    notYetCompleted: heb ei gwblhau eto
-    continueApplication: Parhau â’r cais hwn
-    applicationStatus: Statws y cais
-    notSubmitted: Heb ei gyflwyno
-    expiryMessage: >
-      <p>Dechreuoch eich cais ar <strong>%s</strong>.</p>
-      <p>Mae gennych tan <strong>%s</strong> i gwblhau eich cais.</p>
-    beforeYouStart:
-      title: Cyn i chi ddechrau
-      body: >
-        Efallai hoffech edrych ar gyngor ac awgrymiadau defnyddiol am <a href="/welsh/funding/under10k">ymgeisio am arian ar ein gwefan</a>.
-    decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
-      <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
-    newApplication:
-      title: Cais newydd
-      body: Gallwch greu cais ariannu newydd am %s yma
-      cta: Dechrau cais newydd
-  dashboardNew:
+  applicationsDashboard:
     latest:
       title: Cais diweddaraf
       introduction: >

@@ -59,7 +59,7 @@ router.get(
     '/',
     noStore,
     requireActiveUser,
-    injectCopy('apply.dashboardNew'),
+    injectCopy('apply.applicationsDashboard'),
     injectNavigationLinks,
     async function(req, res, next) {
         const { copy } = res.locals;
@@ -103,7 +103,7 @@ router.get(
     '/all',
     noStore,
     requireActiveUser,
-    injectCopy('apply.dashboardNew'),
+    injectCopy('apply.applicationsDashboard'),
     injectNavigationLinks,
     async function(req, res, next) {
         const { copy } = res.locals;
