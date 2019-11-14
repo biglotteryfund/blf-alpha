@@ -5,17 +5,8 @@ const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
-const {
-    BENEFICIARY_GROUPS,
-    CONTACT_EXCLUDED_TYPES,
-    MAX_BUDGET_TOTAL_GBP,
-    MIN_AGE_MAIN_CONTACT,
-    MIN_AGE_SENIOR_CONTACT,
-    MIN_BUDGET_TOTAL_GBP,
-    ORGANISATION_TYPES,
-    STATUTORY_BODY_TYPES,
-    FREE_TEXT_MAXLENGTH
-} = require('./constants');
+
+const EmailField = require('../lib/field-types/email');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -33,13 +24,24 @@ const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldEducationNumber = require('./fields/education-number');
 const fieldPhone = require('./fields/phone');
-const fieldEmail = require('./fields/email');
 const fieldAddress = require('./fields/address');
 const fieldBankStatement = require('./fields/bank-statement');
 const fieldBuildingSocietyNumber = require('./fields/building-society-number');
 const fieldBankAccountNumber = require('./fields/bank-account-number');
 const fieldBankSortCode = require('./fields/bank-sort-code');
 const fieldBankAccountName = require('./fields/bank-account-name');
+
+const {
+    BENEFICIARY_GROUPS,
+    CONTACT_EXCLUDED_TYPES,
+    MAX_BUDGET_TOTAL_GBP,
+    MIN_AGE_MAIN_CONTACT,
+    MIN_AGE_SENIOR_CONTACT,
+    MIN_BUDGET_TOTAL_GBP,
+    ORGANISATION_TYPES,
+    STATUTORY_BODY_TYPES,
+    FREE_TEXT_MAXLENGTH
+} = require('./constants');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -1510,21 +1512,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        mainContactEmail: fieldEmail(
-            locale,
-            {
-                name: 'mainContactEmail',
-                explanation: localise({
-                    en:
-                        'We’ll use this whenever we get in touch about the project',
-                    cy:
-                        'Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect'
-                }),
-                schema: Joi.string()
-                    .email()
-                    .invalid(Joi.ref('seniorContactEmail'))
-            },
-            [
+        mainContactEmail: new EmailField({
+            locale: locale,
+            name: 'mainContactEmail',
+            explanation: localise({
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`
+            }),
+            schema: Joi.string()
+                .email()
+                .invalid(Joi.ref('seniorContactEmail')),
+            messages: [
                 {
                     type: 'any.invalid',
                     message: localise({
@@ -1533,7 +1531,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 }
             ]
-        ),
+        }),
         mainContactPhone: fieldPhone(locale, {
             name: 'mainContactPhone'
         }),
@@ -1625,12 +1623,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        seniorContactEmail: fieldEmail(locale, {
+        seniorContactEmail: new EmailField({
+            locale: locale,
             name: 'seniorContactEmail',
             explanation: localise({
-                en: 'We’ll use this whenever we get in touch about the project',
-                cy:
-                    'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`
             })
         }),
         seniorContactPhone: fieldPhone(locale, {

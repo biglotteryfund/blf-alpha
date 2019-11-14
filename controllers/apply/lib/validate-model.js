@@ -99,7 +99,9 @@ module.exports = function validateModel(formModel) {
             .required()
     });
 
-    const validationResult = Joi.validate(formModel, formSchema);
+    const validationResult = Joi.validate(formModel, formSchema, {
+        allowUnknown: true
+    });
 
     const arrayFieldTypes = [
         'budget',
