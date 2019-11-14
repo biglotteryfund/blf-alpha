@@ -147,7 +147,8 @@ function initFormRouter({
             // Track attempts to submit form steps when session is expired/invalid
             if (req.method === 'POST') {
                 logger.info('User submitted POST data without valid session', {
-                    formId: formId
+                    formId: formId,
+                    url: req.originalUrl
                 });
             }
         }),
