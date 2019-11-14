@@ -40,15 +40,15 @@ function injectNavigationLinks(req, res, next) {
     res.locals.userNavigationLinks = [
         {
             url: req.baseUrl,
-            label: req.i18n.__('applyNext.navigation.latestApplication')
+            label: req.i18n.__('apply.navigation.latestApplication')
         },
         {
             url: `${req.baseUrl}/all`,
-            label: req.i18n.__('applyNext.navigation.allApplications')
+            label: req.i18n.__('apply.navigation.allApplications')
         },
         {
             url: localify(req.i18n.getLocale())('/user'),
-            label: req.i18n.__('applyNext.navigation.account')
+            label: req.i18n.__('apply.navigation.account')
         }
     ];
 
@@ -59,7 +59,7 @@ router.get(
     '/',
     noStore,
     requireActiveUser,
-    injectCopy('applyNext.dashboardNew'),
+    injectCopy('apply.dashboardNew'),
     injectNavigationLinks,
     async function(req, res, next) {
         const { copy } = res.locals;
@@ -103,7 +103,7 @@ router.get(
     '/all',
     noStore,
     requireActiveUser,
-    injectCopy('applyNext.dashboardNew'),
+    injectCopy('apply.dashboardNew'),
     injectNavigationLinks,
     async function(req, res, next) {
         const { copy } = res.locals;

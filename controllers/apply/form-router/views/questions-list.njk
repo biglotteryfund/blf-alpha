@@ -11,9 +11,9 @@
         {{ copy.questionList.provideBudget }}
         {% if field.attributes.max %}
             {% if field.attributes.rowLimit %}
-                ({{ __('applyNext.questionList.maxBudgetAndRows', field.attributes.max.toLocaleString(), field.attributes.rowLimit) }})
+                ({{ __('apply.questionList.maxBudgetAndRows', field.attributes.max.toLocaleString(), field.attributes.rowLimit) }})
             {% else %}
-                ({{ __('applyNext.questionList.maxBudget', field.attributes.max.toLocaleString()) }})
+                ({{ __('apply.questionList.maxBudget', field.attributes.max.toLocaleString()) }})
             {% endif %}
         {% endif %}
     {% elseif field.type === 'currency' %}
@@ -37,13 +37,13 @@
     {% elseif field.type === 'textarea' %}
         {{ copy.questionList.provideTextLong }}
         {% if field.settings.minWords and field.settings.maxWords %}
-            ({{ __('applyNext.questionList.minAndMaxWords', field.settings.minWords, field.settings.maxWords) }})
+            ({{ __('apply.questionList.minAndMaxWords', field.settings.minWords, field.settings.maxWords) }})
         {% else %}
             {% if field.settings.minWords %}
-                ({{ __('applyNext.questionList.minWords', field.settings.minWords) }})
+                ({{ __('apply.questionList.minWords', field.settings.minWords) }})
             {% endif %}
             {% if field.settings.maxWords %}
-                ({{ __('applyNext.questionList.maxWords', field.settings.maxWords) }})
+                ({{ __('apply.questionList.maxWords', field.settings.maxWords) }})
             {% endif %}
         {% endif %}
     {% endif %}
@@ -79,7 +79,7 @@
     <div class="s-prose">
         <h1 class="t--underline">{{ form.title }}</h1>
         <h3>{{ copy.questionList.introduction.title }}</h3>
-        <p>{{ __('applyNext.questionList.introduction.body', form.title) | safe }}</p>
+        <p>{{ __('apply.questionList.introduction.body', form.title) | safe }}</p>
     </div>
 {% endmacro %}
 

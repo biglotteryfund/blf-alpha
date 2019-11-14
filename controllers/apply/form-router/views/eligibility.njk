@@ -9,7 +9,7 @@
         <div class="content-box u-inner-wide-only">
             {% if eligibilityStatus === 'eligible' %}
                 <div class="s-prose u-constrained-wide">
-                    <h1 class="t--underline">{{ __('applyNext.eligibility.successfulTitle', formTitle) }}</h1>
+                    <h1 class="t--underline">{{ __('apply.eligibility.successfulTitle', formTitle) }}</h1>
                     {{ eligibility.successMessage | safe }}
                     <p class="form-actions">
                         <a class="btn" href="{{ formBaseUrl }}/new">{{ copy.common.startYourApplication }}</a>

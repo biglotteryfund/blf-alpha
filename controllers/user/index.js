@@ -65,11 +65,7 @@ router.get('/session', function(req, res) {
  * Public user routes
  * Disallow staff from this point on
  */
-router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
-    req,
-    res,
-    next
-) {
+router.use(requireNotStaffAuth, injectCopy('apply'), function(req, res, next) {
     res.locals.bodyClass = 'has-static-header'; // No hero images on user pages
     res.locals.sectionTitle = req.i18n.__('user.common.yourAccount');
     res.locals.sectionUrl = req.baseUrl;
@@ -81,15 +77,15 @@ router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
         res.locals.userNavigationLinks = [
             {
                 url: localeUrl('/apply'),
-                label: req.i18n.__('applyNext.navigation.latestApplication')
+                label: req.i18n.__('apply.navigation.latestApplication')
             },
             {
                 url: localeUrl('/apply/all'),
-                label: req.i18n.__('applyNext.navigation.allApplications')
+                label: req.i18n.__('apply.navigation.allApplications')
             },
             {
                 url: req.baseUrl,
-                label: req.i18n.__('applyNext.navigation.account')
+                label: req.i18n.__('apply.navigation.account')
             }
         ];
     }

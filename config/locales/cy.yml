@@ -1140,7 +1140,7 @@ user:
       title: Dal ddim yn gweithio?
       body: >
         <a href="%s">Cysylltwch â ni am gymorth</a>
-applyNext:
+apply:
   navigation:
     previous: Yn ôl
     next: Ymlaen

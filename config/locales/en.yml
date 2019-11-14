@@ -1249,7 +1249,7 @@ user:
       title: Still not working?
       body: >
         <a href="%s">Contact us for help</a>
-applyNext:
+apply:
   navigation:
     previous: Previous
     next: Next
