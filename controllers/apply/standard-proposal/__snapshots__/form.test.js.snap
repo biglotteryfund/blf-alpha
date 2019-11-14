@@ -40,7 +40,7 @@ Object {
   "projectCountries": Any<Array>,
   "projectDurationYears": 3,
   "projectLocation": Any<String>,
-  "projectLocationDescription": "optional description",
+  "projectLocationDescription": "description",
   "projectName": "My project",
   "yourIdeaActivities": Any<String>,
   "yourIdeaCommunity": Any<String>,
