@@ -1140,64 +1140,6 @@ user:
       title: Dal ddim yn gweithio?
       body: >
         <a href="%s">Cysylltwch â ni am gymorth</a>
-apply:
-  error:
-    title: Cafwyd problem gyda'ch cyflwyniad
-    message: >
-      <p>Rydym wedi cael ein hysbysu am y broblem.</p>
-      <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03001230735">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
-  digitalFundDefaults: &digitalFundDefaults
-    title: Dywedwch wrthym beth yw eich syniad
-    errorTitle: Cafwyd problem gyda'ch cyflwyniad
-    fields:
-      name:
-        label: Eich enw
-        errorMessage: Rhowch eich enw
-      email:
-        label: Cyfeiriad e-bost
-        errorMessage: Rhowch gyfeiriad e-bost dilys
-      organisation-name:
-        label: Enw’r mudiad
-        errorMessage: Rhowch enw eich mudiad
-      your-idea:
-        label: Dywedwch yn fras wrthym beth mae eich mudiad yn ei wneud a pha fathau o newidiadau sylweddol rydych wedi bod yn eu hystyried.
-        lengthHint: Cadwch hwn i gwpl o baragraffau
-        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
-      your-idea-product:
-        label: Dywedwch wrthym yn gryno am eich mudiad, y cynnyrch neu wasanaeth yr ydych wedi'i ddatblygu, a'r bobl a fydd yn ei ddefnyddio.
-        lengthHint: Cadwch hwn i gwpl o baragraffau
-        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
-      technology:
-        label: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
-        lengthHint: Cadwch hwn i gwpl o baragraffau
-        errorMessage: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
-    steps:
-      - name: Eich manylion
-        fieldsets:
-        - legend: Eich manylion cyswllt
-          introduction: Dywedwch ychydig wrthym am eich syniad a’ch mudiad fel y gallwn gysylltu â chi
-        - legend: Eich syniad
-    review:
-      title: Gwiriwch fod hyn yn gywir cyn cyflwyno eich gwybodaeth
-      declaration: >
-        Gan ein bod yn cywain data personol gennych fel rhan o’r broses ymgeisio, gallwch weld manylion sut y byddwn yn defnyddio’ch gwybodaeth yn ein
-        <a href="/welsh/about/customer-service/data-protection" target="_blank" rel="noopener">hysbysiad preifatrwydd</a>.
-      proceedLabel: Cyflwyno
-    success:
-      title: Diolch am gysylltu â ni
-      confirmation: Rydym wedi gyrru copi o'r hyn a gyflwynoch atoch trwy e-bost
-      message: Byddwn yn cysylltu’n ôl â chi mor fuan ag y gallwn.
-      nextStepsTitle: Beth sy'n digwydd nesaf?
-      feedback:
-        promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
-        fieldLabel: "Sut oedd eich profiad o'r broses hon?"
-        helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
-  digitalFundStrand1:
-    <<: *digitalFundDefaults
-    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-1">Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi’i deilwra. Y nod yw helpu mudiadau sefydledig i ddefnyddio digidol i gymryd cam sylweddol ymlaen
-  digitalFundStrand2:
-    <<: *digitalFundDefaults
-    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
 applyNext:
   navigation:
     previous: Yn ôl
