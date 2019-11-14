@@ -301,6 +301,76 @@ $inputOutline: 3px solid get-color('border', 'outline');
                 top: -2px;
             }
         }
+
+        &.ff-choice__option--radio {
+            position: relative;
+            min-height: 40px;
+            display: block;
+            clear: left;
+            margin-top: 20px;
+
+            input[type='radio'] {
+                cursor: pointer;
+                position: absolute;
+                z-index: 1;
+                top: -2px;
+                left: -2px;
+                width: 44px;
+                height: 44px;
+                margin: 0;
+                opacity: 0;
+                &:focus+.ff-choice__label:before {
+                    border-width:4px;
+                    box-shadow:0 0 0 4px #fd0
+                }
+                &:checked+.ff-choice__label:after {
+                    opacity:1
+                }
+                &:disabled,
+                &:disabled+.ff-choice__label {
+                    cursor:default
+                }
+                &:disabled+.ff-choice__label {
+                    opacity:.5
+                }
+            }
+
+            .ff-choice__label {
+                display: inline-block;
+                padding: 6px 0px 0px 50px;
+
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 40px;
+                    height: 40px;
+                    border: 2px solid currentColor;
+                    border-radius: 50%;
+                    background: transparent;
+                }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    width: 0;
+                    height: 0;
+                    border: 10px solid currentColor;
+                    border-radius: 50%;
+                    opacity: 0;
+                    background: currentColor;
+                }
+            }
+
+            .ff-choice__caption {
+                padding-left: 50px;
+            }
+        }
+
     }
     .ff-choice__input,
     .ff-choice__label {
