@@ -313,14 +313,15 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
         $radioTotalSize: $radioRadius + ($radioBorder * 2);
         $labelOffset: $radioRadius + 10px;
 
-        &.ff-choice__option--radio {
+        &.ff-choice__option--radio,
+        &.ff-choice__option--checkbox {
             position: relative;
             display: block;
             min-height: $radioRadius;
             margin-top: $spacingUnit;
 
             // Hide the real radio input by making it transparent
-            input[type='radio'] {
+            input {
                 cursor: pointer;
                 position: absolute;
                 z-index: 1;
@@ -354,6 +355,7 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
                 &:disabled+.ff-choice__label {
                     opacity: .5;
                 }
+
             }
 
             .ff-choice__label,
@@ -394,6 +396,32 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
             }
 
         }
+
+        &.ff-choice__option--checkbox {
+
+            // Disable rounded corners for checkboxes
+            .ff-choice__label:before {
+                border-radius: 0;
+            }
+
+            // Draw a tick for selected checkboxes
+            $tickScale: floor($radioRadius / 3);
+            .ff-choice__label:after {
+                border-radius: 0;
+                top: $tickScale;
+                left: $tickScale / 2;
+                width:  $tickScale * 2;
+                height: $tickScale;
+                transform: rotate(-45deg);
+                border: solid;
+                border-width: 0 0 $tickScale / 2 $tickScale / 2;
+                border-top-color: transparent;
+                opacity: 0;
+                background: transparent;
+            }
+        }
+
+
 
     }
     .ff-choice__input,

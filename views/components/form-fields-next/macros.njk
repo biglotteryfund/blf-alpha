@@ -271,25 +271,21 @@
                     <ul class="ff-choice__list">
                         {% for option in optgroup.options %}
                             {% set fieldId = 'field-' + field.name + '-' + optgroupIdx + '-' + loop.index %}
-                            <li class="ff-choice__option{% if option.attributes.disabled %} ff-choice__option--disabled{% endif %}">
-                                <div class="ff-choice__input">
-                                    <input
-                                        type="checkbox"
-                                        id="{{ fieldId }}"
-                                        name="{{ field.name }}"
-                                        value="{{ option.value }}"
-                                        {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
-                                        {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
-                                    />
-                                </div>
-                                <div>
-                                    <label class="ff-choice__label" for="{{ fieldId }}">
-                                        {{ option.label }}
-                                    </label>
-                                    {% if option.explanation %}
-                                        <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
-                                    {% endif %}
-                                </div>
+                            <li class="ff-choice__option ff-choice__option--checkbox{% if option.attributes.disabled %} ff-choice__option--disabled{% endif %}">
+                                <input
+                                    type="checkbox"
+                                    id="{{ fieldId }}"
+                                    name="{{ field.name }}"
+                                    value="{{ option.value }}"
+                                    {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                                    {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+                                />
+                                <label class="ff-choice__label" for="{{ fieldId }}">
+                                    {{ option.label }}
+                                </label>
+                                {% if option.explanation %}
+                                    <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
@@ -298,25 +294,21 @@
         {% else %}
             <ul class="ff-choice__list">
                 {% for option in field.options %}
-                    <li class="ff-choice__option{% if option.attributes.disabled %} ff-choice__option--disabled{% endif %}">
-                        <div class="ff-choice__input">
-                            <input
-                                type="checkbox"
-                                id="field-{{ field.name }}-{{ loop.index }}"
-                                name="{{ field.name }}"
-                                value="{{ option.value }}"
-                                {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
-                                {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
-                            />
-                        </div>
-                        <div>
-                            <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                                {{ option.label }}
-                            </label>
-                            {% if option.explanation %}
-                                <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
-                            {% endif %}
-                        </div>
+                    <li class="ff-choice__option ff-choice__option--checkbox{% if option.attributes.disabled %} ff-choice__option--disabled{% endif %}">
+                        <input
+                            type="checkbox"
+                            id="field-{{ field.name }}-{{ loop.index }}"
+                            name="{{ field.name }}"
+                            value="{{ option.value }}"
+                            {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                            {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+                        />
+                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ option.label }}
+                        </label>
+                        {% if option.explanation %}
+                            <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>
