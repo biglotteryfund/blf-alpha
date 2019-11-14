@@ -1110,7 +1110,7 @@ it('should complete standard your funding proposal form', () => {
     const mock = {
         projectName: faker.lorem.words(5),
         projectCountries: sampleSize(
-            ['England', 'Scotland', 'Northern Ireland'],
+            ['England', 'Northern Ireland'],
             random(1, 2)
         ),
         projectLocationDescription: faker.lorem.words(5),

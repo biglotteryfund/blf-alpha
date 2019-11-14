@@ -5,6 +5,6 @@
     "enableSalesforceConnector": false
   },
   "standardFundingProposal": {
-    "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
+    "allowedCountries": ["england", "northern-ireland"]
   }
 }
