@@ -1109,10 +1109,7 @@ it('should submit full awards for all application', () => {
 it('should complete standard your funding proposal form', () => {
     const mock = {
         projectName: faker.lorem.words(5),
-        projectCountries: sampleSize(
-            ['England', 'Northern Ireland'],
-            random(1, 2)
-        ),
+        projectCountries: sampleSize(['England', 'Northern Ireland'], 1),
         projectLocationDescription: faker.lorem.words(5),
         projectCosts: random(10001, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
@@ -1312,27 +1309,23 @@ it('should submit an enquiry for reaching communities', () => {
     }
 
     function stepOrganisation() {
-        cy.findByLabelText('Legal name', { exact: false }).type(
-            'Test Organisation',
-            { delay: 0 }
-        );
+        cy.findByLabelText('Legal name', {
+            exact: false
+        }).type('Test Organisation', { delay: 0 });
 
         submitStep();
     }
 
     function stepYourDetails() {
-        cy.findByLabelText('First name', { exact: false }).type(
-            faker.name.firstName(),
-            { delay: 0 }
-        );
-        cy.findByLabelText('Last name', { exact: false }).type(
-            faker.name.lastName(),
-            { delay: 0 }
-        );
-        cy.findByLabelText('Email address', { exact: false }).type(
-            faker.internet.exampleEmail(),
-            { delay: 0 }
-        );
+        cy.findByLabelText('First name', {
+            exact: false
+        }).type(faker.name.firstName(), { delay: 0 });
+        cy.findByLabelText('Last name', {
+            exact: false
+        }).type(faker.name.lastName(), { delay: 0 });
+        cy.findByLabelText('Email address', {
+            exact: false
+        }).type(faker.internet.exampleEmail(), { delay: 0 });
         cy.findByLabelText('Phone number', { exact: false }).type(
             '0123456789',
             {
