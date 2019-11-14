@@ -51,12 +51,20 @@ function handleAbandonmentMessage(formEl) {
 function warnOnUnsavedChanges() {
     $('.js-form-warn-unsaved').each(function() {
         const $form = $(this);
+
         const initialState = $form.serialize();
         const formHasErrors = $form.data('form-has-errors');
 
-        $form.submit(function() {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        });
+        $form
+            .find('input[type="submit"], button[type="submit"]')
+            .on('click', function() {
+                const targetName = $(this).attr('name');
+                // Only remove the warning if they've clicked the main submit
+                if (['previousBtn', 'nextBtn'].indexOf(targetName) !== -1) {
+                    return;
+                }
+                window.removeEventListener('beforeunload', handleBeforeUnload);
+            });
 
         $(document).ready(() => {
             if (formHasErrors) {
