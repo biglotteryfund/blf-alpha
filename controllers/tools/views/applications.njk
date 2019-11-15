@@ -8,6 +8,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" crossorigin="anonymous"></script>
 {% endblock %}
 
+{% set countries = [
+    {
+        'value': 'uk',
+        'label': 'UK-wide'
+    },
+    {
+        'value': 'england',
+        'label': 'England'
+    },
+    {
+        'value': 'northern-ireland',
+        'label': 'Northern Ireland'
+    },
+    {
+        'value': 'scotland',
+        'label': 'Scotland'
+    },
+    {
+        'value': 'wales',
+        'label': 'Wales'
+    }
+] %}
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
@@ -28,7 +51,17 @@
             </p>
 
             <form action="" method="get" class="tools-filter-form">
+                <div class="tools-filter-form__item">
+                    <label for="country" class="ff-label">Country</label>
 
+                    <select name="country" class="ff-text">
+                        {% for c in countries %}
+                            <option value="{{ c.value }}"{% if c.value === country %} selected="selected"{% endif %}>
+                                {{ c.label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="tools-filter-form__item">
                     <label for="start" class="ff-label">Start date</label>
                     <input class="ff-text"
@@ -51,7 +84,7 @@
                 </div>
 
                 <div class="tools-filter-form__item tools-filter-form__actions">
-                    <input class="btn btn--small" type="submit" value="Filter by date"/>
+                    <input class="btn btn--small" type="submit" value="Filter"/>
                 </div>
             </form>
 
