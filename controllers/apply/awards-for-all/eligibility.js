@@ -50,8 +50,8 @@ module.exports = function({ locale }) {
 
     const question2 = {
         question: localise({
-            en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished within about ${maxProjectDurationLabel}?`,
-            cy: `A ydych yn ymgeisio am swm rhwng £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} am brosiect a fydd wedi gorffen o fewn oddeutu ${maxProjectDurationLabel}?`
+            en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} that you’ll spend in around ${maxProjectDurationLabel}?`,
+            cy: `A ydych yn ymgeisio am swm rhwng £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} byddwch yn ei wario o fewn oddeutu ${maxProjectDurationLabel}?`
         }),
         explanation: localise({
             en: `We know it's not always possible to complete a project in ${maxProjectDurationLabel} for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
