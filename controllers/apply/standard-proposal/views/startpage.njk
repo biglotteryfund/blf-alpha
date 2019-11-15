@@ -16,11 +16,7 @@
             )}}
 
             <div class="message message--info message--minor" role="alert">
-                {{ copy.applyingForNorthernIreland.title | safe }}
-                <p>{{ copy.applyingForNorthernIreland.description }}</p>
-
-                {{ copy.applyingForWalesScotlandEngland.title | safe }}
-                <p>{{ copy.applyingForWalesScotlandEngland.description | safe }}</p>
+                {{ copy.countryMessage | safe }}
             </div>
 
             <h2>{{ copy.beforeYouStart.title }}</h2>
