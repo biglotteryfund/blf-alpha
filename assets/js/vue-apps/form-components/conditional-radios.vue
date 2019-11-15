@@ -41,19 +41,17 @@ export default {
         <legend class="ff-label ff-address__legend" v-html="label"></legend>
         <ul class="ff-choice__list">
             <li
-                class="ff-choice__option"
+                class="ff-choice__option ff-choice__option--radio"
                 v-for="option in radioOptions"
                 :key="option.value"
             >
-                <div class="ff-choice__input">
-                    <input
-                        type="radio"
-                        :id="optionId(option)"
-                        :name="inputName"
-                        :value="option.value"
-                        v-model="currentChoice"
-                    />
-                </div>
+                <input
+                    type="radio"
+                    :id="optionId(option)"
+                    :name="inputName"
+                    :value="option.value"
+                    v-model="currentChoice"
+                />
                 <label class="ff-choice__label" :for="optionId(option)">
                     {{ option.label }}
                 </label>

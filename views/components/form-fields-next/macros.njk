@@ -471,9 +471,8 @@
             <div class="js-fallback-only">
                 <ul class="ff-choice__list">
                     {% for option in options %}
-                        <li class="ff-choice__option">
+                        <li class="ff-choice__option ff-choice__option--radio">
                             {% set optionId = 'option-' + field.name + '-' + option.value %}
-                            <div class="ff-choice__input">
                                 <input
                                     type="radio"
                                     id="{{ optionId }}"
@@ -481,7 +480,6 @@
                                     value="{{ option.value }}"
                                     {% if field.value['currentAddressMeetsMinimum'] === option.value %}checked{% endif %}
                                 />
-                            </div>
                             <label class="ff-choice__label" for="{{ optionId }}">{{ option.label }}</label>
                         </li>
                     {% endfor %}
