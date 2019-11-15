@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 
 const commonLogger = require('../../../common/logger');
-const { injectCopy } = require('../../../common/inject-content');
 
 const logger = commonLogger.child({
     service: 'apply'
@@ -32,12 +31,15 @@ module.exports = function(eligibilityBuilder, formId) {
 
     router
         .route('/:step?')
-        .all(injectCopy('applyNext'), function(req, res, next) {
+        .all(function(req, res, next) {
+            const copy = req.i18n.__('applyNext');
+
             const eligibility = eligibilityBuilder({
                 locale: req.i18n.getLocale()
             });
 
-            res.locals.title = res.locals.copy.eligibility.title;
+            res.locals.copy = copy;
+            res.locals.title = copy.eligibility.title;
             res.locals.eligibility = eligibility;
 
             const currentStepNumber = parseInt(req.params.step);
