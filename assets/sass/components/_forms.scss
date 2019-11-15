@@ -179,7 +179,9 @@
    ========================================================================= */
 
 $inputPadding: 6px 12px;
-$inputOutline: 3px solid get-color('border', 'outline');
+$inputOutlineWidth: 3px;
+$inputOutlineColour: get-color('border', 'outline');
+$inputOutline: $inputOutlineWidth solid $inputOutlineColour;
 
 /**
  * Field labels
@@ -301,6 +303,126 @@ $inputOutline: 3px solid get-color('border', 'outline');
                 top: -2px;
             }
         }
+
+        // Radio button component
+        //
+        // Styles taken from https://design-system.service.gov.uk/components/radios/
+
+        $radioRadius: 32px;
+        $radioBorder: 2px;
+        $radioTotalSize: $radioRadius + ($radioBorder * 2);
+        $labelOffset: $radioRadius + 10px;
+
+        &.ff-choice__option--radio,
+        &.ff-choice__option--checkbox {
+            position: relative;
+            display: block;
+            min-height: $radioRadius;
+            margin-top: $spacingUnit;
+
+            // Hide the real radio input by making it transparent
+            input {
+                cursor: pointer;
+                position: absolute;
+                z-index: 1;
+                top: -#{$radioBorder / 2};
+                left: -#{$radioBorder / 2};
+                width: $radioTotalSize;
+                height: $radioTotalSize;
+                margin: 0;
+                opacity: 0;
+
+                // Focus state for radio input
+                // (eg. outline the radio button)
+                &:focus+.ff-choice__label:before {
+                    border-width: $radioBorder * 2;
+                    box-shadow: 0 0 0 $inputOutlineWidth $inputOutlineColour;
+                }
+
+                // Checked state for radio input
+                // (eg. show the filled circle)
+                &:checked+.ff-choice__label:after {
+                    opacity: 1
+                }
+
+                // Disabled state for radio input
+                // (eg. normal cursor and faded input)
+                &:disabled,
+                &:disabled+.ff-choice__label {
+                    cursor: default;
+                }
+
+                &:disabled+.ff-choice__label {
+                    opacity: .5;
+                }
+
+            }
+
+            .ff-choice__label,
+            .ff-choice__caption {
+                padding-left: $labelOffset;
+            }
+
+            .ff-choice__label {
+                display: inline-block;
+                vertical-align: middle;
+
+                // Draw an outline for a radio button
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: $radioRadius;
+                    height: $radioRadius;
+                    border: $radioBorder solid currentColor;
+                    border-radius: 50%;
+                    background: transparent;
+                }
+
+                // Draw a filled-in circle for a checked radio button
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: #{$radioRadius / 4};
+                    left: #{$radioRadius / 4};
+                    width: 0;
+                    height: 0;
+                    border: #{$radioRadius / 4} solid currentColor;
+                    border-radius: 50%;
+                    opacity: 0;
+                    background: currentColor;
+                }
+            }
+
+        }
+
+        &.ff-choice__option--checkbox {
+
+            // Disable rounded corners for checkboxes
+            .ff-choice__label:before {
+                border-radius: 0;
+            }
+
+            // Draw a tick for selected checkboxes
+            $tickScale: floor($radioRadius / 3);
+            .ff-choice__label:after {
+                border-radius: 0;
+                top: $tickScale;
+                left: $tickScale / 2;
+                width:  $tickScale * 2;
+                height: $tickScale;
+                transform: rotate(-45deg);
+                border: solid;
+                border-width: 0 0 $tickScale / 2 $tickScale / 2;
+                border-top-color: transparent;
+                opacity: 0;
+                background: transparent;
+            }
+        }
+
+
+
     }
     .ff-choice__input,
     .ff-choice__label {
