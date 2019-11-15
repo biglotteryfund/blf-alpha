@@ -33,7 +33,6 @@
                     <label for="start" class="ff-label">Start date</label>
                     <input class="ff-text"
                            type="date"
-                           min="{{ formatDate(oldestDate, "YYYY-MM-DD") }}"
                            max="{{ formatDate(now, "YYYY-MM-DD") }}"
                            value="{{ formatDate(dateRange.start, "YYYY-MM-DD") }}"
                            name="start"
@@ -44,7 +43,6 @@
                     <label for="end" class="ff-label">End date</label>
                     <input class="ff-text"
                            type="date"
-                           min="{{ formatDate(oldestDate, "YYYY-MM-DD") }}"
                            max="{{ formatDate(now, "YYYY-MM-DD") }}"
                            value="{{ formatDate(dateRange.end, "YYYY-MM-DD") }}"
                            name="end"
