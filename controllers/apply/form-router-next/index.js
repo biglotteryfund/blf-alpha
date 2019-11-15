@@ -79,6 +79,10 @@ function initFormRouter({
             }
         }),
         function(req, res, next) {
+            /**
+             * Decide if we need to handle multipart/form-data
+             * Populate req.body for multipart forms before CSRF token is needed
+             */
             function needsMultipart() {
                 const contentType = req.headers['content-type'];
                 return (
