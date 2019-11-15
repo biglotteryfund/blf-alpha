@@ -54,7 +54,7 @@
                 <div class="tools-filter-form__item">
                     <label for="country" class="ff-label">Country</label>
 
-                    <select name="country" class="ff-text">
+                    <select name="country">
                         {% for c in countries %}
                             <option value="{{ c.value }}"{% if c.value === country %} selected="selected"{% endif %}>
                                 {{ c.label }}
