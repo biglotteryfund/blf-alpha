@@ -39,82 +39,6 @@ function initFormRouter({
         return `forms.${formId}.currentEditingId`;
     }
 
-    function setCommonLocals(req, res, next) {
-        if (isBilingual === false && isWelsh(req.originalUrl)) {
-            return res.redirect(removeWelsh(req.originalUrl));
-        }
-
-        const copy = req.i18n.__('applyNext');
-
-        res.locals.copy = copy;
-        res.locals.isBilingual = isBilingual;
-
-        const form = formBuilder({
-            locale: req.i18n.getLocale()
-        });
-
-        res.locals.formTitle = form.title;
-        res.locals.formId = formId;
-        res.locals.formBaseUrl = req.baseUrl;
-
-        res.locals.user = req.user;
-
-        res.locals.userNavigationLinks = [
-            {
-                url: `${req.baseUrl}/summary`,
-                label: copy.navigation.summary
-            },
-            {
-                url: res.locals.sectionUrl,
-                label: copy.navigation.latestApplication
-            },
-            {
-                url: `${res.locals.sectionUrl}/all`,
-                label: copy.navigation.allApplications
-            },
-            {
-                url: localify(req.i18n.getLocale())('/user'),
-                label: copy.navigation.account
-            }
-        ];
-
-        next();
-    }
-
-    /**
-     * Decide if we need to handle multipart/form-data
-     * Populate req.body for multipart forms before CSRF token is needed
-     */
-    function handleMultipartFormData(req, res, next) {
-        function needsMultipart() {
-            const contentType = req.headers['content-type'];
-            return (
-                req.method === 'POST' &&
-                contentType &&
-                contentType.includes('multipart/form-data')
-            );
-        }
-
-        if (needsMultipart()) {
-            const formData = new formidable.IncomingForm();
-            formData
-                .parse(req, (err, fields, files) => {
-                    if (err) {
-                        next(err);
-                    } else {
-                        req.body = fields;
-                        req.files = files;
-                        next();
-                    }
-                })
-                .on('error', err => {
-                    next(err);
-                });
-        } else {
-            next();
-        }
-    }
-
     /**
      * Application seed endpoint
      * Allows generation of seed applications in test environments
@@ -154,8 +78,76 @@ function initFormRouter({
                 });
             }
         }),
-        handleMultipartFormData,
-        setCommonLocals,
+        function(req, res, next) {
+            function needsMultipart() {
+                const contentType = req.headers['content-type'];
+                return (
+                    req.method === 'POST' &&
+                    contentType &&
+                    contentType.includes('multipart/form-data')
+                );
+            }
+
+            if (needsMultipart()) {
+                const formData = new formidable.IncomingForm();
+                formData
+                    .parse(req, (err, fields, files) => {
+                        if (err) {
+                            next(err);
+                        } else {
+                            req.body = fields;
+                            req.files = files;
+                            next();
+                        }
+                    })
+                    .on('error', err => {
+                        next(err);
+                    });
+            } else {
+                next();
+            }
+        },
+        function(req, res, next) {
+            if (isBilingual === false && isWelsh(req.originalUrl)) {
+                return res.redirect(removeWelsh(req.originalUrl));
+            }
+
+            const copy = req.i18n.__('applyNext');
+
+            res.locals.copy = copy;
+            res.locals.isBilingual = isBilingual;
+
+            const form = formBuilder({
+                locale: req.i18n.getLocale()
+            });
+
+            res.locals.formTitle = form.title;
+            res.locals.formId = formId;
+            res.locals.formBaseUrl = req.baseUrl;
+
+            res.locals.user = req.user;
+
+            res.locals.userNavigationLinks = [
+                {
+                    url: `${req.baseUrl}/summary`,
+                    label: copy.navigation.summary
+                },
+                {
+                    url: res.locals.sectionUrl,
+                    label: copy.navigation.latestApplication
+                },
+                {
+                    url: `${res.locals.sectionUrl}/all`,
+                    label: copy.navigation.allApplications
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user'),
+                    label: copy.navigation.account
+                }
+            ];
+
+            next();
+        },
         csurf()
     );
 
