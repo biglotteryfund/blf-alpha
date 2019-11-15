@@ -19,7 +19,6 @@ const logger = require('../../../common/logger').child({ service: 'apply' });
 const { localify, isWelsh, removeWelsh } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
-const { injectCopy } = require('../../../common/inject-content');
 
 const { getObject } = require('./lib/file-uploads');
 const { generateEmailQueueItems } = require('./lib/emailQueue');
@@ -41,11 +40,14 @@ function initFormRouter({
     }
 
     function setCommonLocals(req, res, next) {
-        res.locals.isBilingual = isBilingual;
-
         if (isBilingual === false && isWelsh(req.originalUrl)) {
             return res.redirect(removeWelsh(req.originalUrl));
         }
+
+        const copy = req.i18n.__('applyNext');
+
+        res.locals.copy = copy;
+        res.locals.isBilingual = isBilingual;
 
         const form = formBuilder({
             locale: req.i18n.getLocale()
@@ -60,19 +62,19 @@ function initFormRouter({
         res.locals.userNavigationLinks = [
             {
                 url: `${req.baseUrl}/summary`,
-                label: req.i18n.__('applyNext.navigation.summary')
+                label: copy.navigation.summary
             },
             {
                 url: res.locals.sectionUrl,
-                label: req.i18n.__('applyNext.navigation.latestApplication')
+                label: copy.navigation.latestApplication
             },
             {
                 url: `${res.locals.sectionUrl}/all`,
-                label: req.i18n.__('applyNext.navigation.allApplications')
+                label: copy.navigation.allApplications
             },
             {
                 url: localify(req.i18n.getLocale())('/user'),
-                label: req.i18n.__('applyNext.navigation.account')
+                label: copy.navigation.account
             }
         ];
 
@@ -153,7 +155,6 @@ function initFormRouter({
             }
         }),
         handleMultipartFormData,
-        injectCopy('applyNext'),
         setCommonLocals,
         csurf()
     );

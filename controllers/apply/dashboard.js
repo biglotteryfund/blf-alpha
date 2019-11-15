@@ -7,7 +7,6 @@ const isEmpty = require('lodash/isEmpty');
 const { localify } = require('../../common/urls');
 const { noStore } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
-const { injectCopy } = require('../../common/inject-content');
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
 const { enrichPending, enrichSubmitted } = require('./lib/enrich-application');
 
@@ -59,10 +58,9 @@ router.get(
     '/',
     noStore,
     requireActiveUser,
-    injectCopy('applyNext.dashboardNew'),
     injectNavigationLinks,
     async function(req, res, next) {
-        const { copy } = res.locals;
+        const copy = req.i18n.__('applyNext.dashboardNew');
 
         try {
             /**
@@ -88,6 +86,7 @@ router.get(
             ]);
 
             res.render(path.resolve(__dirname, './views/dashboard'), {
+                copy: copy,
                 title: copy.latest.title,
                 latestApplication: latestApplication,
                 hasPendingSimpleApplication: !isEmpty(pendingSimple),
@@ -103,10 +102,9 @@ router.get(
     '/all',
     noStore,
     requireActiveUser,
-    injectCopy('applyNext.dashboardNew'),
     injectNavigationLinks,
     async function(req, res, next) {
-        const { copy } = res.locals;
+        const copy = req.i18n.__('applyNext.dashboardNew');
 
         try {
             const [
@@ -123,6 +121,7 @@ router.get(
             }
 
             res.render(path.resolve(__dirname, './views/dashboard-all'), {
+                copy: copy,
                 title: copy.all.title,
                 pendingApplications: pendingApplications.map(application =>
                     enrichPending(application, req.i18n.getLocale())
