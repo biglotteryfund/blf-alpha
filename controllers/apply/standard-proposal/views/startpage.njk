@@ -16,7 +16,12 @@
             )}}
 
             <div class="message message--info message--minor" role="alert">
-                {{ copy.countryMessage | safe }}
+                {% for part in copy.countryMessageParts %}
+                    <p>
+                        <strong>{{ part.title }}</strong><br/>
+                        {{ part.message | safe }}
+                    </p>
+                {% endfor %}
             </div>
 
             <h2>{{ copy.beforeYouStart.title }}</h2>

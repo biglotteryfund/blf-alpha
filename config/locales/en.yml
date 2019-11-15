@@ -1722,11 +1722,11 @@ applyNext:
 yourFundingProposal:
   startPage:
     title: Before you start
-    countryMessage: >
-      <p><strong>Applying for a project in England or Northern Ireland?</strong></p>
-      <p>Great—you're in the right place.</p>
-      <p><strong>Applying for a project in Wales or Scotland? Or right across the UK?</strong></p>
-      <p>You'll need to <a href="/funding/over10k">look at our programme pages for funding over £10,000</a> to find out how to apply.</p>
+    countryMessageParts:
+      - title: Applying for a project in England or Northern Ireland?
+        message: Great—you're in the right place.
+      - title: Applying for a project in Wales or Scotland? Or right across the UK?
+        message: You'll need to <a href="/funding/over10k">look at our programme pages for funding over £10,000</a> to find out how to apply.
     beforeYouStart:
       title: Before you start
       items:
