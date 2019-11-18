@@ -71,9 +71,7 @@ body.is-modal {
 }
 
 .modal-dialog__header {
-    padding: $spacingUnit;
-    color: white;
-    background: black;
+    padding: $spacingUnit $spacingUnit 0 $spacingUnit;
 }
 
 .modal-dialog__content {
@@ -97,13 +95,5 @@ body.is-modal {
         color: black;
         background: #dfdfdf;
         outline: $inputOutline;
-    }
-
-    // Invert the button colours if placed on a title
-    .modal-dialog--title & {
-        color: white;
-        @include on-interact() {
-            color: black;
-        }
     }
 }
