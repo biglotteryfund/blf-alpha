@@ -1692,6 +1692,23 @@ applyNext:
     promptLabel: "Can you spare a minute to give us some feedback?"
     fieldLabel: "How was your experience of this process?"
     helpText: "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience."
+  expirationWarnings:
+    pending:
+      title: You’re about to lose your work
+      body: >
+        <p>We’ll log you out if you don’t respond in ten minutes.</p>
+        <p>We do this to keep your information secure.</p>
+      actions:
+        continue: Continue working
+        logOut: Log out
+    expired:
+      title: Sorry, we’ve had to log you out
+      body: >
+        <p>You’ve not been filling in this form for over two hours. So we’ve had to log you out to keep your personal information safe.</p>
+        <p>Any work you haven’t saved is gone now.</p>
+      actions:
+        logInAgain: Log in again
+        visitHomepage: Visit our homepage
   #  @TODO: Move other common text to common:
   common:
     delete: Delete

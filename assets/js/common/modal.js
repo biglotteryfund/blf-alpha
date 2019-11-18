@@ -1,17 +1,19 @@
 // Original source:
 // https://github.com/alphagov/govuk_publishing_components/blob/master/app/assets/javascripts/govuk_publishing_components/components/modal-dialogue.js
+// See https://github.com/alphagov/govuk-design-system-backlog/issues/30 for more
 
 import forEach from 'lodash/forEach';
-
-const modalStartedAttr = 'data-modal-started';
 
 function ModalDialogue() {}
 
 ModalDialogue.prototype.start = function($module) {
     this.$module = $module;
-    this.$dialogBox = this.$module.querySelector('.gem-c-modal-dialogue__box');
+    this.$dialogBox = this.$module.querySelector('.js-modal-dialog');
     this.$closeButton = this.$module.querySelector(
-        '.gem-c-modal-dialogue__close-button'
+        '.js-modal-dialog-close-button--main'
+    );
+    this.$allCloseButtons = this.$module.querySelectorAll(
+        '.js-modal-dialog-close-button'
     );
     this.$body = document.querySelector('body');
 
@@ -20,7 +22,7 @@ ModalDialogue.prototype.start = function($module) {
     this.$module.focusDialog = this.handleFocusDialog.bind(this);
     this.$module.boundKeyDown = this.handleKeyDown.bind(this);
 
-    var $triggerElement = document.querySelector(
+    const $triggerElement = document.querySelector(
         '[data-toggle="modal"][data-target="' + this.$module.id + '"]'
     );
 
@@ -28,8 +30,10 @@ ModalDialogue.prototype.start = function($module) {
         $triggerElement.addEventListener('click', this.$module.open);
     }
 
-    if (this.$closeButton) {
-        this.$closeButton.addEventListener('click', this.$module.close);
+    if (this.$allCloseButtons) {
+        forEach(this.$allCloseButtons, el => {
+            el.addEventListener('click', this.$module.close);
+        });
     }
 };
 
@@ -38,8 +42,7 @@ ModalDialogue.prototype.handleOpen = function(event) {
         event.preventDefault();
     }
 
-    this.$body.classList.add('app-o-template__body--modal');
-    this.$body.classList.add('app-o-template__body--blur');
+    this.$body.classList.add('is-modal');
     this.$focusedElementBeforeOpen = document.activeElement;
     this.$module.style.display = 'block';
     this.$dialogBox.focus();
@@ -52,8 +55,7 @@ ModalDialogue.prototype.handleClose = function(event) {
         event.preventDefault();
     }
 
-    this.$body.classList.remove('app-o-template__body--modal');
-    this.$body.classList.remove('app-o-template__body--blur');
+    this.$body.classList.remove('is-modal');
     this.$module.style.display = 'none';
     this.$focusedElementBeforeOpen.focus();
 
@@ -67,10 +69,11 @@ ModalDialogue.prototype.handleFocusDialog = function() {
 // while open, prevent tabbing to outside the dialogue
 // and listen for ESC key to close the dialogue
 ModalDialogue.prototype.handleKeyDown = function(event) {
-    var KEY_TAB = 9;
-    var KEY_ESC = 27;
+    const KEY_TAB = 9;
+    const KEY_ESC = 27;
 
     switch (event.keyCode) {
+        // @TODO in modals without close buttons it's possible to tab into the document below
         case KEY_TAB:
             if (event.shiftKey) {
                 if (document.activeElement === this.$dialogBox) {
@@ -86,7 +89,9 @@ ModalDialogue.prototype.handleKeyDown = function(event) {
 
             break;
         case KEY_ESC:
-            this.$module.close();
+            if (this.$closeButton) {
+                this.$module.close();
+            }
             break;
         default:
             break;
@@ -94,6 +99,7 @@ ModalDialogue.prototype.handleKeyDown = function(event) {
 };
 
 function init() {
+    const modalStartedAttr = 'data-modal-started';
     const modalElements = document.querySelectorAll('[data-modal]');
     forEach(modalElements, el => {
         const started = el.getAttribute(modalStartedAttr);
