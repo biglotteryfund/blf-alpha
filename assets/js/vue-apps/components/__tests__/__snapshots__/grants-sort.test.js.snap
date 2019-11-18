@@ -5,14 +5,16 @@ exports[`GrantsSort should render 1`] = `
   class="sort-controls"
 >
   <label
-    class="ff-label"
+    class="sort-controls__label"
     for="field-sort"
   >
-     Ordered by 
+    
+        Ordered by
+    
   </label>
    
   <select
-    class="ff-select"
+    class="sort-controls__select"
     id="field-sort"
     name="sort"
   >
