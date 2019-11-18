@@ -70,7 +70,14 @@
                    class="btn btn--small">
                     {{ cardCopy.continue }}
                     <span class="u-visually-hidden">
-                        ({{ props.projectName or props.untitledName }})
+                        — {{ props.projectName or props.untitledName }}
+                        {%- if not props.projectName %}
+                            {{ __(
+                                cardCopy.createdAt,
+                                formatDate(props.createdAt, "DD/MM/YY"),
+                                formatDate(props.createdAt, "h:mma")
+                            ) }}
+                        {%- endif %}
                     </span>
                 </a>
                 {% if props.deleteUrl %}
