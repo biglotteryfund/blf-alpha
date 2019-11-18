@@ -55,14 +55,11 @@ function warnOnUnsavedChanges() {
         const initialState = $form.serialize();
         const formHasErrors = $form.data('form-has-errors');
 
+        // Remove the event binding for any of the submit buttons
+        // as they all save the current progress when clicked
         $form
             .find('input[type="submit"], button[type="submit"]')
             .on('click', function() {
-                const targetName = $(this).attr('name');
-                // Only remove the warning if they've clicked the main submit
-                if (['previousBtn', 'nextBtn'].indexOf(targetName) !== -1) {
-                    return;
-                }
                 window.removeEventListener('beforeunload', handleBeforeUnload);
             });
 
