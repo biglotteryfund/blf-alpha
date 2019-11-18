@@ -153,6 +153,37 @@ $filterSpacing: 10px;
     }
 }
 
+.facet-field-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: font-weight('body', 'semibold');
+}
+
+.facet-field-radios {
+    margin-bottom: 0.75em;
+
+    .facet-field-radios__option {
+        display: table;
+        margin-bottom: 5px;
+
+        input[type='radio'] {
+            margin: 0 0.5em 0 0;
+
+            @include mq('medium-minor') {
+                margin-right: 0.75em;
+                position: relative;
+                top: -2px;
+            }
+        }
+    }
+
+    .facet-field-radios__input,
+    .facet-field-radios__label {
+        display: table-cell;
+        cursor: pointer;
+    }
+}
+
 /* =========================================================================
    Facet Group
    ========================================================================= */
