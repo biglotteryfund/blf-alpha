@@ -2,6 +2,7 @@
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 {% from "components/icons.njk" import iconBin, iconTick %}
+{% from "components/modal/macro.njk" import modal %}
 
 
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
@@ -107,4 +108,41 @@
             </form>
         </div>
     </main>
+{% endblock %}
+
+
+{% block modals %}
+
+    {#
+        The IDs of these modals are references in session.js (client-side file)
+        and must be changed there if changed here.
+    #}
+
+    {% call modal('apply-expiry-pending', title = __('applyNext.expirationWarnings.pending.title')) %}
+        {{ __('applyNext.expirationWarnings.pending.body') | safe }}
+        <div class="form-actions">
+            <button type="button" class="btn btn--small js-modal-dialog-close-button">
+                {{ __('applyNext.expirationWarnings.pending.actions.continue') }}
+            </button>
+            <a href="{{ localify('/user/logout') }}" class="btn btn--small btn--outline">
+                {{ __('applyNext.expirationWarnings.pending.actions.logOut') }}
+            </a>
+        </div>
+    {% endcall %}
+
+    {% call modal('apply-expiry-expired',
+            title = __('applyNext.expirationWarnings.expired.title'),
+            closeButton = false
+        ) %}
+        {{ __('applyNext.expirationWarnings.expired.body') | safe }}
+        <div class="form-actions u-no-margin">
+            <a href="{{ localify('/user/login') }}" class="btn btn--small">
+                {{ __('applyNext.expirationWarnings.expired.actions.logInAgain') }}
+            </a>
+            <a href="{{ localify('/') }}" class="btn btn--small btn--outline">
+                {{ __('applyNext.expirationWarnings.expired.actions.visitHomepage') }}
+            </a>
+        </div>
+    {% endcall %}
+
 {% endblock %}

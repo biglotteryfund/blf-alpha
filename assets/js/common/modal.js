@@ -112,6 +112,7 @@ function init() {
 }
 
 function triggerModal(id) {
+    // @TODO handle hiding other modals if present
     const modal = document.getElementById(id);
     if (modal && modal.open) {
         modal.open();
