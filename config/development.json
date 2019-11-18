@@ -4,6 +4,9 @@
     "enableSeeders": true,
     "enableSalesforceConnector": false
   },
+  "awardsForAll": {
+    "enableNewProjectDates": true
+  },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]
   }

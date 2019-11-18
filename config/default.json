@@ -29,6 +29,7 @@
     "enableSeeders": false
   },
   "awardsForAll": {
+    "enableNewProjectDates": false,
     "enableExpiration": true
   },
   "standardFundingProposal": {
