@@ -2,7 +2,6 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
-{% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
 
 {% from "./grant-results.njk" import grantResultList with context %}
 
@@ -34,6 +33,66 @@
                 </div>
             </fieldset>
         </div>
+    {% endmacro %}
+
+    {% macro fallbackRadios(field, fieldCopy) %}
+        <fieldset class="ff-choice">
+            <legend class="ff-label" for="field-{{ field.name }}">
+                {{ field.label }}
+            </legend>
+            <ul class="ff-choice__list">
+                {% for option in field.options %}
+                    {% set optionCopy = fieldCopy.options[loop.index0] %}
+                    <li class="ff-choice__option">
+                        <div class="ff-choice__input">
+                            {% if field.type === 'checkbox' %}
+                                <input
+                                    type="checkbox"
+                                    id="field-{{ field.name }}-{{ loop.index }}"
+                                    name="{{ field.name }}"
+                                    value="{{ option.value }}"
+                                    {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                                />
+                            {% else %}
+                                <input
+                                    type="radio"
+                                    id="field-{{ field.name }}-{{ loop.index }}"
+                                    name="{{ field.name }}"
+                                    value="{{ option.value }}"
+                                    {% if field.isRequired %}required aria-required="true"{% endif %}
+                                    {% if field.value[0] === option.value or field.value === option.value %}checked{% endif %}
+                                />
+                            {% endif %}
+                        </div>
+                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ optionCopy.label or option.label }}
+                            {% set explanation = optionCopy.explanation or option.explanation %}
+                            {% if explanation %}
+                                <small class="ff-choice__caption">{{ explanation }}</small>
+                            {% endif %}
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+    {% endmacro %}
+
+    {% macro fallbackSelect(field, fieldCopy) %}
+        <label class="ff-label" for="field-{{ field.name }}">
+            {{ field.label }}
+        </label>
+        <select
+            class="ff-select"
+            id="field-{{ field.name }}"
+            name="{{ field.name }}">
+            {% for option in field.options %}
+                {% set optionCopy = fieldCopy.options[loop.index0] %}
+                <option
+                    value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
+                    {{ optionCopy.label or option.label }}
+                </option>
+            {% endfor %}
+        </select>
     {% endmacro %}
 
     <main role="main" id="content">
@@ -203,7 +262,7 @@
                                 {% call facetGroup(copy.filters.grantLegend) %}
                                     {# Filter: Amount awarded #}
                                     {% if facets.amountAwarded %}
-                                        {{ inputChoice({
+                                        {{ fallbackRadios({
                                             type: 'radio',
                                             name: 'amount',
                                             label: copy.filters.options.amountAwarded.label,
@@ -214,7 +273,7 @@
                                     {% endif %}
 
                                     {% if facets.awardDate %}
-                                        {{ inputChoice({
+                                        {{ fallbackRadios({
                                             type: 'radio',
                                             name: 'awardDate',
                                             label: copy.filters.options.awardDate.label,
@@ -230,7 +289,7 @@
                                             'label': copy.filters.options.programme.any,
                                             'value': ''
                                         }), facets.grantProgramme) %}
-                                        {{ inputSelect({
+                                        {{ fallbackSelect({
                                             type: 'select',
                                             name: 'programme',
                                             label: copy.filters.options.programme.label,
@@ -248,7 +307,7 @@
                                             'label': copy.filters.options.country.any,
                                             'value': ''
                                         }), facets.countries) %}
-                                        {{ inputChoice({
+                                        {{ fallbackRadios({
                                             type: 'radio',
                                             name: 'country',
                                             label: copy.filters.options.country.label,
@@ -264,7 +323,7 @@
                                             'label': copy.filters.options.localAuthority.any,
                                             'value': ''
                                         }), facets.localAuthorities) %}
-                                        {{ inputSelect({
+                                        {{ fallbackSelect({
                                             type: 'select',
                                             name: 'localAuthority',
                                             label: copy.filters.options.localAuthority.label,
@@ -280,7 +339,7 @@
                                             'label': copy.filters.options.westminsterConstituency.any,
                                             'value': ''
                                         }), facets.westminsterConstituencies) %}
-                                        {{ inputSelect({
+                                        {{ fallbackSelect({
                                             type: 'select',
                                             name: 'westminsterConstituency',
                                             label: copy.filters.options.westminsterConstituency.label,
