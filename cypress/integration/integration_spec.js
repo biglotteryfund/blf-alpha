@@ -556,15 +556,18 @@ it('should submit full awards for all application', () => {
             .click();
     }
 
-    function stepProjectDetails() {
+    function stepProjectName(mock) {
         cy.checkA11y();
 
-        cy.findByLabelText('What is the name of your project?', {
-            exact: false
-        }).type('Test application');
+        cy.findByLabelText('What is the name of your project?').type(
+            mock.projectName
+        );
 
-        const startDate = moment().add(random(18, 20), 'weeks');
-        const endDate = startDate.clone().add(random(0, 52), 'weeks');
+        submitStep();
+    }
+
+    function stepProjectDates(mock) {
+        cy.checkA11y();
 
         function fillDateParts(momentInstance) {
             cy.findByLabelText('Day').type(momentInstance.date());
@@ -575,13 +578,13 @@ it('should submit full awards for all application', () => {
         cy.findByText('Start date')
             .parent()
             .within(() => {
-                fillDateParts(startDate);
+                fillDateParts(mock.projectDateRange.startDate);
             });
 
         cy.findByText('End date')
             .parent()
             .within(() => {
-                fillDateParts(endDate);
+                fillDateParts(mock.projectDateRange.endDate);
             });
 
         submitStep();
@@ -688,7 +691,8 @@ it('should submit full awards for all application', () => {
     }
 
     function sectionYourProject(mock) {
-        stepProjectDetails(mock);
+        stepProjectName(mock);
+        stepProjectDates(mock);
         stepProjectCountry(mock);
         stepProjectLocation(mock);
         stepYourIdea(mock);
@@ -1043,7 +1047,14 @@ it('should submit full awards for all application', () => {
         );
     }
 
+    const startDate = moment().add(random(18, 20), 'weeks');
+
     const mock = {
+        projectName: 'Test application',
+        projectDateRange: {
+            startDate: startDate,
+            endDate: startDate.clone().add(random(0, 52), 'weeks')
+        },
         country: sample(['England', 'Northern Ireland', 'Scotland', 'Wales']),
         organisationType: sample([
             'Unregistered voluntary or community organisation',
