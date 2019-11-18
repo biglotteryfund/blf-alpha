@@ -1,11 +1,22 @@
 {% macro applicationCard(props, headingLevel = '3') %}
     {% set cardCopy = __('applyNext.applicationCards') %}
-    {% set projectName = props.projectName | widont %}
     <article class="application-card">
         <header class="application-card__header">
             <h{{ headingLevel }} class="application-card__title u-tone-brand-primary" data-hj-suppress>
                 {% if props.editUrl %}<a href="{{ localify(props.editUrl) }}" class="u-link-unstyled">{% endif %}
-                    {{ projectName | safe }}
+                    {% if props.projectName %}
+                        {{ props.projectName | widont | safe }}
+                    {% else %}
+                        {{ props.untitledName }}
+                        <span class="application-card__title-suffix">
+                            {{ __(
+                                cardCopy.createdAt,
+                                formatDate(props.createdAt, "DD/MM/YY"),
+                                formatDate(props.createdAt, "h:mma")
+                            ) }}
+                        </span>
+                    {% endif %}
+
                 {% if props.editUrl %}</a>{% endif %}
             </h{{ headingLevel }}>
             <p class="application-card__amount">
@@ -58,7 +69,16 @@
                 <a href="{{ localify(props.editUrl) }}"
                    class="btn btn--small">
                     {{ cardCopy.continue }}
-                    <span class="u-visually-hidden">({{ projectName | safe }})</span>
+                    <span class="u-visually-hidden">
+                        — {{ props.projectName or props.untitledName }}
+                        {%- if not props.projectName %}
+                            {{ __(
+                                cardCopy.createdAt,
+                                formatDate(props.createdAt, "DD/MM/YY"),
+                                formatDate(props.createdAt, "h:mma")
+                            ) }}
+                        {%- endif %}
+                    </span>
                 </a>
                 {% if props.deleteUrl %}
                     <a class="u-text-medium" href="{{ props.deleteUrl }}">

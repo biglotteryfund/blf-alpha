@@ -195,6 +195,14 @@ $statuses: (
         padding: $spacingUnit $spacingUnit * 2 $spacingUnit $spacingUnit;
     }
 
+    .application-card__title-suffix {
+        display: block;
+        color: get-color('text', 'base');
+        font-family: font-stack('body');
+        font-weight: normal;
+        font-size: 16px;
+    }
+
     .application-card__overview {
         margin-bottom: $spacingUnit;
 
