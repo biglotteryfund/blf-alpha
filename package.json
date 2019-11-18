@@ -131,7 +131,7 @@
     "vary": "^1.1.1",
     "winston": "3.2.1",
     "winston-cloudwatch": "2.2.0",
-    "yargs": "^14.2.0",
+    "yargs": "^15.0.1",
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
