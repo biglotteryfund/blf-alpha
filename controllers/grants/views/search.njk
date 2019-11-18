@@ -35,41 +35,26 @@
         </div>
     {% endmacro %}
 
-    {% macro fallbackRadios(field, fieldCopy) %}
-        <fieldset class="ff-choice">
-            <legend class="ff-label" for="field-{{ field.name }}">
+    {% macro fallbackRadios(field) %}
+        <fieldset>
+            <legend class="facet-field-label">
                 {{ field.label }}
             </legend>
-            <ul class="ff-choice__list">
+            <ul class="facet-field-radios">
                 {% for option in field.options %}
-                    {% set optionCopy = fieldCopy.options[loop.index0] %}
-                    <li class="ff-choice__option">
-                        <div class="ff-choice__input">
-                            {% if field.type === 'checkbox' %}
-                                <input
-                                    type="checkbox"
-                                    id="field-{{ field.name }}-{{ loop.index }}"
-                                    name="{{ field.name }}"
-                                    value="{{ option.value }}"
-                                    {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
-                                />
-                            {% else %}
-                                <input
-                                    type="radio"
-                                    id="field-{{ field.name }}-{{ loop.index }}"
-                                    name="{{ field.name }}"
-                                    value="{{ option.value }}"
-                                    {% if field.isRequired %}required aria-required="true"{% endif %}
-                                    {% if field.value[0] === option.value or field.value === option.value %}checked{% endif %}
-                                />
-                            {% endif %}
+                    <li class="facet-field-radios__option">
+                        <div class="facet-field-radios__input">
+                            <input
+                                type="radio"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value === option.value %}checked{% endif %}
+                            />
                         </div>
-                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                            {{ optionCopy.label or option.label }}
-                            {% set explanation = optionCopy.explanation or option.explanation %}
-                            {% if explanation %}
-                                <small class="ff-choice__caption">{{ explanation }}</small>
-                            {% endif %}
+                        <label class="facet-field-radios__label"
+                               for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ option.label }}
                         </label>
                     </li>
                 {% endfor %}
@@ -77,7 +62,7 @@
         </fieldset>
     {% endmacro %}
 
-    {% macro fallbackSelect(field, fieldCopy) %}
+    {% macro fallbackSelect(field) %}
         <label class="facet-field-label" for="field-{{ field.name }}">
             {{ field.label }}
         </label>
