@@ -6,9 +6,11 @@ export default {
 
 <template>
     <div class="sort-controls">
-        <label class="ff-label" for="field-sort"> {{ label }} </label>
+        <label class="sort-controls__label" for="field-sort">
+            {{ label }}
+        </label>
         <select
-            class="ff-select"
+            class="sort-controls__select"
             name="sort"
             id="field-sort"
             :value="sort.activeSort"
