@@ -275,11 +275,6 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
         display: table;
         margin-bottom: 5px;
 
-        &.ff-choice__option--flex {
-            display: flex;
-            align-items: center;
-        }
-
         &.ff-choice__option--disabled {
             color: gray;
         }
@@ -325,28 +320,27 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
 
                 // Focus state for radio input
                 // (eg. outline the radio button)
-                &:focus+.ff-choice__label:before {
+                &:focus + .ff-choice__label:before {
                     border-width: $radioBorder * 2;
                     box-shadow: 0 0 0 $inputOutlineWidth $inputOutlineColour;
                 }
 
                 // Checked state for radio input
                 // (eg. show the filled circle)
-                &:checked+.ff-choice__label:after {
-                    opacity: 1
+                &:checked + .ff-choice__label:after {
+                    opacity: 1;
                 }
 
                 // Disabled state for radio input
                 // (eg. normal cursor and faded input)
                 &:disabled,
-                &:disabled+.ff-choice__label {
+                &:disabled + .ff-choice__label {
                     cursor: default;
                 }
 
-                &:disabled+.ff-choice__label {
-                    opacity: .5;
+                &:disabled + .ff-choice__label {
+                    opacity: 0.5;
                 }
-
             }
 
             .ff-choice__label,
@@ -360,7 +354,7 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
 
                 // Draw an outline for a radio button
                 &:before {
-                    content: "";
+                    content: '';
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -373,7 +367,7 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
 
                 // Draw a filled-in circle for a checked radio button
                 &:after {
-                    content: "";
+                    content: '';
                     position: absolute;
                     top: #{$radioRadius / 4};
                     left: #{$radioRadius / 4};
@@ -385,11 +379,9 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
                     background: currentColor;
                 }
             }
-
         }
 
         &.ff-choice__option--checkbox {
-
             // Disable rounded corners for checkboxes
             .ff-choice__label:before {
                 border-radius: 0;
@@ -401,7 +393,7 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
                 border-radius: 0;
                 top: $tickScale;
                 left: $tickScale / 2;
-                width:  $tickScale * 2;
+                width: $tickScale * 2;
                 height: $tickScale;
                 transform: rotate(-45deg);
                 border: solid;
@@ -411,10 +403,8 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
                 background: transparent;
             }
         }
-
-
-
     }
+
     .ff-choice__input,
     .ff-choice__label {
         display: table-cell;
