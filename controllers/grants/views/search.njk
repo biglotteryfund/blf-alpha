@@ -78,18 +78,15 @@
     {% endmacro %}
 
     {% macro fallbackSelect(field, fieldCopy) %}
-        <label class="ff-label" for="field-{{ field.name }}">
+        <label class="facet-field-label" for="field-{{ field.name }}">
             {{ field.label }}
         </label>
-        <select
-            class="ff-select"
-            id="field-{{ field.name }}"
-            name="{{ field.name }}">
+        <select id="field-{{ field.name }}" name="{{ field.name }}">
             {% for option in field.options %}
-                {% set optionCopy = fieldCopy.options[loop.index0] %}
                 <option
-                    value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
-                    {{ optionCopy.label or option.label }}
+                    value="{{ option.value }}"
+                    {% if field.value === option.value %} selected{% endif %}>
+                    {{ option.label }}
                 </option>
             {% endfor %}
         </select>
@@ -290,12 +287,10 @@
                                             'value': ''
                                         }), facets.grantProgramme) %}
                                         {{ fallbackSelect({
-                                            type: 'select',
                                             name: 'programme',
                                             label: copy.filters.options.programme.label,
                                             value: queryParams.programme,
-                                            options: options,
-                                            silentlyOptional: true
+                                            options: options
                                         }) }}
                                     {% endif %}
                                 {% endcall %}
@@ -324,12 +319,10 @@
                                             'value': ''
                                         }), facets.localAuthorities) %}
                                         {{ fallbackSelect({
-                                            type: 'select',
                                             name: 'localAuthority',
                                             label: copy.filters.options.localAuthority.label,
                                             value: queryParams.localAuthority,
-                                            options: options,
-                                            silentlyOptional: true
+                                            options: options
                                         }) }}
                                     {% endif %}
 
@@ -340,12 +333,10 @@
                                             'value': ''
                                         }), facets.westminsterConstituencies) %}
                                         {{ fallbackSelect({
-                                            type: 'select',
                                             name: 'westminsterConstituency',
                                             label: copy.filters.options.westminsterConstituency.label,
                                             value: queryParams.westminsterConstituency,
-                                            options: options,
-                                            silentlyOptional: true
+                                            options: options
                                         }) }}
                                     {% endif %}
                                 {% endcall %}
