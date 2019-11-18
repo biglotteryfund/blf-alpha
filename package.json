@@ -108,7 +108,7 @@
     "jsonwebtoken": "^8.5.1",
     "juice": "^4.2.2",
     "lodash": "4.17.15",
-    "mime-types": "2.1.24",
+    "mime-types": "2.1.25",
     "moment": "^2.18.1",
     "moment-timezone": "0.5.27",
     "mysql2": "1.6.5",
