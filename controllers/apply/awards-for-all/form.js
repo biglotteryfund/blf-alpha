@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -69,6 +70,25 @@ module.exports = function({
                     fields: [fields.projectName, fields.projectDateRange]
                 }
             ]
+        };
+    }
+
+    function stepProjectNameNew() {
+        return {
+            title: localise({ en: 'Project name', cy: 'Project name (Welsh)' }),
+            noValidate: true,
+            fieldsets: [{ fields: [fields.projectName] }]
+        };
+    }
+
+    function stepProjectLengthNew() {
+        return {
+            title: localise({
+                en: 'Project length',
+                cy: 'Project length (Welsh)'
+            }),
+            noValidate: true,
+            fieldsets: [{ fields: [fields.projectDateRange] }]
         };
     }
 
@@ -1109,19 +1129,32 @@ module.exports = function({
             }),
             summary: localise({
                 en: oneLine`Please tell us about your project in this section.
-                        This is the most important section when it comes to
-                        making a decision about whether you will receive funding.`,
+                    This is the most important section when it comes to
+                    making a decision about whether you will receive funding.`,
                 cy: oneLine`Dywedwch wrthym am eich prosiect yn yr adran hon. 
-                        Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
-                        a ydych wedi bod yn llwyddiannus ai beidio.`
+                    Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
+                    a ydych wedi bod yn llwyddiannus ai beidio.`
             }),
-            steps: [
-                stepProjectDetails(),
-                stepProjectCountry(),
-                stepProjectLocation(),
-                stepYourIdea(),
-                stepProjectCosts()
-            ]
+            get steps() {
+                if (config.get('awardsForAll.enableNewProjectDates') === true) {
+                    return [
+                        stepProjectNameNew(),
+                        stepProjectLengthNew(),
+                        stepProjectCountry(),
+                        stepProjectLocation(),
+                        stepYourIdea(),
+                        stepProjectCosts()
+                    ];
+                } else {
+                    return [
+                        stepProjectDetails(),
+                        stepProjectCountry(),
+                        stepProjectLocation(),
+                        stepYourIdea(),
+                        stepProjectCosts()
+                    ];
+                }
+            }
         };
     }
 
