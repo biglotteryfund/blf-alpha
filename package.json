@@ -76,7 +76,7 @@
     "@hapi/joi": "15.1.1",
     "@hapi/joi16": "npm:@hapi/joi@16.1.1",
     "@ideal-postcodes/core-node": "1.1.0",
-    "@sentry/browser": "5.7.1",
+    "@sentry/browser": "5.9.0",
     "@sentry/integrations": "5.7.1",
     "@sentry/node": "5.7.1",
     "aws-sdk": "2.568.0",
