@@ -818,6 +818,11 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
     padding: 1em 0;
     margin-bottom: $spacingUnit / 2;
 
+    &.form-actions--constrained {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
     > .btn {
         display: inline-block;
         vertical-align: middle;

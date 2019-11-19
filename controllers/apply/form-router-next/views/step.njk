@@ -120,7 +120,7 @@
 
     {% call modal('apply-expiry-pending', title = __('applyNext.expirationWarnings.pending.title')) %}
         {{ __('applyNext.expirationWarnings.pending.body') | safe }}
-        <div class="form-actions">
+        <div class="form-actions form-actions--constrained">
             <button type="button" class="btn btn--small js-modal-dialog-close-button">
                 {{ __('applyNext.expirationWarnings.pending.actions.continue') }}
             </button>
@@ -135,7 +135,7 @@
             closeButton = false
         ) %}
         {{ __('applyNext.expirationWarnings.expired.body') | safe }}
-        <div class="form-actions u-no-margin">
+        <div class="form-actions form-actions--constrained">
             <a href="{{ localify('/user/login') }}" class="btn btn--small">
                 {{ __('applyNext.expirationWarnings.expired.actions.logInAgain') }}
             </a>
