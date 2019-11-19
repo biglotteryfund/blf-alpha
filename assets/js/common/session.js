@@ -11,6 +11,8 @@ const expiryCheckIntervalSeconds = 30;
 // Note: if changing this, the accompanying copy will need to change too
 const warningShownSecondsRemaining = 10 * 60;
 
+const showWarnings = window.AppConfig.apply.enableSessionExpiryWarning;
+
 function handleSessionExpiration() {
     let sessionInterval;
     let isAuthenticated = true;
@@ -34,11 +36,15 @@ function handleSessionExpiration() {
             isAuthenticated = false;
             clearSessionExpiryWarningTimer();
             trackEvent('Session', 'Warning', 'Timeout reached');
-            modal.triggerModal('apply-expiry-expired');
+            if (showWarnings) {
+                modal.triggerModal('apply-expiry-expired');
+            }
         } else if (expiryTimeRemaining <= warningShownSecondsRemaining) {
             // The user has a few minutes remaining before logout
             trackEvent('Session', 'Warning', 'Timeout almost reached');
-            modal.triggerModal('apply-expiry-pending');
+            if (showWarnings) {
+                modal.triggerModal('apply-expiry-pending');
+            }
         }
     }
 
