@@ -122,25 +122,25 @@
         {{ __('applyNext.expirationWarnings.pending.body') | safe }}
         <div class="form-actions form-actions--constrained">
             <button type="button" class="btn btn--small js-modal-dialog-close-button">
-                {{ __('applyNext.expirationWarnings.pending.actions.continue') }}
+                {{ copy.expirationWarnings.pending.actions.continue }}
             </button>
             <a href="{{ localify('/user/logout') }}" class="btn btn--small btn--outline">
-                {{ __('applyNext.expirationWarnings.pending.actions.logOut') }}
+                {{ copy.expirationWarnings.pending.actions.logOut }}
             </a>
         </div>
     {% endcall %}
 
     {% call modal('apply-expiry-expired',
-            title = __('applyNext.expirationWarnings.expired.title'),
+            title = copy.expirationWarnings.expired.title,
             closeButton = false
         ) %}
-        {{ __('applyNext.expirationWarnings.expired.body') | safe }}
+        {{ copy.expirationWarnings.expired.body | safe }}
         <div class="form-actions form-actions--constrained">
             <a href="{{ localify('/user/login') }}" class="btn btn--small">
-                {{ __('applyNext.expirationWarnings.expired.actions.logInAgain') }}
+                {{ copy.expirationWarnings.expired.actions.logInAgain }}
             </a>
             <a href="{{ localify('/') }}" class="btn btn--small btn--outline">
-                {{ __('applyNext.expirationWarnings.expired.actions.visitHomepage') }}
+                {{ copy.expirationWarnings.expired.actions.visitHomepage }}
             </a>
         </div>
     {% endcall %}
