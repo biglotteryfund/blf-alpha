@@ -82,16 +82,25 @@ ModalDialogue.prototype.handleKeyDown = function(event) {
     const KEY_TAB = 9;
     const KEY_ESC = 27;
 
+    const focusableModalElements = this.$module.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    // Some modals don't have close buttons so we need to find the last focusable element in the modal
+    // to keep tab keypresses within the modal and not the (hidden) document underneath
+    const lastFocusableElement = this.$closeButton
+        ? this.$closeButton
+        : focusableModalElements[focusableModalElements.length - 1];
+
     switch (event.keyCode) {
-        // @TODO in modals without close buttons it's possible to tab into the document below
         case KEY_TAB:
             if (event.shiftKey) {
                 if (document.activeElement === this.$dialogBox) {
                     event.preventDefault();
-                    this.$closeButton.focus();
+                    lastFocusableElement.focus();
                 }
             } else {
-                if (document.activeElement === this.$closeButton) {
+                if (document.activeElement === lastFocusableElement) {
                     event.preventDefault();
                     this.$dialogBox.focus();
                 }
@@ -121,6 +130,7 @@ function init() {
     });
 }
 
+// Allow triggering a modal via JavaScript if you know its ID
 function triggerModal(id) {
     const modal = document.getElementById(id);
     if (modal && modal.open) {
