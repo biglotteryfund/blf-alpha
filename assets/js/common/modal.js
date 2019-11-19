@@ -42,9 +42,18 @@ ModalDialogue.prototype.handleOpen = function(event) {
         event.preventDefault();
     }
 
+    // Close any currently-open modal
+    const currentOpenModal = this.$body.querySelector(
+        '[data-modal-open="true"]'
+    );
+    if (currentOpenModal) {
+        currentOpenModal.close();
+    }
+
     this.$body.classList.add('is-modal');
     this.$focusedElementBeforeOpen = document.activeElement;
     this.$module.style.display = 'block';
+    this.$module.setAttribute('data-modal-open', true);
     this.$dialogBox.focus();
 
     document.addEventListener('keydown', this.$module.boundKeyDown, true);
@@ -57,6 +66,7 @@ ModalDialogue.prototype.handleClose = function(event) {
 
     this.$body.classList.remove('is-modal');
     this.$module.style.display = 'none';
+    this.$module.removeAttribute('data-modal-open');
     this.$focusedElementBeforeOpen.focus();
 
     document.removeEventListener('keydown', this.$module.boundKeyDown, true);
@@ -112,7 +122,6 @@ function init() {
 }
 
 function triggerModal(id) {
-    // @TODO handle hiding other modals if present
     const modal = document.getElementById(id);
     if (modal && modal.open) {
         modal.open();
