@@ -60,7 +60,7 @@ module.exports = function({
         return {
             title: localise({
                 en: 'Project name',
-                cy: 'Project name (Welsh)'
+                cy: 'Enw eich prosiect'
             }),
             noValidate: true,
             fieldsets: [{ fields: [fields.projectName] }]
@@ -71,7 +71,7 @@ module.exports = function({
         return {
             title: localise({
                 en: 'Project length',
-                cy: 'Project length (Welsh)'
+                cy: 'Hyd y prosiect'
             }),
             noValidate: true,
             fieldsets: [{ fields: [fields.projectDateRange] }]
