@@ -7,9 +7,7 @@
   "hotjarId": 828894,
   "googleAnalyticsCode": "UA-637620-2",
   "features": {
-    "enableHotjar": true
-  },
-  "awardsForAll": {
+    "enableHotjar": true,
     "enableSessionExpiryWarning": false
   }
 }

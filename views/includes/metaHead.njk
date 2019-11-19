@@ -10,7 +10,7 @@
         localePrefix: '{{ localePrefix }}',
         sessionExpirySeconds: {{ appData.config.get('session.expiryInSeconds') }},
         apply: {
-            enableSessionExpiryWarning: {{ appData.config.get('awardsForAll.enableSessionExpiryWarning') }}
+            enableSessionExpiryWarning: {{ appData.config.get('features.enableSessionExpiryWarning') }}
         }
     };
 

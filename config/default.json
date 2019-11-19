@@ -26,11 +26,11 @@
     "enableHotjar": false,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
-    "enableSeeders": false
+    "enableSeeders": false,
+    "enableSessionExpiryWarning": true
   },
   "awardsForAll": {
-    "enableExpiration": true,
-    "enableSessionExpiryWarning": true
+    "enableExpiration": true
   },
   "standardFundingProposal": {
     "allowedCountries": ["northern-ireland"]
