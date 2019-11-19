@@ -1413,6 +1413,23 @@ applyNext:
     promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
     fieldLabel: "Sut oedd eich profiad o'r broses hon?"
     helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
+  expirationWarnings:
+    pending:
+      title: Rydych ar fin colli eich gwaith
+      body: >
+        <p>Byddwn yn eich allgofnodi os nad dydych yn ymateb o fewn 10 munud.</p>
+        <p>Rydym yn gwneud hyn i gadw eich gwybodaeth yn ddiogel.</p>
+      actions:
+        continue: Parhau i weithio
+        logOut: Allgofnodi
+    expired:
+      title: Mae’n ddrwg gennym, roedd rhaid i ni eich allgofnodi
+      body: >
+        <p>Nid ydych wedi bod yn llenwi’r ffurflen hwn am dros ddwy awr. Felly roedd rhaid i ni eich allgofnodi i gadw eich gwybodaeth bersonol yn ddiogel.</p>
+        <p>Ac mae gwaith nad ydych wedi’i arbed bellach wedi diflannu.</p>
+      actions:
+        logInAgain: Mewngofnodi eto
+        visitHomepage: Ymweld â’n tudalen gartref
   common:
     delete: Dileu
     exit: Gadael

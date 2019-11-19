@@ -1,0 +1,21 @@
+{% macro modal(id = false, title = false, closeButton = true) %}
+    <div class="modal-dialog{% if title %} modal-dialog--title{% endif %}" data-modal id="{{ id }}">
+        <div class="modal-dialog__overlay"></div>
+        <dialog class="modal-dialog__box js-modal-dialog" aria-modal="true" role="dialogue" tabindex="0">
+            {% if title %}
+                <div class="modal-dialog__header t3">
+                    {{ title | safe }}
+                </div>
+            {% endif %}
+            <div class="modal-dialog__content s-prose">
+                {{ caller() }}
+            </div>
+            {% if closeButton %}
+                <button class="modal-dialog__close-button js-modal-dialog-close-button js-modal-dialog-close-button--main"
+                        aria-label="Close dialogue">
+                    &times;
+                </button>
+            {% endif %}
+        </dialog>
+    </div>
+{% endmacro %}

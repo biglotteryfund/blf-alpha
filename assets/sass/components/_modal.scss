@@ -1,0 +1,99 @@
+$close-button-size: $spacingUnit * 2;
+$inputOutlineWidth: 3px;
+$inputOutlineColour: get-color('border', 'outline');
+$inputOutline: $inputOutlineWidth solid $inputOutlineColour;
+
+.modal-dialog {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    outline: 0;
+}
+
+.modal-dialog__box {
+    display: block;
+    position: fixed;
+    background: white;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    border: 0;
+
+    &:focus {
+        outline: $inputOutline;
+    }
+
+    @include mq('medium') {
+        position: relative;
+        top: 25%;
+        right: inherit;
+        left: inherit;
+        width: auto;
+        height: auto;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid black;
+    }
+}
+
+.modal-dialog__overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .8;
+    background: black;
+    pointer-events: none;
+    touch-action: none;
+}
+
+body.is-modal {
+    overflow: hidden;
+    .global-container {
+        filter: blur(2px);
+    }
+}
+
+.modal-dialog__header {
+    padding: $spacingUnit $spacingUnit 0 $spacingUnit;
+}
+
+.modal-dialog__content {
+    padding: $spacingUnit;
+    background: white;
+}
+
+.modal-dialog__close-button {
+    position: absolute;
+    top: $spacingUnit / 2;
+    right: $spacingUnit / 2;
+    width: $close-button-size;
+    height: $close-button-size;
+    border: 0;
+    color: black;
+    background: none;
+    cursor: pointer;
+
+    @include on-interact() {
+        outline: none;
+        color: black;
+        background: #dfdfdf;
+        outline: $inputOutline;
+    }
+}

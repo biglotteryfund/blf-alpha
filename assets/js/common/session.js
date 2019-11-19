@@ -1,9 +1,17 @@
 import $ from 'jquery';
 import debounce from 'lodash/debounce';
-import { trackEvent } from '../helpers/metrics';
 
-const expiryCheckIntervalSeconds = 30; // The interval we'll check timeouts in
-const warningShownSecondsRemaining = 5 * 60; // The time before logout we'll show a warning at
+import { trackEvent } from '../helpers/metrics';
+import modal from './modal';
+
+// The interval we'll check timeouts in
+const expiryCheckIntervalSeconds = 30;
+
+// The time before logout we'll show a warning at
+// Note: if changing this, the accompanying copy will need to change too
+const warningShownSecondsRemaining = 10 * 60;
+
+const showWarnings = window.AppConfig.apply.enableSessionExpiryWarning;
 
 function handleSessionExpiration() {
     let sessionInterval;
@@ -28,9 +36,15 @@ function handleSessionExpiration() {
             isAuthenticated = false;
             clearSessionExpiryWarningTimer();
             trackEvent('Session', 'Warning', 'Timeout reached');
+            if (showWarnings) {
+                modal.triggerModal('apply-expiry-expired');
+            }
         } else if (expiryTimeRemaining <= warningShownSecondsRemaining) {
             // The user has a few minutes remaining before logout
             trackEvent('Session', 'Warning', 'Timeout almost reached');
+            if (showWarnings) {
+                modal.triggerModal('apply-expiry-pending');
+            }
         }
     }
 
