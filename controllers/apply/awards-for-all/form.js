@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -57,31 +56,18 @@ module.exports = function({
         data: data
     });
 
-    function stepProjectDetails() {
+    function stepProjectName() {
         return {
-            title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
-            noValidate: true,
-            fieldsets: [
-                {
-                    legend: localise({
-                        en: 'Project details',
-                        cy: 'Manylion prosiect'
-                    }),
-                    fields: [fields.projectName, fields.projectDateRange]
-                }
-            ]
-        };
-    }
-
-    function stepProjectNameNew() {
-        return {
-            title: localise({ en: 'Project name', cy: 'Project name (Welsh)' }),
+            title: localise({
+                en: 'Project name',
+                cy: 'Project name (Welsh)'
+            }),
             noValidate: true,
             fieldsets: [{ fields: [fields.projectName] }]
         };
     }
 
-    function stepProjectLengthNew() {
+    function stepProjectLength() {
         return {
             title: localise({
                 en: 'Project length',
@@ -94,7 +80,10 @@ module.exports = function({
 
     function stepProjectCountry() {
         return {
-            title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
+            title: localise({
+                en: 'Project country',
+                cy: 'Gwlad y prosiect'
+            }),
             noValidate: true,
             fieldsets: [
                 {
@@ -1135,26 +1124,14 @@ module.exports = function({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`
             }),
-            get steps() {
-                if (config.get('awardsForAll.enableNewProjectDates') === true) {
-                    return [
-                        stepProjectNameNew(),
-                        stepProjectLengthNew(),
-                        stepProjectCountry(),
-                        stepProjectLocation(),
-                        stepYourIdea(),
-                        stepProjectCosts()
-                    ];
-                } else {
-                    return [
-                        stepProjectDetails(),
-                        stepProjectCountry(),
-                        stepProjectLocation(),
-                        stepYourIdea(),
-                        stepProjectCosts()
-                    ];
-                }
-            }
+            steps: [
+                stepProjectName(),
+                stepProjectLength(),
+                stepProjectCountry(),
+                stepProjectLocation(),
+                stepYourIdea(),
+                stepProjectCosts()
+            ]
         };
     }
 
