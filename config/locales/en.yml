@@ -1697,7 +1697,7 @@ applyNext:
     pending:
       title: You’re about to lose your work
       body: >
-        <p>We’ll log you out if you don’t respond in ten minutes.</p>
+        <p>We’ll log you out if you don’t respond before <strong>%s</strong>, %s.</p>
         <p>We do this to keep your information secure.</p>
       actions:
         continue: Continue working

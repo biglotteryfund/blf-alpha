@@ -1,0 +1,37 @@
+{% from "components/modal/macro.njk" import modal %}
+
+{#
+    The IDs of these modals are referenced in session.js (client-side file)
+    and must be changed there if changed here.
+#}
+
+{% macro expiryPending() %}
+    {% call modal('apply-expiry-pending', title = __('applyNext.expirationWarnings.pending.title')) %}
+        {{ __('applyNext.expirationWarnings.pending.body', sessionExpiresOn.time, sessionExpiresOn.date) | safe }}
+        <div class="form-actions form-actions--constrained">
+            <button type="button" class="btn btn--small js-modal-dialog-close-button">
+                {{ __('applyNext.expirationWarnings.pending.actions.continue') }}
+            </button>
+            <a href="{{ localify('/user/logout') }}" class="btn btn--small btn--outline">
+                {{ __('applyNext.expirationWarnings.pending.actions.logOut') }}
+            </a>
+        </div>
+    {% endcall %}
+{% endmacro %}
+
+{% macro expiryLoggedOut() %}
+    {% call modal('apply-expiry-expired',
+        title = __('applyNext.expirationWarnings.expired.title'),
+        closeButton = false
+    ) %}
+        {{ __('applyNext.expirationWarnings.expired.body') | safe }}
+        <div class="form-actions form-actions--constrained">
+            <a href="{{ localify('/user/login') }}" class="btn btn--small">
+                {{ __('applyNext.expirationWarnings.expired.actions.logInAgain') }}
+            </a>
+            <a href="{{ localify('/') }}" class="btn btn--small btn--outline">
+                {{ __('applyNext.expirationWarnings.expired.actions.visitHomepage') }}
+            </a>
+        </div>
+    {% endcall %}
+{% endmacro %}

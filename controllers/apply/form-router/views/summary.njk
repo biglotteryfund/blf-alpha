@@ -3,6 +3,7 @@
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
+{% from "./expiry-warnings.njk" import expiryLoggedOut with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
@@ -178,7 +179,7 @@
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only js-apply-form"
+        <div class="content-box u-inner-wide-only js-apply-form js-session-expiry-warning"
              data-form-short-id="{{ formShortId }}">
 
             {{ userNavigation(userNavigationLinks) }}
@@ -233,4 +234,9 @@
 
         </div>
     </main>
+{% endblock %}
+
+{% block modals %}
+    {# We don't need the pending expiry warning as there's nothing to be saved here #}
+    {{ expiryLoggedOut() }}
 {% endblock %}

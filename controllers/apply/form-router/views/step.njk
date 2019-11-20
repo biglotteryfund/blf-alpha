@@ -2,8 +2,7 @@
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 {% from "components/icons.njk" import iconBin, iconTick %}
-{% from "components/modal/macro.njk" import modal %}
-
+{% from "./expiry-warnings.njk" import expiryPending, expiryLoggedOut with context %}
 
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
@@ -17,7 +16,7 @@
 
             <form action=""
                   method="post"
-                  class="js-form-warn-unsaved js-session-form js-save-btn-form js-apply-form"
+                  class="js-form-warn-unsaved js-session-expiry-warning js-save-btn-form js-apply-form"
                   {% if errors | length > 0 %}data-form-has-errors="1"{% endif %}
                   {% if step.isMultipart %}enctype="multipart/form-data"{% endif %}
                   {% if step.noValidate %}novalidate{% endif %}
@@ -113,37 +112,6 @@
 
 
 {% block modals %}
-
-    {#
-        The IDs of these modals are references in session.js (client-side file)
-        and must be changed there if changed here.
-    #}
-
-    {% call modal('apply-expiry-pending', title = __('applyNext.expirationWarnings.pending.title')) %}
-        {{ __('applyNext.expirationWarnings.pending.body') | safe }}
-        <div class="form-actions form-actions--constrained">
-            <button type="button" class="btn btn--small js-modal-dialog-close-button">
-                {{ copy.expirationWarnings.pending.actions.continue }}
-            </button>
-            <a href="{{ localify('/user/logout') }}" class="btn btn--small btn--outline">
-                {{ copy.expirationWarnings.pending.actions.logOut }}
-            </a>
-        </div>
-    {% endcall %}
-
-    {% call modal('apply-expiry-expired',
-            title = copy.expirationWarnings.expired.title,
-            closeButton = false
-        ) %}
-        {{ copy.expirationWarnings.expired.body | safe }}
-        <div class="form-actions form-actions--constrained">
-            <a href="{{ localify('/user/login') }}" class="btn btn--small">
-                {{ copy.expirationWarnings.expired.actions.logInAgain }}
-            </a>
-            <a href="{{ localify('/') }}" class="btn btn--small btn--outline">
-                {{ copy.expirationWarnings.expired.actions.visitHomepage }}
-            </a>
-        </div>
-    {% endcall %}
-
+    {{ expiryPending() }}
+    {{ expiryLoggedOut() }}
 {% endblock %}

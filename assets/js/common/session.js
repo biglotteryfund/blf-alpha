@@ -77,7 +77,7 @@ function getUserSession() {
 }
 
 function init() {
-    const pageHasSessionForm = $('form.js-session-form').length !== 0;
+    const pageHasSessionForm = $('.js-session-expiry-warning').length !== 0;
     if (pageHasSessionForm) {
         handleSessionExpiration();
     }
