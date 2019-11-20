@@ -1,291 +1,395 @@
 'use strict';
-const { flatMap, get, isEmpty, set, unset } = require('lodash');
-const { matchedData } = require('express-validator/filter');
-const { check, validationResult } = require('express-validator/check');
 const express = require('express');
+const csurf = require('csurf');
 const path = require('path');
 const Sentry = require('@sentry/node');
-
-const { csrfProtection, noStore } = require('../../../common/cached');
-const { localify } = require('../../../common/urls');
+const get = require('lodash/get');
+const includes = require('lodash/includes');
+const pick = require('lodash/pick');
+const set = require('lodash/set');
+const features = require('config').get('features');
+const formidable = require('formidable');
 
 const {
-    flattenFormData,
-    stepWithValues,
-    stepsWithValues
-} = require('./helpers');
+    PendingApplication,
+    ApplicationEmailQueue
+} = require('../../../db/models');
 
-function initFormRouter(form) {
+const logger = require('../../../common/logger').child({ service: 'apply' });
+const { localify, isWelsh, removeWelsh } = require('../../../common/urls');
+const { noStore } = require('../../../common/cached');
+const { requireActiveUserWithCallback } = require('../../../common/authed');
+
+const { getObject } = require('./lib/file-uploads');
+const { generateEmailQueueItems } = require('./lib/emailQueue');
+
+function initFormRouter({
+    formId,
+    formBuilder,
+    startTemplate = null,
+    eligibilityBuilder = null,
+    confirmationBuilder,
+    enableSalesforceConnector = true,
+    expiryEmailPeriods = null,
+    isBilingual = true
+}) {
     const router = express.Router();
 
+    function currentlyEditingSessionKey() {
+        return `forms.${formId}.currentEditingId`;
+    }
+
     /**
-     * Collect all validators associated with each field for express-validator
+     * Application seed endpoint
+     * Allows generation of seed applications in test environments
      */
-    function getValidators(step) {
-        const fields = flatMap(step.fieldsets, 'fields');
-        return fields.map(field => {
-            if (field.validator) {
-                return field.validator(field);
-            } else if (field.isRequired === true) {
-                return check(field.name)
-                    .trim()
-                    .not()
-                    .isEmpty()
-                    .withMessage((value, { req }) => {
-                        const formCopy = form.lang
-                            ? req.i18n.__(form.lang)
-                            : {};
-                        const errorMessage = get(
-                            formCopy,
-                            `fields.${field.name}.errorMessage`
-                        );
-                        // @TODO: Translate fallback error message;
-                        const fallbackErrorMessage = `${field.label} must be provided`;
-                        return req.i18n.__(
-                            errorMessage || fallbackErrorMessage
-                        );
-                    });
-            } else {
-                return check(field.name)
-                    .trim()
-                    .optional();
+    if (features.enableSeeders) {
+        router.post('/seed', async (req, res) => {
+            const application = await PendingApplication.createNewApplication({
+                formId: formId,
+                userId: req.body.userId,
+                customExpiry: req.body.expiresAt
+            });
+
+            if (expiryEmailPeriods) {
+                const emailsToQueue = generateEmailQueueItems(
+                    application,
+                    expiryEmailPeriods
+                );
+                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
             }
+
+            res.json(application);
         });
     }
 
-    function getSessionProp(stepNo) {
-        const baseProp = `form.${form.id}`;
-        if (stepNo) {
-            return `${baseProp}.step-${stepNo}`;
-        }
-
-        return baseProp;
-    }
-
-    router.use((req, res, next) => {
-        const copy = form.lang ? req.i18n.__(form.lang) : {};
-        res.locals.copy = copy;
-        res.locals.formTitle = copy.title;
-        res.locals.isBilingual = form.isBilingual;
-        next();
-    });
-
-    const totalSteps = form.steps.length + 1; // allow for the review 'step'
-
-    function getFormSession(req, step) {
-        return get(req.session, getSessionProp(step), {});
-    }
-
-    function getStepProgress({ baseUrl, currentStepNumber }) {
-        return {
-            prevStepUrl:
-                currentStepNumber > 1
-                    ? `${baseUrl}/${currentStepNumber - 1}`
-                    : baseUrl,
-            currentStepNumber: currentStepNumber,
-            totalSteps: totalSteps
-        };
-    }
-
     /**
-     * Route: Start page
+     * Common router middleware
+     * Require active user past this point
      */
-    router.get('/', noStore, function(req, res) {
-        const { startPage } = form;
-        if (!startPage) {
-            throw new Error('No startpage found');
-        }
-
-        if (startPage.template) {
-            res.render(startPage.template, {
-                title: res.locals.copy.title,
-                startUrl: `${req.baseUrl}/1`,
-                stepConfig: startPage,
-                form: form
-            });
-        } else if (startPage.urlPath) {
-            res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
-        } else {
-            throw new Error('No valid startpage types found');
-        }
-    });
-
-    /**
-     * Route: Form steps
-     */
-    form.steps.forEach((step, idx) => {
-        const currentStepNumber = idx + 1;
-
-        function renderStep(req, res, errors = []) {
-            const stepData = getFormSession(req, currentStepNumber);
-            const stepsCopy = get(res.locals.copy, 'steps', []);
-            const stepCopy = stepsCopy.length > 0 ? stepsCopy[idx] : {};
-
-            res.render(path.resolve(__dirname, './views/form'), {
-                csrfToken: req.csrfToken(),
-                form: form,
-                stepCopy: stepCopy,
-                step: stepWithValues(step, stepData),
-                stepProgress: getStepProgress({
-                    baseUrl: req.baseUrl,
-                    currentStepNumber
-                }),
-                errors: errors
-            });
-        }
-
-        function renderStepIfAllowed(req, res) {
-            if (
-                currentStepNumber > 1 &&
-                isEmpty(getFormSession(req, currentStepNumber - 1))
-            ) {
-                res.redirect(req.baseUrl);
-            } else {
-                renderStep(req, res);
+    router.use(
+        noStore,
+        requireActiveUserWithCallback(req => {
+            // Track attempts to submit form steps when session is expired/invalid
+            if (req.method === 'POST') {
+                logger.info('User submitted POST data without valid session', {
+                    formId: formId,
+                    url: req.originalUrl
+                });
             }
+        }),
+        function(req, res, next) {
+            /**
+             * Decide if we need to handle multipart/form-data
+             * Populate req.body for multipart forms before CSRF token is needed
+             */
+            function needsMultipart() {
+                const contentType = req.headers['content-type'];
+                return (
+                    req.method === 'POST' &&
+                    contentType &&
+                    contentType.includes('multipart/form-data')
+                );
+            }
+
+            if (needsMultipart()) {
+                const formData = new formidable.IncomingForm();
+                formData
+                    .parse(req, (err, fields, files) => {
+                        if (err) {
+                            next(err);
+                        } else {
+                            req.body = fields;
+                            req.files = files;
+                            next();
+                        }
+                    })
+                    .on('error', err => {
+                        next(err);
+                    });
+            } else {
+                next();
+            }
+        },
+        function(req, res, next) {
+            if (isBilingual === false && isWelsh(req.originalUrl)) {
+                return res.redirect(removeWelsh(req.originalUrl));
+            }
+
+            const copy = req.i18n.__('applyNext');
+
+            res.locals.copy = copy;
+            res.locals.isBilingual = isBilingual;
+
+            const form = formBuilder({
+                locale: req.i18n.getLocale()
+            });
+
+            res.locals.formTitle = form.title;
+            res.locals.formId = formId;
+            res.locals.formBaseUrl = req.baseUrl;
+
+            res.locals.user = req.user;
+
+            res.locals.userNavigationLinks = [
+                {
+                    url: `${req.baseUrl}/summary`,
+                    label: copy.navigation.summary
+                },
+                {
+                    url: res.locals.sectionUrl,
+                    label: copy.navigation.latestApplication
+                },
+                {
+                    url: `${res.locals.sectionUrl}/all`,
+                    label: copy.navigation.allApplications
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user'),
+                    label: copy.navigation.account
+                }
+            ];
+
+            next();
+        },
+        csurf()
+    );
+
+    /**
+     * Route: Redirect to apply dashboard
+     */
+    router.get('/', function(req, res) {
+        res.redirect(res.locals.sectionUrl);
+    });
+
+    /**
+     * Route: Questions list
+     */
+    router.use(
+        '/questions',
+        require('./questions')(formId, formBuilder, eligibilityBuilder)
+    );
+
+    /**
+     * Route: Eligibility
+     */
+    if (eligibilityBuilder) {
+        router.use(
+            '/eligibility',
+            require('./eligibility')(eligibilityBuilder, formId)
+        );
+    }
+
+    /**
+     * Route: Start application
+     * Redirect to eligibility checker
+     */
+    router.get('/start', function(req, res) {
+        const newUrl = `${req.baseUrl}/new`;
+        if (eligibilityBuilder) {
+            res.redirect(`${req.baseUrl}/eligibility/1`);
+        } else if (startTemplate) {
+            res.render(startTemplate, {
+                backUrl: res.locals.sectionUrl,
+                newUrl: newUrl
+            });
+        } else {
+            res.redirect(newUrl);
+        }
+    });
+
+    function redirectCurrentlyEditing(req, res, applicationId) {
+        set(req.session, currentlyEditingSessionKey(), applicationId);
+        req.session.save(() => {
+            res.redirect(`${req.baseUrl}/summary`);
+        });
+    }
+
+    /**
+     * Route: New application
+     */
+    router.get('/new', async function(req, res, next) {
+        try {
+            const application = await PendingApplication.createNewApplication({
+                formId: formId,
+                userId: req.user.userData.id
+            });
+
+            if (expiryEmailPeriods) {
+                // Convert this application's expiry periods into a set of queue items
+                const emailsToQueue = generateEmailQueueItems(
+                    application,
+                    expiryEmailPeriods
+                );
+                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
+            }
+
+            logger.info('Application created', { formId });
+
+            redirectCurrentlyEditing(req, res, application.id);
+        } catch (error) {
+            next(error);
+        }
+    });
+
+    /**
+     * Route: Edit application
+     */
+    router.get('/edit/:applicationId', function(req, res) {
+        // If this link includes a source (s) parameter, track it
+        // eg. to analyse usage of expiry reminder emails
+        if (req.query.s === 'expiryEmail') {
+            logger.info('User clicked edit link on expiry email', { formId });
+        }
+        redirectCurrentlyEditing(req, res, req.params.applicationId);
+    });
+
+    /**
+     * Route: Delete application
+     */
+    router.use('/delete', require('./delete')(formId));
+
+    /**
+     * Help pages
+     * Used to render support pages for this application
+     */
+    router.get('/help/:helpItem', function(req, res) {
+        const helpItems = ['bank-statement'];
+        if (!includes(helpItems, req.params.helpItem)) {
+            res.redirect(req.baseUrl);
         }
 
-        function handleSubmitStep(isEditing = false) {
-            return function(req, res) {
-                const sessionProp = getSessionProp(currentStepNumber);
-                const stepData = get(req.session, sessionProp, {});
-                const bodyData = matchedData(req, { locations: ['body'] });
-                set(
-                    req.session,
-                    sessionProp,
-                    Object.assign(stepData, bodyData)
+        let title;
+        switch (req.params.helpItem) {
+            case 'bank-statement':
+                title = res.locals.copy.fields.bankStatement.help.title;
+                break;
+            default:
+                title = res.locals.formTitle;
+                break;
+        }
+
+        res.render(path.resolve(__dirname, './views/help-item'), {
+            title: title,
+            item: req.params.helpItem
+        });
+    });
+
+    /**
+     * Require application
+     * All routes after this point require an application to be selected
+     */
+    router.use(async (req, res, next) => {
+        const currentEditingId = get(req.session, currentlyEditingSessionKey());
+
+        if (currentEditingId) {
+            res.locals.currentlyEditingId = currentEditingId;
+
+            try {
+                const currentApplication = await PendingApplication.findForUser(
+                    {
+                        formId: formId,
+                        applicationId: currentEditingId,
+                        userId: req.user.userData.id
+                    }
                 );
 
-                req.session.save(() => {
-                    const errors = validationResult(req);
-                    if (errors.isEmpty()) {
-                        if (
-                            isEditing === true ||
-                            currentStepNumber === form.steps.length
-                        ) {
-                            res.redirect(`${req.baseUrl}/review`);
-                        } else {
-                            res.redirect(
-                                `${req.baseUrl}/${currentStepNumber + 1}`
-                            );
-                        }
-                    } else {
-                        renderStep(req, res, errors.array());
-                    }
-                });
-            };
-        }
+                if (currentApplication) {
+                    const currentApplicationData = get(
+                        currentApplication,
+                        'applicationData',
+                        {}
+                    );
 
-        /**
-         * Step router
-         */
-        router
-            .route(`/${currentStepNumber}`)
-            .all(csrfProtection)
-            .get(renderStepIfAllowed)
-            .post(getValidators(step), handleSubmitStep());
+                    res.locals.currentApplication = currentApplication;
+                    res.locals.currentApplicationData = currentApplicationData;
 
-        /**
-         * Step edit router
-         */
-        router
-            .route(`/${currentStepNumber}/edit`)
-            .all(csrfProtection)
-            .get(function(req, res) {
-                const formSession = getFormSession(req);
-                const completedSteps = Object.keys(formSession).filter(key =>
-                    /^step-/.test(key)
-                ).length;
-                if (completedSteps < totalSteps - 1) {
-                    res.redirect(req.originalUrl.replace('/edit', ''));
+                    res.locals.currentApplicationStatus = get(
+                        currentApplication,
+                        'status'
+                    );
+
+                    next();
                 } else {
-                    renderStepIfAllowed(req, res);
+                    res.redirect(req.baseUrl);
                 }
-            })
-            .post(getValidators(step), handleSubmitStep(true));
+            } catch (error) {
+                Sentry.captureException(
+                    new Error(`Unable to find application ${currentEditingId}`)
+                );
+                res.redirect(req.baseUrl);
+            }
+        } else {
+            res.redirect(req.baseUrl);
+        }
     });
 
-    function renderError(error, req, res) {
-        const errorCopy = req.i18n.__('apply.error');
-        res.render(path.resolve(__dirname, './views/error'), {
-            error: error,
-            title: errorCopy.title,
-            errorCopy: errorCopy,
-            returnUrl: `${req.baseUrl}/review`
-        });
-    }
+    /**
+     * Route: Summary
+     */
+    router.use('/summary', require('./summary')(formBuilder));
 
     /**
-     * Route: Review
+     * Route: Submission
+     */
+    router.use(
+        '/submission',
+        require('./submission')(
+            formId,
+            formBuilder,
+            confirmationBuilder,
+            currentlyEditingSessionKey,
+            enableSalesforceConnector
+        )
+    );
+
+    /**
+     * Routes: Stream file from S3 if authorised
+     * Stream the file's headers and serve it directly as a response
+     * @see https://stackoverflow.com/a/43356401
      */
     router
-        .route('/review')
-        .all(csrfProtection)
-        .get(function(req, res) {
-            const formData = getFormSession(req);
-            if (isEmpty(formData)) {
-                res.redirect(req.baseUrl);
-            } else {
-                const stepCopy = get(res.locals.copy, 'review', {});
-                res.render(path.resolve(__dirname, './views/review'), {
-                    form: form,
-                    title: stepCopy.title,
-                    stepCopy: stepCopy,
-                    stepProgress: getStepProgress({
-                        baseUrl: req.baseUrl,
-                        currentStepNumber: totalSteps
-                    }),
-                    summary: stepsWithValues(form.steps, formData),
-                    baseUrl: req.baseUrl,
-                    csrfToken: req.csrfToken()
-                });
-            }
-        })
-        .post(async function(req, res) {
-            const formData = getFormSession(req);
+        .route('/download/:fieldName/:filename')
+        .get(async (req, res, next) => {
+            const { currentlyEditingId, currentApplicationData } = res.locals;
 
-            if (isEmpty(formData)) {
-                res.redirect(req.baseUrl);
+            const fileData = currentApplicationData[req.params.fieldName];
+            const matchesField =
+                fileData && fileData.filename === req.params.filename;
+
+            if (matchesField) {
+                const pathConfig = {
+                    formId: formId,
+                    applicationId: currentlyEditingId,
+                    filename: req.params.filename
+                };
+
+                getObject(pathConfig)
+                    .on('httpHeaders', (code, headers) => {
+                        res.status(code);
+                        if (code < 300) {
+                            res.set(
+                                pick(
+                                    headers,
+                                    'content-type',
+                                    'content-length',
+                                    'last-modified'
+                                )
+                            );
+                        }
+                    })
+                    .createReadStream()
+                    .on('error', next)
+                    .pipe(res);
             } else {
-                try {
-                    await form.processor({
-                        form: form,
-                        locale: req.i18n.getLocale(),
-                        data: flattenFormData(formData),
-                        stepsWithValues: stepsWithValues(form.steps, formData),
-                        copy: res.locals.copy
-                    });
-                    res.redirect(`${req.baseUrl}/success`);
-                } catch (error) {
-                    Sentry.captureException(error);
-                    renderError(error, req, res);
-                }
+                next();
             }
         });
 
     /**
-     * Route: Success
+     * Routes: Form steps
      */
-    router.get('/success', noStore, function(req, res) {
-        const formData = getFormSession(req);
-        const stepConfig = form.successStep;
-        const stepCopy = get(res.locals.copy, 'success', {});
-
-        if (isEmpty(formData)) {
-            res.redirect(req.baseUrl);
-        } else {
-            // Clear the submission from the session on success
-            unset(req.session, getSessionProp());
-            req.session.save(() => {
-                res.render(stepConfig.template, {
-                    form: form,
-                    title: stepCopy.title,
-                    stepCopy: stepCopy,
-                    stepConfig: stepConfig
-                });
-            });
-        }
-    });
+    router.use('/', require('./steps')(formId, formBuilder));
 
     return router;
 }
