@@ -27,8 +27,10 @@ module.exports = function(formId, formBuilder) {
 
     function renderStepFor(sectionSlug, stepNumber) {
         return async function(req, res, data, errors = []) {
+            const locale = req.i18n.getLocale();
+
             const form = formBuilder({
-                locale: req.i18n.getLocale(),
+                locale: locale,
                 data: data
             });
 
@@ -99,8 +101,10 @@ module.exports = function(formId, formBuilder) {
                     errors: errors,
                     updatedAt: application.updatedAt,
                     sessionExpiresOn: {
-                        time: sessionExpiresOn.format('h:mma'),
-                        date: sessionExpiresOn.format('dddd D MMMM YYYY')
+                        time: sessionExpiresOn.locale(locale).format('h:mma'),
+                        date: sessionExpiresOn
+                            .locale(locale)
+                            .format('dddd D MMMM YYYY')
                     }
                 });
             } else {
