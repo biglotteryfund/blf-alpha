@@ -10,7 +10,7 @@
 
 {% set countries = [
     {
-        'value': 'uk',
+        'value': '',
         'label': 'UK-wide'
     },
     {
@@ -158,11 +158,13 @@
                             type: 'bar',
                             data: {
                                 {% if country %}
+                                    {% set barColour = countryColour if countryColour else '#e5007d' %}
                                     datasets: [{
                                         label: '{{ appType.title }}',
                                         data: {{ appType.data.appsPerDay | dump(2) | safe }},
-                                        borderColor: '#e5007d',
-                                        fill: '#e5007d'
+                                        borderColor: '{{ barColour }}',
+                                        fill: '{{ barColour }}',
+                                        backgroundColor: '{{ barColour }}'
                                     }]
                                 {% else %}
                                     datasets: [
