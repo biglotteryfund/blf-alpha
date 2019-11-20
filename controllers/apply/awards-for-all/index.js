@@ -1,7 +1,7 @@
 'use strict';
 const features = require('config').get('features');
 
-const { initFormRouter } = require('../form-router-next');
+const { initFormRouter } = require('../form-router');
 
 const formBuilder = require('./form');
 const eligibilityBuilder = require('./eligibility');

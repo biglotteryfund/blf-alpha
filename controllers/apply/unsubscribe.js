@@ -44,10 +44,7 @@ router.get('/', async function(req, res) {
             );
             logger.info('User unsubscribed from application expiry emails');
             res.render(
-                path.resolve(
-                    __dirname,
-                    './form-router-next/views/unsubscribed'
-                ),
+                path.resolve(__dirname, './form-router/views/unsubscribed'),
                 {
                     en: {
                         title: 'Unsubscription successful',
