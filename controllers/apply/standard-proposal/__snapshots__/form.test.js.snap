@@ -3,6 +3,7 @@
 exports[`empty form 1`] = `
 Array [
   "Enter a project name",
+  "Select a country",
   "Tell us all of the locations that you'll be running your project in",
   "Enter a total cost for your project",
   "Tell us what you would like to do",
