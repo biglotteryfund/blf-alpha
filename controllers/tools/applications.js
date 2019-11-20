@@ -382,7 +382,6 @@ router.get('/:applicationId', async (req, res, next) => {
             applicationData: applicationData,
             statistics: statistics,
             dateRange: dateRange,
-            oldestDate: getOldestDate(submittedApplications),
             now: new Date(),
             country: country,
             countryTitle: countryTitle,
