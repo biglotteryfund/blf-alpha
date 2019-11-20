@@ -42,6 +42,11 @@ function mockResponse(overrides = {}) {
     return Object.assign(defaults, overrides);
 }
 
+test('empty form', () => {
+    const result = formBuilder().validation;
+    expect(mapMessages(result)).toMatchSnapshot();
+});
+
 test('valid form', () => {
     const data = mockResponse();
     const result = formBuilder({ data }).validation;

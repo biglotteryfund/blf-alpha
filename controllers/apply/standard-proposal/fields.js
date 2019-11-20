@@ -148,7 +148,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .items(
                     Joi.string().valid(options().map(option => option.value))
                 )
-                .single(),
+                .single()
+                .required(),
             messages: [
                 {
                     type: 'base',
