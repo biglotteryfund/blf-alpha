@@ -15,9 +15,11 @@ router.use(function(req, res, next) {
 
 router.use('/', require('./dashboard'));
 
-router.use('/your-idea', require('./reaching-communities'));
-router.use('/awards-for-all', require('./awards-for-all'));
+router.get('/your-idea*', function(req, res) {
+    return res.redirect(res.locals.sectionUrl);
+});
 
+router.use('/awards-for-all', require('./awards-for-all'));
 router.use('/your-funding-proposal', require('./standard-proposal'));
 
 router.use('/emails/unsubscribe', require('./unsubscribe'));

@@ -6,8 +6,5 @@
   },
   "features": {
     "enableHotjar": true
-  },
-  "standardFundingProposal": {
-    "allowedCountries": ["england", "northern-ireland"]
   }
 }

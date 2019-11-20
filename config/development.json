@@ -3,8 +3,5 @@
   "features": {
     "enableSeeders": true,
     "enableSalesforceConnector": false
-  },
-  "standardFundingProposal": {
-    "allowedCountries": ["england", "northern-ireland"]
   }
 }

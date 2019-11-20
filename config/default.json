@@ -33,7 +33,7 @@
     "enableExpiration": true
   },
   "standardFundingProposal": {
-    "allowedCountries": ["northern-ireland"]
+    "allowedCountries": ["england", "northern-ireland"]
   },
   "session": {
     "cookie": "blf-alpha-session",
