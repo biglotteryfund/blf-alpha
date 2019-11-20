@@ -386,6 +386,9 @@ router.get('/:applicationId', async (req, res, next) => {
             now: new Date(),
             country: country,
             countryTitle: countryTitle,
+            countryColour: country
+                ? getColourForCountry(titleCase(country))
+                : null,
             dataStudioUrl: dataStudioUrl,
             feedback: feedback
         });
