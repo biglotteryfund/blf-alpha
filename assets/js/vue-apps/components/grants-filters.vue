@@ -1,13 +1,13 @@
 <script>
 import FacetGroup from './facet-group.vue';
 import FacetDisclose from './facet-disclose.vue';
-import FacetChoice from './facet-choice.vue';
+import FacetRadios from './facet-radios.vue';
 import FacetSelect from './facet-select.vue';
 import has from 'lodash/has';
 import $ from 'jquery';
 
 export default {
-    components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
+    components: { FacetGroup, FacetDisclose, FacetRadios, FacetSelect },
     props: [
         'facets',
         'filters',
@@ -55,7 +55,7 @@ export default {
             :toggle-label="copy.filters.toggle"
             :track-ui="trackUi"
         >
-            <FacetChoice
+            <FacetRadios
                 v-model="filters.amount"
                 type="radio"
                 name="amount"
@@ -68,7 +68,7 @@ export default {
                 :handle-active-filter="handleActiveFilter"
                 :track-ui="trackUi"
             />
-            <FacetChoice
+            <FacetRadios
                 v-model="filters.awardDate"
                 type="radio"
                 name="awardDate"
@@ -99,7 +99,7 @@ export default {
             :toggle-label="copy.filters.toggle"
             :track-ui="trackUi"
         >
-            <FacetChoice
+            <FacetRadios
                 v-model="filters.country"
                 type="radio"
                 name="country"

@@ -92,7 +92,7 @@
         name="{{ field.name }}"
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {# @TODO: Remove field.rows in favour of field.attributes #}
-        {% if field.rows %}rows="{{ field.rows }}"{% endif %} 
+        {% if field.rows %}rows="{{ field.rows }}"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     >{{ field.value }}</textarea>
 {% endmacro %}
@@ -184,19 +184,5 @@
                 {% endfor %}
             </ol>
         {% endif %}
-    </div>
-{% endmacro %}
-
-{# @TODO: Move to a dedicated component #}
-{% macro facetGroup(legend) %}
-    <div class="facet-group is-open">
-        <fieldset class="facet-group__fieldset">
-            <legend class="facet-group__legend">
-                {{ legend }}
-            </legend>
-            <div class="facet-group__body">
-                {{ caller() }}
-            </div>
-        </fieldset>
     </div>
 {% endmacro %}

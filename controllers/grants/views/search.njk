@@ -1,10 +1,7 @@
 {% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
-{% from "components/form-fields/macros.njk" import inputChoice, inputSelect, facetGroup with context %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/promo-card/macro.njk" import promoCard %}
-{% from "components/split-nav/macro.njk" import splitNav with context %}
 
 {% from "./grant-results.njk" import grantResultList with context %}
 
@@ -25,6 +22,61 @@
 {% endblock %}
 
 {% block content %}
+    {% macro facetGroup(legend) %}
+        <div class="facet-group is-open">
+            <fieldset class="facet-group__fieldset">
+                <legend class="facet-group__legend">
+                    {{ legend }}
+                </legend>
+                <div class="facet-group__body">
+                    {{ caller() }}
+                </div>
+            </fieldset>
+        </div>
+    {% endmacro %}
+
+    {% macro fallbackRadios(field) %}
+        <fieldset>
+            <legend class="facet-field-label">
+                {{ field.label }}
+            </legend>
+            <ul class="facet-field-radios">
+                {% for option in field.options %}
+                    <li class="facet-field-radios__option">
+                        <div class="facet-field-radios__input">
+                            <input
+                                type="radio"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value === option.value %}checked{% endif %}
+                            />
+                        </div>
+                        <label class="facet-field-radios__label"
+                               for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ option.label }}
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+    {% endmacro %}
+
+    {% macro fallbackSelect(field) %}
+        <label class="facet-field-label" for="field-{{ field.name }}">
+            {{ field.label }}
+        </label>
+        <select id="field-{{ field.name }}" name="{{ field.name }}">
+            {% for option in field.options %}
+                <option
+                    value="{{ option.value }}"
+                    {% if field.value === option.value %} selected{% endif %}>
+                    {{ option.label }}
+                </option>
+            {% endfor %}
+        </select>
+    {% endmacro %}
+
     <main role="main" id="content">
         {{ hero(title, pageHero.image) }}
 
@@ -59,9 +111,7 @@
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
 
                 <div class="search-bar js-only">
-                    <label class="ff-label"
-                           for="search-query"
-                           data-append="{{ copy.beta }}">
+                    <label class="ff-label" for="search-query">
                         {{ copy.title }}
                     </label>
                     <div class="form-field-addon u-margin-bottom-s">
@@ -194,7 +244,7 @@
                                 {% call facetGroup(copy.filters.grantLegend) %}
                                     {# Filter: Amount awarded #}
                                     {% if facets.amountAwarded %}
-                                        {{ inputChoice({
+                                        {{ fallbackRadios({
                                             type: 'radio',
                                             name: 'amount',
                                             label: copy.filters.options.amountAwarded.label,
@@ -205,7 +255,7 @@
                                     {% endif %}
 
                                     {% if facets.awardDate %}
-                                        {{ inputChoice({
+                                        {{ fallbackRadios({
                                             type: 'radio',
                                             name: 'awardDate',
                                             label: copy.filters.options.awardDate.label,
@@ -221,13 +271,11 @@
                                             'label': copy.filters.options.programme.any,
                                             'value': ''
                                         }), facets.grantProgramme) %}
-                                        {{ inputSelect({
-                                            type: 'select',
+                                        {{ fallbackSelect({
                                             name: 'programme',
                                             label: copy.filters.options.programme.label,
                                             value: queryParams.programme,
-                                            options: options,
-                                            silentlyOptional: true
+                                            options: options
                                         }) }}
                                     {% endif %}
                                 {% endcall %}
@@ -239,7 +287,7 @@
                                             'label': copy.filters.options.country.any,
                                             'value': ''
                                         }), facets.countries) %}
-                                        {{ inputChoice({
+                                        {{ fallbackRadios({
                                             type: 'radio',
                                             name: 'country',
                                             label: copy.filters.options.country.label,
@@ -255,13 +303,11 @@
                                             'label': copy.filters.options.localAuthority.any,
                                             'value': ''
                                         }), facets.localAuthorities) %}
-                                        {{ inputSelect({
-                                            type: 'select',
+                                        {{ fallbackSelect({
                                             name: 'localAuthority',
                                             label: copy.filters.options.localAuthority.label,
                                             value: queryParams.localAuthority,
-                                            options: options,
-                                            silentlyOptional: true
+                                            options: options
                                         }) }}
                                     {% endif %}
 
@@ -271,13 +317,11 @@
                                             'label': copy.filters.options.westminsterConstituency.any,
                                             'value': ''
                                         }), facets.westminsterConstituencies) %}
-                                        {{ inputSelect({
-                                            type: 'select',
+                                        {{ fallbackSelect({
                                             name: 'westminsterConstituency',
                                             label: copy.filters.options.westminsterConstituency.label,
                                             value: queryParams.westminsterConstituency,
-                                            options: options,
-                                            silentlyOptional: true
+                                            options: options
                                         }) }}
                                     {% endif %}
                                 {% endcall %}

@@ -6,7 +6,6 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/icons.njk" import iconClose, iconDownload, iconTickPlain %}
-{% from "components/form-fields/macros.njk" import inputChoice, inputSelect, facetGroup with context %}
 
 {% set basePageUrl = localify('/insights/documents') %}
 
@@ -243,47 +242,75 @@
                                 </a>
                             </div>
 
-                            {% call facetGroup(copy.search.filters.programme.title) %}
-                                {% set options = (entriesMeta.programmes.unshift({
-                                    'label': copy.search.filters.programme.label,
-                                    'value': ''
-                                }), entriesMeta.programmes) %}
-                                {{ inputSelect({
-                                    type: 'select',
-                                    name: 'programme',
-                                    value: entriesMeta.activeProgramme.value if entriesMeta.activeProgramme,
-                                    options: options,
-                                    silentlyOptional: true
-                                }) }}
-                            {% endcall %}
+                            <div class="facet-group is-open">
+                                <div class="facet-group__body">
 
-                            {% call facetGroup(copy.search.filters.region.title) %}
-                                {% set options = (entriesMeta.portfolios.unshift({
-                                    'label': copy.search.filters.region.label,
-                                    'value': ''
-                                }), entriesMeta.portfolios) %}
-                                {{ inputSelect({
-                                    type: 'select',
-                                    name: 'portfolio',
-                                    value: entriesMeta.activePortfolio.value if entriesMeta.activeProgramme,
-                                    options: options,
-                                    silentlyOptional: true
-                                }) }}
-                            {% endcall %}
+                                    {# Programme #}
+                                    <div class="facet-group__item">
+                                        <label class="facet-field-label" for="field-programme">
+                                            {{ copy.search.filters.programme.title }}
+                                        </label>
+                                        <select id="field-programme" name="programme">
+                                            {% for option in (entriesMeta.programmes.unshift({
+                                                'label': copy.search.filters.programme.label,
+                                                'value': ''
+                                            }), entriesMeta.programmes) %}
+                                                <option value="{{ option.value }}"
+                                                    {% if field.value === entriesMeta.activeProgramme.value %} selected{% endif %}>
+                                                    {{ option.label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
 
-                            {% call facetGroup(copy.search.filters.docType.title) %}
-                                {% set options = (entriesMeta.docTypes.unshift({
-                                    'label': copy.search.filters.docType.label,
-                                    'value': ''
-                                }), entriesMeta.docTypes) %}
-                                {{ inputChoice({
-                                    type: 'radio',
-                                    name: 'doctype',
-                                    value: entriesMeta.activeDocType.value if entriesMeta.activeDocType,
-                                    options: options,
-                                    silentlyOptional: true
-                                }) }}
-                            {% endcall %}
+                                    {# Region #}
+                                    <div class="facet-group__item facet-field">
+                                        <label class="facet-field-label" for="field-portfolio">
+                                            {{ copy.search.filters.region.title }}
+                                        </label>
+                                        <select id="field-portfolio" name="portfolio">
+                                            {% for option in (entriesMeta.portfolios.unshift({
+                                                'label': copy.search.filters.region.label,
+                                                'value': ''
+                                            }), entriesMeta.portfolios) %}
+                                                <option value="{{ option.value }}"
+                                                    {% if field.value === entriesMeta.activePortfolio.value %} selected{% endif %}>
+                                                    {{ option.label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    {# Document type #}
+                                    <fieldset>
+                                        <legend class="facet-field-label">
+                                            {{ copy.search.filters.docType.title }}
+                                        </legend>
+                                        <ul class="facet-field-radios">
+                                            {% for option in (entriesMeta.docTypes.unshift({
+                                                'label': copy.search.filters.docType.label,
+                                                'value': ''
+                                            }), entriesMeta.docTypes) %}
+                                                <li class="facet-field-radios__option">
+                                                    <div class="facet-field-radios__input">
+                                                        <input
+                                                            type="radio"
+                                                            id="field-doctype-{{ loop.index }}"
+                                                            name="{{ field.name }}"
+                                                            value="{{ option.value }}"
+                                                            {% if entriesMeta.activeDocType.value === option.value %}checked{% endif %}
+                                                        />
+                                                    </div>
+                                                    <label class="facet-field-radios__label"
+                                                           for="field-doctype-{{ loop.index }}">
+                                                        {{ option.label }}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </fieldset>
+                                </div>
+                            </div>
 
                             <div class="search-filters__actions">
                                 <input type="submit" value="{{ copy.search.filters.applyFilters }}" class="btn btn--medium">
