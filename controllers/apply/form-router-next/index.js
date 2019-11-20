@@ -22,6 +22,7 @@ const { requireActiveUserWithCallback } = require('../../../common/authed');
 
 const { getObject } = require('./lib/file-uploads');
 const { generateEmailQueueItems } = require('./lib/emailQueue');
+const { getShortId } = require('./lib/hotjar');
 
 function initFormRouter({
     formId,
@@ -127,6 +128,7 @@ function initFormRouter({
 
             res.locals.formTitle = form.title;
             res.locals.formId = formId;
+            res.locals.formShortId = getShortId(formId);
             res.locals.formBaseUrl = req.baseUrl;
 
             res.locals.user = req.user;

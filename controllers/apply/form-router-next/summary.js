@@ -46,6 +46,8 @@ module.exports = function(formBuilder) {
             data: currentApplicationData
         });
 
+        const formShortId = res.locals.formShortId;
+
         const errorsByStep = form.getErrorsByStep();
 
         logErrorDifference(
@@ -58,14 +60,16 @@ module.exports = function(formBuilder) {
 
         if (showErrors) {
             res.locals.hotJarTagList = [
-                'Apply: AFA: Summary: User clicked Submit early'
+                `Apply: ${formShortId}: Summary: User clicked Submit early`
             ];
         }
 
         const featuredErrors = form.validation.featuredMessages;
 
         if (featuredErrors.length > 0) {
-            const msg = ['Apply: AFA: Summary: User shown soft warnings'];
+            const msg = [
+                `Apply: ${formShortId}: Summary: User shown soft warnings`
+            ];
             if (res.locals.hotJarTagList) {
                 res.locals.hotJarTagList = concat(
                     res.locals.hotJarTagList,
@@ -77,7 +81,9 @@ module.exports = function(formBuilder) {
         }
 
         if (form.progress.isComplete) {
-            const msg = ['Apply: AFA: Summary: User shown form complete'];
+            const msg = [
+                `Apply: ${formShortId}: Summary: User shown form complete`
+            ];
             if (res.locals.hotJarTagList) {
                 res.locals.hotJarTagList = concat(
                     res.locals.hotJarTagList,

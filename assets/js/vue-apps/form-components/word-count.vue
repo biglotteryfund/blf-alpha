@@ -5,7 +5,8 @@ export default {
     props: {
         currentText: { type: String, default: '' },
         maxWords: { type: Number, required: true },
-        minWords: { type: Number, required: true }
+        minWords: { type: Number, required: true },
+        formShortId: { type: String, default: null }
     },
     methods: {
         /**
@@ -61,7 +62,7 @@ export default {
         isOverLimit(isOver) {
             if (isOver) {
                 tagHotjarRecording([
-                    'Apply: AFA: Your Idea: Word count exceeded'
+                    `Apply: ${this.formShortId}: Your Idea: Word count exceeded`
                 ]);
             }
         }

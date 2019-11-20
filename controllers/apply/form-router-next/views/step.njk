@@ -17,10 +17,11 @@
 
             <form action=""
                   method="post"
-                  class="js-form-warn-unsaved js-session-form js-save-btn-form js-apply-{{ formId }}"
+                  class="js-form-warn-unsaved js-session-form js-save-btn-form js-apply-form"
                   {% if errors | length > 0 %}data-form-has-errors="1"{% endif %}
                   {% if step.isMultipart %}enctype="multipart/form-data"{% endif %}
                   {% if step.noValidate %}novalidate{% endif %}
+                  data-form-short-id="{{ formShortId }}"
                   >
 
                 <input class="u-visually-hidden" type="submit" tabindex="-1" />
