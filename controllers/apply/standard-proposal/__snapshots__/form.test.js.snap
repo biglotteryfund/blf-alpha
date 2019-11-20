@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`empty form 1`] = `
+Array [
+  "Enter a project name",
+  "Tell us all of the locations that you'll be running your project in",
+  "Enter a total cost for your project",
+  "Tell us what you would like to do",
+  "Tell us how your project involves your community",
+  "Tell us how your idea fits in with other local activities",
+  "Enter the full legal name of the organisation",
+  "Enter a full UK address",
+  "Select a type of organisation",
+  "Enter first and last name",
+  "Enter an email address",
+]
+`;
+
 exports[`invalid form 1`] = `
 Array [
   "Enter a project name",
