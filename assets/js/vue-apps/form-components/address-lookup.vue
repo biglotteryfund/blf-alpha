@@ -24,7 +24,8 @@ export default {
         fieldName: { type: String, default: null },
         label: { type: String, default: null },
         explanation: { type: String, default: null },
-        address: { type: String, default: null }
+        address: { type: String, default: null },
+        formShortId: { type: String, default: null }
     },
     data() {
         return {
@@ -50,7 +51,7 @@ export default {
         this.$root.$on('update:conditionalRadio', value => {
             if (value === 'no') {
                 tagHotjarRecording([
-                    'Apply: AFA: Contacts: User needs address history'
+                    `Apply: ${this.formShortId}: Contacts: User needs address history`
                 ]);
             }
 
@@ -132,7 +133,7 @@ export default {
                 'Error looking up address'
             );
             tagHotjarRecording([
-                'Apply: AFA: Org Details: Unable to find address'
+                `Apply: ${this.formShortId}: Org Details: Unable to find address`
             ]);
             this.clearState();
         },

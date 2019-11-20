@@ -155,9 +155,9 @@ function handleConditionalRadios() {
 
 // Track occurrences of users changing their mind about radio options
 // eg. to highlight potential confusion around questions
-function trackIndecisiveness(formClass) {
+function trackIndecisiveness($form) {
     let fields = {};
-    $(`form.${formClass} input[type="radio"]`).on('click', function() {
+    $('input[type="radio"]', $form).on('click', function() {
         const name = $(this).attr('name');
         const value = $(this).val();
         if (!fields[name]) {
@@ -175,8 +175,8 @@ function trackIndecisiveness(formClass) {
 
 // Track when a radio button is clicked that has no other options
 // (eg. when a contact role choice is limited to a single item)
-function trackOneOptionRadios(formClass) {
-    $(`form.${formClass} input[type="radio"]`).on('click', function() {
+function trackOneOptionRadios($form) {
+    $('input[type="radio"]', $form).on('click', function() {
         const name = $(this).attr('name');
         const others = $(`input[type="radio"][name="${name}"]`);
         if (others.length === 1) {
@@ -186,27 +186,27 @@ function trackOneOptionRadios(formClass) {
 }
 
 // Track the occurrence of a warning about contacts sharing surnames
-function trackSharedSurnameWarning(formClass) {
-    if ($(`form.${formClass} .js-form-warning-surname`).length > 0) {
+function trackSharedSurnameWarning($form, shortId) {
+    if ($('.js-form-warning-surname', $form).length > 0) {
         tagHotjarRecording([
-            'Apply: AFA: Contacts: User contact surname match'
+            `Apply: ${shortId}: Contacts: User contact surname match`
         ]);
     }
 }
 
 // Track clicks on details expandos
-function trackDetailsClicks(formClass) {
-    $(`.${formClass} details summary`).on('click', function() {
+function trackDetailsClicks($form, shortId) {
+    $('details summary', $form).on('click', function() {
         tagHotjarRecording([
-            'Apply: AFA: Summary: User toggles details element'
+            `Apply: ${shortId}: Summary: User toggles details element`
         ]);
     });
 }
 
 // Detect attempted form submissions and log when the browser prevents the submission
 // due to inline validation failure.
-function trackInvalidSubmissionAttempts(formClass) {
-    $(`form.${formClass} input[type="submit"]`).on('click', function() {
+function trackInvalidSubmissionAttempts($form) {
+    $('[type="submit"]', $form).on('click', function() {
         const $parentForm = $(this)
             .parents('form')
             .first();
@@ -218,13 +218,18 @@ function trackInvalidSubmissionAttempts(formClass) {
     });
 }
 
-function initHotjarTracking(formId) {
-    const scopedFormClass = `js-apply-${formId}`;
-    trackInvalidSubmissionAttempts(scopedFormClass);
-    trackIndecisiveness(scopedFormClass);
-    trackOneOptionRadios(scopedFormClass);
-    trackSharedSurnameWarning(scopedFormClass);
-    trackDetailsClicks(scopedFormClass);
+function initHotjarTracking() {
+    $(document).ready(function() {
+        $('.js-apply-form').each(function() {
+            const $form = $(this);
+            const shortId = $(this).data('form-short-id');
+            trackInvalidSubmissionAttempts($form);
+            trackIndecisiveness($form);
+            trackOneOptionRadios($form);
+            trackSharedSurnameWarning($form, shortId);
+            trackDetailsClicks($form, shortId);
+        });
+    });
 }
 
 // Update the Login link to Logout if user signs in
@@ -261,7 +266,7 @@ function init() {
     showLocalSaveWarning();
 
     // Hotjar tagging
-    initHotjarTracking('awards-for-all');
+    initHotjarTracking();
 }
 
 export default {

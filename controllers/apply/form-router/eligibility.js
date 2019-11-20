@@ -80,7 +80,7 @@ module.exports = function(eligibilityBuilder, formId) {
                     eligibilityStatus: 'ineligible',
                     backUrl: `${req.baseUrl}/${currentStepNumber}`,
                     hotJarTagList: [
-                        'Apply: AFA: Failed eligibility check question'
+                        `Apply: ${res.locals.formShortId}: Failed eligibility check question`
                     ]
                 });
             } else {

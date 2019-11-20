@@ -11,6 +11,7 @@ export default {
         fieldName: { type: String, required: true },
         maxBudget: { type: Number, required: true },
         maxItems: { type: Number, required: true },
+        formShortId: { type: String, default: null },
         budgetData: {
             type: Array,
             default() {
@@ -85,7 +86,9 @@ export default {
             }
         },
         removeItem(item) {
-            tagHotjarRecording(['Apply: AFA: Budget: Row deleted']);
+            tagHotjarRecording([
+                `Apply: ${this.formShortId}: Budget: Row deleted`
+            ]);
             this.budgetRows = this.budgetRows.filter(i => i !== item);
         },
         canDelete(index) {

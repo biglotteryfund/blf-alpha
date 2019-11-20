@@ -178,7 +178,8 @@
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only js-apply-{{ formId }}">
+        <div class="content-box u-inner-wide-only js-apply-form"
+             data-form-short-id="{{ formShortId }}">
 
             {{ userNavigation(userNavigationLinks) }}
 

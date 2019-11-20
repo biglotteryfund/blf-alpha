@@ -222,6 +222,7 @@
             field-id="field-{{ field.name }}"
             :min-words={{ settings.minWords }}
             :max-words={{ settings.maxWords }}
+            form-short-id="{{ formShortId }}"
         ></word-count>
     {% endif %}
     {% if settings.showWordCount %}</div>{% endif %}
@@ -417,6 +418,7 @@
                 explanation="{{ field.explanation }}"
                 field-name="{{ field.name }}"
                 address="{{ field.value | dump }}"
+                form-short-id="{{ formShortId }}"
             >
             </address-lookup>
 
@@ -501,6 +503,7 @@
                 field-name="{{ field.name }}"
                 :max-budget="{{ field.attributes.max }}"
                 :max-items="{{ field.attributes.rowLimit }}"
+                form-short-id="{{ formShortId }}"
                 {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
             </budget-input>
 
