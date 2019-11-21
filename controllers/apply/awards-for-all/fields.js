@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const moment = require('moment');
@@ -22,6 +23,7 @@ const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectDateRange = require('./fields/project-date-range');
+const fieldProjectStartDate = require('./fields/project-start-date');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldEducationNumber = require('./fields/education-number');
@@ -269,7 +271,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    return {
+    const allFields = {
         projectName: {
             name: 'projectName',
             label: localise({
@@ -302,7 +304,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectDateRange: fieldProjectDateRange(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: {
@@ -1795,4 +1796,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true
         }
     };
+
+    if (config.get('awardsForAll.enableNewDateRange')) {
+        allFields.projectStartDate = fieldProjectStartDate(locale);
+    } else {
+        allFields.projectDateRange = fieldProjectDateRange(locale);
+    }
+
+    return allFields;
 };

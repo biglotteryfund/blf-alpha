@@ -5,6 +5,6 @@
     "enableSalesforceConnector": false
   },
   "awardsForAll": {
-    "enableNewDateRange": false
+    "enableNewDateRange": true
   }
 }

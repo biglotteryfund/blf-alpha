@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -68,13 +69,17 @@ module.exports = function({
     }
 
     function stepProjectLength() {
+        const stepFields = config.get('awardsForAll.enableNewDateRange')
+            ? [fields.projectStartDate]
+            : [fields.projectDateRange];
+
         return {
             title: localise({
                 en: 'Project length',
                 cy: 'Hyd y prosiect'
             }),
             noValidate: true,
-            fieldsets: [{ fields: [fields.projectDateRange] }]
+            fieldsets: [{ fields: stepFields }]
         };
     }
 
