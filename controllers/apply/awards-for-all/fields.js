@@ -195,6 +195,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function dateOfBirthField(minAge, props) {
         const exampleDateFormat = '30 03 1980';
+
+        const minDate = moment().subtract(120, 'years');
+        const maxDate = moment().subtract(minAge, 'years');
+
         const defaultProps = {
             explanation: localise({
                 en: `
@@ -226,7 +230,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: stripIfExcludedOrgType(
                 Joi.dateParts()
-                    .dateOfBirth(minAge)
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .maxDate(maxDate.format('YYYY-MM-DD'))
                     .required()
             ),
             messages: [
@@ -245,14 +250,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'dateParts.dateOfBirth',
+                    type: 'dateParts.maxDate',
                     message: localise({
                         en: `Must be at least ${minAge} years old`,
                         cy: `Rhaid bod yn o leiaf ${minAge} oed`
                     })
                 },
                 {
-                    type: 'dateParts.dateOfBirth.tooOld',
+                    type: 'dateParts.minDate',
                     message: localise({
                         en: `Their birth date is not valid—please use four digits, eg. 1986`,
                         cy: `Nid yw’r dyddiad geni yn ddilys—defnyddiwch bedwar digid, e.e. 1986`

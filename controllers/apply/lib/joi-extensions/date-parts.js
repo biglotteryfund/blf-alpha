@@ -22,9 +22,8 @@ module.exports = function dateParts(joi) {
         language: {
             minDate: 'Date must be on or after {{min}}',
             minDateRef: 'Date from must be on or after referenced date',
-            maxDate: 'Date must be on or before {{min}}',
-            rangeLimit: 'Date must be within range',
-            dob: 'Must be at least {{minAge}} years old'
+            maxDate: 'Date must be on or before {{max}}',
+            rangeLimit: 'Date must be within range'
         },
         pre(value, state, options) {
             const dt = fromDateParts(value);
@@ -138,39 +137,6 @@ module.exports = function dateParts(joi) {
                         return this.createError(
                             'dateParts.rangeLimit',
                             { v: value },
-                            state,
-                            options
-                        );
-                    }
-                }
-            },
-            {
-                name: 'dateOfBirth',
-                params: {
-                    minAge: joi.number().required()
-                },
-                validate(params, value, state, options) {
-                    const date = fromDateParts(value);
-                    const maxDate = moment().subtract(params.minAge, 'years');
-                    const minDate = moment().subtract(120, 'years');
-
-                    if (
-                        date.isValid() &&
-                        date.isSameOrBefore(maxDate) &&
-                        date.isSameOrAfter(minDate)
-                    ) {
-                        return value;
-                    } else if (date.isSameOrBefore(minDate)) {
-                        return this.createError(
-                            'dateParts.dateOfBirth.tooOld',
-                            { v: value, minAge: params.minAge },
-                            state,
-                            options
-                        );
-                    } else {
-                        return this.createError(
-                            'dateParts.dateOfBirth',
-                            { v: value, minAge: params.minAge },
                             state,
                             options
                         );
