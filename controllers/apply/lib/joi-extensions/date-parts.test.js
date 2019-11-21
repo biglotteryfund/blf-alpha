@@ -39,7 +39,7 @@ describe('dateParts', () => {
 
     test('date of birth', () => {
         const minAge = 18;
-        const schema = Joi.dateParts().dob(minAge);
+        const schema = Joi.dateParts().dateOfBirth(minAge);
 
         const now = moment();
         const invalidDate = schema.validate({
@@ -47,7 +47,7 @@ describe('dateParts', () => {
             month: now.format('MM'),
             year: now.format('YYYY')
         });
-        expect(invalidDate.error.details[0].type).toBe('dateParts.dob');
+        expect(invalidDate.error.details[0].type).toBe('dateParts.dateOfBirth');
 
         const minAgeDt = moment().subtract(minAge, 'years');
         const validDate = schema.validate({

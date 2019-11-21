@@ -124,7 +124,7 @@ module.exports = function dateParts(joi) {
                 }
             },
             {
-                name: 'dob',
+                name: 'dateOfBirth',
                 params: {
                     minAge: joi.number().required()
                 },
@@ -141,14 +141,14 @@ module.exports = function dateParts(joi) {
                         return value;
                     } else if (date.isSameOrBefore(minDate)) {
                         return this.createError(
-                            'dateParts.dob.tooOld',
+                            'dateParts.dateOfBirth.tooOld',
                             { v: value, minAge: params.minAge },
                             state,
                             options
                         );
                     } else {
                         return this.createError(
-                            'dateParts.dob',
+                            'dateParts.dateOfBirth',
                             { v: value, minAge: params.minAge },
                             state,
                             options

@@ -226,7 +226,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: stripIfExcludedOrgType(
                 Joi.dateParts()
-                    .dob(minAge)
+                    .dateOfBirth(minAge)
                     .required()
             ),
             messages: [
@@ -245,14 +245,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'dateParts.dob',
+                    type: 'dateParts.dateOfBirth',
                     message: localise({
                         en: `Must be at least ${minAge} years old`,
                         cy: `Rhaid bod yn o leiaf ${minAge} oed`
                     })
                 },
                 {
-                    type: 'dateParts.dob.tooOld',
+                    type: 'dateParts.dateOfBirth.tooOld',
                     message: localise({
                         en: `Their birth date is not valid—please use four digits, eg. 1986`,
                         cy: `Nid yw’r dyddiad geni yn ddilys—defnyddiwch bedwar digid, e.e. 1986`
