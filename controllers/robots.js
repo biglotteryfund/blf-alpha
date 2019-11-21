@@ -9,7 +9,7 @@ const { noStore } = require('../common/cached');
 const router = express.Router();
 
 router.get('/', noStore, (req, res) => {
-    const shouldIndex = req.get('host') === 'apply.tnlcommunityfund.org.uk';
+    const shouldIndex = req.get('host') === 'www.tnlcommunityfund.org.uk';
 
     // Merge archived paths with internal / deliberately excluded URLs
     const disallowList = concat(
