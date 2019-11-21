@@ -70,7 +70,7 @@ module.exports = function({
 
     function stepProjectLength() {
         const stepFields = config.get('awardsForAll.enableNewDateRange')
-            ? [fields.projectStartDate]
+            ? [fields.projectStartDate, fields.projectEndDate]
             : [fields.projectDateRange];
 
         return {

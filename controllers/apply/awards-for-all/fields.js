@@ -24,6 +24,7 @@ const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectDateRange = require('./fields/project-date-range');
 const fieldProjectStartDate = require('./fields/project-start-date');
+const fieldProjectEndDate = require('./fields/project-end-date');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldEducationNumber = require('./fields/education-number');
@@ -1799,6 +1800,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     if (config.get('awardsForAll.enableNewDateRange')) {
         allFields.projectStartDate = fieldProjectStartDate(locale);
+        allFields.projectEndDate = fieldProjectEndDate(locale);
     } else {
         allFields.projectDateRange = fieldProjectDateRange(locale);
     }
