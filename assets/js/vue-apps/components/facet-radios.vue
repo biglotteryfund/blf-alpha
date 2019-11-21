@@ -6,7 +6,6 @@ export default {
     components: { IconClose },
     props: [
         'value',
-        'type',
         'name',
         'label',
         'hideLabel',
@@ -58,23 +57,26 @@ export default {
 
 <template>
     <div>
-        <fieldset class="ff-choice" v-if="options.length > 0">
-            <legend class="ff-label">{{ label }}</legend>
-            <ul class="ff-choice__list">
+        <fieldset v-if="options.length > 0">
+            <legend class="facet-field-label">{{ label }}</legend>
+            <ul class="facet-field-radios">
                 <li
-                    class="ff-choice__option ff-choice__option--flex"
+                    class="facet-field-radios__option facet-field-radios__option--flex"
                     v-for="(option, index) in optionsToDisplay"
                     :key="option.value"
                 >
                     <input
-                        :type="type"
+                        type="radio"
                         :id="fieldId(index)"
                         :name="name"
                         :value="option.value"
                         :checked="option.value == value"
                         @change="handleInput($event, option)"
                     />
-                    <label class="ff-choice__label" :for="fieldId(index)">
+                    <label
+                        class="facet-field-radios__label"
+                        :for="fieldId(index)"
+                    >
                         {{ option.label }}
                     </label>
 

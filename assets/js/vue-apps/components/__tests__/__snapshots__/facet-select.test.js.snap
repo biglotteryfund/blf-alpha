@@ -1,21 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacetSelect should render with optgroup 1`] = `
-<div
-  class="ff-choice"
->
+<div>
   <label
-    class="ff-label"
+    class="facet-field-label"
     for="field-dynamic-example"
   >
      Example 
   </label>
    
   <div
-    class="ff-choice__option ff-choice__option--flex"
+    class="facet-field-select"
   >
     <select
-      class="ff-select"
       id="field-dynamic-example"
       name="example"
     >
@@ -65,21 +62,18 @@ exports[`FacetSelect should render with optgroup 1`] = `
 `;
 
 exports[`FacetSelect should render with plain options 1`] = `
-<div
-  class="ff-choice"
->
+<div>
   <label
-    class="ff-label"
+    class="facet-field-label"
     for="field-dynamic-example"
   >
      Example 
   </label>
    
   <div
-    class="ff-choice__option ff-choice__option--flex"
+    class="facet-field-select"
   >
     <select
-      class="ff-select"
       id="field-dynamic-example"
       name="example"
     >
