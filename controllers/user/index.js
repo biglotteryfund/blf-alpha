@@ -52,18 +52,21 @@ if (features.enableSeeders) {
  * Must appear here (eg. before we require non-staff users)
  */
 router.get('/session', function(req, res) {
-    const locale = req.i18n.getLocale();
-    const sessionExpiresOn = moment(req.session.cookie.expires);
-    res.send({
-        expires: req.session.cookie.expires,
-        expiresOn: {
-            time: sessionExpiresOn.locale(locale).format('h:mma'),
-            date: sessionExpiresOn.locale(locale).format('dddd D MMMM YYYY')
-        },
-        maxAge: req.session.cookie.maxAge,
-        originalMaxAge: req.session.cookie.originalMaxAge,
-        isExpired: moment(req.session.cookie.expires).isBefore(moment()),
-        isAuthenticated: req.isAuthenticated()
+    req.session.touch();
+    req.session.save(() => {
+        const locale = req.i18n.getLocale();
+        const sessionExpiresOn = moment().add(
+            req.session.cookie.maxAge / 1000,
+            'seconds'
+        );
+        res.send({
+            expiresOn: {
+                time: sessionExpiresOn.locale(locale).format('h:mma'),
+                date: sessionExpiresOn.locale(locale).format('dddd D MMMM YYYY')
+            },
+            maxAge: req.session.cookie.maxAge,
+            isAuthenticated: req.isAuthenticated()
+        });
     });
 });
 
