@@ -56,25 +56,34 @@ module.exports = function({
         data: data
     });
 
-    function stepProjectDetails() {
+    function stepProjectName() {
         return {
-            title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
+            title: localise({
+                en: 'Project name',
+                cy: 'Enw eich prosiect'
+            }),
             noValidate: true,
-            fieldsets: [
-                {
-                    legend: localise({
-                        en: 'Project details',
-                        cy: 'Manylion prosiect'
-                    }),
-                    fields: [fields.projectName, fields.projectDateRange]
-                }
-            ]
+            fieldsets: [{ fields: [fields.projectName] }]
+        };
+    }
+
+    function stepProjectLength() {
+        return {
+            title: localise({
+                en: 'Project length',
+                cy: 'Hyd y prosiect'
+            }),
+            noValidate: true,
+            fieldsets: [{ fields: [fields.projectDateRange] }]
         };
     }
 
     function stepProjectCountry() {
         return {
-            title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
+            title: localise({
+                en: 'Project country',
+                cy: 'Gwlad y prosiect'
+            }),
             noValidate: true,
             fieldsets: [
                 {
@@ -1100,6 +1109,154 @@ module.exports = function({
         };
     }
 
+    function sectionYourProject() {
+        return {
+            slug: 'your-project',
+            title: localise({
+                en: 'Your project',
+                cy: 'Eich prosiect'
+            }),
+            summary: localise({
+                en: oneLine`Please tell us about your project in this section.
+                    This is the most important section when it comes to
+                    making a decision about whether you will receive funding.`,
+                cy: oneLine`Dywedwch wrthym am eich prosiect yn yr adran hon. 
+                    Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
+                    a ydych wedi bod yn llwyddiannus ai beidio.`
+            }),
+            steps: [
+                stepProjectName(),
+                stepProjectLength(),
+                stepProjectCountry(),
+                stepProjectLocation(),
+                stepYourIdea(),
+                stepProjectCosts()
+            ]
+        };
+    }
+
+    function sectionBeneficiaries() {
+        return {
+            slug: 'beneficiaries',
+            title: localise({
+                en: 'Who will benefit from your project?',
+                cy: 'Pwy fydd yn elwa o’ch prosiect?'
+            }),
+            shortTitle: localise({
+                en: 'Who will benefit',
+                cy: 'Pwy fydd yn elwa'
+            }),
+            summary: localise({
+                en: `We want to hear more about the people who will benefit from your project.`,
+                cy: `Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.`
+            }),
+            steps: [
+                stepBeneficiariesCheck(),
+                stepBeneficiariesGroups(),
+                stepEthnicBackground(),
+                stepGender(),
+                stepAge(),
+                stepDisabledPeople(),
+                stepReligionOrFaith(),
+                stepWelshLanguage(),
+                stepNorthernIrelandCommunity()
+            ]
+        };
+    }
+
+    function sectionOrganisation() {
+        return {
+            slug: 'organisation',
+            title: localise({
+                en: 'Your organisation',
+                cy: 'Eich sefydliad'
+            }),
+            summary: localise({
+                en: oneLine`Please tell us about your organisation,
+                    including legal name, registered address and income.
+                    This helps us understand the type of organisation you are.`,
+                cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr enw cyfreithiol, 
+                    cyfeiriad cofrestredig ac incwm. Mae hyn yn ein helpu 
+                    i ddeall pa fath o sefydliad ydych.`
+            }),
+            steps: [
+                stepOrganisationDetails(),
+                stepOrganisationType(),
+                stepOrganisationSubType(),
+                stepRegistrationNumbers(),
+                stepOrganisationFinances()
+            ]
+        };
+    }
+
+    function sectionSeniorContact() {
+        return {
+            slug: 'senior-contact',
+            title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
+            summary: localise({
+                en: oneLine`Please provide details for your senior contact.
+                    This person will be legally responsible for the funding.
+                    They can't be married to, in a long-term relationship with,
+                    living with, or related to the main contact.`,
+                cy: oneLine`Darparwch fanylion ar gyfer eich uwch gyswllt. 
+                    Bydd y person yma’n gyfreithiol gyfrifol am yr arian. 
+                    Ni allent fod yn briod i, mewn perthynas hir dymor â, 
+                    yn byw gyda na’n perthyn drwy waed i’r prif gyswllt.`
+            }),
+            steps: [stepSeniorContact()]
+        };
+    }
+
+    function sectionMainContact() {
+        return {
+            slug: 'main-contact',
+            title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
+            summary: localise({
+                en: oneLine`Please provide details for your main contact.
+                    This will be the first person we contact if we
+                    need to discuss your project.`,
+                cy: oneLine`Darparwch fanylion ar gyfer eich prif gyswllt. 
+                    Dyma fydd y person cyntaf i ni gysylltu â nhw os 
+                    byddwn angen trafod eich prosiect.`
+            }),
+            steps: [stepMainContact()]
+        };
+    }
+
+    function sectionBankDetails() {
+        return {
+            slug: 'bank-details',
+            title: localise({ en: 'Bank details', cy: 'Manylion banc' }),
+            summary: localise({
+                en: oneLine`Please provide your bank details.
+                    Before you submit your application you will
+                    need to attach a copy of a bank statement
+                    that is less than three months old`,
+                cy: oneLine`Darparwch eich manylion banc. 
+                    Cyn i chi anfon eich cais bydd angen i chi 
+                    atodi copi o’ch cyfriflen banc sy’n llai na tri mis oed.`
+            }),
+            steps: [stepBankAccount(), stepBankStatement()]
+        };
+    }
+
+    function sectionTerms() {
+        return {
+            slug: 'terms-and-conditions',
+            title: localise({
+                en: 'Terms and conditions',
+                cy: 'Telerau ac Amodau'
+            }),
+            summary: localise({
+                en: oneLine`In order to submit your application,
+                    you will need to agree to our terms and conditions.`,
+                cy: oneLine`Er mwyn anfon eich cais, 
+                    bydd angen i chi gytuno â'n Telerau ac Amodau.`
+            }),
+            steps: [stepTerms()]
+        };
+    }
+
     function summary() {
         const projectDateRange = get('projectDateRange')(data);
         const organisation = get('organisationLegalName')(data);
@@ -1188,132 +1345,13 @@ module.exports = function({
         schemaVersion: 'v1.1',
         forSalesforce: forSalesforce,
         sections: [
-            {
-                slug: 'your-project',
-                title: localise({
-                    en: 'Your project',
-                    cy: 'Eich prosiect'
-                }),
-                summary: localise({
-                    en: oneLine`Please tell us about your project in this section.
-                        This is the most important section when it comes to
-                        making a decision about whether you will receive funding.`,
-                    cy: oneLine`Dywedwch wrthym am eich prosiect yn yr adran hon. 
-                        Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
-                        a ydych wedi bod yn llwyddiannus ai beidio.`
-                }),
-                steps: [
-                    stepProjectDetails(),
-                    stepProjectCountry(),
-                    stepProjectLocation(),
-                    stepYourIdea(),
-                    stepProjectCosts()
-                ]
-            },
-            {
-                slug: 'beneficiaries',
-                title: localise({
-                    en: 'Who will benefit from your project?',
-                    cy: 'Pwy fydd yn elwa o’ch prosiect?'
-                }),
-                shortTitle: localise({
-                    en: 'Who will benefit',
-                    cy: 'Pwy fydd yn elwa'
-                }),
-                summary: localise({
-                    en: `We want to hear more about the people who will benefit from your project.`,
-                    cy: `Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.`
-                }),
-                steps: [
-                    stepBeneficiariesCheck(),
-                    stepBeneficiariesGroups(),
-                    stepEthnicBackground(),
-                    stepGender(),
-                    stepAge(),
-                    stepDisabledPeople(),
-                    stepReligionOrFaith(),
-                    stepWelshLanguage(),
-                    stepNorthernIrelandCommunity()
-                ]
-            },
-            {
-                slug: 'organisation',
-                title: localise({
-                    en: 'Your organisation',
-                    cy: 'Eich sefydliad'
-                }),
-                summary: localise({
-                    en: oneLine`Please tell us about your organisation,
-                        including legal name, registered address and income.
-                        This helps us understand the type of organisation you are.`,
-                    cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr enw cyfreithiol, 
-                        cyfeiriad cofrestredig ac incwm. Mae hyn yn ein helpu 
-                        i ddeall pa fath o sefydliad ydych.`
-                }),
-                steps: [
-                    stepOrganisationDetails(),
-                    stepOrganisationType(),
-                    stepOrganisationSubType(),
-                    stepRegistrationNumbers(),
-                    stepOrganisationFinances()
-                ]
-            },
-            {
-                slug: 'senior-contact',
-                title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
-                summary: localise({
-                    en: oneLine`Please provide details for your senior contact.
-                        This person will be legally responsible for the funding.
-                        They can't be married to, in a long-term relationship with,
-                        living with, or related to the main contact.`,
-                    cy: oneLine`Darparwch fanylion ar gyfer eich uwch gyswllt. 
-                        Bydd y person yma’n gyfreithiol gyfrifol am yr arian. 
-                        Ni allent fod yn briod i, mewn perthynas hir dymor â, 
-                        yn byw gyda na’n perthyn drwy waed i’r prif gyswllt.`
-                }),
-                steps: [stepSeniorContact()]
-            },
-            {
-                slug: 'main-contact',
-                title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
-                summary: localise({
-                    en: oneLine`Please provide details for your main contact.
-                        This will be the first person we contact if we
-                        need to discuss your project.`,
-                    cy: oneLine`Darparwch fanylion ar gyfer eich prif gyswllt. 
-                        Dyma fydd y person cyntaf i ni gysylltu â nhw os 
-                        byddwn angen trafod eich prosiect.`
-                }),
-                steps: [stepMainContact()]
-            },
-            {
-                slug: 'bank-details',
-                title: localise({ en: 'Bank details', cy: 'Manylion banc' }),
-                summary: localise({
-                    en: oneLine`Please provide your bank details.
-                        Before you submit your application you will
-                        need to attach a copy of a bank statement
-                        that is less than three months old`,
-                    cy: oneLine`Darparwch eich manylion banc. 
-                        Cyn i chi anfon eich cais bydd angen i chi 
-                        atodi copi o’ch cyfriflen banc sy’n llai na tri mis oed.`
-                }),
-                steps: [stepBankAccount(), stepBankStatement()]
-            },
-            {
-                slug: 'terms-and-conditions',
-                title: localise({
-                    en: 'Terms and conditions',
-                    cy: 'Telerau ac Amodau'
-                }),
-                summary: localise({
-                    en: oneLine`In order to submit your application,
-                        you will need to agree to our terms and conditions.`,
-                    cy: oneLine`Er mwyn anfon eich cais, 
-                        bydd angen i chi gytuno â'n Telerau ac Amodau.`
-                }),
-                steps: [stepTerms()]
-            }
+            sectionYourProject(),
+            sectionBeneficiaries(),
+            sectionOrganisation(),
+            sectionSeniorContact(),
+            sectionMainContact(),
+            sectionBankDetails(),
+            sectionTerms()
         ]
     };
 

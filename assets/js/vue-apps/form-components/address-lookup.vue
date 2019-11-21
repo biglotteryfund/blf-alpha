@@ -109,7 +109,7 @@ export default {
                 this.candidates.length === 0 &&
                 this.postcode &&
                 this.currentState !== states.NotRequired &&
-                    this.currentState !== states.EnteringManually
+                this.currentState !== states.EnteringManually
             );
         },
         getAddressFromId(udprn) {
