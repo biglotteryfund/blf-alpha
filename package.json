@@ -91,7 +91,6 @@
     "express": "4.17.1",
     "express-cache-controller": "^1.0.1",
     "express-session": "1.17.0",
-    "express-validator": "^5.0.0",
     "faker": "4.1.0",
     "filesize": "5.0.3",
     "fitvids": "^2.1.1",
