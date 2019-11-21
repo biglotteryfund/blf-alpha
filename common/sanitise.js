@@ -12,7 +12,7 @@ const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
 function sanitise(input) {
-    return DOMPurify.sanitize(input);
+    return DOMPurify.sanitize(input).replace(/&amp;/g, '&');
 }
 
 /**

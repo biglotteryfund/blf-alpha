@@ -55,7 +55,7 @@
         type="{{ fieldType }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
-        {% if field.value %}value="{{ field.value | safe }}"{% endif %}
+        {% if field.value %}value="{{ field.value | escape }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {# @TODO: Remove in favour of always setting explicit size #}
         {% if not field.attributes.size %}size="{{ field.size | default(40, true) }}"{% endif %}
@@ -73,7 +73,7 @@
         type="text"
         id="field-{{ field.name }}-{{ nameType }}"
         name="{{ field.name }}[{{ nameType }}]"
-        {% if field.value[nameType] %}value="{{ field.value[nameType] | safe }}"{% endif %}
+        {% if field.value[nameType] %}value="{{ field.value[nameType] | escape }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
         size="40" autocomplete="{{ autocompleteName }}" spellcheck="false"
     />
@@ -215,7 +215,7 @@
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
         {% if settings.showWordCount %} @input="onInput" ref="textarea"{% endif %}
-    >{{ field.value | safe }}</textarea>
+    >{{ field.value | escape }}</textarea>
     {% if settings.showWordCount %}
         <word-count
             :current-text="text"
