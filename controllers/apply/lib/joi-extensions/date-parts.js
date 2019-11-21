@@ -38,25 +38,6 @@ module.exports = function dateParts(joi) {
         },
         rules: [
             {
-                name: 'futureDate',
-                params: {
-                    min: joi.string().required()
-                },
-                validate(params, value, state, options) {
-                    const date = fromDateParts(value);
-                    if (date.isValid() && date.isSameOrAfter(params.min)) {
-                        return value;
-                    } else {
-                        return this.createError(
-                            'dateParts.futureDate',
-                            { v: value, min: params.min },
-                            state,
-                            options
-                        );
-                    }
-                }
-            },
-            {
                 name: 'dob',
                 params: {
                     minAge: joi.number().required()

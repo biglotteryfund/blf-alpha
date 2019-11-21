@@ -37,16 +37,6 @@ describe('dateParts', () => {
         expect(invalidDate.error.details[0].type).toBe('any.invalid');
     });
 
-    test('future date', () => {
-        const schema = Joi.dateParts().futureDate('2100-01-01');
-
-        const invalidDate = schema.validate({ day: 1, month: 1, year: 2000 });
-        expect(invalidDate.error.details[0].type).toBe('dateParts.futureDate');
-
-        const validDate = schema.validate({ day: 1, month: 1, year: 2100 });
-        expect(validDate.error).toBeNull();
-    });
-
     test('date of birth', () => {
         const minAge = 18;
         const schema = Joi.dateParts().dob(minAge);
