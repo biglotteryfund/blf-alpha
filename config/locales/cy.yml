@@ -1417,7 +1417,7 @@ applyNext:
     pending:
       title: Rydych ar fin colli eich gwaith
       body: >
-        <p>Byddwn yn eich allgofnodi os nad dydych yn ymateb o fewn 10 munud.</p>
+        <p>Byddwn yn eich allgofnodi os nad ydych yn ymateb cyn <strong>%s</strong>, %s.</p>
         <p>Rydym yn gwneud hyn i gadw eich gwybodaeth yn ddiogel.</p>
       actions:
         continue: Parhau i weithio
@@ -1425,8 +1425,8 @@ applyNext:
     expired:
       title: Mae’n ddrwg gennym, roedd rhaid i ni eich allgofnodi
       body: >
-        <p>Nid ydych wedi bod yn llenwi’r ffurflen hwn am dros ddwy awr. Felly roedd rhaid i ni eich allgofnodi i gadw eich gwybodaeth bersonol yn ddiogel.</p>
-        <p>Ac mae gwaith nad ydych wedi’i arbed bellach wedi diflannu.</p>
+        <p>Roedd rhaid i ni eich allgofnodi gan nad ydych wedi gwneud unrhyw beth am dros ddwy awr. Rydym yn gwneud hyn i gadw eich manylion personol yn ddiogel.</p>
+        <p>Mae unrhyw waith nad ydych wedi’i arbed bellach wedi diflannu.</p>
       actions:
         logInAgain: Mewngofnodi eto
         visitHomepage: Ymweld â’n tudalen gartref
