@@ -3,6 +3,8 @@
 const http = require('http');
 const config = require('config');
 
+const NODE_ENV = config.util.getEnv('NODE_ENV');
+
 const logger = require('../common/logger').child({
     service: 'www'
 });
@@ -10,7 +12,7 @@ const logger = require('../common/logger').child({
 const app = require('../server');
 const { sequelize } = require('../db/models');
 
-logger.debug(`App environment: ${config.util.getEnv('NODE_ENV')}`);
+logger.debug(`App environment: ${NODE_ENV}`);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -68,9 +70,18 @@ function startServer() {
         }
     });
     server.on('listening', function() {
-        logger.debug(
-            `App now running on ${describeAddressBinding(server.address())}`
-        );
+        const msg = `App now running on ${describeAddressBinding(
+            server.address()
+        )}`;
+        logger.debug(msg);
+        if (NODE_ENV === 'development') {
+            require('node-notifier').notify({
+                title: 'blf-alpha',
+                message: msg,
+                sound: false,
+                wait: false
+            });
+        }
     });
 }
 

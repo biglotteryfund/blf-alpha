@@ -162,6 +162,7 @@
     "jest-serializer-html": "7.0.0",
     "jquery": "^3.4.1",
     "node-mocks-http": "1.8.0",
+    "node-notifier": "6.0.0",
     "node-sass": "4.13.0",
     "nodemon": "2.0.0",
     "picturefill": "3.0.3",
