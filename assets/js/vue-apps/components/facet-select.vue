@@ -36,16 +36,10 @@ export default {
 </script>
 
 <template>
-    <div class="ff-choice">
-        <label class="ff-label" :for="id"> {{ label }} </label>
-        <div class="ff-choice__option ff-choice__option--flex">
-            <select
-                class="ff-select"
-                :id="id"
-                :name="name"
-                :value="value"
-                @change="handleInput"
-            >
+    <div>
+        <label class="facet-field-label" :for="id"> {{ label }} </label>
+        <div class="facet-field-select">
+            <select :id="id" :name="name" :value="value" @change="handleInput">
                 <option value="" v-if="labelAny">{{ labelAny }}</option>
                 <template v-if="isOptgroup">
                     <optgroup
