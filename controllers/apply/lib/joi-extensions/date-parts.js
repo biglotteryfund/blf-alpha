@@ -20,7 +20,8 @@ module.exports = function dateParts(joi) {
                 .required()
         }),
         language: {
-            futureDate: 'Date must be at least {{min}}',
+            minDate: 'Date must be at least {{min}}',
+            minDateRef: 'Date from must be on or after referenced date',
             dob: 'Must be at least {{minAge}} years old'
         },
         pre(value, state, options) {
@@ -37,6 +38,56 @@ module.exports = function dateParts(joi) {
             }
         },
         rules: [
+            {
+                name: 'minDate',
+                params: {
+                    min: joi.string().required()
+                },
+                validate(params, value, state, options) {
+                    const date = fromDateParts(value);
+
+                    if (date.isValid() && date.isSameOrAfter(params.min)) {
+                        return value;
+                    } else {
+                        return this.createError(
+                            'dateParts.minDate',
+                            { v: value, min: params.min },
+                            state,
+                            options
+                        );
+                    }
+                }
+            },
+            {
+                name: 'minDateRef',
+                params: {
+                    ref: joi.func().ref()
+                },
+                validate(params, value, state, options) {
+                    const refVal = params.ref(
+                        state.reference || state.parent,
+                        options
+                    );
+
+                    const date = fromDateParts(value);
+                    const refDate = refVal ? fromDateParts(refVal) : null;
+
+                    if (
+                        refDate &&
+                        date.isValid() &&
+                        date.isSameOrAfter(refDate)
+                    ) {
+                        return value;
+                    } else {
+                        return this.createError(
+                            'dateParts.minDateRef',
+                            { v: value },
+                            state,
+                            options
+                        );
+                    }
+                }
+            },
             {
                 name: 'dob',
                 params: {
