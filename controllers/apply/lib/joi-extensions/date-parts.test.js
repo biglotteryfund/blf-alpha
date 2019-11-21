@@ -1,60 +1,55 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
-const moment = require('moment/moment');
 const baseJoi = require('@hapi/joi');
 const Joi = baseJoi.extend(require('./date-parts'));
 
-describe('dateParts', () => {
-    test('valid date', () => {
-        const schema = Joi.dateParts();
-
-        expect(
-            Joi.attempt({ day: '1', month: '2', year: '2100' }, schema)
-        ).toEqual({ day: 1, month: 2, year: 2100 });
-        expect(Joi.attempt({ day: 1, month: 2, year: 2100 }, schema)).toEqual({
-            day: 1,
-            month: 2,
-            year: 2100
-        });
-
-        const missingDay = schema.validate({ month: 2, year: 2100 });
-        expect(missingDay.error.message).toBe(
-            'child "day" fails because ["day" is required]'
-        );
-
-        const missingMonth = schema.validate({ day: 1, year: 2100 });
-        expect(missingMonth.error.message).toBe(
-            'child "month" fails because ["month" is required]'
-        );
-
-        const missingYear = schema.validate({ day: 1, month: 2 });
-        expect(missingYear.error.message).toBe(
-            'child "year" fails because ["year" is required]'
-        );
-
-        const invalidDate = schema.validate({ day: 31, month: 2, year: 2100 });
-        expect(invalidDate.error.details[0].type).toBe('any.invalid');
+test('valid date', function() {
+    [
+        { day: '1', month: '2', year: '2100' },
+        { day: 1, month: 2, year: 2100 }
+    ].forEach(function(value) {
+        expect(Joi.dateParts().validate(value).error).toBeNull();
     });
+});
 
-    test('date of birth', () => {
-        const minAge = 18;
-        const schema = Joi.dateParts().dateOfBirth(minAge);
+test('missing day', function() {
+    const result = Joi.dateParts().validate({ month: 2, year: 2100 });
+    expect(result.error.message).toContain('"day" is required');
+});
 
-        const now = moment();
-        const invalidDate = schema.validate({
-            day: now.format('DD'),
-            month: now.format('MM'),
-            year: now.format('YYYY')
-        });
-        expect(invalidDate.error.details[0].type).toBe('dateParts.dateOfBirth');
+test('missing month', function() {
+    const result = Joi.dateParts().validate({ day: 1, year: 2100 });
+    expect(result.error.message).toContain('"month" is required');
+});
 
-        const minAgeDt = moment().subtract(minAge, 'years');
-        const validDate = schema.validate({
-            day: minAgeDt.format('DD'),
-            month: minAgeDt.format('MM'),
-            year: minAgeDt.format('YYYY')
-        });
-        expect(validDate.error).toBeNull();
-    });
+test('missing year', function() {
+    const result = Joi.dateParts().validate({ day: 1, month: 2 });
+    expect(result.error.message).toContain('"year" is required');
+});
+
+test('invalid date', function() {
+    const result = Joi.dateParts().validate({ day: 31, month: 2, year: 2100 });
+    expect(result.error.message).toContain('contains an invalid value');
+});
+
+test('minDate', function() {
+    const schema = Joi.dateParts().minDate('2020-10-01');
+
+    const valid = schema.validate({ day: 2, month: 10, year: 2020 });
+    expect(valid.error).toBeNull();
+
+    const invalid = schema.validate({ day: 9, month: 1, year: 2020 });
+    expect(invalid.error.message).toContain(
+        'Date must be on or after 2020-10-01'
+    );
+});
+
+test('maxDate', function() {
+    const schema = Joi.dateParts().maxDate('2020-10-01');
+
+    const invalid = schema.validate({ day: 2, month: 10, year: 2020 });
+    expect(invalid.error.message).toContain(
+        'Date must be on or before 2020-10-01'
+    );
 });
