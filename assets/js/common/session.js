@@ -74,8 +74,13 @@ function handleSessionExpiration() {
 function getUserSession() {
     return $.ajax({
         type: 'get',
-        url: '/user/session',
+        url: `${window.AppConfig.localePrefix}/user/session`,
         dataType: 'json'
+    }).then(response => {
+        if (response.expiresOn) {
+           $('.js-session-expiry-time').text(response.expiresOn.time);
+           $('.js-session-expiry-date').text(response.expiresOn.date);
+        }
     });
 }
 

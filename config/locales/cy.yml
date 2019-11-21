@@ -1417,7 +1417,8 @@ applyNext:
     pending:
       title: Rydych ar fin colli eich gwaith
       body: >
-        <p>Byddwn yn eich allgofnodi os nad ydych yn ymateb cyn <strong>%s</strong>, %s.</p>
+        <p>Byddwn yn eich allgofnodi os nad ydych yn ymateb cyn <strong class="js-session-expiry-time"></strong>,
+        <span class="js-session-expiry-date"></span>.</p>
         <p>Rydym yn gwneud hyn i gadw eich gwybodaeth yn ddiogel.</p>
       actions:
         continue: Parhau i weithio

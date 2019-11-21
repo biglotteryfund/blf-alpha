@@ -5,15 +5,11 @@ const has = require('lodash/has');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 const crypto = require('crypto');
-const config = require('config');
-const moment = require('moment-timezone');
 
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
 const { prepareFilesForUpload, scanAndUpload } = require('./lib/file-uploads');
-const sessionExpiry = config.get('session.expiryInSeconds');
-const sessionExpiresOn = moment().add(sessionExpiry, 'seconds');
 
 function anonymiseId(id) {
     return crypto
@@ -99,13 +95,7 @@ module.exports = function(formId, formBuilder) {
                     previousPage: previousPage,
                     nextPage: nextPage,
                     errors: errors,
-                    updatedAt: application.updatedAt,
-                    sessionExpiresOn: {
-                        time: sessionExpiresOn.locale(locale).format('h:mma'),
-                        date: sessionExpiresOn
-                            .locale(locale)
-                            .format('dddd D MMMM YYYY')
-                    }
+                    updatedAt: application.updatedAt
                 });
             } else {
                 res.redirect(nextPage.url);

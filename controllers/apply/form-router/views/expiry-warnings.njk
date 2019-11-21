@@ -7,7 +7,7 @@
 
 {% macro expiryPending() %}
     {% call modal('apply-expiry-pending', title = __('applyNext.expirationWarnings.pending.title')) %}
-        {{ __('applyNext.expirationWarnings.pending.body', sessionExpiresOn.time, sessionExpiresOn.date) | safe }}
+        {{ __('applyNext.expirationWarnings.pending.body') | safe }}
         <div class="form-actions form-actions--constrained">
             <button type="button" class="btn btn--small js-modal-dialog-close-button">
                 {{ __('applyNext.expirationWarnings.pending.actions.continue') }}
