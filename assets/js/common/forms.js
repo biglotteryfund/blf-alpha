@@ -17,30 +17,8 @@ function handleBeforeUnload(e) {
     return confirmationMessage; // Gecko, WebKit, Chrome <34
 }
 
-function handleAbandonmentMessage(formEl) {
-    let recordUnload = true;
-
-    function removeBeforeUnload() {
-        recordUnload = false;
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    // Remove beforeunload if clicking on edit links
-    $('.js-application-form-review-link').on('click', removeBeforeUnload);
-
-    // Remove beforeunload if submitting the form
-    formEl.addEventListener('submit', removeBeforeUnload);
-
-    window.addEventListener('unload', function() {
-        recordUnload &&
-            trackEvent(
-                'Apply',
-                'User warned before abandoning form changes',
-                'left page'
-            );
-    });
+function removeBeforeUnload() {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
 }
 
 /*
@@ -59,9 +37,7 @@ function warnOnUnsavedChanges() {
         // as they all save the current progress when clicked
         $form
             .find('input[type="submit"], button[type="submit"]')
-            .on('click', function() {
-                window.removeEventListener('beforeunload', handleBeforeUnload);
-            });
+            .on('click', removeBeforeUnload);
 
         $(document).ready(() => {
             if (formHasErrors) {
@@ -71,26 +47,9 @@ function warnOnUnsavedChanges() {
                 if ($form.serialize() !== initialState) {
                     window.addEventListener('beforeunload', handleBeforeUnload);
                 } else {
-                    window.removeEventListener(
-                        'beforeunload',
-                        handleBeforeUnload
-                    );
+                    removeBeforeUnload();
                 }
             });
-        });
-    });
-}
-
-function toggleReviewAnswers() {
-    $('.js-toggle-answer').each(function() {
-        const $el = $(this);
-        const $toggle = $el.find('button');
-        const $toggleLabel = $toggle.find('.js-toggle-answer-label');
-        $toggle.on('click', function() {
-            $el.toggleClass('is-active');
-            const originalText = $toggleLabel.text();
-            $toggleLabel.text($toggleLabel.data('toggleLabel'));
-            $toggleLabel.data('toggleLabel', originalText);
         });
     });
 }
@@ -251,14 +210,6 @@ function showLocalSaveWarning() {
 }
 
 function init() {
-    /**
-     * Review–step–specific logic
-     */
-    const formReviewEl = document.querySelector('.js-application-form-review');
-    if (formReviewEl) {
-        handleAbandonmentMessage(formReviewEl);
-        toggleReviewAnswers();
-    }
     handleConditionalRadios();
     handleExpandingDetails();
     warnOnUnsavedChanges();
@@ -270,5 +221,6 @@ function init() {
 }
 
 export default {
-    init
+    init,
+    removeBeforeUnload
 };

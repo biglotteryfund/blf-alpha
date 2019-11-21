@@ -3,6 +3,7 @@ import debounce from 'lodash/debounce';
 
 import { trackEvent } from '../helpers/metrics';
 import modal from './modal';
+import forms from './forms';
 
 // The interval we'll check timeouts in
 const expiryCheckIntervalSeconds = 30;
@@ -36,6 +37,8 @@ function handleSessionExpiration() {
             isAuthenticated = false;
             clearSessionExpiryWarningTimer();
             trackEvent('Session', 'Warning', 'Timeout reached');
+            // Prevent the page abandonment warning from showing
+            forms.removeBeforeUnload();
             if (showWarnings) {
                 modal.triggerModal('apply-expiry-expired');
             }
