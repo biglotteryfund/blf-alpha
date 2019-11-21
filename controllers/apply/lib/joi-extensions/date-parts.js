@@ -22,6 +22,7 @@ module.exports = function dateParts(joi) {
         language: {
             minDate: 'Date must be at least {{min}}',
             minDateRef: 'Date from must be on or after referenced date',
+            rangeLimit: 'Date must be within range',
             dob: 'Must be at least {{minAge}} years old'
         },
         pre(value, state, options) {
@@ -81,6 +82,40 @@ module.exports = function dateParts(joi) {
                     } else {
                         return this.createError(
                             'dateParts.minDateRef',
+                            { v: value },
+                            state,
+                            options
+                        );
+                    }
+                }
+            },
+            {
+                name: 'rangeLimit',
+                params: {
+                    ref: joi.func().ref(),
+                    limit: joi.object({
+                        amount: joi.number().required(),
+                        unit: joi.string().required()
+                    })
+                },
+                validate(params, value, state, options) {
+                    const refVal = params.ref(
+                        state.reference || state.parent,
+                        options
+                    );
+
+                    const date = fromDateParts(value);
+                    const refDate = refVal ? fromDateParts(refVal) : moment();
+
+                    const limitDate = refDate
+                        .clone()
+                        .add(params.limit.amount, params.limit.unit);
+
+                    if (date.isValid() && date.isSameOrBefore(limitDate)) {
+                        return value;
+                    } else {
+                        return this.createError(
+                            'dateParts.rangeLimit',
                             { v: value },
                             state,
                             options
