@@ -72,19 +72,17 @@ function handleSessionExpiration() {
 }
 
 function getUserSession() {
-    const sessionCheck = $.ajax({
+    return $.ajax({
         type: 'get',
         url: `${window.AppConfig.localePrefix}/user/session`,
         dataType: 'json'
-    });
-    // Update any "live" expiry timers on the page
-    sessionCheck.then(response => {
+    }).then(response => {
         if (response.expiresOn) {
             $('.js-session-expiry-time').text(response.expiresOn.time);
             $('.js-session-expiry-date').text(response.expiresOn.date);
         }
+        return response;
     });
-    return sessionCheck;
 }
 
 function init() {
