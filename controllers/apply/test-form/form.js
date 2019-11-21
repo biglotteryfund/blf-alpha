@@ -3,42 +3,8 @@ const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
-const Field = require('../lib/field-types/field');
-const fromDateParts = require('../lib/from-date-parts');
+const DateField = require('../lib/field-types/date');
 const Joi = require('../lib/joi-extensions');
-
-class DateField extends Field {
-    getType() {
-        return 'date';
-    }
-
-    defaultSchema() {
-        return Joi.dateParts().required();
-    }
-
-    defaultMessages() {
-        return [
-            {
-                type: 'any.invalid',
-                message: this.localise({
-                    en: 'Enter a real date',
-                    cy: 'Rhowch ddyddiad go iawn'
-                })
-            }
-        ];
-    }
-
-    get displayValue() {
-        if (this.value) {
-            const dt = fromDateParts(this.value);
-            return dt.isValid()
-                ? dt.locale(this.locale).format('D MMMM, YYYY')
-                : '';
-        } else {
-            return '';
-        }
-    }
-}
 
 module.exports = function({ locale = 'en', data = {} } = {}) {
     console.log(data);
