@@ -67,6 +67,7 @@ body.is-modal {
     overflow: hidden;
     .global-container {
         filter: blur(2px);
+        pointer-events: none;
     }
 }
 

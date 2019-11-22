@@ -23,8 +23,10 @@ module.exports = function(formId, formBuilder) {
 
     function renderStepFor(sectionSlug, stepNumber) {
         return async function(req, res, data, errors = []) {
+            const locale = req.i18n.getLocale();
+
             const form = formBuilder({
-                locale: req.i18n.getLocale(),
+                locale: locale,
                 data: data
             });
 

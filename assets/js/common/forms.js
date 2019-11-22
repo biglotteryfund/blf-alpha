@@ -1,7 +1,17 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
 import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
-import session from './session';
+import modal from './modal';
+import debounce from 'lodash/debounce';
+
+// The interval we'll check timeouts in
+const expiryCheckIntervalSeconds = 30;
+
+// The time before logout we'll show a warning at
+// Note: if changing this, the accompanying copy will need to change too
+const warningShownSecondsRemaining = 10 * 60;
+
+const showWarnings = window.AppConfig.apply.enableSessionExpiryWarning;
 
 function handleBeforeUnload(e) {
     // Message cannot be customised in Chrome 51+
@@ -17,30 +27,8 @@ function handleBeforeUnload(e) {
     return confirmationMessage; // Gecko, WebKit, Chrome <34
 }
 
-function handleAbandonmentMessage(formEl) {
-    let recordUnload = true;
-
-    function removeBeforeUnload() {
-        recordUnload = false;
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    // Remove beforeunload if clicking on edit links
-    $('.js-application-form-review-link').on('click', removeBeforeUnload);
-
-    // Remove beforeunload if submitting the form
-    formEl.addEventListener('submit', removeBeforeUnload);
-
-    window.addEventListener('unload', function() {
-        recordUnload &&
-            trackEvent(
-                'Apply',
-                'User warned before abandoning form changes',
-                'left page'
-            );
-    });
+function removeBeforeUnload() {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
 }
 
 /*
@@ -59,9 +47,7 @@ function warnOnUnsavedChanges() {
         // as they all save the current progress when clicked
         $form
             .find('input[type="submit"], button[type="submit"]')
-            .on('click', function() {
-                window.removeEventListener('beforeunload', handleBeforeUnload);
-            });
+            .on('click', removeBeforeUnload);
 
         $(document).ready(() => {
             if (formHasErrors) {
@@ -71,26 +57,9 @@ function warnOnUnsavedChanges() {
                 if ($form.serialize() !== initialState) {
                     window.addEventListener('beforeunload', handleBeforeUnload);
                 } else {
-                    window.removeEventListener(
-                        'beforeunload',
-                        handleBeforeUnload
-                    );
+                    removeBeforeUnload();
                 }
             });
-        });
-    });
-}
-
-function toggleReviewAnswers() {
-    $('.js-toggle-answer').each(function() {
-        const $el = $(this);
-        const $toggle = $el.find('button');
-        const $toggleLabel = $toggle.find('.js-toggle-answer-label');
-        $toggle.on('click', function() {
-            $el.toggleClass('is-active');
-            const originalText = $toggleLabel.text();
-            $toggleLabel.text($toggleLabel.data('toggleLabel'));
-            $toggleLabel.data('toggleLabel', originalText);
         });
     });
 }
@@ -234,7 +203,7 @@ function initHotjarTracking() {
 
 // Update the Login link to Logout if user signs in
 function updateSecondaryNav() {
-    session.getUserSession().then(response => {
+    getUserSession().then(response => {
         const $accountLink = response.isAuthenticated
             ? $('.js-toggle-logout')
             : $('.js-toggle-login');
@@ -250,15 +219,78 @@ function showLocalSaveWarning() {
     }
 }
 
-function init() {
-    /**
-     * Review–step–specific logic
-     */
-    const formReviewEl = document.querySelector('.js-application-form-review');
-    if (formReviewEl) {
-        handleAbandonmentMessage(formReviewEl);
-        toggleReviewAnswers();
+function handleSessionExpiration() {
+    let sessionInterval;
+    let isAuthenticated = true;
+    let expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
+
+    function startSessionExpiryWarningTimer() {
+        sessionInterval = window.setInterval(
+            sessionTimeoutCheck,
+            expiryCheckIntervalSeconds * 1000
+        );
     }
+
+    function clearSessionExpiryWarningTimer() {
+        window.clearInterval(sessionInterval);
+    }
+
+    function sessionTimeoutCheck() {
+        expiryTimeRemaining = expiryTimeRemaining - expiryCheckIntervalSeconds;
+        if (expiryTimeRemaining <= 0) {
+            // The user's cookie has expired
+            isAuthenticated = false;
+            clearSessionExpiryWarningTimer();
+            trackEvent('Session', 'Warning', 'Timeout reached');
+            // Prevent the page abandonment warning from showing
+            removeBeforeUnload();
+            if (showWarnings) {
+                modal.triggerModal('apply-expiry-expired');
+            }
+        } else if (expiryTimeRemaining <= warningShownSecondsRemaining) {
+            // The user has a few minutes remaining before logout
+            trackEvent('Session', 'Warning', 'Timeout almost reached');
+            if (showWarnings) {
+                modal.triggerModal('apply-expiry-pending');
+            }
+        }
+    }
+
+    const handleActivity = () => {
+        if (isAuthenticated) {
+            // Extend their session
+            getUserSession().then(response => {
+                // Reset the timeout clock
+                expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
+                isAuthenticated = response.isAuthenticated;
+                clearSessionExpiryWarningTimer();
+                startSessionExpiryWarningTimer();
+            });
+        }
+    };
+
+    // Start the first pageload timer counting
+    startSessionExpiryWarningTimer();
+
+    // Reset cookie expiry on these page events
+    $('body').on('click keypress', debounce(handleActivity, 1000));
+}
+
+function getUserSession() {
+    return $.ajax({
+        type: 'get',
+        url: `${window.AppConfig.localePrefix}/user/session`,
+        dataType: 'json'
+    }).then(response => {
+        if (response.expiresOn) {
+            $('.js-session-expiry-time').text(response.expiresOn.time);
+            $('.js-session-expiry-date').text(response.expiresOn.date);
+        }
+        return response;
+    });
+}
+
+function init() {
     handleConditionalRadios();
     handleExpandingDetails();
     warnOnUnsavedChanges();
@@ -267,8 +299,15 @@ function init() {
 
     // Hotjar tagging
     initHotjarTracking();
+
+    // Session expiry warning for forms
+    const pageHasSessionForm = $('.js-session-expiry-warning').length !== 0;
+    if (pageHasSessionForm) {
+        handleSessionExpiration();
+    }
 }
 
 export default {
-    init
+    init,
+    removeBeforeUnload
 };

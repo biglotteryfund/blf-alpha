@@ -2,7 +2,6 @@ import forEach from 'lodash/forEach';
 import fitvids from 'fitvids';
 import tabs from './tabs';
 import forms from './forms';
-import session from './session';
 import modal from './modal';
 
 /**
@@ -23,5 +22,4 @@ export const init = () => {
     modal.init();
     tabs.init();
     forms.init();
-    session.init();
 };
