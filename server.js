@@ -28,7 +28,7 @@ const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const cspDirectives = require('./common/csp-directives');
-const { defaultMaxAge } = require('./common/cached');
+const { defaultMaxAge, noStore } = require('./common/cached');
 const { renderError, renderNotFound } = require('./controllers/errors');
 
 /**
@@ -96,7 +96,7 @@ app.get('/status', (req, res) => {
 /**
  * Robots.txt
  */
-app.use('/robots.txt', require('./controllers/robots'));
+app.get('/robots.txt', noStore, require('./controllers/robots'));
 
 /**
  * Site-map
