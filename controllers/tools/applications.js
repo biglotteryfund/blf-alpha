@@ -106,37 +106,6 @@ function countRequestedAmount(data) {
     return values;
 }
 
-function filterByCountry(country, appType) {
-    return function(item) {
-        if (!country) {
-            return item;
-        } else if (!item.applicationSummary && !item.applicationData) {
-            return false;
-        } else {
-            let appCountry;
-
-            if (appType === 'pending') {
-                appCountry = get(item, 'applicationData.projectCountry');
-            } else {
-                const rowCountry = item.applicationSummary.find(
-                    _ =>
-                        _.label ===
-                            'What country will your project be based in?' ||
-                        _.label === 'Pa wlad fydd eich prosiect wedi’i leoli?'
-                );
-                appCountry = get(rowCountry, 'value');
-            }
-
-            if (appCountry) {
-                const c = appCountry.toLowerCase().replace(' ', '-');
-                return c === country;
-            } else {
-                return false;
-            }
-        }
-    };
-}
-
 function titleCase(str) {
     if (!str) {
         return;
@@ -232,7 +201,9 @@ router.get('/:applicationId', async (req, res, next) => {
                     );
                     return data;
                 })
-                .filter(filterByCountry(country, 'pending'));
+                .filter(function(application) {
+                    return country ? application.country === country : true;
+                });
         });
     }
 
@@ -247,7 +218,9 @@ router.get('/:applicationId', async (req, res, next) => {
                     data.country = data.applicationCountry;
                     return data;
                 })
-                .filter(filterByCountry(country, 'submitted'));
+                .filter(function(application) {
+                    return country ? application.country === country : true;
+                });
         });
     }
 
