@@ -2,7 +2,7 @@
 'use strict';
 
 const httpMocks = require('node-mocks-http');
-const { routeHandler } = require('./robots');
+const robotsHandler = require('./robots');
 
 test('should allow indexing on live domain', () => {
     const req = httpMocks.createRequest({
@@ -16,7 +16,7 @@ test('should allow indexing on live domain', () => {
 
     const res = httpMocks.createResponse();
 
-    routeHandler(req, res);
+    robotsHandler(req, res);
 
     expect(res._getData()).toMatchSnapshot();
 });
@@ -33,7 +33,7 @@ test('should block indexing on other domains', () => {
 
     const res = httpMocks.createResponse();
 
-    routeHandler(req, res);
+    robotsHandler(req, res);
 
     expect(res._getData()).toMatchSnapshot();
 });
