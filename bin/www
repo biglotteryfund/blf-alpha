@@ -53,6 +53,7 @@ function describePortBinding() {
  */
 function startServer() {
     server.listen(port);
+
     server.on('error', function onError(error) {
         if (error.syscall !== 'listen') {
             throw error;
@@ -69,12 +70,18 @@ function startServer() {
                 throw error;
         }
     });
+
     server.on('listening', function() {
         const msg = `App now running on ${describeAddressBinding(
             server.address()
         )}`;
+
         logger.debug(msg);
-        if (NODE_ENV === 'development') {
+
+        if (
+            NODE_ENV === 'development' &&
+            !!process.env.SHOW_RESTART_NOTIFICATION
+        ) {
             require('node-notifier').notify({
                 title: 'blf-alpha',
                 message: msg,
