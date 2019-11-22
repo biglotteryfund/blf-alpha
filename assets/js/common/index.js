@@ -22,5 +22,4 @@ export const init = () => {
     modal.init();
     tabs.init();
     forms.init();
-    session.init();
 };
