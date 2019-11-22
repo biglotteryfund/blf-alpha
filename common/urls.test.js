@@ -105,6 +105,9 @@ describe('URL Helpers', () => {
             expect(localify('cy')('/welsh/funding/programmes')).toBe(
                 '/welsh/funding/programmes'
             );
+            expect(localify('cy')('https://www.google.com')).toBe(
+                'https://www.google.com'
+            );
         });
     });
 

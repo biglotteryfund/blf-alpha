@@ -4,6 +4,8 @@ const querystring = require('querystring');
 
 const WELSH_REGEX = /^\/welsh(\/|$)/;
 
+const isAbsoluteUrl = str => str.indexOf('://') !== -1;
+
 /**
  * isWelsh
  * Is the current URL a welsh URL
@@ -34,6 +36,9 @@ function removeWelsh(urlPath) {
  */
 function localify(locale) {
     return function(urlPath) {
+        if (isAbsoluteUrl(urlPath)) {
+            return urlPath;
+        }
         const urlIsWelsh = isWelsh(urlPath);
 
         let newUrlPath = urlPath;
