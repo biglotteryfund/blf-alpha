@@ -5,9 +5,11 @@ const config = require('config');
 
 const NODE_ENV = config.util.getEnv('NODE_ENV');
 
-const logger = require('../common/logger').child({
-    service: 'www'
-});
+if (NODE_ENV === 'development') {
+    require('dotenv').config();
+}
+
+const logger = require('../common/logger').child({ service: 'www' });
 
 const app = require('../server');
 const { sequelize } = require('../db/models');
@@ -80,7 +82,7 @@ function startServer() {
 
         if (
             NODE_ENV === 'development' &&
-            !!process.env.SHOW_RESTART_NOTIFICATION
+            process.env.SHOW_RESTART_NOTIFICATION === 'true'
         ) {
             require('node-notifier').notify({
                 title: 'blf-alpha',

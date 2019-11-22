@@ -17,18 +17,14 @@ const app = express();
 module.exports = app;
 
 const appData = require('./common/appData');
+const { SENTRY_DSN } = require('./common/secrets');
+const { localify, makeWelsh } = require('./common/urls');
+const { defaultMaxAge, noStore } = require('./common/cached');
+const cspDirectives = require('./common/csp-directives');
 const logger = require('./common/logger').child({ service: 'server' });
 
-if (appData.isDev) {
-    require('dotenv').config();
-}
-
-const { localify, makeWelsh } = require('./common/urls');
-const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
-const cspDirectives = require('./common/csp-directives');
-const { defaultMaxAge, noStore } = require('./common/cached');
 const { renderError, renderNotFound } = require('./controllers/errors');
 
 /**
