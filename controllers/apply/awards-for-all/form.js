@@ -1309,10 +1309,22 @@ module.exports = function({
 
         const enriched = clone(data);
 
-        enriched.projectDateRange = {
-            startDate: dateFormat(enriched.projectDateRange.startDate),
-            endDate: dateFormat(enriched.projectDateRange.endDate)
-        };
+        const useNewDateSchema =
+            config.get('awardsForAll.enableNewDateRange') &&
+            has('projectStartDate')(enriched) &&
+            has('projectEndDate')(enriched);
+
+        if (useNewDateSchema) {
+            enriched.projectDateRange = {
+                startDate: dateFormat(enriched.projectStartDate),
+                endDate: dateFormat(enriched.projectEndDate)
+            };
+        } else {
+            enriched.projectDateRange = {
+                startDate: dateFormat(enriched.projectDateRange.startDate),
+                endDate: dateFormat(enriched.projectDateRange.endDate)
+            };
+        }
 
         if (has('mainContactDateOfBirth')(enriched)) {
             enriched.mainContactDateOfBirth = dateFormat(
