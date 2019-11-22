@@ -8,7 +8,7 @@ const { noStore } = require('../common/cached');
 
 const router = express.Router();
 
-router.get('/', noStore, (req, res) => {
+function routeHandler(req, res) {
     const shouldIndex = req.get('host') === 'www.tnlcommunityfund.org.uk';
 
     // Merge archived paths with internal / deliberately excluded URLs
@@ -29,6 +29,8 @@ router.get('/', noStore, (req, res) => {
     ].join('\n');
     res.setHeader('Content-Type', 'text/plain');
     res.send(text);
-});
+}
 
-module.exports = router;
+router.get('/', noStore, routeHandler);
+
+module.exports = { routeHandler, router };

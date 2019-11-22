@@ -96,7 +96,7 @@ app.get('/status', (req, res) => {
 /**
  * Robots.txt
  */
-app.use('/robots.txt', require('./controllers/robots'));
+app.use('/robots.txt', require('./controllers/robots').router);
 
 /**
  * Site-map

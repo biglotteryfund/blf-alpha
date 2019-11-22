@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should allow indexing on live domain 1`] = `
+"user-agent: *
+sitemap: https://www.tnlcommunityfund.org.uk/sitemap.xml
+disallow: /api/
+disallow: /funding/grants/
+disallow: /welsh/funding/grants/
+disallow: /-/media/files/*
+disallow: /about-big/10-big-lottery-fund-facts
+disallow: /welsh/about-big/10-big-lottery-fund-facts
+disallow: /about-big/big-lottery-fund-in-your-constituency
+disallow: /welsh/about-big/big-lottery-fund-in-your-constituency
+disallow: /about-big/community-closed
+disallow: /welsh/about-big/community-closed
+disallow: /about-big/countries*
+disallow: /welsh/about-big/countries*
+disallow: /about-big/future-of-doing-good
+disallow: /welsh/about-big/future-of-doing-good
+disallow: /about-big/living-wage
+disallow: /welsh/about-big/living-wage
+disallow: /about-big/mayors-community-weekend
+disallow: /welsh/about-big/mayors-community-weekend
+disallow: /about-big/our-approach/vision-and-principles
+disallow: /welsh/about-big/our-approach/vision-and-principles
+disallow: /about-big/publications*
+disallow: /welsh/about-big/publications*
+disallow: /about-big/your-voice
+disallow: /welsh/about-big/your-voice
+disallow: /funding/big-stories*
+disallow: /welsh/funding/big-stories*
+disallow: /funding/celebrateuk*
+disallow: /welsh/funding/celebrateuk*
+disallow: /funding/funding-guidance/applying-for-funding/*
+disallow: /welsh/funding/funding-guidance/applying-for-funding/*
+disallow: /funding/funding-guidance/managing-your-funding/about-equalities*
+disallow: /welsh/funding/funding-guidance/managing-your-funding/about-equalities*
+disallow: /funding/funding-guidance/managing-your-funding/reaching-communities-grant-offer
+disallow: /welsh/funding/funding-guidance/managing-your-funding/reaching-communities-grant-offer
+disallow: /funding/joint-funding
+disallow: /welsh/funding/joint-funding
+disallow: /funding/peoples-projects-resources
+disallow: /welsh/funding/peoples-projects-resources
+disallow: /funding/scotland-portfolio*
+disallow: /welsh/funding/scotland-portfolio*
+disallow: /global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*
+disallow: /welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*
+disallow: /global-content/press-releases/*
+disallow: /welsh/global-content/press-releases/*
+disallow: /research*
+disallow: /welsh/research*"
+`;
+
+exports[`should block indexing on other domains 1`] = `
+"user-agent: *
+sitemap: https://apply.tnlcommunityfund.org.uk/sitemap.xml
+disallow: /"
+`;
