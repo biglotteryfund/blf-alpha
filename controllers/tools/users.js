@@ -1,16 +1,12 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const partition = require('lodash/partition');
 const times = require('lodash/times');
 
 const { Op } = require('sequelize');
-const {
-    Users,
-    PendingApplication,
-    SubmittedApplication
-} = require('../../db/models');
+const { Users, PendingApplication } = require('../../db/models');
 
 const {
     getDateRangeWithDefault,
@@ -20,6 +16,8 @@ const {
 } = require('./lib/date-helpers');
 
 const { processResetRequest } = require('../user/lib/password-reset');
+const { environment } = require('../../common/appData');
+const isProduction = environment === 'production';
 
 function chartData(users) {
     if (users.length === 0) {
@@ -105,23 +103,33 @@ router
             const applicationsByUserId = req.query.appsById;
 
             if (usernameSearch && usernameSearch !== '') {
-                res.locals.users = await Users.findByUsernameFuzzy(
+                const allMatchingUsers = await Users.findByUsernameFuzzy(
                     usernameSearch
                 );
+                res.locals.users = allMatchingUsers.map(user => {
+                    if (!user.is_active && user.date_activation_sent) {
+                        user.activationExpires = moment
+                            .unix(user.date_activation_sent)
+                            .tz('Europe/London')
+                            .fromNow();
+                    }
+                    return user;
+                });
                 res.locals.usernameSearch = usernameSearch;
             } else if (applicationsByUserId) {
-                const [
-                    pendingApps,
-                    submittedApps,
-                    singleUser
-                ] = await Promise.all([
+                const [pendingApps, singleUser] = await Promise.all([
                     PendingApplication.findAllByUserId(applicationsByUserId),
-                    SubmittedApplication.findAllByUserId(applicationsByUserId),
                     Users.findByPk(applicationsByUserId)
                 ]);
+
                 res.locals.singleUser = singleUser;
-                res.locals.submittedApps = submittedApps;
-                res.locals.pendingApps = pendingApps;
+
+                res.locals.pendingApps = pendingApps.map(app => {
+                    app.expiresAtRelative = moment(app.expiresAt)
+                        .tz('Europe/London')
+                        .fromNow();
+                    return app;
+                });
             }
 
             switch (req.query.s) {
@@ -138,26 +146,43 @@ router
             next(error);
         }
     })
-    .post(async (req, res, next) => {
-        const userToActivate = req.body.userToActivate;
-        const userToSendPasswordReset = req.body.userToSendPasswordReset;
-        if (userToActivate) {
-            const user = await Users.findByPk(userToActivate);
+    .post(async (req, res) => {
+        const userId = req.body.userId;
+        const action = req.body.action;
+        if (userId && action) {
+            const user = await Users.findByPk(req.body.userId);
             if (user) {
-                await Users.activateUser(user.id);
-                res.redirect(req.baseUrl + '/dashboard?s=userActivated');
+                if (!req.body.confirmed) {
+                    // Render the confirmation check
+                    return res.render(
+                        path.resolve(__dirname, './views/user-dashboard'),
+                        {
+                            confirmMode: true,
+                            userToModify: user,
+                            action: action,
+                            title: 'Please confirm your action'
+                        }
+                    );
+                } else {
+                    // Take the action
+                    if (action === 'activateUser') {
+                        await Users.activateUser(user.id);
+                        res.redirect(
+                            req.baseUrl + '/dashboard?s=userActivated'
+                        );
+                    } else if (action === 'sendResetPasswordEmail') {
+                        if (isProduction) {
+                            await processResetRequest(req, user);
+                        }
+                        res.redirect(
+                            req.baseUrl +
+                                '/dashboard?s=userPasswordResetRequested'
+                        );
+                    }
+                }
             }
-        } else if (userToSendPasswordReset) {
-            const user = await Users.findByPk(userToSendPasswordReset);
-            if (user) {
-                await processResetRequest(req, user);
-                res.redirect(
-                    req.baseUrl + '/dashboard?s=userPasswordResetRequested'
-                );
-            }
-        } else {
-            res.redirect(req.baseUrl + '/dashboard');
         }
+        return res.redirect(req.baseUrl + '/dashboard');
     });
 
 module.exports = router;
