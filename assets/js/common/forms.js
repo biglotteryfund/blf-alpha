@@ -242,6 +242,7 @@ function handleSessionExpiration() {
             isAuthenticated = false;
             clearSessionExpiryWarningTimer();
             trackEvent('Session', 'Warning', 'Timeout reached');
+            tagHotjarRecording(['App: User session expired']);
             // Prevent the page abandonment warning from showing
             removeBeforeUnload();
             if (showWarnings) {
@@ -250,6 +251,7 @@ function handleSessionExpiration() {
         } else if (expiryTimeRemaining <= warningShownSecondsRemaining) {
             // The user has a few minutes remaining before logout
             trackEvent('Session', 'Warning', 'Timeout almost reached');
+            tagHotjarRecording(['App: User shown session expiry warning']);
             if (showWarnings) {
                 modal.triggerModal('apply-expiry-pending');
             }

@@ -9,10 +9,20 @@
     {% call modal('apply-expiry-pending', title = __('applyNext.expirationWarnings.pending.title')) %}
         {{ __('applyNext.expirationWarnings.pending.body') | safe }}
         <div class="form-actions form-actions--constrained">
-            <button type="button" class="btn btn--small js-modal-dialog-close-button">
+            <button type="button"
+                    class="btn btn--small js-modal-dialog-close-button"
+                    data-ga-on="click"
+                    data-ga-event-category="Session"
+                    data-ga-event-action="Modal Pending button click"
+                    data-ga-event-label="Continue">
                 {{ __('applyNext.expirationWarnings.pending.actions.continue') }}
             </button>
-            <a href="{{ localify('/user/logout') }}" class="btn btn--small btn--outline">
+            <a href="{{ localify('/user/logout') }}"
+               class="btn btn--small btn--outline"
+               data-ga-on="click"
+               data-ga-event-category="Session"
+               data-ga-event-action="Modal Pending button clicked"
+               data-ga-event-label="Log out">
                 {{ __('applyNext.expirationWarnings.pending.actions.logOut') }}
             </a>
         </div>
@@ -26,10 +36,20 @@
     ) %}
         {{ __('applyNext.expirationWarnings.expired.body') | safe }}
         <div class="form-actions form-actions--constrained">
-            <a href="{{ localify('/user/login') }}" class="btn btn--small">
+            <a href="{{ localify('/user/login') }}"
+               class="btn btn--small"
+               data-ga-on="click"
+               data-ga-event-category="Session"
+               data-ga-event-action="Modal Expired button clicked"
+               data-ga-event-label="Log in again">
                 {{ __('applyNext.expirationWarnings.expired.actions.logInAgain') }}
             </a>
-            <a href="{{ localify('/') }}" class="btn btn--small btn--outline">
+            <a href="{{ localify('/') }}"
+               class="btn btn--small btn--outline"
+               data-ga-on="click"
+               data-ga-event-category="Session"
+               data-ga-event-action="Modal Expired button clicked"
+               data-ga-event-label="Visit homepage">
                 {{ __('applyNext.expirationWarnings.expired.actions.visitHomepage') }}
             </a>
         </div>
