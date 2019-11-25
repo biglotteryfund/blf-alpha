@@ -6,7 +6,11 @@ const partition = require('lodash/partition');
 const times = require('lodash/times');
 
 const { Op } = require('sequelize');
-const { Users } = require('../../db/models');
+const {
+    Users,
+    PendingApplication,
+    SubmittedApplication
+} = require('../../db/models');
 
 const {
     getDateRangeWithDefault,
@@ -14,6 +18,8 @@ const {
     getOldestDate,
     getDaysInRange
 } = require('./lib/date-helpers');
+
+const { processResetRequest } = require('../user/lib/password-reset');
 
 function chartData(users) {
     if (users.length === 0) {
@@ -76,5 +82,82 @@ router.get('/', async (req, res, next) => {
         next(error);
     }
 });
+
+/*
+ * @TODO
+ *
+ * search by email address (fuzzy)
+ * activate user
+ * trigger password reset
+ * send activation email?
+ * search for application by user? possibly "show users applications"?
+ */
+router
+    .route('/dashboard')
+    .get(async (req, res, next) => {
+        try {
+            const title = 'User dashboard';
+            res.locals.title = title;
+            res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+                label: title
+            });
+            const usernameSearch = req.query.q;
+            const applicationsByUserId = req.query.appsById;
+
+            if (usernameSearch && usernameSearch !== '') {
+                res.locals.users = await Users.findByUsernameFuzzy(
+                    usernameSearch
+                );
+                res.locals.usernameSearch = usernameSearch;
+            } else if (applicationsByUserId) {
+                const [
+                    pendingApps,
+                    submittedApps,
+                    singleUser
+                ] = await Promise.all([
+                    PendingApplication.findAllByUserId(applicationsByUserId),
+                    SubmittedApplication.findAllByUserId(applicationsByUserId),
+                    Users.findByPk(applicationsByUserId)
+                ]);
+                res.locals.singleUser = singleUser;
+                res.locals.submittedApps = submittedApps;
+                res.locals.pendingApps = pendingApps;
+            }
+
+            switch (req.query.s) {
+                case 'userActivated':
+                    res.locals.statusMessage = `The user was successfully activated!`;
+                    break;
+                case 'userPasswordResetRequested':
+                    res.locals.statusMessage = `The user was sent an email with a password reset link.`;
+                    break;
+            }
+
+            res.render(path.resolve(__dirname, './views/user-dashboard'));
+        } catch (error) {
+            next(error);
+        }
+    })
+    .post(async (req, res, next) => {
+        const userToActivate = req.body.userToActivate;
+        const userToSendPasswordReset = req.body.userToSendPasswordReset;
+        if (userToActivate) {
+            const user = await Users.findByPk(userToActivate);
+            if (user) {
+                await Users.activateUser(user.id);
+                res.redirect(req.baseUrl + '/dashboard?s=userActivated');
+            }
+        } else if (userToSendPasswordReset) {
+            const user = await Users.findByPk(userToSendPasswordReset);
+            if (user) {
+                await processResetRequest(req, user);
+                res.redirect(
+                    req.baseUrl + '/dashboard?s=userPasswordResetRequested'
+                );
+            }
+        } else {
+            res.redirect(req.baseUrl + '/dashboard');
+        }
+    });
 
 module.exports = router;
