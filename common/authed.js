@@ -1,5 +1,6 @@
 'use strict';
 const { localify, redirectForLocale } = require('./urls');
+const logger = require('./logger').child({ service: 'auth' });
 
 function isStaff(user) {
     return user.userType === 'staff';
@@ -52,7 +53,12 @@ function requireUserAuth(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user) === false) {
         next();
     } else {
-        const returnUrl = req.query.s ? `/user/login?s=${req.query.s}` : '/user/login';
+        logger.info('User required but got unauthed', {
+            url: req.originalUrl
+        });
+        const returnUrl = req.query.s
+            ? `/user/login?s=${req.query.s}`
+            : '/user/login';
         redirectWithReturnUrl(req, res, returnUrl);
     }
 }
@@ -62,12 +68,18 @@ function requireActiveUser(req, res, next, cb = null) {
         if (isActivated(req.user) === true) {
             next();
         } else {
+            logger.info('Active user required but got inactive', {
+                url: req.originalUrl
+            });
             redirectWithReturnUrl(req, res, '/user/activate');
         }
     } else {
         if (cb) {
             cb(req, res);
         }
+        logger.info('Active user required but got unauthed', {
+            url: req.originalUrl
+        });
         redirectWithReturnUrl(req, res, '/user/login');
     }
 }
@@ -84,6 +96,9 @@ function requireUnactivatedUser(req, res, next) {
     ) {
         next();
     } else {
+        logger.info('Inactive user required but got other', {
+            url: req.originalUrl
+        });
         redirectUrlWithFallback(req, res, '/user');
     }
 }
@@ -118,6 +133,9 @@ function requireStaffAuth(req, res, next) {
  */
 function requireNotStaffAuth(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user)) {
+        logger.info('Non-staff user required but got staff', {
+            url: req.originalUrl
+        });
         req.logout();
         req.session.save(() => {
             next();
