@@ -174,14 +174,14 @@ router
                     // Take the action
                     if (action === 'activateUser') {
                         await Users.activateUser(user.id);
-                        res.redirect(
+                        return res.redirect(
                             req.baseUrl + '/dashboard?s=userActivated'
                         );
                     } else if (action === 'sendResetPasswordEmail') {
                         if (isProduction) {
                             await processResetRequest(req, user);
                         }
-                        res.redirect(
+                        return res.redirect(
                             req.baseUrl +
                                 '/dashboard?s=userPasswordResetRequested'
                         );
