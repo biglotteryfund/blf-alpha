@@ -81,17 +81,24 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-/*
- * @TODO
- *
- * search by email address (fuzzy)
- * activate user
- * trigger password reset
- * send activation email?
- * search for application by user? possibly "show users applications"?
- */
 router
     .route('/dashboard')
+    .all((req, res, next) => {
+        const allowedGroups = [
+            'b5630e8e-4064-4cad-a619-af12ae0208bf', // advice
+            '40d00757-141c-4f20-9f56-8750fb7366e0' // digital
+        ];
+        if (
+            req.session.activeDirectoryGroups &&
+            req.session.activeDirectoryGroups.some(groupId =>
+                allowedGroups.includes(groupId)
+            )
+        ) {
+            next();
+        } else {
+            res.send('You are not authorised to access this tool.');
+        }
+    })
     .get(async (req, res, next) => {
         try {
             const title = 'User dashboard';
