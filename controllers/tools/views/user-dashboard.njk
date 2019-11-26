@@ -32,7 +32,7 @@
     <form method="get" class="form-inline">
         <div class="form-group">
             <label for="userEmail">Find a user by email address</label>
-            <input type="text" class="form-control mx-sm-3" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email search" name="q">
+            <input type="text" class="form-control mx-sm-3" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email search" name="q" value="{{ usernameSearch }}">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Search</button>
@@ -90,7 +90,7 @@
         <small>{{ users.length }} users found</small>
     </h2>
 
-    {% if users %}
+    {% if users.length > 1 %}
         <table class="table table-striped table-bordered table-hover">
             <thead class="thead-light">
             <tr>
@@ -114,7 +114,7 @@
                     <td{% if not user.is_active %} class="table-danger"{% endif %}>
                         <strong>{{ yesNo(user.is_active) }}</strong><br />
                         {% if not user.is_active %}
-                            <small>This user has been sent a link to activate their account. It was sent <strong>{{ user.activationExpires }}</strong> and will expire in three hours.</small>
+                            <small>This user has been sent a link to activate their account. It was sent <strong>{{ user.activationExpires }}</strong> and expires after three hours.</small>
                         {% endif %}
                     </td>
                     <td{% if user.is_password_reset %} class="table-danger"{% endif %}>
@@ -146,6 +146,8 @@
             {% endfor %}
             </tbody>
         </table>
+    {% else %}
+        <p>There were no users found matching the search term "{{ usernameSearch }}".</p>
     {% endif %}
 {% endmacro %}
 
