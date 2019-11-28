@@ -96,7 +96,8 @@ router
         ) {
             next();
         } else {
-            res.send('You are not authorised to access this tool.');
+            res.send(`You are not authorised to access this tool. 
+                If you think you should be able to see this, try <a href="/user/staff/logout">logging out</a> then logging back in.`);
         }
     })
     .get(async (req, res, next) => {

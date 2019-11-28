@@ -15,7 +15,7 @@ const logger = require('../../common/logger').child({
 });
 
 const { verifyTokenPasswordReset } = require('./lib/jwt');
-const { processResetRequest } = require('./lib/password-reset')
+const { processResetRequest } = require('./lib/password-reset');
 const schemas = require('./lib/account-schemas');
 const validateSchema = require('../../common/validate-schema');
 
