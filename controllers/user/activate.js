@@ -5,7 +5,8 @@ const express = require('express');
 const { Users } = require('../../db/models');
 const {
     redirectUrlWithFallback,
-    requireUnactivatedUser
+    requireUnactivatedUser,
+    isActivated
 } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 const logger = require('../../common/logger').child({ service: 'user' });
@@ -24,6 +25,10 @@ router
     .route('/')
     .all(injectCopy('user.activate'))
     .get(async function(req, res) {
+        // Prevent activated users from persisting on this page
+        if (req.user && isActivated(req.user)) {
+            return res.redirect('/user');
+        }
         if (req.query.token) {
             try {
                 const decodedData = await verifyTokenActivate(req.query.token);
