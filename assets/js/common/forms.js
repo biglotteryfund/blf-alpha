@@ -12,6 +12,7 @@ const expiryCheckIntervalSeconds = 30;
 const warningShownSecondsRemaining = 10 * 60;
 
 const showWarnings = window.AppConfig.apply.enableSessionExpiryWarning;
+let hasShownWarning = false;
 
 function handleBeforeUnload(e) {
     // Message cannot be customised in Chrome 51+
@@ -233,6 +234,7 @@ function handleSessionExpiration() {
 
     function clearSessionExpiryWarningTimer() {
         window.clearInterval(sessionInterval);
+        hasShownWarning = false;
     }
 
     function sessionTimeoutCheck() {
@@ -250,10 +252,13 @@ function handleSessionExpiration() {
             }
         } else if (expiryTimeRemaining <= warningShownSecondsRemaining) {
             // The user has a few minutes remaining before logout
-            trackEvent('Session', 'Warning', 'Timeout almost reached');
-            tagHotjarRecording(['App: User shown session expiry warning']);
-            if (showWarnings) {
-                modal.triggerModal('apply-expiry-pending');
+            if (!hasShownWarning) {
+                trackEvent('Session', 'Warning', 'Timeout almost reached');
+                tagHotjarRecording(['App: User shown session expiry warning']);
+                if (showWarnings) {
+                    modal.triggerModal('apply-expiry-pending');
+                }
+                hasShownWarning = true;
             }
         }
     }
@@ -310,6 +315,5 @@ function init() {
 }
 
 export default {
-    init,
-    removeBeforeUnload
+    init
 };
