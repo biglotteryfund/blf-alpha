@@ -15,10 +15,36 @@ const partition = require('lodash/partition');
 const random = require('lodash/random');
 const times = require('lodash/times');
 const features = require('config').get('features');
+const { sanitise } = require('../../common/sanitise');
+const { parse } = require('json2csv');
 
 const { SurveyAnswer } = require('../../db/models');
 
 const router = express.Router();
+
+async function renderDownload(req, res, next) {
+    const responses = await SurveyAnswer.findAllByPath(
+        sanitise(req.query.path)
+    );
+
+    if (responses.length > 0) {
+        const preparedResults = responses
+            .filter(item => item.message)
+            .map(item => {
+                return {
+                    'Date': item.createdAt.toISOString(),
+                    'Date description': moment(item.createdAt)
+                        .tz('Europe/London')
+                        .format('D MMMM, YYYY h:ma'),
+                    'Message': item.message
+                };
+            });
+
+        res.attachment(`surveyResponses.csv`).send(parse(preparedResults));
+    } else {
+        next();
+    }
+}
 
 function voteDataFor(responses) {
     if (responses.length === 0) {
@@ -89,28 +115,43 @@ function pageCountsFor(responses) {
 }
 
 router.get('/', async (req, res, next) => {
-    try {
-        const responses = await SurveyAnswer.findAllByPath(req.query.path);
+    if (req.query.download) {
+        try {
+            await renderDownload(req, res, next);
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        try {
+            const responses = await SurveyAnswer.findAllByPath(req.query.path);
 
-        const survey = {
-            totalResponses: responses.length,
-            voteData: voteDataFor(responses),
-            recentStats: recentStatsFor(responses),
-            pageCounts: pageCountsFor(responses),
-            noResponses: filter(responses, ['choice', 'no'])
-        };
+            const survey = {
+                totalResponses: responses.length,
+                voteData: voteDataFor(responses),
+                recentStats: recentStatsFor(responses),
+                pageCounts: pageCountsFor(responses),
+                pageCountsWithResponses: pageCountsFor(
+                    responses.filter(response => {
+                        return response.message;
+                    })
+                ),
+                noResponses: filter(responses, ['choice', 'no'])
+            };
 
-        const title = 'Surveys';
-        const breadcrumbs = concat(res.locals.breadcrumbs, [{ label: title }]);
+            const title = 'Surveys';
+            const breadcrumbs = concat(res.locals.breadcrumbs, [
+                { label: title }
+            ]);
 
-        res.render(path.resolve(__dirname, './views/survey'), {
-            title: title,
-            breadcrumbs: breadcrumbs,
-            survey: survey,
-            pathQuery: req.query.path
-        });
-    } catch (error) {
-        next(error);
+            res.render(path.resolve(__dirname, './views/survey'), {
+                title: title,
+                breadcrumbs: breadcrumbs,
+                survey: survey,
+                pathQuery: req.query.path
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 });
 
