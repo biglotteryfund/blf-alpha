@@ -115,6 +115,8 @@ const EMAIL_EXPIRY_SECRET =
 const EMAIL_EXPIRY_TEST_ADDRESS =
     process.env.APPLICATION_EXPIRY_EMAIL || getParameter('emailExpiry.testEmail');
 
+const GOV_NOTIFY_KEY = process.env.GOV_NOTIFY_KEY || getParameter('gov.notify.key');
+
 module.exports = {
     AZURE_AUTH,
     BANK_API,
@@ -124,6 +126,7 @@ module.exports = {
     DIGITAL_FUND_EMAIL,
     EMAIL_EXPIRY_SECRET,
     EMAIL_EXPIRY_TEST_ADDRESS,
+    GOV_NOTIFY_KEY,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,

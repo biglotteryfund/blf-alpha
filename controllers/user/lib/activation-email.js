@@ -44,7 +44,8 @@ module.exports = async function sendActivationEmail(req, user) {
                 expiryDate: expiresAt
                     .locale(locale)
                     .format('H:mm [on] dddd Do MMMM')
-            }
+            },
+            locale: locale
         },
         mailParams
     );

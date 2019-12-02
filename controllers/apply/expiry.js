@@ -155,7 +155,8 @@ async function sendExpiryEmails(req, emailQueue) {
                         application: emailToSend.PendingApplication,
                         unsubscribeLink: unsubscribeUrl,
                         expiryDate: expiryDates
-                    }
+                    },
+                    locale: 'en'
                 },
                 mailParams
             );

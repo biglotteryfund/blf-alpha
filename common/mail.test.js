@@ -37,7 +37,8 @@ function createAndSendMockHtmlEmail(mailConfig) {
     return sendHtmlEmail(
         {
             template: path.resolve(__dirname, './mocks/test-email.njk'),
-            templateData: { example: 'Example data' }
+            templateData: { example: 'Example data' },
+            locale: 'en'
         },
         mailConfig,
         nodemailer.createTransport({

@@ -27,7 +27,8 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
-    "enableSessionExpiryWarning": true
+    "enableSessionExpiryWarning": true,
+    "enableGovNotifyEmails": true
   },
   "awardsForAll": {
     "enableExpiration": true

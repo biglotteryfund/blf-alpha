@@ -11,6 +11,8 @@ const logger = require('./logger').child({ service: 'mail' });
 
 const { isTestServer } = require('../common/appData');
 
+const { canSendNotifyEmail, sendNotifyEmail } = require('./notify');
+
 /**
  * @typedef {object} MailAddress
  * @property {string} [name]
@@ -80,25 +82,31 @@ function generateHtmlEmail({ template, templateData }) {
  * @return {object}
  */
 async function sendHtmlEmail(
-    { template, templateData },
+    { template, templateData, locale = 'en'},
     mailParams,
     mailTransport = null
 ) {
-    const emailHtml = await generateHtmlEmail({ template, templateData });
+    // Try sending this email via gov.uk notify (if enabled and configured)
+    if (canSendNotifyEmail(mailParams.name)) {
+        return sendNotifyEmail(locale, mailParams, templateData);
+    } else {
+        // Fall back to AWS SES and HTML emails
+        const emailHtml = await generateHtmlEmail({ template, templateData });
 
-    const mailConfig = {
-        ...mailParams,
-        ...{
-            type: 'html',
-            content: emailHtml
-        }
-    };
+        const mailConfig = {
+            ...mailParams,
+            ...{
+                type: 'html',
+                content: emailHtml
+            }
+        };
 
-    return sendEmail({
-        name: mailParams.name,
-        mailConfig: mailConfig,
-        mailTransport: mailTransport
-    });
+        return sendEmail({
+            name: mailParams.name,
+            mailConfig: mailConfig,
+            mailTransport: mailTransport
+        });
+    }
 }
 
 /**
