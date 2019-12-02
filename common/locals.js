@@ -72,6 +72,10 @@ module.exports = function(req, res, next) {
             label: navCopy.logOut,
             url: localify(locale)('/user/logout')
         },
+        myApplications: {
+            label: navCopy.myApplications,
+            url: localify(locale)('/apply')
+        },
         primaryLinks: [
             { label: navCopy.funding, url: localify(locale)('/funding') },
             { label: navCopy.updates, url: localify(locale)('/news') },
