@@ -4,54 +4,69 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            <h1 class="t--underline">{{ title }}</h1>
 
-            {% if alertMessage %}
-                <div class="message" role="alert">
-                    {{ alertMessage }}
+
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    <h1 class="t--underline">{{ title }}</h1>
+
+                    {% if alertMessage %}
+                        <div class="message" role="alert">
+                            {{ alertMessage }}
+                        </div>
+                    {% endif %}
+
+                    <form action="" method="post" autocomplete="off" novalidate>
+                        <div class="s-prose u-constrained-wide">
+                            {{ copy.introduction | safe }}
+                        </div>
+
+                        {{ formErrors(
+                            title = __('global.misc.errorTitle'),
+                            errors = errors
+                        ) }}
+
+                        {% if csrfToken %}
+                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        {% endif %}
+
+                        {{ formField({
+                            type: 'email',
+                            name: 'username',
+                            label: __('user.common.emailAddress'),
+                            isRequired: true,
+                            value: formValues['username']
+                        }, errors = errors) }}
+
+                        {{ formField({
+                            type: 'password',
+                            name: 'password',
+                            label: __('user.common.password'),
+                            isRequired: true
+                        }, errors = errors) }}
+
+                        <p>
+                            <small>
+                                <a href="{{ localify('/user/password/forgot') }}">
+                                    {{ copy.forgottenPasswordPrompt }}
+                                </a>
+                            </small>
+                        </p>
+
+                        <div class="form-actions">
+                            <input type="submit" class="btn" value="{{ copy.actionLabel }}" />
+                        </div>
+
+                    </form>
+
                 </div>
-            {% endif %}
 
-            <form action="" method="post" autocomplete="off" novalidate>
-                <div class="s-prose u-constrained-wide">
-                    {{ copy.introduction | safe }}
+                <div class="content-sidebar__secondary u-tone-background-tint u-padded">
+                    <h3>Don't have an account?</h3>
                 </div>
-
-                {{ formErrors(
-                    title = __('global.misc.errorTitle'),
-                    errors = errors
-                ) }}
-
-                {% if csrfToken %}
-                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                {% endif %}
-
-                {{ formField({
-                    type: 'email',
-                    name: 'username',
-                    label: __('user.common.emailAddress'),
-                    isRequired: true,
-                    value: formValues['username']
-                }, errors = errors) }}
-
-                {{ formField({
-                    type: 'password',
-                    name: 'password',
-                    label: __('user.common.password'),
-                    isRequired: true
-                }, errors = errors) }}
-
-                <div class="form-actions">
-                    <input type="submit" class="btn" value="{{ copy.actionLabel }}" />
-                    {{ __('global.misc.or') }}
-                    <a href="{{ localify('/user/register') }}">{{ copy.registerLabel }}</a>
-                </div>
-
-                <p><small><a href="{{ localify('/user/password/forgot') }}">
-                    {{ copy.forgottenPasswordPrompt }}
-                </a></small></p>
-            </form>
+            </div>
         </div>
+
     </main>
 {% endblock %}
 
