@@ -840,6 +840,40 @@ describe('Contacts', () => {
         }
     );
 
+    test('email addresses must not match', function() {
+        const emailAddress = 'example@example.com';
+
+        const form = formBuilder({
+            data: mockResponse({
+                seniorContactEmail: emailAddress,
+                mainContactEmail: emailAddress
+            })
+        });
+
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringContaining(
+                    'Main contact email address must be different'
+                )
+            ])
+        );
+
+        const formCaseInsensitive = formBuilder({
+            data: mockResponse({
+                seniorContactEmail: emailAddress,
+                mainContactEmail: emailAddress.toUpperCase()
+            })
+        });
+
+        expect(mapMessages(formCaseInsensitive.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringContaining(
+                    'Main contact email address must be different'
+                )
+            ])
+        );
+    });
+
     test.each(['seniorContactPhone', 'mainContactPhone'])(
         'phone number must be valid for %p',
         function(fieldName) {
