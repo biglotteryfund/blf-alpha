@@ -18,6 +18,7 @@ global:
     toplevel: Home
     logIn: Log in
     logOut: Log out
+    myApplications: My applications
     funding: Funding
     local: In your area
     insights: Insights
