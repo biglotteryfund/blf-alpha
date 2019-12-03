@@ -293,7 +293,7 @@ test.each(
     expect(allSectionsComplete).toBeTruthy();
 });
 
-test('list featured errors based on allow list', () => {
+test('featured messages based on allow list', () => {
     const form = formBuilder({
         data: {
             projectDateRange: {
@@ -306,7 +306,7 @@ test('list featured errors based on allow list', () => {
 
     expect(form.validation.featuredMessages.map(item => item.msg)).toEqual([
         expect.stringMatching(/Date you start the project must be after/),
-        'Senior contact role is not valid'
+        expect.stringContaining('Senior contact role is not valid')
     ]);
 });
 
