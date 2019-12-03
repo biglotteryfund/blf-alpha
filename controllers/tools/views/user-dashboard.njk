@@ -108,7 +108,7 @@
                         <small>
                             <strong>User ID</strong>: {{ user.id }} <br />
                             <strong>Registered</strong>: {{ dateItem(user.createdAt) }} <br />
-                            <strong>Last login</strong>: {{ dateItem(user.updatedAt) }}
+                            <strong>Last modified</strong>: {{ dateItem(user.updatedAt) }}
                         </small>
                     </td>
                     <td{% if not user.is_active %} class="table-danger"{% endif %}>
