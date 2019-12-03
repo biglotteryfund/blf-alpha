@@ -840,6 +840,23 @@ describe('Contacts', () => {
         }
     );
 
+    test('email addresses must not match', function() {
+        const form = formBuilder({
+            data: mockResponse({
+                seniorContactEmail: 'example@example.com',
+                mainContactEmail: 'Example@example.com' // Test for case insensitivity
+            })
+        });
+
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringContaining(
+                    'Main contact email address must be different'
+                )
+            ])
+        );
+    });
+
     test.each(['seniorContactPhone', 'mainContactPhone'])(
         'phone number must be valid for %p',
         function(fieldName) {
