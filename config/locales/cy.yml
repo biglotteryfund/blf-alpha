@@ -1051,7 +1051,10 @@ user:
     introduction: >
       <p>Mae hon yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
     actionLabel: Mewngofnodi
-    registerLabel: creu cyfrif
+    registerLabel: Creu cyfrif
+    registerPrompt:
+      title: Heb gyfrif eto?
+      body: Mae ein cyfrif ar-lein yn gwneud llenwi eich cais ariannu yn haws ac yn gyflymach. A dim ond cwpwl funudau mae’n ei gymryd i’w osod.
     forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
     credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/welsh/user/register">greu cyfrif</a>.
   rateLimited:
