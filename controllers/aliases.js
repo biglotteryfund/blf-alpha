@@ -186,7 +186,9 @@ const aliases = {
     '/contact-us': '/contact',
     '/news-and-events': '/news',
     '/research/open-data': '/data#open-data',
-    '/about/customer-service/supplier-zone/contracts-finder': '/about/customer-service/supplier-zone'
+    '/about/customer-service/supplier-zone/contracts-finder': '/about/customer-service/supplier-zone',
+    '/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg': '/assets/images/logos/tnlcf/monolingual/colour.png',
+    '/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg': '/assets/images/logos/tnlcf/monolingual/colour.png'
 };
 
 /**
