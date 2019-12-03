@@ -1469,6 +1469,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             schema: Joi.string()
                 .email()
+                .lowercase()
                 .invalid(Joi.ref('seniorContactEmail')),
             messages: [
                 {
