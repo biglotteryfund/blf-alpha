@@ -1161,7 +1161,10 @@ user:
     introduction: >
       <p>This is a new application form. If you haven't logged in here before, you might not have an account with us - and will need to <a href="/user/register">create a new account</a> to apply.</p>
     actionLabel: Log in
-    registerLabel: create an account
+    registerLabel: Create an account
+    registerPrompt:
+      title: Don't have an account yet?
+      body: Our online account makes filling in your funding applications quicker and easier. And it only takes a couple of minutes to set up.
     forgottenPasswordPrompt: Forgotten your password?
     credentialError: Your username and password aren't quite right. Or you might not have an account, as this is a new application form - try <a href="/user/register">creating an account</a>.
   rateLimited:
@@ -1173,7 +1176,10 @@ user:
   register:
     title: Create an account
     actionLabel: Create an account
-    loginLabel: log in
+    loginLabel: Log in
+    loginPrompt:
+      title: Already have an account?
+      body: Log in here
     genericError: >
       There was an error creating your account. If you think you already have an account try
       <a href="%s">resetting your password</a>.
