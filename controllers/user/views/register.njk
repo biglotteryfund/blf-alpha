@@ -4,48 +4,59 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            <h1 class="t--underline">{{ title }}</h1>
 
-            <form action="" method="post" autocomplete="off" novalidate>
-                {{ formErrors(
-                    title = __('global.misc.errorTitle'),
-                    errors = errors
-                ) }}
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    <h1 class="t--underline">{{ title }}</h1>
 
-                {% if csrfToken %}
-                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                {% endif %}
+                    <form action="" method="post" autocomplete="off" novalidate>
+                        {{ formErrors(
+                            title = __('global.misc.errorTitle'),
+                            errors = errors
+                        ) }}
 
-                {{ formField({
-                    type: 'email',
-                    name: 'username',
-                    label: __('user.common.emailAddress'),
-                    isRequired: true,
-                    value: formValues['username']
-                }, errors = errors) }}
+                        {% if csrfToken %}
+                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        {% endif %}
 
-                {{ formField({
-                    type: 'password',
-                    name: 'password',
-                    label: __('user.common.password'),
-                    explanation: __('user.common.passwordRequirements'),
-                    isRequired: true
-                }, errors = errors) }}
+                        {{ formField({
+                            type: 'email',
+                            name: 'username',
+                            label: __('user.common.emailAddress'),
+                            isRequired: true,
+                            value: formValues['username']
+                        }, errors = errors) }}
 
-                {{ formField({
-                    type: 'password',
-                    name: 'passwordConfirmation',
-                    label: __('user.common.passwordConfirmation.label'),
-                    explanation: __('user.common.passwordConfirmation.explanation'),
-                    isRequired: true
-                }, errors = errors) }}
+                        {{ formField({
+                            type: 'password',
+                            name: 'password',
+                            label: __('user.common.password'),
+                            explanation: __('user.common.passwordRequirements'),
+                            isRequired: true
+                        }, errors = errors) }}
 
-                <div class="form-actions">
-                    <input type="submit" class="btn" value="{{ copy.actionLabel }}" />
-                    {{ __('global.misc.or') }}
-                    <a href="{{ localify('/user/login') }}">{{ copy.loginLabel }}</a>
+                        {{ formField({
+                            type: 'password',
+                            name: 'passwordConfirmation',
+                            label: __('user.common.passwordConfirmation.label'),
+                            explanation: __('user.common.passwordConfirmation.explanation'),
+                            isRequired: true
+                        }, errors = errors) }}
+
+                        <div class="form-actions">
+                            <input type="submit" class="btn" value="{{ copy.actionLabel }}" />
+                        </div>
+                    </form>
                 </div>
-            </form>
+
+                <div class="content-sidebar__secondary">
+                    <div class="u-tone-background-tint u-padded u-margin-top-l">
+                        <h3>{{ copy.loginPrompt.title }}</h3>
+                        <p>{{ copy.loginPrompt.body }}</p>
+                        <a class="btn btn--small btn--outline u-block" href="{{ localify('/user/login') }}">{{ copy.loginLabel }}</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 {% endblock %}

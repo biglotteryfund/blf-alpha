@@ -1066,7 +1066,10 @@ user:
   register:
     title: Creu cyfrif
     actionLabel: Creu cyfrif
-    loginLabel: mewngofnodi
+    loginLabel: Mewngofnodi
+    loginPrompt:
+      title: Gyda chyfrif eisoes?
+      body: Mewngofnodwch yma
     genericError: >
       Roedd problem wrth greu eich cyfrif. Os ydych yn meddwl bod gennych gyfrif eisoes, ceisiwch
       <a href="%s">ailosod eich cyfrinair</a>.
