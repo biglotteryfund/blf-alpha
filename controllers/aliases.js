@@ -819,17 +819,14 @@ module.exports = createAliases([
     },
     {
         from: `/about/customer-service/supplier-zone/contracts-finder`,
-        to: `/about/customer-service/supplier-zone`,
-        includeRegionPrefixes: true
+        to: `/about/customer-service/supplier-zone`
     },
     {
         from: `/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg`,
-        to: `/assets/images/logos/tnlcf/monolingual/colour.png`,
-        includeRegionPrefixes: true
+        to: `/assets/images/logos/tnlcf/monolingual/colour.png`
     },
     {
         from: `/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg`,
-        to: `/assets/images/logos/tnlcf/monolingual/colour.png`,
-        includeRegionPrefixes: true
+        to: `/assets/images/logos/tnlcf/monolingual/colour.png`
     }
 ]);

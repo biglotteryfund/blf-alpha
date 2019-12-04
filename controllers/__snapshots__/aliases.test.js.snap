@@ -6019,38 +6019,6 @@ Array [
     "to": "/welsh/about/customer-service/supplier-zone",
   },
   Object {
-    "from": "/england/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/about/customer-service/supplier-zone",
-  },
-  Object {
-    "from": "/welsh/england/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/welsh/about/customer-service/supplier-zone",
-  },
-  Object {
-    "from": "/scotland/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/about/customer-service/supplier-zone",
-  },
-  Object {
-    "from": "/welsh/scotland/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/welsh/about/customer-service/supplier-zone",
-  },
-  Object {
-    "from": "/northernireland/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/about/customer-service/supplier-zone",
-  },
-  Object {
-    "from": "/welsh/northernireland/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/welsh/about/customer-service/supplier-zone",
-  },
-  Object {
-    "from": "/wales/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/about/customer-service/supplier-zone",
-  },
-  Object {
-    "from": "/welsh/wales/about/customer-service/supplier-zone/contracts-finder",
-    "to": "/welsh/about/customer-service/supplier-zone",
-  },
-  Object {
     "from": "/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
     "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
   },
@@ -6059,75 +6027,11 @@ Array [
     "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
   },
   Object {
-    "from": "/england/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/england/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/scotland/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/scotland/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/northernireland/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/northernireland/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/wales/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/wales/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
     "from": "/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
     "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
   },
   Object {
     "from": "/welsh/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/england/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/england/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/scotland/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/scotland/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/northernireland/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/northernireland/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/wales/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
-    "to": "/assets/images/logos/tnlcf/monolingual/colour.png",
-  },
-  Object {
-    "from": "/welsh/wales/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg",
     "to": "/welsh/assets/images/logos/tnlcf/monolingual/colour.png",
   },
 ]
