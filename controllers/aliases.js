@@ -279,53 +279,43 @@ module.exports = createAliases([
     },
     {
         from: `/blog/2018-10-26/our-new-digital-fund`,
-        to: `/news/blog/2018-10-26/our-new-digital-fund`,
-        includeRegionPrefixes: true
+        to: `/news/blog/2018-10-26/our-new-digital-fund`
     },
     {
         from: `/blog/2018-11-15/place-based-funding`,
-        to: `/news/blog/2018-11-15/place-based-funding`,
-        includeRegionPrefixes: true
+        to: `/news/blog/2018-11-15/place-based-funding`
     },
     {
         from: `/blog/2018-11-16/a-young-persons-perspective-on-social-action`,
-        to: `/news/blog/2018-11-16/a-young-persons-perspective-on-social-action`,
-        includeRegionPrefixes: true
+        to: `/news/blog/2018-11-16/a-young-persons-perspective-on-social-action`
     },
     {
         from: `/blog/authors/jenny-raw`,
-        to: `/news/blog?author=jenny-raw`,
-        includeRegionPrefixes: true
+        to: `/news/blog?author=jenny-raw`
     },
     {
         from: `/blog/authors/julia-parnaby`,
-        to: `/news/blog?author=julia-parnaby`,
-        includeRegionPrefixes: true
+        to: `/news/blog?author=julia-parnaby`
     },
     {
         from: `/blog/authors/tom-steinberg`,
-        to: `/news/blog?author=tom-steinberg`,
-        includeRegionPrefixes: true
+        to: `/news/blog?author=tom-steinberg`
     },
     {
         from: `/blog/digital`,
-        to: `/news/blog?category=digital`,
-        includeRegionPrefixes: true
+        to: `/news/blog?category=digital`
     },
     {
         from: `/blog/insight`,
-        to: `/news/blog?category=insight`,
-        includeRegionPrefixes: true
+        to: `/news/blog?category=insight`
     },
     {
         from: `/blog/tags/digital-fund`,
-        to: `/news/blog?tag=digital-fund`,
-        includeRegionPrefixes: true
+        to: `/news/blog?tag=digital-fund`
     },
     {
         from: `/blog/tags/place-based-funding`,
-        to: `/news/blog?tag=place-based-funding`,
-        includeRegionPrefixes: true
+        to: `/news/blog?tag=place-based-funding`
     },
     {
         from: `/research`,
