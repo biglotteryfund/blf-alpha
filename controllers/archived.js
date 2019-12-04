@@ -2,8 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { makeWelsh } = require('../common/urls');
-const { buildArchiveUrl } = require('../common/archived');
+const { buildArchiveUrl, makeWelsh } = require('../common/urls');
 
 /**
  * Archived Routes

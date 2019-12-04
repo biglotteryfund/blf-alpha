@@ -3,8 +3,7 @@ const path = require('path');
 const express = require('express');
 const { isArray, pick, get } = require('lodash');
 
-const { buildArchiveUrl } = require('../../common/archived');
-const { localify } = require('../../common/urls');
+const { buildArchiveUrl, localify } = require('../../common/urls');
 const { injectCopy, injectHeroImage } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 const checkPreviewMode = require('../../common/check-preview-mode');
