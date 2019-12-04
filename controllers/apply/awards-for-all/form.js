@@ -1335,11 +1335,11 @@ module.exports = function({
         }),
         allFields: fields,
         featuredErrorsAllowList: [
-            'projectDateRange',
-            'seniorContactRole',
-            'mainContactName',
-            'mainContactEmail',
-            'mainContactPhone'
+            { fieldName: 'projectDateRange', includeBase: false },
+            { fieldName: 'seniorContactRole', includeBase: false },
+            { fieldName: 'mainContactName', includeBase: false },
+            { fieldName: 'mainContactEmail', includeBase: false },
+            { fieldName: 'mainContactPhone', includeBase: false }
         ],
         summary: summary(),
         schemaVersion: 'v1.1',

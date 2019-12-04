@@ -212,6 +212,30 @@ class FormModel {
         );
     }
 
+    /**
+     * Determine featured messages.
+     *
+     * Based on allow list on the form model.
+     * e.g. [{ fieldName: 'example', includeBaseMessage: true }]
+     *
+     * Accepts `includeBase` to determine if `base`
+     * message types should be included in the list.
+     */
+    _getFeaturedMessages(messages) {
+        return messages.filter(message => {
+            return this.featuredErrorsAllowList.some(item => {
+                if (item.includeBase === true) {
+                    return item.fieldName === message.param;
+                } else {
+                    return (
+                        item.fieldName === message.param &&
+                        message.type !== 'base'
+                    );
+                }
+            });
+        });
+    }
+
     validate(data) {
         const { value, error } = this.schema.validate(data, {
             abortEarly: false,
@@ -224,23 +248,12 @@ class FormModel {
             formFields: this.allFields
         });
 
-        /**
-         * Consider messages featured if field names are
-         * included in featuredErrorsAllowList and the
-         * message type is not the 'base` message.
-         */
-        const featuredMessages = messages.filter(message => {
-            return this.featuredErrorsAllowList.some(name => {
-                return name === message.param && message.type !== 'base';
-            });
-        });
-
         return {
             value: value,
             error: error,
             isValid: error === null && messages.length === 0,
             messages: messages,
-            featuredMessages: featuredMessages
+            featuredMessages: this._getFeaturedMessages(messages)
         };
     }
 

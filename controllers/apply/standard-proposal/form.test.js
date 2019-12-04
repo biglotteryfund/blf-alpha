@@ -53,8 +53,6 @@ test('valid form', () => {
     expect(result.error).toBeNull();
 
     expect(result.value).toMatchSnapshot({
-        projectCountries: expect.any(Array),
-        projectLocation: expect.any(String),
         yourIdeaProject: expect.any(String),
         yourIdeaCommunity: expect.any(String),
         yourIdeaActivities: expect.any(String)
@@ -147,7 +145,6 @@ test('language preference required in wales', function() {
 });
 
 test.each([
-    'projectLocationDescription',
     'organisationTradingName',
     'contactPhone',
     'contactCommunicationNeeds'
@@ -160,17 +157,14 @@ test.each([
     expect(result.error).toBeNull();
 });
 
-test('projectLocationDescription required if multiple countries selected', function() {
+test('featured messages based on allow list', () => {
     const form = formBuilder({
         data: mockResponse({
-            projectCountries: ['england', 'wales'],
             projectLocationDescription: null
         })
     });
 
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([
-            expect.stringContaining('Tell us all of the locations')
-        ])
-    );
+    expect(form.validation.featuredMessages.map(item => item.msg)).toEqual([
+        expect.stringContaining('Tell us all of the locations')
+    ]);
 });
