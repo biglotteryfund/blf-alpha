@@ -1,26 +1,22 @@
 'use strict';
+const { stripIndents } = require('common-tags');
 const { getAbsoluteUrl } = require('../common/urls');
-const { legacyPagePaths, legacyFilesPath } = require('../common/archived');
 
 module.exports = function(req, res) {
     const shouldIndex = req.get('host') === 'www.tnlcommunityfund.org.uk';
 
-    // Merge archived paths with internal / deliberately excluded URLs
-    const disallowList = [
-        '/api/',
-        '/funding/grants/',
-        '/welsh/funding/grants/'
-    ].concat(legacyFilesPath, legacyPagePaths);
+    /**
+     * Prevent crawling of the following URLs for traffic management purposes
+     * @see https://support.google.com/webmasters/answer/6062608
+     */
+    const disallowList = ['/funding/grants/', '/welsh/funding/grants/']
+        .map(line => `disallow: ${line}`)
+        .join('\n');
 
-    const disallowLine = shouldIndex
-        ? disallowList.map(line => `disallow: ${line}`).join('\n')
-        : 'disallow: /';
-
-    const text = [
-        `user-agent: *`,
-        `sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}`,
-        disallowLine
-    ].join('\n');
     res.setHeader('Content-Type', 'text/plain');
-    res.send(text);
+    res.send(stripIndents`
+        user-agent: *
+        sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}
+        ${shouldIndex ? disallowList : 'disallow: /'}
+    `);
 };
