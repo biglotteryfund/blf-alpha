@@ -1,9 +1,10 @@
 {% from "components/icons.njk" import iconInfo %}
 
-{% macro details(title, isOpen = false, extraClasses, assistiveText = false) %}
+{% macro details(title, isOpen = false, showInfoIcon = true, extraClasses, assistiveText = false) %}
     <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
         <summary class="o-details__summary">
-            {{ iconInfo() }} {{ title }}
+            {% if showInfoIcon %}{{ iconInfo() }}{% endif %}
+            {{ title }}
             {% if assistiveText %}<span class="u-visually-hidden">{{ assistiveText }}</span>{% endif %}
         </summary>
         <div class="o-details__content">{{ caller() }}</div>
