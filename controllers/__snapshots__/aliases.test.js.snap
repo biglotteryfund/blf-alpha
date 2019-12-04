@@ -91,38 +91,6 @@ Array [
     "to": "/welsh/funding/programmes?location=scotland",
   },
   Object {
-    "from": "/england/scotland",
-    "to": "/funding/programmes?location=scotland",
-  },
-  Object {
-    "from": "/welsh/england/scotland",
-    "to": "/welsh/funding/programmes?location=scotland",
-  },
-  Object {
-    "from": "/scotland/scotland",
-    "to": "/funding/programmes?location=scotland",
-  },
-  Object {
-    "from": "/welsh/scotland/scotland",
-    "to": "/welsh/funding/programmes?location=scotland",
-  },
-  Object {
-    "from": "/northernireland/scotland",
-    "to": "/funding/programmes?location=scotland",
-  },
-  Object {
-    "from": "/welsh/northernireland/scotland",
-    "to": "/welsh/funding/programmes?location=scotland",
-  },
-  Object {
-    "from": "/wales/scotland",
-    "to": "/funding/programmes?location=scotland",
-  },
-  Object {
-    "from": "/welsh/wales/scotland",
-    "to": "/welsh/funding/programmes?location=scotland",
-  },
-  Object {
     "from": "/about-big/contact-us",
     "to": "/about",
   },

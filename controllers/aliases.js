@@ -45,8 +45,7 @@ module.exports = createAliases([
     },
     {
         from: `/scotland`,
-        to: `/funding/programmes?location=scotland`,
-        includeRegionPrefixes: true
+        to: `/funding/programmes?location=scotland`
     },
     {
         from: `/about-big/contact-us`,
