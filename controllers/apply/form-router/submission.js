@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const express = require('express');
 const path = require('path');
 const unset = require('lodash/unset');
@@ -18,8 +19,7 @@ module.exports = function(
     formId,
     formBuilder,
     confirmationBuilder,
-    currentlyEditingSessionKey,
-    enableSalesforceConnector
+    currentlyEditingSessionKey
 ) {
     const router = express.Router();
 
@@ -92,7 +92,10 @@ module.exports = function(
             /**
              * Store submission in salesforce if enabled
              */
-            if (enableSalesforceConnector === true && !appData.isTestServer) {
+            if (
+                config.get('features.enableSalesforceConnector') === true &&
+                !appData.isTestServer
+            ) {
                 const salesforce = await salesforceService.authorise();
                 salesforceRecordId = await salesforce.submitFormData(
                     salesforceFormData
