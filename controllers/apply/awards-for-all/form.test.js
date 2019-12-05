@@ -6,7 +6,6 @@ const difference = require('lodash/difference');
 const includes = require('lodash/includes');
 const map = require('lodash/map');
 const omit = require('lodash/omit');
-const random = require('lodash/random');
 const sample = require('lodash/sample');
 const times = require('lodash/times');
 const faker = require('faker');
@@ -24,150 +23,14 @@ const {
 
 const validateModel = require('../lib/validate-model');
 
-function toDateParts(dt) {
-    return { day: dt.date(), month: dt.month() + 1, year: dt.year() };
-}
-
-function mockDateOfBirth(minAge, maxAge = 75) {
-    const dt = moment().subtract(
-        faker.random.number({ min: minAge, max: maxAge }),
-        'years'
-    );
-    return toDateParts(dt);
-}
-
-function mockAddress() {
-    return {
-        line1: faker.address.streetAddress(),
-        townCity: faker.address.city(),
-        county: faker.address.county(),
-        postcode: 'B15 1TR'
-    };
-}
-
-function mockBudget() {
-    return new Array(5).fill(null).map(() => {
-        return {
-            item: faker.lorem.words(5),
-            cost: faker.random.number({ min: 100, max: 1000 })
-        };
-    });
-}
-
-function mockBeneficiaries(checkAnswer = 'yes') {
-    return {
-        beneficiariesGroupsCheck: checkAnswer,
-        beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
-        beneficiariesGroupsOther: 'Other value',
-        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
-        beneficiariesGroupsGender: ['non-binary'],
-        beneficiariesGroupsAge: ['0-12', '13-24'],
-        beneficiariesGroupsDisabledPeople: ['sensory'],
-        beneficiariesGroupsReligion: ['sikh'],
-        beneficiariesGroupsReligionOther: undefined
-    };
-}
-
-function mockResponse(overrides = {}) {
-    const projectCountry =
-        overrides.projectCountry ||
-        sample(['england', 'scotland', 'wales', 'northern-ireland']);
-
-    const defaults = {
-        projectName: faker.lorem.words(5),
-        projectCountry: projectCountry,
-        projectDateRange: {
-            startDate: toDateParts(moment().add(18, 'weeks')),
-            endDate: toDateParts(moment().add(30, 'weeks'))
-        },
-        projectLocation: {
-            'england': 'derbyshire',
-            'scotland': 'east-lothian',
-            'wales': 'caerphilly',
-            'northern-ireland': 'mid-ulster'
-        }[projectCountry],
-        projectLocationDescription: faker.lorem.sentence(),
-        projectPostcode: 'B15 1TR',
-        yourIdeaProject: faker.lorem.words(random(50, 250)),
-        yourIdeaPriorities: faker.lorem.words(random(50, 100)),
-        yourIdeaCommunity: faker.lorem.words(random(50, 150)),
-        projectBudget: mockBudget(),
-        projectTotalCosts: 20000,
-        beneficiariesGroupsCheck: 'yes',
-        beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
-        beneficiariesGroupsOther: undefined,
-        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
-        beneficiariesGroupsGender: ['non-binary'],
-        beneficiariesGroupsAge: ['0-12', '13-24'],
-        beneficiariesGroupsDisabledPeople: ['sensory'],
-        beneficiariesGroupsReligion: ['sikh'],
-        beneficiariesGroupsReligionOther: undefined,
-        beneficiariesWelshLanguage: projectCountry === 'wales' ? 'all' : null,
-        beneficiariesNorthernIrelandCommunity:
-            projectCountry === 'northern-ireland'
-                ? 'both-catholic-and-protestant'
-                : null,
-        organisationLegalName: faker.company.companyName(),
-        organisationTradingName: faker.company.companyName(),
-        organisationStartDate: { month: 9, year: 1986 },
-        organisationAddress: mockAddress(),
-        organisationType: 'unincorporated-registered-charity',
-        organisationSubType: null,
-        companyNumber: null,
-        charityNumber: '0123456789',
-        educationNumber: null,
-        accountingYearDate: { day: 1, month: 3 },
-        totalIncomeYear: random(1000, 1000000),
-        mainContactName: {
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName()
-        },
-        mainContactDateOfBirth: mockDateOfBirth(16),
-        mainContactAddress: mockAddress(),
-        mainContactAddressHistory: {
-            currentAddressMeetsMinimum: 'no',
-            previousAddress: mockAddress()
-        },
-        mainContactEmail: faker.internet.exampleEmail(),
-        mainContactPhone: '0345 4 10 20 30',
-        mainContactLanguagePreference:
-            projectCountry === 'wales' ? 'welsh' : null,
-        mainContactCommunicationNeeds: '',
-        seniorContactName: {
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName()
-        },
-        seniorContactRole: 'trustee',
-        seniorContactDateOfBirth: mockDateOfBirth(18),
-        seniorContactAddress: mockAddress(),
-        seniorContactAddressHistory: {
-            currentAddressMeetsMinimum: 'yes',
-            previousAddress: null
-        },
-        seniorContactEmail: faker.internet.exampleEmail(),
-        seniorContactPhone: '020 7211 1888',
-        seniorContactLanguagePreference:
-            projectCountry === 'wales' ? 'welsh' : null,
-        seniorContactCommunicationNeeds: '',
-        bankAccountName: faker.company.companyName(),
-        bankSortCode: '308087',
-        bankAccountNumber: '25337846',
-        buildingSocietyNumber: undefined,
-        bankStatement: {
-            filename: 'example.pdf',
-            size: 123,
-            type: 'application/pdf'
-        },
-        termsAgreement1: 'yes',
-        termsAgreement2: 'yes',
-        termsAgreement3: 'yes',
-        termsAgreement4: 'yes',
-        termsPersonName: `${faker.name.firstName()} ${faker.name.lastName()}`,
-        termsPersonPosition: faker.name.jobTitle()
-    };
-
-    return Object.assign(defaults, overrides);
-}
+const {
+    mockAddress,
+    mockBeneficiaries,
+    mockBudget,
+    mockDateOfBirth,
+    mockResponse,
+    toDateParts
+} = require('./mocks');
 
 function mapMessages(validationResult) {
     return validationResult.messages.map(item => item.msg);
