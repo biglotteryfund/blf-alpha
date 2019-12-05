@@ -3,6 +3,7 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/data.njk" import statsGrid %}
 {% from "components/staff-status/macro.njk" import staffStatus with context %}
+{% from "components/callout/macro.njk" import callout %}
 
 {% block extraHead %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" crossorigin="anonymous"></script>
@@ -59,20 +60,47 @@
                             {% endfor %}
                         </ol>
                     </div>
+
+                    <h2>Most popular pages with responses</h2>
+                    <div class="s-prose">
+                        <ol>
+                            {% for item in survey.pageCountsWithResponses | take(10) %}
+                                <li><a href="?path={{ item.path }}">{{ item.path }}
+                                with {{ item.count | numberWithCommas }} responses</a></li>
+                            {% endfor %}
+                        </ol>
+                    </div>
                 {% endif %}
             </div>
         </div>
 
         {% if survey.noResponses.length > 0 %}
             {% call contentBox() %}
-                <h2>How can we improve this page?</h2>
+                <h2>
+                    How can we improve
+                    {% if pathQuery %}
+                        <a href="{{ pathQuery }}" target="_blank">{{ pathQuery }}</a>?
+                    {% else %}
+                        this page?
+                    {% endif %}
+                    <small>({{ survey.noResponses.length }} comments)</small>
+                </h2>
+                {% if pathQuery %}
+                    <p><a class="btn btn--outline btn--small" href="?download=1&path={{ pathQuery }}">Download as CSV</a></p>
+                {% endif %}
                 {% for response in survey.noResponses %}
                     <article id="msg-{{ response.id }}">
-                        <a href="?path={{ response.path }}">{{ response.path }}</a>
-                        <a class="u-link-minimal" href="#msg-{{ response.id }}" title="{{ response.createdAt }}">
-                            {{ timeFromNow(response.createdAt) }}
-                        </a>
-                        <p>{{ response.message }}</p>
+
+                        {% set citation %}
+                            <a class="u-link-minimal" href="#msg-{{ response.id }}" title="{{ response.createdAt }}">#</a>
+                            Posted {{ timeFromNow(response.createdAt) }}
+                            {% if not pathQuery %}
+                                on <a href="?path={{ response.path }}">{{ response.path }}</a>
+                            {% endif %}
+                        {% endset %}
+
+                        {{ callout(response.message, citation | safe, isQuote = true, isSimple = true) }}
+
                     </article>
                 {% endfor %}
             {% endcall %}

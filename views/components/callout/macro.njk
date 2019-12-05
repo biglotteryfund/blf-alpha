@@ -1,5 +1,5 @@
-{% macro callout(content, citation, isQuote = false) %}
-    <blockquote class="callout{% if isQuote %} callout--quote{% endif %} ">
+{% macro callout(content, citation, isQuote = false, isSimple = false) %}
+    <blockquote class="callout{% if isQuote %} callout--quote{% endif %}{% if isSimple %} callout--simple{% endif %}">
         <div class="callout__inner">
             <div class="callout__text">
                 {{ content }}
