@@ -2,54 +2,87 @@
 {% from "components/form-fields/macros.njk" import formField with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/step-progress/macro.njk" import processMap %}
 
 {% set copy = __('yourFundingProposal.startPage') %}
 {% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">
-        {% call contentBox() %}
+        {% call contentBox(skipProse = true) %}
             {{ formHeader(
                 backUrl = backUrl,
                 title = formTitle,
                 prefix = globalCopy.brand.title
             )}}
 
-            <div class="message message--info message--minor" role="alert">
-                {% for part in copy.countryMessageParts %}
-                    <p>
-                        <strong>{{ part.title }}</strong><br/>
-                        {{ part.message | safe }}
-                    </p>
-                {% endfor %}
+            <div class="s-prose">
+
+                <div class="message message--info message--minor" role="alert">
+                    {% for part in copy.countryMessageParts %}
+                        <p>
+                            <strong>{{ part.title }}</strong><br/>
+                            {{ part.message | safe }}
+                        </p>
+                    {% endfor %}
+                </div>
+
+                <h2>{{ copy.beforeYouStart.title }}</h2>
+
+                <ul>
+                    {% for item in copy.beforeYouStart.items %}
+                        <li>{{ item | safe }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h2>{{ copy.whatInformation.title }}</h2>
+
+                <ul>
+                    {% for item in copy.whatInformation.checklist %}
+                        <li>
+                            <strong>{{ item.title }}</strong>{% if item.description %}: {{ item.description }}{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <h2>{{ copy.ready.title }}</h2>
+                <p>{{ copy.ready.intro }}</p>
+
+                <ul>
+                    {% for item in copy.ready.items %}
+                        <li>{{ item | safe }}</li>
+                    {% endfor %}
+                </ul>
             </div>
 
-            <h2>{{ copy.beforeYouStart.title }}</h2>
-
-            <ul>
-                {% for item in copy.beforeYouStart.items %}
-                    <li>{{ item | safe }}</li>
-                {% endfor %}
-            </ul>
-
-            <h2>{{ copy.whatInformation.title }}</h2>
-
-            <ul>
-                {% for item in copy.whatInformation.checklist %}
-                    <li>
-                        <strong>{{ item.title }}</strong>{% if item.description %}: {{ item.description }}{% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <h2>{{ copy.ready.title }}</h2>
-            <p>{{ copy.ready.intro }}</p>
-
-            <ul>
-                {% for item in copy.ready.items %}
-                    <li>{{ item | safe }}</li>
-                {% endfor %}
-            </ul>
+            {% set process = [
+                {
+                    "type": "step",
+                    "title": "Tell us about your funding proposal",
+                    "description": "You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.",
+                    "isCompleted": true,
+                    "isCurrent": true
+                },
+                {
+                    "type": "action",
+                    "title": "Proposal reviewed"
+                },
+                {
+                    "type": "step",
+                    "title": "We might then ask you to apply",
+                    "description": "If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future."
+                },
+                {
+                    "type": "action",
+                    "title": "Application assessed"
+                },
+                {
+                    "type": "step",
+                    "title": "We'll decide to fund your project or not",
+                    "description": "We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not."
+                }
+            ] %}
+            {{ processMap(process) }}
 
             <p class="form-actions u-margin-bottom-l">
                 <a href="{{ newUrl }}" class="btn">{{ copy.startAction }}</a>

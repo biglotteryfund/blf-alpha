@@ -12,3 +12,27 @@
         {% endfor %}
     </ol>
 {% endmacro %}
+
+{% macro processMap(process) %}
+    <ol class="process-map">
+        {% for step in process %}
+            <li class="process-map__item process-map__item--{{ step.type }}{% if step.isCompleted %} process-map__item--completed{% endif %}">
+                {% if step.type === 'step' %}
+                    {% if step.isCurrent %}
+                        <div class="process-map__item-indicator">
+                            You are here<span></span>
+                        </div>
+                    {% endif %}
+                    <div class="process-map__item-title">
+                        <div class="process-map__item-title__content">
+                            <span>{{ step.title }}</span>
+                        </div>
+                    </div>
+                    <div class="process-map__item-description"><p>{{ step.description | safe }}</p></div>
+                {% elseif step.type === 'action' %}
+                    <span>{{ step.title }}</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+{% endmacro %}
