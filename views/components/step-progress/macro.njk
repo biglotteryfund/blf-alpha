@@ -21,7 +21,7 @@
                     {% if step.isCurrent %}
                         <div class="process-map__item-indicator">
                             You are here
-                            <span></span>
+                            <span class="process-map__item-indicator__arrow" aria-hidden="true"></span>
                         </div>
                     {% endif %}
                     <div class="process-map__item-title">
@@ -32,8 +32,8 @@
                     <div class="process-map__item-description"><p>{{ step.description | safe }}</p></div>
                 {% elseif step.type === 'action' %}
                     <span class="process-map__item-action-label">{{ step.title }}</span>
-                    <span class="process-map__item-action-arrow-right"></span>
-                    <span class="process-map__item-action-arrow-down"></span>
+                    <span class="process-map__item-action-arrow-right" aria-hidden="true"></span>
+                    <span class="process-map__item-action-arrow-down"aria-hidden="true"></span>
                 {% endif %}
             </li>
         {% endfor %}
