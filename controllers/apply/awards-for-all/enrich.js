@@ -8,7 +8,7 @@ const { findLocationName } = require('../lib/location-options');
 const { formatDateRange } = require('../lib/formatters');
 
 const formBuilder = require('./form');
-const transform = require('./transform');
+const { transform } = require('./transforms');
 
 function details(application, data, locale) {
     const localise = get(locale);

@@ -2,7 +2,6 @@
 const config = require('config');
 const has = require('lodash/fp/has');
 const get = require('lodash/fp/get');
-const flow = require('lodash/flow');
 const Sentry = require('@sentry/node');
 
 const logger = require('../../../common/logger').child({
@@ -10,10 +9,7 @@ const logger = require('../../../common/logger').child({
 });
 
 function transformProjectDateRange(applicationData) {
-    if (
-        config.get('awardsForAll.enableNewDateRange') === true &&
-        has('projectDateRange')(applicationData)
-    ) {
+    if (has('projectDateRange')(applicationData)) {
         logger.info('Transforming projectDateRange');
 
         try {
@@ -30,7 +26,17 @@ function transformProjectDateRange(applicationData) {
     return applicationData;
 }
 
-module.exports = function transform(applicationData) {
+function transform(applicationData) {
     // Add additional transforms here
-    return flow(transformProjectDateRange)(applicationData);
+    if (config.get('awardsForAll.enableNewDateRange') === true) {
+        return transformProjectDateRange(applicationData);
+    } else {
+        return applicationData;
+    }
+}
+
+module.exports = {
+    transform,
+    // Export for tests
+    transformProjectDateRange
 };
