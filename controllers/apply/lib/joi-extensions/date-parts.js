@@ -20,7 +20,8 @@ module.exports = function dateParts(joi) {
                 .required()
         }),
         language: {
-            futureDate: 'Date must be at least {{min}}',
+            minDate: 'Date must be on or after {{min}}',
+            maxDate: 'Date must be on or before {{max}}',
             dob: 'Must be at least {{minAge}} years old'
         },
         pre(value, state, options) {
@@ -38,18 +39,39 @@ module.exports = function dateParts(joi) {
         },
         rules: [
             {
-                name: 'futureDate',
+                name: 'minDate',
                 params: {
                     min: joi.string().required()
                 },
                 validate(params, value, state, options) {
                     const date = fromDateParts(value);
+
                     if (date.isValid() && date.isSameOrAfter(params.min)) {
                         return value;
                     } else {
                         return this.createError(
-                            'dateParts.futureDate',
+                            'dateParts.minDate',
                             { v: value, min: params.min },
+                            state,
+                            options
+                        );
+                    }
+                }
+            },
+            {
+                name: 'maxDate',
+                params: {
+                    max: joi.string().required()
+                },
+                validate(params, value, state, options) {
+                    const date = fromDateParts(value);
+
+                    if (date.isValid() && date.isSameOrBefore(params.max)) {
+                        return value;
+                    } else {
+                        return this.createError(
+                            'dateParts.maxDate',
+                            { v: value, max: params.max },
                             state,
                             options
                         );
