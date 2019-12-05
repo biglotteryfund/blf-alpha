@@ -7,6 +7,7 @@ module.exports = initFormRouter({
     eligibilityBuilder: require('./eligibility'),
     formBuilder: require('./form'),
     confirmationBuilder: require('./confirmation'),
+
     transformFunction: require('./transform'),
     expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS
 });
