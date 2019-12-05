@@ -119,14 +119,16 @@
 
 .process-map {
     $circleWidth: 75%;
+    $circleWidthSmaller: 60%;
     $arrowSize: 7px;
     $arrowLineHeight: 10px;
 
     display: flex;
     flex-direction: column;
     max-width: 100% !important;
+    margin-bottom: $spacingUnit;
 
-    @include mq('small') {
+    @include mq('medium') {
         flex-direction: row;
     }
 
@@ -134,7 +136,7 @@
         position: relative;
 
         &.process-map__item--step {
-            @include mq('small') {
+            @include mq('medium') {
                 margin: 0 $spacingUnit;
 
                 &:first-child {
@@ -151,7 +153,6 @@
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
-                width: $circleWidth;
                 text-align: center;
                 z-index: 1;
                 background: white;
@@ -160,6 +161,10 @@
                 text-transform: uppercase;
                 padding: 3px;
                 border: 2px dotted get-color('brand', 'primary');
+                width: $circleWidthSmaller;
+                @include mq('medium') {
+                    width: $circleWidth;
+                }
 
                 // Arrow line
                 span {
@@ -192,12 +197,16 @@
             // Based on https://codepen.io/CrocoDillon/pen/trFam
             .process-map__item-title {
                 position: relative;
-                width: $circleWidth;
                 height: 0;
-                padding: $circleWidth / 2 0;
                 margin: 50px auto 20px auto; // To allow for "you are here"
                 border-radius: 50%;
                 border: 2px solid get-color('brand', 'primary');
+                width: $circleWidthSmaller;
+                padding: $circleWidthSmaller / 2 0;
+                @include mq('medium') {
+                    width: $circleWidth;
+                    padding: $circleWidth / 2 0;
+                }
 
                 // Text inside the circle
                 .process-map__item-title__content {
@@ -216,7 +225,7 @@
 
                         font-size: 18px;
 
-                        @include mq('small') {
+                        @include mq('medium') {
                             font-size: 14px;
                         }
 
@@ -245,11 +254,18 @@
         // Arrow and text pointing to next step
         &.process-map__item--action {
             flex-shrink: 2;
-            @include mq('small') {
+
+            @include mq('medium') {
+                margin-left: -$spacingUnit;
+                margin-right: -$spacingUnit;
+                width: calc(100% + #{$spacingUnit});
+                margin-top: 12%;
+            }
+
+            @include mq('medium-major') {
                 margin-left: -$spacingUnit * 2;
                 margin-right: -$spacingUnit * 2;
                 width: calc(100% + #{$spacingUnit * 2});
-                margin-top: 12%;
             }
 
             $arrowDownLineHeight: 100px;
@@ -262,7 +278,7 @@
                 font-size: 14px;
                 text-align: center;
                 position: relative;
-                @include mq('small', 'max') {
+                @include mq('medium', 'max') {
                     z-index: 1;
                     background-color: white;
                     line-height: 1;
@@ -273,7 +289,7 @@
 
             .process-map__item-action-arrow-right {
                 display: none;
-                @include mq('small') {
+                @include mq('medium') {
                     border-bottom: 2px dotted get-color('brand', 'primary');
                     display: block;
                     position: relative;
@@ -314,7 +330,7 @@
                     border-top: $arrowSize solid get-color('brand', 'primary');
                 }
 
-                @include mq('small') {
+                @include mq('medium') {
                     display: none
                 }
             }
