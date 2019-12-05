@@ -203,8 +203,8 @@
     </label>
 
     {% if field.labelDetails %}
-        {% call details(field.labelDetails.summary, extraClasses = 'ff-help s-prose') %}
-            {{ field.labelDetails.content | safe }}
+        {% call details(field.labelDetails.summary) %}
+            <div class="ff-help s-prose">{{ field.labelDetails.content | safe }}</div>
         {% endcall %}
     {% endif %}
 
