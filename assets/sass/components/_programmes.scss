@@ -122,9 +122,9 @@
     $arrowSize: 7px;
     $arrowLineHeight: 10px;
 
-    max-width: 100% !important;
     display: flex;
     flex-direction: column;
+    max-width: 100% !important;
 
     @include mq('small') {
         flex-direction: row;
@@ -134,13 +134,15 @@
         position: relative;
 
         &.process-map__item--step {
-            margin: 0 $spacingUnit;
+            @include mq('small') {
+                margin: 0 $spacingUnit;
 
-            &:first-child {
-                margin-left: 0;
-            }
-            &:last-child {
-                margin-right: 0;
+                &:first-child {
+                    margin-left: 0;
+                }
+                &:last-child {
+                    margin-right: 0;
+                }
             }
 
             // "You are here" indicator with arrow
@@ -226,8 +228,9 @@
             }
 
             // Accompanying text below circle
-            .process-map__item-description {
+            .process-map__item-description p {
                 font-size: 18px;
+                margin-bottom: 0;
             }
 
             // Settings for completed item(s)
@@ -242,32 +245,80 @@
         // Arrow and text pointing to next step
         &.process-map__item--action {
             flex-shrink: 2;
-            margin-left: -$spacingUnit * 2;
-            margin-right: -$spacingUnit * 2;
-            width: calc(100% + #{$spacingUnit * 2});
-            margin-top: 12%;
+            @include mq('small') {
+                margin-left: -$spacingUnit * 2;
+                margin-right: -$spacingUnit * 2;
+                width: calc(100% + #{$spacingUnit * 2});
+                margin-top: 12%;
+            }
 
-            span {
+            $arrowDownLineHeight: 100px;
+
+            .process-map__item-action-label {
                 padding: 0 10px 5px 10px;
                 display: block;
-                border-bottom: 2px dotted get-color('brand', 'primary');
                 font-family: font-stack('display');
                 font-weight: font-weight('body', 'bold');
                 font-size: 14px;
                 text-align: center;
                 position: relative;
+                @include mq('small', 'max') {
+                    z-index: 1;
+                    background-color: white;
+                    line-height: 1;
+                    top: $arrowDownLineHeight / 2;
+                    margin-bottom: $arrowDownLineHeight / 2;
+                }
+            }
+
+            .process-map__item-action-arrow-right {
+                display: none;
+                @include mq('small') {
+                    border-bottom: 2px dotted get-color('brand', 'primary');
+                    display: block;
+                    position: relative;
+                    &:after {
+                        position: absolute;
+                        bottom: -$arrowSize;
+                        right: -$arrowSize;
+                        content: '';
+                        width: 0;
+                        height: 0;
+                        border-top: $arrowSize solid transparent;
+                        border-bottom: $arrowSize solid transparent;
+                        border-left: $arrowSize solid get-color('brand', 'primary');
+                    }
+                }
+            }
+
+            .process-map__item-action-arrow-down {
+                width: 0;
+                height: $arrowDownLineHeight;
+                display: block;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 0;
+                border-right: 2px dotted get-color('brand', 'primary');
+
                 &:after {
                     position: absolute;
-                    bottom: -$arrowSize;
-                    right: -$arrowSize;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    bottom: -#{$arrowLineHeight - 2px};
                     content: '';
                     width: 0;
                     height: 0;
-                    border-top: $arrowSize solid transparent;
-                    border-bottom: $arrowSize solid transparent;
-                    border-left: $arrowSize solid get-color('brand', 'primary');
+                    border-left: $arrowSize solid transparent;
+                    border-right: $arrowSize solid transparent;
+                    border-top: $arrowSize solid get-color('brand', 'primary');
+                }
+
+                @include mq('small') {
+                    display: none
                 }
             }
+
         }
     }
 
