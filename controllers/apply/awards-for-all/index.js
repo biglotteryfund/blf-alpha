@@ -10,7 +10,7 @@ const { transform } = require('./transforms');
 module.exports = initFormRouter({
     formId: 'awards-for-all',
     eligibilityBuilder: eligibilityBuilder,
-    formBuilder: formBuilder(),
+    formBuilder: formBuilder,
     confirmationBuilder: confirmationBuilder,
     transformFunction: transform,
     expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS
