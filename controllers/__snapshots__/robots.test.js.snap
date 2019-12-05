@@ -2,9 +2,7 @@
 
 exports[`should allow indexing on live domain 1`] = `
 "user-agent: *
-sitemap: https://www.tnlcommunityfund.org.uk/sitemap.xml
-disallow: /funding/grants/
-disallow: /welsh/funding/grants/"
+sitemap: https://www.tnlcommunityfund.org.uk/sitemap.xml"
 `;
 
 exports[`should block indexing on other domains 1`] = `
