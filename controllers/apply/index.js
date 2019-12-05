@@ -14,7 +14,11 @@ router.use(function(req, res, next) {
 });
 
 router.use('/', require('./dashboard'));
-router.get('/your-idea*', (req, res) => res.redirect(res.locals.sectionUrl));
+
+router.get('/your-idea*', function(req, res) {
+    return res.redirect(res.locals.sectionUrl);
+});
+
 router.use('/awards-for-all', require('./awards-for-all'));
 router.use('/your-funding-proposal', require('./standard-proposal'));
 

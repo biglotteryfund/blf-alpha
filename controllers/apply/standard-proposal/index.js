@@ -3,10 +3,13 @@ const path = require('path');
 
 const { initFormRouter } = require('../form-router');
 
+const formBuilder = require('./form');
+const confirmationBuilder = require('./confirmation');
+
 module.exports = initFormRouter({
     formId: 'standard-enquiry',
-    formBuilder: require('./form'),
+    formBuilder: formBuilder,
     startTemplate: path.resolve(__dirname, './views/startpage.njk'),
-    confirmationBuilder: require('./confirmation'),
+    confirmationBuilder: confirmationBuilder,
     isBilingual: false
 });
