@@ -1,201 +1,10 @@
 'use strict';
-const { flatMap } = require('lodash');
+const flatMap = require('lodash/flatMap');
+const flatten = require('lodash/flatten');
+const uniqBy = require('lodash/fp/uniqBy');
 const { makeWelsh } = require('../common/urls');
 
-/**
- * Aliases
- * Redirect aliases added here will also be handled as
- * welsh and regional variants. Used to clean up old URL paths.
- * Newer vanity URLs are handled in the CMS
- * Syntax: { to: from }
- */
-// prettier-ignore
-const aliases = {
-    //===== Global & regions =====//
-    '/home/funding': '/funding',
-    '/Home/Funding/Funding*Finder': '/funding/programmes',
-    '/scotland': '/funding/programmes?location=scotland',
-
-    //===== About =====//
-    '/about-big/contact-us': '/about',
-    '/about-big/countries/about-england/strategic-investments-in-england': '/funding/strategic-investments',
-    '/about-big/customer-service': '/about',
-    '/about-big/customer-service/bogus-lottery-emails': '/about/customer-service/bogus-lottery-emails',
-    '/about-big/customer-service/cookies': '/about/customer-service/cookies',
-    '/about-big/customer-service/customer-feedback': '/about/customer-service/customer-feedback',
-    '/about-big/customer-service/data-protection': '/about/customer-service/data-protection',
-    '/about-big/customer-service/fraud': '/contact#segment-6',
-    '/about-big/customer-service/freedom-of-information': '/about/customer-service/freedom-of-information',
-    '/about-big/customer-service/making-a-complaint': '/contact#segment-5',
-    '/about-big/customer-service/privacy-policy': '/about/customer-service/privacy-policy',
-    '/about-big/customer-service/terms-of-use': '/about/customer-service/terms-of-use',
-    '/about-big/customer-service/welsh-language-scheme': '/about/customer-service/welsh-language-scheme',
-    '/about-big/dormant-account-statement-of-intent': '/funding/funding-guidance/dormant-account-statement-of-intent',
-    '/about-big/dormant-accounts-financial-inclusion-statement-of-intent': '/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent',
-    '/about-big/ebulletin-subscription': '/about/ebulletin',
-    '/about-big/ebulletin': '/about/ebulletin',
-    '/about-big/helping-millions-change-their-lives': '/about/strategic-framework',
-    '/about-big/iwill': '/funding/programmes/iwill-fund',
-    '/about-big/jobs': '/jobs',
-    '/about-big/jobs/benefits': '/jobs/benefits',
-    '/about-big/jobs/current-vacancies': '/jobs',
-    '/about-big/jobs/how-to-apply': '/jobs',
-    '/about-big/our-approach': '/about',
-    '/about-big/our-approach/about-big-lottery-fund': '/about',
-    '/about-big/our-approach/accessibility': '/about/customer-service/accessibility',
-    '/about-big/our-approach/equalities': '/about/customer-service/equalities',
-    '/about-big/our-approach/equalities/learn-about-equality': '/about/customer-service/equalities',
-    '/about-big/our-approach/equalities/northern-ireland-equality': '/about/customer-service/northern-ireland-equality',
-    '/about-big/our-approach/international-funding': '/funding/funding-guidance/international-funding',
-    '/about-big/our-approach/non-lotttery-funding': '/funding/funding-guidance/non-lottery-funding',
-    '/about-big/our-people/': '/about/our-people/',
-    '/about-big/our-people/board': '/about/our-people/board',
-    '/about-big/our-people/england-committee-members': '/about/our-people/england-committee',
-    '/about-big/our-people/northern-ireland-committee-members': '/about/our-people/northern-ireland-committee',
-    '/about-big/our-people/scotland-committee-members': '/about/our-people/scotland-committee',
-    '/about-big/our-people/senior-management-team': '/about/our-people/senior-management-team',
-    '/about-big/our-people/uk-funding-committee': '/about/our-people/uk-funding-committee',
-    '/about-big/our-people/wales-committee-members': '/about/our-people/wales-committee',
-    '/about-big/publications/corporate-documents': '/about/customer-service/corporate-documents',
-    '/about-big/strategic-framework': '/about/strategic-framework',
-    '/about-big/strategic-framework/our-vision': '/about/strategic-framework',
-    '/about-big/tender-opportunities': '/about/customer-service/supplier-zone',
-    '/about-big/thankstoyou-toolkit': '/funding/funding-guidance/thankstoyou-toolkit',
-    '/about/uks-largest-community-funder-to-change-name': '/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name',
-
-    //===== Blog and news =====//
-    '/news-and-events/contact-press-team': '/contact#segment-4',
-    '/blog/2018-10-26/our-new-digital-fund': '/news/blog/2018-10-26/our-new-digital-fund',
-    '/blog/2018-11-15/place-based-funding': '/news/blog/2018-11-15/place-based-funding',
-    '/blog/2018-11-16/a-young-persons-perspective-on-social-action': '/news/blog/2018-11-16/a-young-persons-perspective-on-social-action',
-    '/blog/authors/jenny-raw': '/news/blog?author=jenny-raw',
-    '/blog/authors/julia-parnaby': '/news/blog?author=julia-parnaby',
-    '/blog/authors/tom-steinberg': '/news/blog?author=tom-steinberg',
-    '/blog/digital': '/news/blog?category=digital',
-    '/blog/insight': '/news/blog?category=insight',
-    '/blog/tags/digital-fund': '/news/blog?tag=digital-fund',
-    '/blog/tags/place-based-funding': '/news/blog?tag=place-based-funding',
-
-    //===== Research =====//
-    '/research': '/insights',
-    '/research/place-based-working': '/insights/place-based-working',
-    '/research/youth-employment': '/insights/youth-employment',
-    '/research/youth-serious-violence': '/insights/youth-serious-violence',
-    '/research/social-investment/publications': '/insights/social-investment-publications',
-
-    //===== Funding =====//
-    '/funding/awards-for-all': '/funding/under10k',
-    '/funding/Awards-For-All': '/funding/under10k',
-    '/funding/funding-finder?sc=1': '/funding/programmes/all',
-
-    // Older Managing Your Funding section
-    '/funding/funding-guidance/managing-your-funding': '/funding/managing-your-grant/promoting-your-project',
-    '/funding/funding-guidance/managing-your-funding/social-media': '/funding/managing-your-grant/promoting-your-project/social-media',
-    '/funding/funding-guidance/managing-your-funding/press': '/funding/managing-your-grant/promoting-your-project/your-local-press',
-    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos': '/funding/managing-your-grant/promoting-your-project/download-our-logo',
-    '/funding/funding-guidance/managing-your-funding/ordering-free-materials': '/funding/managing-your-grant/promoting-your-project/order-free-materials',
-    '/funding/funding-guidance/managing-your-funding/data-and-evidence': '/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence',
-    '/funding/under10k/managing-your-grant': '/funding/managing-your-grant/under-10k',
-    // Legacy funding URLs
-    '/funding/funding-guidance': '/funding',
-    '/funding/funding-guidance/applying-for-funding': '/funding',
-    '/funding/funding-guidance/applying-for-funding/full-cost-recovery': '/funding/funding-guidance/full-cost-recovery',
-    '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms': '/funding-guidance/help-using-our-application-forms',
-    '/funding/funding-guidance/applying-for-funding/information-checks': '/funding/funding-guidance/information-checks',
-    '/funding/funding-guidance/managing-your-funding/evaluation': '/funding/funding-guidance/evaluation',
-    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/managing-your-grant/promoting-your-project/download-our-logo',
-    '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads': '/funding/managing-your-grant/promoting-your-project/download-our-logo',
-    '/funding/funding-guidance/managing-your-funding/help-with-publicity': '/funding/managing-your-grant/promoting-your-project',
-    '/funding/funding-guidance/managing-your-funding/logodownloads': '/funding/managing-your-grant/promoting-your-project/download-our-logo',
-    '/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales': '/funding/managing-your-grant/promoting-your-project/order-free-materials',
-    '/funding/funding-guidance/managing-your-funding/self-evaluation': '/funding/funding-guidance/evaluation',
-    '/funding/past-grants': '/funding/grants',
-    '/funding/past-grants/search': '/funding/grants',
-    '/funding/programmes/digital-funding': '/funding/programmes/digital-fund',
-    '/funding/scotland-portfolio/three-approaches': '/funding/funding-guidance/three-approaches-scotland',
-    '/funding/search-past-grants-alpha': '/funding/grants',
-    '/funding/search-past-grants*': '/funding/grants',
-
-    //===== Funding programmes =====//
-    '/global-content/programmes/england/awards-for-all-england': '/funding/programmes/national-lottery-awards-for-all-england',
-    '/global-content/programmes/england/awards-for-all-england/a4alightpilotintro': '/funding/programmes/national-lottery-awards-for-all-england',
-    '/global-content/programmes/england/building-better-opportunities/black-country': '/funding/programmes/building-better-opportunities/black-country',
-    '/global-content/programmes/england/building-better-opportunities/buckinghamshire': '/funding/programmes/building-better-opportunities/buckinghamshire',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies': '/funding/programmes/building-better-opportunities/case-studies',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working': '/funding/programmes/building-better-opportunities/case-studies/lets-get-working',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate': '/funding/programmes/building-better-opportunities/case-studies/colin-maycock',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges': '/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem': '/funding/programmes/building-better-opportunities/case-studies/june-durham',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges': '/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep': '/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem': '/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges': '/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges': '/funding/programmes/building-better-opportunities/case-studies/steve-thorpe',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources': '/funding/programmes/building-better-opportunities/building-better-opportunities-resources',
-    '/global-content/programmes/england/building-better-opportunities/cheshire-and-warrington': '/funding/programmes/building-better-opportunities/cheshire-and-warrington',
-    '/global-content/programmes/england/building-better-opportunities/coast-to-capital': '/funding/programmes/building-better-opportunities/coast-to-capital',
-    '/global-content/programmes/england/building-better-opportunities/cornwall-and-isles-of-scilly': '/funding/programmes/building-better-opportunities/cornwall-and-isles-of-scilly',
-    '/global-content/programmes/england/building-better-opportunities/coventry-and-warwickshire': '/funding/programmes/building-better-opportunities/coventry-and-warwickshire',
-    '/global-content/programmes/england/building-better-opportunities/cumbria': '/funding/programmes/building-better-opportunities/cumbria',
-    '/global-content/programmes/england/building-better-opportunities/derby-derbyshire-nottingham-and-nottinghamshire': '/funding/programmes/building-better-opportunities/derby-derbyshire-nottingham-and-nottinghamshire',
-    '/global-content/programmes/england/building-better-opportunities/dorset': '/funding/programmes/building-better-opportunities/dorset',
-    '/global-content/programmes/england/building-better-opportunities/enterprise-m3': '/funding/programmes/building-better-opportunities/enterprise-m3',
-    '/global-content/programmes/england/building-better-opportunities/gloucestershire': '/funding/programmes/building-better-opportunities/gloucestershire',
-    '/global-content/programmes/england/building-better-opportunities/greater-cambridge-greater-peterborough': '/funding/programmes/building-better-opportunities/greater-cambridge-greater-peterborough',
-    '/global-content/programmes/england/building-better-opportunities/greater-lincolnshire': '/funding/programmes/building-better-opportunities/greater-lincolnshire',
-    '/global-content/programmes/england/building-better-opportunities/greater-manchester': '/funding/programmes/building-better-opportunities/greater-manchester',
-    '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding': '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
-    '/global-content/programmes/england/building-better-opportunities/heart-of-the-south-west': '/funding/programmes/building-better-opportunities/heart-of-the-south-west',
-    '/global-content/programmes/england/building-better-opportunities/hertfordshire': '/funding/programmes/building-better-opportunities/hertfordshire',
-    '/global-content/programmes/england/building-better-opportunities/humber': '/funding/programmes/building-better-opportunities/humber',
-    '/global-content/programmes/england/building-better-opportunities/lancashire': '/funding/programmes/building-better-opportunities/lancashire',
-    '/global-content/programmes/england/building-better-opportunities/leeds-city-region': '/funding/programmes/building-better-opportunities/leeds-city-region',
-    '/global-content/programmes/england/building-better-opportunities/leicester-and-leicestershire': '/funding/programmes/building-better-opportunities/leicester-and-leicestershire',
-    '/global-content/programmes/england/building-better-opportunities/liverpool-city-region': '/funding/programmes/building-better-opportunities/liverpool-city-region',
-    '/global-content/programmes/england/building-better-opportunities/london': '/funding/programmes/building-better-opportunities/london',
-    '/global-content/programmes/england/building-better-opportunities/new-anglia': '/funding/programmes/building-better-opportunities/new-anglia',
-    '/global-content/programmes/england/building-better-opportunities/north-east': '/funding/programmes/building-better-opportunities/north-east',
-    '/global-content/programmes/england/building-better-opportunities/northamptonshire': '/funding/programmes/building-better-opportunities/northamptonshire',
-    '/global-content/programmes/england/building-better-opportunities/oxfordshire': '/funding/programmes/building-better-opportunities/oxfordshire',
-    '/global-content/programmes/england/building-better-opportunities/sheffield-city-region': '/funding/programmes/building-better-opportunities/sheffield-city-region',
-    '/global-content/programmes/england/building-better-opportunities/solent': '/funding/programmes/building-better-opportunities/solent',
-    '/global-content/programmes/england/building-better-opportunities/south-east-midlands': '/funding/programmes/building-better-opportunities/south-east-midlands',
-    '/global-content/programmes/england/building-better-opportunities/south-east': '/funding/programmes/building-better-opportunities/south-east',
-    '/global-content/programmes/england/building-better-opportunities/stoke-on-trent-staffordshire': '/funding/programmes/building-better-opportunities/stoke-on-trent-staffordshire',
-    '/global-content/programmes/england/building-better-opportunities/swindon-and-wiltshire': '/funding/programmes/building-better-opportunities/swindon-and-wiltshire',
-    '/global-content/programmes/england/building-better-opportunities/tees-valley': '/funding/programmes/building-better-opportunities/tees-valley',
-    '/global-content/programmes/england/building-better-opportunities/thames-valley-berkshire': '/funding/programmes/building-better-opportunities/thames-valley-berkshire',
-    '/global-content/programmes/england/building-better-opportunities/the-marches': '/funding/programmes/building-better-opportunities/the-marches',
-    '/global-content/programmes/england/building-better-opportunities/west-of-england': '/funding/programmes/building-better-opportunities/west-of-england',
-    '/global-content/programmes/england/building-better-opportunities/worcestershire': '/funding/programmes/building-better-opportunities/worcestershire',
-    '/global-content/programmes/england/building-better-opportunities/york-north-yorkshire-and-east-riding': '/funding/programmes/building-better-opportunities/york-north-yorkshire-and-east-riding',
-    '/global-content/programmes/england/fulfilling-lives-a-better-start': '/funding/strategic-investments/a-better-start',
-    '/global-content/programmes/england/fulfilling-lives-ageing-better': '/funding/strategic-investments/ageing-better',
-    '/global-content/programmes/england/fulfilling-lives-headstart': '/funding/strategic-investments/headstart',
-    '/global-content/programmes/england/multiple-and-complex-needs': '/funding/strategic-investments/multiple-needs',
-    '/global-content/programmes/england/talent-match' : '/funding/strategic-investments/talent-match',
-    '/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
-    '/global-content/programmes/uk-wide/coastal-communities': '/funding/programmes/coastal-communities-fund',
-    '/global-content/programmes/uk-wide/lottery-funding': '/funding/programmes/other-lottery-funders',
-    '/global-content/programmes/uk-wide/uk-portfolio': '/funding/programmes/awards-from-the-uk-portfolio',
-    '/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
-    '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
-    '/global-content/programmes/wales/rural-programme-community-grants': '/funding/programmes/rural-programme',
-
-    //===== Misc/other =====//
-    '/contact-us': '/contact',
-    '/news-and-events': '/news',
-    '/research/open-data': '/data#open-data',
-    '/about/customer-service/supplier-zone/contracts-finder': '/about/customer-service/supplier-zone',
-    '/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg': '/assets/images/logos/tnlcf/monolingual/colour.png',
-    '/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg': '/assets/images/logos/tnlcf/monolingual/colour.png'
-};
-
-/**
- * Map aliases into an array with all legacy country sections prefixed
- * @type {Array<{ from: string, to: string }>}
- */
-module.exports = flatMap(aliases, (to, from) => {
+function withRegionPrefixes(alias) {
     const prefixes = [
         '',
         '/england',
@@ -203,10 +12,668 @@ module.exports = flatMap(aliases, (to, from) => {
         '/northernireland',
         '/wales'
     ];
-    return flatMap(prefixes, prefix => {
-        const withPrefix = `${prefix}${from}`;
-        const enRedirect = { from: withPrefix, to: to };
-        const cyRedirect = { from: makeWelsh(withPrefix), to: makeWelsh(to) };
-        return [enRedirect, cyRedirect];
+
+    return prefixes.map(prefix => {
+        return { from: `${prefix}${alias.from}`, to: alias.to };
     });
-});
+}
+
+function createAliases(aliases) {
+    return flatMap(uniqBy(alias => alias.from)(flatten(aliases)), alias => {
+        return [
+            alias,
+            { from: makeWelsh(alias.from), to: makeWelsh(alias.to) }
+        ];
+    });
+}
+
+module.exports = createAliases([
+    withRegionPrefixes({
+        from: `/home/funding`,
+        to: `/funding`
+    }),
+    withRegionPrefixes({
+        from: `/Home/Funding/Funding*Finder`,
+        to: `/funding/programmes`
+    }),
+    {
+        from: `/scotland`,
+        to: `/funding/programmes?location=scotland`
+    },
+    withRegionPrefixes({
+        from: `/about-big/contact-us`,
+        to: `/about`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/countries/about-england/strategic-investments-in-england`,
+        to: `/funding/strategic-investments`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service`,
+        to: `/about`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/bogus-lottery-emails`,
+        to: `/about/customer-service/bogus-lottery-emails`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/cookies`,
+        to: `/about/customer-service/cookies`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/customer-feedback`,
+        to: `/about/customer-service/customer-feedback`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/data-protection`,
+        to: `/about/customer-service/data-protection`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/fraud`,
+        to: `/contact#segment-6`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/freedom-of-information`,
+        to: `/about/customer-service/freedom-of-information`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/making-a-complaint`,
+        to: `/contact#segment-5`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/privacy-policy`,
+        to: `/about/customer-service/privacy-policy`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/terms-of-use`,
+        to: `/about/customer-service/terms-of-use`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/customer-service/welsh-language-scheme`,
+        to: `/about/customer-service/welsh-language-scheme`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/dormant-account-statement-of-intent`,
+        to: `/funding/funding-guidance/dormant-account-statement-of-intent`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/dormant-accounts-financial-inclusion-statement-of-intent`,
+        to: `/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/ebulletin-subscription`,
+        to: `/about/ebulletin`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/ebulletin`,
+        to: `/about/ebulletin`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/helping-millions-change-their-lives`,
+        to: `/about/strategic-framework`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/iwill`,
+        to: `/funding/programmes/iwill-fund`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/jobs`,
+        to: `/jobs`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/jobs/benefits`,
+        to: `/jobs/benefits`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/jobs/current-vacancies`,
+        to: `/jobs`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/jobs/how-to-apply`,
+        to: `/jobs`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach`,
+        to: `/about`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach/about-big-lottery-fund`,
+        to: `/about`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach/accessibility`,
+        to: `/about/customer-service/accessibility`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach/equalities`,
+        to: `/about/customer-service/equalities`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach/equalities/learn-about-equality`,
+        to: `/about/customer-service/equalities`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach/equalities/northern-ireland-equality`,
+        to: `/about/customer-service/northern-ireland-equality`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach/international-funding`,
+        to: `/funding/funding-guidance/international-funding`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-approach/non-lotttery-funding`,
+        to: `/funding/funding-guidance/non-lottery-funding`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/`,
+        to: `/about/our-people/`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/board`,
+        to: `/about/our-people/board`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/england-committee-members`,
+        to: `/about/our-people/england-committee`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/northern-ireland-committee-members`,
+        to: `/about/our-people/northern-ireland-committee`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/scotland-committee-members`,
+        to: `/about/our-people/scotland-committee`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/senior-management-team`,
+        to: `/about/our-people/senior-management-team`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/uk-funding-committee`,
+        to: `/about/our-people/uk-funding-committee`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/our-people/wales-committee-members`,
+        to: `/about/our-people/wales-committee`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/publications/corporate-documents`,
+        to: `/about/customer-service/corporate-documents`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/strategic-framework`,
+        to: `/about/strategic-framework`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/strategic-framework/our-vision`,
+        to: `/about/strategic-framework`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/tender-opportunities`,
+        to: `/about/customer-service/supplier-zone`
+    }),
+    withRegionPrefixes({
+        from: `/about-big/thankstoyou-toolkit`,
+        to: `/funding/funding-guidance/thankstoyou-toolkit`
+    }),
+    withRegionPrefixes({
+        from: `/about/uks-largest-community-funder-to-change-name`,
+        to: `/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name`
+    }),
+    withRegionPrefixes({
+        from: `/news-and-events/contact-press-team`,
+        to: `/contact#segment-4`
+    }),
+    {
+        from: `/blog/2018-10-26/our-new-digital-fund`,
+        to: `/news/blog/2018-10-26/our-new-digital-fund`
+    },
+    {
+        from: `/blog/2018-11-15/place-based-funding`,
+        to: `/news/blog/2018-11-15/place-based-funding`
+    },
+    {
+        from: `/blog/2018-11-16/a-young-persons-perspective-on-social-action`,
+        to: `/news/blog/2018-11-16/a-young-persons-perspective-on-social-action`
+    },
+    {
+        from: `/blog/authors/jenny-raw`,
+        to: `/news/blog?author=jenny-raw`
+    },
+    {
+        from: `/blog/authors/julia-parnaby`,
+        to: `/news/blog?author=julia-parnaby`
+    },
+    {
+        from: `/blog/authors/tom-steinberg`,
+        to: `/news/blog?author=tom-steinberg`
+    },
+    {
+        from: `/blog/digital`,
+        to: `/news/blog?category=digital`
+    },
+    {
+        from: `/blog/insight`,
+        to: `/news/blog?category=insight`
+    },
+    {
+        from: `/blog/tags/digital-fund`,
+        to: `/news/blog?tag=digital-fund`
+    },
+    {
+        from: `/blog/tags/place-based-funding`,
+        to: `/news/blog?tag=place-based-funding`
+    },
+    withRegionPrefixes({
+        from: `/research`,
+        to: `/insights`
+    }),
+    withRegionPrefixes({
+        from: `/research/place-based-working`,
+        to: `/insights/place-based-working`
+    }),
+    withRegionPrefixes({
+        from: `/research/youth-employment`,
+        to: `/insights/youth-employment`
+    }),
+    withRegionPrefixes({
+        from: `/research/youth-serious-violence`,
+        to: `/insights/youth-serious-violence`
+    }),
+    withRegionPrefixes({
+        from: `/research/social-investment/publications`,
+        to: `/insights/social-investment-publications`
+    }),
+    withRegionPrefixes({
+        from: `/funding/awards-for-all`,
+        to: `/funding/under10k`
+    }),
+    withRegionPrefixes({
+        from: `/funding/Awards-For-All`,
+        to: `/funding/under10k`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-finder?sc=1`,
+        to: `/funding/programmes/all`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding`,
+        to: `/funding/managing-your-grant/promoting-your-project`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/social-media`,
+        to: `/funding/managing-your-grant/promoting-your-project/social-media`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/press`,
+        to: `/funding/managing-your-grant/promoting-your-project/your-local-press`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos`,
+        to: `/funding/managing-your-grant/promoting-your-project/download-our-logo`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/ordering-free-materials`,
+        to: `/funding/managing-your-grant/promoting-your-project/order-free-materials`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/data-and-evidence`,
+        to: `/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence`
+    }),
+    withRegionPrefixes({
+        from: `/funding/under10k/managing-your-grant`,
+        to: `/funding/managing-your-grant/under-10k`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance`,
+        to: `/funding`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/applying-for-funding`,
+        to: `/funding`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/applying-for-funding/full-cost-recovery`,
+        to: `/funding/funding-guidance/full-cost-recovery`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms`,
+        to: `/funding-guidance/help-using-our-application-forms`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/applying-for-funding/information-checks`,
+        to: `/funding/funding-guidance/information-checks`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/evaluation`,
+        to: `/funding/funding-guidance/evaluation`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads`,
+        to: `/funding/managing-your-grant/promoting-your-project/download-our-logo`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads`,
+        to: `/funding/managing-your-grant/promoting-your-project/download-our-logo`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/help-with-publicity`,
+        to: `/funding/managing-your-grant/promoting-your-project`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/logodownloads`,
+        to: `/funding/managing-your-grant/promoting-your-project/download-our-logo`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/ordering-free-materials/bilingual-materials-for-use-in-wales`,
+        to: `/funding/managing-your-grant/promoting-your-project/order-free-materials`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/managing-your-funding/self-evaluation`,
+        to: `/funding/funding-guidance/evaluation`
+    }),
+    withRegionPrefixes({
+        from: `/funding/past-grants`,
+        to: `/funding/grants`
+    }),
+    withRegionPrefixes({
+        from: `/funding/past-grants/search`,
+        to: `/funding/grants`
+    }),
+    withRegionPrefixes({
+        from: `/funding/programmes/digital-funding`,
+        to: `/funding/programmes/digital-fund`
+    }),
+    withRegionPrefixes({
+        from: `/funding/scotland-portfolio/three-approaches`,
+        to: `/funding/funding-guidance/three-approaches-scotland`
+    }),
+    withRegionPrefixes({
+        from: `/funding/search-past-grants-alpha`,
+        to: `/funding/grants`
+    }),
+    withRegionPrefixes({
+        from: `/funding/search-past-grants*`,
+        to: `/funding/grants`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/awards-for-all-england`,
+        to: `/funding/programmes/national-lottery-awards-for-all-england`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/awards-for-all-england/a4alightpilotintro`,
+        to: `/funding/programmes/national-lottery-awards-for-all-england`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/black-country`,
+        to: `/funding/programmes/building-better-opportunities/black-country`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/buckinghamshire`,
+        to: `/funding/programmes/building-better-opportunities/buckinghamshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies`,
+        to: `/funding/programmes/building-better-opportunities/case-studies`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/lets-get-working`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/colin-maycock`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/june-durham`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges`,
+        to: `/funding/programmes/building-better-opportunities/case-studies/steve-thorpe`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources`,
+        to: `/funding/programmes/building-better-opportunities/building-better-opportunities-resources`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/cheshire-and-warrington`,
+        to: `/funding/programmes/building-better-opportunities/cheshire-and-warrington`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/coast-to-capital`,
+        to: `/funding/programmes/building-better-opportunities/coast-to-capital`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/cornwall-and-isles-of-scilly`,
+        to: `/funding/programmes/building-better-opportunities/cornwall-and-isles-of-scilly`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/coventry-and-warwickshire`,
+        to: `/funding/programmes/building-better-opportunities/coventry-and-warwickshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/cumbria`,
+        to: `/funding/programmes/building-better-opportunities/cumbria`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/derby-derbyshire-nottingham-and-nottinghamshire`,
+        to: `/funding/programmes/building-better-opportunities/derby-derbyshire-nottingham-and-nottinghamshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/dorset`,
+        to: `/funding/programmes/building-better-opportunities/dorset`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/enterprise-m3`,
+        to: `/funding/programmes/building-better-opportunities/enterprise-m3`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/gloucestershire`,
+        to: `/funding/programmes/building-better-opportunities/gloucestershire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/greater-cambridge-greater-peterborough`,
+        to: `/funding/programmes/building-better-opportunities/greater-cambridge-greater-peterborough`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/greater-lincolnshire`,
+        to: `/funding/programmes/building-better-opportunities/greater-lincolnshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/greater-manchester`,
+        to: `/funding/programmes/building-better-opportunities/greater-manchester`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding`,
+        to: `/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/heart-of-the-south-west`,
+        to: `/funding/programmes/building-better-opportunities/heart-of-the-south-west`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/hertfordshire`,
+        to: `/funding/programmes/building-better-opportunities/hertfordshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/humber`,
+        to: `/funding/programmes/building-better-opportunities/humber`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/lancashire`,
+        to: `/funding/programmes/building-better-opportunities/lancashire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/leeds-city-region`,
+        to: `/funding/programmes/building-better-opportunities/leeds-city-region`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/leicester-and-leicestershire`,
+        to: `/funding/programmes/building-better-opportunities/leicester-and-leicestershire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/liverpool-city-region`,
+        to: `/funding/programmes/building-better-opportunities/liverpool-city-region`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/london`,
+        to: `/funding/programmes/building-better-opportunities/london`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/new-anglia`,
+        to: `/funding/programmes/building-better-opportunities/new-anglia`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/north-east`,
+        to: `/funding/programmes/building-better-opportunities/north-east`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/northamptonshire`,
+        to: `/funding/programmes/building-better-opportunities/northamptonshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/oxfordshire`,
+        to: `/funding/programmes/building-better-opportunities/oxfordshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/sheffield-city-region`,
+        to: `/funding/programmes/building-better-opportunities/sheffield-city-region`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/solent`,
+        to: `/funding/programmes/building-better-opportunities/solent`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/south-east-midlands`,
+        to: `/funding/programmes/building-better-opportunities/south-east-midlands`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/south-east`,
+        to: `/funding/programmes/building-better-opportunities/south-east`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/stoke-on-trent-staffordshire`,
+        to: `/funding/programmes/building-better-opportunities/stoke-on-trent-staffordshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/swindon-and-wiltshire`,
+        to: `/funding/programmes/building-better-opportunities/swindon-and-wiltshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/tees-valley`,
+        to: `/funding/programmes/building-better-opportunities/tees-valley`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/thames-valley-berkshire`,
+        to: `/funding/programmes/building-better-opportunities/thames-valley-berkshire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/the-marches`,
+        to: `/funding/programmes/building-better-opportunities/the-marches`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/west-of-england`,
+        to: `/funding/programmes/building-better-opportunities/west-of-england`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/worcestershire`,
+        to: `/funding/programmes/building-better-opportunities/worcestershire`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/building-better-opportunities/york-north-yorkshire-and-east-riding`,
+        to: `/funding/programmes/building-better-opportunities/york-north-yorkshire-and-east-riding`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/fulfilling-lives-a-better-start`,
+        to: `/funding/strategic-investments/a-better-start`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/fulfilling-lives-ageing-better`,
+        to: `/funding/strategic-investments/ageing-better`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/fulfilling-lives-headstart`,
+        to: `/funding/strategic-investments/headstart`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/multiple-and-complex-needs`,
+        to: `/funding/strategic-investments/multiple-needs`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/england/talent-match`,
+        to: `/funding/strategic-investments/talent-match`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/scotland/awards-for-all-scotland`,
+        to: `/funding/programmes/national-lottery-awards-for-all-scotland`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/uk-wide/coastal-communities`,
+        to: `/funding/programmes/coastal-communities-fund`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/uk-wide/lottery-funding`,
+        to: `/funding/programmes/other-lottery-funders`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/uk-wide/uk-portfolio`,
+        to: `/funding/programmes/awards-from-the-uk-portfolio`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/wales/awards-for-all-wales`,
+        to: `/funding/programmes/national-lottery-awards-for-all-wales`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/wales/people-and-places`,
+        to: `/funding/programmes?min=10000&location=wales`
+    }),
+    withRegionPrefixes({
+        from: `/global-content/programmes/wales/rural-programme-community-grants`,
+        to: `/funding/programmes/rural-programme`
+    }),
+    withRegionPrefixes({
+        from: `/contact-us`,
+        to: `/contact`
+    }),
+    withRegionPrefixes({
+        from: `/news-and-events`,
+        to: `/news`
+    }),
+    withRegionPrefixes({
+        from: `/research/open-data`,
+        to: `/data#open-data`
+    }),
+    {
+        from: `/about/customer-service/supplier-zone/contracts-finder`,
+        to: `/about/customer-service/supplier-zone`
+    },
+    {
+        from: `/-/media/Images/Logos/JPEGs/hi_big_e_min_blue.jpg`,
+        to: `/assets/images/logos/tnlcf/monolingual/colour.png`
+    },
+    {
+        from: `/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg`,
+        to: `/assets/images/logos/tnlcf/monolingual/colour.png`
+    }
+]);
