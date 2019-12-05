@@ -136,6 +136,8 @@
         position: relative;
 
         &.process-map__item--step {
+            flex-grow: 1;
+            flex-basis: 0;
             @include mq('medium') {
                 margin: 0 $spacingUnit;
 
@@ -254,6 +256,8 @@
         // Arrow and text pointing to next step
         &.process-map__item--action {
             flex-shrink: 2;
+            flex-grow: 0;
+            flex-basis: 0;
 
             @include mq('medium') {
                 margin-left: -$spacingUnit;

@@ -2,7 +2,7 @@
 {% from "components/form-fields/macros.njk" import formField with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/step-progress/macro.njk" import processMap %}
+{% from "components/process-map/macro.njk" import processMap %}
 
 {% set copy = __('yourFundingProposal.startPage') %}
 {% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
@@ -55,7 +55,7 @@
                 </ul>
             </div>
 
-            {% set process = [
+            {{ processMap([
                 {
                     "type": "step",
                     "title": "Tell us about your funding proposal",
@@ -81,8 +81,7 @@
                     "title": "We'll decide to fund your project or not",
                     "description": "We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not."
                 }
-            ] %}
-            {{ processMap(process) }}
+            ], "You are here") }}
 
             <p class="form-actions u-margin-bottom-l">
                 <a href="{{ newUrl }}" class="btn">{{ copy.startAction }}</a>
