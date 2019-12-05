@@ -10,13 +10,13 @@ const {
     injectHeroImage,
     setCommonLocals
 } = require('../../common/inject-content');
-const { localify } = require('../../common/urls');
-const { buildArchiveUrl } = require('../../common/archived');
-const { getValidLocation, programmeFilters } = require('./helpers');
+const { buildArchiveUrl, localify } = require('../../common/urls');
 const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
 
 const { basicContent, renderFlexibleContentChild } = require('../common');
+
+const { getValidLocation, programmeFilters } = require('./helpers');
 
 const router = express.Router();
 
