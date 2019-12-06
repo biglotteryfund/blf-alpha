@@ -9,12 +9,18 @@ const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const { safeHtml, oneLine } = require('common-tags');
 
+const { isTestServer } = require('../../../common/appData');
+
 const { FormModel } = require('../lib/form-model');
 const fromDateParts = require('../lib/from-date-parts');
 const { formatDateRange } = require('../lib/formatters');
+
+const { getContactFullName } = require('./lib/contacts');
+const { includeAddressAndDob } = require('./lib/schema-helpers');
+const { checkBankAccountDetails } = require('./lib/bank-api');
+
 const {
     BENEFICIARY_GROUPS,
-    CONTACT_EXCLUDED_TYPES,
     ORGANISATION_TYPES,
     COMPANY_NUMBER_TYPES,
     CHARITY_NUMBER_TYPES,
@@ -23,10 +29,6 @@ const {
 
 const fieldsFor = require('./fields');
 const terms = require('./terms');
-const { getContactFullName } = require('./lib/contacts');
-
-const { isTestServer } = require('../../../common/appData');
-const { checkBankAccountDetails } = require('./lib/bank-api');
 
 module.exports = function({
     locale = 'en',
@@ -605,17 +607,6 @@ module.exports = function({
         };
     }
 
-    /**
-     * Determine if we should ask for address and date of birth information.
-     * For data protection reasons we should not request address information
-     * for the organisation types listed here.
-     */
-    function includeAddressAndDob() {
-        return (
-            CONTACT_EXCLUDED_TYPES.includes(currentOrganisationType) === false
-        );
-    }
-
     function stepSeniorContact() {
         return {
             title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
@@ -663,11 +654,11 @@ module.exports = function({
                         const filteredFields = compact([
                             fields.seniorContactRole,
                             fields.seniorContactName,
-                            includeAddressAndDob() &&
+                            includeAddressAndDob(currentOrganisationType) &&
                                 fields.seniorContactDateOfBirth,
-                            includeAddressAndDob() &&
+                            includeAddressAndDob(currentOrganisationType) &&
                                 fields.seniorContactAddress,
-                            includeAddressAndDob() &&
+                            includeAddressAndDob(currentOrganisationType) &&
                                 fields.seniorContactAddressHistory,
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
@@ -759,11 +750,11 @@ module.exports = function({
                             allFields,
                             compact([
                                 fields.mainContactName,
-                                includeAddressAndDob() &&
+                                includeAddressAndDob(currentOrganisationType) &&
                                     fields.mainContactDateOfBirth,
-                                includeAddressAndDob() &&
+                                includeAddressAndDob(currentOrganisationType) &&
                                     fields.mainContactAddress,
-                                includeAddressAndDob() &&
+                                includeAddressAndDob(currentOrganisationType) &&
                                     fields.mainContactAddressHistory,
                                 fields.mainContactEmail,
                                 fields.mainContactPhone,

@@ -16,7 +16,6 @@ const formBuilder = require('./form');
 const {
     BENEFICIARY_GROUPS,
     ORGANISATION_TYPES,
-    CONTACT_EXCLUDED_TYPES,
     COMPANY_NUMBER_TYPES,
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES
@@ -909,7 +908,7 @@ describe('Contacts', () => {
         expect(validationResult.isValid).toBeFalsy();
     });
 
-    test.each(CONTACT_EXCLUDED_TYPES)(
+    test.each(['school', 'college-or-university', 'statutory-body'])(
         'dates of birth and addresses stripped for %p',
         function(excludedOrgType) {
             const validForm = formBuilder({

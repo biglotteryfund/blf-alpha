@@ -41,9 +41,10 @@ const {
     fieldYourIdeaProject
 } = require('./fields/index');
 
+const { stripIfExcludedOrgType } = require('./lib/schema-helpers');
+
 const {
     BENEFICIARY_GROUPS,
-    CONTACT_EXCLUDED_TYPES,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,

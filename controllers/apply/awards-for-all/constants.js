@@ -46,16 +46,6 @@ const ORGANISATION_TYPES = {
     FAITH_GROUP: 'faith-group'
 };
 
-/**
- * Define which organisation types should
- * exclude contact details.
- */
-const CONTACT_EXCLUDED_TYPES = [
-    ORGANISATION_TYPES.SCHOOL,
-    ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
-    ORGANISATION_TYPES.STATUTORY_BODY
-];
-
 const STATUTORY_BODY_TYPES = {
     PARISH_COUNCIL: 'parish-council', // ⛪️
     TOWN_COUNCIL: 'town-council', // 🏙
@@ -136,7 +126,6 @@ const EXPIRY_EMAIL_REMINDERS = [
 module.exports = {
     BENEFICIARY_GROUPS,
     COMPANY_NUMBER_TYPES,
-    CONTACT_EXCLUDED_TYPES,
     FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
     SUGGESTED_PROJECT_DURATION,
