@@ -6,9 +6,6 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 
-const EmailField = require('../lib/field-types/email');
-const PhoneField = require('../lib/field-types/phone');
-
 const {
     fieldAccountingYearDate,
     fieldAddressHistory,
@@ -22,7 +19,10 @@ const {
     fieldContactLanguagePreference,
     fieldEducationNumber,
     fieldMainContactAddress,
+    fieldMainContactCommunicationNeeds,
+    fieldMainContactEmail,
     fieldMainContactName,
+    fieldMainContactPhone,
     fieldOrganisationAddress,
     fieldOrganisationLegalName,
     fieldOrganisationStartDate,
@@ -37,12 +37,15 @@ const {
     fieldProjectPostcode,
     fieldProjectTotalCosts,
     fieldSeniorContactAddress,
+    fieldSeniorContactCommunicationNeeds,
+    fieldSeniorContactEmail,
     fieldSeniorContactName,
     fieldSeniorContactRole,
     fieldTotalIncomeYear,
     fieldYourIdeaCommunity,
     fieldYourIdeaPriorities,
-    fieldYourIdeaProject
+    fieldYourIdeaProject,
+    fieldSeniorContactPhone
 } = require('./fields/index');
 
 const { stripIfExcludedOrgType } = require('./lib/schema-helpers');
@@ -953,56 +956,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale,
             'mainContactAddressHistory'
         ),
-        mainContactEmail: new EmailField({
-            locale: locale,
-            name: 'mainContactEmail',
-            explanation: localise({
-                en: `We’ll use this whenever we get in touch about the project`,
-                cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`
-            }),
-            schema: Joi.string()
-                .email()
-                .lowercase()
-                .invalid(Joi.ref('seniorContactEmail')),
-            messages: [
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: `Main contact email address must be different from the senior contact's email address`,
-                        cy: `Rhaid i gyfeiriad e-bost y prif gyswllt fod yn wahanol i gyfeiriad e-bost yr uwch gyswllt`
-                    })
-                }
-            ]
-        }),
-        mainContactPhone: new PhoneField({
-            locale: locale,
-            name: 'mainContactPhone'
-        }),
-        mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
-            name: 'mainContactLanguagePreference'
-        }),
-        mainContactCommunicationNeeds: {
-            name: 'mainContactCommunicationNeeds',
-            label: localise({
-                en: `Please tell us about any particular communication needs this contact has.`,
-                cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu penodol sydd gan y cyswllt hwn.`
-            }),
-            type: 'text',
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
-            messages: [
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r anghenion cyfathrebu penodol fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
+        mainContactEmail: fieldMainContactEmail(locale),
+        mainContactPhone: fieldMainContactPhone(locale),
+        mainContactLanguagePreference: fieldContactLanguagePreference(
+            locale,
+            'mainContactLanguagePreference'
+        ),
+        mainContactCommunicationNeeds: fieldMainContactCommunicationNeeds(
+            locale
+        ),
         seniorContactRole: fieldSeniorContactRole(locale, data),
         seniorContactName: fieldSeniorContactName(locale),
         seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
@@ -1014,46 +976,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale,
             'seniorContactAddressHistory'
         ),
-        seniorContactEmail: new EmailField({
-            locale: locale,
-            name: 'seniorContactEmail',
-            explanation: localise({
-                en: `We’ll use this whenever we get in touch about the project`,
-                cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`
-            })
-        }),
-        seniorContactPhone: new PhoneField({
-            locale: locale,
-            name: 'seniorContactPhone'
-        }),
+        seniorContactEmail: fieldSeniorContactEmail(locale),
+        seniorContactPhone: fieldSeniorContactPhone(locale),
         seniorContactLanguagePreference: fieldContactLanguagePreference(
             locale,
-            {
-                name: 'seniorContactLanguagePreference'
-            }
+            'seniorContactLanguagePreference'
         ),
-        seniorContactCommunicationNeeds: {
-            name: 'seniorContactCommunicationNeeds',
-            label: localise({
-                en: `Please tell us about any particular communication needs this contact has.`,
-                cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu sydd gan y cyswllt hwn.`
-            }),
-            type: 'text',
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
-            messages: [
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r anghenion cyfathrebu penodol fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
+        seniorContactCommunicationNeeds: fieldSeniorContactCommunicationNeeds(
+            locale
+        ),
         bankAccountName: fieldBankAccountName(locale),
         bankSortCode: fieldBankSortCode(locale),
         bankAccountNumber: fieldBankAccountNumber(locale),
