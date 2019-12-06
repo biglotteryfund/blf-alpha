@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    fieldAddress: require('./address'),
+    fieldAddressHistory: require('./address-history'),
     fieldBankAccountName: require('./bank-account-name'),
     fieldBankAccountNumber: require('./bank-account-number'),
     fieldBankSortCode: require('./bank-sort-code'),
@@ -11,6 +11,7 @@ module.exports = {
     fieldCompanyNumber: require('./company-number'),
     fieldContactLanguagePreference: require('./contact-language-preference'),
     fieldEducationNumber: require('./education-number'),
+    fieldMainContactAddress: require('./main-contact-address'),
     fieldOrganisationAddress: require('./organisation-address'),
     fieldOrganisationLegalName: require('./organisation-legal-name'),
     fieldOrganisationStartDate: require('./organisation-start-date'),
@@ -24,6 +25,7 @@ module.exports = {
     fieldProjectName: require('./project-name'),
     fieldProjectPostcode: require('./project-postcode'),
     fieldProjectTotalCosts: require('./project-total-costs'),
+    fieldSeniorContactAddress: require('./senior-contact-address'),
     fieldSeniorContactRole: require('./senior-contact-role'),
     fieldTotalIncomeYear: require('./total-income-year'),
     fieldYourIdeaCommunity: require('./your-idea-community'),

@@ -2,20 +2,49 @@
 const get = require('lodash/fp/get');
 
 const Joi = require('../../lib/joi-extensions');
+const { stripIfExcludedOrgType } = require('../lib/schema-helpers');
 const { FREE_TEXT_MAXLENGTH } = require('../constants');
 
-module.exports = function(locale, props, additionalMessages = []) {
+module.exports = function(locale, name) {
     const localise = get(locale);
-    const defaultProps = {
-        type: 'address',
+
+    return {
+        type: 'address-history',
+        name: name,
+        label: localise({
+            en: `Have they lived at their home address for the last three years?`,
+            cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
+        }),
         isRequired: true,
-        schema: Joi.ukAddress().required(),
+        schema: stripIfExcludedOrgType(
+            Joi.object({
+                currentAddressMeetsMinimum: Joi.string()
+                    .valid(['yes', 'no'])
+                    .required(),
+                previousAddress: Joi.when(
+                    Joi.ref('currentAddressMeetsMinimum'),
+                    {
+                        is: 'no',
+                        then: Joi.ukAddress().required(),
+                        otherwise: Joi.any().strip()
+                    }
+                )
+            }).required()
+        ),
         messages: [
             {
                 type: 'base',
                 message: localise({
                     en: 'Enter a full UK address',
-                    cy: 'Rhowch gyfeiriad Prydeinig llawn'
+                    cy: 'Rhowch gyfeiriad Prydeining llawn'
+                })
+            },
+            {
+                type: 'any.required',
+                key: 'currentAddressMeetsMinimum',
+                message: localise({
+                    en: 'Choose from one of the options provided',
+                    cy: 'Dewiswch o un o’r opsiynau a ddarperir'
                 })
             },
             {
@@ -51,6 +80,14 @@ module.exports = function(locale, props, additionalMessages = []) {
                 })
             },
             {
+                type: 'any.empty',
+                key: 'county',
+                message: localise({
+                    en: 'Enter a county',
+                    cy: 'Rhowch sir'
+                })
+            },
+            {
                 type: 'string.max',
                 key: 'townCity',
                 message: localise({
@@ -82,8 +119,6 @@ module.exports = function(locale, props, additionalMessages = []) {
                     cy: 'Rhowch gôd post go iawn'
                 })
             }
-        ].concat(additionalMessages)
+        ]
     };
-
-    return { ...defaultProps, ...props };
 };
