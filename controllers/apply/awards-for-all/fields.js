@@ -8,7 +8,6 @@ const Joi = require('../lib/joi-extensions');
 
 const EmailField = require('../lib/field-types/email');
 const PhoneField = require('../lib/field-types/phone');
-const NameField = require('../lib/field-types/name');
 
 const {
     fieldAddressHistory,
@@ -22,6 +21,7 @@ const {
     fieldContactLanguagePreference,
     fieldEducationNumber,
     fieldMainContactAddress,
+    fieldMainContactName,
     fieldOrganisationAddress,
     fieldOrganisationLegalName,
     fieldOrganisationStartDate,
@@ -36,6 +36,7 @@ const {
     fieldProjectPostcode,
     fieldProjectTotalCosts,
     fieldSeniorContactAddress,
+    fieldSeniorContactName,
     fieldSeniorContactRole,
     fieldTotalIncomeYear,
     fieldYourIdeaCommunity,
@@ -974,54 +975,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         totalIncomeYear: fieldTotalIncomeYear(locale),
-        mainContactName: new NameField({
-            locale: locale,
-            name: 'mainContactName',
-            label: localise({
-                en: 'Full name of main contact',
-                cy: 'Enw llawn y prif gyswllt'
-            }),
-            explanation: localise({
-                en: 'This person has to live in the UK.',
-                cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
-            }),
-            get warnings() {
-                let result = [];
-
-                const seniorSurname = get('seniorContactName.lastName')(data);
-
-                const lastNamesMatch =
-                    seniorSurname &&
-                    seniorSurname === get('mainContactName.lastName')(data);
-
-                if (lastNamesMatch) {
-                    result.push(
-                        localise({
-                            en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
-                                     have the same surname. Remember we can't fund projects
-                                     where the two contacts are married or related by blood.</span>`,
-                            cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
-                                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau
-                                     lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`
-                        })
-                    );
-                }
-
-                return result;
-            },
-            schema: Joi.fullName()
-                .compare(Joi.ref('seniorContactName'))
-                .required(),
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Main contact name must be different from the senior contact's name`,
-                        cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`
-                    })
-                }
-            ]
-        }),
+        mainContactName: fieldMainContactName(locale, data),
         mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddiad geni' })
@@ -1082,30 +1036,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         seniorContactRole: fieldSeniorContactRole(locale, data),
-        seniorContactName: new NameField({
-            locale: locale,
-            name: 'seniorContactName',
-            label: localise({
-                en: 'Full name of senior contact',
-                cy: 'Enw llawn yr uwch gyswllt'
-            }),
-            explanation: localise({
-                en: 'This person has to live in the UK.',
-                cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
-            }),
-            schema: Joi.fullName()
-                .compare(Joi.ref('mainContactName'))
-                .required(),
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Senior contact name must be different from the main contact's name`,
-                        cy: `Rhaid i enw’r uwch gyswllt fod yn wahanol i enw’r prif gyswllt`
-                    })
-                }
-            ]
-        }),
+        seniorContactName: fieldSeniorContactName(locale),
         seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddad geni' })
