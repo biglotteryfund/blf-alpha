@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+    fieldAccountingYearDate: require('./accounting-year-date'),
     fieldAddressHistory: require('./address-history'),
     fieldBankAccountName: require('./bank-account-name'),
     fieldBankAccountNumber: require('./bank-account-number'),
