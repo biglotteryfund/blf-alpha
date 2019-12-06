@@ -10,29 +10,30 @@ const EmailField = require('../lib/field-types/email');
 const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
 
+const fieldAddress = require('./fields/address');
+const fieldBankAccountName = require('./fields/bank-account-name');
+const fieldBankAccountNumber = require('./fields/bank-account-number');
+const fieldBankSortCode = require('./fields/bank-sort-code');
+const fieldBankStatement = require('./fields/bank-statement');
+const fieldBuildingSocietyNumber = require('./fields/building-society-number');
+const fieldCharityNumber = require('./fields/charity-number');
+const fieldCompanyNumber = require('./fields/company-number');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
+const fieldEducationNumber = require('./fields/education-number');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectCountry = require('./fields/project-country');
+const fieldProjectDateRange = require('./fields/project-date-range');
+const fieldProjectLocation = require('./fields/project-location');
+const fieldProjectLocationDescription = require('./fields/project-location-description');
+const fieldProjectName = require('./fields/project-name');
+const fieldProjectPostcode = require('./fields/project-postcode');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
-const fieldProjectLocation = require('./fields/project-location');
-const fieldProjectLocationDescription = require('./fields/project-location-description');
-const fieldProjectName = require('./fields/project-name');
-const fieldProjectDateRange = require('./fields/project-date-range');
-const fieldCompanyNumber = require('./fields/company-number');
-const fieldCharityNumber = require('./fields/charity-number');
-const fieldEducationNumber = require('./fields/education-number');
-const fieldAddress = require('./fields/address');
-const fieldBankStatement = require('./fields/bank-statement');
-const fieldBuildingSocietyNumber = require('./fields/building-society-number');
-const fieldBankAccountNumber = require('./fields/bank-account-number');
-const fieldBankSortCode = require('./fields/bank-sort-code');
-const fieldBankAccountName = require('./fields/bank-account-name');
 
 const {
     BENEFICIARY_GROUPS,
@@ -272,41 +273,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: fieldProjectLocationDescription(locale),
-        projectPostcode: {
-            name: 'projectPostcode',
-            label: localise({
-                en: `What is the postcode of where your project will take place?`,
-                cy: `Beth yw côd post lleoliad eich prosiect?`
-            }),
-            explanation: localise({
-                en: oneLine`If your project will take place across different locations,
-                    please use the postcode where most of the project will take place.`,
-                cy: oneLine`Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
-                    defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.`
-            }),
-            type: 'text',
-            attributes: {
-                size: 10,
-                autocomplete: 'postal-code'
-            },
-            isRequired: true,
-            schema: Joi.when('projectCountry', {
-                is: Joi.exist(),
-                then: Joi.string()
-                    .postcode()
-                    .required(),
-                otherwise: Joi.any().strip()
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn'
-                    })
-                }
-            ]
-        },
+        projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale),
         yourIdeaCommunity: fieldYourIdeaCommunity(locale),
