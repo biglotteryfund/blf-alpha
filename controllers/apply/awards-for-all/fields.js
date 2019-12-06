@@ -10,34 +10,36 @@ const EmailField = require('../lib/field-types/email');
 const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
 
-const fieldAddress = require('./fields/address');
-const fieldBankAccountName = require('./fields/bank-account-name');
-const fieldBankAccountNumber = require('./fields/bank-account-number');
-const fieldBankSortCode = require('./fields/bank-sort-code');
-const fieldBankStatement = require('./fields/bank-statement');
-const fieldBuildingSocietyNumber = require('./fields/building-society-number');
-const fieldCharityNumber = require('./fields/charity-number');
-const fieldCompanyNumber = require('./fields/company-number');
-const fieldContactLanguagePreference = require('./fields/contact-language-preference');
-const fieldEducationNumber = require('./fields/education-number');
-const fieldOrganisationAddress = require('./fields/organisation-address');
-const fieldOrganisationLegalName = require('./fields/organisation-legal-name');
-const fieldOrganisationStartDate = require('./fields/organisation-start-date');
-const fieldOrganisationTradingName = require('./fields/organisation-trading-name');
-const fieldOrganisationType = require('./fields/organisation-type');
-const fieldProjectBudget = require('./fields/project-budget');
-const fieldProjectCountry = require('./fields/project-country');
-const fieldProjectDateRange = require('./fields/project-date-range');
-const fieldProjectLocation = require('./fields/project-location');
-const fieldProjectLocationDescription = require('./fields/project-location-description');
-const fieldProjectName = require('./fields/project-name');
-const fieldProjectPostcode = require('./fields/project-postcode');
-const fieldProjectTotalCosts = require('./fields/project-total-costs');
-const fieldSeniorContactRole = require('./fields/senior-contact-role');
-const fieldTotalIncomeYear = require('./fields/total-income-year');
-const fieldYourIdeaCommunity = require('./fields/your-idea-community');
-const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
-const fieldYourIdeaProject = require('./fields/your-idea-project');
+const {
+    fieldAddress,
+    fieldBankAccountName,
+    fieldBankAccountNumber,
+    fieldBankSortCode,
+    fieldBankStatement,
+    fieldBuildingSocietyNumber,
+    fieldCharityNumber,
+    fieldCompanyNumber,
+    fieldContactLanguagePreference,
+    fieldEducationNumber,
+    fieldOrganisationAddress,
+    fieldOrganisationLegalName,
+    fieldOrganisationStartDate,
+    fieldOrganisationTradingName,
+    fieldOrganisationType,
+    fieldProjectBudget,
+    fieldProjectCountry,
+    fieldProjectDateRange,
+    fieldProjectLocation,
+    fieldProjectLocationDescription,
+    fieldProjectName,
+    fieldProjectPostcode,
+    fieldProjectTotalCosts,
+    fieldSeniorContactRole,
+    fieldTotalIncomeYear,
+    fieldYourIdeaCommunity,
+    fieldYourIdeaPriorities,
+    fieldYourIdeaProject
+} = require('./fields/index');
 
 const {
     BENEFICIARY_GROUPS,
