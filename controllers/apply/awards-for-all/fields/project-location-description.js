@@ -10,6 +10,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new Field({
+        locale: locale,
         name: 'projectLocationDescription',
         label: localise({
             en: oneLine`Tell us the towns or villages where people who

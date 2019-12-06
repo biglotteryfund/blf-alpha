@@ -9,6 +9,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new Field({
+        locale: locale,
         name: 'organisationTradingName',
         label: localise({
             en: oneLine`If your organisation uses a different name

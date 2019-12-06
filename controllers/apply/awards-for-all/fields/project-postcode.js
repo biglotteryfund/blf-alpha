@@ -9,6 +9,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new Field({
+        locale: locale,
         name: 'projectPostcode',
         label: localise({
             en: `What is the postcode of where your project will take place?`,

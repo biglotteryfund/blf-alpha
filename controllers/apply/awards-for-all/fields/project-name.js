@@ -7,6 +7,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new Field({
+        locale: locale,
         name: 'projectName',
         label: localise({
             en: 'What is the name of your project?',

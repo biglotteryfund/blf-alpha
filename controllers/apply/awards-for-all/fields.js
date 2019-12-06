@@ -20,9 +20,10 @@ const fieldCharityNumber = require('./fields/charity-number');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldEducationNumber = require('./fields/education-number');
+const fieldOrganisationAddress = require('./fields/organisation-address');
 const fieldOrganisationLegalName = require('./fields/organisation-legal-name');
-const fieldOrganisationTradingName = require('./fields/organisation-trading-name');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
+const fieldOrganisationTradingName = require('./fields/organisation-trading-name');
 const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectBudget = require('./fields/project-budget');
 const fieldProjectCountry = require('./fields/project-country');
@@ -975,17 +976,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationLegalName: fieldOrganisationLegalName(locale),
         organisationTradingName: fieldOrganisationTradingName(locale),
         organisationStartDate: fieldOrganisationStartDate(locale),
-        organisationAddress: fieldAddress(locale, {
-            name: 'organisationAddress',
-            label: localise({
-                en: `What is the main or registered address of your organisation?`,
-                cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
-            }),
-            explanation: localise({
-                en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
-                cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
-            })
-        }),
+        organisationAddress: fieldOrganisationAddress(locale),
         organisationType: fieldOrganisationType(locale),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',

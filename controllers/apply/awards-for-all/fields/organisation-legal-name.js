@@ -9,6 +9,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new Field({
+        locale: locale,
         name: 'organisationLegalName',
         label: localise({
             en: `What is the full legal name of your organisation?`,
