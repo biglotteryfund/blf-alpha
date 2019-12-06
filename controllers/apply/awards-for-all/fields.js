@@ -20,6 +20,8 @@ const fieldCharityNumber = require('./fields/charity-number');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldEducationNumber = require('./fields/education-number');
+const fieldOrganisationLegalName = require('./fields/organisation-legal-name');
+const fieldOrganisationTradingName = require('./fields/organisation-trading-name');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectBudget = require('./fields/project-budget');
@@ -970,73 +972,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        organisationLegalName: {
-            name: 'organisationLegalName',
-            label: localise({
-                en: `What is the full legal name of your organisation?`,
-                cy: `Beth yw enw cyfreithiol llawn eich sefydliad?`
-            }),
-            explanation: localise({
-                en: `<p>
-                    This must be as shown on your <strong>governing document</strong>.
-                    Your governing document could be called one of several things,
-                    depending on the type of organisation you're applying on behalf of.
-                    It may be called a constitution, trust deed, memorandum and
-                    articles of association, or something else entirely.
-                </p>`,
-
-                cy: `<p>
-                    Rhaid i hwn fod fel y dangosir ar eich <strong>dogfen lywodraethol</strong>.
-                    Gall eich dogfen lywodraethol gael ei alw yn un o amryw o bethau,
-                    gan ddibynnu ar y math o sefydliad rydych yn ymgeisio ar ei rhan.
-                    Gall gael ei alw’n gyfansoddiad, gweithred ymddiriedaeth,
-                    memorandwm ac erthyglau cymdeithas, neu rywbeth gwbl wahanol. 
-                </p>`
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter the full legal name of the organisation',
-                        cy: 'Rhowch enw cyfreithiol llawn eich sefydliad'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Full legal name of organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r enw cyfreithiol llawn fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
-        organisationTradingName: {
-            name: 'organisationTradingName',
-            label: localise({
-                en: `If your organisation uses a different name in your day-to-day work, tell us it here`,
-                cy: `Os yw eich sefydliad yn defnyddio enw gwahanol yn eich gwaith dydd i ddydd, dywedwch wrthym yma`
-            }),
-            type: 'text',
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
-            messages: [
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Organisation's day-to-day name must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i enw dydd i ddydd y sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
+        organisationLegalName: fieldOrganisationLegalName(locale),
+        organisationTradingName: fieldOrganisationTradingName(locale),
         organisationStartDate: fieldOrganisationStartDate(locale),
         organisationAddress: fieldAddress(locale, {
             name: 'organisationAddress',
