@@ -21,6 +21,7 @@ const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldProjectLocation = require('./fields/project-location');
+const fieldProjectName = require('./fields/project-name');
 const fieldProjectDateRange = require('./fields/project-date-range');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
@@ -265,38 +266,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     return {
-        projectName: {
-            name: 'projectName',
-            label: localise({
-                en: 'What is the name of your project?',
-                cy: 'Beth yw enw eich prosiect?'
-            }),
-            explanation: localise({
-                en: 'The project name should be simple and to the point',
-                cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.medium)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a project name',
-                        cy: 'Rhowch enw prosiect'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Project name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: `Rhaid i enw’r prosiect fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                    })
-                }
-            ]
-        },
+        projectName: fieldProjectName(locale),
         projectDateRange: fieldProjectDateRange(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
