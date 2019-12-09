@@ -32,7 +32,11 @@ const { checkBankAccountDetails } = require('./lib/bank-api');
 module.exports = function({
     locale = 'en',
     data = {},
-    showAllFields = false
+    showAllFields = false,
+    flags = {
+        // Set default flags based on config, but allow overriding for tests
+        enableNewDateRange: config.get('awardsForAll.enableNewDateRange')
+    }
 } = {}) {
     const localise = get(locale);
 
@@ -54,7 +58,8 @@ module.exports = function({
 
     const fields = fieldsFor({
         locale: locale,
-        data: data
+        data: data,
+        flags: flags
     });
 
     function stepProjectName() {
@@ -69,7 +74,7 @@ module.exports = function({
     }
 
     function stepProjectLength() {
-        const stepFields = config.get('awardsForAll.enableNewDateRange')
+        const stepFields = flags.enableNewDateRange
             ? [fields.projectStartDate, fields.projectEndDate]
             : [fields.projectDateRange];
 
@@ -1309,12 +1314,15 @@ module.exports = function({
 
         const enriched = clone(data);
 
-        const useNewDateSchema =
-            config.get('awardsForAll.enableNewDateRange') &&
+        if (
+            flags.enableNewDateRange &&
             has('projectStartDate')(enriched) &&
-            has('projectEndDate')(enriched);
+            has('projectEndDate')(enriched)
+        ) {
+            enriched.projectStartDate = dateFormat(enriched.projectStartDate);
+            enriched.projectEndDate = dateFormat(enriched.projectEndDate);
 
-        if (useNewDateSchema) {
+            // Support previous schema format
             enriched.projectDateRange = {
                 startDate: dateFormat(enriched.projectStartDate),
                 endDate: dateFormat(enriched.projectEndDate)

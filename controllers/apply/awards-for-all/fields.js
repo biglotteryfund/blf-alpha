@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const moment = require('moment');
@@ -48,7 +47,7 @@ const {
     FREE_TEXT_MAXLENGTH
 } = require('./constants');
 
-module.exports = function fieldsFor({ locale, data = {} }) {
+module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     function multiChoice(options) {
@@ -1787,7 +1786,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }
     };
 
-    if (config.get('awardsForAll.enableNewDateRange')) {
+    if (flags.enableNewDateRange) {
         allFields.projectStartDate = fieldProjectStartDate(locale);
         allFields.projectEndDate = fieldProjectEndDate(locale);
     } else {

@@ -1,5 +1,4 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
 const concat = require('lodash/concat');
 const difference = require('lodash/difference');
@@ -93,8 +92,8 @@ test('valid form for england', () => {
         projectLocation: 'derbyshire'
     });
 
-    const result = formBuilder({ data }).validation;
-    expect(result.error).toBeNull();
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
 });
 
 test('valid form for scotland', () => {
@@ -103,8 +102,8 @@ test('valid form for scotland', () => {
         projectLocation: 'east-lothian'
     });
 
-    const result = formBuilder({ data }).validation;
-    expect(result.error).toBeNull();
+    const form = formBuilder({ data }).validation;
+    expect(form.validation.error).toBeNull();
 });
 
 test('valid form for wales', () => {
@@ -128,6 +127,21 @@ test('valid form for wales', () => {
             'seniorContactLanguagePreference'
         ])
     );
+});
+
+test.only('format form data for salesforce', function() {
+    const data = mockResponse({
+        projectDateRange: {
+            startDate: { day: 3, month: 3, year: 2021 },
+            endDate: { day: 3, month: 3, year: 2021 }
+        }
+    });
+
+    const result = formBuilder({ data: data }).forSalesforce();
+    expect(result.projectDateRange).toEqual({
+        startDate: '2021-03-03',
+        endDate: '2021-03-03'
+    });
 });
 
 test('valid form for northern-ireland', () => {
@@ -221,45 +235,96 @@ test('featured messages based on allow list', () => {
     );
     expect(messages).toContainEqual('Senior contact role is not valid');
 });
-//
-describe('Project details', () => {
-    test('project dates must be within range', () => {
-        assertMessagesByKey(
-            { projectDateRange: { startDate: null, endDate: null } },
-            ['Enter a project start and end date']
-        );
 
-        assertMessagesByKey(
-            {
-                projectDateRange: {
-                    startDate: { day: 31, month: 2, year: 2030 },
-                    endDate: { day: 31, month: 24, year: 2030 }
-                }
-            },
-            [expect.stringMatching('must be real dates')]
-        );
+test('project dates must be within range', () => {
+    function validateDateRange(start, end, messages) {
+        const data = mockResponse({
+            projectDateRange: { startDate: start, endDate: end }
+        });
 
-        assertMessagesByKey(
-            {
-                projectDateRange: {
-                    startDate: { day: 1, month: 1, year: 2020 },
-                    endDate: { day: 1, month: 1, year: 2021 }
-                }
-            },
-            [expect.stringMatching(/Date you start the project must be after/)]
-        );
+        const form = formBuilder({ data });
 
-        assertMessagesByKey(
-            {
-                projectDateRange: {
-                    startDate: toDateParts(moment().add('25', 'weeks')),
-                    endDate: toDateParts(moment().add('2', 'years'))
-                }
-            },
-            [expect.stringMatching(/Date you end the project must be within/)]
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining(messages)
         );
+    }
+
+    validateDateRange(null, null, ['Enter a project start and end date']);
+
+    validateDateRange(
+        { day: 1, month: 1, year: 2020 },
+        { day: 1, month: 1, year: 2021 },
+        [expect.stringMatching(/Date you start the project must be after/)]
+    );
+
+    validateDateRange(
+        toDateParts(moment().add('25', 'weeks')),
+        toDateParts(moment().add('2', 'years')),
+        [expect.stringMatching(/Date you end the project must be within/)]
+    );
+});
+
+test('support new project date schema', function() {
+    const data = mockResponse({
+        projectStartDate: { day: 3, month: 3, year: 2021 },
+        projectEndDate: { day: 3, month: 4, year: 2021 }
     });
 
+    const form = formBuilder({
+        data: data,
+        flags: { enableNewDateRange: true }
+    });
+
+    expect(form.validation.error).toBeNull();
+
+    function validateDateRange(start, end, messages) {
+        const data = mockResponse({
+            projectStartDate: start,
+            projectEndDate: end
+        });
+
+        const form = formBuilder({
+            data,
+            flags: { enableNewDateRange: true }
+        });
+
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining(messages)
+        );
+    }
+
+    validateDateRange(null, null, [
+        'Enter a project start date',
+        'Enter a project end date'
+    ]);
+
+    validateDateRange(
+        { day: 1, month: 1, year: 2020 },
+        { day: 1, month: 1, year: 2021 },
+        [
+            expect.stringMatching(
+                /Date you start the project must be on or after/
+            )
+        ]
+    );
+
+    validateDateRange(
+        toDateParts(moment().add('25', 'weeks')),
+        toDateParts(moment().add('2', 'years')),
+        [expect.stringMatching(/Date you end the project must be within/)]
+    );
+
+    // Maintain backwards compatibility with salesforce schema
+    const salesforceResult = form.forSalesforce();
+    expect(salesforceResult.projectStartDate).toBe('2021-03-03');
+    expect(salesforceResult.projectEndDate).toBe('2021-04-03');
+    expect(salesforceResult.projectDateRange).toEqual({
+        startDate: '2021-03-03',
+        endDate: '2021-04-03'
+    });
+});
+
+describe('Project details', () => {
     test('project postcode must be a valid UK postcode', () => {
         const invalidMessages = ['Enter a real postcode'];
         assertMessagesByKey(
