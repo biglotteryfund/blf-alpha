@@ -57,23 +57,14 @@ function mockBeneficiaries(checkAnswer = 'yes') {
 }
 
 function mockResponse(overrides = {}) {
-    const projectCountry =
-        overrides.projectCountry ||
-        sample(['england', 'scotland', 'wales', 'northern-ireland']);
-
     const defaults = {
         projectName: faker.lorem.words(5),
-        projectCountry: projectCountry,
+        projectCountry: 'england',
         projectDateRange: {
             startDate: toDateParts(moment().add(18, 'weeks')),
             endDate: toDateParts(moment().add(30, 'weeks'))
         },
-        projectLocation: {
-            'england': 'derbyshire',
-            'scotland': 'east-lothian',
-            'wales': 'caerphilly',
-            'northern-ireland': 'mid-ulster'
-        }[projectCountry],
+        projectLocation: 'derbyshire',
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',
         yourIdeaProject: faker.lorem.words(random(50, 250)),
@@ -98,11 +89,6 @@ function mockResponse(overrides = {}) {
         beneficiariesGroupsDisabledPeople: ['sensory'],
         beneficiariesGroupsReligion: ['sikh'],
         beneficiariesGroupsReligionOther: undefined,
-        beneficiariesWelshLanguage: projectCountry === 'wales' ? 'all' : null,
-        beneficiariesNorthernIrelandCommunity:
-            projectCountry === 'northern-ireland'
-                ? 'both-catholic-and-protestant'
-                : null,
         organisationLegalName: faker.company.companyName(),
         organisationTradingName: faker.company.companyName(),
         organisationStartDate: { month: 9, year: 1986 },
@@ -126,8 +112,6 @@ function mockResponse(overrides = {}) {
         },
         mainContactEmail: faker.internet.exampleEmail(),
         mainContactPhone: '0345 4 10 20 30',
-        mainContactLanguagePreference:
-            projectCountry === 'wales' ? 'welsh' : null,
         mainContactCommunicationNeeds: '',
         seniorContactName: {
             firstName: faker.name.firstName(),
@@ -142,8 +126,6 @@ function mockResponse(overrides = {}) {
         },
         seniorContactEmail: faker.internet.exampleEmail(),
         seniorContactPhone: '020 7211 1888',
-        seniorContactLanguagePreference:
-            projectCountry === 'wales' ? 'welsh' : null,
         seniorContactCommunicationNeeds: '',
         bankAccountName: faker.company.companyName(),
         bankSortCode: '308087',
@@ -162,7 +144,7 @@ function mockResponse(overrides = {}) {
         termsPersonPosition: faker.name.jobTitle()
     };
 
-    return Object.assign(defaults, overrides);
+    return Object.assign({}, defaults, overrides);
 }
 
 module.exports = {

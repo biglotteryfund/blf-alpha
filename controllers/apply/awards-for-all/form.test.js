@@ -87,17 +87,65 @@ test('empty form', () => {
     expect(form.progress).toMatchSnapshot();
 });
 
-test.each(['england', 'scotland', 'northern-ireland', 'wales'])(
-    'valid form for %p',
-    function(projectCountry) {
-        const form = formBuilder({
-            data: mockResponse({ projectCountry })
-        });
+test('valid form for england', () => {
+    const data = mockResponse({
+        projectCountry: 'england',
+        projectLocation: 'derbyshire'
+    });
 
-        expect(form.validation.error).toBeNull();
-        expect(form.progress.isComplete).toBeTruthy();
-    }
-);
+    const result = formBuilder({ data }).validation;
+    expect(result.error).toBeNull();
+});
+
+test('valid form for scotland', () => {
+    const data = mockResponse({
+        projectCountry: 'scotland',
+        projectLocation: 'east-lothian'
+    });
+
+    const result = formBuilder({ data }).validation;
+    expect(result.error).toBeNull();
+});
+
+test('valid form for wales', () => {
+    const data = mockResponse({
+        projectCountry: 'wales',
+        projectLocation: 'caerphilly',
+        // Additional questions required in Wales
+        beneficiariesWelshLanguage: 'all',
+        mainContactLanguagePreference: 'welsh',
+        seniorContactLanguagePreference: 'welsh'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+
+    // Test for existence of country specific fields
+    expect(form.getCurrentFields().map(field => field.name)).toEqual(
+        expect.arrayContaining([
+            'beneficiariesWelshLanguage',
+            'mainContactLanguagePreference',
+            'seniorContactLanguagePreference'
+        ])
+    );
+});
+
+test('valid form for northern-ireland', () => {
+    const data = mockResponse({
+        projectCountry: 'northern-ireland',
+        projectLocation: 'mid-ulster',
+        // Additional questions required in Northern-Ireland
+        beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+
+    // Test for existence of country specific fields
+    expect(form.getCurrentFields().map(field => field.name)).toEqual(
+        expect.arrayContaining(['beneficiariesNorthernIrelandCommunity'])
+    );
+});
 
 test.each(
     Object.entries({
@@ -173,7 +221,7 @@ test('featured messages based on allow list', () => {
     );
     expect(messages).toContainEqual('Senior contact role is not valid');
 });
-
+//
 describe('Project details', () => {
     test('project dates must be within range', () => {
         assertMessagesByKey(
@@ -345,80 +393,6 @@ describe('Who will benefit', () => {
 
         assertValidByKey(mockBeneficiaries('yes'));
     });
-
-    test.each([
-        ['northern-ireland', ['beneficiariesNorthernIrelandCommunity']],
-        ['wales', ['beneficiariesWelshLanguage']]
-    ])('additional beneficiary field in %p - %p', function(
-        country,
-        additionalFieldNames
-    ) {
-        const form = formBuilder({
-            data: { projectCountry: country }
-        });
-
-        expect(form.getCurrentFields().map(field => field.name)).toEqual(
-            expect.arrayContaining(additionalFieldNames)
-        );
-    });
-
-    test('welsh language question required in wales', () => {
-        assertValidByKey({
-            projectCountry: 'wales',
-            beneficiariesWelshLanguage: 'all'
-        });
-
-        [undefined, 'not-a-valid-choice'].forEach(input => {
-            assertMessagesByKey(
-                {
-                    projectCountry: 'wales',
-                    beneficiariesWelshLanguage: input
-                },
-                [
-                    expect.stringContaining(
-                        'Select the amount of people who speak Welsh'
-                    )
-                ]
-            );
-        });
-    });
-
-    test.each(['england', 'scotland', 'northern-ireland'])(
-        `welsh language question not required in %p`,
-        function(country) {
-            assertValidByKey({
-                projectCountry: country,
-                beneficiariesWelshLanguage: undefined
-            });
-        }
-    );
-
-    test('additional community question required in Northern Ireland', () => {
-        assertValidByKey({
-            projectCountry: 'northern-ireland',
-            beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
-        });
-
-        [undefined, 'not-a-valid-choice'].forEach(input => {
-            assertMessagesByKey(
-                {
-                    projectCountry: 'northern-ireland',
-                    beneficiariesNorthernIrelandCommunity: input
-                },
-                [expect.stringContaining('Select the community')]
-            );
-        });
-    });
-
-    test.each(['england', 'scotland', 'wales'])(
-        `northern ireland community questions not required in %p`,
-        function(country) {
-            assertValidByKey({
-                projectCountry: country,
-                beneficiariesNorthernIrelandCommunity: undefined
-            });
-        }
-    );
 });
 
 describe('Your organisation', () => {
@@ -928,36 +902,6 @@ describe('Contacts', () => {
                 }
             })
         ).toMatchSnapshot();
-    });
-
-    test.each([
-        'mainContactLanguagePreference',
-        'seniorContactLanguagePreference'
-    ])('%p must exist and be a valid choice for Wales', function(fieldName) {
-        assertValidByKey({
-            projectCountry: 'england'
-        });
-
-        assertMessagesByKey(
-            {
-                projectCountry: 'wales',
-                [fieldName]: null
-            },
-            [expect.stringContaining('Select a language')]
-        );
-
-        assertValidByKey({
-            projectCountry: 'wales',
-            [fieldName]: 'welsh'
-        });
-
-        assertMessagesByKey(
-            {
-                projectCountry: 'wales',
-                [fieldName]: 'klingon'
-            },
-            [expect.stringContaining('Select a language')]
-        );
     });
 });
 
