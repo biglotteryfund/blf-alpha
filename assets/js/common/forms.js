@@ -205,7 +205,7 @@ function initHotjarTracking() {
 // Update the Login link to Logout if user signs in
 function updateSecondaryNav() {
     getUserSession().then(response => {
-        if (response.userType === 'user') {
+        if (response.userType !== 'staff') {
             const $accountLink = response.isAuthenticated
                 ? $('.js-toggle-logout')
                 : $('.js-toggle-login');
