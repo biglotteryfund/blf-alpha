@@ -118,8 +118,10 @@
    ========================================================================= */
 
 .process-map {
-    $circleWidth: 75%;
-    $circleWidthSmaller: 60%;
+    $circleWidthLarge: 75%;
+    $circleWidthMedium: 60%;
+    $circleWidthSmall: 40%;
+    $midSizeBreakpoint: 500px;
     $arrowSize: 7px;
     $arrowLineHeight: 10px;
 
@@ -163,9 +165,14 @@
                 text-transform: uppercase;
                 padding: 3px;
                 border: 2px dotted get-color('brand', 'primary');
-                width: $circleWidthSmaller;
+                width: $circleWidthMedium;
+
+                @media only screen and (min-width: $midSizeBreakpoint) {
+                    width: $circleWidthSmall;
+                }
+
                 @include mq('medium') {
-                    width: $circleWidth;
+                    width: $circleWidthLarge;
                 }
 
                 // Arrow line
@@ -203,11 +210,17 @@
                 margin: 50px auto 20px auto; // To allow for "you are here"
                 border-radius: 50%;
                 border: 2px solid get-color('brand', 'primary');
-                width: $circleWidthSmaller;
-                padding: $circleWidthSmaller / 2 0;
+                width: $circleWidthMedium;
+                padding: $circleWidthMedium / 2 0;
+
+                @media only screen and (min-width: $midSizeBreakpoint) {
+                    width: $circleWidthSmall;
+                    padding: $circleWidthSmall / 2 0;
+                }
+
                 @include mq('medium') {
-                    width: $circleWidth;
-                    padding: $circleWidth / 2 0;
+                    width: $circleWidthLarge;
+                    padding: $circleWidthLarge / 2 0;
                 }
 
                 // Text inside the circle
