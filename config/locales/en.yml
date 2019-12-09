@@ -1769,4 +1769,19 @@ yourFundingProposal:
       items:
         - We'll email you to let you know we got your proposal
         - Then we'll get in touch to talk about your proposal within 15 working days.
+    processMap:
+      youAreHere: You are here
+      actions:
+        proposalReviewed: Proposal reviewed
+        applicationAssessed: Application assessed
+      steps:
+        tellUsYourIdea:
+          title: Tell us about your funding proposal
+          description: You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.
+        askYouToApply:
+          title: We might then ask you to apply
+          description: If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future.
+        decideToFund:
+          title: We'll decide to fund your project or not
+          description: We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not.
     startAction: Start your proposal

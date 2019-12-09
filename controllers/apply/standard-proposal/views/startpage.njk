@@ -58,30 +58,30 @@
             {{ processMap([
                 {
                     "type": "step",
-                    "title": "Tell us about your funding proposal",
-                    "description": "You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.",
+                    "title": copy.processMap.steps.tellUsYourIdea.title,
+                    "description": copy.processMap.steps.tellUsYourIdea.description,
                     "isCompleted": true,
                     "isCurrent": true
                 },
                 {
                     "type": "action",
-                    "title": "Proposal reviewed"
+                    "title": copy.processMap.actions.proposalReviewed
                 },
                 {
                     "type": "step",
-                    "title": "We might then ask you to apply",
-                    "description": "If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future."
+                    "title": copy.processMap.steps.askYouToApply.title,
+                    "description": copy.processMap.steps.askYouToApply.description
                 },
                 {
                     "type": "action",
-                    "title": "Application assessed"
+                    "title": copy.processMap.actions.applicationAssessed
                 },
                 {
                     "type": "step",
-                    "title": "We'll decide to fund your project or not",
-                    "description": "We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not."
+                    "title": copy.processMap.steps.decideToFund.title,
+                    "description": copy.processMap.steps.decideToFund.description
                 }
-            ], "You are here") }}
+            ], copy.processMap.youAreHere) }}
 
             <p class="form-actions u-margin-bottom-l">
                 <a href="{{ newUrl }}" class="btn">{{ copy.startAction }}</a>
