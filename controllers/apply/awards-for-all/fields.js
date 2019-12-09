@@ -7,6 +7,7 @@ const { oneLine } = require('common-tags');
 const Joi = require('../lib/joi-extensions');
 
 const EmailField = require('../lib/field-types/email');
+const DateField = require('../lib/field-types/date');
 const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
 
@@ -193,40 +194,40 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function dateOfBirthField(minAge, props) {
-        const exampleDateFormat = '30 03 1980';
-        const defaultProps = {
+    function dateOfBirthField(name, minAge) {
+        const minDate = moment()
+            .subtract(120, 'years')
+            .format('YYYY-MM-DD');
+
+        const maxDate = moment()
+            .subtract(minAge, 'years')
+            .format('YYYY-MM-DD');
+
+        return new DateField({
+            locale: locale,
+            name: name,
+            label: localise({ en: 'Date of birth', cy: 'Dyddad geni' }),
             explanation: localise({
-                en: `
-                    <p>
-                        We need their date of birth to help confirm who they are.
-                        And we do check their date of birth. So make sure you've entered it right.
-                        If you don't, it could delay your application.
-                    </p>
-                    <p>
-                        <strong>For example: ${exampleDateFormat}</strong>
-                    </p>
-                `,
-                cy: `
-                    <p>
-                        Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
-                        Rydym yn gwirio eu dyddiad geni. Felly sicrhewch eich bod wedi ei roi yn gywir.
-                        Os nad ydych, gall oedi eich cais.
-                    </p>
-                    <p>
-                        <strong>Er enghraifft: ${exampleDateFormat}</strong>
-                    </p>`
+                en: `<p>
+                    We need their date of birth to help confirm who they are.
+                    And we do check their date of birth.
+                    So make sure you've entered it right.
+                    If you don't, it could delay your application.
+                </p>
+                <p><strong>For example: 30 03 1980</strong></p>`,
+                cy: `<p>
+                    Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
+                    Rydym yn gwirio eu dyddiad geni.
+                    Felly sicrhewch eich bod wedi ei roi yn gywir.
+                    Os nad ydych, gall oedi eich cais.
+                </p>
+                <p><strong>Er enghraifft: 30 03 1980</strong></p>`
             }),
-            type: 'date',
-            attributes: {
-                max: moment()
-                    .subtract(minAge, 'years')
-                    .format('YYYY-MM-DD')
-            },
-            isRequired: true,
+            attributes: { max: maxDate },
             schema: stripIfExcludedOrgType(
                 Joi.dateParts()
-                    .dob(minAge)
+                    .minDate(minDate)
+                    .maxDate(maxDate)
                     .required()
             ),
             messages: [
@@ -238,30 +239,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: 'Enter a real date',
-                        cy: 'Rhowch ddyddiad go iawn'
-                    })
-                },
-                {
-                    type: 'dateParts.dob',
+                    type: 'dateParts.maxDate',
                     message: localise({
                         en: `Must be at least ${minAge} years old`,
                         cy: `Rhaid bod yn o leiaf ${minAge} oed`
                     })
                 },
                 {
-                    type: 'dateParts.dob.tooOld',
+                    type: 'dateParts.minDate',
                     message: localise({
-                        en: `Their birth date is not valid—please use four digits, eg. 1986`,
-                        cy: `Nid yw’r dyddiad geni yn ddilys—defnyddiwch bedwar digid, e.e. 1986`
+                        en: oneLine`Their birth date is not valid—please
+                            use four digits, eg. 1986`,
+                        cy: oneLine`Nid yw’r dyddiad geni yn ddilys—defnyddiwch
+                            bedwar digid, e.e. 1986`
                     })
                 }
             ]
-        };
-
-        return { ...defaultProps, ...props };
+        });
     }
 
     return {
@@ -1419,10 +1413,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         }),
-        mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
-            name: 'mainContactDateOfBirth',
-            label: localise({ en: 'Date of birth', cy: 'Dyddiad geni' })
-        }),
+        mainContactDateOfBirth: dateOfBirthField(
+            'mainContactDateOfBirth',
+            MIN_AGE_MAIN_CONTACT
+        ),
         mainContactAddress: fieldAddress(
             locale,
             {
@@ -1535,10 +1529,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         }),
-        seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
-            name: 'seniorContactDateOfBirth',
-            label: localise({ en: 'Date of birth', cy: 'Dyddad geni' })
-        }),
+        seniorContactDateOfBirth: dateOfBirthField(
+            'seniorContactDateOfBirth',
+            MIN_AGE_SENIOR_CONTACT
+        ),
         seniorContactAddress: fieldAddress(
             locale,
             {
