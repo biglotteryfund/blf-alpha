@@ -3,5 +3,8 @@
   "features": {
     "enableSeeders": true,
     "enableSalesforceConnector": false
+  },
+  "awardsForAll": {
+    "enableNewDateRange": true
   }
 }
