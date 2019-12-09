@@ -256,7 +256,7 @@
                                                 'value': ''
                                             }), entriesMeta.programmes) %}
                                                 <option value="{{ option.value }}"
-                                                    {% if field.value === entriesMeta.activeProgramme.value %} selected{% endif %}>
+                                                    {% if option.value === entriesMeta.activeProgramme.value %} selected{% endif %}>
                                                     {{ option.label }}
                                                 </option>
                                             {% endfor %}
@@ -274,7 +274,7 @@
                                                 'value': ''
                                             }), entriesMeta.portfolios) %}
                                                 <option value="{{ option.value }}"
-                                                    {% if field.value === entriesMeta.activePortfolio.value %} selected{% endif %}>
+                                                    {% if option.value === entriesMeta.activePortfolio.value %} selected{% endif %}>
                                                     {{ option.label }}
                                                 </option>
                                             {% endfor %}
@@ -296,7 +296,7 @@
                                                         <input
                                                             type="radio"
                                                             id="field-doctype-{{ loop.index }}"
-                                                            name="{{ field.name }}"
+                                                            name="doctype"
                                                             value="{{ option.value }}"
                                                             {% if entriesMeta.activeDocType.value === option.value %}checked{% endif %}
                                                         />
