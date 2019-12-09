@@ -81,7 +81,7 @@ test('validate model shape', () => {
 });
 
 test('empty form', () => {
-    const form = formBuilder();
+    const form = formBuilder({ flags: { enableNewDateRange: false } });
     expect(mapMessageSummary(form.validation)).toMatchSnapshot();
     expect(form.progress).toMatchSnapshot();
 });
@@ -102,7 +102,7 @@ test('valid form for scotland', () => {
         projectLocation: 'east-lothian'
     });
 
-    const form = formBuilder({ data }).validation;
+    const form = formBuilder({ data });
     expect(form.validation.error).toBeNull();
 });
 
@@ -127,21 +127,6 @@ test('valid form for wales', () => {
             'seniorContactLanguagePreference'
         ])
     );
-});
-
-test.only('format form data for salesforce', function() {
-    const data = mockResponse({
-        projectDateRange: {
-            startDate: { day: 3, month: 3, year: 2021 },
-            endDate: { day: 3, month: 3, year: 2021 }
-        }
-    });
-
-    const result = formBuilder({ data: data }).forSalesforce();
-    expect(result.projectDateRange).toEqual({
-        startDate: '2021-03-03',
-        endDate: '2021-03-03'
-    });
 });
 
 test('valid form for northern-ireland', () => {
@@ -226,7 +211,8 @@ test('featured messages based on allow list', () => {
                 endDate: { day: 31, month: 1, year: 2019 }
             },
             seniorContactRole: 'not-a-real-role'
-        }
+        },
+        flags: { enableNewDateRange: false }
     });
 
     const messages = form.validation.featuredMessages.map(item => item.msg);
@@ -242,7 +228,10 @@ test('project dates must be within range', () => {
             projectDateRange: { startDate: start, endDate: end }
         });
 
-        const form = formBuilder({ data });
+        const form = formBuilder({
+            data,
+            flags: { enableNewDateRange: false }
+        });
 
         expect(mapMessages(form.validation)).toEqual(
             expect.arrayContaining(messages)

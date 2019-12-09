@@ -1361,6 +1361,8 @@ module.exports = function({
         allFields: fields,
         featuredErrorsAllowList: [
             { fieldName: 'projectDateRange', includeBase: false },
+            { fieldName: 'projectStartDate', includeBase: false },
+            { fieldName: 'projectEndDate', includeBase: false },
             { fieldName: 'seniorContactRole', includeBase: false },
             { fieldName: 'mainContactName', includeBase: false },
             { fieldName: 'mainContactEmail', includeBase: false },

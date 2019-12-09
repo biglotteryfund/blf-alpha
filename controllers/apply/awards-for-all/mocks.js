@@ -2,7 +2,6 @@
 const faker = require('faker');
 const moment = require('moment');
 const random = require('lodash/random');
-const sample = require('lodash/sample');
 
 function toDateParts(dt) {
     return { day: dt.date(), month: dt.month() + 1, year: dt.year() };
@@ -60,10 +59,8 @@ function mockResponse(overrides = {}) {
     const defaults = {
         projectName: faker.lorem.words(5),
         projectCountry: 'england',
-        projectDateRange: {
-            startDate: toDateParts(moment().add(18, 'weeks')),
-            endDate: toDateParts(moment().add(30, 'weeks'))
-        },
+        projectStartDate: toDateParts(moment().add(18, 'weeks')),
+        projectEndDate: toDateParts(moment().add(30, 'weeks')),
         projectLocation: 'derbyshire',
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',
