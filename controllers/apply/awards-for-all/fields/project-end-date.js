@@ -15,12 +15,13 @@ module.exports = function(locale) {
         name: 'projectEndDate',
         label: localise({
             en: `When would you like to finish your project?`,
-            cy: ``
+            cy: `Pryd hoffech orffen eich prosiect?`
         }),
         explanation: localise({
             en: oneLine`Your project can finish up to 12 months after it starts.
                 It can even be as short as just one day`,
-            cy: ``
+            cy: oneLine`Gall eich prosiect orffen hyd at 12 mis wedi iddo gychwyn.
+                Gall fod mor fyr ag un diwrnod yn unig.`
         }),
         schema: Joi.dateParts()
             .minDateRef(Joi.ref('projectStartDate'))
@@ -33,8 +34,8 @@ module.exports = function(locale) {
             {
                 type: 'base',
                 message: localise({
-                    en: 'Enter a project end date',
-                    cy: ''
+                    en: `Enter a project end date`,
+                    cy: `Cofnodwch ddyddiad gorffen i’ch prosiect`
                 })
             },
             {

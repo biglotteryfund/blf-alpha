@@ -13,20 +13,26 @@ module.exports = function(locale) {
 
     const minDate = moment().add(MIN_START_DATE.amount, MIN_START_DATE.unit);
 
-    function formatAfterDate(format = 'D MMMM YYYY') {
-        return minDate
-            .clone()
-            .locale(locale)
-            .format(format);
-    }
+    const minDateExample = minDate
+        .clone()
+        .locale(locale)
+        .format('DD MM YYYY');
 
     return new DateField({
         name: 'projectStartDate',
 
-        label: 'When would you like to start your project?',
-        explanation: oneLine`Don't worry, this can be an estimate.
-            But your project must start after
-            <strong>${formatAfterDate('DD MM YYYY')}.</strong>`,
+        label: localise({
+            en: `When would you like to start your project?`,
+            cy: `Pryd hoffech ddechrau eich prosiect?`
+        }),
+        explanation: localise({
+            en: oneLine`Don't worry, this can be an estimate.
+                But your project must start after
+                <strong>${minDateExample}.</strong>`,
+            cy: oneLine`Peidiwch a poeni, gall hwn fod yn amcangyfrif.
+                Ond mae angen i’ch prosiect ddechrau ar ôl
+                <strong>${minDateExample}.</strong>`
+        }),
         settings: {
             minYear: minDate.format('YYYY')
         },
@@ -37,15 +43,17 @@ module.exports = function(locale) {
             {
                 type: 'base',
                 message: localise({
-                    en: 'Enter a project start date',
-                    cy: ''
+                    en: `Enter a project start date`,
+                    cy: `Cofnodwch ddyddiad dechrau i’ch prosiect`
                 })
             },
             {
                 type: 'dateParts.minDate',
                 message: localise({
-                    en: `Date you start the project must be on or after ${formatAfterDate()}`,
-                    cy: ``
+                    en: oneLine`Date you start the project must be on or after
+                        ${minDateExample}`,
+                    cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich prosiect
+                        fod ar neu ar ôl ${minDateExample}`
                 })
             }
         ]
