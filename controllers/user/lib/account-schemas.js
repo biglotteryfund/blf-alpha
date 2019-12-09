@@ -72,8 +72,7 @@ module.exports = {
                         type: 'string.min',
                         message: messageForLocale(
                             'passwordLength',
-                            MIN_PASSWORD_LENGTH,
-                            'you fool'
+                            MIN_PASSWORD_LENGTH
                         )
                     },
                     {
