@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -68,13 +69,17 @@ module.exports = function({
     }
 
     function stepProjectLength() {
+        const stepFields = config.get('awardsForAll.enableNewDateRange')
+            ? [fields.projectStartDate, fields.projectEndDate]
+            : [fields.projectDateRange];
+
         return {
             title: localise({
                 en: 'Project length',
                 cy: 'Hyd y prosiect'
             }),
             noValidate: true,
-            fieldsets: [{ fields: [fields.projectDateRange] }]
+            fieldsets: [{ fields: stepFields }]
         };
     }
 
@@ -1304,10 +1309,22 @@ module.exports = function({
 
         const enriched = clone(data);
 
-        enriched.projectDateRange = {
-            startDate: dateFormat(enriched.projectDateRange.startDate),
-            endDate: dateFormat(enriched.projectDateRange.endDate)
-        };
+        const useNewDateSchema =
+            config.get('awardsForAll.enableNewDateRange') &&
+            has('projectStartDate')(enriched) &&
+            has('projectEndDate')(enriched);
+
+        if (useNewDateSchema) {
+            enriched.projectDateRange = {
+                startDate: dateFormat(enriched.projectStartDate),
+                endDate: dateFormat(enriched.projectEndDate)
+            };
+        } else {
+            enriched.projectDateRange = {
+                startDate: dateFormat(enriched.projectDateRange.startDate),
+                endDate: dateFormat(enriched.projectDateRange.endDate)
+            };
+        }
 
         if (has('mainContactDateOfBirth')(enriched)) {
             enriched.mainContactDateOfBirth = dateFormat(

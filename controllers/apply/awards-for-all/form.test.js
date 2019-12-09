@@ -167,10 +167,11 @@ test('featured messages based on allow list', () => {
         }
     });
 
-    expect(form.validation.featuredMessages.map(item => item.msg)).toEqual([
-        expect.stringMatching(/Date you start the project must be after/),
-        expect.stringContaining('Senior contact role is not valid')
-    ]);
+    const messages = form.validation.featuredMessages.map(item => item.msg);
+    expect(messages).toContainEqual(
+        expect.stringMatching(/Date you start the project must be after/)
+    );
+    expect(messages).toContainEqual('Senior contact role is not valid');
 });
 
 describe('Project details', () => {
