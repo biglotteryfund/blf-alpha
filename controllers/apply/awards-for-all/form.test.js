@@ -372,47 +372,41 @@ test('project questions must not be over word-count', () => {
     ).toMatchSnapshot();
 });
 
-function budgetValue(budget, totalCosts = 20000) {
-    return { projectBudget: budget, projectTotalCosts: totalCosts };
-}
-
-test('must provide a valid budget', () => {
-    assertValidByKey(budgetValue(mockBudget()));
-
-    const defaultMessages = ['Enter a project budget'];
-    const tooSmallMessage = ['Enter at least one item'];
-    assertMessagesByKey(budgetValue([]), tooSmallMessage);
-
-    const budgetWithoutCosts = times(5, () => ({
-        item: faker.lorem.words(5)
-    }));
-
-    assertMessagesByKey(budgetValue(budgetWithoutCosts), defaultMessages);
-});
-
 test('project costs must be less than £10,000', () => {
-    const budget = times(10, () => ({
-        item: faker.lorem.words(5),
-        cost: 1100
-    }));
+    const data = mockResponse({
+        projectBudget: times(10, () => ({
+            item: faker.lorem.words(5),
+            cost: 1100
+        }))
+    });
 
-    assertMessagesByKey(budgetValue(budget), [
-        'Costs you would like us to fund must be less than £10,000'
-    ]);
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('must be less than £10,000')
+        ])
+    );
 });
 
 test('project total costs must be at least value of project budget', () => {
-    assertValidByKey(budgetValue(mockBudget()));
+    const data = mockResponse({
+        projectBudget: times(5, () => ({
+            item: faker.lorem.words(5),
+            cost: 500
+        })),
+        projectTotalCosts: 1000
+    });
 
-    assertMessagesByKey(budgetValue(mockBudget(), null), [
-        'Enter a total cost for your project'
-    ]);
-    assertMessagesByKey(budgetValue(mockBudget(), Infinity), [
-        'Enter a total cost for your project'
-    ]);
-    assertMessagesByKey(budgetValue(mockBudget(), 1000), [
-        'Total cost must be the same as or higher than the amount you’re asking us to fund'
-    ]);
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'must be the same as or higher than the amount you’re asking us to fund'
+            )
+        ])
+    );
 });
 
 test('require beneficiary groups when check is "yes"', () => {
