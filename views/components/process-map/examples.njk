@@ -1,0 +1,105 @@
+{% from "components/styleguide.njk" import sgExample %}
+{% from "./macro.njk" import processMap %}
+
+{% call sgExample('A standard map') %}
+    {{ processMap([
+        {
+            "type": "step",
+            "title": "Tell us about your funding proposal",
+            "description": "You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.",
+            "isCompleted": true,
+            "isCurrent": true
+        },
+        {
+            "type": "action",
+            "title": "Proposal reviewed"
+        },
+        {
+            "type": "step",
+            "title": "We might then ask you to apply",
+            "description": "If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future."
+        },
+        {
+            "type": "action",
+            "title": "Application assessed"
+        },
+        {
+            "type": "step",
+            "title": "We'll decide to fund your project or not",
+            "description": "We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not."
+        }
+    ], "You are here") }}
+{% endcall %}
+
+
+{% call sgExample('An almost-complete map') %}
+    {{ processMap([
+        {
+            "type": "step",
+            "title": "Tell us about your funding proposal",
+            "description": "You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.",
+            "isCompleted": true
+        },
+        {
+            "type": "action",
+            "title": "Proposal reviewed"
+        },
+        {
+            "type": "step",
+            "title": "We might then ask you to apply",
+            "description": "If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future.",
+            "isCompleted": true,
+            "isCurrent": true
+        },
+        {
+            "type": "action",
+            "title": "Application assessed"
+        },
+        {
+            "type": "step",
+            "title": "We'll decide to fund your project or not",
+            "description": "We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not."
+        }
+    ], "You are here") }}
+{% endcall %}
+
+
+{% call sgExample('An multi-step map') %}
+    <h2>Things we'll never do:</h2>
+    {{ processMap([
+        {
+            "type": "step",
+            "title": "Give you up",
+            "description": "We're no strangers to love. You know the rules and so do I. A full commitment's what I'm thinking of. You wouldn't get this from any other guy",
+            "isCompleted": true,
+            "isCurrent": true
+        },
+        {
+            "type": "action",
+            "title": "Never gonna"
+        },
+        {
+            "type": "step",
+            "title": "Let you down",
+            "description": "I just wanna tell you how I'm feeling. Gotta make you understand."
+        },
+        {
+            "type": "action",
+            "title": "Never gonna"
+        },
+        {
+            "type": "step",
+            "title": "Run around",
+            "description": "We've known each other for so long. Your heart's been aching but you're too shy to say it. Inside we both know what's been going on. We know the game and we're gonna play it"
+        },
+        {
+            "type": "action",
+            "title": "and"
+        },
+        {
+            "type": "step",
+            "title": "Desert you",
+            "description": "And if you ask me how I'm feeling. Don't tell me you're too blind to see"
+        }
+    ], "Rick Astley") }}
+{% endcall %}
