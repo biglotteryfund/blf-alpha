@@ -564,21 +564,21 @@ test.each(['not-for-profit-company', 'community-interest-company'])(
     }
 );
 
-test.each([
-    'unincorporated-registered-charity',
-    'charitable-incorporated-organisation',
-    'not-for-profit-company',
-    'faith-group'
-])('Disallow letter O in charity number for %p', function(organisationType) {
-    assertInvalidByKey({
-        organisationType: organisationType,
+test('disallow letter O in charity number for', function() {
+    const data = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
         charityNumber: 'SCO123'
     });
 
-    assertInvalidByKey({
-        organisationType: organisationType,
-        charityNumber: 'SCo123'
-    });
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'use the number ‘0’ in ‘SC0’ instead of the letter ‘O’'
+            )
+        ])
+    );
 });
 
 test.each([
