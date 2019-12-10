@@ -125,10 +125,20 @@ test('valid form for northern-ireland', () => {
     );
 });
 
+function mapRegistrationFieldNames(form) {
+    return form
+        .getCurrentFieldsForStep('organisation', 3)
+        .map(field => field.name);
+}
+
 test('valid form for unregistered-vco', function() {
     const data = mockResponse({
         organisationType: 'unregistered-vco',
-        seniorContactRole: 'chair'
+        seniorContactRole: 'chair',
+        // No registration numbers required
+        companyNumber: null,
+        charityNumber: null,
+        educationNumber: null
     });
 
     const form = formBuilder({ data });
@@ -143,7 +153,23 @@ test('valid form for unincorporated-registered-charity', function() {
     });
 
     const form = formBuilder({ data });
+
     expect(form.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['charityNumber']);
+
+    const invalidData = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
+        charityNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Enter your organisation’s charity number')
+        ])
+    );
 });
 
 test('valid form for charitable-incorporated-organisation', function() {
@@ -154,18 +180,96 @@ test('valid form for charitable-incorporated-organisation', function() {
     });
 
     const form = formBuilder({ data });
+
     expect(form.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['charityNumber']);
+
+    const invalidData = mockResponse({
+        organisationType: 'charitable-incorporated-organisation',
+        charityNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Enter your organisation’s charity number')
+        ])
+    );
 });
 
 test('valid form for not-for-profit-company', function() {
-    const data = mockResponse({
+    const form = formBuilder({
+        data: mockResponse({
+            organisationType: 'not-for-profit-company',
+            seniorContactRole: 'company-director',
+            companyNumber: '12345678',
+            charityNumber: ''
+        })
+    });
+
+    const formWithCharityNumber = formBuilder({
+        data: mockResponse({
+            organisationType: 'not-for-profit-company',
+            seniorContactRole: 'company-director',
+            // Allow company number or charity number
+            companyNumber: '12345678',
+            charityNumber: '1234567'
+        })
+    });
+
+    expect(form.validation.error).toBeNull();
+    expect(formWithCharityNumber.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual([
+        'companyNumber',
+        'charityNumber'
+    ]);
+
+    const invalidData = mockResponse({
         organisationType: 'not-for-profit-company',
+        companyNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Companies House number'
+            )
+        ])
+    );
+});
+
+test('valid form for community-interest-company', function() {
+    const data = mockResponse({
+        organisationType: 'community-interest-company',
         companyNumber: '12345678',
         seniorContactRole: 'company-director'
     });
 
     const form = formBuilder({ data });
+
     expect(form.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['companyNumber']);
+
+    const invalidData = mockResponse({
+        organisationType: 'community-interest-company',
+        companyNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Companies House number'
+            )
+        ])
+    );
 });
 
 test('valid form for school', function() {
@@ -176,7 +280,25 @@ test('valid form for school', function() {
     });
 
     const form = formBuilder({ data });
+
     expect(form.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
+        organisationType: 'school',
+        educationNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapRegistrationFieldNames(invalidForm)).toEqual(['educationNumber']);
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Department for Education number'
+            )
+        ])
+    );
 });
 
 test('valid form for college-or-university', function() {
@@ -187,14 +309,36 @@ test('valid form for college-or-university', function() {
     });
 
     const form = formBuilder({ data });
+
     expect(form.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
+        organisationType: 'college-or-university',
+        educationNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapRegistrationFieldNames(invalidForm)).toEqual(['educationNumber']);
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Department for Education number'
+            )
+        ])
+    );
 });
 
 test('valid form for statutory-body', function() {
     const data = mockResponse({
         organisationType: 'statutory-body',
         organisationSubType: 'parish-council',
-        seniorContactRole: 'parish-clerk'
+        seniorContactRole: 'parish-clerk',
+        // No registration numbers required
+        companyNumber: null,
+        charityNumber: null,
+        educationNumber: null
     });
 
     const form = formBuilder({ data });
@@ -202,13 +346,43 @@ test('valid form for statutory-body', function() {
 });
 
 test('valid form for faith-group', function() {
-    const data = mockResponse({
-        organisationType: 'faith-group',
-        seniorContactRole: 'religious-leader'
+    const form = formBuilder({
+        data: mockResponse({
+            organisationType: 'faith-group',
+            seniorContactRole: 'religious-leader'
+        })
     });
 
-    const form = formBuilder({ data });
     expect(form.validation.error).toBeNull();
+
+    const formWithCharityNumber = formBuilder({
+        data: mockResponse({
+            organisationType: 'faith-group',
+            seniorContactRole: 'religious-leader',
+            charityNumber: '1234567'
+        })
+    });
+
+    expect(formWithCharityNumber.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['charityNumber']);
+});
+
+test('disallow letter O in charity number', function() {
+    const data = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
+        charityNumber: 'SCO123'
+    });
+
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'use the number ‘0’ in ‘SC0’ instead of the letter ‘O’'
+            )
+        ])
+    );
 });
 
 test('featured messages based on allow list', () => {
@@ -486,163 +660,6 @@ test('finance details required if organisation is over 15 months old', function(
     const invalidForm = formBuilder({ data: invalidData });
 
     expect(mapMessages(invalidForm.validation)).toMatchSnapshot();
-});
-
-test.each(['unregistered-vco', 'statutory-body'])(
-    'no registration numbers required for %p',
-    function(organisationType) {
-        assertValidByKey({
-            organisationType: organisationType,
-            companyNumber: null,
-            charityNumber: null,
-            educationNumber: null
-        });
-    }
-);
-
-test.each(['not-for-profit-company', 'community-interest-company'])(
-    'company number required for %p',
-    function(organisationType) {
-        assertValidByKey({
-            organisationType: organisationType,
-            companyNumber: '12345678'
-        });
-
-        assertMessagesByKey(
-            {
-                organisationType: organisationType,
-                companyNumber: undefined
-            },
-            ['Enter your organisation’s Companies House number']
-        );
-    }
-);
-
-test('disallow letter O in charity number for', function() {
-    const data = mockResponse({
-        organisationType: 'unincorporated-registered-charity',
-        charityNumber: 'SCO123'
-    });
-
-    const result = formBuilder({ data }).validation;
-
-    expect(mapMessages(result)).toEqual(
-        expect.arrayContaining([
-            expect.stringContaining(
-                'use the number ‘0’ in ‘SC0’ instead of the letter ‘O’'
-            )
-        ])
-    );
-});
-
-test.each([
-    'unincorporated-registered-charity',
-    'charitable-incorporated-organisation'
-])('charity number required for %p', function(organisationType) {
-    const data = {
-        organisationType: organisationType,
-        charityNumber: '23456789'
-    };
-
-    assertValidByKey(data);
-
-    assertMessagesByKey(
-        {
-            organisationType: organisationType,
-            charityNumber: null
-        },
-        ['Enter your organisation’s charity number']
-    );
-
-    expect(
-        formBuilder({
-            locale: 'en',
-            data: {
-                organisationType,
-                companyNumber: '12345678',
-                charityNumber: '23456789',
-                educationNumber: '345678'
-            }
-        }).validation.value
-    ).toEqual(data);
-});
-
-test.each(['not-for-profit-company', 'faith-group'])(
-    'charity number optional for %p',
-    function(organisationType) {
-        const data = {
-            organisationType: organisationType,
-            charityNumber: '23456789'
-        };
-
-        assertValidByKey(data);
-        assertValidByKey({
-            organisationType: organisationType,
-            charityNumber: null
-        });
-
-        assertValidByKey({
-            organisationType: organisationType,
-            charityNumber: ''
-        });
-
-        const fullNumbers = {
-            organisationType,
-            charityNumber: '23456789',
-            educationNumber: '345678'
-        };
-
-        expect(
-            formBuilder({
-                locale: 'en',
-                data: fullNumbers
-            }).validation.value
-        ).toEqual(data);
-    }
-);
-
-test.each(['school', 'college-or-university'])(
-    'education number required for %p',
-    function(organisationType) {
-        assertMessagesByKey(
-            {
-                organisationType: organisationType,
-                educationNumber: undefined
-            },
-            ['Enter your organisation’s Department for Education number']
-        );
-
-        assertValidByKey({
-            organisationType: organisationType,
-            educationNumber: '1160580'
-        });
-    }
-);
-
-test('registration numbers shown based on organisation type', () => {
-    const mappings = {
-        companyNumber: ['not-for-profit-company', 'community-interest-company'],
-        charityNumber: [
-            'unincorporated-registered-charity',
-            'charitable-incorporated-organisation',
-            'not-for-profit-company',
-            'faith-group'
-        ],
-        educationNumber: ['school', 'college-or-university']
-    };
-
-    map(mappings, (types, fieldName) => {
-        types.forEach(type => {
-            const fieldNames = formBuilder({
-                locale: 'en',
-                data: { organisationType: type }
-            })
-                .getCurrentFieldsForStep('organisation', 3)
-                .map(field => field.name);
-
-            expect(fieldNames).toContain(fieldName);
-        });
-    });
 });
 
 test.each(['seniorContactName', 'mainContactName'])(

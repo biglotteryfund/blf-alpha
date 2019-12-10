@@ -108,13 +108,6 @@ Array [
 ]
 `;
 
-exports[`finance details required if organisation is over 15 months old 2`] = `
-Array [
-  "Enter a day and month",
-  "Total income must be a real number",
-]
-`;
-
 exports[`full names must not match 1`] = `
 Array [
   "Main contact name must be different from the senior contact's name",
@@ -145,14 +138,5 @@ Array [
   "Select the age group(s) of the people that will benefit from your project",
   "Select the disabled people that will benefit from your project",
   "Select the religion(s) or belief(s) of the people that will benefit from your project",
-]
-`;
-
-exports[`valid basic organisation details required 1`] = `
-Array [
-  "Enter a full UK address",
-  "Enter a month and year",
-  "Enter the full legal name of the organisation",
-  "Select a type of organisation",
 ]
 `;
