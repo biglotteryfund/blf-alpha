@@ -30,7 +30,7 @@ function initFormRouter({
     startTemplate = null,
     eligibilityBuilder = null,
     confirmationBuilder,
-    enableSalesforceConnector = true,
+    transformFunction = null,
     expiryEmailPeriods = null,
     isBilingual = true
 }) {
@@ -306,6 +306,10 @@ function initFormRouter({
                     res.locals.currentApplication = currentApplication;
                     res.locals.currentApplicationData = currentApplicationData;
 
+                    res.locals.currentApplicationData = transformFunction
+                        ? transformFunction(currentApplicationData)
+                        : currentApplicationData;
+
                     res.locals.currentApplicationStatus = get(
                         currentApplication,
                         'status'
@@ -340,8 +344,7 @@ function initFormRouter({
             formId,
             formBuilder,
             confirmationBuilder,
-            currentlyEditingSessionKey,
-            enableSalesforceConnector
+            currentlyEditingSessionKey
         )
     );
 

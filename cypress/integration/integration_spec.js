@@ -575,13 +575,13 @@ it('should submit full awards for all application', () => {
             cy.findByLabelText('Year').type(momentInstance.year());
         }
 
-        cy.findByText('Start date')
+        cy.findByText('When would you like to start your project?')
             .parent()
             .within(() => {
                 fillDateParts(mock.projectDateRange.startDate);
             });
 
-        cy.findByText('End date')
+        cy.findByText('When would you like to finish your project?')
             .parent()
             .within(() => {
                 fillDateParts(mock.projectDateRange.endDate);

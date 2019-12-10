@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const get = require('lodash/fp/get');
 const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
@@ -7,6 +8,7 @@ const { findLocationName } = require('../lib/location-options');
 const { formatDateRange } = require('../lib/formatters');
 
 const formBuilder = require('./form');
+const { transform } = require('./transforms');
 
 function details(application, data, locale) {
     const localise = get(locale);
@@ -16,6 +18,21 @@ function details(application, data, locale) {
             ? sumBy(value, item => toInteger(item.cost) || 0)
             : 0;
         return `£${total.toLocaleString()}`;
+    }
+
+    function formatProjectDates() {
+        if (config.get('awardsForAll.enableNewDateRange')) {
+            return data.projectStartDate && data.projectEndDate
+                ? formatDateRange(locale)({
+                      startDate: data.projectStartDate,
+                      endDate: data.projectEndDate
+                  })
+                : null;
+        } else {
+            return data.projectDateRange
+                ? formatDateRange(locale)(data.projectDateRange)
+                : null;
+        }
     }
 
     return {
@@ -31,9 +48,7 @@ function details(application, data, locale) {
                     en: 'Project dates',
                     cy: 'Dyddiadau’r prosiect'
                 }),
-                value: data.projectDateRange
-                    ? formatDateRange(locale)(data.projectDateRange)
-                    : null
+                value: formatProjectDates()
             },
             {
                 label: localise({ en: 'Location', cy: 'Lleoliad' }),
@@ -50,7 +65,8 @@ function details(application, data, locale) {
 }
 
 function enrichPending(application, locale = 'en') {
-    const data = application.applicationData || {};
+    const originalData = application.applicationData || {};
+    const data = transform(originalData);
 
     const form = formBuilder({ locale, data });
 

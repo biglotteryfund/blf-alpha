@@ -1,5 +1,4 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
 const concat = require('lodash/concat');
 const difference = require('lodash/difference');
@@ -82,22 +81,70 @@ test('validate model shape', () => {
 });
 
 test('empty form', () => {
-    const form = formBuilder();
+    const form = formBuilder({ flags: { enableNewDateRange: false } });
     expect(mapMessageSummary(form.validation)).toMatchSnapshot();
     expect(form.progress).toMatchSnapshot();
 });
 
-test.each(['england', 'scotland', 'northern-ireland', 'wales'])(
-    'valid form for %p',
-    function(projectCountry) {
-        const form = formBuilder({
-            data: mockResponse({ projectCountry })
-        });
+test('valid form for england', () => {
+    const data = mockResponse({
+        projectCountry: 'england',
+        projectLocation: 'derbyshire'
+    });
 
-        expect(form.validation.error).toBeNull();
-        expect(form.progress.isComplete).toBeTruthy();
-    }
-);
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for scotland', () => {
+    const data = mockResponse({
+        projectCountry: 'scotland',
+        projectLocation: 'east-lothian'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for wales', () => {
+    const data = mockResponse({
+        projectCountry: 'wales',
+        projectLocation: 'caerphilly',
+        // Additional questions required in Wales
+        beneficiariesWelshLanguage: 'all',
+        mainContactLanguagePreference: 'welsh',
+        seniorContactLanguagePreference: 'welsh'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+
+    // Test for existence of country specific fields
+    expect(form.getCurrentFields().map(field => field.name)).toEqual(
+        expect.arrayContaining([
+            'beneficiariesWelshLanguage',
+            'mainContactLanguagePreference',
+            'seniorContactLanguagePreference'
+        ])
+    );
+});
+
+test('valid form for northern-ireland', () => {
+    const data = mockResponse({
+        projectCountry: 'northern-ireland',
+        projectLocation: 'mid-ulster',
+        // Additional questions required in Northern-Ireland
+        beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+
+    // Test for existence of country specific fields
+    expect(form.getCurrentFields().map(field => field.name)).toEqual(
+        expect.arrayContaining(['beneficiariesNorthernIrelandCommunity'])
+    );
+});
 
 test.each(
     Object.entries({
@@ -164,53 +211,109 @@ test('featured messages based on allow list', () => {
                 endDate: { day: 31, month: 1, year: 2019 }
             },
             seniorContactRole: 'not-a-real-role'
-        }
+        },
+        flags: { enableNewDateRange: false }
     });
 
-    expect(form.validation.featuredMessages.map(item => item.msg)).toEqual([
-        expect.stringMatching(/Date you start the project must be after/),
-        expect.stringContaining('Senior contact role is not valid')
+    const messages = form.validation.featuredMessages.map(item => item.msg);
+    expect(messages).toContainEqual(
+        expect.stringMatching(/Date you start the project must be after/)
+    );
+    expect(messages).toContainEqual('Senior contact role is not valid');
+});
+
+test('project dates must be within range', () => {
+    function validateDateRange(start, end, messages) {
+        const data = mockResponse({
+            projectDateRange: { startDate: start, endDate: end }
+        });
+
+        const form = formBuilder({
+            data,
+            flags: { enableNewDateRange: false }
+        });
+
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining(messages)
+        );
+    }
+
+    validateDateRange(null, null, ['Enter a project start and end date']);
+
+    validateDateRange(
+        { day: 1, month: 1, year: 2020 },
+        { day: 1, month: 1, year: 2021 },
+        [expect.stringMatching(/Date you start the project must be after/)]
+    );
+
+    validateDateRange(
+        toDateParts(moment().add('25', 'weeks')),
+        toDateParts(moment().add('2', 'years')),
+        [expect.stringMatching(/Date you end the project must be within/)]
+    );
+});
+
+test('support new project date schema', function() {
+    const data = mockResponse({
+        projectStartDate: { day: 3, month: 3, year: 2021 },
+        projectEndDate: { day: 3, month: 4, year: 2021 }
+    });
+
+    const form = formBuilder({
+        data: data,
+        flags: { enableNewDateRange: true }
+    });
+
+    expect(form.validation.error).toBeNull();
+
+    function validateDateRange(start, end, messages) {
+        const data = mockResponse({
+            projectStartDate: start,
+            projectEndDate: end
+        });
+
+        const form = formBuilder({
+            data,
+            flags: { enableNewDateRange: true }
+        });
+
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining(messages)
+        );
+    }
+
+    validateDateRange(null, null, [
+        'Enter a project start date',
+        'Enter a project end date'
     ]);
+
+    validateDateRange(
+        { day: 1, month: 1, year: 2020 },
+        { day: 1, month: 1, year: 2021 },
+        [
+            expect.stringMatching(
+                /Date you start the project must be on or after/
+            )
+        ]
+    );
+
+    validateDateRange(
+        toDateParts(moment().add('25', 'weeks')),
+        toDateParts(moment().add('2', 'years')),
+        [expect.stringMatching(/Date you end the project must be within/)]
+    );
+
+    // Maintain backwards compatibility with salesforce schema
+    const salesforceResult = form.forSalesforce();
+    expect(salesforceResult.projectStartDate).toBe('2021-03-03');
+    expect(salesforceResult.projectEndDate).toBe('2021-04-03');
+    expect(salesforceResult.projectDateRange).toEqual({
+        startDate: '2021-03-03',
+        endDate: '2021-04-03'
+    });
 });
 
 describe('Project details', () => {
-    test('project dates must be within range', () => {
-        assertMessagesByKey(
-            { projectDateRange: { startDate: null, endDate: null } },
-            ['Enter a project start and end date']
-        );
-
-        assertMessagesByKey(
-            {
-                projectDateRange: {
-                    startDate: { day: 31, month: 2, year: 2030 },
-                    endDate: { day: 31, month: 24, year: 2030 }
-                }
-            },
-            [expect.stringMatching('must be real dates')]
-        );
-
-        assertMessagesByKey(
-            {
-                projectDateRange: {
-                    startDate: { day: 1, month: 1, year: 2020 },
-                    endDate: { day: 1, month: 1, year: 2021 }
-                }
-            },
-            [expect.stringMatching(/Date you start the project must be after/)]
-        );
-
-        assertMessagesByKey(
-            {
-                projectDateRange: {
-                    startDate: toDateParts(moment().add('25', 'weeks')),
-                    endDate: toDateParts(moment().add('2', 'years'))
-                }
-            },
-            [expect.stringMatching(/Date you end the project must be within/)]
-        );
-    });
-
     test('project postcode must be a valid UK postcode', () => {
         const invalidMessages = ['Enter a real postcode'];
         assertMessagesByKey(
@@ -344,80 +447,6 @@ describe('Who will benefit', () => {
 
         assertValidByKey(mockBeneficiaries('yes'));
     });
-
-    test.each([
-        ['northern-ireland', ['beneficiariesNorthernIrelandCommunity']],
-        ['wales', ['beneficiariesWelshLanguage']]
-    ])('additional beneficiary field in %p - %p', function(
-        country,
-        additionalFieldNames
-    ) {
-        const form = formBuilder({
-            data: { projectCountry: country }
-        });
-
-        expect(form.getCurrentFields().map(field => field.name)).toEqual(
-            expect.arrayContaining(additionalFieldNames)
-        );
-    });
-
-    test('welsh language question required in wales', () => {
-        assertValidByKey({
-            projectCountry: 'wales',
-            beneficiariesWelshLanguage: 'all'
-        });
-
-        [undefined, 'not-a-valid-choice'].forEach(input => {
-            assertMessagesByKey(
-                {
-                    projectCountry: 'wales',
-                    beneficiariesWelshLanguage: input
-                },
-                [
-                    expect.stringContaining(
-                        'Select the amount of people who speak Welsh'
-                    )
-                ]
-            );
-        });
-    });
-
-    test.each(['england', 'scotland', 'northern-ireland'])(
-        `welsh language question not required in %p`,
-        function(country) {
-            assertValidByKey({
-                projectCountry: country,
-                beneficiariesWelshLanguage: undefined
-            });
-        }
-    );
-
-    test('additional community question required in Northern Ireland', () => {
-        assertValidByKey({
-            projectCountry: 'northern-ireland',
-            beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
-        });
-
-        [undefined, 'not-a-valid-choice'].forEach(input => {
-            assertMessagesByKey(
-                {
-                    projectCountry: 'northern-ireland',
-                    beneficiariesNorthernIrelandCommunity: input
-                },
-                [expect.stringContaining('Select the community')]
-            );
-        });
-    });
-
-    test.each(['england', 'scotland', 'wales'])(
-        `northern ireland community questions not required in %p`,
-        function(country) {
-            assertValidByKey({
-                projectCountry: country,
-                beneficiariesNorthernIrelandCommunity: undefined
-            });
-        }
-    );
 });
 
 describe('Your organisation', () => {
@@ -927,36 +956,6 @@ describe('Contacts', () => {
                 }
             })
         ).toMatchSnapshot();
-    });
-
-    test.each([
-        'mainContactLanguagePreference',
-        'seniorContactLanguagePreference'
-    ])('%p must exist and be a valid choice for Wales', function(fieldName) {
-        assertValidByKey({
-            projectCountry: 'england'
-        });
-
-        assertMessagesByKey(
-            {
-                projectCountry: 'wales',
-                [fieldName]: null
-            },
-            [expect.stringContaining('Select a language')]
-        );
-
-        assertValidByKey({
-            projectCountry: 'wales',
-            [fieldName]: 'welsh'
-        });
-
-        assertMessagesByKey(
-            {
-                projectCountry: 'wales',
-                [fieldName]: 'klingon'
-            },
-            [expect.stringContaining('Select a language')]
-        );
     });
 });
 

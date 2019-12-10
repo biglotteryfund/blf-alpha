@@ -23,6 +23,8 @@ const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectDateRange = require('./fields/project-date-range');
+const fieldProjectStartDate = require('./fields/project-start-date');
+const fieldProjectEndDate = require('./fields/project-end-date');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldEducationNumber = require('./fields/education-number');
@@ -45,7 +47,7 @@ const {
     FREE_TEXT_MAXLENGTH
 } = require('./constants');
 
-module.exports = function fieldsFor({ locale, data = {} }) {
+module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     function multiChoice(options) {
@@ -258,7 +260,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    return {
+    const allFields = {
         projectName: {
             name: 'projectName',
             label: localise({
@@ -291,7 +293,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectDateRange: fieldProjectDateRange(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: {
@@ -1784,4 +1785,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true
         }
     };
+
+    if (flags.enableNewDateRange) {
+        allFields.projectStartDate = fieldProjectStartDate(locale);
+        allFields.projectEndDate = fieldProjectEndDate(locale);
+    } else {
+        allFields.projectDateRange = fieldProjectDateRange(locale);
+    }
+
+    return allFields;
 };
