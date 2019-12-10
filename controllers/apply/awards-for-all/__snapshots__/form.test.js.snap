@@ -108,6 +108,14 @@ Array [
 ]
 `;
 
+exports[`invalid form 1`] = `
+Array [
+  "projectName: Project name must be 80 characters or less",
+  "seniorContactEmail: Email address must be in the correct format, like name@example.com",
+  "mainContactEmail: Main contact email address must be different from the senior contact's email address",
+]
+`;
+
 exports[`project questions must be at least 50 words 1`] = `
 Array [
   "yourIdeaProject: Answer must be at least 50 words",

@@ -65,6 +65,21 @@ test('empty form', () => {
     expect(form.progress).toMatchSnapshot();
 });
 
+test('invalid form', () => {
+    /**
+     * Used to test common invalid values in favour of individual test cases
+     */
+    const data = mockResponse({
+        projectName: `This name will be too long ${faker.lorem.words(50)}`,
+        seniorContactEmail: 'not@anemail',
+        mainContactEmail: 'not@anemail'
+    });
+
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessageSummary(result)).toMatchSnapshot();
+});
+
 test('valid form for england', () => {
     const data = mockResponse({
         projectCountry: 'england',
