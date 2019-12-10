@@ -3,7 +3,6 @@
 const includes = require('lodash/includes');
 const map = require('lodash/map');
 const omit = require('lodash/omit');
-const sample = require('lodash/sample');
 const times = require('lodash/times');
 const faker = require('faker');
 const moment = require('moment');
@@ -15,7 +14,6 @@ const validateModel = require('../lib/validate-model');
 const {
     mockAddress,
     mockBeneficiaries,
-    mockBudget,
     mockDateOfBirth,
     mockResponse,
     toDateParts
@@ -463,60 +461,31 @@ test('allow only "other" option for beneficiary groups', () => {
     expect(form.validation.error).toBeNull();
 });
 
-test('valid basic organisation details required', () => {
-    const invalidOrganisationData = {
-        organisationLegalName: null,
-        organisationStartDate: {
-            month: 2
-        },
-        organisationAddress: {
-            line1: '3 Embassy Drive',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
-        },
-        organisationType: sample([null, 'not-a-valid-option'])
-    };
-
-    expect(messagesByKey(invalidOrganisationData)).toMatchSnapshot();
-});
-
 test('finance details required if organisation is over 15 months old', function() {
     const now = moment();
     const requiredDate = now.clone().subtract('15', 'months');
 
-    assertValidByKey({
+    const validData = mockResponse({
+        organisationStartDate: { month: now.month() + 1, year: now.year() },
+        accountingYearDate: null,
+        totalIncomeYear: null
+    });
+
+    const validForm = formBuilder({ data: validData });
+    expect(validForm.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
         organisationStartDate: {
-            month: now.month() + 1,
-            year: now.year()
+            month: requiredDate.month() + 1,
+            year: requiredDate.year()
         },
         accountingYearDate: null,
         totalIncomeYear: null
     });
 
-    expect(
-        messagesByKey({
-            organisationStartDate: {
-                month: requiredDate.month() + 1,
-                year: requiredDate.year()
-            },
-            accountingYearDate: null,
-            totalIncomeYear: null
-        })
-    ).toMatchSnapshot();
+    const invalidForm = formBuilder({ data: invalidData });
 
-    expect(
-        messagesByKey({
-            organisationStartDate: {
-                month: requiredDate.month() + 1,
-                year: requiredDate.year()
-            },
-            accountingYearDate: {
-                month: 22,
-                year: 2021
-            },
-            totalIncomeYear: Infinity
-        })
-    ).toMatchSnapshot();
+    expect(mapMessages(invalidForm.validation)).toMatchSnapshot();
 });
 
 test.each(['unregistered-vco', 'statutory-body'])(
