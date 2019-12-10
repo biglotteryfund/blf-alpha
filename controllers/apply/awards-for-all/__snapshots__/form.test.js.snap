@@ -140,10 +140,10 @@ Array [
 
 exports[`require additional beneficiary questions based on groups 1`] = `
 Array [
-  "Select the age group(s) of the people that will benefit from your project",
-  "Select the disabled people that will benefit from your project",
   "Select the ethnic background(s) of the people that will benefit from your project",
   "Select the gender(s) of the people that will benefit from your project",
+  "Select the age group(s) of the people that will benefit from your project",
+  "Select the disabled people that will benefit from your project",
   "Select the religion(s) or belief(s) of the people that will benefit from your project",
 ]
 `;

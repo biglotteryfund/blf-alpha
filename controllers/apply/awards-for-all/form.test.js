@@ -57,15 +57,6 @@ function assertValidByKey(data) {
     expect(messagesByKey).toHaveLength(0);
 }
 
-function assertInvalidByKey(data) {
-    const validationResult = formBuilder({ data }).validation;
-    const messagesByKey = validationResult.messages.filter(message => {
-        return includes(Object.keys(data), message.param);
-    });
-
-    expect(messagesByKey).not.toHaveLength(0);
-}
-
 test('validate model shape', () => {
     validateModel(formBuilder());
 });
@@ -410,57 +401,34 @@ test('project total costs must be at least value of project budget', () => {
 });
 
 test('require beneficiary groups when check is "yes"', () => {
-    assertMessagesByKey(
-        {
-            beneficiariesGroupsCheck: 'yes',
-            beneficiariesGroups: null,
-            beneficiariesGroupsOther: null
-        },
-        [expect.stringContaining('Select the specific group')]
+    const data = mockResponse({
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: null,
+        beneficiariesGroupsOther: null
+    });
+
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Select the specific group')
+        ])
     );
 });
 
 test('require additional beneficiary questions based on groups', () => {
-    expect(
-        messagesByKey({
-            beneficiariesGroupsCheck: 'yes',
-            beneficiariesGroups: [
-                'ethnic-background',
-                'gender',
-                'age',
-                'disabled-people',
-                'religion',
-                'lgbt',
-                'caring-responsibilities'
-            ],
-            beneficiariesGroupsOther: null,
-            beneficiariesGroupsEthnicBackground: null,
-            beneficiariesGroupsGender: null,
-            beneficiariesGroupsAge: null,
-            beneficiariesGroupsDisabledPeople: null,
-            beneficiariesGroupsReligion: null,
-            beneficiariesGroupsReligionOther: null
-        })
-    ).toMatchSnapshot();
-});
-
-test('strip beneficiary data when check is "no"', () => {
-    assertValidByKey(mockBeneficiaries('no'));
-    expect(
-        formBuilder({
-            data: mockBeneficiaries('no')
-        }).validation.value
-    ).toEqual({
-        beneficiariesGroupsCheck: 'no'
-    });
-});
-
-test('allow only "other" option for beneficiary groups', () => {
-    assertValidByKey(mockBeneficiaries('yes'));
-
-    assertValidByKey({
+    const data = mockResponse({
         beneficiariesGroupsCheck: 'yes',
-        beneficiariesGroupsOther: 'this should be valid',
+        beneficiariesGroups: [
+            'ethnic-background',
+            'gender',
+            'age',
+            'disabled-people',
+            'religion',
+            'lgbt',
+            'caring-responsibilities'
+        ],
+        beneficiariesGroupsOther: null,
         beneficiariesGroupsEthnicBackground: null,
         beneficiariesGroupsGender: null,
         beneficiariesGroupsAge: null,
@@ -469,7 +437,30 @@ test('allow only "other" option for beneficiary groups', () => {
         beneficiariesGroupsReligionOther: null
     });
 
-    assertValidByKey(mockBeneficiaries('yes'));
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toMatchSnapshot();
+});
+
+test('strip beneficiary data when check is "no"', () => {
+    const form = formBuilder({
+        data: mockBeneficiaries('no')
+    });
+
+    expect(form.validation.value).toEqual({
+        beneficiariesGroupsCheck: 'no'
+    });
+});
+
+test('allow only "other" option for beneficiary groups', () => {
+    const data = mockResponse({
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: undefined,
+        beneficiariesGroupsOther: 'this should be valid'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
 });
 
 test('valid basic organisation details required', () => {
