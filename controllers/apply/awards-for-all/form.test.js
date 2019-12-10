@@ -959,29 +959,3 @@ describe('Contacts', () => {
         ).toMatchSnapshot();
     });
 });
-
-describe('Bank details', () => {
-    test('requires valid bank details', () => {
-        expect(
-            messagesByKey({
-                bankAccountName: null,
-                bankSortCode: null,
-                bankAccountNumber: null
-            })
-        ).toMatchSnapshot();
-    });
-
-    test('valid bank statement upload', () => {
-        assertValidByKey({
-            bankStatement: {
-                filename: 'example.pdf',
-                size: 123,
-                type: 'application/pdf'
-            }
-        });
-
-        assertMessagesByKey({ bankStatement: null }, [
-            'Provide a bank statement'
-        ]);
-    });
-});
