@@ -336,38 +336,40 @@ test('support new project date schema', function() {
     });
 });
 
-describe('Project details', () => {
-    test('project postcode must be a valid UK postcode', () => {
-        const invalidMessages = ['Enter a real postcode'];
-        assertMessagesByKey(
-            {
-                projectCountry: 'scotland',
-                projectPostcode: null
-            },
-            invalidMessages
-        );
-        assertMessagesByKey(
-            {
-                projectCountry: 'scotland',
-                projectPostcode: 'not a postcode'
-            },
-            invalidMessages
-        );
+test('project postcode must be a valid UK postcode', () => {
+    const data = mockResponse({
+        projectPostcode: 'not a postcode'
     });
 
-    test.each([
-        ['yourIdeaProject', 50, 300],
-        ['yourIdeaPriorities', 50, 150],
-        ['yourIdeaCommunity', 50, 200]
-    ])('%p must be within %p and %p words', (fieldName, min, max) => {
-        assertMessagesByKey({ [fieldName]: faker.lorem.words(min - 1) }, [
-            expect.stringMatching(/Answer must be at least/)
-        ]);
+    const result = formBuilder({ data }).validation;
 
-        assertMessagesByKey({ [fieldName]: faker.lorem.words(max + 1) }, [
-            expect.stringMatching(/Answer must be no more than/)
-        ]);
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining(['Enter a real postcode'])
+    );
+});
+
+test('project questions must be at least 50 words', function() {
+    const data = mockResponse({
+        yourIdeaProject: faker.lorem.words(49),
+        yourIdeaPriorities: faker.lorem.words(49),
+        yourIdeaCommunity: faker.lorem.words(49)
     });
+
+    expect(
+        mapMessageSummary(formBuilder({ data }).validation)
+    ).toMatchSnapshot();
+});
+
+test('project questions must not be over word-count', () => {
+    const data = mockResponse({
+        yourIdeaProject: faker.lorem.words(301),
+        yourIdeaPriorities: faker.lorem.words(151),
+        yourIdeaCommunity: faker.lorem.words(201)
+    });
+
+    expect(
+        mapMessageSummary(formBuilder({ data }).validation)
+    ).toMatchSnapshot();
 });
 
 describe('Project budget', () => {

@@ -140,3 +140,19 @@ Object {
   "sectionsComplete": 0,
 }
 `;
+
+exports[`project questions must be at least 50 words 1`] = `
+Array [
+  "yourIdeaProject: Answer must be at least 50 words",
+  "yourIdeaPriorities: Answer must be at least 50 words",
+  "yourIdeaCommunity: Answer must be at least 50 words",
+]
+`;
+
+exports[`project questions must not be over wordcount 1`] = `
+Array [
+  "yourIdeaProject: Answer must be no more than 300 words",
+  "yourIdeaPriorities: Answer must be no more than 150 words",
+  "yourIdeaCommunity: Answer must be no more than 200 words",
+]
+`;
