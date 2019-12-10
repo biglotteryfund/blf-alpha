@@ -662,21 +662,6 @@ test('finance details required if organisation is over 15 months old', function(
     expect(mapMessages(invalidForm.validation)).toMatchSnapshot();
 });
 
-test.each(['seniorContactName', 'mainContactName'])(
-    'first and last name must be provided for %p',
-    function(fieldName) {
-        assertMessagesByKey(
-            {
-                [fieldName]: {
-                    firstName: null,
-                    lastName: null
-                }
-            },
-            ['Enter first and last name']
-        );
-    }
-);
-
 test('full names must not match', function() {
     expect(
         messagesByKey({
