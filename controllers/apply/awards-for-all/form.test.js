@@ -136,79 +136,112 @@ test('valid form for northern-ireland', () => {
     );
 });
 
-test.each(
-    Object.entries({
-        'unregistered-vco': {
-            seniorContactRole: 'chair'
-        },
-        'unincorporated-registered-charity': {
-            charityNumber: '12345678',
-            seniorContactRole: 'trustee'
-        },
-        'charitable-incorporated-organisation': {
-            charityNumber: '12345678',
-            seniorContactRole: 'trustee'
-        },
-        'not-for-profit-company': {
-            companyNumber: '12345678',
-            seniorContactRole: 'company-director'
-        },
-        'school': {
-            educationNumber: '345678',
-            seniorContactRole: 'head-teacher'
-        },
-        'college-or-university': {
-            educationNumber: '345678',
-            seniorContactRole: 'chancellor'
-        },
-        'statutory-body': {
-            organisationSubType: 'parish-council',
-            seniorContactRole: 'parish-clerk'
-        },
-        'faith-group': {
-            seniorContactRole: 'religious-leader'
-        }
-    })
-)('valid form for %s', function(organisationType, data) {
-    const form = formBuilder({
-        data: mockResponse({
-            organisationType: organisationType,
-            organisationSubType: data.organisationSubType,
-            companyNumber: data.companyNumber,
-            charityNumber: data.charityNumber,
-            educationNumber: data.educationNumber,
-            seniorContactRole: data.seniorContactRole
-        })
+test('valid form for unregistered-vco', function() {
+    const data = mockResponse({
+        organisationType: 'unregistered-vco',
+        seniorContactRole: 'chair'
     });
 
-    expect(form.validation.isValid).toBeTruthy();
-    expect(form.validation.messages).toHaveLength(0);
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
 
-    expect(form.progress.isComplete).toBeTruthy();
-    expect(form.progress.isPristine).toBeFalsy();
+test('valid form for unincorporated-registered-charity', function() {
+    const data = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
+        charityNumber: '12345678',
+        seniorContactRole: 'trustee'
+    });
 
-    const allSectionsComplete = form.progress.sections.every(
-        section => section.status === 'complete'
-    );
-    expect(allSectionsComplete).toBeTruthy();
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for charitable-incorporated-organisation', function() {
+    const data = mockResponse({
+        organisationType: 'charitable-incorporated-organisation',
+        charityNumber: '12345678',
+        seniorContactRole: 'trustee'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for not-for-profit-company', function() {
+    const data = mockResponse({
+        organisationType: 'not-for-profit-company',
+        companyNumber: '12345678',
+        seniorContactRole: 'company-director'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for school', function() {
+    const data = mockResponse({
+        organisationType: 'school',
+        educationNumber: '345678',
+        seniorContactRole: 'head-teacher'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for college-or-university', function() {
+    const data = mockResponse({
+        organisationType: 'college-or-university',
+        educationNumber: '345678',
+        seniorContactRole: 'chancellor'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for statutory-body', function() {
+    const data = mockResponse({
+        organisationType: 'statutory-body',
+        organisationSubType: 'parish-council',
+        seniorContactRole: 'parish-clerk'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for faith-group', function() {
+    const data = mockResponse({
+        organisationType: 'faith-group',
+        seniorContactRole: 'religious-leader'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
 });
 
 test('featured messages based on allow list', () => {
-    const form = formBuilder({
-        data: {
-            projectDateRange: {
-                startDate: { day: 31, month: 1, year: 2019 },
-                endDate: { day: 31, month: 1, year: 2019 }
-            },
-            seniorContactRole: 'not-a-real-role'
+    const data = mockResponse({
+        projectDateRange: {
+            startDate: { day: 31, month: 1, year: 2019 },
+            endDate: { day: 31, month: 1, year: 2019 }
         },
+        seniorContactRole: 'not-a-real-role'
+    });
+
+    const form = formBuilder({
+        data,
         flags: { enableNewDateRange: false }
     });
 
     const messages = form.validation.featuredMessages.map(item => item.msg);
+
     expect(messages).toContainEqual(
         expect.stringMatching(/Date you start the project must be after/)
     );
+
     expect(messages).toContainEqual('Senior contact role is not valid');
 });
 
