@@ -108,13 +108,6 @@ Array [
 ]
 `;
 
-exports[`full names must not match 1`] = `
-Array [
-  "Main contact name must be different from the senior contact's name",
-  "Senior contact name must be different from the main contact's name",
-]
-`;
-
 exports[`project questions must be at least 50 words 1`] = `
 Array [
   "yourIdeaProject: Answer must be at least 50 words",

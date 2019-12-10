@@ -663,36 +663,40 @@ test('finance details required if organisation is over 15 months old', function(
 });
 
 test('full names must not match', function() {
-    expect(
-        messagesByKey({
-            seniorContactName: { firstName: 'Ann', lastName: 'Example' },
-            mainContactName: { firstName: 'Ann', lastName: 'Example' }
-        })
-    ).toMatchSnapshot();
+    const sameName = { firstName: 'Ann', lastName: 'Example' };
+    const data = mockResponse({
+        seniorContactName: sameName,
+        mainContactName: sameName
+    });
+
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Main contact name must be different'),
+            expect.stringContaining('Senior contact name must be different')
+        ])
+    );
 });
 
 test('include warning if contact last names match', () => {
-    const form = formBuilder();
-
-    expect(form.allFields.mainContactName.warnings).toEqual([]);
-
     const lastName = faker.name.lastName();
-    const formWithMatchingLastNames = formBuilder({
-        data: {
-            seniorContactName: {
-                firstName: faker.name.firstName(),
-                lastName: lastName
-            },
-            mainContactName: {
-                firstName: faker.name.firstName(),
-                lastName: lastName
-            }
+    const dataWithMatchingLastNames = mockResponse({
+        seniorContactName: {
+            firstName: faker.name.firstName(),
+            lastName: lastName
+        },
+        mainContactName: {
+            firstName: faker.name.firstName(),
+            lastName: lastName
         }
     });
 
-    expect(
-        formWithMatchingLastNames.allFields.mainContactName.warnings
-    ).toEqual([expect.stringContaining('have the same surname')]);
+    const form = formBuilder({ data: dataWithMatchingLastNames });
+
+    expect(form.allFields.mainContactName.warnings).toEqual([
+        expect.stringContaining('have the same surname')
+    ]);
 });
 
 test.each(['seniorContactEmail', 'mainContactEmail'])(
