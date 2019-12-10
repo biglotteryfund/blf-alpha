@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`contact addresses must not match 1`] = `
-Array [
-  "Main contact address must be different from the senior contact's address",
-  "Senior contact address must be different from the main contact's address",
-]
-`;
-
 exports[`empty form 1`] = `
 Array [
   "projectName: Enter a project name",
@@ -111,24 +104,35 @@ Array [
 exports[`invalid form 1`] = `
 Array [
   "projectName: Project name must be 80 characters or less",
-  "seniorContactEmail: Email address must be in the correct format, like name@example.com",
-  "mainContactEmail: Main contact email address must be different from the senior contact's email address",
-]
-`;
-
-exports[`project questions must be at least 50 words 1`] = `
-Array [
-  "yourIdeaProject: Answer must be at least 50 words",
-  "yourIdeaPriorities: Answer must be at least 50 words",
-  "yourIdeaCommunity: Answer must be at least 50 words",
-]
-`;
-
-exports[`project questions must not be over word-count 1`] = `
-Array [
+  "projectPostcode: Enter a real postcode",
   "yourIdeaProject: Answer must be no more than 300 words",
   "yourIdeaPriorities: Answer must be no more than 150 words",
   "yourIdeaCommunity: Answer must be no more than 200 words",
+  "projectBudget: Costs you would like us to fund must be less than £10,000",
+  "projectTotalCosts: Total cost must be the same as or higher than the amount you’re asking us to fund",
+  "mainContactName: Main contact name must be different from the senior contact's name",
+  "mainContactDateOfBirth: Must be at least 16 years old",
+  "mainContactAddress: Main contact address must be different from the senior contact's address",
+  "mainContactAddressHistory: Enter a full UK address",
+  "mainContactPhone: Enter a real UK telephone number",
+  "seniorContactRole: Senior contact role is not valid",
+  "seniorContactName: Senior contact name must be different from the main contact's name",
+  "seniorContactDateOfBirth: Must be at least 18 years old",
+  "seniorContactAddress: Senior contact address must be different from the main contact's address",
+  "seniorContactAddressHistory: Enter a full UK address",
+  "mainContactEmail: Main contact email address must be different from the senior contact's email address",
+  "seniorContactPhone: Enter a real UK telephone number",
+  "projectDateRange: Date you end the project must be after the start date",
+]
+`;
+
+exports[`invalid form 2`] = `
+Array [
+  "Main contact name must be different from the senior contact's name",
+  "Enter a real UK telephone number",
+  "Senior contact role is not valid",
+  "Main contact email address must be different from the senior contact's email address",
+  "Date you end the project must be after the start date",
 ]
 `;
 
