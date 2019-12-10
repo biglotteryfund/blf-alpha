@@ -16,10 +16,8 @@ test('enrich pending applications', function() {
         updatedAt: '2020-03-04T12:00:00.000Z',
         applicationData: mockResponse({
             projectName: 'Example project',
-            projectDateRange: {
-                startDate: toDateParts(projectDate),
-                endDate: toDateParts(projectDate)
-            },
+            projectStartDate: toDateParts(projectDate),
+            projectEndDate: toDateParts(projectDate),
             projectLocation: 'derbyshire',
             organisationLegalName: 'Example organisation',
             organisationTradingName: 'Example organisation trading name',
@@ -46,10 +44,8 @@ test('enrich submitted applications', function() {
         salesforceSubmission: {
             application: mockResponse({
                 projectName: 'Example project',
-                projectDateRange: {
-                    startDate: projectDate.toISOString(),
-                    endDate: projectDate.toISOString()
-                },
+                projectStartDate: projectDate.toISOString(),
+                projectEndDate: projectDate.toISOString(),
                 projectLocation: 'derbyshire',
                 organisationLegalName: 'Example organisation',
                 organisationTradingName: 'Example organisation trading name',
