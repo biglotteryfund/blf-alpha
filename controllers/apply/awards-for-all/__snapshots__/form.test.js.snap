@@ -47,6 +47,13 @@ Array [
 ]
 `;
 
+exports[`contact addresses must not match 1`] = `
+Array [
+  "Main contact address must be different from the senior contact's address",
+  "Senior contact address must be different from the main contact's address",
+]
+`;
+
 exports[`empty form 1`] = `
 Array [
   "projectName: Enter a project name",
@@ -141,6 +148,27 @@ Object {
 }
 `;
 
+exports[`finance details required if organisation is over 15 months old 1`] = `
+Array [
+  "Enter a day and month",
+  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
+]
+`;
+
+exports[`finance details required if organisation is over 15 months old 2`] = `
+Array [
+  "Enter a day and month",
+  "Total income must be a real number",
+]
+`;
+
+exports[`full names must not match 1`] = `
+Array [
+  "Main contact name must be different from the senior contact's name",
+  "Senior contact name must be different from the main contact's name",
+]
+`;
+
 exports[`project questions must be at least 50 words 1`] = `
 Array [
   "yourIdeaProject: Answer must be at least 50 words",
@@ -149,10 +177,37 @@ Array [
 ]
 `;
 
+exports[`project questions must not be over word-count 1`] = `
+Array [
+  "yourIdeaProject: Answer must be no more than 300 words",
+  "yourIdeaPriorities: Answer must be no more than 150 words",
+  "yourIdeaCommunity: Answer must be no more than 200 words",
+]
+`;
+
 exports[`project questions must not be over wordcount 1`] = `
 Array [
   "yourIdeaProject: Answer must be no more than 300 words",
   "yourIdeaPriorities: Answer must be no more than 150 words",
   "yourIdeaCommunity: Answer must be no more than 200 words",
+]
+`;
+
+exports[`require additional beneficiary questions based on groups 1`] = `
+Array [
+  "Select the age group(s) of the people that will benefit from your project",
+  "Select the disabled people that will benefit from your project",
+  "Select the ethnic background(s) of the people that will benefit from your project",
+  "Select the gender(s) of the people that will benefit from your project",
+  "Select the religion(s) or belief(s) of the people that will benefit from your project",
+]
+`;
+
+exports[`valid basic organisation details required 1`] = `
+Array [
+  "Enter a full UK address",
+  "Enter a month and year",
+  "Enter the full legal name of the organisation",
+  "Select a type of organisation",
 ]
 `;
