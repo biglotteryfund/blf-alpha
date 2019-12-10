@@ -273,6 +273,7 @@
             flex-basis: 0;
 
             @include mq('medium') {
+                min-width: 80px; // fix ie11 bug
                 margin-left: -$spacingUnit;
                 margin-right: -$spacingUnit;
                 width: calc(100% + #{$spacingUnit});
