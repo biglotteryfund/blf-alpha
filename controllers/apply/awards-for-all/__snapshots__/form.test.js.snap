@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bank details requires valid bank details 1`] = `
-Array [
-  "Enter a sort code",
-  "Enter an account number",
-  "Enter the name of your organisation, as it appears on your bank statement",
-]
-`;
-
 exports[`Contacts contact addresses must not match 1`] = `
 Array [
   "Main contact address must be different from the senior contact's address",
@@ -59,6 +51,9 @@ exports[`empty form 1`] = `
 Array [
   "projectName: Enter a project name",
   "projectCountry: Select a country",
+  "projectLocation: Select a location",
+  "projectLocationDescription: Tell us the towns, villages or wards your beneficiaries live in",
+  "projectPostcode: Enter a real postcode",
   "yourIdeaProject: Tell us about your project",
   "yourIdeaPriorities: Tell us how your project meets at least one of our funding priorities",
   "yourIdeaCommunity: Tell us how your project involves your community",

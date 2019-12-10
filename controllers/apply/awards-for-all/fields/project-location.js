@@ -47,17 +47,13 @@ module.exports = function(locale, data) {
         }),
         optgroups: optgroups(),
         isRequired: true,
-        schema: Joi.when('projectCountry', {
-            is: Joi.exist(),
-            then: Joi.string()
-                .valid(
-                    flatMap(optgroups(), group => group.options).map(
-                        option => option.value
-                    )
+        schema: Joi.string()
+            .valid(
+                flatMap(optgroups(), group => group.options).map(
+                    option => option.value
                 )
-                .required(),
-            otherwise: Joi.any().strip()
-        }),
+            )
+            .required(),
         messages: [
             {
                 type: 'base',
