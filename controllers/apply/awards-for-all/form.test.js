@@ -1,7 +1,5 @@
 /* eslint-env jest */
 'use strict';
-const concat = require('lodash/concat');
-const difference = require('lodash/difference');
 const includes = require('lodash/includes');
 const map = require('lodash/map');
 const omit = require('lodash/omit');
@@ -11,14 +9,6 @@ const faker = require('faker');
 const moment = require('moment');
 
 const formBuilder = require('./form');
-const {
-    BENEFICIARY_GROUPS,
-    ORGANISATION_TYPES,
-    CONTACT_EXCLUDED_TYPES,
-    COMPANY_NUMBER_TYPES,
-    CHARITY_NUMBER_TYPES,
-    EDUCATION_NUMBER_TYPES
-} = require('./constants');
 
 const validateModel = require('../lib/validate-model');
 
@@ -408,7 +398,15 @@ describe('Who will benefit', () => {
         expect(
             messagesByKey({
                 beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
+                beneficiariesGroups: [
+                    'ethnic-background',
+                    'gender',
+                    'age',
+                    'disabled-people',
+                    'religion',
+                    'lgbt',
+                    'caring-responsibilities'
+                ],
                 beneficiariesGroupsOther: null,
                 beneficiariesGroupsEthnicBackground: null,
                 beneficiariesGroupsGender: null,
@@ -507,15 +505,7 @@ describe('Your organisation', () => {
     });
 });
 describe('Registration numbers', function() {
-    const noRegistrationNumbers = difference(
-        Object.values(ORGANISATION_TYPES),
-        concat(
-            COMPANY_NUMBER_TYPES,
-            CHARITY_NUMBER_TYPES.required,
-            CHARITY_NUMBER_TYPES.optional,
-            EDUCATION_NUMBER_TYPES
-        )
-    );
+    const noRegistrationNumbers = ['unregistered-vco', 'statutory-body'];
 
     test.each(noRegistrationNumbers)(
         'no registration numbers required for %p',
@@ -529,26 +519,32 @@ describe('Registration numbers', function() {
         }
     );
 
-    test.each(COMPANY_NUMBER_TYPES)('company number required for %p', function(
+    test.each(['not-for-profit-company', 'community-interest-company'])(
+        'company number required for %p',
+        function(organisationType) {
+            assertValidByKey({
+                organisationType: organisationType,
+                companyNumber: '12345678'
+            });
+
+            assertMessagesByKey(
+                {
+                    organisationType: organisationType,
+                    companyNumber: undefined
+                },
+                ['Enter your organisation’s Companies House number']
+            );
+        }
+    );
+
+    test.each([
+        'unincorporated-registered-charity',
+        'charitable-incorporated-organisation',
+        'not-for-profit-company',
+        'faith-group'
+    ])('Disallow letter O in charity number for %p', function(
         organisationType
     ) {
-        assertValidByKey({
-            organisationType: organisationType,
-            companyNumber: '12345678'
-        });
-
-        assertMessagesByKey(
-            {
-                organisationType: organisationType,
-                companyNumber: undefined
-            },
-            ['Enter your organisation’s Companies House number']
-        );
-    });
-
-    test.each(
-        concat(CHARITY_NUMBER_TYPES.required, CHARITY_NUMBER_TYPES.optional)
-    )('Disallow letter O in charity number for %p', function(organisationType) {
         assertInvalidByKey({
             organisationType: organisationType,
             charityNumber: 'SCO123'
@@ -560,39 +556,39 @@ describe('Registration numbers', function() {
         });
     });
 
-    test.each(CHARITY_NUMBER_TYPES.required)(
-        'charity number required for %p',
-        function(organisationType) {
-            const data = {
+    test.each([
+        'unincorporated-registered-charity',
+        'charitable-incorporated-organisation'
+    ])('charity number required for %p', function(organisationType) {
+        const data = {
+            organisationType: organisationType,
+            charityNumber: '23456789'
+        };
+
+        assertValidByKey(data);
+
+        assertMessagesByKey(
+            {
                 organisationType: organisationType,
-                charityNumber: '23456789'
-            };
+                charityNumber: null
+            },
+            ['Enter your organisation’s charity number']
+        );
 
-            assertValidByKey(data);
+        expect(
+            formBuilder({
+                locale: 'en',
+                data: {
+                    organisationType,
+                    companyNumber: '12345678',
+                    charityNumber: '23456789',
+                    educationNumber: '345678'
+                }
+            }).validation.value
+        ).toEqual(data);
+    });
 
-            assertMessagesByKey(
-                {
-                    organisationType: organisationType,
-                    charityNumber: null
-                },
-                ['Enter your organisation’s charity number']
-            );
-
-            expect(
-                formBuilder({
-                    locale: 'en',
-                    data: {
-                        organisationType,
-                        companyNumber: '12345678',
-                        charityNumber: '23456789',
-                        educationNumber: '345678'
-                    }
-                }).validation.value
-            ).toEqual(data);
-        }
-    );
-
-    test.each(CHARITY_NUMBER_TYPES.optional)(
+    test.each(['not-for-profit-company', 'faith-group'])(
         'charity number optional for %p',
         function(organisationType) {
             const data = {
@@ -626,7 +622,7 @@ describe('Registration numbers', function() {
         }
     );
 
-    test.each(EDUCATION_NUMBER_TYPES)(
+    test.each(['school', 'college-or-university'])(
         'education number required for %p',
         function(organisationType) {
             assertMessagesByKey(
@@ -646,12 +642,17 @@ describe('Registration numbers', function() {
 
     test('registration numbers shown based on organisation type', () => {
         const mappings = {
-            companyNumber: COMPANY_NUMBER_TYPES,
-            charityNumber: concat(
-                CHARITY_NUMBER_TYPES.required,
-                CHARITY_NUMBER_TYPES.optional
-            ),
-            educationNumber: EDUCATION_NUMBER_TYPES
+            companyNumber: [
+                'not-for-profit-company',
+                'community-interest-company'
+            ],
+            charityNumber: [
+                'unincorporated-registered-charity',
+                'charitable-incorporated-organisation',
+                'not-for-profit-company',
+                'faith-group'
+            ],
+            educationNumber: ['school', 'college-or-university']
         };
 
         map(mappings, (types, fieldName) => {
@@ -801,7 +802,7 @@ describe('Contacts', () => {
         expect(validationResult.isValid).toBeFalsy();
     });
 
-    test.each(CONTACT_EXCLUDED_TYPES)(
+    test.each(['school', 'college-or-university', 'statutory-body'])(
         'dates of birth and addresses stripped for %p',
         function(excludedOrgType) {
             const validForm = formBuilder({
