@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 
+const appData = require('../../common/appData');
+
 const router = express.Router();
 
 router.use(function(req, res, next) {
@@ -21,6 +23,10 @@ router.get('/your-idea*', function(req, res) {
 
 router.use('/awards-for-all', require('./awards-for-all'));
 router.use('/your-funding-proposal', require('./standard-proposal'));
+
+if (appData.isNotProduction) {
+    router.use('/contacts-next', require('./contacts-next'));
+}
 
 router.use('/emails/unsubscribe', require('./unsubscribe'));
 router.use('/handle-expiry', require('./expiry'));
