@@ -305,13 +305,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.when('projectCountry', {
-                is: Joi.exist(),
-                then: Joi.string()
-                    .max(FREE_TEXT_MAXLENGTH.large)
-                    .required(),
-                otherwise: Joi.any().strip()
-            }),
+            schema: Joi.string()
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -347,13 +343,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 autocomplete: 'postal-code'
             },
             isRequired: true,
-            schema: Joi.when('projectCountry', {
-                is: Joi.exist(),
-                then: Joi.string()
-                    .postcode()
-                    .required(),
-                otherwise: Joi.any().strip()
-            }),
+            schema: Joi.string()
+                .postcode()
+                .required(),
             messages: [
                 {
                     type: 'base',

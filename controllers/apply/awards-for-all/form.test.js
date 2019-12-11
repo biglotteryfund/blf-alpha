@@ -1,31 +1,14 @@
 /* eslint-env jest */
 'use strict';
-const concat = require('lodash/concat');
-const difference = require('lodash/difference');
-const includes = require('lodash/includes');
-const map = require('lodash/map');
-const omit = require('lodash/omit');
-const sample = require('lodash/sample');
-const times = require('lodash/times');
 const faker = require('faker');
 const moment = require('moment');
 
 const formBuilder = require('./form');
-const {
-    BENEFICIARY_GROUPS,
-    ORGANISATION_TYPES,
-    CONTACT_EXCLUDED_TYPES,
-    COMPANY_NUMBER_TYPES,
-    CHARITY_NUMBER_TYPES,
-    EDUCATION_NUMBER_TYPES
-} = require('./constants');
-
 const validateModel = require('../lib/validate-model');
 
 const {
     mockAddress,
     mockBeneficiaries,
-    mockBudget,
     mockDateOfBirth,
     mockResponse,
     toDateParts
@@ -41,39 +24,8 @@ function mapMessageSummary(validationResult) {
     });
 }
 
-function mapRawMessages(validationResult) {
-    return validationResult.error.details.map(detail => detail.message);
-}
-
-function messagesByKey(data) {
-    const validationResult = formBuilder({ data }).validation;
-    const matches = validationResult.messages.filter(message => {
-        return includes(Object.keys(data), message.param);
-    });
-
-    return map(matches, 'msg').sort();
-}
-
-function assertMessagesByKey(data, messages) {
-    expect(messagesByKey(data)).toEqual(messages.sort());
-}
-
-function assertValidByKey(data) {
-    const validationResult = formBuilder({ data }).validation;
-    const messagesByKey = validationResult.messages.filter(message => {
-        return includes(Object.keys(data), message.param);
-    });
-
-    expect(messagesByKey).toHaveLength(0);
-}
-
-function assertInvalidByKey(data) {
-    const validationResult = formBuilder({ data }).validation;
-    const messagesByKey = validationResult.messages.filter(message => {
-        return includes(Object.keys(data), message.param);
-    });
-
-    expect(messagesByKey).not.toHaveLength(0);
+function fieldsForSection(form, section) {
+    return form.getCurrentFieldsForStep(section, 0).map(field => field.name);
 }
 
 test('validate model shape', () => {
@@ -84,6 +36,75 @@ test('empty form', () => {
     const form = formBuilder({ flags: { enableNewDateRange: false } });
     expect(mapMessageSummary(form.validation)).toMatchSnapshot();
     expect(form.progress).toMatchSnapshot();
+});
+
+/**
+ * Used to test common invalid values in favour of individual test cases
+ * This is much faster as it allows us to snapshot a number of error messages at once
+ * without building a new form model each time
+ */
+test('invalid form', () => {
+    const matchingName = { firstName: 'Alice', lastName: 'Example' };
+    const matchingAddress = {
+        line1: 'National Lottery Community Fund',
+        line2: 'Apex House',
+        county: 'West Midlands',
+        postcode: 'B15 1TR',
+        townCity: 'BIRMINGHAM'
+    };
+
+    const data = mockResponse({
+        projectName: `This name will be too long ${faker.lorem.words(50)}`,
+        projectDateRange: {
+            startDate: { day: 31, month: 1, year: 2020 },
+            endDate: { day: 31, month: 1, year: 2019 }
+        },
+        projectPostcode: 'not a postcode',
+        projectBudget: [
+            { item: faker.lorem.words(5), cost: 5000 },
+            { item: faker.lorem.words(5), cost: 5100 }
+        ], // over the limit
+        projectTotalCosts: 1000, // lower than budget
+        yourIdeaProject: faker.lorem.words(301), // over word-count
+        yourIdeaPriorities: faker.lorem.words(151), // over word-count
+        yourIdeaCommunity: faker.lorem.words(201), // over word-count
+        seniorContactName: matchingName,
+        mainContactName: matchingName,
+        seniorContactAddress: matchingAddress,
+        mainContactAddress: matchingAddress,
+        seniorContactRole: 'not-a-real-role',
+        seniorContactAddressHistory: {
+            currentAddressMeetsMinimum: 'no',
+            previousAddress: null // address history required
+        },
+        mainContactAddressHistory: {
+            currentAddressMeetsMinimum: 'no',
+            previousAddress: {
+                line1: faker.address.streetAddress(),
+                townCity: faker.address.city()
+            } // partial address
+        },
+        seniorContactEmail: 'example@example.com',
+        mainContactEmail: 'Example@example.com', // emails must not match (case-insensitive)
+        seniorContactPhone: 'not a phone number',
+        mainContactPhone: 'not a phone number',
+        seniorContactDateOfBirth: mockDateOfBirth(0, 17), // too young,
+        mainContactDateOfBirth: mockDateOfBirth(0, 15) // too young
+    });
+
+    const form = formBuilder({
+        data,
+        flags: { enableNewDateRange: false }
+    });
+
+    expect(mapMessageSummary(form.validation)).toMatchSnapshot();
+
+    // Check list of featured messages
+    const featuredMessages = form.validation.featuredMessages.map(
+        item => item.msg
+    );
+
+    expect(featuredMessages).toMatchSnapshot();
 });
 
 test('valid form for england', () => {
@@ -146,80 +167,264 @@ test('valid form for northern-ireland', () => {
     );
 });
 
-test.each(
-    Object.entries({
-        'unregistered-vco': {
-            seniorContactRole: 'chair'
-        },
-        'unincorporated-registered-charity': {
-            charityNumber: '12345678',
-            seniorContactRole: 'trustee'
-        },
-        'charitable-incorporated-organisation': {
-            charityNumber: '12345678',
-            seniorContactRole: 'trustee'
-        },
-        'not-for-profit-company': {
-            companyNumber: '12345678',
-            seniorContactRole: 'company-director'
-        },
-        'school': {
-            educationNumber: '345678',
-            seniorContactRole: 'head-teacher'
-        },
-        'college-or-university': {
-            educationNumber: '345678',
-            seniorContactRole: 'chancellor'
-        },
-        'statutory-body': {
-            organisationSubType: 'parish-council',
-            seniorContactRole: 'parish-clerk'
-        },
-        'faith-group': {
-            seniorContactRole: 'religious-leader'
-        }
-    })
-)('valid form for %s', function(organisationType, data) {
+function mapRegistrationFieldNames(form) {
+    return form
+        .getCurrentFieldsForStep('organisation', 3)
+        .map(field => field.name);
+}
+
+test('valid form for unregistered-vco', function() {
+    const data = mockResponse({
+        organisationType: 'unregistered-vco',
+        seniorContactRole: 'chair',
+        // No registration numbers required
+        companyNumber: null,
+        charityNumber: null,
+        educationNumber: null
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for unincorporated-registered-charity', function() {
+    const data = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
+        charityNumber: '12345678',
+        seniorContactRole: 'trustee'
+    });
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['charityNumber']);
+
+    const invalidData = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
+        charityNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Enter your organisation’s charity number')
+        ])
+    );
+});
+
+test('valid form for charitable-incorporated-organisation', function() {
+    const data = mockResponse({
+        organisationType: 'charitable-incorporated-organisation',
+        charityNumber: '12345678',
+        seniorContactRole: 'trustee'
+    });
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['charityNumber']);
+
+    const invalidData = mockResponse({
+        organisationType: 'charitable-incorporated-organisation',
+        charityNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Enter your organisation’s charity number')
+        ])
+    );
+});
+
+test('valid form for not-for-profit-company', function() {
     const form = formBuilder({
         data: mockResponse({
-            organisationType: organisationType,
-            organisationSubType: data.organisationSubType,
-            companyNumber: data.companyNumber,
-            charityNumber: data.charityNumber,
-            educationNumber: data.educationNumber,
-            seniorContactRole: data.seniorContactRole
+            organisationType: 'not-for-profit-company',
+            seniorContactRole: 'company-director',
+            companyNumber: '12345678',
+            charityNumber: ''
         })
     });
 
-    expect(form.validation.isValid).toBeTruthy();
-    expect(form.validation.messages).toHaveLength(0);
-
-    expect(form.progress.isComplete).toBeTruthy();
-    expect(form.progress.isPristine).toBeFalsy();
-
-    const allSectionsComplete = form.progress.sections.every(
-        section => section.status === 'complete'
-    );
-    expect(allSectionsComplete).toBeTruthy();
-});
-
-test('featured messages based on allow list', () => {
-    const form = formBuilder({
-        data: {
-            projectDateRange: {
-                startDate: { day: 31, month: 1, year: 2019 },
-                endDate: { day: 31, month: 1, year: 2019 }
-            },
-            seniorContactRole: 'not-a-real-role'
-        },
-        flags: { enableNewDateRange: false }
+    const formWithCharityNumber = formBuilder({
+        data: mockResponse({
+            organisationType: 'not-for-profit-company',
+            seniorContactRole: 'company-director',
+            // Allow company number or charity number
+            companyNumber: '12345678',
+            charityNumber: '1234567'
+        })
     });
 
-    const messages = form.validation.featuredMessages.map(item => item.msg);
-    expect(messages).toContainEqual(
-        expect.stringMatching(/Date you start the project must be after/)
+    expect(form.validation.error).toBeNull();
+    expect(formWithCharityNumber.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual([
+        'companyNumber',
+        'charityNumber'
+    ]);
+
+    const invalidData = mockResponse({
+        organisationType: 'not-for-profit-company',
+        companyNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Companies House number'
+            )
+        ])
     );
-    expect(messages).toContainEqual('Senior contact role is not valid');
+});
+
+test('valid form for community-interest-company', function() {
+    const data = mockResponse({
+        organisationType: 'community-interest-company',
+        companyNumber: '12345678',
+        seniorContactRole: 'company-director'
+    });
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['companyNumber']);
+
+    const invalidData = mockResponse({
+        organisationType: 'community-interest-company',
+        companyNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Companies House number'
+            )
+        ])
+    );
+});
+
+test('valid form for school', function() {
+    const data = mockResponse({
+        organisationType: 'school',
+        educationNumber: '345678',
+        seniorContactRole: 'head-teacher'
+    });
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
+        organisationType: 'school',
+        educationNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapRegistrationFieldNames(invalidForm)).toEqual(['educationNumber']);
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Department for Education number'
+            )
+        ])
+    );
+});
+
+test('valid form for college-or-university', function() {
+    const data = mockResponse({
+        organisationType: 'college-or-university',
+        educationNumber: '345678',
+        seniorContactRole: 'chancellor'
+    });
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
+        organisationType: 'college-or-university',
+        educationNumber: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapRegistrationFieldNames(invalidForm)).toEqual(['educationNumber']);
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'Enter your organisation’s Department for Education number'
+            )
+        ])
+    );
+});
+
+test('valid form for statutory-body', function() {
+    const data = mockResponse({
+        organisationType: 'statutory-body',
+        organisationSubType: 'parish-council',
+        seniorContactRole: 'parish-clerk',
+        // No registration numbers required
+        companyNumber: null,
+        charityNumber: null,
+        educationNumber: null
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('valid form for faith-group', function() {
+    const form = formBuilder({
+        data: mockResponse({
+            organisationType: 'faith-group',
+            seniorContactRole: 'religious-leader'
+        })
+    });
+
+    expect(form.validation.error).toBeNull();
+
+    const formWithCharityNumber = formBuilder({
+        data: mockResponse({
+            organisationType: 'faith-group',
+            seniorContactRole: 'religious-leader',
+            charityNumber: '1234567'
+        })
+    });
+
+    expect(formWithCharityNumber.validation.error).toBeNull();
+
+    expect(mapRegistrationFieldNames(form)).toEqual(['charityNumber']);
+});
+
+test('disallow letter O in charity number', function() {
+    const data = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
+        charityNumber: 'SCO123'
+    });
+
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                'use the number ‘0’ in ‘SC0’ instead of the letter ‘O’'
+            )
+        ])
+    );
 });
 
 test('project dates must be within range', () => {
@@ -237,8 +442,6 @@ test('project dates must be within range', () => {
             expect.arrayContaining(messages)
         );
     }
-
-    validateDateRange(null, null, ['Enter a project start and end date']);
 
     validateDateRange(
         { day: 1, month: 1, year: 2020 },
@@ -313,674 +516,157 @@ test('support new project date schema', function() {
     });
 });
 
-describe('Project details', () => {
-    test('project postcode must be a valid UK postcode', () => {
-        const invalidMessages = ['Enter a real postcode'];
-        assertMessagesByKey(
-            {
-                projectCountry: 'scotland',
-                projectPostcode: null
-            },
-            invalidMessages
-        );
-        assertMessagesByKey(
-            {
-                projectCountry: 'scotland',
-                projectPostcode: 'not a postcode'
-            },
-            invalidMessages
-        );
+test('require beneficiary groups when check is "yes"', () => {
+    const data = mockResponse({
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: null,
+        beneficiariesGroupsOther: null
     });
 
-    test.each([
-        ['yourIdeaProject', 50, 300],
-        ['yourIdeaPriorities', 50, 150],
-        ['yourIdeaCommunity', 50, 200]
-    ])('%p must be within %p and %p words', (fieldName, min, max) => {
-        assertMessagesByKey({ [fieldName]: faker.lorem.words(min - 1) }, [
-            expect.stringMatching(/Answer must be at least/)
-        ]);
+    const result = formBuilder({ data }).validation;
 
-        assertMessagesByKey({ [fieldName]: faker.lorem.words(max + 1) }, [
-            expect.stringMatching(/Answer must be no more than/)
-        ]);
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Select the specific group')
+        ])
+    );
+});
+
+test('require additional beneficiary questions based on groups', () => {
+    const data = mockResponse({
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: [
+            'ethnic-background',
+            'gender',
+            'age',
+            'disabled-people',
+            'religion',
+            'lgbt',
+            'caring-responsibilities'
+        ],
+        beneficiariesGroupsOther: null,
+        beneficiariesGroupsEthnicBackground: null,
+        beneficiariesGroupsGender: null,
+        beneficiariesGroupsAge: null,
+        beneficiariesGroupsDisabledPeople: null,
+        beneficiariesGroupsReligion: null,
+        beneficiariesGroupsReligionOther: null
+    });
+
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toMatchSnapshot();
+});
+
+test('strip beneficiary data when check is "no"', () => {
+    const form = formBuilder({
+        data: mockBeneficiaries('no')
+    });
+
+    expect(form.validation.value).toEqual({
+        beneficiariesGroupsCheck: 'no'
     });
 });
 
-describe('Project budget', () => {
-    function value(budget, totalCosts = 20000) {
-        return { projectBudget: budget, projectTotalCosts: totalCosts };
-    }
-
-    test('must provide a valid budget', () => {
-        assertValidByKey(value(mockBudget()));
-
-        const defaultMessages = ['Enter a project budget'];
-        const tooSmallMessage = ['Enter at least one item'];
-        assertMessagesByKey(value([]), tooSmallMessage);
-
-        const budgetWithoutCosts = times(5, () => ({
-            item: faker.lorem.words(5)
-        }));
-
-        assertMessagesByKey(value(budgetWithoutCosts), defaultMessages);
+test('allow only "other" option for beneficiary groups', () => {
+    const data = mockResponse({
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: undefined,
+        beneficiariesGroupsOther: 'this should be valid'
     });
 
-    test('project costs must be less than £10,000', () => {
-        const budget = times(10, () => ({
-            item: faker.lorem.words(5),
-            cost: 1100
-        }));
-
-        assertMessagesByKey(value(budget), [
-            'Costs you would like us to fund must be less than £10,000'
-        ]);
-    });
-
-    test('project total costs must be at least value of project budget', () => {
-        assertValidByKey(value(mockBudget()));
-
-        assertMessagesByKey(value(mockBudget(), null), [
-            'Enter a total cost for your project'
-        ]);
-        assertMessagesByKey(value(mockBudget(), Infinity), [
-            'Enter a total cost for your project'
-        ]);
-        assertMessagesByKey(value(mockBudget(), 1000), [
-            'Total cost must be the same as or higher than the amount you’re asking us to fund'
-        ]);
-    });
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
 });
 
-describe('Who will benefit', () => {
-    test('require beneficiary groups when check is "yes"', () => {
-        assertMessagesByKey(
-            {
-                beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroups: null,
-                beneficiariesGroupsOther: null
-            },
-            [expect.stringContaining('Select the specific group')]
-        );
+test('finance details required if organisation is over 15 months old', function() {
+    const now = moment();
+    const requiredDate = now.clone().subtract('15', 'months');
+
+    const validData = mockResponse({
+        organisationStartDate: { month: now.month() + 1, year: now.year() },
+        accountingYearDate: null,
+        totalIncomeYear: null
     });
 
-    test('require additional beneficiary questions based on groups', () => {
-        expect(
-            messagesByKey({
-                beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
-                beneficiariesGroupsOther: null,
-                beneficiariesGroupsEthnicBackground: null,
-                beneficiariesGroupsGender: null,
-                beneficiariesGroupsAge: null,
-                beneficiariesGroupsDisabledPeople: null,
-                beneficiariesGroupsReligion: null,
-                beneficiariesGroupsReligionOther: null
-            })
-        ).toMatchSnapshot();
+    const validForm = formBuilder({ data: validData });
+    expect(validForm.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
+        organisationStartDate: {
+            month: requiredDate.month() + 1,
+            year: requiredDate.year()
+        },
+        accountingYearDate: null,
+        totalIncomeYear: null
     });
 
-    test('strip beneficiary data when check is "no"', () => {
-        assertValidByKey(mockBeneficiaries('no'));
-        expect(
-            formBuilder({
-                data: mockBeneficiaries('no')
-            }).validation.value
-        ).toEqual({
-            beneficiariesGroupsCheck: 'no'
-        });
-    });
+    const invalidForm = formBuilder({ data: invalidData });
 
-    test('allow only "other" option for beneficiary groups', () => {
-        assertValidByKey(mockBeneficiaries('yes'));
-
-        assertValidByKey({
-            beneficiariesGroupsCheck: 'yes',
-            beneficiariesGroupsOther: 'this should be valid',
-            beneficiariesGroupsEthnicBackground: null,
-            beneficiariesGroupsGender: null,
-            beneficiariesGroupsAge: null,
-            beneficiariesGroupsDisabledPeople: null,
-            beneficiariesGroupsReligion: null,
-            beneficiariesGroupsReligionOther: null
-        });
-
-        assertValidByKey(mockBeneficiaries('yes'));
-    });
+    expect(mapMessages(invalidForm.validation)).toMatchSnapshot();
 });
 
-describe('Your organisation', () => {
-    test('valid basic organisation details required', () => {
-        const invalidOrganisationData = {
-            organisationLegalName: null,
-            organisationStartDate: {
-                month: 2
+test.each(['school', 'college-or-university', 'statutory-body'])(
+    'dates of birth and addresses stripped for %p',
+    function(excludedOrgType) {
+        const validData = {
+            organisationType: excludedOrgType,
+            seniorContactDateOfBirth: mockDateOfBirth(18, 90),
+            mainContactDateOfBirth: mockDateOfBirth(16, 90),
+            seniorContactAddress: mockAddress(),
+            seniorContactAddressHistory: {
+                currentAddressMeetsMinimum: 'yes',
+                previousAddress: mockAddress()
             },
-            organisationAddress: {
-                line1: '3 Embassy Drive',
-                county: 'West Midlands',
-                postcode: 'B15 1TR'
-            },
-            organisationType: sample([null, 'not-a-valid-option'])
-        };
-
-        expect(messagesByKey(invalidOrganisationData)).toMatchSnapshot();
-    });
-
-    test('finance details required if organisation is over 15 months old', function() {
-        const now = moment();
-        const requiredDate = now.clone().subtract('15', 'months');
-
-        assertValidByKey({
-            organisationStartDate: {
-                month: now.month() + 1,
-                year: now.year()
-            },
-            accountingYearDate: null,
-            totalIncomeYear: null
-        });
-
-        expect(
-            messagesByKey({
-                organisationStartDate: {
-                    month: requiredDate.month() + 1,
-                    year: requiredDate.year()
-                },
-                accountingYearDate: null,
-                totalIncomeYear: null
-            })
-        ).toMatchSnapshot();
-
-        expect(
-            messagesByKey({
-                organisationStartDate: {
-                    month: requiredDate.month() + 1,
-                    year: requiredDate.year()
-                },
-                accountingYearDate: {
-                    month: 22,
-                    year: 2021
-                },
-                totalIncomeYear: Infinity
-            })
-        ).toMatchSnapshot();
-    });
-});
-describe('Registration numbers', function() {
-    const noRegistrationNumbers = difference(
-        Object.values(ORGANISATION_TYPES),
-        concat(
-            COMPANY_NUMBER_TYPES,
-            CHARITY_NUMBER_TYPES.required,
-            CHARITY_NUMBER_TYPES.optional,
-            EDUCATION_NUMBER_TYPES
-        )
-    );
-
-    test.each(noRegistrationNumbers)(
-        'no registration numbers required for %p',
-        function(organisationType) {
-            assertValidByKey({
-                organisationType: organisationType,
-                companyNumber: null,
-                charityNumber: null,
-                educationNumber: null
-            });
-        }
-    );
-
-    test.each(COMPANY_NUMBER_TYPES)('company number required for %p', function(
-        organisationType
-    ) {
-        assertValidByKey({
-            organisationType: organisationType,
-            companyNumber: '12345678'
-        });
-
-        assertMessagesByKey(
-            {
-                organisationType: organisationType,
-                companyNumber: undefined
-            },
-            ['Enter your organisation’s Companies House number']
-        );
-    });
-
-    test.each(
-        concat(CHARITY_NUMBER_TYPES.required, CHARITY_NUMBER_TYPES.optional)
-    )('Disallow letter O in charity number for %p', function(organisationType) {
-        assertInvalidByKey({
-            organisationType: organisationType,
-            charityNumber: 'SCO123'
-        });
-
-        assertInvalidByKey({
-            organisationType: organisationType,
-            charityNumber: 'SCo123'
-        });
-    });
-
-    test.each(CHARITY_NUMBER_TYPES.required)(
-        'charity number required for %p',
-        function(organisationType) {
-            const data = {
-                organisationType: organisationType,
-                charityNumber: '23456789'
-            };
-
-            assertValidByKey(data);
-
-            assertMessagesByKey(
-                {
-                    organisationType: organisationType,
-                    charityNumber: null
-                },
-                ['Enter your organisation’s charity number']
-            );
-
-            expect(
-                formBuilder({
-                    locale: 'en',
-                    data: {
-                        organisationType,
-                        companyNumber: '12345678',
-                        charityNumber: '23456789',
-                        educationNumber: '345678'
-                    }
-                }).validation.value
-            ).toEqual(data);
-        }
-    );
-
-    test.each(CHARITY_NUMBER_TYPES.optional)(
-        'charity number optional for %p',
-        function(organisationType) {
-            const data = {
-                organisationType: organisationType,
-                charityNumber: '23456789'
-            };
-
-            assertValidByKey(data);
-            assertValidByKey({
-                organisationType: organisationType,
-                charityNumber: null
-            });
-
-            assertValidByKey({
-                organisationType: organisationType,
-                charityNumber: ''
-            });
-
-            const fullNumbers = {
-                organisationType,
-                charityNumber: '23456789',
-                educationNumber: '345678'
-            };
-
-            expect(
-                formBuilder({
-                    locale: 'en',
-                    data: fullNumbers
-                }).validation.value
-            ).toEqual(data);
-        }
-    );
-
-    test.each(EDUCATION_NUMBER_TYPES)(
-        'education number required for %p',
-        function(organisationType) {
-            assertMessagesByKey(
-                {
-                    organisationType: organisationType,
-                    educationNumber: undefined
-                },
-                ['Enter your organisation’s Department for Education number']
-            );
-
-            assertValidByKey({
-                organisationType: organisationType,
-                educationNumber: '1160580'
-            });
-        }
-    );
-
-    test('registration numbers shown based on organisation type', () => {
-        const mappings = {
-            companyNumber: COMPANY_NUMBER_TYPES,
-            charityNumber: concat(
-                CHARITY_NUMBER_TYPES.required,
-                CHARITY_NUMBER_TYPES.optional
-            ),
-            educationNumber: EDUCATION_NUMBER_TYPES
-        };
-
-        map(mappings, (types, fieldName) => {
-            types.forEach(type => {
-                const fieldNames = formBuilder({
-                    locale: 'en',
-                    data: { organisationType: type }
-                })
-                    .getCurrentFieldsForStep('organisation', 3)
-                    .map(field => field.name);
-
-                expect(fieldNames).toContain(fieldName);
-            });
-        });
-    });
-});
-
-describe('Contacts', () => {
-    test.each(['seniorContactName', 'mainContactName'])(
-        'first and last name must be provided for %p',
-        function(fieldName) {
-            assertMessagesByKey(
-                {
-                    [fieldName]: {
-                        firstName: null,
-                        lastName: null
-                    }
-                },
-                ['Enter first and last name']
-            );
-        }
-    );
-
-    test('full names must not match', function() {
-        expect(
-            messagesByKey({
-                seniorContactName: { firstName: 'Ann', lastName: 'Example' },
-                mainContactName: { firstName: 'Ann', lastName: 'Example' }
-            })
-        ).toMatchSnapshot();
-    });
-
-    test('include warning if contact last names match', () => {
-        const form = formBuilder();
-
-        expect(form.allFields.mainContactName.warnings).toEqual([]);
-
-        const lastName = faker.name.lastName();
-        const formWithMatchingLastNames = formBuilder({
-            data: {
-                seniorContactName: {
-                    firstName: faker.name.firstName(),
-                    lastName: lastName
-                },
-                mainContactName: {
-                    firstName: faker.name.firstName(),
-                    lastName: lastName
-                }
+            mainContactAddress: mockAddress(),
+            mainContactAddressHistory: {
+                currentAddressMeetsMinimum: 'yes',
+                previousAddress: mockAddress()
             }
-        });
+        };
 
-        expect(
-            formWithMatchingLastNames.allFields.mainContactName.warnings
-        ).toEqual([expect.stringContaining('have the same surname')]);
-    });
+        const invalidData = {
+            organisationType: excludedOrgType,
+            seniorContactDateOfBirth: mockDateOfBirth(1, 17),
+            mainContactDateOfBirth: mockDateOfBirth(1, 17),
+            seniorContactAddress: {
+                line1: faker.address.streetAddress(),
+                townCity: faker.address.city(),
+                county: faker.address.county()
+            },
+            mainContactAddress: {
+                line1: faker.address.streetAddress(),
+                townCity: faker.address.city(),
+                county: faker.address.county()
+            }
+        };
 
-    test.each(['seniorContactEmail', 'mainContactEmail'])(
-        'email address must be valid for %p',
-        function(fieldName) {
-            assertMessagesByKey(
-                {
-                    [fieldName]: 'not@anemail'
-                },
-                [
-                    'Email address must be in the correct format, like name@example.com'
-                ]
-            );
-        }
-    );
+        const expected = { organisationType: excludedOrgType };
 
-    test('email addresses must not match', function() {
-        const form = formBuilder({
-            data: mockResponse({
-                seniorContactEmail: 'example@example.com',
-                mainContactEmail: 'Example@example.com' // Test for case insensitivity
-            })
-        });
+        const validForm = formBuilder({ data: validData });
+        expect(validForm.validation.value).toEqual(expected);
 
-        expect(mapMessages(form.validation)).toEqual(
-            expect.arrayContaining([
-                expect.stringContaining(
-                    'Main contact email address must be different'
-                )
-            ])
-        );
-    });
+        // Should strip even when values are invalid
+        const invalidForm = formBuilder({ data: invalidData });
+        expect(invalidForm.validation.value).toEqual(expected);
 
-    test.each(['seniorContactPhone', 'mainContactPhone'])(
-        'phone number must be valid for %p',
-        function(fieldName) {
-            assertMessagesByKey(
-                {
-                    [fieldName]: 'not a phone number'
-                },
-                ['Enter a real UK telephone number']
-            );
-        }
-    );
-
-    test.each([
-        ['seniorContactDateOfBirth', 18],
-        ['mainContactDateOfBirth', 16]
-    ])(`date of birth must be valid for %p`, function(fieldName, minAge) {
-        assertMessagesByKey({ [fieldName]: null }, ['Enter a date of birth']);
-
-        assertMessagesByKey(
-            { [fieldName]: { year: 2000, month: 2, day: 31 } },
-            ['Enter a real date']
+        const seniorContactFields = fieldsForSection(
+            validForm,
+            'senior-contact'
         );
 
-        assertMessagesByKey({ [fieldName]: mockDateOfBirth(0, minAge - 1) }, [
-            `Must be at least ${minAge} years old`
+        expect(seniorContactFields).not.toContainEqual([
+            'seniorContactDateOfBirth',
+            'seniorContactAddress',
+            'seniorContactAddressHistory'
         ]);
 
-        assertValidByKey({
-            [fieldName]: mockDateOfBirth(minAge, 90)
-        });
-    });
+        const mainContactFields = fieldsForSection(validForm, 'main-contact');
 
-    test('contact address required by default', () => {
-        const data = omit(mockResponse(), [
+        expect(mainContactFields).not.toContainEqual([
+            'mainContactDateOfBirth',
             'mainContactAddress',
-            'seniorContactAddress'
+            'mainContactAddressHistory'
         ]);
-
-        const validationResult = formBuilder({ data }).validation;
-
-        expect(mapRawMessages(validationResult)).toEqual([
-            '"mainContactAddress" is required',
-            '"seniorContactAddress" is required'
-        ]);
-
-        expect(mapMessages(validationResult)).toEqual(
-            expect.arrayContaining(['Enter a full UK address'])
-        );
-
-        expect(validationResult.isValid).toBeFalsy();
-    });
-
-    test.each(CONTACT_EXCLUDED_TYPES)(
-        'dates of birth and addresses stripped for %p',
-        function(excludedOrgType) {
-            const validForm = formBuilder({
-                data: {
-                    organisationType: excludedOrgType,
-                    seniorContactDateOfBirth: mockDateOfBirth(18, 90),
-                    mainContactDateOfBirth: mockDateOfBirth(16, 90),
-                    seniorContactAddress: mockAddress(),
-                    seniorContactAddressHistory: {
-                        currentAddressMeetsMinimum: 'yes',
-                        previousAddress: mockAddress()
-                    },
-                    mainContactAddress: mockAddress(),
-                    mainContactAddressHistory: {
-                        currentAddressMeetsMinimum: 'yes',
-                        previousAddress: mockAddress()
-                    }
-                }
-            });
-
-            // Should strip even when values are invalid
-            const invalidForm = formBuilder({
-                data: {
-                    organisationType: excludedOrgType,
-                    seniorContactDateOfBirth: mockDateOfBirth(1, 17),
-                    mainContactDateOfBirth: mockDateOfBirth(1, 17),
-                    seniorContactAddress: {
-                        line1: faker.address.streetAddress(),
-                        townCity: faker.address.city(),
-                        county: faker.address.county()
-                    },
-                    mainContactAddress: {
-                        line1: faker.address.streetAddress(),
-                        townCity: faker.address.city(),
-                        county: faker.address.county()
-                    }
-                }
-            });
-
-            const expectedData = {
-                organisationType: excludedOrgType
-            };
-
-            assertValidByKey(expectedData);
-
-            expect(validForm.validation.value).toEqual(expectedData);
-
-            expect(invalidForm.validation.value).toEqual(expectedData);
-
-            // Check fields are not shown
-            function checkFieldsForSection(section, expectedFields) {
-                const fields = validForm
-                    .getCurrentFieldsForStep(section, 0)
-                    .map(field => field.name);
-
-                expect(fields).toEqual(expectedFields);
-            }
-
-            checkFieldsForSection('senior-contact', [
-                'seniorContactRole',
-                'seniorContactName',
-                'seniorContactEmail',
-                'seniorContactPhone',
-                'seniorContactCommunicationNeeds'
-            ]);
-
-            checkFieldsForSection('main-contact', [
-                'mainContactName',
-                'mainContactEmail',
-                'mainContactPhone',
-                'mainContactCommunicationNeeds'
-            ]);
-        }
-    );
-
-    test.each(['seniorContactAddress', 'mainContactAddress'])(
-        'address is valid for %p',
-        function(fieldName) {
-            const partialAddress = {
-                line1: '3 Embassy Drive',
-                county: 'West Midlands',
-                postcode: 'B15 1TR'
-            };
-
-            const addressWithInvalidPostcode = {
-                ...mockAddress(),
-                ...{ postcode: 'not a postcode' }
-            };
-
-            assertMessagesByKey({ [fieldName]: null }, [
-                'Enter a full UK address'
-            ]);
-
-            assertMessagesByKey({ [fieldName]: partialAddress }, [
-                'Enter a full UK address'
-            ]);
-
-            assertMessagesByKey({ [fieldName]: addressWithInvalidPostcode }, [
-                'Enter a real postcode'
-            ]);
-        }
-    );
-
-    test.each(['seniorContactAddressHistory', 'mainContactAddressHistory'])(
-        'address history is valid for %p',
-        function(fieldName) {
-            assertValidByKey({
-                [fieldName]: {
-                    currentAddressMeetsMinimum: 'yes',
-                    previousAddress: null
-                }
-            });
-
-            assertValidByKey({
-                [fieldName]: {
-                    currentAddressMeetsMinimum: 'no',
-                    previousAddress: mockAddress()
-                }
-            });
-
-            assertMessagesByKey(
-                {
-                    [fieldName]: {
-                        currentAddressMeetsMinimum: 'no',
-                        previousAddress: {
-                            line1: faker.address.streetAddress(),
-                            townCity: faker.address.city()
-                        }
-                    }
-                },
-                ['Enter a full UK address']
-            );
-        }
-    );
-
-    test('contact addresses must not match', function() {
-        expect(
-            messagesByKey({
-                seniorContactAddress: {
-                    line1: 'National Lottery Community Fund',
-                    line2: 'Apex House',
-                    county: 'West Midlands',
-                    postcode: 'B15 1TR',
-                    townCity: 'BIRMINGHAM'
-                },
-                mainContactAddress: {
-                    line1: 'National Lottery Community Fund',
-                    line2: 'Apex House',
-                    county: 'West Midlands',
-                    postcode: 'B15 1TR',
-                    townCity: 'BIRMINGHAM'
-                }
-            })
-        ).toMatchSnapshot();
-    });
-});
-
-describe('Bank details', () => {
-    test('requires valid bank details', () => {
-        expect(
-            messagesByKey({
-                bankAccountName: null,
-                bankSortCode: null,
-                bankAccountNumber: null
-            })
-        ).toMatchSnapshot();
-    });
-
-    test('valid bank statement upload', () => {
-        assertValidByKey({
-            bankStatement: {
-                filename: 'example.pdf',
-                size: 123,
-                type: 'application/pdf'
-            }
-        });
-
-        assertMessagesByKey({ bankStatement: null }, [
-            'Provide a bank statement'
-        ]);
-    });
-});
+    }
+);

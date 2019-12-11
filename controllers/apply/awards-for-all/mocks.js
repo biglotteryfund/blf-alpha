@@ -24,15 +24,6 @@ function mockAddress() {
     };
 }
 
-function mockBudget() {
-    return new Array(5).fill(null).map(() => {
-        return {
-            item: faker.lorem.words(5),
-            cost: faker.random.number({ min: 100, max: 1000 })
-        };
-    });
-}
-
 function mockBeneficiaries(checkAnswer = 'yes') {
     return {
         beneficiariesGroupsCheck: checkAnswer,
@@ -67,7 +58,12 @@ function mockResponse(overrides = {}) {
         yourIdeaProject: faker.lorem.words(random(50, 250)),
         yourIdeaPriorities: faker.lorem.words(random(50, 100)),
         yourIdeaCommunity: faker.lorem.words(random(50, 150)),
-        projectBudget: mockBudget(),
+        projectBudget: new Array(5).fill(null).map(() => {
+            return {
+                item: faker.lorem.words(5),
+                cost: faker.random.number({ min: 100, max: 1000 })
+            };
+        }),
         projectTotalCosts: 20000,
         beneficiariesGroupsCheck: 'yes',
         beneficiariesGroups: [
@@ -147,7 +143,6 @@ function mockResponse(overrides = {}) {
 module.exports = {
     mockAddress,
     mockBeneficiaries,
-    mockBudget,
     mockDateOfBirth,
     mockResponse,
     toDateParts
