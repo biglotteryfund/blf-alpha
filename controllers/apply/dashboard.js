@@ -11,12 +11,15 @@ const { PendingApplication, SubmittedApplication } = require('../../db/models');
 
 const enrichAwardsForAll = require('./awards-for-all/enrich');
 const enrichStandard = require('./standard-proposal/enrich');
+const enrichContactsNext = require('./contacts-next/enrich');
 
 const router = express.Router();
 
 function enrichPending(application, locale) {
     if (application.formId === 'awards-for-all') {
         return enrichAwardsForAll.enrichPending(application, locale);
+    } else if (application.formId === 'dev-contacts-next') {
+        return enrichContactsNext.enrichPending(application, locale);
     } else {
         return enrichStandard.enrichPending(application, locale);
     }
@@ -25,6 +28,8 @@ function enrichPending(application, locale) {
 function enrichSubmitted(application, locale) {
     if (application.formId === 'awards-for-all') {
         return enrichAwardsForAll.enrichSubmitted(application, locale);
+    } else if (application.formId === 'dev-contacts-next') {
+        return enrichContactsNext.enrichSubmitted(application, locale);
     } else {
         return enrichStandard.enrichSubmitted(application, locale);
     }

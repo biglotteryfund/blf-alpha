@@ -47,13 +47,17 @@
                     </p>
                 </div>
 
+                {% if step.introduction %}
+                    <div class="form-fieldset__intro s-prose">{{ step.introduction | safe }}</div>
+                {% endif %}
+
                 {{ formErrors(__('global.misc.errorTitle'), errors) }}
 
                 {% set singleFieldset = step.fieldsets.length === 1 %}
                 {% for fieldset in step.fieldsets %}
-                    <fieldset class="form-fieldset u-constrained-wide">
+                    <fieldset class="form-fieldset{% if not singleFieldset %} form-fieldset--multi{% endif %} u-constrained-wide">
                         <legend
-                            class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
+                            class="form-fieldset__legend t2{% if singleFieldset %} u-visually-hidden{% endif %}">
                             {{ fieldset.legend }}
                         </legend>
 

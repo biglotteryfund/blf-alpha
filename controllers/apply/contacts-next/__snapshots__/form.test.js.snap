@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bank details requires valid bank details 1`] = `
+Array [
+  "Enter a sort code",
+  "Enter an account number",
+  "Enter the name of your organisation, as it appears on your bank statement",
+]
+`;
+
+exports[`Contacts contact addresses must not match 1`] = `
+Array [
+  "Main contact address must be different from the senior contact's address",
+  "Senior contact address must be different from the main contact's address",
+]
+`;
+
+exports[`Contacts full names must not match 1`] = `
+Array [
+  "Main contact name must be different from the senior contact's name",
+  "Senior contact name must be different from the main contact's name",
+]
+`;
+
+exports[`Who will benefit require additional beneficiary questions based on groups 1`] = `
+Array [
+  "Select the age group(s) of the people that will benefit from your project",
+  "Select the disabled people that will benefit from your project",
+  "Select the ethnic background(s) of the people that will benefit from your project",
+  "Select the gender(s) of the people that will benefit from your project",
+  "Select the religion(s) or belief(s) of the people that will benefit from your project",
+]
+`;
+
+exports[`Your organisation finance details required if organisation is over 15 months old 1`] = `
+Array [
+  "Enter a day and month",
+  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
+]
+`;
+
+exports[`Your organisation finance details required if organisation is over 15 months old 2`] = `
+Array [
+  "Enter a day and month",
+  "Total income must be a real number",
+]
+`;
+
+exports[`Your organisation valid basic organisation details required 1`] = `
+Array [
+  "Enter a full UK address",
+  "Enter a month and year",
+  "Enter the full legal name of the organisation",
+  "Select a type of organisation",
+]
+`;
+
+exports[`empty form 1`] = `
+Array [
+  "projectName: Enter a project name",
+  "projectCountry: Select a country",
+  "yourIdeaProject: Tell us about your project",
+  "yourIdeaPriorities: Tell us how your project meets at least one of our funding priorities",
+  "yourIdeaCommunity: Tell us how your project involves your community",
+  "projectBudget: Enter a project budget",
+  "projectTotalCosts: Enter a total cost for your project",
+  "beneficiariesGroupsCheck: Select an option",
+  "organisationLegalName: Enter the full legal name of the organisation",
+  "organisationStartDate: Enter a month and year",
+  "organisationAddress: Enter a full UK address",
+  "organisationType: Select a type of organisation",
+  "mainContactName: Enter first and last name",
+  "mainContactDateOfBirth: Enter a date of birth",
+  "mainContactAddress: Enter a full UK address",
+  "mainContactAddressHistory: Enter a full UK address",
+  "mainContactPhone: Enter a UK telephone number",
+  "seniorContactRole: Choose a role",
+  "seniorContactName: Enter first and last name",
+  "seniorContactDateOfBirth: Enter a date of birth",
+  "seniorContactAddress: Enter a full UK address",
+  "seniorContactAddressHistory: Enter a full UK address",
+  "seniorContactEmail: Enter an email address",
+  "seniorContactPhone: Enter a UK telephone number",
+  "bankAccountName: Enter the name of your organisation, as it appears on your bank statement",
+  "bankSortCode: Enter a sort code",
+  "bankAccountNumber: Enter an account number",
+  "bankStatement: Provide a bank statement",
+  "termsAgreement1: You must confirm that you're authorised to submit this application",
+  "termsAgreement2: You must confirm that the information you've provided in this application is accurate",
+  "termsAgreement3: You must confirm that you understand how we'll use any personal information you've provided",
+  "termsAgreement4: You must confirm that you understand your application is subject to our Freedom of Information policy",
+  "termsPersonName: Enter the full name of the person completing this form",
+  "termsPersonPosition: Enter the position of the person completing this form",
+]
+`;
+
+exports[`empty form 2`] = `
+Object {
+  "isComplete": false,
+  "isPristine": true,
+  "sections": Array [
+    Object {
+      "label": "Your project",
+      "slug": "your-project",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Who will benefit",
+      "slug": "beneficiaries",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Your organisation",
+      "slug": "organisation",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Senior contact",
+      "slug": "senior-contact",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Main contact",
+      "slug": "main-contact",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Bank details",
+      "slug": "bank-details",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Terms and conditions",
+      "slug": "terms-and-conditions",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+  ],
+  "sectionsComplete": 0,
+}
+`;
