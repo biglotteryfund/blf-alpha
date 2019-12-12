@@ -34,7 +34,7 @@ Object {
 exports[`enrich submitted applications 1`] = `
 Object {
   "amountRequested": "£6,750",
-  "formId": "contacts-next",
+  "formId": "dev-contacts-next",
   "id": "some-uuid",
   "overview": Array [
     Object {
