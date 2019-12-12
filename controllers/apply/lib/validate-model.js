@@ -60,6 +60,7 @@ module.exports = function validateModel(formModel) {
 
     const stepSchema = Joi.object({
         title: Joi.string().required(),
+        introduction: Joi.string().optional(),
         noValidate: Joi.boolean().optional(),
         slug: Joi.string().required(),
         isRequired: Joi.boolean().required(),
