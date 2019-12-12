@@ -10,9 +10,7 @@ const { safeHtml, oneLine } = require('common-tags');
 const { FormModel } = require('../lib/form-model');
 const fromDateParts = require('../lib/from-date-parts');
 const { CONTACT_EXCLUDED_TYPES } = require('./constants');
-
 const fieldsFor = require('./fields');
-const { getContactFullName } = require('./lib/contacts');
 
 module.exports = function({
     locale = 'en',
@@ -63,11 +61,22 @@ module.exports = function({
         );
     }
 
-    function stepChooseContacts() {
+    function sectionChooseContacts() {
         return {
-            title: localise({ en: 'Senior & Main contacts', cy: '@TODO i18n' }),
-            introduction: localise({
-                en: safeHtml`<p>
+            slug: 'choose-contacts',
+            title: localise({ en: 'Contacts', cy: '@TODO i18n' }),
+            summary: localise({
+                en: oneLine`@TODO`,
+                cy: oneLine`@TODO i18n`
+            }),
+            steps: [
+                {
+                    title: localise({
+                        en: 'Senior & Main contacts',
+                        cy: '@TODO i18n'
+                    }),
+                    introduction: localise({
+                        en: safeHtml`<p>
                         Please give us the contact details of two different people at your organisation. They must both live in the UK.
                     </p>
                     <p>
@@ -80,17 +89,17 @@ module.exports = function({
                         <li>or related by blood.</li> 
                     </ul>
                 `,
-                cy: '@TODO i18n'
-            }),
-            fieldsets: [
-                {
-                    legend: localise({
-                        en: 'Senior contact',
                         cy: '@TODO i18n'
                     }),
-                    get introduction() {
-                        return localise({
-                            en: safeHtml`<p>
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Senior contact',
+                                cy: '@TODO i18n'
+                            }),
+                            get introduction() {
+                                return localise({
+                                    en: safeHtml`<p>
                                 Your senior contact should be
                             </p>
                             <ul>
@@ -98,19 +107,22 @@ module.exports = function({
                                 <li>legally responsible for this funding and meeting any monitoring requirements</li>
                             </ul>
                             `,
-                            cy: '@TODO i18n'
-                        });
-                    },
-                    fields: [fields.seniorContactRole, fields.seniorContactName]
-                },
-                {
-                    legend: localise({
-                        en: 'Main contact',
-                        cy: '@TODO i18n'
-                    }),
-                    get introduction() {
-                        return localise({
-                            en: safeHtml`<p>
+                                    cy: '@TODO i18n'
+                                });
+                            },
+                            fields: [
+                                fields.seniorContactRole,
+                                fields.seniorContactName
+                            ]
+                        },
+                        {
+                            legend: localise({
+                                en: 'Main contact',
+                                cy: '@TODO i18n'
+                            }),
+                            get introduction() {
+                                return localise({
+                                    en: safeHtml`<p>
                                 Your main contact should be
                             </p>
                             <ul>
@@ -119,186 +131,14 @@ module.exports = function({
                             </ul>
                             <p>They don't have to hold any particular position.</p>
                             `,
-                            cy: '@TODO i18n'
-                        });
-                    },
-                    fields: [fields.mainContactName]
+                                    cy: '@TODO i18n'
+                                });
+                            },
+                            fields: [fields.mainContactName]
+                        }
+                    ]
                 }
             ]
-        };
-    }
-
-    function stepSeniorContact() {
-        return {
-            title: localise({ en: 'Senior contact 2', cy: 'Uwch gyswllt' }),
-            fieldsets: [
-                {
-                    legend: localise({
-                        en: 'Who is your senior contact?',
-                        cy: 'Pwy yw eich uwch gyswllt?'
-                    }),
-                    introduction: localise({
-                        en: `
-                        <p>
-                            Please give us the contact details of a senior member of your organisation.
-                        </p>
-                        <p>
-                            Your senior contact must be at least 18 years old and is legally responsible
-                            for ensuring that this application is supported by the organisation applying,
-                            any funding is delivered as set out in the application form, and that the
-                            funded organisation meets our monitoring requirements.
-                        </p>`,
-                        cy: `
-                        <p>
-                            Rhowch fanylion cyswllt uwch aelod o’ch sefydliad.
-                        </p>
-                        <p>
-                            Rhaid i’ch uwch gyswllt fod dros 18 oed a’n gyfreithiol gyfrifol 
-                            am sicrhau fod y cais hwn yn cael ei gefnogi gan y sefydliad sy’n ymgeisio, 
-                            bod unrhyw arian yn cael ei ddarparu fel y gosodwyd yn y ffurflen gais, a bod y 
-                            sefydliad a ariennir yn cwrdd â’n gofynion monitro.
-                        </p>`
-                    }),
-                    get fields() {
-                        const allFields = [
-                            fields.seniorContactRole,
-                            fields.seniorContactName,
-                            fields.seniorContactDateOfBirth,
-                            fields.seniorContactAddress,
-                            fields.seniorContactAddressHistory,
-                            fields.seniorContactEmail,
-                            fields.seniorContactPhone,
-                            fields.seniorContactLanguagePreference,
-                            fields.seniorContactCommunicationNeeds
-                        ];
-
-                        const filteredFields = compact([
-                            fields.seniorContactRole,
-                            fields.seniorContactName,
-                            includeAddressAndDob() &&
-                                fields.seniorContactDateOfBirth,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddress,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddressHistory,
-                            fields.seniorContactEmail,
-                            fields.seniorContactPhone,
-                            isForCountry('wales') &&
-                                fields.seniorContactLanguagePreference,
-                            fields.seniorContactCommunicationNeeds
-                        ]);
-                        return conditionalFields(allFields, filteredFields);
-                    }
-                }
-            ]
-        };
-    }
-
-    function stepMainContact() {
-        return {
-            title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
-            fieldsets: [
-                {
-                    legend: localise({
-                        en: 'Who is your main contact?',
-                        cy: 'Pwy yw eich prif gyswllt?'
-                    }),
-                    get introduction() {
-                        const seniorName = getContactFullName(
-                            get('seniorContactName')(data)
-                        );
-                        const seniorNameMsg = seniorName
-                            ? `, ${seniorName}`
-                            : '';
-
-                        return localise({
-                            en:
-                                safeHtml`<p>
-                                Please give us the contact details of a person
-                                we can get in touch with if we have any questions.
-                                The main contact is usually the person filling in
-                                the form—so it's probably you. The main contact needs
-                                to be from the organisation applying, but they don't
-                                need to hold a particular position.    
-                            </p>
-                            <p>
-                                The main contact must be a different person from the senior contact` +
-                                seniorNameMsg +
-                                `. The two contacts also can't be:
-                            </p>
-                            <ul>                            
-                                <li>married to each other</li>
-                                <li>in a long-term relationship together</li>
-                                <li>living at the same address</li>
-                                <li>or related by blood.</li> 
-                            </ul>
-                            `,
-                            cy:
-                                safeHtml`<p>
-                                Rhowch fanylion cyswllt y person gallwn gysylltu â nhw os 
-                                oes gennym unrhyw gwestiynau. Y prif gyswllt fel arfer yw’r 
-                                person sy’n llenwi’r ffurflen – felly mae’n debyg mai chi yw hwn. 
-                                Mae’r prif gyswllt angen bod o’r sefydliad sy’n ymgeisio, ond nid 
-                                oes rhaid iddynt ddal unrhyw safle penodol o fewn y sefydliad.    
-                            </p>
-                            <p>
-                                Rhaid i’r prif gyswllt fod yn wahanol i’r uwch gyswllt` +
-                                seniorNameMsg +
-                                `. Ni all y ddau gyswllt hefyd fod:
-                            </p>
-                            <ul>                            
-                                <li>yn briod i’w gilydd</li>
-                                <li>mewn perthynas hir dymor a’u gilydd</li>
-                                <li>yn byw yn yr un cyfeiriad</li>
-                                <li>Neu yn perthyn drwy waed.</li>
-                            </ul>
-                            `
-                        });
-                    },
-                    get fields() {
-                        const allFields = compact([
-                            fields.mainContactName,
-                            fields.mainContactDateOfBirth,
-                            fields.mainContactAddress,
-                            fields.mainContactAddressHistory,
-                            fields.mainContactEmail,
-                            fields.mainContactPhone,
-                            fields.mainContactLanguagePreference,
-                            fields.mainContactCommunicationNeeds
-                        ]);
-
-                        return conditionalFields(
-                            allFields,
-                            compact([
-                                fields.mainContactName,
-                                includeAddressAndDob() &&
-                                    fields.mainContactDateOfBirth,
-                                includeAddressAndDob() &&
-                                    fields.mainContactAddress,
-                                includeAddressAndDob() &&
-                                    fields.mainContactAddressHistory,
-                                fields.mainContactEmail,
-                                fields.mainContactPhone,
-                                isForCountry('wales') &&
-                                    fields.mainContactLanguagePreference,
-                                fields.mainContactCommunicationNeeds
-                            ])
-                        );
-                    }
-                }
-            ]
-        };
-    }
-
-    function sectionChooseContacts() {
-        return {
-            slug: 'choose-contacts',
-            title: localise({ en: 'Contacts', cy: '@TODO i18n' }),
-            summary: localise({
-                en: oneLine`@TODO`,
-                cy: oneLine`@TODO i18n`
-            }),
-            steps: [stepChooseContacts()]
         };
     }
 
@@ -351,11 +191,16 @@ module.exports = function({
                                 cy: '@TODO i18n'
                             }),
                             get fields() {
-                                const allFields = [fields.seniorContactAddress];
+                                const allFields = [
+                                    fields.seniorContactAddress,
+                                    fields.seniorContactAddressHistory
+                                ];
 
                                 const filteredFields = compact([
                                     includeAddressAndDob() &&
-                                        fields.seniorContactAddress
+                                        fields.seniorContactAddress,
+                                    includeAddressAndDob() &&
+                                        fields.seniorContactAddressHistory
                                 ]);
                                 return conditionalFields(
                                     allFields,
@@ -431,7 +276,7 @@ module.exports = function({
 
                                 const filteredFields = compact([
                                     includeAddressAndDob() &&
-                                    fields.mainContactDateOfBirth
+                                        fields.mainContactDateOfBirth
                                 ]);
                                 return conditionalFields(
                                     allFields,
@@ -450,11 +295,16 @@ module.exports = function({
                                 cy: '@TODO i18n'
                             }),
                             get fields() {
-                                const allFields = [fields.mainContactAddress];
+                                const allFields = [
+                                    fields.mainContactAddress,
+                                    fields.mainContactAddressHistory
+                                ];
 
                                 const filteredFields = compact([
                                     includeAddressAndDob() &&
-                                    fields.mainContactAddress
+                                        fields.mainContactAddress,
+                                    includeAddressAndDob() &&
+                                        fields.mainContactAddressHistory
                                 ]);
                                 return conditionalFields(
                                     allFields,
@@ -487,7 +337,7 @@ module.exports = function({
                                     fields.mainContactEmail,
                                     fields.mainContactPhone,
                                     isForCountry('wales') &&
-                                    fields.mainContactLanguagePreference,
+                                        fields.mainContactLanguagePreference,
                                     fields.mainContactCommunicationNeeds
                                 ]);
                                 return conditionalFields(
