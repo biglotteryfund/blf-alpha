@@ -2812,43 +2812,83 @@ Array [
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads",

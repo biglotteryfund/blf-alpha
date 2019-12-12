@@ -346,7 +346,11 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/funding/funding-guidance/managing-your-funding/evaluation`,
-        to: `/funding/funding-guidance/evaluation`
+        to: `/funding/managing-your-grant/gathering-evidence-and-learning`
+    }),
+    withRegionPrefixes({
+        from: `/funding/funding-guidance/evaluation`,
+        to: `/funding/managing-your-grant/gathering-evidence-and-learning`
     }),
     withRegionPrefixes({
         from: `/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads`,
