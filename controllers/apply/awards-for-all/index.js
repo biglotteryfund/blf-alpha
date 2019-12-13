@@ -1,4 +1,8 @@
 'use strict';
+const path = require('path');
+
+const { isNotProduction } = require('../../../common/appData');
+
 const { initFormRouter } = require('../form-router');
 
 const formBuilder = require('./form');
@@ -11,6 +15,9 @@ module.exports = initFormRouter({
     formId: 'awards-for-all',
     eligibilityBuilder: eligibilityBuilder,
     formBuilder: formBuilder,
+    startTemplate: isNotProduction
+        ? path.resolve(__dirname, './views/startpage.njk')
+        : null,
     confirmationBuilder: confirmationBuilder,
     transformFunction: transform,
     expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS
