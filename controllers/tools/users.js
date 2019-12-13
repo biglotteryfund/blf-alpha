@@ -85,7 +85,7 @@ router
     .route('/dashboard')
     .all((req, res, next) => {
         const allowedGroups = [
-            'b5630e8e-4064-4cad-a619-af12ae0208bf', // advice
+            'cc8dd518-4e0b-412f-983f-86e7ab852669', // advice
             '40d00757-141c-4f20-9f56-8750fb7366e0' // digital
         ];
         if (
