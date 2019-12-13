@@ -1,6 +1,5 @@
 'use strict';
 const path = require('path');
-const features = require('config').get('features');
 
 const { initFormRouter } = require('../form-router');
 
@@ -12,6 +11,5 @@ module.exports = initFormRouter({
     formBuilder: formBuilder,
     startTemplate: path.resolve(__dirname, './views/startpage.njk'),
     confirmationBuilder: confirmationBuilder,
-    enableSalesforceConnector: features.enableSalesforceConnector,
     isBilingual: false
 });

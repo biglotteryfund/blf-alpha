@@ -19,7 +19,7 @@
                             {% for error in step.errors %}
                                 <li>
                                     {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
-                                    {{ error.msg }}
+                                    {{ error.msg | safe }}
                                     {% if error.param %}</a>{% endif %}
                                 </li>
                             {% endfor %}
@@ -36,7 +36,7 @@
                     {% for error in featuredErrors %}
                         <li>
                             {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
-                            {{ error.msg }}
+                            {{ error.msg | safe }}
                             {% if error.param %}</a>{% endif %}
                         </li>
                     {% endfor %}
@@ -87,7 +87,7 @@
                                 {% if fieldErrors.length > 0 %}
                                     <ol class="step-summary__data__errors">
                                         {% for error in fieldErrors %}
-                                            <li>{{ error.msg }}</li>
+                                            <li>{{ error.msg | safe }}</li>
                                         {% endfor %}
                                     </ol>
                                 {% endif %}
@@ -154,7 +154,8 @@
                     title = copy.summary.showQuestions,
                     assistiveText = 'for "' + secTitle + '" section',
                     extraClasses = 'js-toggleable',
-                    isOpen = form.progress.isComplete or section.hasFeaturedErrors
+                    isOpen = form.progress.isComplete or section.hasFeaturedErrors,
+                    showInfoIcon = false
                 ) %}
                     {% for step in section.steps %}
                         {{ stepSummary(

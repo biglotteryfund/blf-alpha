@@ -15,8 +15,10 @@ global:
     ukWide: UK-wide
   nav:
     home: Home
+    toplevel: Home
     logIn: Log in
     logOut: Log out
+    myApplications: My applications
     funding: Funding
     local: In your area
     insights: Insights
@@ -565,10 +567,9 @@ funding:
       what matters to people and communities. We will fund organisations with great
       project ideas that:'
     ideas:
-    - Shape the places and spaces that matter to communities
-    - Bring more people together and build strong relationships in and across communities
-    - Enable more people to fulfil their potential by working to address issues at
-      the earliest possible stage
+      - bring people together and build strong relationships in and across communities
+      - improve the places and spaces that matter to communities
+      - help more people to reach their potential, by supporting them at the earliest possible stage.
     callToAction: Want to know more? Start by telling us where your project is going
       to be
     locations:
@@ -581,7 +582,6 @@ funding:
       out more about our UK-wide funding</a>. We also make grants of <a href="/over10k">more
       than £10,000</a> for longer term projects.
     projectExamples: Examples of projects that have been funded
-    disclaimer: Some businesses promote their services, may offer consultancy services, imply they are acting on The Fund’s behalf, <strong>indicate that they are acting as a preferred supplier of The Fund</strong>, or even complete an application form for you. <strong>We do not allow this or feel it is necessary</strong>.
   over10k:
     title: Discover our funding programmes for amounts above £10,000
     intro: Larger grants are made through a variety of programmes that cover every
@@ -1161,7 +1161,10 @@ user:
     introduction: >
       <p>This is a new application form. If you haven't logged in here before, you might not have an account with us - and will need to <a href="/user/register">create a new account</a> to apply.</p>
     actionLabel: Log in
-    registerLabel: create an account
+    registerLabel: Create an account
+    registerPrompt:
+      title: Don't have an account yet?
+      body: Our online account makes filling in your funding applications quicker and easier. And it only takes a couple of minutes to set up.
     forgottenPasswordPrompt: Forgotten your password?
     credentialError: Your username and password aren't quite right. Or you might not have an account, as this is a new application form - try <a href="/user/register">creating an account</a>.
   rateLimited:
@@ -1173,7 +1176,10 @@ user:
   register:
     title: Create an account
     actionLabel: Create an account
-    loginLabel: log in
+    loginLabel: Log in
+    loginPrompt:
+      title: Already have an account?
+      body: Log in here
     genericError: >
       There was an error creating your account. If you think you already have an account try
       <a href="%s">resetting your password</a>.
@@ -1762,4 +1768,19 @@ yourFundingProposal:
       items:
         - We'll email you to let you know we got your proposal
         - Then we'll get in touch to talk about your proposal within 15 working days.
+    processMap:
+      youAreHere: You are here
+      actions:
+        proposalReviewed: Proposal reviewed
+        applicationAssessed: Application assessed
+      steps:
+        tellUsYourIdea:
+          title: Tell us about your funding proposal
+          description: You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.
+        askYouToApply:
+          title: We might then ask you to apply
+          description: If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future.
+        decideToFund:
+          title: We'll decide to fund your project or not
+          description: We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not.
     startAction: Start your proposal

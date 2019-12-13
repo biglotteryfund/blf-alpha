@@ -68,3 +68,10 @@ $spinnerColour: get-color('brand', 'primary');
     margin-right: 3px;
     fill: darken(get-color('border', 'base'), 30%);
 }
+
+.icon--login,
+.icon--logout {
+    $iconWidth: 20px;
+    height: $iconWidth;
+    width: $iconWidth;
+}

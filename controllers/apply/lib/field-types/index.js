@@ -9,6 +9,7 @@ module.exports = {
     RadioField: require('./radio'),
     CheckboxField: require('./checkbox'),
     SelectField: require('./select'),
+    DateField: require('./date'),
     AddressField: require('./address'),
     NameField: require('./name')
 };

@@ -9,8 +9,7 @@ const {
     injectHeroImage,
     setCommonLocals
 } = require('../../common/inject-content');
-const { buildArchiveUrl } = require('../../common/archived');
-const { localify } = require('../../common/urls');
+const { buildArchiveUrl, localify } = require('../../common/urls');
 
 const router = express.Router();
 

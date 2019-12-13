@@ -145,7 +145,7 @@
 {% macro inputDate(field, includeYear = true, includeDay = true) %}
     <fieldset class="ff-date" id="field-{{ field.name }}">
         <legend class="ff-label ff-date__legend">
-            {{ field.label }}
+            {{ labelFor(field)  }}
         </legend>
         {{ explanationFor(field) }}
         {{ dayMonthYearInputs(
@@ -203,8 +203,8 @@
     </label>
 
     {% if field.labelDetails %}
-        {% call details(field.labelDetails.summary, extraClasses = 'ff-help s-prose') %}
-            {{ field.labelDetails.content | safe }}
+        {% call details(field.labelDetails.summary) %}
+            <div class="ff-help s-prose">{{ field.labelDetails.content | safe }}</div>
         {% endcall %}
     {% endif %}
 

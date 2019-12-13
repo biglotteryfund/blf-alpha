@@ -114,6 +114,251 @@
 }
 
 /* =========================================================================
+   Process Map
+   ========================================================================= */
+
+.process-map {
+    $circleWidthLarge: 75%;
+    $circleWidthMedium: 60%;
+    $circleWidthSmall: 40%;
+    $midSizeBreakpoint: 500px;
+    $arrowSize: 7px;
+    $arrowLineHeight: 10px;
+
+    display: flex;
+    flex-direction: column;
+    max-width: 100% !important;
+    margin-bottom: $spacingUnit;
+
+    @include mq('medium') {
+        flex-direction: row;
+    }
+
+    > .process-map__item {
+        position: relative;
+
+        &.process-map__item--step {
+            flex-grow: 1;
+            flex-basis: 0;
+            @include mq('medium') {
+                margin: 0 $spacingUnit;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            // "You are here" indicator with arrow
+            .process-map__item-indicator {
+                display: block;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                z-index: 1;
+                background: white;
+                font-size: 15px;
+                font-weight: bold;
+                text-transform: uppercase;
+                padding: 3px;
+                border: 2px dotted get-color('brand', 'primary');
+                width: $circleWidthMedium;
+
+                @media only screen and (min-width: $midSizeBreakpoint) {
+                    width: $circleWidthSmall;
+                }
+
+                @include mq('medium') {
+                    width: $circleWidthLarge;
+                }
+
+                // Arrow line
+                .process-map__item-indicator__arrow {
+                    width: 0;
+                    height: $arrowLineHeight;
+                    display: block;
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    bottom: -#{$arrowLineHeight + 2px};
+                    border-right: 2px dotted get-color('brand', 'primary');
+                }
+
+                // Arrow head
+                &:after {
+                    position: absolute;
+                    left: 50%;
+                    bottom: -#{$arrowLineHeight * 2};
+                    transform: translateX(-50%);
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border-left: $arrowSize solid transparent;
+                    border-right: $arrowSize solid transparent;
+                    border-top: $arrowSize solid get-color('brand', 'primary');
+                }
+            }
+
+            // Circle container
+            // Based on https://codepen.io/CrocoDillon/pen/trFam
+            .process-map__item-title {
+                position: relative;
+                height: 0;
+                margin: 50px auto 20px auto; // To allow for "you are here"
+                border-radius: 50%;
+                border: 2px solid get-color('brand', 'primary');
+                width: $circleWidthMedium;
+                padding: $circleWidthMedium / 2 0;
+
+                @media only screen and (min-width: $midSizeBreakpoint) {
+                    width: $circleWidthSmall;
+                    padding: $circleWidthSmall / 2 0;
+                }
+
+                @include mq('medium') {
+                    width: $circleWidthLarge;
+                    padding: $circleWidthLarge / 2 0;
+                }
+
+                // Text inside the circle
+                .process-map__item-title__content {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    span {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        margin: 0 $spacingUnit;
+                        font-family: font-stack('display');
+                        font-weight: font-weight('body', 'bold');
+
+                        font-size: 18px;
+
+                        @include mq('medium') {
+                            font-size: 14px;
+                        }
+
+                        @include mq('medium-major') {
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+
+            // Accompanying text below circle
+            .process-map__item-description p {
+                font-size: 18px;
+                margin-bottom: 0;
+            }
+
+            // Settings for completed item(s)
+            &.process-map__item--completed {
+                .process-map__item-title {
+                    background-color: get-color('brand', 'primary');
+                    color: #ffffff;
+                }
+            }
+        }
+
+        // Arrow and text pointing to next step
+        &.process-map__item--action {
+            flex-shrink: 2;
+            flex-grow: 0;
+            flex-basis: 0;
+
+            @include mq('medium') {
+                min-width: 80px; // fix ie11 bug
+                margin-left: -$spacingUnit;
+                margin-right: -$spacingUnit;
+                width: calc(100% + #{$spacingUnit});
+                margin-top: 12%;
+            }
+
+            @include mq('medium-major') {
+                margin-left: -$spacingUnit * 2;
+                margin-right: -$spacingUnit * 2;
+                width: calc(100% + #{$spacingUnit * 2});
+            }
+
+            $arrowDownLineHeight: 100px;
+
+            .process-map__item-action-label {
+                padding: 0 10px 5px 10px;
+                display: block;
+                font-family: font-stack('display');
+                font-weight: font-weight('body', 'bold');
+                font-size: 14px;
+                text-align: center;
+                position: relative;
+                @include mq('medium', 'max') {
+                    z-index: 1;
+                    background-color: white;
+                    line-height: 1;
+                    top: $arrowDownLineHeight / 2;
+                    margin-bottom: $arrowDownLineHeight / 2;
+                }
+            }
+
+            .process-map__item-action-arrow-right {
+                display: none;
+                @include mq('medium') {
+                    border-bottom: 2px dotted get-color('brand', 'primary');
+                    display: block;
+                    position: relative;
+                    &:after {
+                        position: absolute;
+                        bottom: -$arrowSize;
+                        right: -$arrowSize;
+                        content: '';
+                        width: 0;
+                        height: 0;
+                        border-top: $arrowSize solid transparent;
+                        border-bottom: $arrowSize solid transparent;
+                        border-left: $arrowSize solid get-color('brand', 'primary');
+                    }
+                }
+            }
+
+            .process-map__item-action-arrow-down {
+                width: 0;
+                height: $arrowDownLineHeight;
+                display: block;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 0;
+                border-right: 2px dotted get-color('brand', 'primary');
+
+                &:after {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    bottom: -#{$arrowLineHeight - 2px};
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border-left: $arrowSize solid transparent;
+                    border-right: $arrowSize solid transparent;
+                    border-top: $arrowSize solid get-color('brand', 'primary');
+                }
+
+                @include mq('medium') {
+                    display: none
+                }
+            }
+
+        }
+    }
+
+}
+
+/* =========================================================================
    All Programmes / Archive Listing
    ========================================================================= */
 

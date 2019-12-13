@@ -1,4 +1,4 @@
-{% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown, iconLogin %}
+{% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown, iconLogin, iconLogout, iconUser %}
 {% from "components/language/macros.njk" import languageLink, languageSwitcher with context %}
 
 {% macro globalSearch() %}
@@ -24,8 +24,10 @@
     <div class="global-header__inner">
         <div class="global-header__extra">
             <ul class="global-header__navigation-secondary">
+
+                {# Login / logout links (toggled via JS) #}
                 <li class="js-toggle-login js-hidden">
-                    <a href="{{ globalNavigation.login.url }}" class="global-header__account-link">
+                    <a href="{{ globalNavigation.login.url }}" class="global-header__account-link global-header__account-link--cta">
                         {{ iconLogin() }}
                         <span>
                             {{ globalNavigation.login.label }}
@@ -34,9 +36,19 @@
                 </li>
                 <li class="js-toggle-logout js-hidden u-hidden">
                     <a href="{{ globalNavigation.logout.url }}" class="global-header__account-link">
-                        {{ iconLogin() }}
+                        {{ iconLogout() }}
                         <span>
                             {{ globalNavigation.logout.label }}
+                        </span>
+                    </a>
+                </li>
+
+                {# Application dashboard link (toggled via JS) #}
+                <li class="js-toggle-logout js-hidden u-hidden">
+                    <a href="{{ globalNavigation.myApplications.url }}" class="global-header__account-link global-header__account-link--cta">
+                        {{ iconUser() }}
+                        <span>
+                            {{ globalNavigation.myApplications.label }}
                         </span>
                     </a>
                 </li>
@@ -59,7 +71,7 @@
                 </a>
                 <div class="global-header__actions u-dont-print">
                     <a href="{{ globalNavigation.login.url }}"
-                        class="global-header__toggle global-header__account-link js-toggle-login js-hidden">
+                        class="global-header__toggle global-header__account-link global-header__account-link--cta js-toggle-login js-hidden">
                         {{ iconLogin() }}
                         <span class="global-header__toggle-label">
                             {{ globalNavigation.login.label }}
@@ -67,8 +79,8 @@
                     </a>
 
                     <a href="{{ globalNavigation.logout.url }}"
-                        class="global-header__toggle global-header__account-link js-toggle-logout js-hidden u-hidden">
-                        {{ iconLogin() }}
+                        class="global-header__toggle global-header__account-link global-header__account-link--cta js-toggle-logout js-hidden u-hidden">
+                        {{ iconLogout() }}
                         <span class="global-header__toggle-label">
                             {{ globalNavigation.logout.label }}
                         </span>
@@ -96,6 +108,17 @@
                 <div class="global-header__navigation">
                     <nav class="global-header__navigation-primary" id="global-nav">
                         <ul>
+
+                            {# Application dashboard link (toggled via JS) #}
+                            <li class="is-conditional-link js-toggle-logout js-hidden u-hidden">
+                                <a href="{{ globalNavigation.myApplications.url }}" class="global-header__account-link global-header__account-link--cta">
+                                    {{ iconUser() }}
+                                    <span>
+                                        {{ globalNavigation.myApplications.label }}
+                                    </span>
+                                </a>
+                            </li>
+
                             <li class="is-conditional-link"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
                             {% for item in globalNavigation.primaryLinks %}
                                 {% set hasChildren = item.children.length > 0 %}

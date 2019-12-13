@@ -15,8 +15,10 @@ global:
     ukWide: DU gyfan
   nav:
     home: Hafan
+    toplevel: Hafan
     logIn: Mewngofnodi
     logOut: Allgofnodi
+    myApplications: Fy ngheisiadau
     funding: Ariannu
     about: Amdanom ni
     insights: Mewnwelediad
@@ -455,10 +457,9 @@ funding:
       a £10,000 i gefnogi''r hyn sy''n bwysig i bobl a chymunedau. Byddwn yn ariannu
       mudiadau gyda syniadau gwych am brosiect a fydd yn:'
     ideas:
-    - Siapio'r lleoedd a lleoliadau sy'n bwysig i gymunedau
-    - Dod â mwy o bobl ynghyd ac adeiladu cysylltiadau cryf o fewn ac ar draws cymunedau
-    - Galluogi mwy o bobl i gyflawni eu potensial trwy weithio i ddelio â phroblemau
-      yn y cam cynharaf posib.
+      - Dod a phobl ynghyd a chreu perthnasau cryf mewn ac ar draws cymunedau
+      - Gwella’r llefydd a gofodau sy’n bwysig i gymunedau
+      - Helpu mwy o bobl i gyflawni eu potensial drwy eu cefnogi ar y cam cynharaf posibl.
     callToAction: Eisiau gwybod mwy? Dechreuwch drwy ddweud wrthym ble fydd eich prosiect
       wedi'i leoli
     locations:
@@ -471,7 +472,6 @@ funding:
       o wybodaeth am ein grantiau Deyrnas Unedig gyfan</a>. Rydym yn gwneud grantiau
       <a href="/welsh/over10k">dros £10,000</a> ar gyfer prosiectau tymor hirach hefyd. '
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
-    disclaimer: Mae rhai busnesau yn hybu eu gwasanaethau, gallant gynnig gwasanaethau ymgynghori, awgrymu eu bod yn gweithredu ar ran y Gronfa, <strong>nodi eu bod yn gweithredu fel cyflenwr dewisol y Gronfa</strong>, neu hyd yn oed gwblhau ffurflen gais i chi. <strong>Nid ydym yn caniatau hyn nac yn teimlo ei fod yn angenrheidiol</strong>.
   over10k:
     title: Darganfod ein rhaglenni grant am symiau dros £10,000
     intro: 'Mae grantiau mawr yn cael eu gwneud trwy amrywiaeth o raglenni sy''n cynnwys
@@ -1052,7 +1052,10 @@ user:
     introduction: >
       <p>Mae hon yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
     actionLabel: Mewngofnodi
-    registerLabel: creu cyfrif
+    registerLabel: Creu cyfrif
+    registerPrompt:
+      title: Heb gyfrif eto?
+      body: Mae ein cyfrif ar-lein yn gwneud llenwi eich cais ariannu yn haws ac yn gyflymach. A dim ond cwpwl funudau mae’n ei gymryd i’w osod.
     forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
     credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/welsh/user/register">greu cyfrif</a>.
   rateLimited:
@@ -1064,7 +1067,10 @@ user:
   register:
     title: Creu cyfrif
     actionLabel: Creu cyfrif
-    loginLabel: mewngofnodi
+    loginLabel: Mewngofnodi
+    loginPrompt:
+      title: Gyda chyfrif eisoes?
+      body: Mewngofnodwch yma
     genericError: >
       Roedd problem wrth greu eich cyfrif. Os ydych yn meddwl bod gennych gyfrif eisoes, ceisiwch
       <a href="%s">ailosod eich cyfrinair</a>.

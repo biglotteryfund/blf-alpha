@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -31,7 +32,11 @@ const { checkBankAccountDetails } = require('./lib/bank-api');
 module.exports = function({
     locale = 'en',
     data = {},
-    showAllFields = false
+    showAllFields = false,
+    flags = {
+        // Set default flags based on config, but allow overriding for tests
+        enableNewDateRange: config.get('awardsForAll.enableNewDateRange')
+    }
 } = {}) {
     const localise = get(locale);
 
@@ -53,7 +58,8 @@ module.exports = function({
 
     const fields = fieldsFor({
         locale: locale,
-        data: data
+        data: data,
+        flags: flags
     });
 
     function stepProjectName() {
@@ -68,13 +74,17 @@ module.exports = function({
     }
 
     function stepProjectLength() {
+        const stepFields = flags.enableNewDateRange
+            ? [fields.projectStartDate, fields.projectEndDate]
+            : [fields.projectDateRange];
+
         return {
             title: localise({
                 en: 'Project length',
                 cy: 'Hyd y prosiect'
             }),
             noValidate: true,
-            fieldsets: [{ fields: [fields.projectDateRange] }]
+            fieldsets: [{ fields: stepFields }]
         };
     }
 
@@ -1304,10 +1314,25 @@ module.exports = function({
 
         const enriched = clone(data);
 
-        enriched.projectDateRange = {
-            startDate: dateFormat(enriched.projectDateRange.startDate),
-            endDate: dateFormat(enriched.projectDateRange.endDate)
-        };
+        if (
+            flags.enableNewDateRange &&
+            has('projectStartDate')(enriched) &&
+            has('projectEndDate')(enriched)
+        ) {
+            enriched.projectStartDate = dateFormat(enriched.projectStartDate);
+            enriched.projectEndDate = dateFormat(enriched.projectEndDate);
+
+            // Support previous schema format
+            enriched.projectDateRange = {
+                startDate: dateFormat(enriched.projectStartDate),
+                endDate: dateFormat(enriched.projectEndDate)
+            };
+        } else {
+            enriched.projectDateRange = {
+                startDate: dateFormat(enriched.projectDateRange.startDate),
+                endDate: dateFormat(enriched.projectDateRange.endDate)
+            };
+        }
 
         if (has('mainContactDateOfBirth')(enriched)) {
             enriched.mainContactDateOfBirth = dateFormat(
@@ -1335,11 +1360,13 @@ module.exports = function({
         }),
         allFields: fields,
         featuredErrorsAllowList: [
-            'projectDateRange',
-            'seniorContactRole',
-            'mainContactName',
-            'mainContactEmail',
-            'mainContactPhone'
+            { fieldName: 'projectDateRange', includeBase: false },
+            { fieldName: 'projectStartDate', includeBase: false },
+            { fieldName: 'projectEndDate', includeBase: false },
+            { fieldName: 'seniorContactRole', includeBase: false },
+            { fieldName: 'mainContactName', includeBase: false },
+            { fieldName: 'mainContactEmail', includeBase: false },
+            { fieldName: 'mainContactPhone', includeBase: false }
         ],
         summary: summary(),
         schemaVersion: 'v1.1',

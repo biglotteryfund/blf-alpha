@@ -25,6 +25,7 @@ module.exports = function cspDirectives() {
         'www.google-analytics.com',
         'use.typekit.net',
         '*.bootstrapcdn.com',
+        '*.soundcloud.com',
         new URL(CONTENT_API_URL).host
     ];
 

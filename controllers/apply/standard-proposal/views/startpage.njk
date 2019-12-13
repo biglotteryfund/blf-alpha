@@ -2,54 +2,86 @@
 {% from "components/form-fields/macros.njk" import formField with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/process-map/macro.njk" import processMap %}
 
 {% set copy = __('yourFundingProposal.startPage') %}
 {% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">
-        {% call contentBox() %}
+        {% call contentBox(skipProse = true) %}
             {{ formHeader(
                 backUrl = backUrl,
                 title = formTitle,
                 prefix = globalCopy.brand.title
             )}}
 
-            <div class="message message--info message--minor" role="alert">
-                {% for part in copy.countryMessageParts %}
-                    <p>
-                        <strong>{{ part.title }}</strong><br/>
-                        {{ part.message | safe }}
-                    </p>
-                {% endfor %}
+            <div class="s-prose">
+
+                <div class="message message--info message--minor" role="alert">
+                    {% for part in copy.countryMessageParts %}
+                        <p>
+                            <strong>{{ part.title }}</strong><br/>
+                            {{ part.message | safe }}
+                        </p>
+                    {% endfor %}
+                </div>
+
+                <h2>{{ copy.beforeYouStart.title }}</h2>
+
+                <ul>
+                    {% for item in copy.beforeYouStart.items %}
+                        <li>{{ item | safe }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h2>{{ copy.whatInformation.title }}</h2>
+
+                <ul>
+                    {% for item in copy.whatInformation.checklist %}
+                        <li>
+                            <strong>{{ item.title }}</strong>{% if item.description %}: {{ item.description }}{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <h2>{{ copy.ready.title }}</h2>
+                <p>{{ copy.ready.intro }}</p>
+
+                <ul>
+                    {% for item in copy.ready.items %}
+                        <li>{{ item | safe }}</li>
+                    {% endfor %}
+                </ul>
             </div>
 
-            <h2>{{ copy.beforeYouStart.title }}</h2>
-
-            <ul>
-                {% for item in copy.beforeYouStart.items %}
-                    <li>{{ item | safe }}</li>
-                {% endfor %}
-            </ul>
-
-            <h2>{{ copy.whatInformation.title }}</h2>
-
-            <ul>
-                {% for item in copy.whatInformation.checklist %}
-                    <li>
-                        <strong>{{ item.title }}</strong>{% if item.description %}: {{ item.description }}{% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <h2>{{ copy.ready.title }}</h2>
-            <p>{{ copy.ready.intro }}</p>
-
-            <ul>
-                {% for item in copy.ready.items %}
-                    <li>{{ item | safe }}</li>
-                {% endfor %}
-            </ul>
+            {{ processMap([
+                {
+                    "type": "step",
+                    "title": copy.processMap.steps.tellUsYourIdea.title,
+                    "description": copy.processMap.steps.tellUsYourIdea.description,
+                    "isCompleted": true,
+                    "isCurrent": true
+                },
+                {
+                    "type": "action",
+                    "title": copy.processMap.actions.proposalReviewed
+                },
+                {
+                    "type": "step",
+                    "title": copy.processMap.steps.askYouToApply.title,
+                    "description": copy.processMap.steps.askYouToApply.description
+                },
+                {
+                    "type": "action",
+                    "title": copy.processMap.actions.applicationAssessed
+                },
+                {
+                    "type": "step",
+                    "title": copy.processMap.steps.decideToFund.title,
+                    "description": copy.processMap.steps.decideToFund.description
+                }
+            ], copy.processMap.youAreHere) }}
 
             <p class="form-actions u-margin-bottom-l">
                 <a href="{{ newUrl }}" class="btn">{{ copy.startAction }}</a>

@@ -1,45 +1,12 @@
 /* eslint-env jest */
 'use strict';
 const omit = require('lodash/omit');
-const random = require('lodash/random');
-const faker = require('faker');
 
+const { mockResponse } = require('./mocks');
 const formBuilder = require('./form');
 
 function mapMessages(validationResult) {
     return validationResult.messages.map(detail => detail.msg);
-}
-
-function mockResponse(overrides = {}) {
-    const defaults = {
-        projectName: 'My project',
-        projectCountries: ['england'],
-        projectLocation: 'derbyshire',
-        projectLocationDescription: 'description',
-        projectCosts: '250,000',
-        projectDurationYears: 3,
-        yourIdeaProject: faker.lorem.words(random(50, 500)),
-        yourIdeaCommunity: faker.lorem.words(random(50, 500)),
-        yourIdeaActivities: faker.lorem.words(random(50, 350)),
-        organisationLegalName: 'Example organisation',
-        organisationTradingName: 'Example trading name',
-        organisationAddress: {
-            line1: '1234 example street',
-            townCity: 'Birmingham',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
-        },
-        organisationType: 'not-for-profit-company',
-        contactName: {
-            firstName: 'Björk',
-            lastName: 'Guðmundsdóttir'
-        },
-        contactEmail: 'general.enquiries@tnlcommunityfund.org.uk',
-        contactPhone: '0345 4 10 20 30',
-        contactCommunicationNeeds: 'Large print'
-    };
-
-    return Object.assign(defaults, overrides);
 }
 
 test('empty form', () => {
@@ -53,8 +20,6 @@ test('valid form', () => {
     expect(result.error).toBeNull();
 
     expect(result.value).toMatchSnapshot({
-        projectCountries: expect.any(Array),
-        projectLocation: expect.any(String),
         yourIdeaProject: expect.any(String),
         yourIdeaCommunity: expect.any(String),
         yourIdeaActivities: expect.any(String)
@@ -147,7 +112,6 @@ test('language preference required in wales', function() {
 });
 
 test.each([
-    'projectLocationDescription',
     'organisationTradingName',
     'contactPhone',
     'contactCommunicationNeeds'
@@ -160,17 +124,15 @@ test.each([
     expect(result.error).toBeNull();
 });
 
-test('projectLocationDescription required if multiple countries selected', function() {
+test('featured messages based on allow list', () => {
     const form = formBuilder({
         data: mockResponse({
-            projectCountries: ['england', 'wales'],
             projectLocationDescription: null
         })
     });
 
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([
-            expect.stringContaining('Tell us all of the locations')
-        ])
-    );
+    const messages = form.validation.featuredMessages.map(item => item.msg);
+    expect(messages).toEqual([
+        expect.stringContaining('Tell us all of the locations')
+    ]);
 });

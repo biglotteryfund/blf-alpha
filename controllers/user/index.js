@@ -65,7 +65,8 @@ router.get('/session', function(req, res) {
                 date: sessionExpiresOn.locale(locale).format('dddd D MMMM YYYY')
             },
             maxAge: req.session.cookie.maxAge,
-            isAuthenticated: req.isAuthenticated()
+            isAuthenticated: req.isAuthenticated(),
+            userType: req.user ? req.user.userType : null
         });
     });
 });

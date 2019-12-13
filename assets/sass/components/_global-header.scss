@@ -56,9 +56,6 @@ $breakpointLarge: 840px;
                 text-decoration: underline;
             }
 
-            &.global-header__account-link {
-                color: get-color('links', 'base');
-            }
         }
     }
 
@@ -70,6 +67,11 @@ $breakpointLarge: 840px;
     .global-header__language-prefix {
         font-size: 13px;
         margin-bottom: 6px;
+    }
+
+    // Highlight the most important link item in the nav
+    .global-header__account-link--cta {
+        color: get-color('brand', 'primary') !important;
     }
 
     @media only screen and (max-width: $breakpointLarge) {
@@ -114,10 +116,6 @@ $breakpointLarge: 840px;
                 margin-top: 6px;
             }
 
-            &.global-header__account-link {
-                color: get-color('links', 'base');   
-            }
-
             &.u-hidden {
                 display: none;
             }
@@ -138,6 +136,9 @@ $breakpointLarge: 840px;
 
                 .icon {
                     display: none;
+                }
+                .icon--user {
+                    display: inline-block;
                 }
             }
 
@@ -166,6 +167,7 @@ $breakpointLarge: 840px;
                 }
             }
         }
+
     }
 
     @media only screen and (max-width: $breakpointSmall) {
@@ -320,6 +322,17 @@ $breakpointLarge: 840px;
         .global-header__actions {
             display: none;
         }
+
+        .global-header__account-link {
+            position: relative;
+            .icon--login,
+            .icon--logout {
+                position: absolute;
+                left: -25px;
+                top: -1px;
+            }
+        }
+
     }
 
     @media only screen and (min-width: $maxWidth + 20px) {

@@ -220,6 +220,9 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             cy: 'Dechrau ar eich cynnig'
         }),
         allFields,
+        featuredErrorsAllowList: [
+            { fieldName: 'projectLocationDescription', includeBase: true }
+        ],
         summary: summary(),
         schemaVersion: 'v0.2',
         forSalesforce() {
