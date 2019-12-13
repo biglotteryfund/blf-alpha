@@ -5,9 +5,16 @@ const { Users } = require('../../../db/models');
 const { sendHtmlEmail } = require('../../../common/mail');
 const { signTokenPasswordReset } = require('./jwt');
 const { getAbsoluteUrl, localify } = require('../../../common/urls');
+const logger = require('../../../common/logger').child({
+    service: 'user'
+});
 
-async function processResetRequest(req, user) {
+async function processResetRequest(req, user, source = 'user') {
     const token = signTokenPasswordReset(user.id);
+
+    logger.info('Password reset request attempted', {
+        eventSource: source
+    });
 
     const template = path.resolve(
         __dirname,

@@ -17,6 +17,10 @@ const {
 
 const { processResetRequest } = require('../user/lib/password-reset');
 const { environment, isNotProduction } = require('../../common/appData');
+const logger = require('../../common/logger').child({
+    service: 'user'
+});
+
 const isProduction = environment === 'production';
 
 function chartData(users) {
@@ -178,12 +182,15 @@ if (isNotProduction) {
                         // Take the action
                         if (action === 'activateUser') {
                             await Users.activateUser(user.id);
+                            logger.info('Activation attempted', {
+                                eventSource: 'manual'
+                            });
                             return res.redirect(
                                 req.baseUrl + '/dashboard?s=userActivated'
                             );
                         } else if (action === 'sendResetPasswordEmail') {
                             if (isProduction) {
-                                await processResetRequest(req, user);
+                                await processResetRequest(req, user, 'manual');
                             }
                             return res.redirect(
                                 req.baseUrl +

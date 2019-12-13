@@ -30,6 +30,9 @@ router
             return res.redirect('/user');
         }
         if (req.query.token) {
+            logger.info('Activation attempted', {
+                eventSource: 'user'
+            });
             try {
                 const decodedData = await verifyTokenActivate(req.query.token);
                 await Users.activateUser(decodedData.userId);
