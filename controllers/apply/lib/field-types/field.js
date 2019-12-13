@@ -1,5 +1,4 @@
 'use strict';
-const defaults = require('lodash/defaults');
 const get = require('lodash/fp/get');
 const Joi = require('../joi-extensions');
 
@@ -30,7 +29,11 @@ class Field {
 
         this.type = props.type ? props.type : this.getType();
 
-        this.attributes = defaults(this.defaultAttributes(), props.attributes);
+        this.attributes = Object.assign(
+            {},
+            this.defaultAttributes(),
+            props.attributes
+        );
 
         this.settings = props.settings || {};
 
