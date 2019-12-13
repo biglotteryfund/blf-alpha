@@ -97,18 +97,6 @@ const CHARITY_NUMBER_TYPES = {
     ]
 };
 
-const FILE_LIMITS = {
-    SIZE: {
-        label: '12MB',
-        value: 12 * 1048576 // eg. 12mb in bytes
-    },
-    TYPES: [
-        { mime: 'image/png', label: 'PNG' },
-        { mime: 'image/jpeg', label: 'JPEG' },
-        { mime: 'application/pdf', label: 'PDF' }
-    ]
-};
-
 const EXPIRY_EMAIL_REMINDERS = [
     {
         emailType: 'AFA_ONE_MONTH',
@@ -137,7 +125,6 @@ module.exports = {
     BENEFICIARY_GROUPS,
     COMPANY_NUMBER_TYPES,
     CONTACT_EXCLUDED_TYPES,
-    FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
     SUGGESTED_PROJECT_DURATION,
     MAX_PROJECT_DURATION,
