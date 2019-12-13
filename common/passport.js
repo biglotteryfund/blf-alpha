@@ -7,6 +7,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
+const { get } = require('lodash');
 
 const appData = require('./appData');
 const { AZURE_AUTH } = require('./secrets');
@@ -60,7 +61,7 @@ function azureAuthStrategy() {
             validateIssuer: true,
             isB2C: false,
             issuer: null,
-            passReqToCallback: false,
+            passReqToCallback: true,
             scope: null,
             loggingLevel: 'warn',
             nonceLifetime: null,
@@ -68,10 +69,26 @@ function azureAuthStrategy() {
             useCookieInsteadOfSession: false,
             clockSkew: null
         },
-        async function(iss, sub, profile, accessToken, refreshToken, done) {
+        async function(
+            req,
+            iss,
+            sub,
+            profile,
+            accessToken,
+            refreshToken,
+            done
+        ) {
             if (profile.oid) {
                 try {
                     const user = await Staff.findOrCreateProfile(profile);
+                    // Look up the user's group IDs from Active Directory
+                    // to allow in-app filtering based on membership/permissions
+                    const userGroups = get(profile, '_json.groups');
+                    if (userGroups) {
+                        req.session.activeDirectoryGroups = JSON.parse(
+                            userGroups
+                        );
+                    }
                     done(null, user);
                     return null;
                 } catch (err) {
