@@ -188,13 +188,15 @@ function initFormRouter({
      */
     router.get('/start', function(req, res) {
         const newUrl = `${req.baseUrl}/new`;
-        if (eligibilityBuilder) {
-            res.redirect(`${req.baseUrl}/eligibility/1`);
-        } else if (startTemplate) {
+        const eligibilityUrl = `${req.baseUrl}/eligibility/1`;
+
+        if (startTemplate) {
             res.render(startTemplate, {
                 backUrl: res.locals.sectionUrl,
-                newUrl: newUrl
+                nextPageUrl: eligibilityBuilder ? eligibilityUrl : newUrl
             });
+        } else if (eligibilityBuilder) {
+            res.redirect(eligibilityUrl);
         } else {
             res.redirect(newUrl);
         }
