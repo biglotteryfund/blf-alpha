@@ -9,7 +9,6 @@ const has = require('lodash/has');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
-const reject = require('lodash/reject');
 
 const Joi = require('@hapi/joi');
 
@@ -71,8 +70,9 @@ class FormModel {
             return field;
         }
 
-        function enrichStep(section, step, stepIndex) {
-            if (step._isClass) {
+        this.sections = props.sections.map(originalSection => {
+            const section = cloneDeep(originalSection);
+            section.steps = section.steps.map((step, stepIndex) => {
                 step.fieldsets = step.fieldsets.map(fieldset => {
                     fieldset.fields = fieldset.fields.map(field => {
                         return has(field, '_isClass')
@@ -81,53 +81,10 @@ class FormModel {
                     });
                     return fieldset;
                 });
-            } else {
-                /**
-                 * Enrich fieldset and filter out any fieldsets with no fields
-                 * i.e. to account for cases where a fieldset is conditional
-                 */
-                step.fieldsets = reject(
-                    step.fieldsets.map(fieldset => {
-                        fieldset.fields = fieldset.fields.map(field => {
-                            if (has(field, '_isClass')) {
-                                return enrichFieldClass(field);
-                            } else {
-                                return enrichField(field);
-                            }
-                        });
-                        return fieldset;
-                    }),
-                    fieldset => fieldset.fields.length === 0
-                );
 
-                /**
-                 * If there is only one fieldset set the legend to be the same as the step
-                 */
-                const shouldSetDefaultLegend =
-                    step.fieldsets.length === 1 &&
-                    has(step.fieldsets[0], 'legend') === false;
+                step.slug = `${section.slug}/${stepIndex + 1}`;
 
-                if (shouldSetDefaultLegend) {
-                    step.fieldsets[0].legend = step.title;
-                }
-
-                /**
-                 * Flag optional steps if there are no fields
-                 * i.e. to account for cases where whole step is conditional
-                 */
-                const stepFields = flatMap(step.fieldsets, 'fields');
-                step.isRequired = stepFields.length > 0;
-            }
-
-            step.slug = `${section.slug}/${stepIndex + 1}`;
-
-            return step;
-        }
-
-        this.sections = props.sections.map(originalSection => {
-            const section = cloneDeep(originalSection);
-            section.steps = section.steps.map(function(step, stepIndex) {
-                return enrichStep(section, step, stepIndex);
+                return step;
             });
 
             function fieldsForSection() {

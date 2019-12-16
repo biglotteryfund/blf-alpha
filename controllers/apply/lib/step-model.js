@@ -4,8 +4,6 @@ const reject = require('lodash/reject');
 
 class Step {
     constructor(props) {
-        this._isClass = true;
-
         if (props.title) {
             this.title = props.title;
         } else {

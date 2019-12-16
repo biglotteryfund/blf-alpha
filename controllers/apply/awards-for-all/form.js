@@ -439,6 +439,7 @@ module.exports = function({
                 en: 'Organisation details',
                 cy: 'Manylion sefydliad'
             }),
+            noValidate: false,
             fieldsets: [
                 {
                     legend: localise({
