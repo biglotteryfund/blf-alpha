@@ -66,11 +66,8 @@ class Step {
     }
 
     filterErrors(messages) {
-        return messages.filter(item =>
-            this.getCurrentFields()
-                .map(field => field.name)
-                .includes(item.param)
-        );
+        const fieldNames = this.getCurrentFields().map(field => field.name);
+        return messages.filter(item => fieldNames.includes(item.param));
     }
 }
 

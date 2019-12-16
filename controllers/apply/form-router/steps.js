@@ -30,7 +30,7 @@ module.exports = function(formId, formBuilder) {
                 data: data
             });
 
-            const section = form.findSectionBySlug(sectionSlug);
+            const section = form.getSection(sectionSlug);
 
             if (!section) {
                 return res.redirect(res.locals.sectionUrl);
