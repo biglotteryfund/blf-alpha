@@ -72,41 +72,52 @@ class FormModel {
         }
 
         function enrichStep(section, step, stepIndex) {
-            /**
-             * Enrich fieldset and filter out any fieldsets with no fields
-             * i.e. to account for cases where a fieldset is conditional
-             */
-            step.fieldsets = reject(
-                step.fieldsets.map(fieldset => {
+            if (step._isClass) {
+                step.fieldsets = step.fieldsets.map(fieldset => {
                     fieldset.fields = fieldset.fields.map(field => {
-                        if (has(field, '_isClass')) {
-                            return enrichFieldClass(field);
-                        } else {
-                            return enrichField(field);
-                        }
+                        return has(field, '_isClass')
+                            ? enrichFieldClass(field)
+                            : enrichField(field);
                     });
                     return fieldset;
-                }),
-                fieldset => fieldset.fields.length === 0
-            );
+                });
+            } else {
+                /**
+                 * Enrich fieldset and filter out any fieldsets with no fields
+                 * i.e. to account for cases where a fieldset is conditional
+                 */
+                step.fieldsets = reject(
+                    step.fieldsets.map(fieldset => {
+                        fieldset.fields = fieldset.fields.map(field => {
+                            if (has(field, '_isClass')) {
+                                return enrichFieldClass(field);
+                            } else {
+                                return enrichField(field);
+                            }
+                        });
+                        return fieldset;
+                    }),
+                    fieldset => fieldset.fields.length === 0
+                );
 
-            /**
-             * If there is only one fieldset set the legend to be the same as the step
-             */
-            const shouldSetDefaultLegend =
-                step.fieldsets.length === 1 &&
-                has(step.fieldsets[0], 'legend') === false;
+                /**
+                 * If there is only one fieldset set the legend to be the same as the step
+                 */
+                const shouldSetDefaultLegend =
+                    step.fieldsets.length === 1 &&
+                    has(step.fieldsets[0], 'legend') === false;
 
-            if (shouldSetDefaultLegend) {
-                step.fieldsets[0].legend = step.title;
+                if (shouldSetDefaultLegend) {
+                    step.fieldsets[0].legend = step.title;
+                }
+
+                /**
+                 * Flag optional steps if there are no fields
+                 * i.e. to account for cases where whole step is conditional
+                 */
+                const stepFields = flatMap(step.fieldsets, 'fields');
+                step.isRequired = stepFields.length > 0;
             }
-
-            /**
-             * Flag optional steps if there are no fields
-             * i.e. to account for cases where whole step is conditional
-             */
-            const stepFields = flatMap(step.fieldsets, 'fields');
-            step.isRequired = stepFields.length > 0;
 
             step.slug = `${section.slug}/${stepIndex + 1}`;
 
