@@ -166,12 +166,14 @@ class PendingApplication extends Model {
         );
     }
 
-    static lastUpdatedTime(applicationId) {
+    static findLastUpdatedAt(applicationId) {
         return this.findOne({
             attributes: ['updatedAt'],
             where: {
                 id: { [Op.eq]: applicationId }
             }
+        }).then(function(record) {
+            return record.updatedAt;
         });
     }
 

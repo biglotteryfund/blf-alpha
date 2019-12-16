@@ -18,6 +18,21 @@ function anonymiseId(id) {
         .digest('hex');
 }
 
+function logErrors({ errors, formId, applicationId, sectionSlug, stepNumber }) {
+    errors.forEach(item => {
+        logger.info(item.msg, {
+            service: 'step-validations',
+            formId: formId,
+            fieldName: item.param,
+            section: sectionSlug,
+            step: stepNumber,
+            errorType: item.type,
+            joiErrorType: item.joiType,
+            applicationId: anonymiseId(applicationId)
+        });
+    });
+}
+
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
@@ -56,47 +71,53 @@ module.exports = function(formId, formBuilder) {
                 copy: res.locals.copy
             });
 
+            const stepCount = req.i18n.__(
+                'global.misc.stepProgress',
+                stepNumber,
+                section.steps.length
+            );
+
+            const viewData = {
+                title: [
+                    step.title,
+                    `(${stepCount})`,
+                    section.shortTitle || section.title,
+                    res.locals.formTitle
+                ].join(' | '),
+                form: form,
+                csrfToken: req.csrfToken(),
+                section: section,
+                step: step,
+                stepNumber: stepNumber,
+                stepCount: stepCount,
+                previousPage: previousPage,
+                nextPage: nextPage,
+                errors: errors,
+                hotJarTagList:
+                    errors.length > 0
+                        ? ['App: User shown form error after submitting']
+                        : []
+            };
+
+            /**
+             * Log validation errors along with section and step metadata
+             */
+            if (step.isRequired && errors.length > 0) {
+                logErrors({
+                    errors: errors,
+                    formId: formId,
+                    applicationId: res.locals.currentlyEditingId,
+                    sectionSlug: section.slug,
+                    stepNumber: stepNumber
+                });
+            }
+
             if (step.isRequired) {
-                const application = await PendingApplication.lastUpdatedTime(
+                viewData.updatedAt = await PendingApplication.findLastUpdatedAt(
                     res.locals.currentlyEditingId
                 );
 
-                /**
-                 * Log validation errors along with section and step metadata
-                 */
-                if (errors.length > 0) {
-                    res.locals.hotJarTagList = [
-                        'App: User shown form error after submitting'
-                    ];
-
-                    errors.forEach(item => {
-                        logger.info(item.msg, {
-                            service: 'step-validations',
-                            formId: formId,
-                            fieldName: item.param,
-                            section: section.slug,
-                            step: stepNumber,
-                            errorType: item.type,
-                            joiErrorType: item.joiType,
-                            applicationId: anonymiseId(
-                                res.locals.currentlyEditingId
-                            )
-                        });
-                    });
-                }
-
-                res.render(path.resolve(__dirname, './views/step'), {
-                    form: form,
-                    csrfToken: req.csrfToken(),
-                    section: section,
-                    step: step,
-                    stepNumber: stepNumber,
-                    totalSteps: section.steps.length,
-                    previousPage: previousPage,
-                    nextPage: nextPage,
-                    errors: errors,
-                    updatedAt: application.updatedAt
-                });
+                res.render(path.resolve(__dirname, './views/step'), viewData);
             } else {
                 res.redirect(nextPage.url);
             }

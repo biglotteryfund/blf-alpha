@@ -1,14 +1,9 @@
 {% extends "layouts/main.njk" %}
+{% from "components/icons.njk" import iconBin, iconTick %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
-{% from "components/icons.njk" import iconBin, iconTick %}
 {% from "./expiry-warnings.njk" import expiryPending, expiryLoggedOut with context %}
-
-{% from "components/user-navigation/macro.njk" import userNavigation with context %}
-
-{% set stepCount = __('global.misc.stepProgress', stepNumber, totalSteps) %}
-{% block title %}{{ step.title }} ({{ stepCount }}) | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
-
 
 {% block content %}
     <main role="main" id="content">
