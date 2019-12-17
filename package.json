@@ -161,7 +161,7 @@
     "jest": "24.9.0",
     "jest-serializer-html": "7.0.0",
     "jquery": "^3.4.1",
-    "node-mocks-http": "1.8.0",
+    "node-mocks-http": "1.8.1",
     "node-notifier": "6.0.0",
     "node-sass": "4.13.0",
     "nodemon": "2.0.2",
