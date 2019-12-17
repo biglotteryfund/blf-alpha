@@ -5,6 +5,27 @@
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 {% from "./expiry-warnings.njk" import expiryPending, expiryLoggedOut with context %}
 
+{% macro saveButton() %}
+    <button
+        type="submit"
+        class="btn btn--save js-save-btn"
+        data-interstitial="{{ __('applyNext.saving') }}"
+        data-complete="{{ __('applyNext.progressSaved') }}">
+
+        <span class="btn__icon btn__icon-left btn--save__icon">
+            {{ iconTick() }}
+        </span>
+        <span class="btn--save__label js-save-btn-label">
+            {{ __('applyNext.continue') }}
+        </span>
+
+        <span class="btn__icon btn__icon-left btn--save__dots">
+            {# Do not add linebreaks/spaces - needed for layout purposes #}
+            <span>.</span><span>.</span><span>.</span>
+        </span>
+    </button>
+{% endmacro %}
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
@@ -48,30 +69,33 @@
 
                 {{ formErrors(__('global.misc.errorTitle'), errors) }}
 
-                {% set singleFieldset = step.fieldsets.length === 1 %}
-                {% for fieldset in step.fieldsets %}
-                    <fieldset class="form-fieldset{% if not singleFieldset %} form-fieldset--multi{% endif %} u-constrained-wide">
-                        <legend
-                            class="form-fieldset__legend t2{% if singleFieldset %} u-visually-hidden{% endif %}">
-                            {{ fieldset.legend }}
-                        </legend>
+                {% block formContent %}
 
-                        {% if fieldset.introduction %}
-                            <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
-                        {% endif %}
+                    {% set singleFieldset = step.fieldsets.length === 1 %}
+                    {% for fieldset in step.fieldsets %}
+                        <fieldset class="form-fieldset{% if not singleFieldset %} form-fieldset--multi{% endif %} u-constrained-wide">
+                            <legend
+                                class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
+                                {{ fieldset.legend }}
+                            </legend>
 
-                        <div class="form-fieldset__fields">
-                            {% for field in fieldset.fields %}
-                                {{ formField(field, errors = errors) }}
-                            {% endfor %}
-                        </div>
+                            {% if fieldset.introduction %}
+                                <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
+                            {% endif %}
 
-                        {% if fieldset.footer %}
-                            <div class="form-fieldset__intro s-prose">{{ fieldset.footer | safe }}</div>
-                        {% endif %}
+                            <div class="form-fieldset__fields">
+                                {% for field in fieldset.fields %}
+                                    {{ formField(field, errors = errors) }}
+                                {% endfor %}
+                            </div>
 
-                    </fieldset>
-                {% endfor %}
+                            {% if fieldset.footer %}
+                                <div class="form-fieldset__intro s-prose">{{ fieldset.footer | safe }}</div>
+                            {% endif %}
+                        </fieldset>
+                    {% endfor %}
+
+                {% endblock %}
 
                 {% if csrfToken %}
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -79,22 +103,7 @@
 
                 <div class="form-actions form-actions--flex">
                     <div class="form-actions__primary">
-                        <button type="submit"
-                                class="btn btn--save js-save-btn"
-                                data-interstitial="{{ __('applyNext.saving') }}"
-                                data-complete="{{ __('applyNext.progressSaved') }}">
-
-                            <span class="btn__icon btn__icon-left btn--save__icon">{{ iconTick() }}</span>
-
-                            <span class="btn--save__label js-save-btn-label">
-                                {{ __('applyNext.continue') }}
-                            </span>
-
-                            <span class="btn__icon btn__icon-left btn--save__dots">
-                                {# Do not add linebreaks/spaces - needed for layout purposes #}
-                                <span>.</span><span>.</span><span>.</span>
-                            </span>
-                        </button>
+                        {{ saveButton() }}
                     </div>
                     <p class="form-actions__secondary form-actions__timestamp">
                         {{ copy.lastSaveTimeText }} -
@@ -108,7 +117,6 @@
         </div>
     </main>
 {% endblock %}
-
 
 {% block modals %}
     {{ expiryPending() }}

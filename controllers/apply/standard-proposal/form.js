@@ -6,6 +6,7 @@ const { oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
 const { Step } = require('../lib/step-model');
+
 const fieldsFor = require('./fields');
 
 module.exports = function({ locale = 'en', data = {} } = {}) {

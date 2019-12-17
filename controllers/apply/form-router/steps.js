@@ -116,7 +116,12 @@ module.exports = function(formId, formBuilder) {
             });
         }
 
-        if (step.isRequired) {
+        /**
+         * Allow custom steps with their own render functions
+         */
+        if (step.type === 'custom' && typeof step.render === 'function') {
+            step.render(req, res, viewData);
+        } else if (step.isRequired) {
             viewData.updatedAt = await PendingApplication.findLastUpdatedAt(
                 res.locals.currentlyEditingId
             );

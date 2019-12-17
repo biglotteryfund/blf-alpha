@@ -8,6 +8,7 @@ const has = require('lodash/fp/has');
 const { safeHtml, oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
+const { Step, CustomStep } = require('../lib/step-model');
 const fromDateParts = require('../lib/from-date-parts');
 const { CONTACT_EXCLUDED_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
@@ -61,6 +62,13 @@ module.exports = function({
         );
     }
 
+    function stepCheckContacts() {
+        return new CustomStep({
+            title: 'Check your contacts',
+            render: require('./contact-check')
+        });
+    }
+
     function sectionChooseContacts() {
         return {
             slug: 'choose-contacts',
@@ -70,7 +78,7 @@ module.exports = function({
                 cy: oneLine`@TODO i18n`
             }),
             steps: [
-                {
+                new Step({
                     title: localise({
                         en: 'Senior & Main contacts',
                         cy: '@TODO i18n'
@@ -137,7 +145,7 @@ module.exports = function({
                             fields: [fields.mainContactName]
                         }
                     ]
-                }
+                })
             ]
         };
     }
@@ -157,7 +165,7 @@ module.exports = function({
                     yn byw gyda na’n perthyn drwy waed i’r prif gyswllt.`
             }),
             steps: [
-                {
+                new Step({
                     title: localise({ en: 'Date of birth', cy: '@TODO i18n' }),
                     fieldsets: [
                         {
@@ -181,8 +189,8 @@ module.exports = function({
                             }
                         }
                     ]
-                },
-                {
+                }),
+                new Step({
                     title: localise({ en: 'Home address', cy: '@TODO i18n' }),
                     fieldsets: [
                         {
@@ -209,8 +217,8 @@ module.exports = function({
                             }
                         }
                     ]
-                },
-                {
+                }),
+                new Step({
                     title: localise({
                         en: 'Contact details',
                         cy: '@TODO i18n'
@@ -243,7 +251,8 @@ module.exports = function({
                             }
                         }
                     ]
-                }
+                }),
+                stepCheckContacts()
             ]
         };
     }
@@ -261,7 +270,7 @@ module.exports = function({
                     byddwn angen trafod eich prosiect.`
             }),
             steps: [
-                {
+                new Step({
                     title: localise({ en: 'Date of birth', cy: '@TODO i18n' }),
                     fieldsets: [
                         {
@@ -285,8 +294,8 @@ module.exports = function({
                             }
                         }
                     ]
-                },
-                {
+                }),
+                new Step({
                     title: localise({ en: 'Home address', cy: '@TODO i18n' }),
                     fieldsets: [
                         {
@@ -313,8 +322,8 @@ module.exports = function({
                             }
                         }
                     ]
-                },
-                {
+                }),
+                new Step({
                     title: localise({
                         en: 'Contact details',
                         cy: '@TODO i18n'
@@ -347,7 +356,8 @@ module.exports = function({
                             }
                         }
                     ]
-                }
+                }),
+                stepCheckContacts()
             ]
         };
     }
