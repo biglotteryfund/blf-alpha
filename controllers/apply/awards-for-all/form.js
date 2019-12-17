@@ -93,7 +93,6 @@ module.exports = function({
                 en: 'Project country',
                 cy: 'Gwlad y prosiect'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -143,7 +142,6 @@ module.exports = function({
     function stepYourIdea() {
         return new Step({
             title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -463,7 +461,6 @@ module.exports = function({
                 en: 'Organisation type',
                 cy: 'Math o sefydliad'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -546,7 +543,6 @@ module.exports = function({
                 en: 'Registration numbers',
                 cy: 'Rhifau cofrestru'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -587,7 +583,6 @@ module.exports = function({
                 en: 'Organisation finances',
                 cy: 'Cyllid y sefydliad'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
