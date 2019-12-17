@@ -1,0 +1,50 @@
+{% extends "controllers/apply/form-router/views/step.njk" %}
+{% from "components/content-box/macro.njk" import contentBox %}
+
+{% macro contactCard(props) %}
+    <div class="action-card">
+        <header class="action-card__header">
+            <h3 class="t4 action-card__title">
+                {{ props.title | widont | safe }}
+            </h3>
+        </header>
+        <div class="action-card__body">
+            <p>{{ props.description | safe }}</p>
+            <dl class="o-definition-list o-definition-list--wrapped u-text-small">
+                {% for item in props.summary %}
+                    <dt>{{ item.label }}</dt>
+                    <dd><a href="{{ formBaseUrl }}/{{ item.editSlug }}">{{ item.value or '-' }}</a></dd>
+                {% endfor %}
+            </dl>
+        </div>
+    </div>
+{% endmacro %}
+
+{% block formContent %}
+    <div class="s-prose u-constrained-content-wide">
+        <p>
+            It's important we can get in touch with the right
+            people about your project so please check you have
+            the right person for your senior contact.
+            When you’re ready, click continue to enter the details
+            for your main contact
+        </p>
+    </div>
+
+    <div class="flex-grid">
+        <div class="flex-grid__item">
+            {{ contactCard({
+                title: "Senior contact",
+                description: "This senior contact person will be legally responsible for this funding and meeting any monitoring requirements.",
+                summary: seniorContactSummary
+            }) }}
+        </div>
+        <div class="flex-grid__item">
+            {{ contactCard({
+                title: "Main contact",
+                description: "This person will be our primary contact if we have any questions.",
+                summary: mainContactSummary
+            }) }}
+        </div>
+    </div>
+{% endblock %}
