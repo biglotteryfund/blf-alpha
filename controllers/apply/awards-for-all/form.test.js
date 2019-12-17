@@ -24,8 +24,11 @@ function mapMessageSummary(validationResult) {
     });
 }
 
-function fieldsForSection(form, section) {
-    return form.getCurrentFieldsForStep(section, 0).map(field => field.name);
+function fieldsForStep(form, sectionSlug, stepIndex) {
+    return form
+        .getStep(sectionSlug, stepIndex)
+        .getCurrentFields()
+        .map(field => field.name);
 }
 
 test('validate model shape', () => {
@@ -169,7 +172,8 @@ test('valid form for northern-ireland', () => {
 
 function mapRegistrationFieldNames(form) {
     return form
-        .getCurrentFieldsForStep('organisation', 3)
+        .getStep('organisation', 3)
+        .getCurrentFields()
         .map(field => field.name);
 }
 
@@ -650,9 +654,10 @@ test.each(['school', 'college-or-university', 'statutory-body'])(
         const invalidForm = formBuilder({ data: invalidData });
         expect(invalidForm.validation.value).toEqual(expected);
 
-        const seniorContactFields = fieldsForSection(
+        const seniorContactFields = fieldsForStep(
             validForm,
-            'senior-contact'
+            'senior-contact',
+            0
         );
 
         expect(seniorContactFields).not.toContainEqual([
@@ -661,7 +666,7 @@ test.each(['school', 'college-or-university', 'statutory-body'])(
             'seniorContactAddressHistory'
         ]);
 
-        const mainContactFields = fieldsForSection(validForm, 'main-contact');
+        const mainContactFields = fieldsForStep(validForm, 'main-contact', 0);
 
         expect(mainContactFields).not.toContainEqual([
             'mainContactDateOfBirth',

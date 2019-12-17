@@ -72,7 +72,7 @@ class FormModel {
         this.sections = props.sections.map(originalSection => {
             const section = cloneDeep(originalSection);
 
-            section.steps = section.steps.map((step, stepIndex) => {
+            section.steps = section.steps.map(function(step, stepIndex) {
                 step.fieldsets = step.fieldsets.map(fieldset => {
                     fieldset.fields = fieldset.fields.map(field => {
                         return has(field, '_isClass')
@@ -235,11 +235,6 @@ class FormModel {
     getStep(sectionSlug, stepIndex) {
         const section = this.getSection(sectionSlug);
         return section.steps[stepIndex];
-    }
-
-    getCurrentFieldsForStep(sectionSlug, stepIndex) {
-        const step = this.getStep(sectionSlug, stepIndex);
-        return step.getCurrentFields();
     }
 
     getErrorsByStep() {
