@@ -147,12 +147,10 @@ module.exports = function(formId, formBuilder) {
     }
 
     async function handleSubmission(req, res, next) {
-        const { copy, currentlyEditingId, currentApplicationData } = res.locals;
-
         const sanitisedBody = sanitiseRequestBody(omit(req.body, ['_csrf']));
 
         const applicationData = {
-            ...currentApplicationData,
+            ...res.locals.currentApplicationData,
             ...sanitisedBody
         };
 
@@ -225,7 +223,7 @@ module.exports = function(formId, formBuilder) {
              * Store the form's current state (errors and all) in the database
              */
             await PendingApplication.saveApplicationState(
-                currentlyEditingId,
+                res.locals.currentlyEditingId,
                 dataToStore,
                 currentProgressState
             );
@@ -273,7 +271,8 @@ module.exports = function(formId, formBuilder) {
                             preparedFiles.filesToUpload.map(file => {
                                 return scanAndUpload({
                                     formId: formId,
-                                    applicationId: currentlyEditingId,
+                                    applicationId:
+                                        res.locals.currentlyEditingId,
                                     fileMetadata: file
                                 });
                             })
@@ -283,7 +282,7 @@ module.exports = function(formId, formBuilder) {
                         Sentry.captureException(rejection.error);
 
                         const uploadError = {
-                            msg: copy.common.errorUploading,
+                            msg: req.i18n.__('applyNext.common.errorUploading'),
                             param: rejection.fieldName
                         };
 
