@@ -53,10 +53,21 @@ module.exports = function(formId, formBuilder) {
 
         const section = form.getSection(sectionSlug);
 
+        /**
+         * Alias for fallback URL
+         * sectionUrl here is the top-level section
+         * i.e. /apply/ rather than the current form section.
+         */
+        const fallbackUrl = res.locals.sectionUrl;
+
         if (!section) {
-            return res.redirect(res.locals.sectionUrl);
+            return res.redirect(fallbackUrl);
         }
 
+        /**
+         * If we have a section but no step number then
+         * redirect to the first step in the section.
+         */
         if (!stepNumber) {
             return res.redirect(`${res.locals.formBaseUrl}/${section.slug}/1`);
         }
@@ -65,7 +76,7 @@ module.exports = function(formId, formBuilder) {
         const step = section.steps[stepIndex];
 
         if (!step) {
-            return res.redirect(res.locals.sectionUrl);
+            return res.redirect(fallbackUrl);
         }
 
         const { nextPage, previousPage } = form.pagination({
