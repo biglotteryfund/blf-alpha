@@ -161,12 +161,11 @@ module.exports = function(formId, formBuilder) {
 
         const stepIndex = parseInt(req.params.step, 10) - 1;
         const step = form.getStep(req.params.section, stepIndex);
-        const stepFields = form.getCurrentFieldsForStep(
-            req.params.section,
-            stepIndex
-        );
 
-        const preparedFiles = prepareFilesForUpload(stepFields, req.files);
+        const preparedFiles = prepareFilesForUpload(
+            step.getCurrentFields(),
+            req.files
+        );
 
         /**
          * Re-validate form against combined application data
@@ -178,9 +177,7 @@ module.exports = function(formId, formBuilder) {
             ...preparedFiles.valuesByField
         });
 
-        const errorsForStep = validationResult.messages.filter(item =>
-            stepFields.map(f => f.name).includes(item.param)
-        );
+        const errorsForStep = step.filterErrors(validationResult.messages);
 
         function isPaginationLinks() {
             return has(req.body, 'previousBtn') || has(req.body, 'nextBtn');
