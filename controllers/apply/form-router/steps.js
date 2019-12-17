@@ -144,10 +144,7 @@ module.exports = function(formId, formBuilder) {
 
         const stepIndex = parseInt(req.params.step, 10) - 1;
         const step = form.getStep(req.params.section, stepIndex);
-        const stepFields = form.getCurrentFieldsForStep(
-            req.params.section,
-            stepIndex
-        );
+        const stepFields = step.getCurrentFields();
 
         const preparedFiles = prepareFilesForUpload(stepFields, req.files);
 
