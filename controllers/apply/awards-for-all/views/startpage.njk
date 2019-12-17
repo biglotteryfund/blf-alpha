@@ -1,12 +1,10 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields/macros.njk" import formField with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/process-map/macro.njk" import processMap %}
 
 {% set title = "Before you start" %}
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
-
 
 {% block content %}
     <main role="main" id="content">
@@ -26,7 +24,96 @@
                 </ul>
 
                 <h2>What information you need to apply</h2>
+
+                <h3>1. The details of two different people from your organisation</h3>
+
+                <p>One person should be someone we can talk to if we have any questions about your project. The other should  be a senior member of your organisation, who’ll be legally responsible for the funding. Both need to live in the UK.</p>
+
+                <p><strong>The two people can’t:</strong></p>
+                <ul>
+                    <li>be related by blood</li>
+                    <li>be married to each other</li>
+                    <li>be in a long-term relationship with each other</li>
+                    <li>use the same email address in your application form</li>
+                </ul>
+
+                <p><strong>What details you’ll need:</strong></p>
+                <ul>
+                    <li>names, email addresses, telephone numbers</li>
+                    <li>home addresses</li>
+                    <li>dates of birth</li>
+                </ul>
+
+                <h3>2. Details about your organisation</h3>
+
+                <ul>
+                    <li>The legal name of your organisation</li>
+                    <li>Your organisation’s address</li>
+                    <li>What type of organisation it is (for example, a registered charity or not-for-profit company)</li>
+                </ul>
+
+                <h3>3. Your organisation’s accounts</h3>
+
+                <p><strong>We want to know the date your accounts end each year.</strong> And how much income you have.</p>
+
+                <p>
+                    <strong>If you don’t have yearly accounts (because your organisation is less than 15 months old).</strong>
+                    That’s okay. We can still look at your application.
+                </p>
+
+                <h3>4. A bank statement from the last 3 months</h3>
+                <p>It should show:</p>
+                <ul>
+                    <li>your organisation’s legal name</li>
+                    <li>address the statements are sent to</li>
+                    <li>your bank’s name</li>
+                    <li>the account code and sort number</li>
+                    <li>date the statement was issued.</li>
+                </ul>
+
+                <p>Here’s <a href="#">a handy picture of the kind of bank statement we’re looking for.</a></p>
+
+                <h3>5. We ask for information about what sort of project you’d like to do</h3>
+
+                <p>And how your project will help and involve your community.</p>
+
+                <h3>6. We also ask you to read and agree to our terms and conditions</h3>
+
+                <p>You can have a <a href="#">look at the terms and conditions here</a>.</p>
+
+                <h3>7. If you’re not sure about the sort of things we ask for when you apply</h3>
+                <p><a href="/contact">Contact us</a></p>
+
+                <h2>Ready to apply?</h2>
             </div>
+
+            {{ processMap([
+                {
+                    "type": "step",
+                    "title": "Check you can apply",
+                    "description": "Before you spend time filling out an application form, we’ll ask a few questions to make sure you can apply first (using our ‘eligibility checker’). If you can’t apply, we’ll let you know why. This feedback should help, if you want to try again in future.",
+                    "isCompleted": true,
+                    "isCurrent": true
+                },
+                {
+                    "type": "action",
+                    "title": "Able to apply"
+                },
+                {
+                    "type": "step",
+                    "title": "Awards for all online application",
+                    "description": "Tell us about your idea to help people improve their lives and communities. You’ll have up to three months to finish your online application form. Once you send us your application, it’ll take around 18 weeks for us to assess it."
+                },
+                {
+                    "type": "action",
+                    "title": "Application assessed"
+                },
+                {
+                    "type": "step",
+                    "title": "We’ll decide to fund your project or not",
+                    "description": "We might get in touch to talk to you, and ask questions about your application. Then we’ll make a final decision to fund your project or not. If successful, you can promote your project and start managing your grant."
+                }
+            ], "You are here") }}
 
 
             <p class="form-actions u-margin-bottom-l">
