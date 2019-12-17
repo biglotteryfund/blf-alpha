@@ -185,13 +185,20 @@ function initFormRouter({
     /**
      * Route: Start page
      */
-    router.use(
-        '/start',
-        require('./start').router({
-            startTemplate: startTemplate,
-            hasEligibility: eligibilityBuilder !== null
-        })
-    );
+    router.get('/start', function(req, res) {
+        const nextPageUrl = eligibilityBuilder
+            ? `${req.baseUrl}/eligibility/1`
+            : `${req.baseUrl}/new`;
+
+        if (startTemplate) {
+            res.render(startTemplate, {
+                backUrl: res.locals.sectionUrl,
+                nextPageUrl: nextPageUrl
+            });
+        } else {
+            res.redirect(nextPageUrl);
+        }
+    });
 
     function redirectCurrentlyEditing(req, res, applicationId) {
         set(req.session, currentlyEditingSessionKey(), applicationId);
