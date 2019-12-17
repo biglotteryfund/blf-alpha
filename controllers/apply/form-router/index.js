@@ -183,24 +183,15 @@ function initFormRouter({
     }
 
     /**
-     * Route: Start application
-     * Redirect to eligibility checker
+     * Route: Start page
      */
-    router.get('/start', function(req, res) {
-        const newUrl = `${req.baseUrl}/new`;
-        const eligibilityUrl = `${req.baseUrl}/eligibility/1`;
-
-        if (startTemplate) {
-            res.render(startTemplate, {
-                backUrl: res.locals.sectionUrl,
-                nextPageUrl: eligibilityBuilder ? eligibilityUrl : newUrl
-            });
-        } else if (eligibilityBuilder) {
-            res.redirect(eligibilityUrl);
-        } else {
-            res.redirect(newUrl);
-        }
-    });
+    router.use(
+        '/start',
+        require('./start').router({
+            startTemplate: startTemplate,
+            hasEligibility: eligibilityBuilder !== null
+        })
+    );
 
     function redirectCurrentlyEditing(req, res, applicationId) {
         set(req.session, currentlyEditingSessionKey(), applicationId);
