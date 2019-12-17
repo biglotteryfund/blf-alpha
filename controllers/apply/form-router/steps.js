@@ -89,6 +89,14 @@ module.exports = function(formId, formBuilder) {
             ].join(' | ');
         }
 
+        function hotJarTagList() {
+            if (errors.length > 0) {
+                return ['App: User shown form error after submitting'];
+            } else {
+                return [];
+            }
+        }
+
         const viewData = {
             title: stepTitle(),
             form: form,
@@ -100,10 +108,7 @@ module.exports = function(formId, formBuilder) {
             previousPage: previousPage,
             nextPage: nextPage,
             errors: errors,
-            hotJarTagList:
-                errors.length > 0
-                    ? ['App: User shown form error after submitting']
-                    : []
+            hotJarTagList: hotJarTagList()
         };
 
         /**
