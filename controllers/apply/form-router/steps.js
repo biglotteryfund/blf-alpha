@@ -81,13 +81,16 @@ module.exports = function(formId, formBuilder) {
             section.steps.length
         );
 
-        const viewData = {
-            title: [
-                step.title,
-                `(${stepCount})`,
+        function stepTitle() {
+            return [
+                `${step.title} (${stepCount})`,
                 section.shortTitle || section.title,
                 res.locals.formTitle
-            ].join(' | '),
+            ].join(' | ');
+        }
+
+        const viewData = {
+            title: stepTitle(),
             form: form,
             csrfToken: req.csrfToken(),
             section: section,
