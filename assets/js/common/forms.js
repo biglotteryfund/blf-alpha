@@ -167,8 +167,9 @@ function trackSharedSurnameWarning($form, shortId) {
 // Track clicks on details expandos
 function trackDetailsClicks($form, shortId) {
     $('details summary', $form).on('click', function() {
+        const componentLocation = $(this).data('name') || 'Clicky Thing';
         tagHotjarRecording([
-            `Apply: ${shortId}: Summary: User toggles details element`
+            `Apply: ${shortId}: ${componentLocation}: User toggles details element`
         ]);
     });
 }
