@@ -4,6 +4,7 @@ const EmailField = require('./email');
 
 test('EmailField', function() {
     const field = new EmailField({
+        locale: 'en',
         name: 'example',
         label: 'Email field'
     });

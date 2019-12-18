@@ -4,6 +4,7 @@ const AddressField = require('./address');
 
 test('AddressField', function() {
     const field = new AddressField({
+        locale: 'en',
         name: 'example',
         label: 'Address field'
     });

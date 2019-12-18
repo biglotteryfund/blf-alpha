@@ -4,6 +4,7 @@ const FileField = require('./file');
 
 test('FileField', function() {
     const field = new FileField({
+        locale: 'en',
         name: 'example',
         label: 'File field'
     });

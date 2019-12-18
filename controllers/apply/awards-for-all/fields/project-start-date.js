@@ -19,8 +19,8 @@ module.exports = function(locale) {
         .format('DD MM YYYY');
 
     return new DateField({
+        locale: locale,
         name: 'projectStartDate',
-
         label: localise({
             en: `When would you like to start your project?`,
             cy: `Pryd hoffech ddechrau eich prosiect?`

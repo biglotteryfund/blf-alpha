@@ -7,6 +7,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new FileField({
+        locale: locale,
         name: 'bankStatement',
         label: localise({
             en: 'Upload a bank statement',

@@ -4,6 +4,7 @@ const CheckboxField = require('./checkbox');
 
 test('CheckboxField', function() {
     const field = new CheckboxField({
+        locale: 'en',
         name: 'example',
         label: 'Checkbox field',
         options: [

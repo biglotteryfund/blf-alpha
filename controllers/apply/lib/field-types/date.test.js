@@ -4,6 +4,7 @@ const DateField = require('./date');
 
 test('DateField', function() {
     const field = new DateField({
+        locale: 'en',
         name: 'example',
         label: 'Date field'
     });

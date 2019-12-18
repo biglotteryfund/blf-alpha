@@ -4,6 +4,7 @@ const RadioField = require('./radio');
 
 test('RadioField', function() {
     const field = new RadioField({
+        locale: 'en',
         name: 'example',
         label: 'Radio field',
         options: [

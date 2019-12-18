@@ -9,6 +9,7 @@ test('TextareaField', function() {
     const maxWords = 150;
 
     const field = new TextareaField({
+        locale: 'en',
         name: 'example',
         label: 'Textarea field',
         minWords: minWords,
@@ -36,6 +37,7 @@ test('TextareaField', function() {
     );
 
     const optionalField = new TextareaField({
+        locale: 'en',
         name: 'example',
         isRequired: false,
         label: 'Radio field',

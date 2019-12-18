@@ -30,6 +30,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectName() {
         const maxLength = 80;
         return new Field({
+            locale: locale,
             name: 'projectName',
             label: localise({
                 en: 'What is the name of your project?',
@@ -430,6 +431,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldYourIdeaActivities() {
         return new TextareaField({
+            locale: locale,
             name: 'yourIdeaActivities',
             label: localise({
                 en: 'How does your idea fit in with other local activities?',
