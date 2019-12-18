@@ -53,10 +53,21 @@ module.exports = function(formId, formBuilder) {
 
         const section = form.getSection(sectionSlug);
 
+        /**
+         * Alias for fallback URL
+         * sectionUrl here is the top-level section
+         * i.e. /apply/ rather than the current form section.
+         */
+        const fallbackUrl = res.locals.sectionUrl;
+
         if (!section) {
-            return res.redirect(res.locals.sectionUrl);
+            return res.redirect(fallbackUrl);
         }
 
+        /**
+         * If we have a section but no step number then
+         * redirect to the first step in the section.
+         */
         if (!stepNumber) {
             return res.redirect(`${res.locals.formBaseUrl}/${section.slug}/1`);
         }
@@ -65,7 +76,7 @@ module.exports = function(formId, formBuilder) {
         const step = section.steps[stepIndex];
 
         if (!step) {
-            return res.redirect(res.locals.sectionUrl);
+            return res.redirect(fallbackUrl);
         }
 
         const { nextPage, previousPage } = form.pagination({
@@ -81,13 +92,24 @@ module.exports = function(formId, formBuilder) {
             section.steps.length
         );
 
-        const viewData = {
-            title: [
-                step.title,
-                `(${stepCount})`,
+        function stepTitle() {
+            return [
+                `${step.title} (${stepCount})`,
                 section.shortTitle || section.title,
                 res.locals.formTitle
-            ].join(' | '),
+            ].join(' | ');
+        }
+
+        function hotJarTagList() {
+            if (errors.length > 0) {
+                return ['App: User shown form error after submitting'];
+            } else {
+                return [];
+            }
+        }
+
+        const viewData = {
+            title: stepTitle(),
             form: form,
             csrfToken: req.csrfToken(),
             section: section,
@@ -97,10 +119,7 @@ module.exports = function(formId, formBuilder) {
             previousPage: previousPage,
             nextPage: nextPage,
             errors: errors,
-            hotJarTagList:
-                errors.length > 0
-                    ? ['App: User shown form error after submitting']
-                    : []
+            hotJarTagList: hotJarTagList()
         };
 
         /**
@@ -128,12 +147,10 @@ module.exports = function(formId, formBuilder) {
     }
 
     async function handleSubmission(req, res, next) {
-        const { copy, currentlyEditingId, currentApplicationData } = res.locals;
-
         const sanitisedBody = sanitiseRequestBody(omit(req.body, ['_csrf']));
 
         const applicationData = {
-            ...currentApplicationData,
+            ...res.locals.currentApplicationData,
             ...sanitisedBody
         };
 
@@ -144,12 +161,11 @@ module.exports = function(formId, formBuilder) {
 
         const stepIndex = parseInt(req.params.step, 10) - 1;
         const step = form.getStep(req.params.section, stepIndex);
-        const stepFields = form.getCurrentFieldsForStep(
-            req.params.section,
-            stepIndex
-        );
 
-        const preparedFiles = prepareFilesForUpload(stepFields, req.files);
+        const preparedFiles = prepareFilesForUpload(
+            step.getCurrentFields(),
+            req.files
+        );
 
         /**
          * Re-validate form against combined application data
@@ -161,9 +177,7 @@ module.exports = function(formId, formBuilder) {
             ...preparedFiles.valuesByField
         });
 
-        const errorsForStep = validationResult.messages.filter(item =>
-            stepFields.map(f => f.name).includes(item.param)
-        );
+        const errorsForStep = step.filterErrors(validationResult.messages);
 
         function isPaginationLinks() {
             return has(req.body, 'previousBtn') || has(req.body, 'nextBtn');
@@ -206,7 +220,7 @@ module.exports = function(formId, formBuilder) {
              * Store the form's current state (errors and all) in the database
              */
             await PendingApplication.saveApplicationState(
-                currentlyEditingId,
+                res.locals.currentlyEditingId,
                 dataToStore,
                 currentProgressState
             );
@@ -254,7 +268,8 @@ module.exports = function(formId, formBuilder) {
                             preparedFiles.filesToUpload.map(file => {
                                 return scanAndUpload({
                                     formId: formId,
-                                    applicationId: currentlyEditingId,
+                                    applicationId:
+                                        res.locals.currentlyEditingId,
                                     fileMetadata: file
                                 });
                             })
@@ -264,7 +279,7 @@ module.exports = function(formId, formBuilder) {
                         Sentry.captureException(rejection.error);
 
                         const uploadError = {
-                            msg: copy.common.errorUploading,
+                            msg: req.i18n.__('applyNext.common.errorUploading'),
                             param: rejection.fieldName
                         };
 
