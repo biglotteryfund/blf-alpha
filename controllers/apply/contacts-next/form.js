@@ -11,6 +11,7 @@ const sumBy = require('lodash/sumBy');
 const { safeHtml, oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
+const { Step } = require('../lib/step-model');
 const fromDateParts = require('../lib/from-date-parts');
 const { formatDateRange } = require('../lib/formatters');
 const {
@@ -63,14 +64,13 @@ module.exports = function({
     });
 
     function stepProjectName() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Project name',
                 cy: 'Enw eich prosiect'
             }),
-            noValidate: true,
             fieldsets: [{ fields: [fields.projectName] }]
-        };
+        });
     }
 
     function stepProjectLength() {
@@ -78,18 +78,17 @@ module.exports = function({
             ? [fields.projectStartDate, fields.projectEndDate]
             : [fields.projectDateRange];
 
-        return {
+        return new Step({
             title: localise({
                 en: 'Project length',
                 cy: 'Hyd y prosiect'
             }),
-            noValidate: true,
             fieldsets: [{ fields: stepFields }]
-        };
+        });
     }
 
     function stepProjectCountry() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Project country',
                 cy: 'Gwlad y prosiect'
@@ -104,16 +103,15 @@ module.exports = function({
                     fields: [fields.projectCountry]
                 }
             ]
-        };
+        });
     }
 
     function stepProjectLocation() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Project location',
                 cy: 'Lleoliad y prosiect'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -139,11 +137,11 @@ module.exports = function({
                     }
                 }
             ]
-        };
+        });
     }
 
     function stepYourIdea() {
-        return {
+        return new Step({
             title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
             noValidate: true,
             fieldsets: [
@@ -159,16 +157,15 @@ module.exports = function({
                     ]
                 }
             ]
-        };
+        });
     }
 
     function stepProjectCosts() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -178,16 +175,15 @@ module.exports = function({
                     fields: [fields.projectBudget, fields.projectTotalCosts]
                 }
             ]
-        };
+        });
     }
 
     function stepBeneficiariesCheck() {
-        return {
+        return new Step({
             title: localise({
                 en: `Specific groups of people`,
                 cy: `Grwpiau penodol o bobl`
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -228,12 +224,12 @@ module.exports = function({
                     fields: [fields.beneficiariesGroupsCheck]
                 }
             ]
-        };
+        });
     }
 
     function stepBeneficiariesGroups() {
         const groupsCheck = get('beneficiariesGroupsCheck')(data);
-        return {
+        return new Step({
             title: localise({
                 en: 'Specific groups of people',
                 cy: 'Grwpiau penodol o bobl'
@@ -261,7 +257,7 @@ module.exports = function({
                     }
                 }
             ]
-        };
+        });
     }
 
     /**
@@ -274,7 +270,7 @@ module.exports = function({
     }
 
     function stepEthnicBackground() {
-        return {
+        return new Step({
             title: localise({ en: 'Ethnic background', cy: 'Cefndir ethnig' }),
             fieldsets: [
                 {
@@ -291,11 +287,11 @@ module.exports = function({
                     )
                 }
             ]
-        };
+        });
     }
 
     function stepGender() {
-        return {
+        return new Step({
             title: localise({ en: 'Gender', cy: 'Rhyw' }),
             fieldsets: [
                 {
@@ -308,11 +304,11 @@ module.exports = function({
                     )
                 }
             ]
-        };
+        });
     }
 
     function stepAge() {
-        return {
+        return new Step({
             title: localise({ en: 'Age', cy: 'Oedran' }),
             fieldsets: [
                 {
@@ -325,11 +321,11 @@ module.exports = function({
                     )
                 }
             ]
-        };
+        });
     }
 
     function stepDisabledPeople() {
-        return {
+        return new Step({
             title: localise({ en: 'Disabled people', cy: 'Pobl anabl' }),
             fieldsets: [
                 {
@@ -346,11 +342,11 @@ module.exports = function({
                     )
                 }
             ]
-        };
+        });
     }
 
     function stepReligionOrFaith() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Religion or belief',
                 cy: 'Crefydd neu gred'
@@ -376,7 +372,7 @@ module.exports = function({
                     }
                 }
             ]
-        };
+        });
     }
 
     function isForCountry(country) {
@@ -392,12 +388,11 @@ module.exports = function({
     }
 
     function stepWelshLanguage() {
-        return {
+        return new Step({
             title: localise({
                 en: `People who speak Welsh`,
                 cy: `Pobl sy’n siarad Cymraeg`
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -412,16 +407,15 @@ module.exports = function({
                     )
                 }
             ]
-        };
+        });
     }
 
     function stepNorthernIrelandCommunity() {
-        return {
+        return new Step({
             title: localise({
                 en: `Northern Ireland community`,
                 cy: `Cymuned Gogledd Iwerddon`
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -436,15 +430,16 @@ module.exports = function({
                     )
                 }
             ]
-        };
+        });
     }
 
     function stepOrganisationDetails() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Organisation details',
                 cy: 'Manylion sefydliad'
             }),
+            noValidate: false,
             fieldsets: [
                 {
                     legend: localise({
@@ -459,11 +454,11 @@ module.exports = function({
                     ]
                 }
             ]
-        };
+        });
     }
 
     function stepOrganisationType() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Organisation type',
                 cy: 'Math o sefydliad'
@@ -478,7 +473,7 @@ module.exports = function({
                     fields: [fields.organisationType]
                 }
             ]
-        };
+        });
     }
 
     /**
@@ -510,9 +505,8 @@ module.exports = function({
             });
         }
 
-        return {
+        return new Step({
             title: title,
-            noValidate: true,
             fieldsets: [
                 {
                     legend: title,
@@ -525,7 +519,7 @@ module.exports = function({
                     )
                 }
             ]
-        };
+        });
     }
 
     /**
@@ -547,7 +541,7 @@ module.exports = function({
             currentOrganisationType
         );
 
-        return {
+        return new Step({
             title: localise({
                 en: 'Registration numbers',
                 cy: 'Rhifau cofrestru'
@@ -576,7 +570,7 @@ module.exports = function({
                     }
                 }
             ]
-        };
+        });
     }
 
     /**
@@ -588,7 +582,7 @@ module.exports = function({
         const includeAccountDetails =
             get('organisationStartDate.isBeforeMin')(data) === true;
 
-        return {
+        return new Step({
             title: localise({
                 en: 'Organisation finances',
                 cy: 'Cyllid y sefydliad'
@@ -612,7 +606,7 @@ module.exports = function({
                     }
                 }
             ]
-        };
+        });
     }
 
     /**
@@ -627,8 +621,9 @@ module.exports = function({
     }
 
     function stepSeniorContact() {
-        return {
+        return new Step({
             title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
+            noValidate: false,
             fieldsets: [
                 {
                     legend: localise({
@@ -689,12 +684,13 @@ module.exports = function({
                     }
                 }
             ]
-        };
+        });
     }
 
     function stepMainContact() {
-        return {
+        return new Step({
             title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
+            noValidate: false,
             fieldsets: [
                 {
                     legend: localise({
@@ -785,7 +781,7 @@ module.exports = function({
                     }
                 }
             ]
-        };
+        });
     }
 
     /**
@@ -874,7 +870,7 @@ module.exports = function({
     }
 
     function stepBankAccount() {
-        return {
+        return new Step({
             title: localise({ en: 'Bank account', cy: 'Cyfrif banc' }),
             noValidate: true,
             fieldsets: [
@@ -907,7 +903,7 @@ module.exports = function({
                 }
             ],
             preFlightCheck: bankAccountPreFlightCheck
-        };
+        });
     }
 
     function stepBankStatement() {
@@ -1015,9 +1011,8 @@ module.exports = function({
             </ul>`
         });
 
-        return {
+        return new Step({
             title: localise({ en: 'Bank statement', cy: 'Cyfriflen banc' }),
-            noValidate: true,
             isMultipart: true,
             fieldsets: [
                 {
@@ -1029,7 +1024,7 @@ module.exports = function({
                     fields: [fields.bankStatement]
                 }
             ]
-        };
+        });
     }
 
     function stepTerms() {
@@ -1085,9 +1080,8 @@ module.exports = function({
             <p>Pan fyddwch yn clicio anfon, mae’r Telerau ac Amodau fel y cytunwyd uchod yn dod yn rhwymol.</p>`
         });
 
-        return {
+        return new Step({
             title: title,
-            noValidate: true,
             fieldsets: [
                 {
                     legend: title,
@@ -1116,7 +1110,7 @@ module.exports = function({
                     ]
                 }
             ]
-        };
+        });
     }
 
     function sectionYourProject() {
