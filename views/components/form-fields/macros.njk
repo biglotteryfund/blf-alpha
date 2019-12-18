@@ -203,7 +203,7 @@
     </label>
 
     {% if field.labelDetails %}
-        {% call details(field.labelDetails.summary) %}
+        {% call details(field.labelDetails.summary, dataName = field.name) %}
             <div class="ff-help s-prose">{{ field.labelDetails.content | safe }}</div>
         {% endcall %}
     {% endif %}
