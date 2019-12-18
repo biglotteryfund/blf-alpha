@@ -1305,6 +1305,10 @@ applyNext:
         Os ydych yn siŵr eich bod eisiau dileu eich cais, gallwch barhau isod.
       </p>
     success: Mae eich cais wedi’i ddileu’n llwyddiannus
+  expired:
+    title: Roedd rhaid i ni ddileu’r cais hwn
+    summary: Mae wedi bod dros 3 mis ers i chi ei ddechrau. Rydym felly wedi gorfod dileu’r cais hwn i gadw eich data’n ddiogel.
+    message: Cafodd eich cais ei ddileu ar %s. Os ydych yn dal i fod eisiau ymgeisio, bydd angen i chi ddechrau cais newydd.
   questions:
     printLink: Argraffu’r cwestiynau hyn
     downloadLink: Lawrlwytho ‘r cwestiynau hyn (PDF)
