@@ -7,7 +7,7 @@ const has = require('lodash/fp/has');
 const { safeHtml, oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
-const { Step } = require('../lib/step-model');
+const { Step, CustomStep } = require('../lib/step-model');
 const fromDateParts = require('../lib/from-date-parts');
 const { CONTACT_EXCLUDED_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
@@ -54,6 +54,13 @@ module.exports = function({
         return (
             CONTACT_EXCLUDED_TYPES.includes(currentOrganisationType) === false
         );
+    }
+
+    function stepCheckContacts() {
+        return new CustomStep({
+            title: 'Check your contacts',
+            render: require('./contact-check')
+        });
     }
 
     function sectionChooseContacts() {
@@ -238,7 +245,8 @@ module.exports = function({
                             }
                         }
                     ]
-                })
+                }),
+                stepCheckContacts()
             ]
         };
     }
@@ -342,7 +350,8 @@ module.exports = function({
                             }
                         }
                     ]
-                })
+                }),
+                stepCheckContacts()
             ]
         };
     }

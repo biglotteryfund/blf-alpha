@@ -71,6 +71,22 @@ class Step {
     }
 }
 
+class CustomStep extends Step {
+    constructor(props) {
+        super(props);
+
+        this.type = 'custom';
+        this.isRequired = true;
+
+        if (props.render && typeof props.render === 'function') {
+            this.render = props.render;
+        } else {
+            throw new Error('Must provide render function');
+        }
+    }
+}
+
 module.exports = {
-    Step
+    Step,
+    CustomStep
 };
