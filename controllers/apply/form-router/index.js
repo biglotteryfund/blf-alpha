@@ -183,20 +183,20 @@ function initFormRouter({
     }
 
     /**
-     * Route: Start application
-     * Redirect to eligibility checker
+     * Route: Start page
      */
     router.get('/start', function(req, res) {
-        const newUrl = `${req.baseUrl}/new`;
-        if (eligibilityBuilder) {
-            res.redirect(`${req.baseUrl}/eligibility/1`);
-        } else if (startTemplate) {
+        const nextPageUrl = eligibilityBuilder
+            ? `${req.baseUrl}/eligibility/1`
+            : `${req.baseUrl}/new`;
+
+        if (startTemplate) {
             res.render(startTemplate, {
                 backUrl: res.locals.sectionUrl,
-                newUrl: newUrl
+                nextPageUrl: nextPageUrl
             });
         } else {
-            res.redirect(newUrl);
+            res.redirect(nextPageUrl);
         }
     });
 

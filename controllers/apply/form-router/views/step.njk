@@ -105,7 +105,7 @@
                     <div class="form-actions__primary">
                         {{ saveButton() }}
                     </div>
-                    <p class="form-actions__secondary form-actions__timestamp">
+                    <p class="form-actions__secondary form-actions__timestamp" data-testid="updated-at">
                         {{ copy.lastSaveTimeText }} -
                         <time datetime="{{ formatISODate(updatedAt) }}">
                             {{ formatCalendarTime(updatedAt) }}
