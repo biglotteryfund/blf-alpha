@@ -9,6 +9,7 @@ test('enrich pending applications', function() {
         formId: 'standard-enquiry',
         createdAt: '2020-03-04T23:00:00.000Z',
         expiresAt: '2020-03-04T23:00:00.000Z',
+        isExpired: false,
         updatedAt: '2020-03-04T23:00:00.000Z',
         applicationData: mockResponse()
     });

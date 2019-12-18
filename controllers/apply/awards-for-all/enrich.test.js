@@ -13,6 +13,7 @@ test('enrich pending applications', function() {
         formId: 'awards-for-all',
         createdAt: '2020-03-04T12:00:00.000Z',
         expiresAt: '2020-03-04T12:00:00.000Z',
+        isExpired: false,
         updatedAt: '2020-03-04T12:00:00.000Z',
         applicationData: mockResponse({
             projectName: 'Example project',
