@@ -315,6 +315,16 @@ function initFormRouter({
                         'status'
                     );
 
+                    if (currentApplication.isExpired) {
+                        return res.render(
+                            path.resolve(__dirname, './views/expired'),
+                            {
+                                title: res.locals.copy.expired.title,
+                                csrfToken: req.csrfToken()
+                            }
+                        );
+                    }
+
                     next();
                 } else {
                     res.redirect(req.baseUrl);
