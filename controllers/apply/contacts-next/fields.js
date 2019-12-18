@@ -1,6 +1,4 @@
 'use strict';
-const get = require('lodash/fp/get');
-
 const fieldAddressHistory = require('./fields/address-history');
 const fieldContactCommunicationNeeds = require('./fields/contact-communication-needs');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
@@ -16,19 +14,13 @@ const fieldSeniorContactPhone = require('./fields/senior-contact-phone');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
-    const seniorContactName = [
-        get('seniorContactName.firstName')(data),
-        get('seniorContactName.lastName')(data)
-    ]
-        .join(' ')
-        .trim();
+    function formatName(fieldName) {
+        const { firstName, lastName } = data[fieldName] || {};
+        return [firstName, lastName].join(' ').trim();
+    }
 
-    const mainContactName = [
-        get('mainContactName.firstName')(data),
-        get('mainContactName.lastName')(data)
-    ]
-        .join(' ')
-        .trim();
+    const seniorContactFullName = formatName('seniorContactName');
+    const mainContactFullName = formatName('mainContactName');
 
     return {
         mainContactName: fieldMainContactName(locale, data),
@@ -36,11 +28,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'mainContactDateOfBirth',
             minAge: 16,
-            contactName: mainContactName
+            contactName: mainContactFullName
         }),
         mainContactAddress: fieldMainContactAddress({
             locale: locale,
-            contactName: mainContactName
+            contactName: mainContactFullName
         }),
         mainContactAddressHistory: fieldAddressHistory({
             locale: locale,
@@ -62,11 +54,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'seniorContactDateOfBirth',
             minAge: 18,
-            contactName: seniorContactName
+            contactName: seniorContactFullName
         }),
         seniorContactAddress: fieldSeniorContactAddress({
             locale: locale,
-            contactName: seniorContactName
+            contactName: seniorContactFullName
         }),
         seniorContactAddressHistory: fieldAddressHistory({
             locale: locale,
