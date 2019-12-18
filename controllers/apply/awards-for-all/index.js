@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 
-const { isDev } = require('../../../common/appData');
+const { isNotProduction } = require('../../../common/appData');
 
 const { initFormRouter } = require('../form-router');
 
@@ -12,7 +12,9 @@ const { EXPIRY_EMAIL_REMINDERS } = require('./constants');
 const { transform } = require('./transforms');
 
 function getStartTemplate() {
-    return isDev ? path.resolve(__dirname, './views/startpage.njk') : null;
+    return isNotProduction
+        ? path.resolve(__dirname, './views/startpage.njk')
+        : null;
 }
 
 module.exports = initFormRouter({
