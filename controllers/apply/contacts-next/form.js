@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const clone = require('lodash/clone');
 const compact = require('lodash/compact');
 const get = require('lodash/fp/get');
@@ -16,11 +15,7 @@ const fieldsFor = require('./fields');
 module.exports = function({
     locale = 'en',
     data = {},
-    showAllFields = false,
-    flags = {
-        // Set default flags based on config, but allow overriding for tests
-        enableNewDateRange: config.get('awardsForAll.enableNewDateRange')
-    }
+    showAllFields = false
 } = {}) {
     const localise = get(locale);
 
@@ -42,8 +37,7 @@ module.exports = function({
 
     const fields = fieldsFor({
         locale: locale,
-        data: data,
-        flags: flags
+        data: data
     });
 
     function isForCountry(country) {
@@ -373,26 +367,6 @@ module.exports = function({
         }
 
         const enriched = clone(data);
-
-        if (
-            flags.enableNewDateRange &&
-            has('projectStartDate')(enriched) &&
-            has('projectEndDate')(enriched)
-        ) {
-            enriched.projectStartDate = dateFormat(enriched.projectStartDate);
-            enriched.projectEndDate = dateFormat(enriched.projectEndDate);
-
-            // Support previous schema format
-            enriched.projectDateRange = {
-                startDate: dateFormat(enriched.projectStartDate),
-                endDate: dateFormat(enriched.projectEndDate)
-            };
-        } else {
-            enriched.projectDateRange = {
-                startDate: dateFormat(enriched.projectDateRange.startDate),
-                endDate: dateFormat(enriched.projectDateRange.endDate)
-            };
-        }
 
         if (has('mainContactDateOfBirth')(enriched)) {
             enriched.mainContactDateOfBirth = dateFormat(
