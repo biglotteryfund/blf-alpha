@@ -373,6 +373,17 @@ class ApplicationEmailQueue extends Model {
             },
 
             /**
+             * User model reference
+             * (optional as it was added after the model was created)
+             * Intended to allow looking up a user's deleted applications
+             * after the application itself was deleted
+             */
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
+
+            /**
              * Email type
              * e.g. AFA_ONE_MONTH, GET_ADVICE_ONE_WEEK etc
              */
