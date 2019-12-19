@@ -115,7 +115,7 @@ class PendingApplication extends Model {
 
     static findExpiredApplications() {
         return this.findAll({
-            attributes: ['id', 'formId'],
+            attributes: ['id', 'formId', 'currentProgressState'],
             where: {
                 expiresAt: {
                     [Op.lte]: moment().toDate()
