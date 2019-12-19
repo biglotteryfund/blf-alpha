@@ -6,6 +6,8 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 
+const Field = require('../lib/field-types/field');
+const Checkbox = require('../lib/field-types/checkbox');
 const EmailField = require('../lib/field-types/email');
 const DateField = require('../lib/field-types/date');
 const PhoneField = require('../lib/field-types/phone');
@@ -261,7 +263,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     }
 
     const allFields = {
-        projectName: {
+        projectName: new Field({
+            locale: locale,
             name: 'projectName',
             label: localise({
                 en: 'What is the name of your project?',
@@ -271,11 +274,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: 'The project name should be simple and to the point',
                 cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
             }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.medium)
-                .required(),
+            maxLength: FREE_TEXT_MAXLENGTH.medium,
             messages: [
                 {
                     type: 'base',
@@ -292,10 +291,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
-        projectLocationDescription: {
+        projectLocationDescription: new Field({
+            locale: locale,
             name: 'projectLocationDescription',
             label: localise({
                 en: oneLine`Tell us the towns or villages where people who
@@ -303,11 +303,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: oneLine`Dywedwch wrthym y trefi neu bentrefi mae’r bobl
                     a fydd yn elwa o’ch prosiect yn byw`
             }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
+            maxLength: FREE_TEXT_MAXLENGTH.large,
             messages: [
                 {
                     type: 'base',
@@ -324,8 +320,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        projectPostcode: {
+        }),
+        projectPostcode: new Field({
+            locale: locale,
             name: 'projectPostcode',
             label: localise({
                 en: `What is the postcode of where your project will take place?`,
@@ -337,12 +334,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: oneLine`Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
                     defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.`
             }),
-            type: 'text',
             attributes: {
                 size: 10,
                 autocomplete: 'postal-code'
             },
-            isRequired: true,
             schema: Joi.string()
                 .postcode()
                 .required(),
@@ -355,7 +350,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale),
         yourIdeaCommunity: fieldYourIdeaCommunity(locale),
@@ -1475,18 +1470,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
             name: 'mainContactLanguagePreference'
         }),
-        mainContactCommunicationNeeds: {
+        mainContactCommunicationNeeds: new Field({
+            locale: locale,
             name: 'mainContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu penodol sydd gan y cyswllt hwn.`
             }),
-            type: 'text',
             isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
+            maxLength: FREE_TEXT_MAXLENGTH.large,
             messages: [
                 {
                     type: 'string.max',
@@ -1496,7 +1488,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         seniorContactRole: fieldSeniorContactRole(locale, data),
         seniorContactName: new NameField({
             locale: locale,
@@ -1579,18 +1571,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 name: 'seniorContactLanguagePreference'
             }
         ),
-        seniorContactCommunicationNeeds: {
+        seniorContactCommunicationNeeds: new Field({
+            locale: locale,
             name: 'seniorContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu sydd gan y cyswllt hwn.`
             }),
-            type: 'text',
             isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
+            maxLength: FREE_TEXT_MAXLENGTH.large,
             messages: [
                 {
                     type: 'string.max',
@@ -1600,15 +1589,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         bankAccountName: fieldBankAccountName(locale),
         bankSortCode: fieldBankSortCode(locale),
         bankAccountNumber: fieldBankAccountNumber(locale),
         buildingSocietyNumber: fieldBuildingSocietyNumber(locale),
         bankStatement: fieldBankStatement(locale),
-        termsAgreement1: {
+        termsAgreement1: new Checkbox({
+            locale: locale,
             name: 'termsAgreement1',
-            type: 'checkbox',
             label: localise({
                 en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
                 cy:
@@ -1621,26 +1610,23 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ],
             settings: { stackedSummary: true },
-            isRequired: true,
-            schema: Joi.string('yes').required(),
+            schema: Joi.string().required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that you're authorised to submit this application`,
-                        cy:
-                            'Rhaid ichi gadarnhau eich bod wedi cael eich awdurdodi i anfon y cais hwn'
+                        cy: `Rhaid ichi gadarnhau eich bod wedi cael eich awdurdodi i anfon y cais hwn`
                     })
                 }
             ]
-        },
-        termsAgreement2: {
+        }),
+        termsAgreement2: new Checkbox({
+            locale: locale,
             name: 'termsAgreement2',
-            type: 'checkbox',
             label: localise({
                 en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
-                cy:
-                    'Mae pob darn o wybodaeth rydych wedi ei ddarparu yn eich cais yn gywir ac yn gyflawn; a byddwch yn ein hysbysu am unrhyw newidiadau.'
+                cy: `Mae pob darn o wybodaeth rydych wedi ei ddarparu yn eich cais yn gywir ac yn gyflawn; a byddwch yn ein hysbysu am unrhyw newidiadau.`
             }),
             options: [
                 {
@@ -1649,26 +1635,23 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ],
             settings: { stackedSummary: true },
-            isRequired: true,
             schema: Joi.string().required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that the information you've provided in this application is accurate`,
-                        cy:
-                            'Rhaid ichi gadarnhau bod y wybodaeth rydych wedi ei ddarparu yn y cais hwn yn gywir'
+                        cy: `Rhaid ichi gadarnhau bod y wybodaeth rydych wedi ei ddarparu yn y cais hwn yn gywir`
                     })
                 }
             ]
-        },
-        termsAgreement3: {
+        }),
+        termsAgreement3: new Checkbox({
+            locale: locale,
             name: 'termsAgreement3',
-            type: 'checkbox',
             label: localise({
                 en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
-                cy:
-                    'Rydych yn deall y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu ar gyfer dibenion wedi’i ddisgrifio dan y <a href="/welsh/about/customer-service/data-protection">Datganiad Diogelu Data</a>.'
+                cy: `Rydych yn deall y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu ar gyfer dibenion wedi’i ddisgrifio dan y <a href="/welsh/about/customer-service/data-protection">Datganiad Diogelu Data</a>.`
             }),
             options: [
                 {
@@ -1677,26 +1660,23 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ],
             settings: { stackedSummary: true },
-            isRequired: true,
             schema: Joi.string().required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that you understand how we'll use any personal information you've provided`,
-                        cy:
-                            'Rhaid ichi gadarnhau eich bod yn deall sut y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu'
+                        cy: `Rhaid ichi gadarnhau eich bod yn deall sut y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu`
                     })
                 }
             ]
-        },
-        termsAgreement4: {
+        }),
+        termsAgreement4: new Checkbox({
+            locale: locale,
             name: 'termsAgreement4',
-            type: 'checkbox',
             label: localise({
                 en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
-                cy:
-                    'Os gofynnir am wybodaeth o’r cais hwn o dan y Ddeddf Rhyddid Gwybodaeth, byddwn yn ei ryddhau yn unol â’n <a href="/welsh/about/customer-service/freedom-of-information">Polisi Rhyddid Gwybodaeth.</a>'
+                cy: `Os gofynnir am wybodaeth o’r cais hwn o dan y Ddeddf Rhyddid Gwybodaeth, byddwn yn ei ryddhau yn unol â’n <a href="/welsh/about/customer-service/freedom-of-information">Polisi Rhyddid Gwybodaeth.</a>`
             }),
             options: [
                 {
@@ -1705,37 +1685,32 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ],
             settings: { stackedSummary: true },
-            isRequired: true,
             schema: Joi.string().required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that you understand your application is subject to our Freedom of Information policy`,
-                        cy:
-                            'Rhaid ichi gadarnhau eich bod yn deall bod eich cais yn ddarostyngedig i’n polisi Rhyddid Gwybodaeth'
+                        cy: `Rhaid ichi gadarnhau eich bod yn deall bod eich cais yn ddarostyngedig i’n polisi Rhyddid Gwybodaeth`
                     })
                 }
             ]
-        },
-        termsPersonName: {
+        }),
+        termsPersonName: new Field({
+            locale: locale,
             name: 'termsPersonName',
             label: localise({
                 en: 'Full name of person completing this form',
                 cy: 'Enw llawn y person sy’n cwblhau’r ffurflen'
             }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
+            maxLength: FREE_TEXT_MAXLENGTH.large,
+            attributes: { autocomplete: 'name' },
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Enter the full name of the person completing this form`,
-                        cy:
-                            'Rhowch enw llawn y person sy’n cwblhau’r ffurflen hwn'
+                        cy: `Rhowch enw llawn y person sy’n cwblhau’r ffurflen hwn`
                     })
                 },
                 {
@@ -1745,19 +1720,16 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         cy: `Rhaid i’r enw llawn fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
-            ],
-            attributes: { autocomplete: 'name' }
-        },
-        termsPersonPosition: {
+            ]
+        }),
+        termsPersonPosition: new Field({
+            locale: locale,
             name: 'termsPersonPosition',
             label: localise({
                 en: 'Position in organisation',
                 cy: 'Safle o fewn y sefydliad'
             }),
-            type: 'text',
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
+            maxLength: FREE_TEXT_MAXLENGTH.large,
             messages: [
                 {
                     type: 'base',
@@ -1773,9 +1745,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         cy: `Rhaid i’r safle o fewn y sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
-            ],
-            isRequired: true
-        }
+            ]
+        })
     };
 
     if (flags.enableNewDateRange) {

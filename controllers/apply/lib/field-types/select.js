@@ -1,6 +1,4 @@
 'use strict';
-const find = require('lodash/fp/find');
-const flatMap = require('lodash/flatMap');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
@@ -33,7 +31,7 @@ class SelectField extends Field {
         const optgroups = this.optgroups || [];
         const options = this.options || [];
         return optgroups.length > 0
-            ? flatMap(optgroups, group => group.options)
+            ? optgroups.flatMap(group => group.options)
             : options;
     }
 
@@ -51,8 +49,8 @@ class SelectField extends Field {
 
     get displayValue() {
         if (this.value) {
-            const match = find(option => option.value === this.value)(
-                this._normalisedOptions()
+            const match = this._normalisedOptions().find(
+                option => option.value === this.value
             );
             return match ? match.label : '';
         } else {

@@ -1,6 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
-const Joi = require('../../lib/joi-extensions');
+
+const TextareaField = require('../../lib/field-types/textarea');
 
 module.exports = function(locale) {
     const localise = get(locale);
@@ -8,7 +9,8 @@ module.exports = function(locale) {
     const minWords = 50;
     const maxWords = 300;
 
-    return {
+    return new TextareaField({
+        locale: locale,
         name: 'yourIdeaProject',
         label: localise({
             en: `What would you like to do?`,
@@ -56,19 +58,9 @@ module.exports = function(locale) {
                 ond mae modd ysgrifennu llai.
             </strong></p>`
         }),
-        type: 'textarea',
-        settings: {
-            stackedSummary: true,
-            showWordCount: true,
-            minWords: minWords,
-            maxWords: maxWords
-        },
+        minWords: minWords,
+        maxWords: maxWords,
         attributes: { rows: 20 },
-        isRequired: true,
-        schema: Joi.string()
-            .minWords(minWords)
-            .maxWords(maxWords)
-            .required(),
         messages: [
             {
                 type: 'base',
@@ -76,21 +68,7 @@ module.exports = function(locale) {
                     en: 'Tell us about your project',
                     cy: 'Dywedwch wrthym am eich prosiect'
                 })
-            },
-            {
-                type: 'string.minWords',
-                message: localise({
-                    en: `Answer must be at least ${minWords} words`,
-                    cy: `Rhaid i’r ateb fod yn o leiaf ${minWords} gair`
-                })
-            },
-            {
-                type: 'string.maxWords',
-                message: localise({
-                    en: `Answer must be no more than ${maxWords} words`,
-                    cy: `Rhaid i’r ateb fod yn llai na ${maxWords} gair`
-                })
             }
         ]
-    };
+    });
 };

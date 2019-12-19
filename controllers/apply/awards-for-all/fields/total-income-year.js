@@ -3,11 +3,13 @@ const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
+const CurrencyField = require('../../lib/field-types/currency');
 
 module.exports = function(locale) {
     const localise = get(locale);
 
-    return {
+    return new CurrencyField({
+        locale: locale,
         name: 'totalIncomeYear',
         label: localise({
             en: 'What is your total income for the year?',
@@ -17,8 +19,6 @@ module.exports = function(locale) {
             en: 'Use whole numbers only, eg. 12000',
             cy: 'Defnyddiwch rifau cyflawn yn unig, e.e. 12000'
         }),
-        type: 'currency',
-        isRequired: true,
         schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
             is: true,
             then: Joi.friendlyNumber()
@@ -53,5 +53,5 @@ module.exports = function(locale) {
                 })
             }
         ]
-    };
+    });
 };

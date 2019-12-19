@@ -12,19 +12,19 @@ class TextareaField extends Field {
             this.labelDetails = props.labelDetails;
         }
 
-        this.minWords = props.minWords || 0;
-        this.maxWords = props.maxWords;
+        const minWords = props.minWords || 0;
+        const maxWords = props.maxWords;
 
         this.settings = {
             stackedSummary: true,
             showWordCount: true,
-            minWords: this.minWords,
-            maxWords: this.maxWords
+            minWords: minWords,
+            maxWords: maxWords
         };
 
         const baseSchema = Joi.string()
-            .minWords(this.minWords)
-            .maxWords(this.maxWords);
+            .minWords(minWords)
+            .maxWords(maxWords);
 
         if (props.schema) {
             this.schema = props.schema;
@@ -33,6 +33,23 @@ class TextareaField extends Field {
         } else {
             this.schema = baseSchema.allow('').optional();
         }
+
+        this.messages = [
+            {
+                type: 'string.minWords',
+                message: this.localise({
+                    en: `Answer must be at least ${minWords} words`,
+                    cy: `Rhaid i’r ateb fod yn o leiaf ${minWords} gair`
+                })
+            },
+            {
+                type: 'string.maxWords',
+                message: this.localise({
+                    en: `Answer must be no more than ${maxWords} words`,
+                    cy: `Rhaid i’r ateb fod yn llai na ${maxWords} gair`
+                })
+            }
+        ].concat(props.messages || []);
     }
 
     getType() {
@@ -41,25 +58,6 @@ class TextareaField extends Field {
 
     defaultAttributes() {
         return { rows: 15 };
-    }
-
-    defaultMessages() {
-        return [
-            {
-                type: 'string.minWords',
-                message: this.localise({
-                    en: `Answer must be at least ${this.minWords} words`,
-                    cy: `Rhaid i’r ateb fod yn o leiaf ${this.minWords} gair`
-                })
-            },
-            {
-                type: 'string.maxWords',
-                message: this.localise({
-                    en: `Answer must be no more than ${this.maxWords} words`,
-                    cy: `Rhaid i’r ateb fod yn llai na ${this.maxWords} gair`
-                })
-            }
-        ];
     }
 
     get displayValue() {
