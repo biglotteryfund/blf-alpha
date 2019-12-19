@@ -1,7 +1,5 @@
 'use strict';
 const castArray = require('lodash/castArray');
-const filter = require('lodash/filter');
-const includes = require('lodash/includes');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
@@ -10,16 +8,22 @@ class CheckboxField extends Field {
     constructor(props) {
         super(props);
 
-        this.type = 'checkbox';
-
-        const options = props.options || [];
-        if (options.length === 0) {
-            throw new Error('Must provide options');
-        }
-
-        this.options = options;
+        this.optgroups = props.optgroups || [];
+        this.options = props.options || [];
 
         this.schema = props.schema ? props.schema : this.defaultSchema();
+    }
+
+    getType() {
+        return 'checkbox';
+    }
+
+    _normalisedOptions() {
+        const optgroups = this.optgroups || [];
+        const options = this.options || [];
+        return optgroups.length > 0
+            ? optgroups.flatMap(group => group.options)
+            : options;
     }
 
     defaultSchema() {
@@ -39,8 +43,8 @@ class CheckboxField extends Field {
         if (this.value) {
             const choices = castArray(this.value);
 
-            const matches = filter(this.options, option =>
-                includes(choices, option.value)
+            const matches = this._normalisedOptions().filter(option =>
+                choices.includes(option.value)
             );
 
             return matches.length > 0

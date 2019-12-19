@@ -39,6 +39,12 @@ test('empty form', () => {
     const form = formBuilder({ flags: { enableNewDateRange: false } });
     expect(mapMessageSummary(form.validation)).toMatchSnapshot();
     expect(form.progress).toMatchSnapshot();
+
+    console.log(
+        Object.values(form.allFields)
+            .filter(field => field.hasOwnProperty('_isClass') === false)
+            .map(field => field.name)
+    );
 });
 
 /**

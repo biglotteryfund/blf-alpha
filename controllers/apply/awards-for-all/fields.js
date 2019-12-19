@@ -7,11 +7,12 @@ const { oneLine } = require('common-tags');
 const Joi = require('../lib/joi-extensions');
 
 const Field = require('../lib/field-types/field');
-const Checkbox = require('../lib/field-types/checkbox');
-const EmailField = require('../lib/field-types/email');
+const CheckboxField = require('../lib/field-types/checkbox');
 const DateField = require('../lib/field-types/date');
-const PhoneField = require('../lib/field-types/phone');
+const EmailField = require('../lib/field-types/email');
 const NameField = require('../lib/field-types/name');
+const PhoneField = require('../lib/field-types/phone');
+const RadioField = require('../lib/field-types/radio');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -469,7 +470,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             }
         },
         projectTotalCosts: fieldProjectTotalCosts(locale, data),
-        beneficiariesGroupsCheck: {
+        beneficiariesGroupsCheck: new RadioField({
+            locale: locale,
             name: 'beneficiariesGroupsCheck',
             label: localise({
                 en: `Is your project open to everyone or is it aimed at a specific group of people?`,
@@ -495,7 +497,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     </p>
                     <p>Dewiswch y rhai sy’n berthnasol:</p>`
             }),
-            type: 'radio',
             options: [
                 {
                     value: 'no',
@@ -512,10 +513,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ],
-            isRequired: true,
-            schema: Joi.string()
-                .valid(['yes', 'no'])
-                .required(),
             messages: [
                 {
                     type: 'base',
@@ -525,8 +522,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesGroups: {
+        }),
+        beneficiariesGroups: new CheckboxField({
+            locale: locale,
             name: 'beneficiariesGroups',
             label: localise({
                 en: `What specific groups is your project aimed at?`,
@@ -536,7 +534,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: `Check the boxes that apply:`,
                 cy: `Ticiwch y bocsys sy’n berthnasol:`
             }),
-            type: 'checkbox',
             options: [
                 {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
@@ -609,15 +606,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesGroupsOther: {
+        }),
+        beneficiariesGroupsOther: new Field({
+            locale: locale,
             name: 'beneficiariesGroupsOther',
             label: localise({ en: 'Other', cy: 'Arall' }),
             explanation: localise({
                 en: `If your project's for a specific group that's not mentioned above, tell us about it here:`,
                 cy: `Os yw eich prosiect ar gyfer grŵp penodol sydd heb ei grybwyll uchod, dywedwch wrthym yma:`
             }),
-            type: 'text',
             isRequired: false,
             schema: Joi.when('beneficiariesGroupsCheck', {
                 is: 'yes',
@@ -636,8 +633,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesEthnicBackground: {
+        }),
+        beneficiariesEthnicBackground: new CheckboxField({
+            locale: locale,
             name: 'beneficiariesGroupsEthnicBackground',
             label: localise({
                 en: `Ethnic background`,
@@ -649,7 +647,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: oneLine`Fe ddywedoch wrthym bod eich prosiect yn bennaf o
                     fudd i bobl o gefndir ethnig penodol. Dywedwch wrthym pa un:`
             }),
-            type: 'checkbox',
             optgroups: [
                 {
                     label: localise({
@@ -811,8 +808,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesGroupsGender: {
+        }),
+        beneficiariesGroupsGender: new CheckboxField({
+            locale: locale,
             name: 'beneficiariesGroupsGender',
             label: localise({
                 en: `Gender`,
@@ -824,7 +822,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: oneLine`Fe ddywedoch wrthym fod eich prosiect o fudd i bobl 
                     o ryw arbennig. Dywedwch wrthym pa rai. `
             }),
-            type: 'checkbox',
             options: [
                 { value: 'male', label: localise({ en: 'Male', cy: 'Gwryw' }) },
                 {
@@ -859,8 +856,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesGroupsAge: {
+        }),
+        beneficiariesGroupsAge: new CheckboxField({
+            locale: locale,
             name: 'beneficiariesGroupsAge',
             label: localise({
                 en: `Age`,
@@ -894,8 +892,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesGroupsDisabledPeople: {
+        }),
+        beneficiariesGroupsDisabledPeople: new CheckboxField({
+            locale: locale,
             name: 'beneficiariesGroupsDisabledPeople',
             label: localise({ en: `Disabled people`, cy: 'Pobl anabl' }),
             explanation: localise({
@@ -922,8 +921,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     arferol o ddydd i ddydd. 
                 </p>`
             }),
-
-            type: 'checkbox',
             options: [
                 {
                     value: 'sensory',
@@ -980,8 +977,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesGroupsReligion: {
+        }),
+        beneficiariesGroupsReligion: new CheckboxField({
+            locale: locale,
             name: 'beneficiariesGroupsReligion',
             label: localise({
                 en: `Religion or belief`,
@@ -993,7 +991,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: oneLine`Rydych wedi datgan bod eich prosiect yn bennaf yn elwa
                     pobl o grefydd neu gred penodol, dewiswch o’r canlynol`
             }),
-            type: 'checkbox',
             options: [
                 {
                     value: 'buddhist',
@@ -1032,16 +1029,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesGroupsReligionOther: {
+        }),
+        beneficiariesGroupsReligionOther: new Field({
+            locale: locale,
             name: 'beneficiariesGroupsReligionOther',
             label: localise({ en: 'Other', cy: 'Arall' }),
-            type: 'text',
             isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
+            maxLength: FREE_TEXT_MAXLENGTH.large,
             messages: [
                 {
                     type: 'string.max',
@@ -1051,14 +1045,14 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesWelshLanguage: {
+        }),
+        beneficiariesWelshLanguage: new RadioField({
+            locale: locale,
             name: 'beneficiariesWelshLanguage',
             label: localise({
                 en: `How many of the people who will benefit from your project speak Welsh?`,
                 cy: `Faint o’r bobl a fydd yn elwa o’ch prosiect sy’n siarad Cymraeg?`
             }),
-            type: 'radio',
             options: [
                 {
                     value: 'all',
@@ -1083,13 +1077,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     label: localise({ en: 'None', cy: 'Neb' })
                 }
             ],
-            isRequired: true,
             get schema() {
                 return Joi.when('projectCountry', {
                     is: 'wales',
                     then: Joi.string()
                         .valid(this.options.map(option => option.value))
-                        .max(FREE_TEXT_MAXLENGTH.large)
                         .required(),
                     otherwise: Joi.any().strip()
                 });
@@ -1103,8 +1095,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
-        beneficiariesNorthernIrelandCommunity: {
+        }),
+        beneficiariesNorthernIrelandCommunity: new RadioField({
+            locale: locale,
             name: 'beneficiariesNorthernIrelandCommunity',
             label: localise({
                 en: `Which community do the people who will benefit from your project belong to?`,
@@ -1141,7 +1134,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ],
-            isRequired: true,
             get schema() {
                 return Joi.when('projectCountry', {
                     is: 'northern-ireland',
@@ -1160,7 +1152,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({
@@ -1595,7 +1587,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         bankAccountNumber: fieldBankAccountNumber(locale),
         buildingSocietyNumber: fieldBuildingSocietyNumber(locale),
         bankStatement: fieldBankStatement(locale),
-        termsAgreement1: new Checkbox({
+        termsAgreement1: new CheckboxField({
             locale: locale,
             name: 'termsAgreement1',
             label: localise({
@@ -1621,7 +1613,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         }),
-        termsAgreement2: new Checkbox({
+        termsAgreement2: new CheckboxField({
             locale: locale,
             name: 'termsAgreement2',
             label: localise({
@@ -1646,7 +1638,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         }),
-        termsAgreement3: new Checkbox({
+        termsAgreement3: new CheckboxField({
             locale: locale,
             name: 'termsAgreement3',
             label: localise({
@@ -1671,7 +1663,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         }),
-        termsAgreement4: new Checkbox({
+        termsAgreement4: new CheckboxField({
             locale: locale,
             name: 'termsAgreement4',
             label: localise({
