@@ -2,29 +2,21 @@
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner u-inner-wide-only">
             {{ userNavigation(userNavigationLinks) }}
 
             {{ formHeaderWithData(formTitle) }}
-            
+
             <div class="form-header">
                 <h1 class="form-header__title">{{ title }}</h1>
             </div>
-
             <div class="s-prose u-constrained-wide">
-                {{ copy.delete.message | safe }}
+                <p>{{ copy.expired.summary }}</p>
+                <p>{{ __('applyNext.expired.message', formatDate(currentApplication.expiresAt)) }}</p>
             </div>
-
-            <form method="post" class="form-actions">
-                {% if csrfToken %}
-                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                {% endif %}
-                <input class="btn" type="submit" value="{{ copy.common.deleteApplication }}" />
-                {{ __('global.misc.or') }}
-                <a href="../">{{ __('global.forms.cancel') | lower }}</a>
-            </form>
         </div>
     </main>
 {% endblock %}

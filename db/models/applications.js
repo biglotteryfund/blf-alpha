@@ -196,6 +196,10 @@ class PendingApplication extends Model {
             }
         });
     }
+
+    get isExpired() {
+        return moment(this.expiresAt).isBefore(moment());
+    }
 }
 
 class SubmittedApplication extends Model {

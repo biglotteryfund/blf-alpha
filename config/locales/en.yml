@@ -1588,6 +1588,10 @@ applyNext:
         If you're sure you want to delete your application, then you can proceed below.
       </p>
     success: Your application was successfully deleted
+  expired:
+    title: We've had to delete this application
+    summary: It's been over 3 months since you started it. So we've had to delete this application to keep your data safe.
+    message: Your application expired on %s. If you still want to apply, you'll need to start a new application.
   questions:
     printLink: Print these questions
     downloadLink: Download these questions (PDF)

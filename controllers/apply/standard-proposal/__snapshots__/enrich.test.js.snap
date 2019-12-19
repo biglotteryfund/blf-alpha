@@ -9,6 +9,7 @@ Object {
   "expiresAt": "2020-03-04T23:00:00.000Z",
   "formId": "standard-enquiry",
   "id": "some-uuid",
+  "isExpired": false,
   "overview": Array [
     Object {
       "label": "Project length",

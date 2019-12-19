@@ -53,6 +53,7 @@ function enrichPending(application, locale = 'en') {
         formId: application.formId,
         createdAt: application.createdAt,
         expiresAt: application.expiresAt,
+        isExpired: application.isExpired,
         updatedAt: application.updatedAt,
         progress: form.progress,
         editUrl: `/apply/your-funding-proposal/edit/${application.id}`,

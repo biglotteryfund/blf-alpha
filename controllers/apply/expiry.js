@@ -127,7 +127,7 @@ async function sendExpiryEmails(req, emailQueue) {
                 emailToSend.PendingApplication.id
             );
 
-            const dateFormat = 'D MMMM, YYYY';
+            const dateFormat = 'D MMMM, YYYY HH:mm:ss';
             const expiresOn = moment(emailToSend.PendingApplication.expiresAt);
 
             const expiryDates = {

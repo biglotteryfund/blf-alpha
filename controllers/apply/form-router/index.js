@@ -331,6 +331,21 @@ function initFormRouter({
     });
 
     /**
+     * Block access to expired applications
+     * We should prevent access to anything that's pending deletion to avoid user confusion and lost data
+     */
+    router.use((req, res, next) => {
+        if (res.locals.currentApplication.isExpired) {
+            return res.render(path.resolve(__dirname, './views/expired'), {
+                title: res.locals.copy.expired.title,
+                csrfToken: req.csrfToken()
+            });
+        } else {
+            next();
+        }
+    });
+
+    /**
      * Route: Summary
      */
     router.use('/summary', require('./summary')(formBuilder));
