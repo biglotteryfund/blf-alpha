@@ -8,6 +8,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new Field({
+        locale: locale,
         name: 'bankAccountNumber',
         label: localise({ en: 'Account number', cy: 'Rhif cyfrif' }),
         explanation: localise({ en: 'eg. 12345678', cy: 'e.e. 12345678' }),

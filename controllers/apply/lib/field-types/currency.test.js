@@ -4,6 +4,7 @@ const CurrencyField = require('./currency');
 
 test('CurrencyField', function() {
     const field = new CurrencyField({
+        locale: 'en',
         name: 'example',
         label: 'Currency field'
     });

@@ -8,6 +8,7 @@ module.exports = function(locale) {
     const localise = get(locale);
 
     return new Field({
+        locale: locale,
         name: 'bankSortCode',
         label: localise({ en: 'Sort code', cy: 'Cod didoli' }),
         explanation: localise({ en: 'eg. 123456', cy: 'e.e. 123456' }),

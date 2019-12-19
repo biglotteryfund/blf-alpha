@@ -4,6 +4,7 @@ const SelectField = require('./select');
 
 test('SelectField', function() {
     const field = new SelectField({
+        locale: 'en',
         name: 'example',
         label: 'Checkbox field',
         options: [

@@ -5,6 +5,7 @@ const Joi = require('../joi-extensions');
 
 test('field base type', function() {
     const field = new Field({
+        locale: 'en',
         name: 'example',
         label: 'Text field'
     });
@@ -18,6 +19,7 @@ test('field base type', function() {
 
 test('optional default field', function() {
     const optionalField = new Field({
+        locale: 'en',
         name: 'example',
         label: 'Optional text field',
         isRequired: false
@@ -44,6 +46,7 @@ test('field extension', function() {
     }
 
     const minimalField = new CustomField({
+        locale: 'en',
         name: 'example'
     });
 
@@ -59,6 +62,7 @@ test('field extension', function() {
     );
 
     const fieldWithProps = new CustomField({
+        locale: 'en',
         name: 'example',
         label: 'Custom label'
     });
