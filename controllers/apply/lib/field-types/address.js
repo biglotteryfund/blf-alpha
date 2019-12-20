@@ -118,13 +118,7 @@ class AddressField extends Field {
 
     get displayValue() {
         if (this.value) {
-            return compact([
-                this.value.line1,
-                this.value.line2,
-                this.value.townCity,
-                this.value.county,
-                this.value.postcode
-            ]).join(',\n');
+            return compact(Object.values(this.value)).join(',\n');
         } else {
             return '';
         }
