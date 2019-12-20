@@ -1,6 +1,6 @@
 'use strict';
 const mime = require('mime-types');
-const filesize = require('filesize');
+const fileSize = require('filesize');
 
 const Field = require('./field');
 const Joi = require('../joi-extensions');
@@ -30,23 +30,17 @@ class FileField extends Field {
             props.attributes
         );
 
-        const schema =
-            props.schema ||
-            Joi.object({
-                filename: Joi.string().required(),
-                size: Joi.number()
-                    .max(maxFileSize.value)
-                    .required(),
-                type: Joi.string()
-                    .valid(supportedMimeTypes)
-                    .required()
-            });
+        this.isRequired = true;
 
-        if (this.isRequired) {
-            this.schema = schema.required();
-        } else {
-            this.schema = schema.optional();
-        }
+        this.schema = Joi.object({
+            filename: Joi.string().required(),
+            size: Joi.number()
+                .max(maxFileSize.value)
+                .required(),
+            type: Joi.string()
+                .valid(supportedMimeTypes)
+                .required()
+        }).required();
 
         const typeList = supportedFileTypes.map(type => type.label).join(', ');
 
@@ -75,10 +69,10 @@ class FileField extends Field {
     get displayValue() {
         if (this.value) {
             const mimeType = mime.extension(this.value.type) || 'File';
-            const fileSize = filesize(this.value.size, { round: 0 });
+            const formatted = fileSize(this.value.size, { round: 0 });
             return `${
                 this.value.filename
-            } (${mimeType.toUpperCase()}, ${fileSize})`;
+            } (${mimeType.toUpperCase()}, ${formatted})`;
         } else {
             return '';
         }
