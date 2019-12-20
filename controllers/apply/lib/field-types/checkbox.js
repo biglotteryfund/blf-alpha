@@ -1,7 +1,6 @@
 'use strict';
 const castArray = require('lodash/castArray');
-const filter = require('lodash/filter');
-const includes = require('lodash/includes');
+const uniq = require('lodash/uniq');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
@@ -15,6 +14,11 @@ class CheckboxField extends Field {
         const options = props.options || [];
         if (options.length === 0) {
             throw new Error('Must provide options');
+        }
+
+        const values = options.map(option => option.value);
+        if (values.length !== uniq(values).length) {
+            throw new Error('Options must contain unique values');
         }
 
         this.options = options;
@@ -39,8 +43,8 @@ class CheckboxField extends Field {
         if (this.value) {
             const choices = castArray(this.value);
 
-            const matches = filter(this.options, option =>
-                includes(choices, option.value)
+            const matches = this.options.filter(option =>
+                choices.includes(option.value)
             );
 
             return matches.length > 0
