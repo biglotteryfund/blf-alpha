@@ -596,7 +596,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    value: 'unregistered-vco',
+                    value: 'unincorporated-registered-charity',
                     label: localise({
                         en: `Registered charity (unincorporated)`,
                         cy: `Elusen gofrestredig (anghorfforedig)`
