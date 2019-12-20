@@ -10,6 +10,7 @@ test('DateField', function() {
     });
 
     expect(field.type).toBe('date');
+    expect(field.displayValue).toBe('');
 
     const goodInput = { day: 1, month: 3, year: 2100 };
     const badInput = { day: 82, month: 3, year: 2100 };
@@ -19,6 +20,7 @@ test('DateField', function() {
     expect(field.displayValue).toBe('1 March, 2100');
 
     field.withValue(badInput);
+    expect(field.displayValue).toBe('');
     expect(field.validate().error.message).toEqual(
         expect.stringContaining('contains an invalid value')
     );
