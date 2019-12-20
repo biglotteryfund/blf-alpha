@@ -35,5 +35,5 @@ test('FileField', function() {
         size: 13264,
         type: 'application/not-a-thing'
     });
-    expect(field.displayValue).toBe('example.madeup (FILE, 13 KB)');
+    expect(field.displayValue).toBe('example.madeup (13 KB)');
 });

@@ -1,4 +1,5 @@
 'use strict';
+const compact = require('lodash/compact');
 const mime = require('mime-types');
 const fileSize = require('filesize');
 
@@ -68,11 +69,12 @@ class FileField extends Field {
 
     get displayValue() {
         if (this.value) {
-            const mimeType = mime.extension(this.value.type) || 'File';
+            const mimeType = mime.extension(this.value.type);
             const formatted = fileSize(this.value.size, { round: 0 });
-            return `${
-                this.value.filename
-            } (${mimeType.toUpperCase()}, ${formatted})`;
+            return `${this.value.filename} (${compact([
+                mimeType && mimeType.toUpperCase(),
+                formatted
+            ]).join(', ')})`;
         } else {
             return '';
         }
