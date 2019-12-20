@@ -2,14 +2,14 @@
 'use strict';
 const EmailField = require('./email');
 
-test('EmailField', function() {
+test('valid field', function() {
     const field = new EmailField({
         locale: 'en',
-        name: 'example',
-        label: 'Email field'
+        name: 'example'
     });
 
     expect(field.type).toBe('email');
+    expect(field.label).toBe('Email');
 
     const goodInput = 'example@example.com';
     const badInput = 'not.a.real-email@bad';
@@ -22,4 +22,13 @@ test('EmailField', function() {
     expect(field.validate().error.message).toEqual(
         expect.stringContaining('must be a valid email')
     );
+});
+
+test('optional field', function() {
+    const field = new EmailField({
+        locale: 'en',
+        name: 'example',
+        isRequired: false
+    });
+    expect(field.validate().error).toBeNull();
 });
