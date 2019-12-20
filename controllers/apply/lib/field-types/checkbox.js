@@ -41,15 +41,10 @@ class CheckboxField extends Field {
 
     get displayValue() {
         if (this.value) {
-            const choices = castArray(this.value);
-
-            const matches = this.options.filter(option =>
-                choices.includes(option.value)
-            );
-
-            return matches.length > 0
-                ? matches.map(match => match.label).join(',\n')
-                : choices.join(',\n');
+            return this.options
+                .filter(option => castArray(this.value).includes(option.value))
+                .map(match => match.label)
+                .join(',\n');
         } else {
             return '';
         }

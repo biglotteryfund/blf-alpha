@@ -2,7 +2,7 @@
 'use strict';
 const CheckboxField = require('./checkbox');
 
-test('checkbox field', function() {
+test('valid field', function() {
     const field = new CheckboxField({
         locale: 'en',
         name: 'example',
@@ -15,6 +15,7 @@ test('checkbox field', function() {
     });
 
     expect(field.type).toBe('checkbox');
+    expect(field.displayValue).toBe('');
 
     field.withValue(['option-1', 'option-2']);
     expect(field.displayValue).toBe('Option 1,\nOption 2');
@@ -26,7 +27,33 @@ test('checkbox field', function() {
     );
 });
 
-test('checkbox field options must contain unique values', function() {
+test('optional field', function() {
+    const field = new CheckboxField({
+        locale: 'en',
+        name: 'example',
+        label: 'Example field',
+        isRequired: false,
+        options: [
+            { label: 'Option 1', value: 'option-1' },
+            { label: 'Option 2', value: 'option-2' },
+            { label: 'Option 3', value: 'option-3' }
+        ]
+    });
+
+    expect(field.validate().error).toBeNull();
+});
+
+test('must provide options', function() {
+    expect(() => {
+        new CheckboxField({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field'
+        });
+    }).toThrowError('Must provide options');
+});
+
+test('options must contain unique values', function() {
     expect(() => {
         new CheckboxField({
             locale: 'en',
