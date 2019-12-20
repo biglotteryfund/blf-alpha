@@ -2,7 +2,7 @@
 'use strict';
 const CurrencyField = require('./currency');
 
-test('CurrencyField', function() {
+test('valid field', function() {
     const field = new CurrencyField({
         locale: 'en',
         name: 'example',
@@ -10,10 +10,22 @@ test('CurrencyField', function() {
     });
 
     expect(field.type).toBe('currency');
+    expect(field.displayValue).toBe('');
 
     field.withValue('120,000');
 
     expect(field.validate().error).toBeNull();
     expect(field.validate().value).toBe(120000);
     expect(field.displayValue).toBe('£120,000');
+});
+
+test('optional field', function() {
+    const field = new CurrencyField({
+        locale: 'en',
+        name: 'example',
+        label: 'Currency field',
+        isRequired: false
+    });
+
+    expect(field.validate().error).toBeNull();
 });
