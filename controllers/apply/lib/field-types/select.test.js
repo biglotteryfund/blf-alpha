@@ -15,6 +15,7 @@ test('select field', function() {
     });
 
     expect(field.type).toBe('select');
+    expect(field.displayValue).toBe('');
 
     field.withValue('option-2');
     expect(field.displayValue).toBe('Option 2');
@@ -50,7 +51,7 @@ test('select field supports optgroups', function() {
     ]);
 });
 
-test('select field options must contain unique values', function() {
+test('required properties', function() {
     expect(() => {
         new SelectField({
             locale: 'en',
@@ -82,4 +83,18 @@ test('select field options must contain unique values', function() {
             ]
         });
     }).toThrowError('Options must contain unique values');
+
+    expect(() => {
+        new SelectField({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field',
+            optgroups: [
+                {
+                    label: 'Group 1',
+                    options: [{ label: 'Option 1', value: 'duplicate-value' }]
+                }
+            ]
+        });
+    }).toThrowError('Must provide default option when using optgroups');
 });
