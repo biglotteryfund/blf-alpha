@@ -10,16 +10,16 @@ class AddressField extends Field {
 
         this.type = 'address';
 
-        if (!props.explanation) {
-            this.explanation = this.localise({
-                en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
-                cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
-            });
-        }
+        this.isRequired = true;
+
+        this.explanation = this.localise({
+            en: `Enter the postcode and search for the address, or enter it manually below.`,
+            cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
+        });
     }
 
     defaultSchema() {
-        const schema = Joi.object({
+        return Joi.object({
             line1: Joi.string()
                 .max(255)
                 .required(),
@@ -37,13 +37,7 @@ class AddressField extends Field {
             postcode: Joi.string()
                 .postcode()
                 .required()
-        });
-
-        if (this.isRequired) {
-            return schema.required();
-        } else {
-            return schema.optional();
-        }
+        }).required();
     }
 
     defaultMessages() {
@@ -126,6 +120,7 @@ class AddressField extends Field {
         if (this.value) {
             return compact([
                 this.value.line1,
+                this.value.line2,
                 this.value.townCity,
                 this.value.county,
                 this.value.postcode
