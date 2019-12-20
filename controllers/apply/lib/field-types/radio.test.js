@@ -2,7 +2,7 @@
 'use strict';
 const RadioField = require('./radio');
 
-test('radio field', function() {
+test('valid field', function() {
     const field = new RadioField({
         locale: 'en',
         name: 'example',
@@ -14,6 +14,7 @@ test('radio field', function() {
     });
 
     expect(field.type).toBe('radio');
+    expect(field.displayValue).toBe('');
 
     field.withValue('option-1');
     expect(field.displayValue).toBe('Option 1');
@@ -25,7 +26,15 @@ test('radio field', function() {
     );
 });
 
-test('radio field options must contain unique values', function() {
+test('required properties', function() {
+    expect(() => {
+        new RadioField({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field'
+        });
+    }).toThrowError('Must provide options');
+
     expect(() => {
         new RadioField({
             locale: 'en',
