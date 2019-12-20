@@ -2,11 +2,11 @@
 'use strict';
 const SelectField = require('./select');
 
-test('SelectField', function() {
+test('select field', function() {
     const field = new SelectField({
         locale: 'en',
         name: 'example',
-        label: 'Checkbox field',
+        label: 'Example field',
         options: [
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' },
@@ -24,4 +24,62 @@ test('SelectField', function() {
     expect(field.validate().error.message).toEqual(
         expect.stringContaining('must be one of')
     );
+});
+
+test('select field supports optgroups', function() {
+    const field = new SelectField({
+        locale: 'en',
+        name: 'example',
+        label: 'Example field',
+        defaultOption: 'Select an option',
+        optgroups: [
+            {
+                label: 'Group 1',
+                options: [{ label: 'Option 1', value: 'option-1' }]
+            },
+            {
+                label: 'Group 2',
+                options: [{ label: 'Option 2', value: 'option-2' }]
+            }
+        ]
+    });
+
+    expect(field.normalisedOptions).toEqual([
+        { label: 'Option 1', value: 'option-1' },
+        { label: 'Option 2', value: 'option-2' }
+    ]);
+});
+
+test('select field options must contain unique values', function() {
+    expect(() => {
+        new SelectField({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field',
+            options: [
+                { label: 'Option 1', value: 'duplicate-value' },
+                { label: 'Option 2', value: 'duplicate-value' },
+                { label: 'Option 3', value: 'option-3' }
+            ]
+        });
+    }).toThrowError('Options must contain unique values');
+
+    expect(() => {
+        new SelectField({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field',
+            defaultOption: 'Select an option',
+            optgroups: [
+                {
+                    label: 'Group 1',
+                    options: [{ label: 'Option 1', value: 'duplicate-value' }]
+                },
+                {
+                    label: 'Group 2',
+                    options: [{ label: 'Option 2', value: 'duplicate-value' }]
+                }
+            ]
+        });
+    }).toThrowError('Options must contain unique values');
 });

@@ -2,11 +2,11 @@
 'use strict';
 const RadioField = require('./radio');
 
-test('RadioField', function() {
+test('radio field', function() {
     const field = new RadioField({
         locale: 'en',
         name: 'example',
-        label: 'Radio field',
+        label: 'Example field',
         options: [
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' }
@@ -23,4 +23,19 @@ test('RadioField', function() {
     expect(field.validate().error.message).toEqual(
         expect.stringContaining('must be one of')
     );
+});
+
+test('radio field options must contain unique values', function() {
+    expect(() => {
+        new RadioField({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field',
+            options: [
+                { label: 'Option 1', value: 'duplicate-value' },
+                { label: 'Option 2', value: 'duplicate-value' },
+                { label: 'Option 3', value: 'option-3' }
+            ]
+        });
+    }).toThrowError('Options must contain unique values');
 });
