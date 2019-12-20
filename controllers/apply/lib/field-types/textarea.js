@@ -1,4 +1,5 @@
 'use strict';
+const has = require('lodash/has');
 const countWords = require('../count-words');
 const Joi = require('../joi-extensions');
 
@@ -8,12 +9,14 @@ class TextareaField extends Field {
     constructor(props) {
         super(props);
 
-        if (props.labelDetails) {
-            this.labelDetails = props.labelDetails;
-        }
+        this.labelDetails = props.labelDetails;
 
-        this.minWords = props.minWords || 0;
-        this.maxWords = props.maxWords;
+        if (has(props, 'minWords') && has(props, 'maxWords')) {
+            this.minWords = props.minWords;
+            this.maxWords = props.maxWords;
+        } else {
+            throw new Error('Must provide minWords and maxWords');
+        }
 
         this.settings = {
             stackedSummary: true,
@@ -26,13 +29,9 @@ class TextareaField extends Field {
             .minWords(this.minWords)
             .maxWords(this.maxWords);
 
-        if (props.schema) {
-            this.schema = props.schema;
-        } else if (this.isRequired) {
-            this.schema = baseSchema.required();
-        } else {
-            this.schema = baseSchema.allow('').optional();
-        }
+        this.schema = this.isRequired
+            ? baseSchema.required()
+            : baseSchema.allow('').optional();
     }
 
     getType() {

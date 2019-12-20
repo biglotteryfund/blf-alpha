@@ -362,6 +362,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 </ul>`
             }),
             type: 'textarea',
+            minWords: 0,
             maxWords: 500,
             messages: [
                 {
@@ -416,6 +417,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             type: 'textarea',
+            minWords: 0,
             maxWords: 500,
             messages: [
                 {
@@ -455,6 +457,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 })
             },
             type: 'textarea',
+            minWords: 0,
             maxWords: 350,
             messages: [
                 {

@@ -17,6 +17,7 @@ test('TextareaField', function() {
     });
 
     expect(field.type).toBe('textarea');
+    expect(field.displayValue).toBe('');
 
     const goodValue = faker.lorem.words(minWords + 1);
 
@@ -46,4 +47,14 @@ test('TextareaField', function() {
     });
 
     expect(optionalField.validate().error).toBeNull();
+});
+
+test('required properties', function() {
+    expect(() => {
+        new TextareaField({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field'
+        });
+    }).toThrowError('Must provide minWords and maxWords');
 });
