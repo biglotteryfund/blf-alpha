@@ -115,7 +115,7 @@ class PendingApplication extends Model {
 
     static findExpiredApplications() {
         return this.findAll({
-            attributes: ['id', 'formId'],
+            attributes: ['id', 'formId', 'currentProgressState'],
             where: {
                 expiresAt: {
                     [Op.lte]: moment().toDate()
@@ -370,6 +370,17 @@ class ApplicationEmailQueue extends Model {
              */
             applicationId: {
                 type: DataTypes.UUID
+            },
+
+            /**
+             * User model reference
+             * (optional as it was added after the model was created)
+             * Intended to allow looking up a user's deleted applications
+             * after the application itself was deleted
+             */
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: true
             },
 
             /**
