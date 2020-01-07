@@ -53,7 +53,6 @@ amazon-cloudwatch-agent-ctl -a start
 
 # Configure nginx / passenger
 if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi
-ls /etc/nginx/conf.d/mod-http-passenger.conf
 rm -f /etc/nginx/sites-enabled/default
 cp $nginx_config /etc/nginx/conf.d
 cp $server_config /etc/nginx/sites-enabled

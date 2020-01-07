@@ -7,7 +7,7 @@ apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2
 apt-get install -y apt-transport-https ca-certificates
 sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main > /etc/apt/sources.list.d/passenger.list'
 apt-get update
-apt-get install -y libnginx-mod-http-passenger
+apt-get install -y nginx libnginx-mod-http-passenger
 
 # Install ClamAV
 apt-get install -y clamav clamav-daemon
