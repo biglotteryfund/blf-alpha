@@ -49,9 +49,10 @@
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "blf-alpha-session"
+            "blf-alpha-session",
+            "blf-auth-state"
           ],
-          "Quantity": 1
+          "Quantity": 2
         }
       }
     },
@@ -112,9 +113,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -234,9 +236,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -297,9 +300,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -366,9 +370,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -433,9 +438,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -490,9 +496,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -560,9 +567,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -682,9 +690,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -745,9 +754,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -814,9 +824,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -881,9 +892,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },
@@ -938,9 +950,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session"
+                "blf-alpha-session",
+                "blf-auth-state"
               ],
-              "Quantity": 1
+              "Quantity": 2
             }
           }
         },

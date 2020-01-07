@@ -203,5 +203,25 @@ module.exports = function(req, res, next) {
             .fromNow();
     };
 
+    /**
+     * Helper functions to set/unset auth cookie flags
+     */
+
+    const authCookieOptions = {
+        secure: !appData.isDev
+    };
+
+    res.locals.setAuthCookie = function() {
+        res.cookie(
+            config.get('session.cookieLogin'),
+            'logged-in',
+            authCookieOptions
+        );
+    };
+
+    res.locals.clearAuthCookie = function() {
+        res.clearCookie(config.get('session.cookieLogin'), authCookieOptions);
+    };
+
     next();
 };

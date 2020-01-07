@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
 import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
+import { getCookieValue } from '../helpers/cookies';
 import modal from './modal';
 import debounce from 'lodash/debounce';
 
@@ -205,14 +206,12 @@ function initHotjarTracking() {
 
 // Update the Login link to Logout if user signs in
 function updateSecondaryNav() {
-    getUserSession().then(response => {
-        if (response.userType !== 'staff') {
-            const $accountLink = response.isAuthenticated
-                ? $('.js-toggle-logout')
-                : $('.js-toggle-login');
-            $accountLink.removeClass('js-hidden u-hidden');
-        }
-    });
+    const isAuthed =
+        getCookieValue(window.AppConfig.authCookieName) === 'logged-in';
+    const $accountLink = isAuthed
+        ? $('.js-toggle-logout')
+        : $('.js-toggle-login');
+    $accountLink.removeClass('js-hidden u-hidden');
 }
 
 // Shows an error/warning if a user saves a local copy of the form

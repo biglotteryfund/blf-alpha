@@ -120,7 +120,10 @@ function makeBehaviourItem({
  * construct array of behaviours from a URL list
  */
 function generateBehaviours(origins) {
-    const defaultCookies = [config.get('session.cookie')];
+    const defaultCookies = [
+        config.get('session.cookie'),
+        config.get('session.cookieLogin')
+    ];
     const cookiesWithoutSession = [];
 
     const defaultBehaviour = makeBehaviourItem({

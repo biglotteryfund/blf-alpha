@@ -11,7 +11,8 @@
         sessionExpirySeconds: {{ appData.config.get('session.expiryInSeconds') }},
         apply: {
             enableSessionExpiryWarning: {{ appData.config.get('features.enableSessionExpiryWarning') }}
-        }
+        },
+        authCookieName: '{{ appData.config.get('session.cookieLogin') }}'
     };
 
     var docEl = document.documentElement;

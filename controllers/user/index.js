@@ -116,6 +116,7 @@ router.use('/update-email', require('./update-email'));
 
 router.get('/logout', function(req, res) {
     req.logout();
+    res.locals.clearAuthCookie();
     logger.info('User logout', { service: 'user' });
     req.session.save(() => {
         redirectForLocale(req, res, '/user/login?s=loggedOut');
