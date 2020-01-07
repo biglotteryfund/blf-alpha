@@ -33,8 +33,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -146,8 +147,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -212,8 +214,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -275,8 +278,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -344,8 +348,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -411,8 +416,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -473,8 +479,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -594,8 +601,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -660,8 +668,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -723,8 +732,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -792,8 +802,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -859,8 +870,9 @@ Object {
             "WhitelistedNames": Object {
               "Items": Array [
                 "blf-alpha-session",
+                "blf-auth-state",
               ],
-              "Quantity": 1,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -1030,8 +1042,9 @@ Object {
         "WhitelistedNames": Object {
           "Items": Array [
             "blf-alpha-session",
+            "blf-auth-state",
           ],
-          "Quantity": 1,
+          "Quantity": 2,
         },
       },
       "Headers": Object {
