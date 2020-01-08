@@ -208,7 +208,8 @@ module.exports = function(req, res, next) {
      */
 
     const authCookieOptions = {
-        secure: !appData.isDev
+        secure: !appData.isDev,
+        maxAge: config.get('session.expiryInSeconds') * 1000
     };
 
     res.locals.setAuthCookie = function() {
