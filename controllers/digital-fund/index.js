@@ -51,6 +51,4 @@ router.get('/strand-2', function(req, res) {
     });
 });
 
-router.use('/assistance', require('./assistance'));
-
 module.exports = router;

@@ -89,13 +89,6 @@ const BANK_API = {
 const MATERIAL_SUPPLIER =
     process.env.MATERIAL_SUPPLIER || getParameter('emails.materials.supplier');
 
-/**
- * Digital fund email
- * Email address used to send expressions of interest from digital fund application forms
- */
-const DIGITAL_FUND_EMAIL =
-    process.env.DIGITAL_FUND_EMAIL || getParameter('emails.digitalfund.demo');
-
 const POSTCODES_API_KEY =
     process.env.POSTCODES_API_KEY || getParameter('postcodes.api.key');
 
@@ -121,7 +114,6 @@ module.exports = {
     CONTENT_API_URL,
     DATA_STUDIO_AFA_URL,
     DB_CONNECTION_URI,
-    DIGITAL_FUND_EMAIL,
     EMAIL_EXPIRY_SECRET,
     EMAIL_EXPIRY_TEST_ADDRESS,
     JWT_SIGNING_TOKEN,
