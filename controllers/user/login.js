@@ -85,6 +85,9 @@ router
                                 await LoginRateLimiter.clearRateLimit();
                             }
 
+                            // Set a cookie to allow JavaScript components to toggle state for authed users
+                            res.locals.setAuthCookie();
+
                             redirectUrlWithFallback(req, res, '/apply');
                         }
                     });

@@ -27,6 +27,7 @@ function logIn(req, res, next) {
             next(authError);
         } else {
             req.logIn(authUser, function(loginErr) {
+                res.locals.setAuthCookie();
                 if (loginErr) {
                     next(loginErr);
                 } else {

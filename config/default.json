@@ -38,6 +38,7 @@
   },
   "session": {
     "cookie": "blf-alpha-session",
+    "cookieLogin": "blf-auth-state",
     "expiryInSeconds": 7200
   },
   "hotjarId": 1036292,

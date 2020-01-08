@@ -118,6 +118,7 @@ function requireStaffAuth(req, res, next) {
         } else {
             // Log out regular users and send them to the staff page
             req.logout();
+            res.locals.clearAuthCookie();
             req.session.save(() => {
                 res.redirect(redirectUrl);
             });
@@ -137,6 +138,7 @@ function requireNotStaffAuth(req, res, next) {
             url: req.originalUrl
         });
         req.logout();
+        res.locals.clearAuthCookie();
         req.session.save(() => {
             next();
         });
