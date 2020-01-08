@@ -1,6 +1,5 @@
 'use strict';
-const find = require('lodash/fp/find');
-const flatMap = require('lodash/flatMap');
+const uniq = require('lodash/uniq');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
@@ -22,6 +21,11 @@ class SelectField extends Field {
             }
         }
 
+        const values = this.normalisedOptions.map(option => option.value);
+        if (values.length !== uniq(values).length) {
+            throw new Error('Options must contain unique values');
+        }
+
         this.schema = props.schema ? props.schema : this.defaultSchema();
     }
 
@@ -29,17 +33,17 @@ class SelectField extends Field {
         return 'select';
     }
 
-    _normalisedOptions() {
+    get normalisedOptions() {
         const optgroups = this.optgroups || [];
         const options = this.options || [];
         return optgroups.length > 0
-            ? flatMap(optgroups, group => group.options)
+            ? optgroups.flatMap(group => group.options)
             : options;
     }
 
     defaultSchema() {
         const baseSchema = Joi.string().valid(
-            this._normalisedOptions().map(option => option.value)
+            this.normalisedOptions.map(option => option.value)
         );
 
         if (this.isRequired) {
@@ -51,8 +55,8 @@ class SelectField extends Field {
 
     get displayValue() {
         if (this.value) {
-            const match = find(option => option.value === this.value)(
-                this._normalisedOptions()
+            const match = this.normalisedOptions.find(
+                option => option.value === this.value
             );
             return match ? match.label : '';
         } else {

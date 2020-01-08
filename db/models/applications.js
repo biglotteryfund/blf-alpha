@@ -115,7 +115,7 @@ class PendingApplication extends Model {
 
     static findExpiredApplications() {
         return this.findAll({
-            attributes: ['id', 'formId'],
+            attributes: ['id', 'formId', 'currentProgressState'],
             where: {
                 expiresAt: {
                     [Op.lte]: moment().toDate()
@@ -166,12 +166,14 @@ class PendingApplication extends Model {
         );
     }
 
-    static lastUpdatedTime(applicationId) {
+    static findLastUpdatedAt(applicationId) {
         return this.findOne({
             attributes: ['updatedAt'],
             where: {
                 id: { [Op.eq]: applicationId }
             }
+        }).then(function(record) {
+            return record.updatedAt;
         });
     }
 
@@ -193,6 +195,10 @@ class PendingApplication extends Model {
                 id: { [Op.in]: applicationIds }
             }
         });
+    }
+
+    get isExpired() {
+        return moment(this.expiresAt).isBefore(moment());
     }
 }
 
@@ -364,6 +370,17 @@ class ApplicationEmailQueue extends Model {
              */
             applicationId: {
                 type: DataTypes.UUID
+            },
+
+            /**
+             * User model reference
+             * (optional as it was added after the model was created)
+             * Intended to allow looking up a user's deleted applications
+             * after the application itself was deleted
+             */
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: true
             },
 
             /**

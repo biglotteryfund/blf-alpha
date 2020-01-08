@@ -154,7 +154,9 @@
                     title = copy.summary.showQuestions,
                     assistiveText = 'for "' + secTitle + '" section',
                     extraClasses = 'js-toggleable',
-                    isOpen = form.progress.isComplete or section.hasFeaturedErrors
+                    isOpen = form.progress.isComplete or section.hasFeaturedErrors,
+                    showInfoIcon = false,
+                    dataName = 'Summary'
                 ) %}
                     {% for step in section.steps %}
                         {{ stepSummary(

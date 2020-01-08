@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enrich pending applications 1`] = `
+Object {
+  "amountRequested": "£6,750",
+  "createdAt": "2020-03-04T12:00:00.000Z",
+  "deleteUrl": "/apply/awards-for-all/delete/some-uuid",
+  "editUrl": "/apply/awards-for-all/edit/some-uuid",
+  "expiresAt": "2020-03-04T12:00:00.000Z",
+  "formId": "awards-for-all",
+  "id": "some-uuid",
+  "isExpired": false,
+  "overview": Array [
+    Object {
+      "label": "Project dates",
+      "value": "4 June, 2020–4 June, 2020",
+    },
+    Object {
+      "label": "Location",
+      "value": "Derbyshire",
+    },
+    Object {
+      "label": "Organisation",
+      "value": "Example organisation trading name",
+    },
+  ],
+  "progress": Any<Object>,
+  "projectName": "Example project",
+  "type": "pending",
+  "untitledName": "Untitled application",
+  "updatedAt": "2020-03-04T12:00:00.000Z",
+}
+`;
+
+exports[`enrich submitted applications 1`] = `
+Object {
+  "amountRequested": "£6,750",
+  "formId": "awards-for-all",
+  "id": "some-uuid",
+  "overview": Array [
+    Object {
+      "label": "Project dates",
+      "value": "4 June, 2020–4 June, 2020",
+    },
+    Object {
+      "label": "Location",
+      "value": "Derbyshire",
+    },
+    Object {
+      "label": "Organisation",
+      "value": "Example organisation trading name",
+    },
+  ],
+  "projectName": "Example project",
+  "submittedAt": "2020-03-04T12:00:00.000Z",
+  "type": "submitted",
+  "untitledName": "Untitled application",
+}
+`;

@@ -31,7 +31,8 @@
     "enableGovNotifyEmails": true
   },
   "awardsForAll": {
-    "enableExpiration": true
+    "enableExpiration": true,
+    "enableNewDateRange": false
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]

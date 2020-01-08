@@ -1,6 +1,6 @@
-{% macro contentBox(id = false, isConstrained = true) %}
+{% macro contentBox(id = false, isConstrained = true, skipProse = false) %}
     <section class="content-box{% if isConstrained %} u-inner-wide-only{% endif %}"{% if id %} id="{{ id }}"{% endif %}>
-        <div class="s-prose u-constrained-content-wide">
+        <div class="{% if not skipProse %}s-prose {% endif %}u-constrained-content-wide">
             {{ caller() }}
         </div>
     </section>

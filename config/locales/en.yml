@@ -15,8 +15,10 @@ global:
     ukWide: UK-wide
   nav:
     home: Home
+    toplevel: Home
     logIn: Log in
     logOut: Log out
+    myApplications: My applications
     funding: Funding
     local: In your area
     insights: Insights
@@ -580,7 +582,6 @@ funding:
       out more about our UK-wide funding</a>. We also make grants of <a href="/over10k">more
       than £10,000</a> for longer term projects.
     projectExamples: Examples of projects that have been funded
-    disclaimer: Some businesses promote their services, may offer consultancy services, imply they are acting on The Fund’s behalf, <strong>indicate that they are acting as a preferred supplier of The Fund</strong>, or even complete an application form for you. <strong>We do not allow this or feel it is necessary</strong>.
   over10k:
     title: Discover our funding programmes for amounts above £10,000
     intro: Larger grants are made through a variety of programmes that cover every
@@ -847,19 +848,20 @@ funding:
     filterLabel: Filter by region
   digitalFund:
     title: Digital Fund
-    intro: The Digital Fund is a new UK wide £15 million funding programme to support charities and community organisations. It is about helping the charity and voluntary sector to use digital tools and approaches to support people and communities to thrive.
+    intro: >
+      The first round of Digital Fund funding has now closed. Under Strands 1 and 2, we awarded £12.1m to <a href="https://medium.com/digitalfund/who-are-the-29-grantholders-the-digital-fund-is-funding-f0545fd18985">29 organisations</a> and £500,000 for a <a href="https://medium.com/digitalfund/introducing-the-digital-fund-support-team-ba42f339d65">support contract</a> to work with them. There is £2.4m remaining of the £15m allocated to the Digital Fund, as announced in 2018. We are currently doing some discovery work to determine the needs of micro organisations across the UK, and whether these needs are primarily digital. We will use this work to inform how we support these groups in 2020. Alongside this, we are scoping how the remaining funds can have the most impact and we hope to launch a small number of small, strategic funds in 2020. For regular updates on the Digital Fund, please follow the team’s <a href="https://medium.com/digitalfund/introducing-the-digital-fund-support-team-ba42f339d65">Medium blog</a>.
     openingDates: You can submit outline proposals from 22nd October 2018 until 5pm 3rd December 2018.
     openingDatesClosed: The first round of Digital Funding closed on 3rd December 2018 at 5pm.
     aboutStrandLabel: Find out more about this strand
     strand1:
       title: We want to use digital to change our work
       shortTitle: Strand 1
-      introduction: <strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established organisations use digital to take a major leap forward. We expect grants to last from 1 to 4 years.
+      introduction: <strong>Digital Fund Strand 1</strong> offered grants of up to £500,000 and a tailored support package. The aim was to help established organisations use digital to take a major leap forward. Grants have now been awarded and will last from 1 to 4 years.
       startApplying: Start applying for strand 1
     strand2:
       title: We are already highly digital, and want to scale our impact
       shortTitle: Strand 2
-      introduction: <strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact. We expect grants to last from 1 to 4 years.
+      introduction: <strong>Digital Fund Strand 2</strong> offered grants of up to £500,000 for newer organisations that had already launched promising services that use digital to achieve scale or impact. Grants have now been awarded and will last from 1 to 4 years.
       startApplying: Start applying for strand 2
     getStarted:
       title: Get started
@@ -1059,8 +1061,6 @@ funding:
     assistance:
       title: Help getting started with digital
       intro: Do you work or volunteer for a small voluntary sector organisation? Would you like to know how digital tools like apps, websites, and social media could make your work more effective?
-      actionText: >
-        <p>If you’re a small charity or small community group, we may be able to offer you <a href="/funding/programmes/digital-fund/assistance">free digital support</a> from 2019.</p>
       body: >
         <p>We are looking at how we can enable digital specialists to offer free assistance to small organisations. Eligibility criteria are not yet confirmed, but if you’d like us to email you when the programme is ready, please submit your details here.</p>
       submission:
@@ -1160,7 +1160,10 @@ user:
     introduction: >
       <p>This is a new application form. If you haven't logged in here before, you might not have an account with us - and will need to <a href="/user/register">create a new account</a> to apply.</p>
     actionLabel: Log in
-    registerLabel: create an account
+    registerLabel: Create an account
+    registerPrompt:
+      title: Don't have an account yet?
+      body: Our online account makes filling in your funding applications quicker and easier. And it only takes a couple of minutes to set up.
     forgottenPasswordPrompt: Forgotten your password?
     credentialError: Your username and password aren't quite right. Or you might not have an account, as this is a new application form - try <a href="/user/register">creating an account</a>.
   rateLimited:
@@ -1172,7 +1175,10 @@ user:
   register:
     title: Create an account
     actionLabel: Create an account
-    loginLabel: log in
+    loginLabel: Log in
+    loginPrompt:
+      title: Already have an account?
+      body: Log in here
     genericError: >
       There was an error creating your account. If you think you already have an account try
       <a href="%s">resetting your password</a>.
@@ -1581,6 +1587,10 @@ applyNext:
         If you're sure you want to delete your application, then you can proceed below.
       </p>
     success: Your application was successfully deleted
+  expired:
+    title: We've had to delete this application
+    summary: It's been over 3 months since you started it. So we've had to delete this application to keep your data safe.
+    message: Your application expired on %s. If you still want to apply, you'll need to start a new application.
   questions:
     printLink: Print these questions
     downloadLink: Download these questions (PDF)
@@ -1761,4 +1771,19 @@ yourFundingProposal:
       items:
         - We'll email you to let you know we got your proposal
         - Then we'll get in touch to talk about your proposal within 15 working days.
+    processMap:
+      youAreHere: You are here
+      actions:
+        proposalReviewed: Proposal reviewed
+        applicationAssessed: Application assessed
+      steps:
+        tellUsYourIdea:
+          title: Tell us about your funding proposal
+          description: You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.
+        askYouToApply:
+          title: We might then ask you to apply
+          description: If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future.
+        decideToFund:
+          title: We'll decide to fund your project or not
+          description: We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not.
     startAction: Start your proposal

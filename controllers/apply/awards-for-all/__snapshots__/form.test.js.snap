@@ -1,64 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bank details requires valid bank details 1`] = `
-Array [
-  "Enter a sort code",
-  "Enter an account number",
-  "Enter the name of your organisation, as it appears on your bank statement",
-]
-`;
-
-exports[`Contacts contact addresses must not match 1`] = `
-Array [
-  "Main contact address must be different from the senior contact's address",
-  "Senior contact address must be different from the main contact's address",
-]
-`;
-
-exports[`Contacts full names must not match 1`] = `
-Array [
-  "Main contact name must be different from the senior contact's name",
-  "Senior contact name must be different from the main contact's name",
-]
-`;
-
-exports[`Who will benefit require additional beneficiary questions based on groups 1`] = `
-Array [
-  "Select the age group(s) of the people that will benefit from your project",
-  "Select the disabled people that will benefit from your project",
-  "Select the ethnic background(s) of the people that will benefit from your project",
-  "Select the gender(s) of the people that will benefit from your project",
-  "Select the religion(s) or belief(s) of the people that will benefit from your project",
-]
-`;
-
-exports[`Your organisation finance details required if organisation is over 15 months old 1`] = `
-Array [
-  "Enter a day and month",
-  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
-]
-`;
-
-exports[`Your organisation finance details required if organisation is over 15 months old 2`] = `
-Array [
-  "Enter a day and month",
-  "Total income must be a real number",
-]
-`;
-
-exports[`Your organisation valid basic organisation details required 1`] = `
-Array [
-  "Enter a full UK address",
-  "Enter a month and year",
-  "Enter the full legal name of the organisation",
-  "Select a type of organisation",
-]
-`;
-
 exports[`empty form 1`] = `
 Array [
   "projectName: Enter a project name",
   "projectCountry: Select a country",
+  "projectLocation: Select a location",
+  "projectLocationDescription: Tell us the towns, villages or wards your beneficiaries live in",
+  "projectPostcode: Enter a real postcode",
   "yourIdeaProject: Tell us about your project",
   "yourIdeaPriorities: Tell us how your project meets at least one of our funding priorities",
   "yourIdeaCommunity: Tell us how your project involves your community",
@@ -144,4 +92,56 @@ Object {
   ],
   "sectionsComplete": 0,
 }
+`;
+
+exports[`finance details required if organisation is over 15 months old 1`] = `
+Array [
+  "Enter a day and month",
+  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
+]
+`;
+
+exports[`invalid form 1`] = `
+Array [
+  "projectName: Project name must be 80 characters or less",
+  "projectPostcode: Enter a real postcode",
+  "yourIdeaProject: Answer must be no more than 300 words",
+  "yourIdeaPriorities: Answer must be no more than 150 words",
+  "yourIdeaCommunity: Answer must be no more than 200 words",
+  "projectBudget: Costs you would like us to fund must be less than £10,000",
+  "projectTotalCosts: Total cost must be the same as or higher than the amount you’re asking us to fund",
+  "mainContactName: Main contact name must be different from the senior contact's name",
+  "mainContactDateOfBirth: Must be at least 16 years old",
+  "mainContactAddress: Main contact address must be different from the senior contact's address",
+  "mainContactAddressHistory: Enter a full UK address",
+  "mainContactPhone: Enter a real UK telephone number",
+  "seniorContactRole: Senior contact role is not valid",
+  "seniorContactName: Senior contact name must be different from the main contact's name",
+  "seniorContactDateOfBirth: Must be at least 18 years old",
+  "seniorContactAddress: Senior contact address must be different from the main contact's address",
+  "seniorContactAddressHistory: Enter a full UK address",
+  "mainContactEmail: Main contact email address must be different from the senior contact's email address",
+  "seniorContactPhone: Enter a real UK telephone number",
+  "projectDateRange: Date you end the project must be after the start date",
+]
+`;
+
+exports[`invalid form 2`] = `
+Array [
+  "Main contact name must be different from the senior contact's name",
+  "Enter a real UK telephone number",
+  "Senior contact role is not valid",
+  "Main contact email address must be different from the senior contact's email address",
+  "Date you end the project must be after the start date",
+]
+`;
+
+exports[`require additional beneficiary questions based on groups 1`] = `
+Array [
+  "Select the ethnic background(s) of the people that will benefit from your project",
+  "Select the gender(s) of the people that will benefit from your project",
+  "Select the age group(s) of the people that will benefit from your project",
+  "Select the disabled people that will benefit from your project",
+  "Select the religion(s) or belief(s) of the people that will benefit from your project",
+]
 `;

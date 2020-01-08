@@ -6,5 +6,8 @@
   },
   "features": {
     "enableHotjar": true
+  },
+  "awardsForAll": {
+    "enableNewDateRange": true
   }
 }

@@ -1,0 +1,26 @@
+{% macro processMap(process, indicatorLabel) %}
+    <ol class="process-map">
+        {% for step in process %}
+            <li class="process-map__item process-map__item--{{ step.type }}{% if step.isCompleted %} process-map__item--completed{% endif %}">
+                {% if step.type === 'step' %}
+                    {% if step.isCurrent %}
+                        <div class="process-map__item-indicator">
+                            {{ indicatorLabel }}
+                            <span class="process-map__item-indicator__arrow" aria-hidden="true"></span>
+                        </div>
+                    {% endif %}
+                    <div class="process-map__item-title">
+                        <div class="process-map__item-title__content">
+                            <span>{{ step.title }}</span>
+                        </div>
+                    </div>
+                    <div class="process-map__item-description"><p>{{ step.description | safe }}</p></div>
+                {% elseif step.type === 'action' %}
+                    <span class="process-map__item-action-label">{{ step.title }}</span>
+                    <span class="process-map__item-action-arrow-right" aria-hidden="true"></span>
+                    <span class="process-map__item-action-arrow-down" aria-hidden="true"></span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+{% endmacro %}

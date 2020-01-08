@@ -30,7 +30,7 @@ function initFormRouter({
     startTemplate = null,
     eligibilityBuilder = null,
     confirmationBuilder,
-    enableSalesforceConnector = true,
+    transformFunction = null,
     expiryEmailPeriods = null,
     isBilingual = true
 }) {
@@ -183,20 +183,20 @@ function initFormRouter({
     }
 
     /**
-     * Route: Start application
-     * Redirect to eligibility checker
+     * Route: Start page
      */
     router.get('/start', function(req, res) {
-        const newUrl = `${req.baseUrl}/new`;
-        if (eligibilityBuilder) {
-            res.redirect(`${req.baseUrl}/eligibility/1`);
-        } else if (startTemplate) {
+        const nextPageUrl = eligibilityBuilder
+            ? `${req.baseUrl}/eligibility/1`
+            : `${req.baseUrl}/new`;
+
+        if (startTemplate) {
             res.render(startTemplate, {
                 backUrl: res.locals.sectionUrl,
-                newUrl: newUrl
+                nextPageUrl: nextPageUrl
             });
         } else {
-            res.redirect(newUrl);
+            res.redirect(nextPageUrl);
         }
     });
 
@@ -306,6 +306,10 @@ function initFormRouter({
                     res.locals.currentApplication = currentApplication;
                     res.locals.currentApplicationData = currentApplicationData;
 
+                    res.locals.currentApplicationData = transformFunction
+                        ? transformFunction(currentApplicationData)
+                        : currentApplicationData;
+
                     res.locals.currentApplicationStatus = get(
                         currentApplication,
                         'status'
@@ -327,6 +331,21 @@ function initFormRouter({
     });
 
     /**
+     * Block access to expired applications
+     * We should prevent access to anything that's pending deletion to avoid user confusion and lost data
+     */
+    router.use((req, res, next) => {
+        if (res.locals.currentApplication.isExpired) {
+            return res.render(path.resolve(__dirname, './views/expired'), {
+                title: res.locals.copy.expired.title,
+                csrfToken: req.csrfToken()
+            });
+        } else {
+            next();
+        }
+    });
+
+    /**
      * Route: Summary
      */
     router.use('/summary', require('./summary')(formBuilder));
@@ -340,8 +359,7 @@ function initFormRouter({
             formId,
             formBuilder,
             confirmationBuilder,
-            currentlyEditingSessionKey,
-            enableSalesforceConnector
+            currentlyEditingSessionKey
         )
     );
 

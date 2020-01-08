@@ -1,5 +1,6 @@
 'use strict';
 const find = require('lodash/fp/find');
+const uniq = require('lodash/uniq');
 const castArray = require('lodash/castArray');
 const Joi = require('../joi-extensions');
 
@@ -12,6 +13,11 @@ class RadioField extends Field {
         const options = props.options || [];
         if (options.length === 0) {
             throw Error('Must provide options');
+        }
+
+        const values = options.map(option => option.value);
+        if (values.length !== uniq(values).length) {
+            throw new Error('Options must contain unique values');
         }
 
         this.options = options;

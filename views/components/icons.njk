@@ -61,7 +61,7 @@
         <path d="M11.484 0.984l9.516 5.016v2.016h-18.984v-2.016zM15.984 9.984h3v7.031h-3v-7.031zM2.016 21.984v-3h18.984v3h-18.984zM9.984 9.984h3v7.031h-3v-7.031zM3.984 9.984h3v7.031h-3v-7.031z"></path>
     {% endcall %}
 {% endmacro %}
- 
+
 {% macro iconActiveProject(title = 'Active project') %}
     {% call icon('active-project', title, viewbox="0 0 24 24") %}
         <path d="M12 .288l2.833 8.718H24l-7.417 5.389 2.833 8.718L12 17.725l-7.417 5.388 2.833-8.718L0 9.006h9.167z"/>
@@ -77,6 +77,13 @@
 {% macro iconBin() %}
     {% call icon('bin', 'A waste bin', viewbox="0 0 16 16") %}
         <path d="M3 16h10l1-11h-12zM10 2v-2h-4v2h-5v3l1-1h12l1 1v-3h-5zM9 2h-2v-1h2v1z"></path>
+    {% endcall %}
+{% endmacro %}
+
+
+{% macro iconInfo() %}
+    {% call icon('info', 'Info icon', skipLabel = true, viewbox="0 0 16 16") %}
+        <path d="M8 0.32c-4.242 0-7.681 3.438-7.681 7.68s3.438 7.681 7.681 7.681c4.241 0 7.68-3.438 7.68-7.681s-3.439-7.68-7.68-7.68zM8.717 3.093c0.749 0 0.969 0.434 0.969 0.931 0 0.62-0.496 1.194-1.343 1.194-0.709 0-1.046-0.356-1.026-0.946 0-0.497 0.415-1.179 1.4-1.179zM6.798 12.6c-0.512 0-0.886-0.311-0.528-1.675l0.586-2.42c0.102-0.387 0.118-0.542 0-0.542-0.153 0-0.818 0.267-1.21 0.531l-0.255-0.418c1.244-1.039 2.674-1.649 3.286-1.649 0.512 0 0.597 0.605 0.342 1.536l-0.672 2.544c-0.119 0.45-0.068 0.605 0.051 0.605 0.154 0 0.656-0.186 1.15-0.575l0.29 0.389c-1.21 1.21-2.53 1.675-3.041 1.675z"></path>
     {% endcall %}
 {% endmacro %}
 
@@ -149,17 +156,47 @@
     </svg>
 {% endmacro %}
 
-{% macro iconLogin() %}
-    <svg 
+{% macro iconUser() %}
+    <svg
         role="img"
-        class="icon icon--login" 
-        xmlns="http://www.w3.org/2000/svg" 
+        class="icon icon--user"
+        xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24.98 26.4" width="13" height="13"
     >
-        <g data-name="Layer 2">
-            <g data-name="Layer 1">
+        <g>
+            <g>
                 <path d="M16.61,15.26a8.91,8.91,0,0,1-8.24,0A11.87,11.87,0,0,0,0,26.4H25A11.87,11.87,0,0,0,16.61,15.26Z"/>
                 <circle cx="12.49" cy="7.34" r="7.34"/>
+            </g>
+        </g>
+    </svg>
+{% endmacro %}
+
+{% macro iconLogin() %}
+    <svg role="img"
+         class="icon icon--login"
+         xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 71.75 78.87"
+         width="13" height="13">
+        <g>
+            <g>
+                <path d="M6.25 28.52h20.34V17l29.16 22.44-29.16 22.43V50.34H6.25V28.52z"/>
+                <path d="M32.32 78.87A39.59 39.59 0 01.48 62.7a2.5 2.5 0 014-3 34.44 34.44 0 100-40.63 2.5 2.5 0 01-4-2.95 39.43 39.43 0 1131.84 62.7z"/>
+            </g>
+        </g>
+    </svg>
+{% endmacro %}
+
+{% macro iconLogout() %}
+    <svg role="img"
+         class="icon icon--logout"
+         xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 71.75 78.87"
+         width="13" height="13">
+        <g>
+            <g>
+                <path d="M51.82 28.52H31.48V17L2.32 39.44l29.16 22.43V50.34h20.34V28.52z"/>
+                <path d="M32.32 78.87A39.59 39.59 0 01.48 62.7a2.5 2.5 0 014-3 34.44 34.44 0 100-40.63 2.5 2.5 0 01-4-2.95 39.43 39.43 0 1131.84 62.7z"/>
             </g>
         </g>
     </svg>

@@ -1,13 +1,15 @@
 {% extends "layouts/main.njk" %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
+{% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner u-inner-wide-only">
             {{ userNavigation(userNavigationLinks) }}
 
+            {{ formHeaderWithData(formTitle) }}
+            
             <div class="form-header">
-                <p class="form-header__prefix">{{ formTitle }}</p>
                 <h1 class="form-header__title">{{ title }}</h1>
             </div>
 

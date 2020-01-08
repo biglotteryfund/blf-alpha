@@ -10,8 +10,7 @@
 
         <div class="nudge-up">
             {% call contentBoxIntro(breadcrumbs, heroCredit = pageHero.credit) %}
-                <p>{{ copy.intro }}</p>
-                <p><strong>{{ copy.openingDatesClosed }}</strong></p>
+                <p>{{ copy.intro | safe }}</p>
             {% endcall %}
 
             {% call contentBox(id="get-started") %}
@@ -52,7 +51,6 @@
 
                 <h2>{{ copy.getStarted.assistance.title }}</h2>
                 {{ copy.getStarted.assistance.body | safe }}
-                {{ copy.assistance.actionText | safe }}
             {% endcall %}
         </div>
     </main>

@@ -5,6 +5,8 @@ const includes = require('lodash/includes');
 const { oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
+const { Step } = require('../lib/step-model');
+
 const fieldsFor = require('./fields');
 
 module.exports = function({ locale = 'en', data = {} } = {}) {
@@ -15,25 +17,23 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     const projectCountries = getOr([], 'projectCountries')(data);
 
     function stepProjectName() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Project name',
                 cy: 'Enw eich prosiect'
             }),
-            noValidate: true,
             fieldsets: [{ fields: [allFields.projectName] }]
-        };
+        });
     }
 
     function stepProjectCountries() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Project country',
                 cy: 'Gwlad y prosiect'
             }),
-            noValidate: true,
             fieldsets: [{ fields: [allFields.projectCountries] }]
-        };
+        });
     }
 
     function stepProjectLocation() {
@@ -50,25 +50,23 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             }
         }
 
-        return {
+        return new Step({
             title: localise({
                 en: 'Project location',
                 cy: 'Lleoliad y prosiect'
             }),
-            noValidate: true,
             fieldsets: [{ fields: fields() }]
-        };
+        });
     }
 
     function stepProjectCosts() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect'
             }),
-            noValidate: true,
             fieldsets: [{ fields: [allFields.projectCosts] }]
-        };
+        });
     }
 
     function stepProjectDuration() {
@@ -80,20 +78,18 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             }
         }
 
-        return {
+        return new Step({
             title: localise({ en: 'Project duration', cy: '' }),
-            noValidate: true,
             fieldsets: [{ fields: fields() }]
-        };
+        });
     }
 
     function stepYourIdea() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Your idea',
                 cy: 'Eich syniad'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     fields: [
@@ -103,11 +99,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     ]
                 }
             ]
-        };
+        });
     }
 
     function stepOrganisationDetails() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Organisation details',
                 cy: ''
@@ -122,18 +118,17 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     ]
                 }
             ]
-        };
+        });
     }
 
     function stepOrganisationType() {
-        return {
+        return new Step({
             title: localise({
                 en: 'Organisation type',
                 cy: 'Math o sefydliad'
             }),
-            noValidate: true,
             fieldsets: [{ fields: [allFields.organisationType] }]
-        };
+        });
     }
 
     function stepOrganisationSubType() {
@@ -146,14 +141,13 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             }
         }
 
-        return {
+        return new Step({
             title: localise({
                 en: 'Type of statutory body',
                 cy: 'Math o gorff statudol'
             }),
-            noValidate: true,
             fieldsets: [{ fields: fields() }]
-        };
+        });
     }
 
     function stepContactDetails() {
@@ -176,14 +170,13 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             }
         }
 
-        return {
+        return new Step({
             title: localise({
                 en: 'Contact details',
                 cy: ''
             }),
-            noValidate: true,
             fieldsets: [{ fields: fields() }]
-        };
+        });
     }
 
     function summary() {
@@ -220,6 +213,9 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             cy: 'Dechrau ar eich cynnig'
         }),
         allFields,
+        featuredErrorsAllowList: [
+            { fieldName: 'projectLocationDescription', includeBase: true }
+        ],
         summary: summary(),
         schemaVersion: 'v0.2',
         forSalesforce() {

@@ -520,12 +520,8 @@ it('should test common pages', () => {
 });
 
 it('should submit full awards for all application', () => {
-    function checkLastSaveTime() {
-        cy.get('.form-actions__timestamp').contains('Today');
-    }
-
     function submitStep() {
-        checkLastSaveTime();
+        cy.findByTestId('updated-at').contains('Today');
         cy.findByText('Continue').click();
     }
 
@@ -544,13 +540,20 @@ it('should submit full awards for all application', () => {
     }
 
     function startApplication() {
+        // Dashboard
         cy.findByText('Start a new application').click();
+
+        // Start page
+        cy.findByText('Start your application').click();
+
+        // Eligibility checker
         times(5, function() {
             cy.findByLabelText('Yes').click();
             cy.findByText('Continue').click();
         });
         cy.findByText('Start your application').click();
 
+        // Summary page
         cy.findAllByText('Start your application')
             .first()
             .click();
@@ -575,13 +578,13 @@ it('should submit full awards for all application', () => {
             cy.findByLabelText('Year').type(momentInstance.year());
         }
 
-        cy.findByText('Start date')
+        cy.findByText('When would you like to start your project?')
             .parent()
             .within(() => {
                 fillDateParts(mock.projectDateRange.startDate);
             });
 
-        cy.findByText('End date')
+        cy.findByText('When would you like to finish your project?')
             .parent()
             .within(() => {
                 fillDateParts(mock.projectDateRange.endDate);

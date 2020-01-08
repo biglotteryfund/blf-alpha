@@ -20,8 +20,10 @@ module.exports = function dateParts(joi) {
                 .required()
         }),
         language: {
-            futureDate: 'Date must be at least {{min}}',
-            dob: 'Must be at least {{minAge}} years old'
+            minDate: 'Date must be on or after {{min}}',
+            minDateRef: 'Date from must be on or after referenced date',
+            maxDate: 'Date must be on or before {{max}}',
+            rangeLimit: 'Date must be within range'
         },
         pre(value, state, options) {
             const dt = fromDateParts(value);
@@ -38,17 +40,18 @@ module.exports = function dateParts(joi) {
         },
         rules: [
             {
-                name: 'futureDate',
+                name: 'minDate',
                 params: {
                     min: joi.string().required()
                 },
                 validate(params, value, state, options) {
                     const date = fromDateParts(value);
+
                     if (date.isValid() && date.isSameOrAfter(params.min)) {
                         return value;
                     } else {
                         return this.createError(
-                            'dateParts.futureDate',
+                            'dateParts.minDate',
                             { v: value, min: params.min },
                             state,
                             options
@@ -57,32 +60,83 @@ module.exports = function dateParts(joi) {
                 }
             },
             {
-                name: 'dob',
+                name: 'minDateRef',
                 params: {
-                    minAge: joi.number().required()
+                    ref: joi.func().ref()
                 },
                 validate(params, value, state, options) {
+                    const refVal = params.ref(
+                        state.reference || state.parent,
+                        options
+                    );
+
                     const date = fromDateParts(value);
-                    const maxDate = moment().subtract(params.minAge, 'years');
-                    const minDate = moment().subtract(120, 'years');
+                    const refDate = refVal ? fromDateParts(refVal) : null;
 
                     if (
+                        refDate &&
                         date.isValid() &&
-                        date.isSameOrBefore(maxDate) &&
-                        date.isSameOrAfter(minDate)
+                        date.isSameOrAfter(refDate)
                     ) {
                         return value;
-                    } else if (date.isSameOrBefore(minDate)) {
+                    } else {
                         return this.createError(
-                            'dateParts.dob.tooOld',
-                            { v: value, minAge: params.minAge },
+                            'dateParts.minDateRef',
+                            { v: value },
                             state,
                             options
                         );
+                    }
+                }
+            },
+            {
+                name: 'maxDate',
+                params: {
+                    max: joi.string().required()
+                },
+                validate(params, value, state, options) {
+                    const date = fromDateParts(value);
+
+                    if (date.isValid() && date.isSameOrBefore(params.max)) {
+                        return value;
                     } else {
                         return this.createError(
-                            'dateParts.dob',
-                            { v: value, minAge: params.minAge },
+                            'dateParts.maxDate',
+                            { v: value, max: params.max },
+                            state,
+                            options
+                        );
+                    }
+                }
+            },
+            {
+                name: 'rangeLimit',
+                params: {
+                    ref: joi.func().ref(),
+                    limit: joi.object({
+                        amount: joi.number().required(),
+                        unit: joi.string().required()
+                    })
+                },
+                validate(params, value, state, options) {
+                    const refVal = params.ref(
+                        state.reference || state.parent,
+                        options
+                    );
+
+                    const date = fromDateParts(value);
+                    const refDate = refVal ? fromDateParts(refVal) : moment();
+
+                    const limitDate = refDate
+                        .clone()
+                        .add(params.limit.amount, params.limit.unit);
+
+                    if (date.isValid() && date.isSameOrBefore(limitDate)) {
+                        return value;
+                    } else {
+                        return this.createError(
+                            'dateParts.rangeLimit',
+                            { v: value },
                             state,
                             options
                         );

@@ -50,6 +50,12 @@ class User extends Model {
         });
     }
 
+    static findByUsernameFuzzy(search) {
+        return this.findAll({
+            where: { username: { [Op.substring]: search } }
+        });
+    }
+
     static createUser({ username, password, isActive = false }) {
         return this.encryptPassword(password).then(encryptedPassword => {
             return this.create({

@@ -49,6 +49,7 @@ function formatMultiChoice(field) {
 function formatAddress(value) {
     return compact([
         value.line1,
+        value.line2,
         value.townCity,
         value.county,
         value.postcode

@@ -30,6 +30,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectName() {
         const maxLength = 80;
         return new Field({
+            locale: locale,
             name: 'projectName',
             label: localise({
                 en: 'What is the name of your project?',
@@ -224,7 +225,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldProjectLocationDescription() {
         const maxLength = 255;
-        const baseSchema = Joi.string().max(maxLength);
 
         return new Field({
             locale: locale,
@@ -238,12 +238,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     that you'll be running your project in, e.g.
                     'Yorkshire' or 'Glasgow, Cardiff and Belfast'`,
                 cy: ``
-            }),
-            isRequired: projectCountries.length > 1,
-            schema: Joi.when('projectCountries', {
-                is: Joi.array().min(2),
-                then: baseSchema.required(),
-                otherwise: baseSchema.allow('').optional()
             }),
             maxLength: maxLength,
             messages: [
@@ -437,6 +431,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldYourIdeaActivities() {
         return new TextareaField({
+            locale: locale,
             name: 'yourIdeaActivities',
             label: localise({
                 en: 'How does your idea fit in with other local activities?',
@@ -601,7 +596,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    value: 'unregistered-vco',
+                    value: 'unincorporated-registered-charity',
                     label: localise({
                         en: `Registered charity (unincorporated)`,
                         cy: `Elusen gofrestredig (anghorfforedig)`

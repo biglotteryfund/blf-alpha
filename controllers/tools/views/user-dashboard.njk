@@ -1,0 +1,202 @@
+{% extends "layouts/main.njk" %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/staff-status/macro.njk" import staffStatus with context %}
+
+{% block extraHead %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+
+{% macro dateItem(date) %}
+    <abbr title="{{ date }}">{{ formatDate(date) }}</abbr>
+{% endmacro %}
+
+{% macro yesNo(bool) %}
+    {% if bool %}Yes{% else %}No{% endif %}
+{% endmacro %}
+
+{% macro deSlugify(str) %}
+    {{ str | replace('-', ' ') | replace('_', ' ') | title }}
+{% endmacro %}
+
+{%- macro statusClass(status) -%}
+    {%- if status === 'COMPLETE' -%}
+        table-success
+    {%- elseif status === 'NOT_STARTED' -%}
+        table-warning
+    {%- else -%}
+        table-primary
+    {%- endif -%}
+{%- endmacro -%}
+
+{% macro searchBox() %}
+    <form method="get" class="form-inline">
+        <div class="form-group">
+            <label for="userEmail">Find a user by email address</label>
+            <input type="text" class="form-control mx-sm-3" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email search" name="q" value="{{ usernameSearch }}">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="./dashboard" class="btn btn-dark mx-sm-3">Clear search</a>
+        </div>
+    </form>
+    <small id="emailHelp" class="form-text text-muted">You can search by a whole email address or just part of one, eg. "david" or "@gov.uk".</small>
+{% endmacro %}
+
+{% macro pendingAppsList(pendingApps) %}
+    <h2 class="t3 u-margin-top-l">
+        Funding applications by {{ singleUser.username }}
+    </h2>
+
+    <h3 class="t4 u-margin-top">
+        Pending applications
+        <small>{{ pendingApps.length }} total</small>
+    </h3>
+    {% if pendingApps.length > 0 %}
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Project name</th>
+                <th scope="col">Application type</th>
+                <th scope="col">Status</th>
+                <th scope="col">Create / update / expiry dates</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for app in pendingApps %}
+                <tr class="{{ statusClass(app.currentProgressState) }}">
+                    <td>{{ app.applicationData.projectName or 'Untitled' }}</td>
+                    <td>{{ deSlugify(app.formId) }}</td>
+                    <td>
+                        {{ deSlugify(app.currentProgressState) }}
+                    </td>
+                    <td>
+                        <strong>Created on</strong>: {{ dateItem(app.createdAt) }}<br />
+                        <strong>Updated on</strong>: {{ dateItem(app.updatedAt) }}<br />
+                        <strong>Expires on</strong>: {{ dateItem(app.expiresAt) }} ({{ app.expiresAtRelative }})
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No pending applications found for this user.</p>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro userSearchResults(users) %}
+    <h2 class="t3 u-margin-top-l">
+        Search results for "{{ usernameSearch }}"
+        <small>{{ users.length }} users found</small>
+    </h2>
+
+    {% if users.length > 0 %}
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Email address</th>
+                <th scope="col">Activated?</th>
+                <th scope="col">In password reset mode?</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        {{ user.username }}<br />
+                        <small>
+                            <strong>User ID</strong>: {{ user.id }} <br />
+                            <strong>Registered</strong>: {{ dateItem(user.createdAt) }} <br />
+                            <strong>Last modified</strong>: {{ dateItem(user.updatedAt) }}
+                        </small>
+                    </td>
+                    <td{% if not user.is_active %} class="table-danger"{% endif %}>
+                        <strong>{{ yesNo(user.is_active) }}</strong><br />
+                        {% if not user.is_active %}
+                            <small>This user has been sent a link to activate their account. It was sent <strong>{{ user.activationExpires }}</strong> and expires after three hours.</small>
+                        {% endif %}
+                    </td>
+                    <td{% if user.is_password_reset %} class="table-danger"{% endif %}>
+                        <strong>{{ yesNo(user.is_password_reset) }}</strong><br/>
+                        {% if user.is_password_reset %}
+                            <small>This user has been sent a link to reset their password. It may have expired.</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="userId" value="{{ user.id }}" />
+                            {% if not user.is_active %}
+                                <button type="submit" name="action" value="activateUser" class="btn btn-block btn-sm btn-primary">
+                                    Activate user
+                                </button>
+                                <br />
+                            {% endif %}
+                            <button type="submit" name="action" value="sendResetPasswordEmail" class="btn btn-block btn-sm btn-secondary">
+                                Send password reset email
+                            </button>
+                            <br />
+                        </form>
+                        <form method="get">
+                            <input type="hidden" name="appsById" value="{{ user.id }}" />
+                            <button type="submit" class="btn btn-block btn-sm btn-info">View all applications</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There were no users found matching the search term "{{ usernameSearch }}".</p>
+    {% endif %}
+{% endmacro %}
+
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            {{ staffStatus(user) }}
+
+            <h1 class="u-margin-bottom-s t2">{{ title }}</h1>
+
+            {% if statusMessage %}
+                <div class="alert alert-success" role="alert">
+                    {{ statusMessage }}
+                </div>
+            {% endif %}
+
+            {% if confirmMode %}
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Are you sure you want to take the following action:</h4>
+                    {% if action === 'activateUser' %}
+                        <p>Activate the user account for <strong>{{ userToModify.username }}</strong>?</p>
+                    {% elseif action === 'sendResetPasswordEmail' %}
+                        <p>Send an email to <strong>{{ userToModify.username }}</strong> with a link to reset their password?</p>
+                    {% endif %}
+                    <form method="post" action="./dashboard">
+                        <input type="hidden" name="userId" value="{{ userToModify.id }}" />
+                        <input type="hidden" name="action" value="{{action }}" />
+                        <input type="hidden" name="confirmed" value="true" />
+                        <input type="submit" value="Yes, go ahead" class="btn btn-danger" />
+                        <a href="./dashboard" class="btn btn-dark mx-sm-3">No, go back</a>
+                    </form>
+                </div>
+            {% else %}
+
+                {{ searchBox() }}
+
+                {% if singleUser %}
+                    {{ pendingAppsList(pendingApps) }}
+                    <p><small>For submitted applications, please search GMS for this user's email address.</small></p>
+                {% endif %}
+
+                {% if usernameSearch %}
+                    {{ userSearchResults(users) }}
+                {% endif %}
+
+            {% endif %}
+
+        </div>
+    </main>
+{% endblock %}

@@ -4,6 +4,7 @@ const PhoneField = require('./phone');
 
 test('PhoneField', function() {
     const field = new PhoneField({
+        locale: 'en',
         name: 'example',
         label: 'Email field'
     });

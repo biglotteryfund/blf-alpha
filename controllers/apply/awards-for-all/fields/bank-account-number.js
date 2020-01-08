@@ -2,17 +2,17 @@
 const get = require('lodash/fp/get');
 
 const Joi = require('../../lib/joi-extensions');
+const Field = require('../../lib/field-types/field');
 
 module.exports = function(locale) {
     const localise = get(locale);
 
-    return {
+    return new Field({
+        locale: locale,
         name: 'bankAccountNumber',
         label: localise({ en: 'Account number', cy: 'Rhif cyfrif' }),
         explanation: localise({ en: 'eg. 12345678', cy: 'e.e. 12345678' }),
-        type: 'text',
         attributes: { autocomplete: 'off' },
-        isRequired: true,
         schema: Joi.string()
             .replace(/\D/g, '')
             .min(6)
@@ -41,5 +41,5 @@ module.exports = function(locale) {
                 })
             }
         ]
-    };
+    });
 };

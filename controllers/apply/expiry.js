@@ -127,7 +127,7 @@ async function sendExpiryEmails(req, emailQueue) {
                 emailToSend.PendingApplication.id
             );
 
-            const dateFormat = 'D MMMM, YYYY';
+            const dateFormat = 'D MMMM, YYYY HH:mm:ss';
             const expiresOn = moment(emailToSend.PendingApplication.expiresAt);
 
             const expiryDates = {
@@ -167,9 +167,11 @@ async function sendExpiryEmails(req, emailQueue) {
                 if (enableExpiration) {
                     returnObj.emailSent = true;
 
-                    const dbStatus = (await ApplicationEmailQueue.updateStatusToSent(
-                        emailToSend.id
-                    ))[0];
+                    const dbStatus = (
+                        await ApplicationEmailQueue.updateStatusToSent(
+                            emailToSend.id
+                        )
+                    )[0];
 
                     if (dbStatus === 1) {
                         returnObj.dbUpdated = true;
@@ -202,7 +204,8 @@ async function deleteExpiredApplications(expiredApplications) {
 
             expiredApplications.forEach(application => {
                 logger.info(`Deleting expired application`, {
-                    formId: application.formId
+                    formId: application.formId,
+                    applicationStatus: application.currentProgressState
                 });
             });
 

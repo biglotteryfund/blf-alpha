@@ -3,13 +3,52 @@
    ========================================================================= */
 
 .o-details {
+    $iconChevronRight: svg-url(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M13.25 10l-7.141-7.42c-0.268-0.27-0.268-0.707 0-0.979 0.268-0.27 0.701-0.27 0.969 0l7.83 7.908c0.268 0.271 0.268 0.709 0 0.979l-7.83 7.908c-0.268 0.271-0.701 0.27-0.969 0s-0.268-0.707 0-0.979l7.141-7.417z"></path></svg>'
+    );
+
+    $iconChevronDown: svg-url(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M17.418 6.109c0.272-0.268 0.709-0.268 0.979 0s0.271 0.701 0 0.969l-7.908 7.83c-0.27 0.268-0.707 0.268-0.979 0l-7.908-7.83c-0.27-0.268-0.27-0.701 0-0.969s0.709-0.268 0.979 0l7.419 7.141 7.418-7.141z"></path> </svg>'
+    );
+
     .o-details__summary {
-        font-weight: bold;
-        font-size: 16px;
-        color: get-color('links', 'base');
-        // the default underline styling doesn't apply to <summary>
-        text-decoration: none;
-        border-bottom: 1px solid get-color('links', 'base');
         display: inline-block;
+        text-decoration: none;
+        font-weight: font-weight('body', 'semibold');
+        font-size: 18px;
+        margin: $spacingUnit / 2 0;
+
+        // Reset default marker styles
+        list-style-image: none;
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        // Suppress polyfilled details arrow
+        &:before {
+            content: '';
+            display: none;
+        }
+
+        background-repeat: no-repeat;
+        background-position: 100% center;
+        background-size: 20px;
+        background-image: $iconChevronRight;
+        padding-right: 25px;
+
+        &:focus {
+            outline: 3px solid get-color('border', 'outline');
+            outline-offset: 3px;
+        }
+
+        .icon {
+            margin-right: 4px;
+            position: relative;
+            top: 2px;
+        }
+    }
+
+    &[open] .o-details__summary {
+        background-image: $iconChevronDown;
     }
 }

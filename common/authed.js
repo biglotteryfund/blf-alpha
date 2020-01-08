@@ -153,5 +153,6 @@ module.exports = {
     requireStaffAuth,
     requireNotStaffAuth,
     redirectUrlWithFallback,
-    requireActiveUserWithCallback
+    requireActiveUserWithCallback,
+    isActivated
 };

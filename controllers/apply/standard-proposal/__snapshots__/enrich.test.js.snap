@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enrich pending applications 1`] = `
+Object {
+  "amountRequested": "£250,000",
+  "createdAt": "2020-03-04T23:00:00.000Z",
+  "deleteUrl": "/apply/your-funding-proposal/delete/some-uuid",
+  "editUrl": "/apply/your-funding-proposal/edit/some-uuid",
+  "expiresAt": "2020-03-04T23:00:00.000Z",
+  "formId": "standard-enquiry",
+  "id": "some-uuid",
+  "isExpired": false,
+  "overview": Array [
+    Object {
+      "label": "Project length",
+      "value": "3 years",
+    },
+    Object {
+      "label": "Location",
+      "value": "Derbyshire",
+    },
+    Object {
+      "label": "Organisation",
+      "value": "Example trading name",
+    },
+  ],
+  "progress": Any<Object>,
+  "projectName": "My project",
+  "type": "pending",
+  "untitledName": "Untitled proposal",
+  "updatedAt": "2020-03-04T23:00:00.000Z",
+}
+`;
+
+exports[`enrich submitted applications 1`] = `
+Object {
+  "amountRequested": "£250,000",
+  "formId": "awards-for-all",
+  "id": "some-uuid",
+  "overview": Array [
+    Object {
+      "label": "Project length",
+      "value": "3 years",
+    },
+    Object {
+      "label": "Location",
+      "value": "Derbyshire",
+    },
+    Object {
+      "label": "Organisation",
+      "value": "Example trading name",
+    },
+  ],
+  "projectName": "My project",
+  "submittedAt": "2020-03-04T23:00:00.000Z",
+  "type": "submitted",
+  "untitledName": "Untitled proposal",
+}
+`;

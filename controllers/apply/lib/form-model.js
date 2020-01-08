@@ -3,13 +3,11 @@ const cloneDeep = require('lodash/cloneDeep');
 const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
-const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const has = require('lodash/has');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
-const reject = require('lodash/reject');
 
 const Joi = require('@hapi/joi');
 
@@ -71,64 +69,32 @@ class FormModel {
             return field;
         }
 
-        function enrichStep(section, step, stepIndex) {
-            /**
-             * Enrich fieldset and filter out any fieldsets with no fields
-             * i.e. to account for cases where a fieldset is conditional
-             */
-            step.fieldsets = reject(
-                step.fieldsets.map(fieldset => {
-                    fieldset.fields = fieldset.fields.map(field => {
-                        if (has(field, '_isClass')) {
-                            return enrichFieldClass(field);
-                        } else {
-                            return enrichField(field);
-                        }
-                    });
-                    return fieldset;
-                }),
-                fieldset => fieldset.fields.length === 0
-            );
-
-            /**
-             * If there is only one fieldset set the legend to be the same as the step
-             */
-            const shouldSetDefaultLegend =
-                step.fieldsets.length === 1 &&
-                has(step.fieldsets[0], 'legend') === false;
-
-            if (shouldSetDefaultLegend) {
-                step.fieldsets[0].legend = step.title;
-            }
-
-            /**
-             * Flag optional steps if there are no fields
-             * i.e. to account for cases where whole step is conditional
-             */
-            const stepFields = flatMap(step.fieldsets, 'fields');
-            step.isRequired = stepFields.length > 0;
-
-            step.slug = `${section.slug}/${stepIndex + 1}`;
-
-            return step;
-        }
-
         this.sections = props.sections.map(originalSection => {
             const section = cloneDeep(originalSection);
+
             section.steps = section.steps.map(function(step, stepIndex) {
-                return enrichStep(section, step, stepIndex);
+                step.fieldsets = step.fieldsets.map(fieldset => {
+                    fieldset.fields = fieldset.fields.map(field => {
+                        return has(field, '_isClass')
+                            ? enrichFieldClass(field)
+                            : enrichField(field);
+                    });
+                    return fieldset;
+                });
+
+                step.slug = `${section.slug}/${stepIndex + 1}`;
+
+                return step;
             });
 
-            function fieldsForSection() {
-                const fieldsets = flatMap(section.steps, 'fieldsets');
-                return flatMap(fieldsets, 'fields');
-            }
+            const sectionFieldNames = section.steps
+                .flatMap(step => step.getCurrentFields())
+                .map(field => field.name);
 
             function sectionStatus() {
-                const fieldNames = fieldsForSection().map(f => f.name);
-                const fieldData = pick(data, fieldNames);
+                const fieldData = pick(data, sectionFieldNames);
                 const fieldErrors = validation.messages.filter(item =>
-                    fieldNames.includes(item.param)
+                    sectionFieldNames.includes(item.param)
                 );
 
                 if (isEmpty(fieldData)) {
@@ -158,14 +124,9 @@ class FormModel {
                 statusLabel: sectionStatusLabel()
             };
 
-            function hasFeaturedErrors() {
-                const fieldNames = fieldsForSection().map(f => f.name);
-                return validation.featuredMessages.some(item =>
-                    fieldNames.includes(item.param)
-                );
-            }
-
-            section.hasFeaturedErrors = hasFeaturedErrors();
+            section.hasFeaturedErrors = validation.featuredMessages.some(item =>
+                sectionFieldNames.includes(item.param)
+            );
 
             return section;
         });
@@ -212,6 +173,30 @@ class FormModel {
         );
     }
 
+    /**
+     * Determine featured messages.
+     *
+     * Based on allow list on the form model.
+     * e.g. [{ fieldName: 'example', includeBaseMessage: true }]
+     *
+     * Accepts `includeBase` to determine if `base`
+     * message types should be included in the list.
+     */
+    _getFeaturedMessages(messages) {
+        return messages.filter(message => {
+            return this.featuredErrorsAllowList.some(item => {
+                if (item.includeBase === true) {
+                    return item.fieldName === message.param;
+                } else {
+                    return (
+                        item.fieldName === message.param &&
+                        message.type !== 'base'
+                    );
+                }
+            });
+        });
+    }
+
     validate(data) {
         const { value, error } = this.schema.validate(data, {
             abortEarly: false,
@@ -224,66 +209,41 @@ class FormModel {
             formFields: this.allFields
         });
 
-        /**
-         * Consider messages featured if field names are
-         * included in featuredErrorsAllowList and the
-         * message type is not the 'base` message.
-         */
-        const featuredMessages = messages.filter(message => {
-            return this.featuredErrorsAllowList.some(name => {
-                return name === message.param && message.type !== 'base';
-            });
-        });
-
         return {
             value: value,
             error: error,
             isValid: error === null && messages.length === 0,
             messages: messages,
-            featuredMessages: featuredMessages
+            featuredMessages: this._getFeaturedMessages(messages)
         };
     }
 
-    findSectionBySlug(slug) {
-        const sectionIndex = findIndex(this.sections, s => s.slug === slug);
-        return this.sections[sectionIndex];
+    getSection(slug) {
+        return this.sections.find(section => section.slug === slug);
     }
 
     getCurrentSteps() {
-        return flatMap(this.sections, 'steps');
+        return this.sections.flatMap(section => section.steps);
     }
 
     getCurrentFields() {
-        const fieldsets = flatMap(this.getCurrentSteps(), 'fieldsets');
-        return flatMap(fieldsets, 'fields');
+        return this.getCurrentSteps()
+            .flatMap(step => step.fieldsets)
+            .flatMap(fieldset => fieldset.fields);
     }
 
     getStep(sectionSlug, stepIndex) {
-        const sectionMatch = find(
-            this.sections,
-            section => section.slug === sectionSlug
-        );
-
-        return sectionMatch.steps[stepIndex];
-    }
-
-    getCurrentFieldsForStep(sectionSlug, stepIndex) {
-        const step = this.getStep(sectionSlug, stepIndex);
-        return flatMap(step.fieldsets, 'fields');
+        const section = this.getSection(sectionSlug);
+        return section.steps[stepIndex];
     }
 
     getErrorsByStep() {
-        const allMessages = this.validation.messages;
-        if (allMessages.length > 0) {
-            return this.getCurrentSteps().map(function(step) {
-                const fields = flatMap(step.fieldsets, 'fields');
-                const fieldNames = fields.map(field => field.name);
-
+        const { messages } = this.validation;
+        if (messages.length > 0) {
+            return this.getCurrentSteps().map(step => {
                 return {
                     title: step.title,
-                    errors: allMessages.filter(err =>
-                        fieldNames.includes(err.param)
-                    )
+                    errors: step.filterErrors(messages)
                 };
             });
         } else {
