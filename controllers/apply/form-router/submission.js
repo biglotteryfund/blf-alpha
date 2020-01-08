@@ -167,7 +167,7 @@ module.exports = function(
 
             renderConfirmation();
         } catch (error) {
-            logger.error('Submission failed', error);
+            logger.error('Submission failed');
 
             /**
              * Salesforce submission failed,
@@ -181,11 +181,9 @@ module.exports = function(
                 if (response.status !== 'OK') {
                     logger.info(`Salesforce status ${response.status}`);
                 }
+            } catch (e) {} // eslint-disable-line no-empty
 
-                next(error);
-            } catch (statusError) {
-                next(error);
-            }
+            next(error);
         }
     });
 
