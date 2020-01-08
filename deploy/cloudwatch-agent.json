@@ -2,6 +2,13 @@
   "agent": {
     "run_as_user": "root"
   },
+  "metrics": {
+    "metrics_collected": {
+      "mem": {
+        "measurement": ["mem_used_percent"]
+      }
+    }
+  },
   "logs": {
     "logs_collected": {
       "files": {
