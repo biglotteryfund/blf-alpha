@@ -4,8 +4,6 @@ import { Vue as SentryVue } from '@sentry/integrations';
 import Vue from 'vue';
 import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.standalone.js';
 
-import { featureIsEnabled } from './helpers/features';
-
 Sentry.init({
     dsn: 'https://53aa5923a25c43cd9a645d9207ae5b6c@sentry.io/226416',
     environment: window.AppConfig.environment,
@@ -51,7 +49,20 @@ import(/* webpackChunkName: "vue-apps" */ './vue-apps/index').then(vueApps => {
     vueApps.init();
 });
 
-if (featureIsEnabled('analytics')) {
+const isDoNotTrack =
+    window.doNotTrack === '1' ||
+    window.navigator.doNotTrack === '1' ||
+    window.navigator.msDoNotTrack === '1';
+
+/* Disable analytics outside of the real domain to avoid polluting data. */
+function shouldBlockAnalytics() {
+    const isProduction = window.AppConfig.environment === 'production';
+    const isProdDomain =
+        window.location.hostname === 'www.tnlcommunityfund.org.uk';
+    return !isProduction && !isProdDomain;
+}
+
+if (!shouldBlockAnalytics() && !isDoNotTrack) {
     import(/* webpackChunkName: "analytics" */ './analytics').then(
         analytics => {
             analytics.init();
