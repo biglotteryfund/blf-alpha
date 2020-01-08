@@ -26,11 +26,16 @@ async function processResetRequest(req, user, source = 'user') {
     );
     const resetUrl = getAbsoluteUrl(req, urlPath);
     const templateData = {
-        body: req.i18n.__('user.forgottenPassword.email.body', resetUrl)
+        body: req.i18n.__('user.forgottenPassword.email.body', resetUrl),
+        resetUrl: resetUrl
     };
 
     await sendHtmlEmail(
-        { template: template, templateData: templateData },
+        {
+            template: template,
+            templateData: templateData,
+            locale: req.i18n.getLocale()
+        },
         {
             name: 'user_password_reset',
             sendTo: user.username,
