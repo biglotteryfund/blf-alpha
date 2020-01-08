@@ -21,15 +21,8 @@ class EmailField extends Field {
     }
 
     defaultSchema() {
-        if (this.isRequired) {
-            return Joi.string()
-                .email()
-                .required();
-        } else {
-            return Joi.string()
-                .email()
-                .optional();
-        }
+        const baseSchema = Joi.string().email();
+        return this.isRequired ? baseSchema.required() : baseSchema.optional();
     }
 
     defaultMessages() {

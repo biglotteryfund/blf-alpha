@@ -10,11 +10,46 @@ test('field base type', function() {
         label: 'Text field'
     });
 
+    expect(field.locale).toBe('en');
+    expect(field.label).toEqual('Text field');
+    expect(field.defaultLabel()).toBeNull(); // For sub-classes
+
+    expect(field.name).toBe('example');
+    expect(field.getType()).toBe('text');
     expect(field.type).toBe('text');
     expect(field.isRequired).toBeTruthy();
 
+    expect(field.displayValue).toBe('');
+
     field.withValue();
+    expect(field.displayValue).toBe('');
     expect(field.validate().error.message).toEqual('"value" is required');
+
+    field.withValue('something');
+    expect(field.displayValue).toBe('something');
+    expect(field.validate().error).toBeNull();
+});
+
+test('required properties', function() {
+    expect(() => {
+        new Field({
+            label: 'Example field'
+        });
+    }).toThrowError('Must provide name');
+
+    expect(() => {
+        new Field({
+            name: 'example',
+            label: 'Example field'
+        });
+    }).toThrowError('Must provide locale');
+
+    expect(() => {
+        new Field({
+            locale: 'en',
+            name: 'example'
+        });
+    }).toThrowError('Must provide label');
 });
 
 test('optional default field', function() {
@@ -29,8 +64,69 @@ test('optional default field', function() {
     expect(optionalField.validate().error).toBeNull();
 });
 
+test('with errors', function() {
+    const field = new Field({
+        locale: 'en',
+        name: 'example',
+        label: 'Text field'
+    });
+
+    const mockErrors = [
+        { param: 'example', msg: 'Enter a value', type: 'base' }
+    ];
+
+    field.withErrors(mockErrors);
+    field.withFeaturedErrors(mockErrors);
+    expect(field.errors).toEqual(mockErrors);
+    expect(field.featuredErrors).toEqual(mockErrors);
+});
+
+test('override schema', function() {
+    const field = new Field({
+        locale: 'en',
+        name: 'example',
+        label: 'Custom label',
+        type: 'base64',
+        schema: Joi.string()
+            .base64()
+            .required()
+    });
+
+    expect(field.type).toBe('base64');
+
+    field.withValue('VE9PTUFOWVNFQ1JFVFM=');
+    expect(field.displayValue).toBe('VE9PTUFOWVNFQ1JFVFM=');
+    expect(field.validate().error).toBeNull();
+
+    field.withValue('VE9PTUFOWVNFQ1JFVFM');
+    expect(field.validate().error.message).toContain(
+        'must be a valid base64 string'
+    );
+});
+
+test('localise helper', function() {
+    expect(
+        new Field({
+            locale: 'en',
+            name: 'example',
+            label: 'Text field'
+        }).localise({ en: 'english', cy: 'welsh' })
+    ).toEqual('english');
+
+    expect(
+        new Field({
+            locale: 'cy',
+            name: 'example',
+            label: 'Text field'
+        }).localise({ en: 'english', cy: 'welsh' })
+    ).toEqual('welsh');
+});
+
 test('field extension', function() {
     class CustomField extends Field {
+        getType() {
+            return 'custom-type';
+        }
         defaultAttributes() {
             return { custom: 'true' };
         }
@@ -50,7 +146,8 @@ test('field extension', function() {
         name: 'example'
     });
 
-    expect(minimalField.type).toEqual('text');
+    expect(minimalField.type).toEqual('custom-type');
+    expect(minimalField.defaultLabel()).toEqual('Default label');
     expect(minimalField.label).toEqual('Default label');
     expect(minimalField.messages).toEqual([
         { type: 'base', message: 'Example message' }

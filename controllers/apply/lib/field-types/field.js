@@ -4,6 +4,10 @@ const Joi = require('../joi-extensions');
 
 class Field {
     constructor(props) {
+        // Used to switch on non-class type fields
+        // @TODO: Remove this after fully migrating to field types
+        this._isClass = true;
+
         if (props.name) {
             this.name = props.name;
         } else {
@@ -13,19 +17,14 @@ class Field {
         if (props.locale) {
             this.locale = props.locale;
         } else {
-            throw new Error(`Must provide locale for ${props.name}`);
+            throw new Error('Must provide locale');
         }
-
-        // Used to switch on non-class type fields
-        // @TODO: Remove this after fully migrating to field types
-        this._isClass = true;
 
         const label = props.label ? props.label : this.defaultLabel();
         if (label) {
             this.label = label;
         } else {
-            // @TODO: Re-enable once welsh translations have been added
-            // throw new Error('Must provide label');
+            throw new Error('Must provide label');
         }
 
         this.labelDetails = props.labelDetails;

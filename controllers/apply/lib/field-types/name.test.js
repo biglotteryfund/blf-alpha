@@ -9,6 +9,8 @@ test('NameField', function() {
         label: 'Name field'
     });
 
+    expect(field.displayValue).toBe('');
+
     field.withValue({});
     expect(field.type).toBe('full-name');
     expect(field.validate().error.message).toEqual(

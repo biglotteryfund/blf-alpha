@@ -10,6 +10,7 @@ test('FileField', function() {
     });
 
     expect(field.type).toBe('file');
+    expect(field.displayValue).toBe('');
 
     field.withValue({
         filename: 'example.pdf',
@@ -27,4 +28,12 @@ test('FileField', function() {
     expect(field.validate().error.message).toEqual(
         expect.stringContaining('"type" must be one of')
     );
+
+    // Unknown file type
+    field.withValue({
+        filename: 'example.madeup',
+        size: 13264,
+        type: 'application/not-a-thing'
+    });
+    expect(field.displayValue).toBe('example.madeup (13 KB)');
 });

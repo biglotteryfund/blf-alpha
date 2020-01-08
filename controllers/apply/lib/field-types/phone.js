@@ -20,16 +20,10 @@ class PhoneField extends Field {
     }
 
     defaultSchema() {
-        if (this.isRequired) {
-            return Joi.string()
-                .phoneNumber()
-                .required();
-        } else {
-            return Joi.string()
-                .phoneNumber()
-                .allow('')
-                .optional();
-        }
+        const baseSchema = Joi.string().phoneNumber();
+        return this.isRequired
+            ? baseSchema.required()
+            : baseSchema.allow('').optional();
     }
 
     defaultMessages() {
