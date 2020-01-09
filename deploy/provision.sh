@@ -12,7 +12,7 @@ apt-get install -y nginx-extras libnginx-mod-http-passenger
 # Install ClamAV
 apt-get install -y clamav clamav-daemon
 service clamav-freshclam restart
-sleep 3m
+sleep 210s
 service clamav-daemon start
 service clamav-daemon status
 
