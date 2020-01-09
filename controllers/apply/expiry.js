@@ -201,14 +201,17 @@ async function deleteExpiredApplications(expiredApplications) {
 
             const dbStatus = await PendingApplication.deleteBatch(ids);
 
-            expiredApplications.forEach(application => {
+            const status = expiredApplications.map(application => {
                 logger.info(`Deleting expired application`, {
                     formId: application.formId,
                     applicationStatus: application.currentProgressState
                 });
+                return {
+                    applicationDeleted: true
+                };
             });
 
-            return dbStatus === expiredApplications.length;
+            return dbStatus === expiredApplications.length ? status : false;
         } else {
             logger.info(
                 `Simulated deleting ${expiredApplications.length} expired applications`
