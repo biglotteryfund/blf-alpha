@@ -9,18 +9,10 @@ sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic m
 apt-get update
 apt-get install -y nginx-extras libnginx-mod-http-passenger
 
-# Install ClamAV and start fetching virus datbases
+# Install ClamAV
 apt-get install -y clamav clamav-daemon
 service clamav-freshclam restart
-
-# Wait for daily virus database to be ready
-while [ ! -f /var/lib/clamav/daily.cvd ]
-do
-    sleep 1
-done
-sleep 5
-
-# Start clamd
+sleep 210s
 service clamav-daemon start
 service clamav-daemon status
 
