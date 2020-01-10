@@ -18,7 +18,7 @@ then
 fi
 
 # Bundle deploy artefact, excluding any unneeded files
-zip -qr latest . -x .\* -x assets/\*;
+zip -qr latest ./* -x .\* -x assets/\* -x cypress/\*;
 
 # Store artefact locally for later use in Travis deploy step
 mkdir -p codedeploy_artefact
