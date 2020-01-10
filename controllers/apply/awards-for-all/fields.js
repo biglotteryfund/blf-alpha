@@ -439,6 +439,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         })
                     },
                     {
+                        type: 'number.min',
+                        message: localise({
+                            en: 'Amount must be £1 or more',
+                            cy: `Rhaid i'r eitemau gostio £1 neu fwy`
+                        })
+                    },
+                    {
                         type: 'array.min',
                         message: localise({
                             en: 'Enter at least one item',
