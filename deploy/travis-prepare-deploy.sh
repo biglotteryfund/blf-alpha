@@ -18,8 +18,8 @@ then
 fi
 
 # Bundle deploy artefact, excluding any unneeded files
-zip -qr latest * -x .\* -x "README.md" -x assets/\*;
+zip -qr latest ./* -x .\* -x "README.md" -x assets/\*;
 
 # Store artefact locally for later use in Travis deploy step
 mkdir -p dpl_cd_upload
-mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
+mv latest.zip dpl_cd_upload/build-"$TRAVIS_BUILD_NUMBER".zip
