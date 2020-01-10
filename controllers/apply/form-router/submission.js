@@ -50,7 +50,9 @@ module.exports = function(
             currentApplication.id
         );
         if (submittedApplicationExists) {
-            logger.info('Duplicate submission prevented');
+            logger.warn('Duplicate submission prevented', {
+                applicationId: currentApplication.id
+            });
             return renderConfirmation();
         }
 
