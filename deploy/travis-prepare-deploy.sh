@@ -21,5 +21,5 @@ fi
 zip -qr latest ./* -x .\* -x "README.md" -x assets/\*;
 
 # Store artefact locally for later use in Travis deploy step
-mkdir -p dpl_cd_upload
-mv latest.zip dpl_cd_upload/build-"$TRAVIS_BUILD_NUMBER".zip
+mkdir -p codedeploy_artefact
+mv latest.zip codedeploy_artefact/build-"$TRAVIS_BUILD_NUMBER".zip
