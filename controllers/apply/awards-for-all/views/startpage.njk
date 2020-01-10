@@ -3,8 +3,8 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/process-map/macro.njk" import processMap %}
 
-{% set title = "Before you start" %}
-{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+{% set copy = __('awardsForAll.startPage') %}
+{% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">
@@ -16,7 +16,7 @@
             )}}
 
             <div class="s-prose">
-                <h2>{{ title }}</h2>
+                <h2>{{ copy.title }}</h2>
 
                 <ul>
                     <li>Have a look at our website for <a href="/funding/under10k">information about funding under £10,000</a></li>
@@ -87,37 +87,21 @@
                 <h2>Ready to apply?</h2>
             </div>
 
-            {{ processMap([
-                {
-                    "type": "step",
-                    "title": "Check you can apply",
-                    "description": "Before you spend time filling out an application form, we’ll ask a few questions to make sure you can apply first (using our ‘eligibility checker’). If you can’t apply, we’ll let you know why. This feedback should help, if you want to try again in future.",
-                    "isCompleted": true,
-                    "isCurrent": true
-                },
-                {
-                    "type": "action",
-                    "title": "Able to apply"
-                },
-                {
-                    "type": "step",
-                    "title": "Awards for all online application",
-                    "description": "Tell us about your idea to help people improve their lives and communities. You’ll have up to three months to finish your online application form. Once you send us your application, it’ll take around 18 weeks for us to assess it."
-                },
-                {
-                    "type": "action",
-                    "title": "Application assessed"
-                },
-                {
-                    "type": "step",
-                    "title": "We’ll decide to fund your project or not",
-                    "description": "We might get in touch to talk to you, and ask questions about your application. Then we’ll make a final decision to fund your project or not. If successful, you can promote your project and start managing your grant."
-                }
-            ], "You are here") }}
+            {% set processItems = [] %}
+            {% for item in copy.processMap.process %}
+                {% set processItems = (processItems.push({
+                    type: item.type,
+                    title: item.title,
+                    description: item.description,
+                    isCompleted: loop.index === 1,
+                    isCurrent: loop.index === 1
+                }), processItems) %}
+            {% endfor %}
 
+            {{ processMap(processItems, copy.processMap.indicatorLabel) }}
 
             <p class="form-actions u-margin-bottom-l">
-                <a href="{{ nextPageUrl }}" class="btn">Start your application</a>
+                <a href="{{ nextPageUrl }}" class="btn">{{ copy.startAction }}</a>
             </p>
         {% endcall %}
     </main>

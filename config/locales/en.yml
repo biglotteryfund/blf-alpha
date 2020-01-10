@@ -1702,6 +1702,37 @@ applyNext:
     errorUploading: There was an error uploading your file, please try again
     startYourApplication: Start your application
     backToApplications: Back to your applications
+awardsForAll:
+  startPage:
+    title: Before you start
+    processMap:
+      indicatorLabel: You are here
+      process:
+        - type: step
+          title: Check you can apply
+          description: >
+            Before you spend time filling out an application form,
+            we’ll ask a few questions to make sure you can apply first
+            (using our ‘eligibility checker’).
+            If you can’t apply, we’ll let you know why.
+            This feedback should help, if you want to try again in future.
+        - type: action
+          title: Able to apply
+        - type: step
+          title: Awards for all online application
+          description: >
+            Tell us about your idea to help people improve their lives and communities.
+            You’ll have up to three months to finish your online application form.
+            Once you send us your application, it’ll take around 18 weeks for us to assess it.
+        - type: action
+          title: Application assessed
+        - type: step
+          title: We’ll decide to fund your project or not
+          description: >
+            We might get in touch to talk to you, and ask questions about your application.
+            Then we’ll make a final decision to fund your project or not.
+            If successful, you can promote your project and start managing your grant.
+    startAction: Start your application
 yourFundingProposal:
   startPage:
     title: Before you start
@@ -1745,18 +1776,22 @@ yourFundingProposal:
         - We'll email you to let you know we got your proposal
         - Then we'll get in touch to talk about your proposal within 15 working days.
     processMap:
-      youAreHere: You are here
-      actions:
-        proposalReviewed: Proposal reviewed
-        applicationAssessed: Application assessed
-      steps:
-        tellUsYourIdea:
+      indicatorLabel: You are here
+      process:
+        - type: step
           title: Tell us about your funding proposal
-          description: You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.
-        askYouToApply:
+          description: >
+            You can tell us about it with our online form, or you can get in touch. At this stage we'll ask a few questions to help us understand your proposal. We could get in touch a few times if we have any extra questions.
+        - type: action
+          title: Proposal reviewed
+        - type: step
           title: We might then ask you to apply
-          description: If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future.
-        decideToFund:
-          title: We'll decide to fund your project or not
-          description: We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not.
+          description: >
+            If we like your funding proposal, we'll ask you to fill in a full application. If we don't ask you to make a full application, we'll let you know why. The feedback should help, if you want to try again in future.
+        - type: action
+          title: Application assessed
+        - type: step
+          title: We’ll decide to fund your project or not
+          description: >
+            We'll get in touch to talk to you, and ask questions about your full application. Once we have all the information we need, we'll make a final decision to fund your project or not.
     startAction: Start your proposal

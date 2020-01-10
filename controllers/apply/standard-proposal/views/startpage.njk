@@ -54,33 +54,18 @@
                 </ul>
             </div>
 
-            {{ processMap([
-                {
-                    "type": "step",
-                    "title": copy.processMap.steps.tellUsYourIdea.title,
-                    "description": copy.processMap.steps.tellUsYourIdea.description,
-                    "isCompleted": true,
-                    "isCurrent": true
-                },
-                {
-                    "type": "action",
-                    "title": copy.processMap.actions.proposalReviewed
-                },
-                {
-                    "type": "step",
-                    "title": copy.processMap.steps.askYouToApply.title,
-                    "description": copy.processMap.steps.askYouToApply.description
-                },
-                {
-                    "type": "action",
-                    "title": copy.processMap.actions.applicationAssessed
-                },
-                {
-                    "type": "step",
-                    "title": copy.processMap.steps.decideToFund.title,
-                    "description": copy.processMap.steps.decideToFund.description
-                }
-            ], copy.processMap.youAreHere) }}
+            {% set processItems = [] %}
+            {% for item in copy.processMap.process %}
+                {% set processItems = (processItems.push({
+                    type: item.type,
+                    title: item.title,
+                    description: item.description,
+                    isCompleted: loop.index === 1,
+                    isCurrent: loop.index === 1
+                }), processItems) %}
+            {% endfor %}
+
+            {{ processMap(processItems, copy.processMap.indicatorLabel) }}
 
             <p class="form-actions u-margin-bottom-l">
                 <a href="{{ nextPageUrl }}" class="btn">{{ copy.startAction }}</a>
