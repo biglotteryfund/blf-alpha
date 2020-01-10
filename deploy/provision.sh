@@ -11,8 +11,13 @@ apt-get install -y nginx-extras libnginx-mod-http-passenger
 
 # Install ClamAV
 apt-get install -y clamav clamav-daemon
-service clamav-freshclam restart
-sleep 210s
+
+# Initial update of antivirus databases
+# We do this so that we can start clamav-daemon without an arbitrary `sleep`
+wget -O /var/lib/clamav/main.cvd https://database.clamav.net/main.cvd && \
+wget -O /var/lib/clamav/daily.cvd https://database.clamav.net/daily.cvd && \
+wget -O /var/lib/clamav/bytecode.cvd https://database.clamav.net/bytecode.cvd
+
 service clamav-daemon start
 service clamav-daemon status
 
