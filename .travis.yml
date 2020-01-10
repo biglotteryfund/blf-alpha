@@ -42,7 +42,7 @@ before_deploy:
     if ! [ "$BEFORE_DEPLOY_RUN" ]; then
       export BEFORE_DEPLOY_RUN=1;
       npm prune --production > /dev/null 2>&1;
-      sh deploy/store_deploy_info.sh;
+      sh deploy/store-deploy-info.sh;
       zip -qr latest * -x .\* -x "README.md" -x assets/\*;
       mkdir -p dpl_cd_upload
       mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
