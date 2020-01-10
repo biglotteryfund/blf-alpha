@@ -9,11 +9,8 @@ hooks:
       timeout: 300
       runas: root
   AfterInstall:
-    - location: deploy/provision.sh
+    - location: deploy/after-install.sh
       timeout: 600
-      runas: root
-    - location: deploy/bootstrap.sh
-      timeout: 300
       runas: root
   ApplicationStart:
     - location: deploy/application-start.sh
