@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 #################################################
-# After-install / Provision
+# AfterInstall / Provision script
 #################################################
 # Ran during the "AfterInstall" CodeDeploy phase
 
