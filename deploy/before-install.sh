@@ -1,4 +1,8 @@
 #!/bin/bash
+#################################################
+# BeforeInstall script
+#################################################
 
-# clear out old app (if found)
+# Clear out old app if found
+# Only true if running an in-place deploy
 rm -rf /var/www/biglotteryfund
