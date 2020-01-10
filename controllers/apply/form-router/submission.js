@@ -43,6 +43,19 @@ module.exports = function(
             return res.redirect(req.baseUrl);
         }
 
+        // Check whether this form has already been submitted
+        // (eg. accidental double click, reloading success screen etc)
+        // and show a success message without attempting to submit again
+        const submittedApplicationExists = await SubmittedApplication.findByPk(
+            currentApplication.id
+        );
+        if (submittedApplicationExists) {
+            logger.warn('Duplicate submission prevented', {
+                applicationId: currentApplication.id
+            });
+            return renderConfirmation();
+        }
+
         function renderConfirmation() {
             unset(req.session, currentlyEditingSessionKey());
             req.session.save(function() {
