@@ -1358,7 +1358,7 @@ module.exports = function({
             { fieldName: 'mainContactPhone', includeBase: false }
         ],
         summary: summary(),
-        schemaVersion: 'v1.1',
+        schemaVersion: 'v1.2',
         forSalesforce: forSalesforce,
         sections: [
             sectionYourProject(),
