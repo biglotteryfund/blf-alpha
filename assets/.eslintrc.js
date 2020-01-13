@@ -2,6 +2,7 @@
 
 module.exports = {
     root: true,
+    plugins: ['lodash'],
     extends: [
         'eslint:recommended',
         'plugin:vue/strongly-recommended',
@@ -22,6 +23,7 @@ module.exports = {
         allowImportExportEverywhere: true
     },
     rules: {
+        'lodash/import-scope': ['error', 'method'],
         'vue/html-closing-bracket-newline': 'off',
         'vue/html-indent': 'off',
         'vue/html-self-closing': 'off',
