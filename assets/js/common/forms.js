@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
-import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
-import { getCookieValue } from '../helpers/cookies';
+import { tagHotjarRecording, trackEvent } from '../helpers/metrics';
 import modal from './modal';
 import debounce from 'lodash/debounce';
 
@@ -204,13 +203,19 @@ function initHotjarTracking() {
     });
 }
 
+// Via https://stackoverflow.com/a/25490531
+function getCookieValue(a) {
+    const b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}
+
 // Update the Login link to Logout if user signs in
 function updateSecondaryNav() {
-    const isAuthed =
-        getCookieValue(window.AppConfig.authCookieName) === 'logged-in';
-    const $accountLink = isAuthed
-        ? $('.js-toggle-logout')
-        : $('.js-toggle-login');
+    const $accountLink =
+        getCookieValue(window.AppConfig.authCookieName) === 'logged-in'
+            ? $('.js-toggle-logout')
+            : $('.js-toggle-login');
+
     $accountLink.removeClass('js-hidden u-hidden');
 }
 
