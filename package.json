@@ -147,7 +147,7 @@
     "concurrently": "5.0.2",
     "css-loader": "3.2.1",
     "cssnano": "4.1.10",
-    "cypress": "3.8.1",
+    "cypress": "3.8.2",
     "cypress-file-upload": "3.5.3",
     "del-cli": "3.0.0",
     "details-element-polyfill": "2.4.0",
