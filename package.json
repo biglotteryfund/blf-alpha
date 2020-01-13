@@ -173,11 +173,11 @@
     "query-string": "^5.0.1",
     "sane": "4.1.0",
     "sequelize-cli": "5.5.1",
-    "vue": "2.6.10",
+    "vue": "2.6.11",
     "vue-i18n": "8.15.3",
     "vue-jest": "3.0.5",
     "vue-loader": "15.7.2",
-    "vue-template-compiler": "2.6.10",
+    "vue-template-compiler": "2.6.11",
     "wait-on": "3.3.0",
     "webpack": "4.41.3",
     "webpack-cli": "3.3.10"
