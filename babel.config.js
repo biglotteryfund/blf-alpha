@@ -5,7 +5,7 @@ const pkg = require('./package.json');
 assert(pkg.browserslist.length > 0);
 
 module.exports = {
-    plugins: ['@babel/plugin-syntax-dynamic-import', 'lodash'],
+    plugins: ['@babel/plugin-syntax-dynamic-import'],
     presets: [
         [
             '@babel/preset-env',

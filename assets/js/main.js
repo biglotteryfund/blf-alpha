@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { Vue as SentryVue } from '@sentry/integrations';
 import Vue from 'vue';
 import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.standalone.js';
+import analytics from './analytics';
 
 Sentry.init({
     dsn: 'https://53aa5923a25c43cd9a645d9207ae5b6c@sentry.io/226416',
@@ -49,23 +50,26 @@ import(/* webpackChunkName: "vue-apps" */ './vue-apps/index').then(vueApps => {
     vueApps.init();
 });
 
-const isDoNotTrack =
-    window.doNotTrack === '1' ||
-    window.navigator.doNotTrack === '1' ||
-    window.navigator.msDoNotTrack === '1';
+function shouldInitAnalytics() {
+    const isDoNotTrack =
+        window.doNotTrack === '1' ||
+        window.navigator.doNotTrack === '1' ||
+        window.navigator.msDoNotTrack === '1';
 
-/* Disable analytics outside of the real domain to avoid polluting data. */
-function shouldBlockAnalytics() {
-    const isProduction = window.AppConfig.environment === 'production';
-    const isProdDomain =
-        window.location.hostname === 'www.tnlcommunityfund.org.uk';
-    return !isProduction && !isProdDomain;
+    if (window.AppConfig.environment === 'production') {
+        /*
+         * In production, disable analytics outside
+         * of the real domain to avoid polluting data.
+         */
+        return (
+            window.location.hostname === 'www.tnlcommunityfund.org.uk' &&
+            isDoNotTrack === false
+        );
+    } else {
+        return isDoNotTrack === false;
+    }
 }
 
-if (!shouldBlockAnalytics() && !isDoNotTrack) {
-    import(/* webpackChunkName: "analytics" */ './analytics').then(
-        analytics => {
-            analytics.init();
-        }
-    );
+if (shouldInitAnalytics() === true) {
+    analytics.init();
 }
