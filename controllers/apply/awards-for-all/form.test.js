@@ -172,7 +172,7 @@ test('valid form for northern-ireland', () => {
 
 function mapRegistrationFieldNames(form) {
     return form
-        .getStep('organisation', 3)
+        .getStep('organisation', 4)
         .getCurrentFields()
         .map(field => field.name);
 }

@@ -1173,6 +1173,43 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         },
+        organisationHasDifferentTradingName: {
+            name: 'organisationHasDifferentTradingName',
+            label: localise({
+                en: `Does your organisation use a different name in your day-to-day work?`,
+                cy: `@TODO i18n`
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'yes',
+                    label: localise({
+                        en: `Yes`,
+                        cy: `@TODO i18n`
+                    })
+                },
+                {
+                    value: 'no',
+                    label: localise({
+                        en: `No`,
+                        cy: `@TODO i18n`
+                    })
+                }
+            ],
+            isRequired: true,
+            schema: Joi.string()
+                .valid(['yes', 'no'])
+                .required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Select an option',
+                        cy: 'Dewis opsiwn'
+                    })
+                }
+            ]
+        },
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({
@@ -1225,11 +1262,17 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: `Os yw eich sefydliad yn defnyddio enw gwahanol yn eich gwaith dydd i ddydd, dywedwch wrthym yma`
             }),
             type: 'text',
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
+            isRequired: true,
+            get schema() {
+                return Joi.when('organisationHasDifferentTradingName', {
+                    is: 'yes',
+                    then: Joi.string()
+                        .allow('')
+                        .max(FREE_TEXT_MAXLENGTH.large)
+                        .optional(),
+                    otherwise: Joi.any().strip()
+                });
+            },
             messages: [
                 {
                     type: 'string.max',

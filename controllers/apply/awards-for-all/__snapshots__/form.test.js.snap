@@ -13,6 +13,7 @@ Array [
   "projectBudget: Enter a project budget",
   "projectTotalCosts: Enter a total cost for your project",
   "beneficiariesGroupsCheck: Select an option",
+  "organisationHasDifferentTradingName: Select an option",
   "organisationLegalName: Enter the full legal name of the organisation",
   "organisationStartDate: Enter a month and year",
   "organisationAddress: Enter a full UK address",

@@ -1121,6 +1121,7 @@ it('should submit full awards for all application', () => {
 });
 
 it('should complete standard your funding proposal form', () => {
+    const orgTradingName = sample([faker.company.companyName(), '']);
     const mock = {
         projectName: faker.lorem.words(5),
         projectCountries: sampleSize(['England', 'Northern Ireland'], 1),
@@ -1131,7 +1132,8 @@ it('should complete standard your funding proposal form', () => {
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
-        organisationTradingName: sample([faker.company.companyName(), '']),
+        organisationHasDifferentTradingName: orgTradingName ? 'yes' : 'no',
+        organisationTradingName: orgTradingName,
         organisationAddress: {
             streetAddress: `The Bar, 2 St James' Blvd`,
             city: 'Newcastle',
@@ -1236,10 +1238,13 @@ it('should complete standard your funding proposal form', () => {
             'What is the full legal name of your organisation?'
         ).type(mock.organisationName);
 
-        if (mock.organisationTradingName) {
-            cy.findByLabelText('Organisation trading name', {
-                exact: false
-            }).type(mock.organisationTradingName);
+        if (
+            mock.organisationHasDifferentTradingName &&
+            mock.organisationTradingName
+        ) {
+            cy.findByLabelText('Yes').click();
+        } else {
+            cy.findByLabelText('No').click();
         }
 
         cy.findByText(
@@ -1260,6 +1265,15 @@ it('should complete standard your funding proposal form', () => {
             });
 
         submitStep();
+
+        if (
+            mock.organisationTradingName &&
+            mock.organisationHasDifferentTradingName
+        ) {
+            cy.findByLabelText('Organisation trading name', {
+                exact: false
+            }).type(mock.organisationTradingName);
+        }
 
         cy.findByLabelText(mock.organisationType, { exact: false }).click();
 

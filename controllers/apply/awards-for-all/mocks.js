@@ -83,6 +83,7 @@ function mockResponse(overrides = {}) {
         beneficiariesGroupsReligion: ['sikh'],
         beneficiariesGroupsReligionOther: undefined,
         organisationLegalName: faker.company.companyName(),
+        organisationHasDifferentTradingName: 'yes',
         organisationTradingName: faker.company.companyName(),
         organisationStartDate: { month: 9, year: 1986 },
         organisationAddress: mockAddress(),
