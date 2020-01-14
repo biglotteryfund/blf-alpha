@@ -13,10 +13,7 @@ const logger = require('../../common/logger');
 
 const router = express.Router();
 
-router.use(noStore, function(req, res, next) {
-    res.setHeader('X-Robots-Tag', 'noindex');
-    next();
-});
+router.use(noStore);
 
 /**
  * Staff auth
