@@ -14,7 +14,7 @@
     <p>Hello,</p>
 
     <p>
-        <strong>Your National Lottery Awards for All application isn’t finished yet.</strong><br/>
+        <strong>{{ introLine.en | safe }}</strong><br/>
         We noticed you started applying{% if projectName %} for {{ projectName | safe }}{% endif %}. But you haven’t finished your application.
     </p>
 
@@ -25,7 +25,7 @@
 
     <p>
         <strong>To finish your application</strong><br/>
-        <a href="https://www.tnlcommunityfund.org.uk/apply/awards-for-all/edit/{{ application.id }}?s=expiryEmail">Log in to your account</a> and answer the rest of the questions.
+        <a href="{{ editLink.en }}">Log in to your account</a> and answer the rest of the questions.
     </p>
 
     <p>
@@ -41,7 +41,7 @@
     <p>
         <strong>
             Best wishes,<br/>
-            The National Lottery Awards for All Team
+            {{ senderName.en | safe }}
         </strong>
     </p>
 
@@ -52,7 +52,7 @@
         <p>Helo,</p>
 
         <p>
-            <strong>Nid yw eich cais Arian i Bawb y Loteri Genedlaethol wedi’i gwblhau eto.</strong><br />
+            <strong>{{ introLine.cy | safe }}</strong><br/>
             Fe sylweddolom eich bod wedi dechrau ymgeisio{% if projectName %} am {{ projectName | safe }}{% endif %}. Ond nid ydych wedi cwblhau eich cais.
         </p>
 
@@ -63,7 +63,7 @@
 
         <p>
             <strong>I orffen eich cais</strong><br />
-            <a href="https://www.tnlcommunityfund.org.uk/welsh/apply/awards-for-all/edit/{{ application.id }}?s=expiryEmail">Mewngofnodwch i'ch cyfrif ac ateb gweddill y cwestiynau</a>.
+            <a href="{{ editLink.cy }}">Mewngofnodwch i'ch cyfrif ac ateb gweddill y cwestiynau</a>.
         </p>
 
         <p>
@@ -79,7 +79,7 @@
         <p>
             <strong>
                 Cofion,<br />
-                Tîm Arian i Bawb y Loteri Genedlaethol
+                {{ senderName.cy | safe }}
             </strong>
         </p>
     {% endif %}

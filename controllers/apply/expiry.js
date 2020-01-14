@@ -12,6 +12,13 @@ const {
     PendingApplication
 } = require('../../db/models');
 
+const {
+    getIntroTitle,
+    getSenderName,
+    getSubjectLineForEmail,
+    getEditLink
+} = require('./email');
+
 const appData = require('../../common/appData');
 const {
     EMAIL_EXPIRY_TEST_ADDRESS,
@@ -81,33 +88,25 @@ async function sendExpiryEmails(req, emailQueue) {
             const getAppData = field =>
                 get(emailToSend.PendingApplication, `applicationData.${field}`);
 
-            const projectCountry = getAppData('projectCountry');
+            const formId = emailToSend.PendingApplication.formId;
 
-            const isBilingual = projectCountry === 'wales';
-
-            let subjectLine = '';
-
-            switch (emailToSend.emailType) {
-                case 'AFA_ONE_MONTH':
-                    subjectLine = {
-                        en: 'You have one month to finish your application',
-                        cy: 'Mae gennych fis i orffen eich cais'
-                    };
-                    break;
-                case 'AFA_ONE_WEEK':
-                    subjectLine = {
-                        en: 'You have one week to finish your application',
-                        cy: 'Mae gennych wythnos i orffen eich cais'
-                    };
-                    break;
-                case 'AFA_ONE_DAY':
-                    subjectLine = {
-                        en: 'You have one day to finish your application',
-                        cy: 'Mae gennych ddiwrnod i orffen eich cais'
-                    };
-                    break;
+            let projectCountry, isBilingual, emailNameParam;
+            if (formId === 'awards-for-all') {
+                projectCountry = getAppData('projectCountry');
+                isBilingual = projectCountry === 'wales';
+                emailNameParam = 'application_expiry_afa';
+            } else if (formId === 'standard-enquiry') {
+                const countries = getAppData('projectCountries');
+                isBilingual = countries.includes('wales');
+                emailNameParam = 'application_expiry_standard';
+                if (countries.length === 1) {
+                    projectCountry = countries[0];
+                } else {
+                    projectCountry = 'Multiple';
+                }
             }
 
+            let subjectLine = getSubjectLineForEmail(emailToSend.emailType);
             // Combine subject lines for bilingual emails
             subjectLine = isBilingual
                 ? [subjectLine.en, subjectLine.cy].join(' / ')
@@ -118,7 +117,7 @@ async function sendExpiryEmails(req, emailQueue) {
                 : emailToSend.PendingApplication.user.username;
 
             const mailParams = {
-                name: 'application_expiry_afa',
+                name: emailNameParam,
                 sendTo: addressToSendTo,
                 subject: subjectLine
             };
@@ -154,7 +153,13 @@ async function sendExpiryEmails(req, emailQueue) {
                         countryEmail: getEmailFor(projectCountry),
                         application: emailToSend.PendingApplication,
                         unsubscribeLink: unsubscribeUrl,
-                        expiryDate: expiryDates
+                        expiryDate: expiryDates,
+                        introLine: getIntroTitle(formId),
+                        editLink: getEditLink(
+                            formId,
+                            emailToSend.PendingApplication.id
+                        ),
+                        senderName: getSenderName(formId)
                     }
                 },
                 mailParams
