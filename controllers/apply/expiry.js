@@ -4,6 +4,7 @@ const express = require('express');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const get = require('lodash/get');
+const concat = require('lodash/concat');
 const config = require('config');
 const enableExpiration = config.get('awardsForAll.enableExpiration');
 
@@ -27,6 +28,8 @@ const {
 } = require('../../common/secrets');
 const { getAbsoluteUrl } = require('../../common/urls');
 const { sendHtmlEmail } = require('../../common/mail');
+
+const { generateEmailQueueItems } = require('./form-router/lib/emailQueue');
 
 const logger = require('../../common/logger').child({
     service: 'application-expiry'
@@ -270,6 +273,58 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(400).json({
             err: error.message
+        });
+    }
+});
+
+/**
+ * API: Application Expiry seeder
+ */
+
+// @TODO remove this endpoint after seeding past application email queue for Standard
+router.post('/seed', async (req, res) => {
+    if (req.body.secret !== EMAIL_EXPIRY_SECRET && !appData.isTestServer) {
+        return res.status(403).json({ error: 'Invalid secret' });
+    }
+
+    try {
+        let emailQueueItems = [];
+        const standardEmailsToSend = require('./standard-proposal/constants')
+            .EXPIRY_EMAIL_REMINDERS;
+
+        const applications = await PendingApplication.findAllByForm(
+            'standard-enquiry',
+            {
+                start: moment()
+                    .subtract(1, 'year')
+                    .toDate(),
+                end: moment().toDate()
+            }
+        );
+
+        applications.forEach(app => {
+            emailQueueItems = concat(
+                emailQueueItems,
+                generateEmailQueueItems(app, standardEmailsToSend)
+            );
+        });
+
+        if (emailQueueItems.length > 0) {
+            await ApplicationEmailQueue.createNewQueue(emailQueueItems);
+
+            res.json({
+                status: 'ok',
+                applicationsProcessed: applications.length,
+                emailQueueItemsCreated: emailQueueItems.length
+            });
+        } else {
+            return res(403).json({
+                error: 'No application emails found to insert'
+            });
+        }
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
         });
     }
 });
