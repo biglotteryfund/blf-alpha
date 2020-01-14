@@ -1258,9 +1258,21 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         organisationTradingName: {
             name: 'organisationTradingName',
             label: localise({
-                en: `If your organisation uses a different name in your day-to-day work, tell us it here`,
-                cy: `Os yw eich sefydliad yn defnyddio enw gwahanol yn eich gwaith dydd i ddydd, dywedwch wrthym yma`
+                en: `Tell us the name your organisation uses in your day-to-day work`,
+                cy: `@TODO i18n`
             }),
+            get explanation() {
+                const organisationLegalName = get('organisationLegalName')(
+                    data
+                );
+                const nameMessage = organisationLegalName
+                    ? `, <strong>${organisationLegalName}</strong>`
+                    : '';
+                return localise({
+                    en: `<p>This must be different from your organisation's legal name${nameMessage}.</p>`,
+                    cy: `<p>@TODO i18n</p>`
+                });
+            },
             type: 'text',
             isRequired: true,
             get schema() {
