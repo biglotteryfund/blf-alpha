@@ -4,9 +4,6 @@ The following documents the data schema for Awards for All applications when sub
 
 ## Changelog
 
-### v1.2
-
-- Added `clientIp` to meta
 
 ### v1.1
 
@@ -31,7 +28,6 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "environment": "production",
         "commitId": "b4ecf18eae01d34b296e9388f387cc42bf7c0f93",
         "locale": "en",
-        "clientIp": "127.0.0.1",
         "username": "example@example.com",
         "applicationId": "e9ae2cc4-fd7b-4fe5-bd55-17317a288fd4",
         "startedAt": "2019-05-17T15:34:13.000Z"
