@@ -96,7 +96,6 @@ module.exports = function(
                     environment: appData.environment,
                     commitId: appData.commitId,
                     locale: req.i18n.getLocale(),
-                    clientIp: req.ip,
                     username: req.user.userData.username,
                     applicationId: currentApplication.id,
                     startedAt: currentApplication.createdAt.toISOString()
