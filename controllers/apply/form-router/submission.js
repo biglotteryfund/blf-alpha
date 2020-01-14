@@ -181,7 +181,7 @@ module.exports = function(
 
             renderConfirmation();
         } catch (error) {
-            logger.error('Submission failed');
+            logger.error('Submission failed: ', error);
 
             /**
              * Salesforce submission failed,
