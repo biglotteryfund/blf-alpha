@@ -1,6 +1,12 @@
 'use strict';
-const { find, filter, get, getOr, head, map, sortBy } = require('lodash/fp');
-const { pick } = require('lodash');
+const filter = require('lodash/fp/filter');
+const find = require('lodash/fp/find');
+const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
+const head = require('lodash/fp/head');
+const map = require('lodash/fp/map');
+const pick = require('lodash/pick');
+const sortBy = require('lodash/fp/sortBy');
 
 const request = require('request-promise-native');
 const querystring = require('querystring');
