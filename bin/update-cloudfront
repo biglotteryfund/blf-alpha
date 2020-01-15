@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 'use strict';
-const { cloneDeep, filter, find, has, groupBy } = require('lodash');
 const AWS = require('aws-sdk');
 const config = require('config');
 const fs = require('fs');
@@ -8,6 +7,11 @@ const moment = require('moment');
 const path = require('path');
 const prompt = require('prompt');
 const rp = require('request-promise-native');
+const cloneDeep = require('lodash/cloneDeep');
+const filter = require('lodash/filter');
+const find = require('lodash/find');
+const groupBy = require('lodash/groupBy');
+const has = require('lodash/has');
 
 require('dotenv').config();
 
