@@ -11,9 +11,7 @@ const sortBy = require('lodash/fp/sortBy');
 const request = require('request-promise-native');
 const querystring = require('querystring');
 
-const logger = require('./logger').child({
-    service: 'content-api'
-});
+const logger = require('./logger');
 
 const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
@@ -27,6 +25,7 @@ function fetch(urlPath, options) {
             options && options.qs ? '?' + querystring.stringify(options.qs) : ''
         }`
     );
+
     const defaults = {
         url: `${CONTENT_API_URL}${urlPath}`,
         json: true
