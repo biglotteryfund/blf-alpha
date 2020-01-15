@@ -73,7 +73,7 @@
     "ext": "js,json,yml"
   },
   "dependencies": {
-    "@hapi/joi": "15.1.1",
+    "@hapi/joi": "17.0.2",
     "@hapi/joi16": "npm:@hapi/joi@16.1.1",
     "@ideal-postcodes/core-node": "1.2.0",
     "@sentry/browser": "5.11.0",
