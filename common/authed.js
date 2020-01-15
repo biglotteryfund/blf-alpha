@@ -1,5 +1,5 @@
 'use strict';
-const { localify, redirectForLocale } = require('./urls');
+const { localify } = require('./urls');
 const logger = require('./logger').child({ service: 'auth' });
 
 function isStaff(user) {
@@ -13,12 +13,13 @@ function isActivated(user) {
 function redirectWithReturnUrl(req, res, urlPath) {
     req.session.redirectUrl = req.originalUrl;
     req.session.save(() => {
-        redirectForLocale(req, res, urlPath);
+        res.redirect(localify(req.i18n.getLocale())(urlPath));
     });
 }
 
 function redirectUrlWithFallback(req, res, urlPath) {
     let redirectUrl = localify(req.i18n.getLocale())(urlPath);
+
     if (req.query.redirectUrl) {
         redirectUrl = req.query.redirectUrl;
     } else if (req.body.redirectUrl) {
@@ -39,7 +40,7 @@ function redirectUrlWithFallback(req, res, urlPath) {
  */
 function requireNoAuth(req, res, next) {
     if (req.user) {
-        redirectForLocale(req, res, '/user');
+        res.redirect(localify(req.i18n.getLocale())('/user'));
     } else {
         next();
     }

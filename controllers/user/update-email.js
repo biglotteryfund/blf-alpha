@@ -4,7 +4,7 @@ const get = require('lodash/fp/get');
 const express = require('express');
 
 const { Users } = require('../../db/models');
-const { redirectForLocale } = require('../../common/urls');
+const { localify } = require('../../common/urls');
 const { csrfProtection } = require('../../common/cached');
 const { requireUserAuth } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
@@ -54,7 +54,9 @@ async function handleSubmission(req, res, next) {
                 const updatedUser = await Users.findByPk(userId);
                 await sendActivationEmail(req, updatedUser);
                 logger.info('Update email change successful');
-                redirectForLocale(req, res, '/user?s=emailUpdated');
+                res.redirect(
+                    localify(req.i18n.getLocale())('/user?s=emailUpdated')
+                );
             } else {
                 logger.warn(`Invalid credentials when updating email address`);
 

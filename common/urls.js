@@ -38,16 +38,16 @@ function localify(locale) {
     return function(urlPath) {
         if (isAbsoluteUrl(urlPath)) {
             return urlPath;
-        }
-        const urlIsWelsh = isWelsh(urlPath);
+        } else {
+            let newUrlPath = urlPath;
+            if (locale === 'cy' && !isWelsh(urlPath)) {
+                newUrlPath = makeWelsh(urlPath);
+            } else if (locale === 'en' && isWelsh(urlPath)) {
+                newUrlPath = urlPath.replace(WELSH_REGEX, '/');
+            }
 
-        let newUrlPath = urlPath;
-        if (locale === 'cy' && !urlIsWelsh) {
-            newUrlPath = makeWelsh(urlPath);
-        } else if (locale === 'en' && urlIsWelsh) {
-            newUrlPath = urlPath.replace(WELSH_REGEX, '/');
+            return stripTrailingSlashes(newUrlPath);
         }
-        return stripTrailingSlashes(newUrlPath);
     };
 }
 
@@ -148,11 +148,6 @@ function getCurrentUrl(req, requestedLocale) {
         : parsedPathname;
 }
 
-function redirectForLocale(req, res, urlPath) {
-    const url = localify(req.i18n.getLocale())(urlPath);
-    res.redirect(url);
-}
-
 /**
  *  We default to a 2017 crawl because it's the last date before we began
  *  redirecting pages to the archives, meaning we can no longer send old pages there.
@@ -171,7 +166,6 @@ module.exports = {
     localify,
     makeWelsh,
     pathCouldBeAlias,
-    redirectForLocale,
     removeWelsh,
     sanitiseUrlPath,
     stripTrailingSlashes,
