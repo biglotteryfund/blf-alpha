@@ -788,6 +788,15 @@ it('should submit full awards for all application', () => {
             }
         ).type(mock.organisationName);
 
+        if (
+            mock.organisationHasDifferentTradingName === 'yes' &&
+            mock.organisationTradingName
+        ) {
+            cy.findByLabelText('Yes').click();
+        } else {
+            cy.findByLabelText('No').click();
+        }
+
         cy.findByText('When was your organisation set up?')
             .parent()
             .within(() => {
@@ -811,6 +820,17 @@ it('should submit full awards for all application', () => {
         submitStep();
 
         cy.checkA11y();
+
+        if (
+            mock.organisationTradingName &&
+            mock.organisationHasDifferentTradingName
+        ) {
+            cy.findByLabelText('Organisation trading name', {
+                exact: false
+            }).type(mock.organisationTradingName);
+        }
+
+        submitStep();
 
         cy.findByLabelText(mock.organisationType, { exact: false }).click();
 
@@ -1069,6 +1089,7 @@ it('should submit full awards for all application', () => {
             'Statutory body',
             'Faith-based group'
         ]),
+        organisationHasDifferentTradingName: 'no',
         organisationName: faker.company.companyName(),
         seniorContact: {
             firstName: faker.name.firstName(),
@@ -1132,7 +1153,6 @@ it('should complete standard your funding proposal form', () => {
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
-        organisationHasDifferentTradingName: orgTradingName ? 'yes' : 'no',
         organisationTradingName: orgTradingName,
         organisationAddress: {
             streetAddress: `The Bar, 2 St James' Blvd`,
@@ -1238,15 +1258,6 @@ it('should complete standard your funding proposal form', () => {
             'What is the full legal name of your organisation?'
         ).type(mock.organisationName);
 
-        if (
-            mock.organisationHasDifferentTradingName === 'yes' &&
-            mock.organisationTradingName
-        ) {
-            cy.findByLabelText('Yes').click();
-        } else {
-            cy.findByLabelText('No').click();
-        }
-
         cy.findByText(
             'What is the main or registered address of your organisation?'
         )
@@ -1265,15 +1276,6 @@ it('should complete standard your funding proposal form', () => {
             });
 
         submitStep();
-
-        if (
-            mock.organisationTradingName &&
-            mock.organisationHasDifferentTradingName
-        ) {
-            cy.findByLabelText('Organisation trading name', {
-                exact: false
-            }).type(mock.organisationTradingName);
-        }
 
         cy.findByLabelText(mock.organisationType, { exact: false }).click();
 
