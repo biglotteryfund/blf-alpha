@@ -3,7 +3,7 @@
 module.exports = {
     root: true,
     extends: ['eslint:recommended', 'plugin:node/recommended'],
-    plugins: ['no-only-tests'],
+    plugins: ['lodash', 'no-only-tests'],
     env: {
         es6: true,
         node: true
@@ -21,6 +21,7 @@ module.exports = {
         // Plugins
         'no-only-tests/no-only-tests': 'error',
         'node/no-unpublished-require': 'off',
-        'node/shebang': 'off'
+        'node/shebang': 'off',
+        'lodash/import-scope': ['warn', 'method']
     }
 };

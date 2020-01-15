@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('config');
-const { get } = require('lodash');
+const get = require('lodash/get');
 
 /**
  * Extract deploy ID from AWS (where provided)
