@@ -41,6 +41,24 @@ function initFormRouter({
     }
 
     /**
+     * Route: Start page
+     */
+    router.get('/start', function(req, res) {
+        const nextPageUrl = eligibilityBuilder
+            ? `${req.baseUrl}/eligibility/1`
+            : `${req.baseUrl}/new`;
+
+        if (startTemplate) {
+            res.render(startTemplate, {
+                backUrl: res.locals.sectionUrl,
+                nextPageUrl: nextPageUrl
+            });
+        } else {
+            res.redirect(nextPageUrl);
+        }
+    });
+
+    /**
      * Application seed endpoint
      * Allows generation of seed applications in test environments
      */
@@ -181,24 +199,6 @@ function initFormRouter({
             require('./eligibility')(eligibilityBuilder, formId)
         );
     }
-
-    /**
-     * Route: Start page
-     */
-    router.get('/start', function(req, res) {
-        const nextPageUrl = eligibilityBuilder
-            ? `${req.baseUrl}/eligibility/1`
-            : `${req.baseUrl}/new`;
-
-        if (startTemplate) {
-            res.render(startTemplate, {
-                backUrl: res.locals.sectionUrl,
-                nextPageUrl: nextPageUrl
-            });
-        } else {
-            res.redirect(nextPageUrl);
-        }
-    });
 
     function redirectCurrentlyEditing(req, res, applicationId) {
         set(req.session, currentlyEditingSessionKey(), applicationId);
