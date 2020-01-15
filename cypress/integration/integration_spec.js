@@ -1239,7 +1239,7 @@ it('should complete standard your funding proposal form', () => {
         ).type(mock.organisationName);
 
         if (
-            mock.organisationHasDifferentTradingName &&
+            mock.organisationHasDifferentTradingName === 'yes' &&
             mock.organisationTradingName
         ) {
             cy.findByLabelText('Yes').click();
