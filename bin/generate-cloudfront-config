@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 'use strict';
-const { forEach } = require('lodash');
 const config = require('config');
 const fs = require('fs');
 const path = require('path');
@@ -9,34 +8,33 @@ const { generateBehaviours } = require('../common/cloudfront');
 
 const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
 
-/**
- * For each CloudFront distribution generate a config and store it
- */
-forEach(cloudfrontDistributions, function(distribution, distributionName) {
-    const behaviours = generateBehaviours(distribution.origins);
-
+function generateConfig(distribution, distributionName) {
     const filePath = path.join(
         __dirname,
         `../config/cloudfront/${distributionName}.json`
     );
 
-    fs.writeFile(
-        filePath,
-        JSON.stringify(behaviours, null, 2),
-        'utf8',
-        function(err) {
-            if (err) {
-                console.error('Error saving config', err);
-            } else {
-                console.log(
-                    `[${distributionName}] Cloudfront configuration with ${
-                        behaviours.CacheBehaviors.Items.length
-                    } behaviours saved at ${path.relative(
-                        process.cwd(),
-                        filePath
-                    )}.`
-                );
-            }
-        }
+    const data = JSON.stringify(
+        generateBehaviours(distribution.origins),
+        null,
+        2
     );
+
+    fs.writeFile(filePath, data, 'utf8', function(err) {
+        if (err) {
+            console.error('Error saving config', err);
+        } else {
+            const relativePath = path.relative(process.cwd(), filePath);
+            console.log(
+                `[${distributionName}] config saved at ${relativePath}.`
+            );
+        }
+    });
+}
+
+Object.entries(cloudfrontDistributions).forEach(function([
+    distributionName,
+    distribution
+]) {
+    generateConfig(distribution, distributionName);
 });
