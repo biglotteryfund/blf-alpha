@@ -63,11 +63,14 @@
     />
 {% endmacro %}
 
-{% macro nameField(field, nameType, autocompleteName, label) %}
+{% macro nameField(field, nameType, autocompleteName, label, explanation) %}
     <label class="ff-label u-margin-top"
            for="field-{{ field.name }}-{{ nameType }}">
         {{ label }}
     </label>
+    {% if explanation %}
+        <div class="ff-help s-prose">{{ explanation | safe }}</div>
+    {% endif %}
     <input
         class="ff-text"
         type="text"
@@ -83,7 +86,7 @@
     <fieldset class="ff-names" id="field-{{ field.name }}-legend">
         <legend class="ff-label">{{ field.label }}</legend>
         {{ explanationFor(field) }}
-        {{ nameField(field, 'firstName', 'given-name', copy.fields.fullName.firstName) }}
+        {{ nameField(field, 'firstName', 'given-name', copy.fields.fullName.firstName, copy.fields.fullName.firstNameExplanation) }}
         {{ nameField(field, 'lastName', 'family-name', copy.fields.fullName.lastName) }}
     </fieldset>
 {% endmacro %}
