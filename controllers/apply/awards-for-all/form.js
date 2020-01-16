@@ -127,7 +127,9 @@ module.exports = function({
 
     function stepProjectLength() {
         const stepFields = flags.enableNewDateRange
-            ? [fields.projectStartDate, fields.projectEndDate]
+            ? has('projectCountry')(data)
+                ? [fields.projectStartDate, fields.projectEndDate]
+                : []
             : [fields.projectDateRange];
 
         return new Step({
