@@ -1302,6 +1302,10 @@ applyNext:
   fields:
     fullName:
       firstName: Enw cyntaf
+      firstNameExplanation: >
+        Ni all hwn fod yn llysenw—na fersiwn byr o’u henw.
+        Rydym angen eu henw cyntaf llawn i wirio eu hunaniaeth.
+        Os nad ydych yn darparu hwn, gall oedi eich cais
       lastName: Cyfenw
     dates:
       startDate: Dyddiad dechrau
