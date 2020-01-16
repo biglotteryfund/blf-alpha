@@ -1,6 +1,8 @@
 'use strict';
 const config = require('config');
-const { assign, concat, flatMap, sortBy } = require('lodash');
+const assign = require('lodash/assign');
+const flatMap = require('lodash/flatMap');
+const sortBy = require('lodash/sortBy');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
@@ -224,7 +226,7 @@ function generateBehaviours(origins) {
         }
     });
 
-    const combinedBehaviours = concat(primaryBehaviours, s3Behaviours);
+    const combinedBehaviours = primaryBehaviours.concat(s3Behaviours);
     const sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
 
     return {

@@ -1,4 +1,5 @@
 'use strict';
+const getOr = require('lodash/fp/getOr');
 const fieldAddressHistory = require('./fields/address-history');
 const fieldContactCommunicationNeeds = require('./fields/contact-communication-needs');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
@@ -15,7 +16,7 @@ const fieldSeniorContactRole = require('./fields/senior-contact-role');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     function formatName(fieldName) {
-        const { firstName, lastName } = data[fieldName] || {};
+        const { firstName, lastName } = getOr({}, fieldName)(data);
         return [firstName, lastName].join(' ').trim();
     }
 

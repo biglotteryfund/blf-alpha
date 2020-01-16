@@ -1,103 +1,90 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const globby = require('globby');
 const express = require('express');
-const { capitalize, concat } = require('lodash');
+const globby = require('globby');
+const capitalize = require('lodash/capitalize');
 
 const router = express.Router();
 
-function buildBreadcrumbs(req, trail = []) {
-    const core = [
-        {
-            label: 'Design patterns',
-            url: req.baseUrl
-        }
-    ];
-
-    return concat(core, trail);
-}
-
 router.use(function(req, res, next) {
     res.setHeader('X-Robots-Tag', 'noindex');
+    res.locals.breadcrumbs = [{ label: 'Design patterns', url: req.baseUrl }];
     next();
 });
 
-router.get('/', (req, res) => {
-    const breadcrumbs = buildBreadcrumbs(req);
-    res.render(path.resolve(__dirname, './views/index'), { breadcrumbs });
+router.get('/', function(req, res) {
+    res.render(path.resolve(__dirname, './views/index'));
 });
 
-router.get('/styles', (req, res) => {
+router.get('/styles', function(req, res) {
     const title = 'Styles';
-    const breadcrumbs = buildBreadcrumbs(req, [
-        {
-            label: title
-        }
-    ]);
-
     res.render(path.resolve(__dirname, './views/styles'), {
         title,
-        breadcrumbs
+        breadcrumbs: res.locals.breadcrumbs.concat({
+            label: title
+        })
     });
 });
 
 router.get('/components', async (req, res, next) => {
-    const { component } = req.query;
-    if (component) {
-        // Check if the file is readable.
-        const componentPath = path.resolve(
-            __dirname,
-            `../../views/components/${component}/examples.njk`
-        );
-        fs.access(componentPath, fs.constants.R_OK, err => {
-            if (err) {
-                next();
-            } else {
-                const title = capitalize(component.replace('-', ' '));
-                const breadcrumbs = buildBreadcrumbs(req, [
-                    {
-                        label: 'Components',
-                        url: req.baseUrl + req.path
-                    },
-                    {
-                        label: title
-                    }
-                ]);
+    if (req.query.component) {
+        fs.access(
+            path.resolve(
+                __dirname,
+                `../../views/components/${req.query.component}/examples.njk`
+            ),
+            fs.constants.R_OK,
+            function(err) {
+                if (err) {
+                    next();
+                } else {
+                    const title = capitalize(
+                        req.query.component.replace('-', ' ')
+                    );
+                    const breadcrumbs = res.locals.breadcrumbs.concat([
+                        {
+                            label: 'Components',
+                            url: `${req.baseUrl}${req.path}`
+                        },
+                        { label: title }
+                    ]);
 
-                res.render(
-                    path.resolve(__dirname, './views/component-detail'),
-                    {
-                        title,
-                        breadcrumbs,
-                        slug: component
-                    }
-                );
+                    res.render(
+                        path.resolve(__dirname, './views/component-detail'),
+                        {
+                            title,
+                            breadcrumbs,
+                            slug: req.query.component
+                        }
+                    );
+                }
             }
-        });
+        );
     } else {
         try {
             const matches = await globby(
                 path.resolve(__dirname, '../../views/components') +
                     '/**/examples.njk'
             );
+
             if (matches.length > 0) {
                 const title = 'Components';
-                const breadcrumbs = buildBreadcrumbs(req, [
-                    {
-                        label: title
-                    }
-                ]);
+                const breadcrumbs = res.locals.breadcrumbs.concat({
+                    label: title
+                });
+
                 const componentSlugs = matches
                     .map(match => path.basename(path.dirname(match)))
                     .sort();
+
                 res.render(path.resolve(__dirname, './views/components'), {
                     title,
                     breadcrumbs,
                     componentSlugs: componentSlugs
                 });
             } else {
-                next(new Error('No components fount'));
+                next(new Error('No components found'));
             }
         } catch (error) {
             next(error);

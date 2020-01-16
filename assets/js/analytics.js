@@ -1,5 +1,4 @@
 /* global ga */
-
 import forEach from 'lodash/forEach';
 import { trackEvent } from './helpers/metrics';
 
@@ -25,7 +24,7 @@ function trackSearchTerms() {
     });
 }
 
-export const init = () => {
+function init() {
     const thisScript = document.getElementById('js-script-main');
     const CONFIG = {
         uaCode: thisScript.getAttribute('data-ga-code'),
@@ -84,4 +83,6 @@ export const init = () => {
 
     trackDocumentDownloads();
     trackSearchTerms();
-};
+}
+
+export default { init };
