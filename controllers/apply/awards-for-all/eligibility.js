@@ -4,7 +4,6 @@ const { oneLine } = require('common-tags');
 
 const {
     MIN_BUDGET_TOTAL_GBP,
-    MIN_START_DATE,
     MAX_BUDGET_TOTAL_GBP,
     SUGGESTED_PROJECT_DURATION,
     ORG_MIN_AGE
@@ -13,7 +12,6 @@ const {
 module.exports = function({ locale }) {
     const localise = get(locale);
 
-    const minStartDateLabel = localise(MIN_START_DATE.label);
     const maxProjectDurationLabel = localise(SUGGESTED_PROJECT_DURATION);
     const orgMinAgeLabel = localise(ORG_MIN_AGE.label);
 
@@ -82,26 +80,26 @@ module.exports = function({ locale }) {
 
     const question3 = {
         question: localise({
-            en: `Does your project start at least ${minStartDateLabel} from when you plan to submit your application?`,
-            cy: `A yw eich prosiect yn dechrau o leiaf ${minStartDateLabel} o bryd rydych yn bwriadu anfon eich cais?`
+            en: `Does your project start at least 18 weeks from when you plan to submit your application?`,
+            cy: `A yw eich prosiect yn dechrau o leiaf 18 wythnos o bryd rydych yn bwriadu anfon eich cais?`
         }),
         explanation: localise({
-            en: `We need ${minStartDateLabel} to be able to assess your application and pay your grant, if you're successful. So projects need to start at least ${minStartDateLabel} from the date you submit your application to us.`,
-            cy: `Rydym angen ${minStartDateLabel} i allu asesu eich cais a thalu eich grant, os ydych yn llwyddiannus. Felly mae angen i brosiectau ddechrau o leiaf ${minStartDateLabel} o’r dyddiad rydych yn anfon eich cais.`
+            en: `We need 18 weeks to be able to assess your application and pay your grant, if you're successful. So projects need to start at least 18 weeks from the date you submit your application to us.`,
+            cy: `Rydym angen 18 wythnos i allu asesu eich cais a thalu eich grant, os ydych yn llwyddiannus. Felly mae angen i brosiectau ddechrau o leiaf 18 wythnos o’r dyddiad rydych yn anfon eich cais.`
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
         noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
         errorMessage: localise({ en: 'Answer Yes or No', cy: 'Ydi / Nac ydi' }),
         ineligible: {
             reason: localise({
-                en: `This is because you told us that your project doesn't start at least ${minStartDateLabel} from when you plan to submit your application.`,
-                cy: `Mae hyn oherwydd eich bod wedi dweud wrthym nad yw eich prosiect yn dechrau tan o leiaf ${minStartDateLabel} o bryd rydych yn bwriadu anfon eich cais.`
+                en: `This is because you told us that your project doesn't start at least 18 weeks from when you plan to submit your application.`,
+                cy: `Mae hyn oherwydd eich bod wedi dweud wrthym nad yw eich prosiect yn dechrau tan o leiaf 18 wythnos o bryd rydych yn bwriadu anfon eich cais.`
             }),
             detail: localise({
                 en: `<p>We don't want communities to miss out on a great idea that will help them thrive.</p>
-                <p>Have a think and see if it's possible to start your project at least ${minStartDateLabel} from now. We need this time to consider your application, carry out checks and, if successful, pay your grant. If it is possible, continue with your application.</p>`,
+                <p>Have a think and see if it's possible to start your project at least 18 weeks from now. We need this time to consider your application, carry out checks and, if successful, pay your grant. If it is possible, continue with your application.</p>`,
                 cy: `<p>Nid ydym eisiau i gymunedau fethu allan ar syniad gwych a fydd yn eu helpu i ffynnu.</p>
-                <p>Meddyliwch os yw’n bosib dechrau eich prosiect o leiaf ${minStartDateLabel} o rŵan. Rydym angen yr amser hyn i ystyried eich cais, cynnal gwiriadau ac os y byddwch yn llwyddiannus, talu eich grant.</p>`
+                <p>Meddyliwch os yw’n bosib dechrau eich prosiect o leiaf 18 wythnos o rŵan. Rydym angen yr amser hyn i ystyried eich cais, cynnal gwiriadau ac os y byddwch yn llwyddiannus, talu eich grant.</p>`
             })
         }
     };

@@ -1,8 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
 
-const { MIN_START_DATE } = require('./constants');
-
 function getEmailFor(country) {
     const countryEmail = {
         'default': 'general.enquiries@tnlcommunityfund.org.uk',
@@ -35,7 +33,7 @@ module.exports = function({ locale, data = {} }) {
 <p>
     We will now review your application and may contact you
     to find out more about your project. It will take around
-    <strong>${localise(MIN_START_DATE.label)}</strong>
+    <strong>18 weeks</strong>
     for us to make a decision and we will
     let you know whether you have been successful by email.
 </p>
@@ -62,7 +60,7 @@ module.exports = function({ locale, data = {} }) {
 <p>
     Byddwn nawr yn adolygu eich cais ac efallai byddwn mewn cysylltiad i 
     ddarganfod mwy am eich prosiect. Bydd yn cymryd oddeutu
-    <strong>${localise(MIN_START_DATE.label)}</strong>
+    <strong>18 wythnos</strong>
     i ni wneud penderfyniad a byddwn yn gadael i chi wybod 
     p’un a ydych wedi bod yn llwyddiannus ai beidio drwy e-bost.
 </p>

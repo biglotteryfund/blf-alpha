@@ -5,7 +5,6 @@ const { oneLine } = require('common-tags');
 
 const {
     MAX_PROJECT_DURATION,
-    MIN_START_DATE,
     SUGGESTED_PROJECT_DURATION
 } = require('../constants');
 const Joi = require('../../lib/joi-extensions');
@@ -13,7 +12,7 @@ const Joi = require('../../lib/joi-extensions');
 module.exports = function(locale) {
     const localise = get(locale);
 
-    const minDate = moment().add(MIN_START_DATE.amount, MIN_START_DATE.unit);
+    const minDate = moment().add(18, 'weeks');
 
     function formatAfterDate(format = 'D MMMM YYYY') {
         return minDate
