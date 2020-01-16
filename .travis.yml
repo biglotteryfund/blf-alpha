@@ -1,3 +1,5 @@
+dist: bionic
+
 # Environment variables
 env:
   global:
@@ -7,18 +9,19 @@ env:
     # travis encrypt AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
     - secure: 'b5DPZlVJ8wVMZBhXm6WkKXRg+Gp5nWycIVzZHsGrYPStd/QYbC76qoHAo6JgocpeiPNeLxD1F/E72v3qNL0ksM2mMJuJk9uEPV4B3RdguGbhbdhffj1KaSqFZz64O0AhRkNtzyj62ezM3iYRWFkE7ysdUDgXUmv76s8Xl65piS2F1ZVLC5xPX9aSsZPciLL3AiZzMgolGnjHTrvnny1mXFiyff5qhz7Ntr51VUeDiMbJT96OplBsF7A2ZnkIaKMjwQHgCjMUJpFue+yXFdqxOQieOMQyNHqIe783P+2spxiuPgamvwl9xI6VGOA3HFuLZSQ9UGC+xLFepRr6jH8H4ipqrDO6/6JgENVORNQbREzu5wjJSlVea19Utv+dGQvK+c/xoFHpH5ZFg9lZQLCSGwRtMYGYlrc1JODigMr81S0QTYpxgoldCow71za1xPXu9699uctYyduhK4LjjJQRFOwIdcJG+gyKxpApqKd22AFQ+I/dHfEX1nAAdpVF3Ap4eFSUfH2ENKNDCFhUsBLF0czcxaXDIRwGdYG21D2NDaJyozME54wBz3yiJjOnS7b9lc16Sq/gZUqdWqGlr7AVqYhz0QKUPfSnc+ql3DCs7bNoN4V5FYheQL9+mLuEcyz7ubz8VotTlR5dcb8vtQAoLPLk1rUBAeDe1/2MkdsH75E='
 
-dist: bionic
-
-addons:
-  chrome: stable
-
 # Defaults
 language: node_js
 
-before_install:
-  # Required for Cypress on xenial
-  # Subset of https://docs.cypress.io/guides/guides/continuous-integration.html#Docker
-  - sudo apt-get install -y libgconf-2-4
+addons:
+  apt:
+    packages:
+      # Required for Cypress on Ubuntu 16+
+      # See https://docs.cypress.io/guides/guides/continuous-integration.html#Travis
+      - libgconf-2-4
+      # Used for checking deploy scripts
+      - shellcheck
+  # Used to run Cypress using headless chrome rather than default Electron
+  chrome: stable
 
 # Cache locations
 cache:
@@ -27,6 +30,7 @@ cache:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
 script:
+  - shellcheck deploy/*.sh
   - npm audit --production
   - npm run lint
   - npm run test-unit
@@ -41,11 +45,7 @@ before_deploy:
   - >
     if ! [ "$BEFORE_DEPLOY_RUN" ]; then
       export BEFORE_DEPLOY_RUN=1;
-      npm prune --production > /dev/null 2>&1;
-      sh deploy/store_deploy_info.sh;
-      zip -qr latest * -x .\* -x "README.md" -x assets/\*;
-      mkdir -p dpl_cd_upload
-      mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
+      ./deploy/travis-prepare-deploy.sh
     fi
 
 deploy:
@@ -64,7 +64,7 @@ deploy:
     bucket: blf-deployments
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    local_dir: dpl_cd_upload
+    local_dir: codedeploy_artefact
     skip_cleanup: true
     on:
       repo: biglotteryfund/blf-alpha
