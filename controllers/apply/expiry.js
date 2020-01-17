@@ -18,7 +18,7 @@ const {
     getSenderName,
     getSubjectLineForEmail,
     getEditLink
-} = require('./email');
+} = require('./lib/email-helpers');
 
 const appData = require('../../common/appData');
 const {
@@ -88,26 +88,42 @@ async function sendExpiryEmails(req, emailQueue) {
 
     return await Promise.all(
         emailQueue.map(async emailToSend => {
-            const getAppData = field =>
-                get(emailToSend.PendingApplication, `applicationData.${field}`);
-
             const formId = emailToSend.PendingApplication.formId;
 
-            let projectCountry, isBilingual, emailNameParam;
-            if (formId === 'awards-for-all') {
-                projectCountry = getAppData('projectCountry');
-                isBilingual = projectCountry === 'wales';
-                emailNameParam = 'application_expiry_afa';
-            } else if (formId === 'standard-enquiry') {
-                const countries = getAppData('projectCountries');
-                isBilingual = countries.includes('wales');
-                emailNameParam = 'application_expiry_standard';
-                if (countries.length === 1) {
-                    projectCountry = countries[0];
-                } else {
-                    projectCountry = 'Multiple';
+            function getAppData(field) {
+                return get(
+                    emailToSend.PendingApplication,
+                    `applicationData.${field}`
+                );
+            }
+
+            function getProjectCountry() {
+                if (formId === 'awards-for-all') {
+                    return getAppData('projectCountry');
+                } else if (formId === 'standard-enquiry') {
+                    const countries = getAppData('projectCountries');
+                    return countries.length === 1 ? countries[0] : 'Multiple';
                 }
             }
+
+            function getBilingualStatus() {
+                if (formId === 'awards-for-all') {
+                    return getAppData('projectCountry') === 'wales';
+                } else if (formId === 'standard-enquiry') {
+                    return getAppData('projectCountries').includes('wales');
+                }
+            }
+
+            function getEmailName() {
+                if (formId === 'awards-for-all') {
+                    return 'application_expiry_afa';
+                } else if (formId === 'standard-enquiry') {
+                    return 'application_expiry_standard';
+                }
+            }
+
+            const projectCountry = getProjectCountry();
+            const isBilingual = getBilingualStatus();
 
             let subjectLine = getSubjectLineForEmail(emailToSend.emailType);
             // Combine subject lines for bilingual emails
@@ -120,7 +136,7 @@ async function sendExpiryEmails(req, emailQueue) {
                 : emailToSend.PendingApplication.user.username;
 
             const mailParams = {
-                name: emailNameParam,
+                name: getEmailName(),
                 sendTo: addressToSendTo,
                 subject: subjectLine
             };
@@ -150,7 +166,7 @@ async function sendExpiryEmails(req, emailQueue) {
                         './emails/expiry-email.njk'
                     ),
                     templateData: {
-                        isBilingual: isBilingual,
+                        isBilingual: isBilingual(),
                         projectName: getAppData('projectName'),
                         countryPhoneNumber: getPhoneFor(projectCountry),
                         countryEmail: getEmailFor(projectCountry),
