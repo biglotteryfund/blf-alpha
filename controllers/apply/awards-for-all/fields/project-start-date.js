@@ -6,16 +6,13 @@ const { oneLine } = require('common-tags');
 const Joi = require('../../lib/joi-extensions');
 const DateField = require('../../lib/field-types/date');
 
-function minDateFor(projectCountry) {
-    const startDateOffsetWeeks = projectCountry === 'england' ? 18 : 12;
-    return moment().add(startDateOffsetWeeks, 'weeks');
-}
+const getLeadTimeWeeks = require('../lib/lead-time');
 
 module.exports = function(locale, data = {}) {
     const localise = get(locale);
 
     const projectCountry = get('projectCountry')(data);
-    const minDate = minDateFor(projectCountry);
+    const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
     const minDateExample = minDate
         .clone()
