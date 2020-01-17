@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { get } = require('lodash');
+const get = require('lodash/get');
 
 const contentApi = require('../../common/content-api');
 const { injectCopy, injectHeroImage } = require('../../common/inject-content');

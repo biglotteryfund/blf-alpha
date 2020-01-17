@@ -1,11 +1,14 @@
 'use strict';
-const { clone, pick, isEmpty, get } = require('lodash');
 const path = require('path');
 const config = require('config');
 const Sentry = require('@sentry/node');
 const express = require('express');
 const nunjucks = require('nunjucks');
 const querystring = require('querystring');
+const clone = require('lodash/clone');
+const get = require('lodash/get');
+const isEmpty = require('lodash/isEmpty');
+const pick = require('lodash/pick');
 
 const {
     injectCopy,

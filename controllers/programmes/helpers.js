@@ -1,5 +1,7 @@
 'use strict';
-const { find, get, uniq } = require('lodash');
+const find = require('lodash/find');
+const get = require('lodash/get');
+const uniq = require('lodash/uniq');
 
 function getValidLocation(programmes, requestedLocation) {
     const validLocations = programmes
