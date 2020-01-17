@@ -5,7 +5,7 @@ const features = require('config').get('features');
 const moment = require('moment-timezone');
 
 const { Users } = require('../../db/models');
-const { localify, redirectForLocale } = require('../../common/urls');
+const { localify } = require('../../common/urls');
 const { noStore } = require('../../common/cached');
 const { requireNotStaffAuth } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
@@ -116,7 +116,7 @@ router.get('/logout', function(req, res) {
     res.locals.clearAuthCookie();
     logger.info('User logout', { service: 'user' });
     req.session.save(() => {
-        redirectForLocale(req, res, '/user/login?s=loggedOut');
+        res.redirect(localify(req.i18n.getLocale())('/user/login?s=loggedOut'));
     });
 });
 

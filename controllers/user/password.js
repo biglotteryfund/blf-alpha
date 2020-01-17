@@ -6,7 +6,7 @@ const Sentry = require('@sentry/node');
 const { Users } = require('../../db/models');
 const { sanitise } = require('../../common/sanitise');
 const { sendHtmlEmail } = require('../../common/mail');
-const { redirectForLocale } = require('../../common/urls');
+const { localify } = require('../../common/urls');
 const { requireNoAuth } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 
@@ -136,7 +136,7 @@ router
                 renderResetFormExpired(req, res);
             }
         } else {
-            redirectForLocale(req, res, '/user/login');
+            res.redirect(localify(req.i18n.getLocale())('/user/login'));
         }
     })
     .post(async (req, res) => {
@@ -175,7 +175,11 @@ router
                         });
                         await sendPasswordResetNotification(req, username);
                         logger.info('Password change successful');
-                        redirectForLocale(req, res, '/user?s=passwordUpdated');
+                        res.redirect(
+                            localify(req.i18n.getLocale())(
+                                '/user?s=passwordUpdated'
+                            )
+                        );
                     } catch (error) {
                         logger.warn('Password change failed', error);
                         renderResetForm(req, res, validationResult.value, [
@@ -203,7 +207,7 @@ router
             res.locals.token = token;
 
             if (!token) {
-                redirectForLocale(req, res, '/user/login');
+                res.redirect(localify(req.i18n.getLocale())('/user/login'));
             } else {
                 // Is this user's token valid to modify this password?
                 let decodedData, user;
@@ -241,14 +245,16 @@ router
 
                             logger.info('Password reset email sent');
 
-                            return redirectForLocale(
-                                req,
-                                res,
-                                '/user/login?s=passwordUpdated'
+                            return res.redirect(
+                                localify(req.i18n.getLocale())(
+                                    '/user/login?s=passwordUpdated'
+                                )
                             );
                         } else {
                             logger.info('Password reset not valid for user');
-                            redirectForLocale(req, res, '/user/login');
+                            return res.redirect(
+                                localify(req.i18n.getLocale())('/user/login')
+                            );
                         }
                     } catch (error) {
                         logger.warn('Password reset failed', error);
