@@ -41,6 +41,28 @@ function initFormRouter({
     }
 
     /**
+     * Route: Start page
+     */
+    function renderStartPage(req, res) {
+        const nextPageUrl = eligibilityBuilder
+            ? `${req.baseUrl}/eligibility/1`
+            : `${req.baseUrl}/new`;
+
+        if (startTemplate) {
+            res.render(startTemplate, {
+                backUrl: res.locals.sectionUrl,
+                nextPageUrl: nextPageUrl
+            });
+        } else {
+            res.redirect(nextPageUrl);
+        }
+    }
+
+    if (features.enableStartPageBeforeLogin) {
+        router.get('/start', renderStartPage);
+    }
+
+    /**
      * Application seed endpoint
      * Allows generation of seed applications in test environments
      */
@@ -182,23 +204,9 @@ function initFormRouter({
         );
     }
 
-    /**
-     * Route: Start page
-     */
-    router.get('/start', function(req, res) {
-        const nextPageUrl = eligibilityBuilder
-            ? `${req.baseUrl}/eligibility/1`
-            : `${req.baseUrl}/new`;
-
-        if (startTemplate) {
-            res.render(startTemplate, {
-                backUrl: res.locals.sectionUrl,
-                nextPageUrl: nextPageUrl
-            });
-        } else {
-            res.redirect(nextPageUrl);
-        }
-    });
+    if (features.enableStartPageBeforeLogin === false) {
+        router.get('/start', renderStartPage);
+    }
 
     function redirectCurrentlyEditing(req, res, applicationId) {
         set(req.session, currentlyEditingSessionKey(), applicationId);
