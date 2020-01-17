@@ -10,7 +10,8 @@ test('valid field', function() {
         options: [
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' }
-        ]
+        ],
+        messages: [{ type: 'base', message: 'Select an option' }]
     });
 
     expect(field.type).toBe('radio');
@@ -31,7 +32,8 @@ test('required properties', function() {
         new RadioField({
             locale: 'en',
             name: 'example',
-            label: 'Example field'
+            label: 'Example field',
+            messages: [{ type: 'base', message: 'Select an option' }]
         });
     }).toThrowError('Must provide options');
 
@@ -44,7 +46,8 @@ test('required properties', function() {
                 { label: 'Option 1', value: 'duplicate-value' },
                 { label: 'Option 2', value: 'duplicate-value' },
                 { label: 'Option 3', value: 'option-3' }
-            ]
+            ],
+            messages: [{ type: 'base', message: 'Select an option' }]
         });
     }).toThrowError('Options must contain unique values');
 });

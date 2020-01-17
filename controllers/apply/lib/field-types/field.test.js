@@ -7,11 +7,12 @@ test('field base type', function() {
     const field = new Field({
         locale: 'en',
         name: 'example',
-        label: 'Text field'
+        label: 'Example field',
+        messages: [{ type: 'base', message: 'Enter a value' }]
     });
 
     expect(field.locale).toBe('en');
-    expect(field.label).toEqual('Text field');
+    expect(field.label).toEqual('Example field');
     expect(field.defaultLabel()).toBeNull(); // For sub-classes
 
     expect(field.name).toBe('example');
@@ -33,23 +34,34 @@ test('field base type', function() {
 test('required properties', function() {
     expect(() => {
         new Field({
-            label: 'Example field'
+            label: 'Example field',
+            messages: [{ type: 'base', message: 'Enter a value' }]
         });
     }).toThrowError('Must provide name');
 
     expect(() => {
         new Field({
             name: 'example',
-            label: 'Example field'
+            label: 'Example field',
+            messages: [{ type: 'base', message: 'Enter a value' }]
         });
     }).toThrowError('Must provide locale');
 
     expect(() => {
         new Field({
             locale: 'en',
-            name: 'example'
+            name: 'example',
+            messages: [{ type: 'base', message: 'Enter a value' }]
         });
     }).toThrowError('Must provide label');
+
+    expect(() => {
+        new Field({
+            locale: 'en',
+            name: 'example',
+            label: 'Example field'
+        });
+    }).toThrowError('Required fields must provide a base error message');
 });
 
 test('optional default field', function() {
@@ -68,7 +80,8 @@ test('with errors', function() {
     const field = new Field({
         locale: 'en',
         name: 'example',
-        label: 'Text field'
+        label: 'Text field',
+        messages: [{ type: 'base', message: 'Enter a value' }]
     });
 
     const mockErrors = [
@@ -89,7 +102,8 @@ test('override schema', function() {
         type: 'base64',
         schema: Joi.string()
             .base64()
-            .required()
+            .required(),
+        messages: [{ type: 'base', message: 'Enter a value' }]
     });
 
     expect(field.type).toBe('base64');
@@ -109,7 +123,8 @@ test('localise helper', function() {
         new Field({
             locale: 'en',
             name: 'example',
-            label: 'Text field'
+            label: 'Text field',
+            messages: [{ type: 'base', message: 'Enter a value' }]
         }).localise({ en: 'english', cy: 'welsh' })
     ).toEqual('english');
 
@@ -117,7 +132,8 @@ test('localise helper', function() {
         new Field({
             locale: 'cy',
             name: 'example',
-            label: 'Text field'
+            label: 'Text field',
+            messages: [{ type: 'base', message: 'Enter a value' }]
         }).localise({ en: 'english', cy: 'welsh' })
     ).toEqual('welsh');
 });

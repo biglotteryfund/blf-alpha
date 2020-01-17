@@ -6,7 +6,8 @@ test('FileField', function() {
     const field = new FileField({
         locale: 'en',
         name: 'example',
-        label: 'File field'
+        label: 'File field',
+        messages: [{ type: 'base', message: 'Please provide a file' }]
     });
 
     expect(field.type).toBe('file');
