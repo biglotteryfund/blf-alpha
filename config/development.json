@@ -2,7 +2,8 @@
   "logLevel": "debug",
   "features": {
     "enableSeeders": true,
-    "enableSalesforceConnector": false
+    "enableSalesforceConnector": false,
+    "enableStartPageBeforeLogin": true
   },
   "awardsForAll": {
     "enableNewDateRange": true
