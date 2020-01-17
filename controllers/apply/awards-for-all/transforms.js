@@ -27,7 +27,7 @@ function transformProjectDateRange(applicationData) {
 }
 
 function transformOrgHasDifferentTradingName(applicationData) {
-    if (!!get('organisationTradingName')(applicationData)) {
+    if (get('organisationTradingName')(applicationData)) {
         logger.info('Transforming organisationHasDifferentTradingName');
         applicationData.organisationHasDifferentTradingName = 'yes';
     }

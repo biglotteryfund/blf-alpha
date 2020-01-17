@@ -452,7 +452,7 @@ test('valid form for different trading names', function() {
     expect(mapMessages(invalidForm.validation)).toEqual(
         expect.arrayContaining([
             expect.stringContaining(
-                `Please provide your organisation\'s trading name`
+                `Please provide your organisation's trading name`
             )
         ])
     );
