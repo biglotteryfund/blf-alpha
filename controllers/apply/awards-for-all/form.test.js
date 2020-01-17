@@ -431,6 +431,33 @@ test('disallow letter O in charity number', function() {
     );
 });
 
+test('valid form for different trading names', function() {
+    const data = mockResponse({
+        organisationLegalName: 'Cheap Meat For School Dinners',
+        organisationHasDifferentTradingName: 'yes',
+        organisationTradingName: 'Hamsters For All'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
+        organisationLegalName: 'Balloon Rides For Sad Polar Bears',
+        organisationHasDifferentTradingName: 'yes',
+        organisationTradingName: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                `Please provide your organisation\'s trading name`
+            )
+        ])
+    );
+});
+
 test('project dates must be within range', () => {
     function validateDateRange(start, end, messages) {
         const data = mockResponse({
