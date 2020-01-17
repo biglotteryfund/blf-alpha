@@ -6,10 +6,12 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 
+const Field = require('../lib/field-types/field');
 const EmailField = require('../lib/field-types/email');
 const DateField = require('../lib/field-types/date');
 const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
+const RadioField = require('../lib/field-types/radio');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -1173,33 +1175,24 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         },
-        organisationHasDifferentTradingName: {
+        organisationHasDifferentTradingName: new RadioField({
+            locale: locale,
             name: 'organisationHasDifferentTradingName',
             label: localise({
                 en: `Does your organisation use a different name in your day-to-day work?`,
                 cy: `@TODO i18n`
             }),
-            type: 'radio',
             options: [
                 {
                     value: 'yes',
-                    label: localise({
-                        en: `Yes`,
-                        cy: `@TODO i18n`
-                    })
+                    label: localise({ en: `Yes`, cy: `@TODO i18n` })
                 },
                 {
                     value: 'no',
-                    label: localise({
-                        en: `No`,
-                        cy: `@TODO i18n`
-                    })
+                    label: localise({ en: `No`, cy: `@TODO i18n` })
                 }
             ],
             isRequired: true,
-            schema: Joi.string()
-                .valid(['yes', 'no'])
-                .required(),
             messages: [
                 {
                     type: 'base',
@@ -1209,7 +1202,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({
@@ -1255,7 +1248,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         },
-        organisationTradingName: {
+        organisationTradingName: new Field({
+            locale: locale,
             name: 'organisationTradingName',
             label: localise({
                 en: `Tell us the name your organisation uses in your day-to-day work`,
@@ -1273,19 +1267,23 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     cy: `<p>@TODO i18n</p>`
                 });
             },
-            type: 'text',
-            isRequired: true,
             get schema() {
                 return Joi.when('organisationHasDifferentTradingName', {
                     is: 'yes',
                     then: Joi.string()
-                        .allow('')
                         .max(FREE_TEXT_MAXLENGTH.large)
-                        .optional(),
+                        .required(),
                     otherwise: Joi.any().strip()
                 });
             },
             messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Please provide your organisation's trading name`,
+                        cy: `@TODO i18n`
+                    })
+                },
                 {
                     type: 'string.max',
                     message: localise({
@@ -1294,7 +1292,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         organisationStartDate: fieldOrganisationStartDate(locale),
         organisationAddress: fieldAddress(locale, {
             name: 'organisationAddress',
