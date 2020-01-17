@@ -48,6 +48,15 @@ class Field {
         // @TODO Should this merge based on key rather than a plain concat?
         this.messages = this.defaultMessages().concat(props.messages || []);
 
+        if (
+            this.isRequired &&
+            this.messages.some(message => message.type === 'base') === false
+        ) {
+            throw new Error(
+                'Required fields must provide a base error message'
+            );
+        }
+
         this.warnings = props.warnings || [];
 
         this.value = undefined;

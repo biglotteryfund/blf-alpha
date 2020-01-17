@@ -13,7 +13,8 @@ test('TextareaField', function() {
         name: 'example',
         label: 'Textarea field',
         minWords: minWords,
-        maxWords: maxWords
+        maxWords: maxWords,
+        messages: [{ type: 'base', message: 'Enter a value' }]
     });
 
     expect(field.type).toBe('textarea');
@@ -43,7 +44,8 @@ test('TextareaField', function() {
         isRequired: false,
         label: 'Radio field',
         minWords: minWords,
-        maxWords: maxWords
+        maxWords: maxWords,
+        messages: [{ type: 'base', message: 'Enter a value' }]
     });
 
     expect(optionalField.validate().error).toBeNull();
@@ -54,7 +56,8 @@ test('required properties', function() {
         new TextareaField({
             locale: 'en',
             name: 'example',
-            label: 'Example field'
+            label: 'Example field',
+            messages: [{ type: 'base', message: 'Enter a value' }]
         });
     }).toThrowError('Must provide minWords and maxWords');
 });

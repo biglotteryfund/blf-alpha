@@ -11,7 +11,8 @@ test('valid field', function() {
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' },
             { label: 'Option 3', value: 'option-3' }
-        ]
+        ],
+        messages: [{ type: 'base', message: 'Select an option' }]
     });
 
     expect(field.type).toBe('checkbox');
@@ -48,7 +49,8 @@ test('must provide options', function() {
         new CheckboxField({
             locale: 'en',
             name: 'example',
-            label: 'Example field'
+            label: 'Example field',
+            messages: [{ type: 'base', message: 'Select an option' }]
         });
     }).toThrowError('Must provide options');
 });
@@ -63,7 +65,8 @@ test('options must contain unique values', function() {
                 { label: 'Option 1', value: 'duplicate-value' },
                 { label: 'Option 2', value: 'duplicate-value' },
                 { label: 'Option 3', value: 'option-3' }
-            ]
+            ],
+            messages: [{ type: 'base', message: 'Select an option' }]
         });
     }).toThrowError('Options must contain unique values');
 });

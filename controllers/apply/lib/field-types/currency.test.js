@@ -6,7 +6,8 @@ test('valid field', function() {
     const field = new CurrencyField({
         locale: 'en',
         name: 'example',
-        label: 'Currency field'
+        label: 'Currency field',
+        messages: [{ type: 'base', message: 'Enter an amount' }]
     });
 
     expect(field.type).toBe('currency');

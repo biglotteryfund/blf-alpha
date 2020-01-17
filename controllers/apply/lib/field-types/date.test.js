@@ -6,7 +6,8 @@ test('DateField', function() {
     const field = new DateField({
         locale: 'en',
         name: 'example',
-        label: 'Date field'
+        label: 'Date field',
+        messages: [{ type: 'base', message: 'Enter a date' }]
     });
 
     expect(field.type).toBe('date');

@@ -11,7 +11,8 @@ test('select field', function() {
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' },
             { label: 'Option 3', value: 'option-3' }
-        ]
+        ],
+        messages: [{ type: 'base', message: 'Select an option' }]
     });
 
     expect(field.type).toBe('select');
@@ -42,7 +43,8 @@ test('select field supports optgroups', function() {
                 label: 'Group 2',
                 options: [{ label: 'Option 2', value: 'option-2' }]
             }
-        ]
+        ],
+        messages: [{ type: 'base', message: 'Select an option' }]
     });
 
     expect(field.normalisedOptions).toEqual([
@@ -61,7 +63,8 @@ test('required properties', function() {
                 { label: 'Option 1', value: 'duplicate-value' },
                 { label: 'Option 2', value: 'duplicate-value' },
                 { label: 'Option 3', value: 'option-3' }
-            ]
+            ],
+            messages: [{ type: 'base', message: 'Select an option' }]
         });
     }).toThrowError('Options must contain unique values');
 
@@ -80,7 +83,8 @@ test('required properties', function() {
                     label: 'Group 2',
                     options: [{ label: 'Option 2', value: 'duplicate-value' }]
                 }
-            ]
+            ],
+            messages: [{ type: 'base', message: 'Select an option' }]
         });
     }).toThrowError('Options must contain unique values');
 
@@ -94,7 +98,8 @@ test('required properties', function() {
                     label: 'Group 1',
                     options: [{ label: 'Option 1', value: 'duplicate-value' }]
                 }
-            ]
+            ],
+            messages: [{ type: 'base', message: 'Select an option' }]
         });
     }).toThrowError('Must provide default option when using optgroups');
 });
