@@ -1180,16 +1180,16 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             name: 'organisationHasDifferentTradingName',
             label: localise({
                 en: `Does your organisation use a different name in your day-to-day work?`,
-                cy: `@TODO i18n`
+                cy: `A yw eich mudiad yn defnyddio enw gwahanol yn eich gwaith dydd i ddydd?`
             }),
             options: [
                 {
                     value: 'yes',
-                    label: localise({ en: `Yes`, cy: `@TODO i18n` })
+                    label: localise({ en: `Yes`, cy: `Ydi` })
                 },
                 {
                     value: 'no',
-                    label: localise({ en: `No`, cy: `@TODO i18n` })
+                    label: localise({ en: `No`, cy: `Nac ydi` })
                 }
             ],
             isRequired: true,
@@ -1253,7 +1253,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             name: 'organisationTradingName',
             label: localise({
                 en: `Tell us the name your organisation uses in your day-to-day work`,
-                cy: `@TODO i18n`
+                cy: `Dywedwch wrthym yr enw mae eich mudiad yn ei ddefnyddio yn eich gwaith dydd i ddydd`
             }),
             get explanation() {
                 const organisationLegalName = get('organisationLegalName')(
@@ -1264,7 +1264,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     : '';
                 return localise({
                     en: `<p>This must be different from your organisation's legal name${nameMessage}.</p>`,
-                    cy: `<p>@TODO i18n</p>`
+                    cy: `<p>Rhaid i hwn fod yn wahanol i enw cyfreithiol eich mudiad${nameMessage}.</p>`
                 });
             },
             get schema() {
@@ -1281,7 +1281,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Please provide your organisation's trading name`,
-                        cy: `@TODO i18n`
+                        cy: `Darparwch enw masnachu eich mudiad`
                     })
                 },
                 {

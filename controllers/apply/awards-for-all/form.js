@@ -461,14 +461,14 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Organisation trading name',
-                cy: `@TODO i18n`
+                cy: `Enw masnachu’r mudiad`
             }),
             noValidate: false,
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Organisation trading name',
-                        cy: `@TODO i18n`
+                        cy: `Enw masnachu’r mudiad`
                     }),
                     fields: conditionalFields(
                         [fields.organisationTradingName],
