@@ -1,5 +1,8 @@
 'use strict';
-const { isEmpty, isArray, reject, sumBy } = require('lodash');
+const isArray = require('lodash/isArray');
+const isEmpty = require('lodash/isEmpty');
+const reject = require('lodash/reject');
+const sumBy = require('lodash/sumBy');
 
 module.exports = function budgetItems(joi) {
     return {
