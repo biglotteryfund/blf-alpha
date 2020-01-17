@@ -19,6 +19,10 @@ module.exports = function(locale, data = {}) {
             en: 'Full name of main contact',
             cy: 'Enw llawn y prif gyswllt'
         }),
+        explanation: localise({
+            en: 'This person has to live in the UK.',
+            cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
+        }),
         warnings: compact([
             lastNamesMatch &&
                 localise({

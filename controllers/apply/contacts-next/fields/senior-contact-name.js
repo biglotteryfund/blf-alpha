@@ -15,6 +15,10 @@ module.exports = function(locale) {
             en: 'Full name of senior contact',
             cy: 'Enw llawn yr uwch gyswllt'
         }),
+        explanation: localise({
+            en: 'This person has to live in the UK.',
+            cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
+        }),
         schema: Joi.fullName()
             .compare(Joi.ref('mainContactName'))
             .required(),

@@ -1372,6 +1372,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: 'Full name of main contact',
                 cy: 'Enw llawn y prif gyswllt'
             }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
+            }),
             get warnings() {
                 let result = [];
 
@@ -1507,6 +1511,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             label: localise({
                 en: 'Full name of senior contact',
                 cy: 'Enw llawn yr uwch gyswllt'
+            }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
             }),
             schema: Joi.fullName()
                 .compare(Joi.ref('mainContactName'))
