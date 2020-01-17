@@ -1,5 +1,5 @@
 'use strict';
-const { startsWith } = require('lodash');
+const startsWith = require('lodash/startsWith');
 const { DB_CONNECTION_URI } = require('../common/secrets');
 
 const commonConfig = {

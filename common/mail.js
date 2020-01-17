@@ -5,7 +5,8 @@ const nunjucks = require('nunjucks');
 const nodemailer = require('nodemailer');
 const juice = require('juice');
 const htmlToText = require('html-to-text');
-const { isString, isArray } = require('lodash');
+const isArray = require('lodash/isArray');
+const isString = require('lodash/isString');
 
 const logger = require('./logger').child({ service: 'mail' });
 

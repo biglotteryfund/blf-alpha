@@ -1,5 +1,4 @@
 'use strict';
-const { concat } = require('lodash');
 const { isNotProduction } = require('./appData');
 const { CONTENT_API_URL } = require('./secrets');
 
@@ -43,7 +42,7 @@ module.exports = function cspDirectives() {
     const directives = {
         defaultSrc: defaultSrc,
         baseUri: ["'self'"],
-        imgSrc: concat(defaultSrc, [
+        imgSrc: defaultSrc.concat([
             'data:',
             'localhost',
             'stats.g.doubleclick.net',
@@ -51,10 +50,10 @@ module.exports = function cspDirectives() {
             'biglotteryfund-assets.imgix.net',
             'i.ytimg.com'
         ]),
-        fontSrc: concat(defaultSrc, ['data:', 'use.typekit.net']),
-        styleSrc: concat(defaultSrc, ["'unsafe-inline'", '*.typekit.net']),
-        scriptSrc: concat(defaultSrc, ["'unsafe-eval'", "'unsafe-inline'"]),
-        childSrc: concat(defaultSrc, ['www.google.com']),
+        fontSrc: defaultSrc.concat(['data:', 'use.typekit.net']),
+        styleSrc: defaultSrc.concat(["'unsafe-inline'", '*.typekit.net']),
+        scriptSrc: defaultSrc.concat(["'unsafe-eval'", "'unsafe-inline'"]),
+        childSrc: defaultSrc.concat(['www.google.com']),
         connectSrc: defaultSrc,
         frameSrc: defaultSrc,
         reportUri: `https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c`
