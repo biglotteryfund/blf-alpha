@@ -42,7 +42,8 @@ module.exports = function(formId, formBuilder) {
         sectionSlug,
         stepNumber,
         currentApplicationData,
-        errors = []
+        errors = [],
+        isEditing = false
     }) {
         const locale = req.i18n.getLocale();
 
@@ -69,7 +70,11 @@ module.exports = function(formId, formBuilder) {
          * redirect to the first step in the section.
          */
         if (!stepNumber) {
-            return res.redirect(`${res.locals.formBaseUrl}/${section.slug}/1`);
+            return res.redirect(
+                `${res.locals.formBaseUrl}/${section.slug}/1${
+                    isEditing ? '?edit' : ''
+                }`
+            );
         }
 
         const stepIndex = parseInt(stepNumber, 10) - 1;
@@ -119,7 +124,8 @@ module.exports = function(formId, formBuilder) {
             previousPage: previousPage,
             nextPage: nextPage,
             errors: errors,
-            hotJarTagList: hotJarTagList()
+            hotJarTagList: hotJarTagList(),
+            isEditing: isEditing
         };
 
         /**
@@ -153,6 +159,7 @@ module.exports = function(formId, formBuilder) {
 
     async function handleSubmission(req, res, next) {
         const sanitisedBody = sanitiseRequestBody(omit(req.body, ['_csrf']));
+        const isEditing = has(req.query, 'edit');
 
         const applicationData = {
             ...res.locals.currentApplicationData,
@@ -200,7 +207,11 @@ module.exports = function(formId, formBuilder) {
                 copy: res.locals.copy
             });
 
-            return req.body.previousBtn ? previousPage.url : nextPage.url;
+            if (isEditing) {
+                return `${res.locals.formBaseUrl}/summary`;
+            } else {
+                return req.body.previousBtn ? previousPage.url : nextPage.url;
+            }
         }
 
         try {
@@ -242,7 +253,8 @@ module.exports = function(formId, formBuilder) {
                     sectionSlug: req.params.section,
                     stepNumber: req.params.step,
                     currentApplicationData: validationResult.value,
-                    errors: errorsForStep
+                    errors: errorsForStep,
+                    isEditing: isEditing
                 });
             } else {
                 /**
@@ -259,7 +271,8 @@ module.exports = function(formId, formBuilder) {
                             sectionSlug: req.params.section,
                             stepNumber: req.params.step,
                             currentApplicationData: validationResult.value,
-                            errors: preflightErrors
+                            errors: preflightErrors,
+                            isEditing: isEditing
                         });
                     }
                 }
@@ -294,7 +307,8 @@ module.exports = function(formId, formBuilder) {
                             sectionSlug: req.params.section,
                             stepNumber: req.params.step,
                             currentApplicationData: validationResult.value,
-                            errors: [uploadError]
+                            errors: [uploadError],
+                            isEditing: isEditing
                         });
                     }
                 } else {
@@ -315,7 +329,8 @@ module.exports = function(formId, formBuilder) {
                     res: res,
                     sectionSlug: req.params.section,
                     stepNumber: req.params.step,
-                    currentApplicationData: res.locals.currentApplicationData
+                    currentApplicationData: res.locals.currentApplicationData,
+                    isEditing: has(req.query, 'edit')
                 });
             } catch (err) {
                 next(err);
