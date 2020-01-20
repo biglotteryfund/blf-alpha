@@ -7,7 +7,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-const { get } = require('lodash');
+const get = require('lodash/get');
 
 const appData = require('./appData');
 const { AZURE_AUTH } = require('./secrets');

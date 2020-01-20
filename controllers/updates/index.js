@@ -1,7 +1,9 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { isArray, pick, get } = require('lodash');
+const get = require('lodash/get');
+const isArray = require('lodash/isArray');
+const pick = require('lodash/pick');
 
 const { buildArchiveUrl, localify } = require('../../common/urls');
 const { injectCopy, injectHeroImage } = require('../../common/inject-content');

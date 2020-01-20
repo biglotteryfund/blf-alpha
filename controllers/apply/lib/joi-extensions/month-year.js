@@ -1,5 +1,5 @@
 'use strict';
-const { toInteger } = require('lodash');
+const toInteger = require('lodash/toInteger');
 const moment = require('moment');
 
 const valueToDate = value => {

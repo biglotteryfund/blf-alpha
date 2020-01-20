@@ -1,7 +1,8 @@
 'use strict';
 const express = require('express');
 const path = require('path');
-const { pick, clone } = require('lodash');
+const clone = require('lodash/clone');
+const pick = require('lodash/pick');
 
 const contentApi = require('../../common/content-api');
 const {

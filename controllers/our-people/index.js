@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const path = require('path');
-const { find } = require('lodash');
 
 const {
     injectCopy,
@@ -54,7 +53,7 @@ router.get('/:slug', async function(req, res, next) {
             requestParams: req.query
         });
 
-        const entry = find(people, item => item.slug === req.params.slug);
+        const entry = people.find(item => item.slug === req.params.slug);
 
         if (entry) {
             setCommonLocals(req, res, entry);
