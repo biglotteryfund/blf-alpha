@@ -40,6 +40,35 @@ function initFormRouter({
         return `forms.${formId}.currentEditingId`;
     }
 
+    function redirectWelsh(req, res, next) {
+        if (isBilingual === false && isWelsh(req.originalUrl)) {
+            return res.redirect(removeWelsh(req.originalUrl));
+        } else {
+            next();
+        }
+    }
+
+    function setCommonLocals(req, res, next) {
+        res.locals.copy = req.i18n.__('applyNext');
+        res.locals.isBilingual = isBilingual;
+
+        const form = formBuilder({
+            locale: req.i18n.getLocale()
+        });
+
+        res.locals.formTitle = form.title;
+        res.locals.formId = formId;
+        res.locals.formShortId = getShortId(formId);
+        res.locals.formBaseUrl = req.baseUrl;
+
+        next();
+    }
+
+    /**
+     * Common router middleware
+     */
+    router.use(noStore, redirectWelsh, setCommonLocals);
+
     /**
      * Route: Start page
      */
@@ -87,11 +116,67 @@ function initFormRouter({
     }
 
     /**
-     * Common router middleware
+     * Decide if we need to handle multipart/form-data
+     * Populate req.body for multipart forms before CSRF token is needed
+     */
+    function handleMultipart(req, res, next) {
+        function needsMultipart() {
+            const contentType = req.headers['content-type'];
+            return (
+                req.method === 'POST' &&
+                contentType &&
+                contentType.includes('multipart/form-data')
+            );
+        }
+
+        if (needsMultipart()) {
+            const formData = new formidable.IncomingForm();
+            formData
+                .parse(req, (err, fields, files) => {
+                    if (err) {
+                        next(err);
+                    } else {
+                        req.body = fields;
+                        req.files = files;
+                        next();
+                    }
+                })
+                .on('error', err => {
+                    next(err);
+                });
+        } else {
+            next();
+        }
+    }
+
+    function setUserLocals(req, res, next) {
+        res.locals.user = req.user;
+        res.locals.userNavigationLinks = [
+            {
+                url: `${req.baseUrl}/summary`,
+                label: req.i18n.__('applyNext.navigation.summary')
+            },
+            {
+                url: res.locals.sectionUrl,
+                label: req.i18n.__('applyNext.navigation.latestApplication')
+            },
+            {
+                url: `${res.locals.sectionUrl}/all`,
+                label: req.i18n.__('applyNext.navigation.allApplications')
+            },
+            {
+                url: localify(req.i18n.getLocale())('/user'),
+                label: req.i18n.__('applyNext.navigation.account')
+            }
+        ];
+
+        next();
+    }
+
+    /**
      * Require active user past this point
      */
     router.use(
-        noStore,
         requireActiveUserWithCallback(req => {
             // Track attempts to submit form steps when session is expired/invalid
             if (req.method === 'POST') {
@@ -101,81 +186,8 @@ function initFormRouter({
                 });
             }
         }),
-        function(req, res, next) {
-            /**
-             * Decide if we need to handle multipart/form-data
-             * Populate req.body for multipart forms before CSRF token is needed
-             */
-            function needsMultipart() {
-                const contentType = req.headers['content-type'];
-                return (
-                    req.method === 'POST' &&
-                    contentType &&
-                    contentType.includes('multipart/form-data')
-                );
-            }
-
-            if (needsMultipart()) {
-                const formData = new formidable.IncomingForm();
-                formData
-                    .parse(req, (err, fields, files) => {
-                        if (err) {
-                            next(err);
-                        } else {
-                            req.body = fields;
-                            req.files = files;
-                            next();
-                        }
-                    })
-                    .on('error', err => {
-                        next(err);
-                    });
-            } else {
-                next();
-            }
-        },
-        function(req, res, next) {
-            if (isBilingual === false && isWelsh(req.originalUrl)) {
-                return res.redirect(removeWelsh(req.originalUrl));
-            }
-
-            const copy = req.i18n.__('applyNext');
-
-            res.locals.copy = copy;
-            res.locals.isBilingual = isBilingual;
-
-            const form = formBuilder({
-                locale: req.i18n.getLocale()
-            });
-
-            res.locals.formTitle = form.title;
-            res.locals.formId = formId;
-            res.locals.formShortId = getShortId(formId);
-            res.locals.formBaseUrl = req.baseUrl;
-
-            res.locals.user = req.user;
-
-            res.locals.userNavigationLinks = [
-                {
-                    url: `${req.baseUrl}/summary`,
-                    label: copy.navigation.summary
-                },
-                {
-                    url: res.locals.sectionUrl,
-                    label: copy.navigation.latestApplication
-                },
-                {
-                    url: `${res.locals.sectionUrl}/all`,
-                    label: copy.navigation.allApplications
-                },
-                {
-                    url: localify(req.i18n.getLocale())('/user'),
-                    label: copy.navigation.account
-                }
-            ];
-
-            next();
-        },
+        handleMultipart,
+        setUserLocals,
         csurf()
     );
 
