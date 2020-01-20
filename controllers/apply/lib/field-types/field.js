@@ -46,7 +46,6 @@ class Field {
         this.schema = props.schema ? props.schema : this.defaultSchema();
 
         // @TODO Should this merge based on key rather than a plain concat?
-        // @TODO this will silently fail if the field instance is required but has no base message
         this.messages = this.defaultMessages().concat(props.messages || []);
 
         this.warnings = props.warnings || [];
