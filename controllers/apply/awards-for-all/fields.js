@@ -6,10 +6,12 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 
+const Field = require('../lib/field-types/field');
 const EmailField = require('../lib/field-types/email');
 const DateField = require('../lib/field-types/date');
 const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
+const RadioField = require('../lib/field-types/radio');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -1173,6 +1175,34 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         },
+        organisationHasDifferentTradingName: new RadioField({
+            locale: locale,
+            name: 'organisationHasDifferentTradingName',
+            label: localise({
+                en: `Does your organisation use a different name in your day-to-day work?`,
+                cy: `A yw eich mudiad yn defnyddio enw gwahanol yn eich gwaith dydd i ddydd?`
+            }),
+            options: [
+                {
+                    value: 'yes',
+                    label: localise({ en: `Yes`, cy: `Ydi` })
+                },
+                {
+                    value: 'no',
+                    label: localise({ en: `No`, cy: `Nac ydi` })
+                }
+            ],
+            isRequired: true,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Select an option',
+                        cy: 'Dewis opsiwn'
+                    })
+                }
+            ]
+        }),
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({
@@ -1218,19 +1248,42 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 }
             ]
         },
-        organisationTradingName: {
+        organisationTradingName: new Field({
+            locale: locale,
             name: 'organisationTradingName',
             label: localise({
-                en: `If your organisation uses a different name in your day-to-day work, tell us it here`,
-                cy: `Os yw eich sefydliad yn defnyddio enw gwahanol yn eich gwaith dydd i ddydd, dywedwch wrthym yma`
+                en: `Tell us the name your organisation uses in your day-to-day work`,
+                cy: `Dywedwch wrthym yr enw mae eich mudiad yn ei ddefnyddio yn eich gwaith dydd i ddydd`
             }),
-            type: 'text',
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
+            get explanation() {
+                const organisationLegalName = get('organisationLegalName')(
+                    data
+                );
+                const nameMessage = organisationLegalName
+                    ? `, <strong>${organisationLegalName}</strong>`
+                    : '';
+                return localise({
+                    en: `<p>This must be different from your organisation's legal name${nameMessage}.</p>`,
+                    cy: `<p>Rhaid i hwn fod yn wahanol i enw cyfreithiol eich mudiad${nameMessage}.</p>`
+                });
+            },
+            get schema() {
+                return Joi.when('organisationHasDifferentTradingName', {
+                    is: 'yes',
+                    then: Joi.string()
+                        .max(FREE_TEXT_MAXLENGTH.large)
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
             messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Please provide your organisation's trading name`,
+                        cy: `Darparwch enw masnachu eich mudiad`
+                    })
+                },
                 {
                     type: 'string.max',
                     message: localise({
@@ -1239,7 +1292,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     })
                 }
             ]
-        },
+        }),
         organisationStartDate: fieldOrganisationStartDate(locale),
         organisationAddress: fieldAddress(locale, {
             name: 'organisationAddress',

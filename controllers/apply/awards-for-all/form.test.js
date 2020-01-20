@@ -172,7 +172,7 @@ test('valid form for northern-ireland', () => {
 
 function mapRegistrationFieldNames(form) {
     return form
-        .getStep('organisation', 3)
+        .getStep('organisation', 4)
         .getCurrentFields()
         .map(field => field.name);
 }
@@ -426,6 +426,33 @@ test('disallow letter O in charity number', function() {
         expect.arrayContaining([
             expect.stringContaining(
                 'use the number ‘0’ in ‘SC0’ instead of the letter ‘O’'
+            )
+        ])
+    );
+});
+
+test('valid form for different trading names', function() {
+    const data = mockResponse({
+        organisationLegalName: 'Cheap Meat For School Dinners',
+        organisationHasDifferentTradingName: 'yes',
+        organisationTradingName: 'Hamsters For All'
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+
+    const invalidData = mockResponse({
+        organisationLegalName: 'Balloon Rides For Sad Polar Bears',
+        organisationHasDifferentTradingName: 'yes',
+        organisationTradingName: null
+    });
+
+    const invalidForm = formBuilder({ data: invalidData });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining(
+                `Please provide your organisation's trading name`
             )
         ])
     );

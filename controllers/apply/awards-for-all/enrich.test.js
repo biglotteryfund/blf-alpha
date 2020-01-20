@@ -21,6 +21,7 @@ test('enrich pending applications', function() {
             projectEndDate: toDateParts(projectDate),
             projectLocation: 'derbyshire',
             organisationLegalName: 'Example organisation',
+            organisationHasDifferentTradingName: 'yes',
             organisationTradingName: 'Example organisation trading name',
             projectBudget: [
                 { item: 'item 1', cost: 1000 },

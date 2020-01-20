@@ -446,10 +446,37 @@ module.exports = function({
                     }),
                     fields: [
                         fields.organisationLegalName,
-                        fields.organisationTradingName,
+                        fields.organisationHasDifferentTradingName,
                         fields.organisationStartDate,
                         fields.organisationAddress
                     ]
+                }
+            ]
+        });
+    }
+
+    function stepOrganisationTradingName() {
+        const legalNameCheck = get('organisationHasDifferentTradingName')(data);
+
+        return new Step({
+            title: localise({
+                en: 'Organisation trading name',
+                cy: `Enw masnachu’r mudiad`
+            }),
+            noValidate: false,
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Organisation trading name',
+                        cy: `Enw masnachu’r mudiad`
+                    }),
+                    fields: conditionalFields(
+                        [fields.organisationTradingName],
+                        compact([
+                            legalNameCheck === 'yes' &&
+                                fields.organisationTradingName
+                        ])
+                    )
                 }
             ]
         });
@@ -1180,6 +1207,7 @@ module.exports = function({
             }),
             steps: [
                 stepOrganisationDetails(),
+                stepOrganisationTradingName(),
                 stepOrganisationType(),
                 stepOrganisationSubType(),
                 stepRegistrationNumbers(),

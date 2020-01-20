@@ -26,17 +26,38 @@ function transformProjectDateRange(applicationData) {
     return applicationData;
 }
 
+function transformOrgHasDifferentTradingName(applicationData) {
+    if (
+        get('organisationTradingName')(applicationData) &&
+        !get('organisationHasDifferentTradingName')(applicationData)
+    ) {
+        logger.info('Transforming organisationHasDifferentTradingName');
+        applicationData.organisationHasDifferentTradingName = 'yes';
+    }
+    return applicationData;
+}
+
 function transform(applicationData) {
-    // Add additional transforms here
+    // Add any default transforms here
+    let transformsToRun = [transformOrgHasDifferentTradingName];
+
     if (config.get('awardsForAll.enableNewDateRange') === true) {
-        return transformProjectDateRange(applicationData);
-    } else {
+        transformsToRun.push(transformProjectDateRange);
+    }
+
+    if (transformsToRun.length === 0) {
         return applicationData;
+    } else {
+        return transformsToRun.reduce(
+            (data, transformer) => transformer(data),
+            applicationData
+        );
     }
 }
 
 module.exports = {
     transform,
     // Export for tests
-    transformProjectDateRange
+    transformProjectDateRange,
+    transformOrgHasDifferentTradingName
 };

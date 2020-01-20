@@ -788,6 +788,15 @@ it('should submit full awards for all application', () => {
             }
         ).type(mock.organisationName);
 
+        if (
+            mock.organisationHasDifferentTradingName === 'yes' &&
+            mock.organisationTradingName
+        ) {
+            cy.findByLabelText('Yes').click();
+        } else {
+            cy.findByLabelText('No').click();
+        }
+
         cy.findByText('When was your organisation set up?')
             .parent()
             .within(() => {
@@ -811,6 +820,17 @@ it('should submit full awards for all application', () => {
         submitStep();
 
         cy.checkA11y();
+
+        if (
+            mock.organisationTradingName &&
+            mock.organisationHasDifferentTradingName
+        ) {
+            cy.findByLabelText('Organisation trading name', {
+                exact: false
+            }).type(mock.organisationTradingName);
+        }
+
+        submitStep();
 
         cy.findByLabelText(mock.organisationType, { exact: false }).click();
 
@@ -1069,6 +1089,7 @@ it('should submit full awards for all application', () => {
             'Statutory body',
             'Faith-based group'
         ]),
+        organisationHasDifferentTradingName: 'no',
         organisationName: faker.company.companyName(),
         seniorContact: {
             firstName: faker.name.firstName(),
@@ -1121,6 +1142,7 @@ it('should submit full awards for all application', () => {
 });
 
 it('should complete standard your funding proposal form', () => {
+    const orgTradingName = sample([faker.company.companyName(), '']);
     const mock = {
         projectName: faker.lorem.words(5),
         projectCountries: sampleSize(['England', 'Northern Ireland'], 1),
@@ -1131,7 +1153,7 @@ it('should complete standard your funding proposal form', () => {
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
-        organisationTradingName: sample([faker.company.companyName(), '']),
+        organisationTradingName: orgTradingName,
         organisationAddress: {
             streetAddress: `The Bar, 2 St James' Blvd`,
             city: 'Newcastle',
@@ -1235,12 +1257,6 @@ it('should complete standard your funding proposal form', () => {
         cy.findByLabelText(
             'What is the full legal name of your organisation?'
         ).type(mock.organisationName);
-
-        if (mock.organisationTradingName) {
-            cy.findByLabelText('Organisation trading name', {
-                exact: false
-            }).type(mock.organisationTradingName);
-        }
 
         cy.findByText(
             'What is the main or registered address of your organisation?'

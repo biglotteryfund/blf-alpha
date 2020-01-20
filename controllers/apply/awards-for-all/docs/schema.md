@@ -87,6 +87,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "beneficiariesWelshLanguage": null,
         "beneficiariesNorthernIrelandCommunity": null,
         "organisationLegalName": "Mitchell, Koelpin and Nikolaus",
+        "organisationHasDifferentTradingName": "yes",
         "organisationTradingName": "Dickinson, Pfannerstill and McKenzie",
         "organisationAddress": {
             "line1": "82553 Demarco Rapid",
@@ -353,11 +354,15 @@ Allowed values: `both-catholic-and-protestant`, `mainly-protestant`, `mainly-cat
 
 type: `string`
 
+### organisationHasDifferentTradingName
+
+allowed values: `yes` or `no`
+
 ### organisationTradingName
 
 type: `string` or `null`
 
-Optional field
+Optional field. Required if `organisationHasDifferentTradingName` is `yes`
 
 ### organisationAddress
 
