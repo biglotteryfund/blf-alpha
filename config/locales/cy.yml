@@ -1423,3 +1423,102 @@ applyNext:
     errorUploading: Roedd problem wrth uwch lwytho eich ffeil, trïwch eto
     startYourApplication: Dechrau ar eich cais
     backToApplications: Yn ôl i’ch ceisiadau
+awardsForAll:
+  startPage:
+    title: Cyn i chi ddechrau
+    beforeYouStart:
+      title: Cyn i chi ddechrau
+      body: >
+        <ul>
+          <li>Cymrwch olwg ar ein gwefan am
+            <a href="/welsh/funding/under10k">wybodaeth am ein harian grant o dan £10,000</a></li>
+          <li>Os oes angen mwy na £10,000 arnoch, cymrwch olwg ar ein gwefan am
+            <a href="/welsh/funding/over10k">wybodaeth am ein harian grant dros £10,000</a></li>
+        </ul>
+    whatInformation:
+      title: Pa wybodaeth rydych ei angen i ymgeisio
+      body: >
+        <h3>1. Manylion dau berson gwahanol o’ch mudiad</h3>
+        <p>
+          Dylai un person fod un rhywun gallwn siarad â nhw os oes gennym
+          unrhyw gwestiwn am eich prosiect. Dylai’r llall fod yn uwch aelod
+          o’ch mudiad, a fydd yn gyfreithiol gyfrifol am yr arian.
+          Mae’n rhaid i’r ddau fyw yn y DU.
+        </p>
+        <p><strong>Ni all y ddau berson fod::</strong></p>
+        <ul>
+            <li>yn perthyn drwy waed</li>
+            <li>yn briod i’w gilydd</li>
+            <li>mewn perthynas hir dymor â’i gilydd</li>
+            <li>yn defnyddio’r un cyfeiriad e-bost yn eich ffurflen gais</li>
+        </ul>
+        <p><strong>Pa fanylion byddwch ei angen:</strong></p>
+        <ul>
+            <li>enwau, cyfeiriadau e-bost, rhifau ffôn</li>
+            <li>cyfeiriadau cartref</li>
+            <li>dyddiadau geni</li>
+        </ul>
+        <h3>2. Manylion am eich mudiad</h3>
+        <ul>
+            <li>Enw cyfreithiol eich mudiad</li>
+            <li>Cyfeiriad eich mudiad</li>
+            <li>Pa fath o fudiad yw e (er enghraifft, elusen gofrestredig neu gwmni nid er elw)</li>
+        </ul>
+        <h3>3. Cyfrifon eich mudiad</h3>
+        <p><strong>Rydym eisiau gwybod y dyddiad mae eich cyfrifon yn gorffen bob blwyddyn.</strong><br/> A faint o incwm sydd gennych.</p>
+        <p>
+            <strong>Os nad oes gennych gyfrifon blynyddol (gan bod eich mudiad yn llai na 15 mis oed).</strong><br/>
+            Mae hynny’n iawn. Gallwn dal edrych ar eich cais.
+        </p>
+        <h3>4. Cyfriflen banc o’r 3 mis diwethaf</h3>
+        <p>Dylai ddangos:</p>
+        <ul>
+            <li>enw cyfreithiol eich mudiad</li>
+            <li>y cyfeiriad mae’r cyfriflenni’n cael eu hanfon</li>
+            <li>enw eich banc</li>
+            <li>cod y cyfrif a’r rhif didoli</li>
+            <li>Y dyddiad cafodd y datganiad ei gyhoeddi.</li>
+        </ul>
+        <p>Dyma <a href="/assets/images/apply/afa-bank-statement-example-welsh.jpg">lun defnyddiol o'r math o gyfriflen banc rydym yn chwilio amdano.</a></p>
+        <h3>5. Rydym yn gofyn am wybodaeth am ba fath o brosiect hoffech ei wneud</h3>
+        <p>A sut fydd eich prosiect yn helpu a chynnwys eich cymuned.</p>
+        <h3>6. Rydym hefyd yn gofyn i chi ddarllen a chytuno i’n amodau a thelerau</h3>
+        <p>
+          Gallwch gymryd
+          <a href="/media/documents/awards-for-all/terms%20and%20conditions/TF19_043_Awards-for-All_Terms-and-Conditions_WALES-WELSH-0.1-1.pdf">
+            golwg ar yr amodau a thelerau yma
+          </a>.
+        </p>
+        <h3>7. Os nad ydych yn siŵr am y mathau o bethau rydym yn gofyn amdano wrth i chi ymgeisio</h3>
+        <p><a href="/welsh/contact">Cysylltwch â ni</a></p>
+    readyToApply:
+      title: Barod i ymgeisio?
+      processMap:
+        indicatorLabel: Rydych yma
+        process:
+          - type: step
+            title: Gwirio os gallwch ymgeisio
+            description: >
+              Cyn i chi dreulio amser yn llenwi ffurflen gais,
+              byddwn yn gofyn rhai cwestiynau i sicrhau y gallwch
+              ymgeisio yn gyntaf (gan ddefnyddio ein ‘gwiriad cymhwysedd’).
+              Os na allwch ymgeisio, byddwn yn rhoi gwybod pam i chi.
+              Dylai’r adborth hwn helpu os byddwch eisiau ymgeisio eto yn y dyfodol.
+          - type: action
+            title: Gallu ymgeisio
+          - type: step
+            title: Cais ar-lein Arian i Bawb
+            description: >
+              Dywedwch wrthym am eich syniad i helpu pobl wella eu bywydau a’u cymunedau.
+              Bydd gennych hyd at dair mis i orffen eich ffurflen gais ar-lein.
+              Unwaith y byddwch yn anfon eich cais i ni,
+              bydd yn cymryd oddeutu 18 wythnos i ni ei asesu.
+          - type: action
+            title: Cais wedi’i asesu
+          - type: step
+            title: Byddwn yn penderfynu i ariannu eich prosiect neu beidio
+            description: >
+              Efallai byddwn yn cysylltu â chi i siarad a gofyn cwestiynau am eich cais.
+              Yna, byddwn yn gwneud penderfyniad terfynol p’un a byddwn yn ariannu eich prosiect neu ddim.
+              Os byddwch yn llwyddiannus, gallwch hyrwyddo eich prosiect a dechrau rheoli eich grant.
+      startAction: Dechrau ar eich cais
