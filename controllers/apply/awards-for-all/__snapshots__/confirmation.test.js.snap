@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`confirmation builder should return confirmation text based on country 1`] = `
+exports[`should return confirmation text based on country 1`] = `
 <p>
   Thank you for submitting your application to National Lottery Awards for All.
 </p>
@@ -40,7 +40,7 @@ exports[`confirmation builder should return confirmation text based on country 1
 </p>
 `;
 
-exports[`confirmation builder should return confirmation text based on country 2`] = `
+exports[`should return confirmation text based on country 2`] = `
 <p>
   Thank you for submitting your application to National Lottery Awards for All.
 </p>
@@ -51,7 +51,7 @@ exports[`confirmation builder should return confirmation text based on country 2
   We will now review your application and may contact you
     to find out more about your project. It will take around
   <strong>
-    18 weeks
+    12 weeks
   </strong>
   for us to make a decision and we will
     let you know whether you have been successful by email.
