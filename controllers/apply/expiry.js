@@ -4,6 +4,7 @@ const express = require('express');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const get = require('lodash/get');
+const concat = require('lodash/concat');
 const config = require('config');
 const enableExpiration = config.get('awardsForAll.enableExpiration');
 
@@ -11,6 +12,13 @@ const {
     ApplicationEmailQueue,
     PendingApplication
 } = require('../../db/models');
+
+const {
+    getIntroTitle,
+    getSenderName,
+    getSubjectLineForEmail,
+    getEditLink
+} = require('./lib/email-helpers');
 
 const appData = require('../../common/appData');
 const {
@@ -20,6 +28,8 @@ const {
 } = require('../../common/secrets');
 const { getAbsoluteUrl } = require('../../common/urls');
 const { sendHtmlEmail } = require('../../common/mail');
+
+const { generateEmailQueueItems } = require('./form-router/lib/emailQueue');
 
 const logger = require('../../common/logger').child({
     service: 'application-expiry'
@@ -78,36 +88,44 @@ async function sendExpiryEmails(req, emailQueue) {
 
     return await Promise.all(
         emailQueue.map(async emailToSend => {
-            const getAppData = field =>
-                get(emailToSend.PendingApplication, `applicationData.${field}`);
+            const formId = emailToSend.PendingApplication.formId;
 
-            const projectCountry = getAppData('projectCountry');
-
-            const isBilingual = projectCountry === 'wales';
-
-            let subjectLine = '';
-
-            switch (emailToSend.emailType) {
-                case 'AFA_ONE_MONTH':
-                    subjectLine = {
-                        en: 'You have one month to finish your application',
-                        cy: 'Mae gennych fis i orffen eich cais'
-                    };
-                    break;
-                case 'AFA_ONE_WEEK':
-                    subjectLine = {
-                        en: 'You have one week to finish your application',
-                        cy: 'Mae gennych wythnos i orffen eich cais'
-                    };
-                    break;
-                case 'AFA_ONE_DAY':
-                    subjectLine = {
-                        en: 'You have one day to finish your application',
-                        cy: 'Mae gennych ddiwrnod i orffen eich cais'
-                    };
-                    break;
+            function getAppData(field) {
+                return get(
+                    emailToSend.PendingApplication,
+                    `applicationData.${field}`
+                );
             }
 
+            function getProjectCountry() {
+                if (formId === 'awards-for-all') {
+                    return getAppData('projectCountry');
+                } else if (formId === 'standard-enquiry') {
+                    const countries = getAppData('projectCountries');
+                    return countries.length === 1 ? countries[0] : 'Multiple';
+                }
+            }
+
+            function getBilingualStatus() {
+                if (formId === 'awards-for-all') {
+                    return getAppData('projectCountry') === 'wales';
+                } else if (formId === 'standard-enquiry') {
+                    return getAppData('projectCountries').includes('wales');
+                }
+            }
+
+            function getEmailName() {
+                if (formId === 'awards-for-all') {
+                    return 'application_expiry_afa';
+                } else if (formId === 'standard-enquiry') {
+                    return 'application_expiry_standard';
+                }
+            }
+
+            const projectCountry = getProjectCountry();
+            const isBilingual = getBilingualStatus();
+
+            let subjectLine = getSubjectLineForEmail(emailToSend.emailType);
             // Combine subject lines for bilingual emails
             subjectLine = isBilingual
                 ? [subjectLine.en, subjectLine.cy].join(' / ')
@@ -118,7 +136,7 @@ async function sendExpiryEmails(req, emailQueue) {
                 : emailToSend.PendingApplication.user.username;
 
             const mailParams = {
-                name: 'application_expiry_afa',
+                name: getEmailName(),
                 sendTo: addressToSendTo,
                 subject: subjectLine
             };
@@ -148,13 +166,19 @@ async function sendExpiryEmails(req, emailQueue) {
                         './emails/expiry-email.njk'
                     ),
                     templateData: {
-                        isBilingual: isBilingual,
+                        isBilingual: isBilingual(),
                         projectName: getAppData('projectName'),
                         countryPhoneNumber: getPhoneFor(projectCountry),
                         countryEmail: getEmailFor(projectCountry),
                         application: emailToSend.PendingApplication,
                         unsubscribeLink: unsubscribeUrl,
-                        expiryDate: expiryDates
+                        expiryDate: expiryDates,
+                        introLine: getIntroTitle(formId),
+                        editLink: getEditLink(
+                            formId,
+                            emailToSend.PendingApplication.id
+                        ),
+                        senderName: getSenderName(formId)
                     }
                 },
                 mailParams
@@ -265,6 +289,58 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(400).json({
             err: error.message
+        });
+    }
+});
+
+/**
+ * API: Application Expiry seeder
+ */
+
+// @TODO remove this endpoint after seeding past application email queue for Standard
+router.post('/seed', async (req, res) => {
+    if (req.body.secret !== EMAIL_EXPIRY_SECRET && !appData.isTestServer) {
+        return res.status(403).json({ error: 'Invalid secret' });
+    }
+
+    try {
+        let emailQueueItems = [];
+        const standardEmailsToSend = require('./standard-proposal/constants')
+            .EXPIRY_EMAIL_REMINDERS;
+
+        const applications = await PendingApplication.findAllByForm(
+            'standard-enquiry',
+            {
+                start: moment()
+                    .subtract(1, 'year')
+                    .toDate(),
+                end: moment().toDate()
+            }
+        );
+
+        applications.forEach(app => {
+            emailQueueItems = concat(
+                emailQueueItems,
+                generateEmailQueueItems(app, standardEmailsToSend)
+            );
+        });
+
+        if (emailQueueItems.length > 0) {
+            await ApplicationEmailQueue.createNewQueue(emailQueueItems);
+
+            res.json({
+                status: 'ok',
+                applicationsProcessed: applications.length,
+                emailQueueItemsCreated: emailQueueItems.length
+            });
+        } else {
+            return res(403).json({
+                error: 'No application emails found to insert'
+            });
+        }
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
         });
     }
 });
