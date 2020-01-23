@@ -99,7 +99,9 @@ async function sendExpiryEmails(req, emailQueue) {
                     return getAppData('projectCountry');
                 } else if (formId === 'standard-enquiry') {
                     const countries = getAppData('projectCountries');
-                    return countries.length === 1 ? countries[0] : 'Multiple';
+                    return countries && countries.length === 1
+                        ? countries[0]
+                        : 'Multiple';
                 }
             }
 
@@ -107,7 +109,8 @@ async function sendExpiryEmails(req, emailQueue) {
                 if (formId === 'awards-for-all') {
                     return getAppData('projectCountry') === 'wales';
                 } else if (formId === 'standard-enquiry') {
-                    return getAppData('projectCountries').includes('wales');
+                    const countries = getAppData('projectCountries');
+                    return countries && countries.includes('wales');
                 }
             }
 
@@ -163,7 +166,7 @@ async function sendExpiryEmails(req, emailQueue) {
                         './emails/expiry-email.njk'
                     ),
                     templateData: {
-                        isBilingual: isBilingual(),
+                        isBilingual: isBilingual,
                         projectName: getAppData('projectName'),
                         countryPhoneNumber: getPhoneFor(projectCountry),
                         countryEmail: getEmailFor(projectCountry),
