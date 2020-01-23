@@ -290,7 +290,6 @@ router.post('/', async (req, res) => {
 
         res.json(response);
     } catch (error) {
-        console.log(error);
         res.status(400).json({
             err: error.message
         });
