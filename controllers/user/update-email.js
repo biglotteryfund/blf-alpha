@@ -1,6 +1,5 @@
 'use strict';
 const path = require('path');
-const get = require('lodash/fp/get');
 const express = require('express');
 
 const { Users } = require('../../db/models');
