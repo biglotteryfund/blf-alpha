@@ -304,12 +304,35 @@ function getUserSession() {
     });
 }
 
+// Prevent clicks on submit buttons from taking effect if they occur within 1 second
+// of the previous click (eg. avoid double submits)
+// Original source: https://github.com/alphagov/govuk-frontend/commit/884e7dd73ad943d71fb701da15626e6a7ad0b933
+function preventDoubleSubmits() {
+    let debounceFormSubmitTimer = null;
+    const DEBOUNCE_TIMEOUT_IN_SECONDS = 3;
+    $('input[type="submit"][data-prevent-double-click="true"]').on(
+        'click',
+        function(event) {
+            // If the timer is still running then we want to prevent the click from submitting the form
+            if (debounceFormSubmitTimer) {
+                event.preventDefault();
+                return false;
+            }
+
+            debounceFormSubmitTimer = setTimeout(function() {
+                debounceFormSubmitTimer = null;
+            }, DEBOUNCE_TIMEOUT_IN_SECONDS * 1000);
+        }
+    );
+}
+
 function init() {
     handleConditionalRadios();
     handleExpandingDetails();
     warnOnUnsavedChanges();
     updateSecondaryNav();
     showLocalSaveWarning();
+    preventDoubleSubmits();
 
     // Hotjar tagging
     initHotjarTracking();
