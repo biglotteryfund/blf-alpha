@@ -41,9 +41,7 @@ async function handleSubmission(req, res, next) {
              * Allow updating if the password confirmation matches
              * and there is not an existing user with the requested email address
              */
-            const canUpdate =
-                passwordMatches === true &&
-                username !== get('username')(existingUser);
+            const canUpdate = passwordMatches === true && !existingUser;
 
             if (canUpdate) {
                 const userId = req.user.userData.id;
