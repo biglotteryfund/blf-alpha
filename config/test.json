@@ -5,8 +5,7 @@
     }
   },
   "features": {
-    "enableHotjar": true,
-    "enableStartPageBeforeLogin": true
+    "enableHotjar": true
   },
   "awardsForAll": {
     "enableNewDateRange": true
