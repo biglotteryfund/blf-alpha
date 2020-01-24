@@ -1440,12 +1440,12 @@ awardsForAll:
       body: >
         <h3>1. Manylion dau berson gwahanol o’ch mudiad</h3>
         <p>
-          Dylai un person fod un rhywun gallwn siarad â nhw os oes gennym
+          Dylai un person fod yn rhywun gallwn siarad â nhw os oes gennym
           unrhyw gwestiwn am eich prosiect. Dylai’r llall fod yn uwch aelod
           o’ch mudiad, a fydd yn gyfreithiol gyfrifol am yr arian.
           Mae’n rhaid i’r ddau fyw yn y DU.
         </p>
-        <p><strong>Ni all y ddau berson fod::</strong></p>
+        <p><strong>Ni all y ddau berson fod:</strong></p>
         <ul>
             <li>yn perthyn drwy waed</li>
             <li>yn briod i’w gilydd</li>
@@ -1477,7 +1477,7 @@ awardsForAll:
             <li>y cyfeiriad mae’r cyfriflenni’n cael eu hanfon</li>
             <li>enw eich banc</li>
             <li>cod y cyfrif a’r rhif didoli</li>
-            <li>Y dyddiad cafodd y datganiad ei gyhoeddi.</li>
+            <li>y dyddiad cafodd y datganiad ei gyhoeddi.</li>
         </ul>
         <p>Dyma <a href="/assets/images/apply/afa-bank-statement-example-welsh.jpg">lun defnyddiol o'r math o gyfriflen banc rydym yn chwilio amdano.</a></p>
         <h3>5. Rydym yn gofyn am wybodaeth am ba fath o brosiect hoffech ei wneud</h3>
@@ -1520,5 +1520,7 @@ awardsForAll:
             description: >
               Efallai byddwn yn cysylltu â chi i siarad a gofyn cwestiynau am eich cais.
               Yna, byddwn yn gwneud penderfyniad terfynol p’un a byddwn yn ariannu eich prosiect neu ddim.
-              Os byddwch yn llwyddiannus, gallwch hyrwyddo eich prosiect a dechrau rheoli eich grant.
+              Os byddwch yn llwyddiannus, gallwch
+              <a href="/welsh/funding/managing-your-grant/promoting-your-project">hyrwyddo eich prosiect</a>
+              a dechrau <a href="/welsh/funding/managing-your-grant/under-10k">rheoli eich grant</a>.
       startAction: Dechrau ar eich cais
