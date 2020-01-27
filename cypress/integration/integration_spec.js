@@ -561,8 +561,6 @@ it('should submit full awards for all application', () => {
         cy.findByLabelText('Postcode').type(postcode);
     }
 
-    startAwardsForAllApplication();
-
     function stepProjectName(mock) {
         cy.checkA11y();
 
@@ -1129,7 +1127,7 @@ it('should submit full awards for all application', () => {
         cy.visit('/apply/awards-for-all');
 
         acceptCookieConsent();
-        startApplication();
+        startAwardsForAllApplication();
 
         sectionYourProject(mock);
         sectionBeneficiaries(mock);
