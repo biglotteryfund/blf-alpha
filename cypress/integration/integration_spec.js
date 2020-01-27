@@ -1155,7 +1155,7 @@ it('should allow editing from the Summary screen', () => {
             'My project'
         );
 
-        cy.findByText('Back to Summary').click();
+        cy.findByText('Continue').click();
 
         cy.findByTestId('summary-title').should('contain', 'Summary');
     });
