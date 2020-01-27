@@ -23,6 +23,28 @@ function checkRedirect({ from, to, isRelative = true, status = 301 }) {
     });
 }
 
+function startAwardsForAllApplication({ endOnSummaryScreen = false }) {
+    // Dashboard
+    cy.findByText('Start a new application').click();
+
+    // Start page
+    cy.findByText('Start your application').click();
+
+    // Eligibility checker
+    times(5, function() {
+        cy.findByLabelText('Yes').click();
+        cy.findByText('Continue').click();
+    });
+    cy.findByText('Start your application').click();
+
+    if (!endOnSummaryScreen) {
+        // Leave summary page and go to first step
+        cy.findAllByText('Start your application')
+            .first()
+            .click();
+    }
+}
+
 it('should have expected cache headers', () => {
     cy.request('/').then(response => {
         expect(response.headers['cache-control']).to.eq(
@@ -539,25 +561,7 @@ it('should submit full awards for all application', () => {
         cy.findByLabelText('Postcode').type(postcode);
     }
 
-    function startApplication() {
-        // Dashboard
-        cy.findByText('Start a new application').click();
-
-        // Start page
-        cy.findByText('Start your application').click();
-
-        // Eligibility checker
-        times(5, function() {
-            cy.findByLabelText('Yes').click();
-            cy.findByText('Continue').click();
-        });
-        cy.findByText('Start your application').click();
-
-        // Summary page
-        cy.findAllByText('Start your application')
-            .first()
-            .click();
-    }
+    startAwardsForAllApplication();
 
     function stepProjectName(mock) {
         cy.checkA11y();
@@ -1138,6 +1142,31 @@ it('should submit full awards for all application', () => {
         sectionTermsAndConditions(mock);
 
         submitApplication();
+    });
+});
+
+it('should allow editing from the Summary screen', () => {
+    cy.seedAndLogin().then(() => {
+        cy.visit('/apply/awards-for-all');
+
+        acceptCookieConsent();
+        startAwardsForAllApplication({
+            endOnSummaryScreen: true
+        });
+
+        cy.findByTestId('expand-all-sections').click();
+
+        cy.findAllByText('Change')
+            .first()
+            .click();
+
+        cy.findByLabelText('What is the name of your project?').type(
+            'My project'
+        );
+
+        cy.findByText('Back to Summary').click();
+
+        cy.findByTestId('summary-title').should('contain', 'Summary');
     });
 });
 
