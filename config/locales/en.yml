@@ -1789,8 +1789,9 @@ awardsForAll:
             title: We’ll decide to fund your project or not
             description: >
               We might get in touch to talk to you, and ask questions about your application.
-              Then we’ll make a final decision to fund your project or not.
-              If successful, you can promote your project and start managing your grant.
+              Then we’ll make a final decision to fund your project or not. If successful, you can
+              <a href="/funding/managing-your-grant/promoting-your-project">promote your project</a>
+              and start <a href="/funding/managing-your-grant/under-10k">managing your grant</a>.
       startAction: Start your application
 yourFundingProposal:
   startPage:

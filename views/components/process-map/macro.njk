@@ -14,7 +14,7 @@
                             <span>{{ step.title }}</span>
                         </div>
                     </div>
-                    <div class="process-map__item-description"><p>{{ step.description | safe }}</p></div>
+                    <div class="process-map__item-description s-prose">{{ step.description | safe }}</div>
                 {% elseif step.type === 'action' %}
                     <span class="process-map__item-action-label">{{ step.title }}</span>
                     <span class="process-map__item-action-arrow-right" aria-hidden="true"></span>
