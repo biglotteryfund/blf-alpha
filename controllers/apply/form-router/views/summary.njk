@@ -114,17 +114,17 @@
     <section class="section-summary section-summary--{{ section.progress.status }}">
         <header class="section-progress-bar section-progress-bar--{{ section.progress.status }}">
             <h2 class="section-progress-bar__title">
-                <a href="{{ formBaseUrl }}/{{ section.slug }}?edit" class="u-link-unstyled">
+                <a href="{{ formBaseUrl }}/{{ section.slug }}" class="u-link-unstyled">
                     {{ secTitle }}
                 </a>
 
                 {% set editWord = copy.continue if section.progress.status === 'incomplete' else copy.edit %}
-                <a class="section-progress-bar__edit u-edit-link u-dont-print" href="{{ formBaseUrl }}/{{ section.slug }}?edit">
+                <a class="section-progress-bar__edit u-edit-link u-dont-print" href="{{ formBaseUrl }}/{{ section.slug }}">
                     {{ editWord }}<span class="u-visually-hidden"> "{{ secTitle }}" section</span>
                 </a>
             </h2>
 
-            <a class="section-progress-bar__marker u-link-unstyled" href="{{ formBaseUrl }}/{{ section.slug }}?edit">
+            <a class="section-progress-bar__marker u-link-unstyled" href="{{ formBaseUrl }}/{{ section.slug }}">
                 {% if section.progress.status === 'complete' %}
                     {{ iconTick() }}
                     {{ copy.statusComplete }}
