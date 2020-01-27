@@ -1,6 +1,5 @@
 'use strict';
 const path = require('path');
-const get = require('lodash/fp/get');
 const express = require('express');
 
 const { Users } = require('../../db/models');
@@ -41,9 +40,7 @@ async function handleSubmission(req, res, next) {
              * Allow updating if the password confirmation matches
              * and there is not an existing user with the requested email address
              */
-            const canUpdate =
-                passwordMatches === true &&
-                username !== get('username')(existingUser);
+            const canUpdate = passwordMatches === true && !existingUser;
 
             if (canUpdate) {
                 const userId = req.user.userData.id;

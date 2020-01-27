@@ -226,7 +226,7 @@
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}
-                    <input class="btn u-margin-bottom-s" type="submit" value="{{ copy.submit }}" />
+                    <input class="btn u-margin-bottom-s" type="submit" value="{{ copy.submit }}" data-prevent-double-click="true" />
                 </form>
             {% elseif not form.progress.isPristine %}
                 {{ submitActionsIncomplete() }}
