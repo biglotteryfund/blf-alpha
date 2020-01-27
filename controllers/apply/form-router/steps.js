@@ -207,7 +207,7 @@ module.exports = function(formId, formBuilder) {
                 copy: res.locals.copy
             });
 
-            if (isEditing) {
+            if (isEditing && !isPaginationLinks()) {
                 return `${res.locals.formBaseUrl}/summary`;
             } else {
                 return req.body.previousBtn ? previousPage.url : nextPage.url;
