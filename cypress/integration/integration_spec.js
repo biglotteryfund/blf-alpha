@@ -23,7 +23,7 @@ function checkRedirect({ from, to, isRelative = true, status = 301 }) {
     });
 }
 
-function startAwardsForAllApplication({ endOnSummaryScreen = false }) {
+function startAwardsForAllApplication({ endOnSummaryScreen = false } = {}) {
     // Dashboard
     cy.findByText('Start a new application').click();
 
