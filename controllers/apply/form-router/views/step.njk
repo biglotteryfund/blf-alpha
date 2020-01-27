@@ -6,6 +6,7 @@
 {% from "./expiry-warnings.njk" import expiryPending, expiryLoggedOut with context %}
 
 {% macro saveButton() %}
+    {% set initialCta = __('applyNext.backToSummary') if isEditing else __('applyNext.continue') %}
     <button
         type="submit"
         class="btn btn--save js-save-btn"
@@ -16,7 +17,7 @@
             {{ iconTick() }}
         </span>
         <span class="btn--save__label js-save-btn-label">
-            {{ __('applyNext.continue') }}
+            {{ initialCta }}
         </span>
 
         <span class="btn__icon btn__icon-left btn--save__dots">
