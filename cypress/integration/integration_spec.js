@@ -508,8 +508,7 @@ it('should test common interactions', () => {
     cy.get('@search').should('not.be.visible');
 });
 
-// eslint-disable-next-line
-it.only('should test common pages', () => {
+it('should test common pages', () => {
     cy.visit('/welsh');
     cy.checkA11y();
 
