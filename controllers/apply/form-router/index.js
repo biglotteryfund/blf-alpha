@@ -79,7 +79,6 @@ function initFormRouter({
 
         if (startTemplate) {
             res.render(startTemplate, {
-                backUrl: res.locals.sectionUrl,
                 nextPageUrl: nextPageUrl
             });
         } else {

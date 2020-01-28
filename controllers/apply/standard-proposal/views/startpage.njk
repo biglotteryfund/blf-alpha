@@ -10,7 +10,7 @@
     <main role="main" id="content">
         {% call contentBox(skipProse = true) %}
             {{ formHeader(
-                backUrl = backUrl,
+                backUrl = sectionUrl if user else localify('/funding/over10k'),
                 title = formTitle,
                 prefix = globalCopy.brand.title
             )}}
