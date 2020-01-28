@@ -11,6 +11,7 @@ const {
 
 const appData = require('../../../common/appData');
 const commonLogger = require('../../../common/logger');
+const { localify } = require('../../../common/urls');
 
 const salesforceService = require('./lib/salesforce');
 const { buildMultipartData } = require('./lib/file-uploads');
@@ -43,19 +44,6 @@ module.exports = function(
             return res.redirect(req.baseUrl);
         }
 
-        // Check whether this form has already been submitted
-        // (eg. accidental double click, reloading success screen etc)
-        // and show a success message without attempting to submit again
-        const submittedApplicationExists = await SubmittedApplication.findByPk(
-            currentApplication.id
-        );
-        if (submittedApplicationExists) {
-            logger.warn('Duplicate submission prevented', {
-                applicationId: currentApplication.id
-            });
-            return renderConfirmation();
-        }
-
         function renderConfirmation() {
             unset(req.session, currentlyEditingSessionKey());
             req.session.save(function() {
@@ -69,9 +57,43 @@ module.exports = function(
                 res.render(path.resolve(__dirname, './views/confirmation'), {
                     title: confirmation.title,
                     confirmation: confirmation,
+                    userNavigationLinks: [
+                        {
+                            url: res.locals.sectionUrl,
+                            label: req.i18n.__(
+                                'applyNext.navigation.latestApplication'
+                            )
+                        },
+                        {
+                            url: `${res.locals.sectionUrl}/all`,
+                            label: req.i18n.__(
+                                'applyNext.navigation.allApplications'
+                            )
+                        },
+                        {
+                            url: localify(req.i18n.getLocale())('/user'),
+                            label: req.i18n.__('applyNext.navigation.account')
+                        }
+                    ],
                     form: form
                 });
             });
+        }
+
+        /**
+         * Check whether this form has already been submitted
+         * eg. accidental double click, reloading success screen etc.
+         * and show a success message without attempting to submit again
+         */
+        const submittedApplicationExists = await SubmittedApplication.findByPk(
+            currentApplication.id
+        );
+
+        if (submittedApplicationExists) {
+            logger.warn('Duplicate submission prevented', {
+                applicationId: currentApplication.id
+            });
+            return renderConfirmation();
         }
 
         try {
