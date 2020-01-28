@@ -93,17 +93,16 @@ module.exports = function({ locale }) {
         if (config.get('awardsForAll.enableNewDateRange')) {
             return {
                 question: localise({
-                    en: oneLine`Does your project start at least 12 weeks from
-                      when you plan to submit your application? (If your project
-                      is in England, it needs to start after at least 18 weeks)`,
+                    en: oneLine`Do you want to start your project at least
+                        12 weeks after you plan to send us your application?
+                        (If your project is in England, it needs to start after at least 18 weeks)`,
                     cy: `@TODO i18n`
                 }),
                 explanation: localise({
-                    en: oneLine`We need 12 weeks to be able to assess your application
-                      and pay your grant, if you're successful.
-                      So projects need to start at least 12 weeks from the date
-                      you submit your application to us—unless your project's in England,
-                      where it needs to start after at least 18 weeks.`,
+                    en: oneLine`We need to know because we need to give ourselves
+                        at least 12 weeks to assess your application
+                        (or 18 weeks if your project is in England).
+                        And then make a decision on whether we'll fund your project or not.`,
                     cy: `@TODO i18n`
                 }),
                 yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
@@ -114,25 +113,27 @@ module.exports = function({ locale }) {
                 }),
                 ineligible: {
                     reason: localise({
-                        en: oneLine`This is because you told us that your project
-                        doesn't start at least 12 weeks from when you plan to
-                        submit your application (or after at least 18 weeks
-                        for a project in England).`,
+                        en: oneLine`This is because you want to start your
+                            project sooner than we can assess your application.`,
                         cy: `@TODO i18n`
                     }),
                     detail: localise({
                         en: `<p>
-                        We don't want communities to miss out on a
-                         great idea that will help them thrive.
-                    </p>
-                    <p>
-                        Have a think and see if it's possible to
-                        start your project at least 12 weeks from now 
-                        (or after at least 18 weeks for a project in England).
-                        We need this time to consider your application,
-                        carry out checks and, if successful, pay your grant.
-                        If it is possible, continue with your application.
-                    </p>`,
+                            <strong>Can you start your project a bit later than you planned?</strong></p>
+                            <p>
+                                We don't want communities to miss out on a great
+                                idea that will help them thrive.
+                            <p>
+                                Have a think and see if it's possible to start
+                                your project at least 12 weeks from now
+                                (or 18 weeks from now if your project is in England).
+                            </p>
+
+                            <p><strong>
+                                If you've now decided you can start your project
+                                a bit later than you planned
+                            </strong></p>
+                            <p>Continue your application.</p>`,
                         cy: `@TODO i18n`
                     })
                 }
