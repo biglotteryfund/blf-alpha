@@ -112,7 +112,7 @@ Array [
   "projectBudget: Costs you would like us to fund must be less than £10,000",
   "projectTotalCosts: Total cost must be the same as or higher than the amount you’re asking us to fund",
   "mainContactName: Main contact name must be different from the senior contact's name",
-  "mainContactDateOfBirth: Must be at least 16 years old",
+  "mainContactDateOfBirth: Must be at least 18 years old",
   "mainContactAddress: Main contact address must be different from the senior contact's address",
   "mainContactAddressHistory: Enter a full UK address",
   "mainContactPhone: Enter a real UK telephone number",
