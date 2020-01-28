@@ -643,7 +643,7 @@ test.each(['school', 'college-or-university', 'statutory-body'])(
         const validData = {
             organisationType: excludedOrgType,
             seniorContactDateOfBirth: mockDateOfBirth(18, 90),
-            mainContactDateOfBirth: mockDateOfBirth(16, 90),
+            mainContactDateOfBirth: mockDateOfBirth(18, 90),
             seniorContactAddress: mockAddress(),
             seniorContactAddressHistory: {
                 currentAddressMeetsMinimum: 'yes',
