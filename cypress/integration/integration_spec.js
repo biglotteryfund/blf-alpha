@@ -508,16 +508,16 @@ it('should test common interactions', () => {
     cy.get('@search').should('not.be.visible');
 });
 
-// it.only('should test common pages', () => {
-//     cy.visit('/welsh');
-//     cy.checkA11y();
-//
-//     cy.visit('/funding/programmes');
-//     // @TODO: Review colour contrast on promo cards
-//     cy.checkA11y({
-//         options: { rules: { 'color-contrast': { enabled: false } } }
-//     });
-// });
+it.only('should test common pages', () => {
+    cy.visit('/welsh');
+    cy.checkA11y();
+
+    cy.visit('/funding/programmes');
+    // @TODO: Review colour contrast on promo cards
+    cy.checkA11y({
+        options: { rules: { 'color-contrast': { enabled: false } } }
+    });
+});
 
 it('should submit full awards for all application', () => {
     function submitStep() {
