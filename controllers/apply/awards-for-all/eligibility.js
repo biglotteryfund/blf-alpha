@@ -119,21 +119,19 @@ module.exports = function({ locale }) {
                     }),
                     detail: localise({
                         en: `<p>
-                            <strong>Can you start your project a bit later than you planned?</strong></p>
-                            <p>
-                                We don't want communities to miss out on a great
-                                idea that will help them thrive.
-                            <p>
-                                Have a think and see if it's possible to start
-                                your project at least 12 weeks from now
-                                (or 18 weeks from now if your project is in England).
-                            </p>
+                            We don't want communities to miss out on a great
+                            idea that will help them thrive.
+                        <p>
+                            Have a think and see if it's possible to start
+                            your project at least 12 weeks from now
+                            (or 18 weeks from now if your project is in England).
+                        </p>
 
-                            <p><strong>
-                                If you've now decided you can start your project
-                                a bit later than you planned
-                            </strong></p>
-                            <p>Continue your application.</p>`,
+                        <p><strong>
+                            If you've now decided you can start your project
+                            a bit later than you planned
+                        </strong></p>
+                        <p>Continue your application.</p>`,
                         cy: `@TODO i18n`
                     })
                 }
