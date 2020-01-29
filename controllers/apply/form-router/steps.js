@@ -70,11 +70,7 @@ module.exports = function(formId, formBuilder) {
          * redirect to the first step in the section.
          */
         if (!stepNumber) {
-            return res.redirect(
-                `${res.locals.formBaseUrl}/${section.slug}/1${
-                    isEditing ? '?edit' : ''
-                }`
-            );
+            return res.redirect(`${res.locals.formBaseUrl}/${section.slug}/1`);
         }
 
         const stepIndex = parseInt(stepNumber, 10) - 1;
