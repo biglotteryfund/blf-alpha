@@ -27,8 +27,7 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
-    "enableSessionExpiryWarning": true,
-    "enableStartPageBeforeLogin": false
+    "enableSessionExpiryWarning": true
   },
   "awardsForAll": {
     "enableExpiration": true,

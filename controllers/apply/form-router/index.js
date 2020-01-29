@@ -69,10 +69,7 @@ function initFormRouter({
      */
     router.use(noStore, redirectWelsh, setCommonLocals);
 
-    /**
-     * Route: Start page
-     */
-    function renderStartPage(req, res) {
+    router.get('/start', function(req, res) {
         const nextPageUrl = eligibilityBuilder
             ? `${req.baseUrl}/eligibility/1`
             : `${req.baseUrl}/new`;
@@ -84,11 +81,7 @@ function initFormRouter({
         } else {
             res.redirect(nextPageUrl);
         }
-    }
-
-    if (features.enableStartPageBeforeLogin) {
-        router.get('/start', renderStartPage);
-    }
+    });
 
     /**
      * Application seed endpoint
@@ -213,10 +206,6 @@ function initFormRouter({
             '/eligibility',
             require('./eligibility')(eligibilityBuilder, formId)
         );
-    }
-
-    if (features.enableStartPageBeforeLogin === false) {
-        router.get('/start', renderStartPage);
     }
 
     function redirectCurrentlyEditing(req, res, applicationId) {
