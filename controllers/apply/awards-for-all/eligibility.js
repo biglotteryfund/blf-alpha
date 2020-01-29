@@ -95,15 +95,23 @@ module.exports = function({ locale }) {
                 question: localise({
                     en: oneLine`Do you want to start your project at least
                         12 weeks after you plan to send us your application?
-                        (If your project is in England, it needs to start after at least 18 weeks)`,
-                    cy: `@TODO i18n`
+                        (If your project is in England, it needs to start
+                        after at least 18 weeks)`,
+                    cy: oneLine`A ydych eisiau dechrau eich prosiect o leiaf 12
+                        wythnos ar ôl i chi gynllunio anfon eich cais?
+                        (Os yw eich prosiect yn Lloegr, mae angen iddo ddechrau
+                        ar ôl o leiaf 18 wythnos)`
                 }),
                 explanation: localise({
                     en: oneLine`We need to know because we need to give ourselves
                         at least 12 weeks to assess your application
                         (or 18 weeks if your project is in England).
                         And then make a decision on whether we'll fund your project or not.`,
-                    cy: `@TODO i18n`
+                    cy: oneLine`Rydym angen gwybod gan fod angen i ni roi o leiaf
+                        12 wythnos i’n hunain i asesu eich cais
+                        (neu 18 wythnos os yw eich prosiect yn Lloegr).
+                        Ac yna gwneud penderfyniad ar p’un ai byddwn yn
+                        ariannu eich prosiect neu beidio.`
                 }),
                 yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
                 noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
@@ -115,24 +123,39 @@ module.exports = function({ locale }) {
                     reason: localise({
                         en: oneLine`This is because you want to start your
                             project sooner than we can assess your application.`,
-                        cy: `@TODO i18n`
+                        cy: oneLine`Mae hyn oherwydd eich bod eisiau dechrau eich
+                            prosiect yn gynt nag y gallwn asesu eich cais.`
                     }),
                     detail: localise({
                         en: `<p>
                             We don't want communities to miss out on a great
                             idea that will help them thrive.
+                        </p>
                         <p>
                             Have a think and see if it's possible to start
                             your project at least 12 weeks from now
                             (or 18 weeks from now if your project is in England).
                         </p>
-
                         <p><strong>
                             If you've now decided you can start your project
                             a bit later than you planned
                         </strong></p>
                         <p>Continue your application.</p>`,
-                        cy: `@TODO i18n`
+
+                        cy: `<p>
+                            Nid ydym eisiau i gymunedau fethu allan ar syniad
+                            gwych fydd yn eu helpu i ffynnu.
+                        </p>
+                        <p>
+                            Meddyliwch a yw’n bosibl dechrau eich prosiect
+                            o leiaf 12 wythnos oddi wrth o nawr (neu 18 wythnos
+                            oddi wrth o nawr os yw eich prosiect yn Lloegr).
+                        </p>
+                        <p><strong>
+                            Os ydych nawr wedi penderfynu y gallwch ddechrau
+                            eich prosiect ychydig yn ddiweddarach nag y cynllunioch chi
+                        </strong></p>
+                        <p>Parhewch â’ch cais.</p>`
                     })
                 }
             };
