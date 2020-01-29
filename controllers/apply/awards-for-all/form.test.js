@@ -2,6 +2,7 @@
 'use strict';
 const faker = require('faker');
 const moment = require('moment');
+const sample = require('lodash/sample');
 
 const formBuilder = require('./form');
 const validateModel = require('../lib/validate-model');
@@ -487,63 +488,134 @@ test('project dates must be within range', () => {
     );
 });
 
-test('support new project date schema', function() {
-    const data = mockResponse({
-        projectStartDate: { day: 3, month: 3, year: 2021 },
-        projectEndDate: { day: 3, month: 4, year: 2021 }
-    });
-
-    const form = formBuilder({
-        data: data,
-        flags: { enableNewDateRange: true }
-    });
-
-    expect(form.validation.error).toBeNull();
-
-    function validateDateRange(start, end, messages) {
+describe('new project date schema', function() {
+    test('support new project date schema', function() {
         const data = mockResponse({
-            projectStartDate: start,
-            projectEndDate: end
+            projectStartDate: { day: 3, month: 3, year: 2021 },
+            projectEndDate: { day: 3, month: 4, year: 2021 }
         });
 
         const form = formBuilder({
-            data,
+            data: data,
+            flags: { enableNewDateRange: true }
+        });
+
+        expect(form.validation.error).toBeNull();
+
+        // Maintain backwards compatibility with salesforce schema
+        const salesforceResult = form.forSalesforce();
+        expect(salesforceResult.projectStartDate).toBe('2021-03-03');
+        expect(salesforceResult.projectEndDate).toBe('2021-04-03');
+        expect(salesforceResult.projectDateRange).toEqual({
+            startDate: '2021-03-03',
+            endDate: '2021-04-03'
+        });
+    });
+
+    test('require project dates', function() {
+        const form = formBuilder({
+            data: mockResponse({
+                projectStartDate: null,
+                projectEndDate: null
+            }),
             flags: { enableNewDateRange: true }
         });
 
         expect(mapMessages(form.validation)).toEqual(
-            expect.arrayContaining(messages)
+            expect.arrayContaining([
+                'Enter a project start date',
+                'Enter a project end date'
+            ])
         );
-    }
+    });
 
-    validateDateRange(null, null, [
-        'Enter a project start date',
-        'Enter a project end date'
-    ]);
+    test('start date must be at least 18 weeks away in England', function() {
+        const invalidDate = toDateParts(moment().add('17', 'weeks'));
+        const invalidForm = formBuilder({
+            data: mockResponse({
+                projectCountry: 'england',
+                projectLocation: 'derbyshire',
+                projectStartDate: invalidDate,
+                projectEndDate: invalidDate
+            }),
+            flags: { enableNewDateRange: true }
+        });
 
-    validateDateRange(
-        { day: 1, month: 1, year: 2020 },
-        { day: 1, month: 1, year: 2021 },
-        [
-            expect.stringMatching(
-                /Date you start the project must be on or after/
-            )
-        ]
-    );
+        expect(mapMessages(invalidForm.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringMatching(
+                    /Date you start the project must be on or after/
+                )
+            ])
+        );
 
-    validateDateRange(
-        toDateParts(moment().add('25', 'weeks')),
-        toDateParts(moment().add('2', 'years')),
-        [expect.stringMatching(/Date you end the project must be within/)]
-    );
+        const validDate = toDateParts(moment().add('18', 'weeks'));
+        const validForm = formBuilder({
+            data: mockResponse({
+                projectCountry: 'england',
+                projectLocation: 'derbyshire',
+                projectStartDate: validDate,
+                projectEndDate: validDate
+            }),
+            flags: { enableNewDateRange: true }
+        });
 
-    // Maintain backwards compatibility with salesforce schema
-    const salesforceResult = form.forSalesforce();
-    expect(salesforceResult.projectStartDate).toBe('2021-03-03');
-    expect(salesforceResult.projectEndDate).toBe('2021-04-03');
-    expect(salesforceResult.projectDateRange).toEqual({
-        startDate: '2021-03-03',
-        endDate: '2021-04-03'
+        expect(validForm.validation.error).toBeNull();
+    });
+
+    test('start date must be at least 12 weeks away in all other countries', function() {
+        const countryData = sample([
+            {
+                projectCountry: 'northern-ireland',
+                projectLocation: 'derry-and-strabane',
+                beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
+            },
+            {
+                projectCountry: 'wales',
+                projectLocation: 'monmouthshire',
+                beneficiariesWelshLanguage: 'all',
+                mainContactLanguagePreference: 'welsh',
+                seniorContactLanguagePreference: 'welsh'
+            },
+            {
+                projectCountry: 'scotland',
+                projectLocation: 'fife'
+            }
+        ]);
+
+        const invalidDate = toDateParts(moment().add('11', 'weeks'));
+        const invalidForm = formBuilder({
+            data: mockResponse({
+                ...countryData,
+                ...{
+                    projectStartDate: invalidDate,
+                    projectEndDate: invalidDate
+                }
+            }),
+            flags: { enableNewDateRange: true }
+        });
+
+        expect(mapMessages(invalidForm.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringMatching(
+                    /Date you start the project must be on or after/
+                )
+            ])
+        );
+
+        const validDate = toDateParts(moment().add('12', 'weeks'));
+        const validForm = formBuilder({
+            data: mockResponse({
+                ...countryData,
+                ...{
+                    projectStartDate: validDate,
+                    projectEndDate: validDate
+                }
+            }),
+            flags: { enableNewDateRange: true }
+        });
+
+        expect(validForm.validation.error).toBeNull();
     });
 });
 

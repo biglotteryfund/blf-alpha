@@ -1839,7 +1839,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     };
 
     if (flags.enableNewDateRange) {
-        allFields.projectStartDate = fieldProjectStartDate(locale);
+        allFields.projectStartDate = fieldProjectStartDate(locale, data);
         allFields.projectEndDate = fieldProjectEndDate(locale);
     } else {
         allFields.projectDateRange = fieldProjectDateRange(locale);

@@ -6,12 +6,13 @@ const { oneLine } = require('common-tags');
 const Joi = require('../../lib/joi-extensions');
 const DateField = require('../../lib/field-types/date');
 
-const { MIN_START_DATE } = require('../constants');
+const getLeadTimeWeeks = require('../lib/lead-time');
 
-module.exports = function(locale) {
+module.exports = function(locale, data = {}) {
     const localise = get(locale);
 
-    const minDate = moment().add(MIN_START_DATE.amount, MIN_START_DATE.unit);
+    const projectCountry = get('projectCountry')(data);
+    const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
     const minDateExample = minDate
         .clone()

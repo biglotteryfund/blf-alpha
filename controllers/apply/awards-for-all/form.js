@@ -73,20 +73,6 @@ module.exports = function({
         });
     }
 
-    function stepProjectLength() {
-        const stepFields = flags.enableNewDateRange
-            ? [fields.projectStartDate, fields.projectEndDate]
-            : [fields.projectDateRange];
-
-        return new Step({
-            title: localise({
-                en: 'Project length',
-                cy: 'Hyd y prosiect'
-            }),
-            fieldsets: [{ fields: stepFields }]
-        });
-    }
-
     function stepProjectCountry() {
         return new Step({
             title: localise({
@@ -136,6 +122,22 @@ module.exports = function({
                     }
                 }
             ]
+        });
+    }
+
+    function stepProjectLength() {
+        const stepFields = flags.enableNewDateRange
+            ? has('projectCountry')(data)
+                ? [fields.projectStartDate, fields.projectEndDate]
+                : []
+            : [fields.projectDateRange];
+
+        return new Step({
+            title: localise({
+                en: 'Project length',
+                cy: 'Hyd y prosiect'
+            }),
+            fieldsets: [{ fields: stepFields }]
         });
     }
 
@@ -1150,14 +1152,23 @@ module.exports = function({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`
             }),
-            steps: [
-                stepProjectName(),
-                stepProjectLength(),
-                stepProjectCountry(),
-                stepProjectLocation(),
-                stepYourIdea(),
-                stepProjectCosts()
-            ]
+            steps: flags.enableNewDateRange
+                ? [
+                      stepProjectName(),
+                      stepProjectCountry(),
+                      stepProjectLocation(),
+                      stepProjectLength(),
+                      stepYourIdea(),
+                      stepProjectCosts()
+                  ]
+                : [
+                      stepProjectName(),
+                      stepProjectLength(),
+                      stepProjectCountry(),
+                      stepProjectLocation(),
+                      stepYourIdea(),
+                      stepProjectCosts()
+                  ]
         };
     }
 

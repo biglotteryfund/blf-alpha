@@ -17,12 +17,6 @@ const ORG_MIN_AGE = {
     label: { en: '15 months', cy: '15 mis' }
 };
 
-const MIN_START_DATE = {
-    amount: 18,
-    unit: 'weeks',
-    label: { en: '18 weeks', cy: '18 wythnos' }
-};
-
 const SUGGESTED_PROJECT_DURATION = {
     en: '12 months',
     cy: '12 mis'
@@ -131,7 +125,6 @@ module.exports = {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     MIN_BUDGET_TOTAL_GBP,
-    MIN_START_DATE,
     ORG_MIN_AGE,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,

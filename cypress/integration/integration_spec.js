@@ -569,30 +569,6 @@ it('should submit full awards for all application', () => {
         submitStep();
     }
 
-    function stepProjectDates(mock) {
-        cy.checkA11y();
-
-        function fillDateParts(momentInstance) {
-            cy.findByLabelText('Day').type(momentInstance.date());
-            cy.findByLabelText('Month').type(momentInstance.month() + 1);
-            cy.findByLabelText('Year').type(momentInstance.year());
-        }
-
-        cy.findByText('When would you like to start your project?')
-            .parent()
-            .within(() => {
-                fillDateParts(mock.projectDateRange.startDate);
-            });
-
-        cy.findByText('When would you like to finish your project?')
-            .parent()
-            .within(() => {
-                fillDateParts(mock.projectDateRange.endDate);
-            });
-
-        submitStep();
-    }
-
     function stepProjectCountry(mock) {
         cy.findByLabelText(mock.country).click();
         submitStep();
@@ -641,6 +617,30 @@ it('should submit full awards for all application', () => {
         cy.findByLabelText('What is the postcode', { exact: false }).type(
             location.postcode
         );
+
+        submitStep();
+    }
+
+    function stepProjectDates(mock) {
+        cy.checkA11y();
+
+        function fillDateParts(momentInstance) {
+            cy.findByLabelText('Day').type(momentInstance.date());
+            cy.findByLabelText('Month').type(momentInstance.month() + 1);
+            cy.findByLabelText('Year').type(momentInstance.year());
+        }
+
+        cy.findByText('When would you like to start your project?')
+            .parent()
+            .within(() => {
+                fillDateParts(mock.projectDateRange.startDate);
+            });
+
+        cy.findByText('When would you like to finish your project?')
+            .parent()
+            .within(() => {
+                fillDateParts(mock.projectDateRange.endDate);
+            });
 
         submitStep();
     }
@@ -695,9 +695,9 @@ it('should submit full awards for all application', () => {
 
     function sectionYourProject(mock) {
         stepProjectName(mock);
-        stepProjectDates(mock);
         stepProjectCountry(mock);
         stepProjectLocation(mock);
+        stepProjectDates(mock);
         stepYourIdea(mock);
         stepProjectCosts(mock);
     }
