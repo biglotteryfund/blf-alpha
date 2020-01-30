@@ -64,13 +64,6 @@
                             </a>
                         </li>
                     {% endif %}
-                    {% for tag in entry.tags %}
-                        <li class="tag tag--secondary">
-                            <a href="{{ localify('/news/' + updateType + '?tag=' + tag.slug) }}">
-                                {{ tag.title }}
-                            </a>
-                        </li>
-                    {% endfor %}
                 </ul>
             </div>
         </div>
