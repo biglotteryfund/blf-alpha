@@ -1,16 +1,14 @@
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/card/macro.njk" import card %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/flexible-content/macro.njk" import flexibleContent %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
-{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
-{% extends "layouts/main.njk" %}
 
 {% macro articleMeta(entry) %}
 
@@ -51,12 +49,6 @@
             </p>
         {% endif %}
 
-        {% if entry.thumbnail %}
-            <img src="{{ entry.thumbnail.small }}"
-                 alt="{{ entry.title }}"
-                 class="u-margin-bottom" />
-        {% endif %}
-
         <ul class="tags-list">
             {% if entry.category %}
                 <li class="tag">
@@ -87,6 +79,13 @@
 
             <div class="content-sidebar">
                 <div class="content-sidebar__primary s-prose">
+
+                    {% if entry.thumbnail %}
+                        <img src="{{ entry.thumbnail.medium }}"
+                             alt="{{ entry.title }}"
+                             class="u-margin-bottom" />
+                    {% endif %}
+
                     {% if entry.body %}
                         <div class="s-prose">
                             {{ entry.body | safe }}
