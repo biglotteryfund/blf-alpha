@@ -49,12 +49,6 @@
             </p>
         {% endif %}
 
-        {% if entry.thumbnail %}
-            <img src="{{ entry.thumbnail.small }}"
-                 alt="{{ entry.title }}"
-                 class="u-margin-bottom" />
-        {% endif %}
-
         <ul class="tags-list">
             {% if entry.category %}
                 <li class="tag">
@@ -85,6 +79,13 @@
 
             <div class="content-sidebar">
                 <div class="content-sidebar__primary s-prose">
+
+                    {% if entry.thumbnail %}
+                        <img src="{{ entry.thumbnail.medium }}"
+                             alt="{{ entry.title }}"
+                             class="u-margin-bottom" />
+                    {% endif %}
+
                     {% if entry.body %}
                         <div class="s-prose">
                             {{ entry.body | safe }}
