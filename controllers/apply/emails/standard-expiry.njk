@@ -41,12 +41,47 @@
         You can call {{ countryPhoneNumber }}.
         Or email {{ countryEmail }}. We’ll be happy to help you.
     </p>
-    <p>
-        <strong>Best wishes,<br/>
-        The National Lottery Community Fund</strong>
-    </p>
+    <p><strong>
+        Best wishes,<br/>
+        The National Lottery Community Fund
+    </strong></p>
 
     {% if isBilingual %}
-        @TODO i18n
+        <p>Hello,</p>
+        <p>
+            <strong>Nid yw eich cynnig ariannu wedi gorffen eto</strong><br/>
+            {% if projectName %}
+                Fe sylweddolom eich bod wedi dechrau dweud wrthym am {{ projectName | safe }}.
+                Ond nid ydych wedi gorffen eto.
+            {% endif %}
+        </p>
+        <p>
+            <strong>
+                Mae gennych tan {{ expiryDate.en }}
+                 i orffen eich cynnig ariannu.
+            </strong><br/>
+            Os nad ydych yn ei gwblhau yn yr amser yna, byddwn yn ei ddileu -
+            er mwyn i ni allu cadw eich data yn ddiogel.
+        </p>
+        <p>
+            <strong>Sut i orffen eich cynnig ariannu</strong><br/>
+            <a href="{{ editLink.en }}">Mewngofnodwch i’ch cyfrif</a>
+             ac ateb gweddill y cwestiynau.
+        </p>
+        <p>
+            <strong>Os nad ydych eisiau mwy o nodiadau atgoffa gennym</strong><br/>
+            <a href="{{ unsubscribeLink.en }}">
+                Gallwch ddweud wrthym i stopio anfon yr e-byst atgoffa hyn
+            </a>
+        </p>
+        <p>
+            <strong>Os oes gennych unrhyw gwestiynau</strong><br/>
+            Gallwch ffonio {{ countryPhoneNumber }}.
+            Neu e-bostio {{ countryEmail }}. Byddwn yn hapus i’ch helpu.
+        </p>
+        <p><strong>
+            Cofion gorau,<br/>
+            Cronfa Gymunedol y Loteri Genedlaethol
+        </strong></p>
     {% endif %}
 {% endblock %}
