@@ -12,12 +12,7 @@ const {
     PendingApplication
 } = require('../../db/models');
 
-const {
-    getIntroTitle,
-    getSenderName,
-    getSubjectLineForEmail,
-    getEditLink
-} = require('./lib/email-helpers');
+const { getSubjectLineForEmail, getEditLink } = require('./lib/email-helpers');
 
 const appData = require('../../common/appData');
 const {
@@ -94,6 +89,25 @@ async function sendExpiryEmails(req, emailQueue) {
                 );
             }
 
+            function getEmailConfig() {
+                return {
+                    'awards-for-all': {
+                        name: 'application_expiry_afa',
+                        template: path.resolve(
+                            __dirname,
+                            './emails/awards-for-all-expiry.njk'
+                        )
+                    },
+                    'standard-enquiry': {
+                        name: 'application_expiry_standard',
+                        template: path.resolve(
+                            __dirname,
+                            './emails/standard-expiry.njk'
+                        )
+                    }
+                }[formId];
+            }
+
             function getProjectCountry() {
                 if (formId === 'awards-for-all') {
                     return getAppData('projectCountry');
@@ -114,14 +128,7 @@ async function sendExpiryEmails(req, emailQueue) {
                 }
             }
 
-            function getEmailName() {
-                if (formId === 'awards-for-all') {
-                    return 'application_expiry_afa';
-                } else if (formId === 'standard-enquiry') {
-                    return 'application_expiry_standard';
-                }
-            }
-
+            const emailConfig = getEmailConfig();
             const projectCountry = getProjectCountry();
             const isBilingual = getBilingualStatus();
 
@@ -131,57 +138,46 @@ async function sendExpiryEmails(req, emailQueue) {
                 ? [subjectLine.en, subjectLine.cy].join(' / ')
                 : subjectLine.en;
 
-            const addressToSendTo = appData.isNotProduction
-                ? EMAIL_EXPIRY_TEST_ADDRESS
-                : emailToSend.PendingApplication.user.username;
-
-            const mailParams = {
-                name: getEmailName(),
-                sendTo: addressToSendTo,
-                subject: subjectLine
-            };
-
             const token = signUnsubscribeToken(
                 emailToSend.PendingApplication.id
             );
 
-            const dateFormat = 'D MMMM, YYYY HH:mm:ss';
             const expiresOn = moment(emailToSend.PendingApplication.expiresAt);
 
+            const dateFormat = 'D MMMM, YYYY HH:mm';
             const expiryDates = {
                 en: expiresOn.format(dateFormat),
                 cy: expiresOn.locale('cy').format(dateFormat)
             };
 
             const baseLink = `/apply/emails/unsubscribe?token=${token}`;
-            const unsubscribeUrl = {
-                en: getAbsoluteUrl(req, baseLink),
-                cy: getAbsoluteUrl(req, `/welsh${baseLink}`)
+
+            const templateData = {
+                isBilingual: isBilingual,
+                projectName: getAppData('projectName'),
+                countryPhoneNumber: getPhoneFor(projectCountry),
+                countryEmail: getEmailFor(projectCountry),
+                application: emailToSend.PendingApplication,
+                unsubscribeLink: {
+                    en: getAbsoluteUrl(req, baseLink),
+                    cy: getAbsoluteUrl(req, `/welsh${baseLink}`)
+                },
+                expiryDate: expiryDates,
+                editLink: getEditLink(formId, emailToSend.PendingApplication.id)
             };
 
-            let emailStatus = await sendHtmlEmail(
+            const emailStatus = await sendHtmlEmail(
                 {
-                    template: path.resolve(
-                        __dirname,
-                        './emails/expiry-email.njk'
-                    ),
-                    templateData: {
-                        isBilingual: isBilingual,
-                        projectName: getAppData('projectName'),
-                        countryPhoneNumber: getPhoneFor(projectCountry),
-                        countryEmail: getEmailFor(projectCountry),
-                        application: emailToSend.PendingApplication,
-                        unsubscribeLink: unsubscribeUrl,
-                        expiryDate: expiryDates,
-                        introLine: getIntroTitle(formId),
-                        editLink: getEditLink(
-                            formId,
-                            emailToSend.PendingApplication.id
-                        ),
-                        senderName: getSenderName(formId)
-                    }
+                    template: emailConfig.template,
+                    templateData: templateData
                 },
-                mailParams
+                {
+                    name: emailConfig.name,
+                    sendTo: appData.isNotProduction
+                        ? EMAIL_EXPIRY_TEST_ADDRESS
+                        : emailToSend.PendingApplication.user.username,
+                    subject: subjectLine
+                }
             );
 
             let returnObj = { emailSent: false, dbUpdated: false };
