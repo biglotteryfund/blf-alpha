@@ -10,20 +10,20 @@ const enableExpiration = config.get('awardsForAll.enableExpiration');
 const {
     ApplicationEmailQueue,
     PendingApplication
-} = require('../../db/models');
+} = require('../../../db/models');
 
-const { getSubjectLineForEmail, getEditLink } = require('./lib/email-helpers');
+const { getSubjectLineForEmail, getEditLink } = require('./email-helpers');
 
-const appData = require('../../common/appData');
+const appData = require('../../../common/appData');
 const {
     EMAIL_EXPIRY_TEST_ADDRESS,
     EMAIL_EXPIRY_SECRET,
     JWT_SIGNING_TOKEN
-} = require('../../common/secrets');
-const { getAbsoluteUrl } = require('../../common/urls');
-const { sendHtmlEmail } = require('../../common/mail');
+} = require('../../../common/secrets');
+const { getAbsoluteUrl } = require('../../../common/urls');
+const { sendHtmlEmail } = require('../../../common/mail');
 
-const logger = require('../../common/logger').child({
+const logger = require('../../../common/logger').child({
     service: 'application-expiry'
 });
 
@@ -95,14 +95,14 @@ async function sendExpiryEmails(req, emailQueue) {
                         name: 'application_expiry_afa',
                         template: path.resolve(
                             __dirname,
-                            './emails/awards-for-all-expiry.njk'
+                            './awards-for-all-expiry-email.njk'
                         )
                     },
                     'standard-enquiry': {
                         name: 'application_expiry_standard',
                         template: path.resolve(
                             __dirname,
-                            './emails/standard-expiry.njk'
+                            './standard-expiry-email.njk'
                         )
                     }
                 }[formId];
