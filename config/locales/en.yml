@@ -1575,6 +1575,7 @@ applyNext:
   statusComplete: Complete
   change: Change
   continue: Continue
+  backToSummary: Back to summary
   saving: Saving
   progressSaved: Progress saved
   edit: Edit

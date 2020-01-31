@@ -1290,6 +1290,7 @@ applyNext:
   statusComplete: Cyflawn
   change: Newid
   continue: Parhau
+  backToSummary: Yn ôl i’r cynodeb
   saving: Yn arbed
   progressSaved: Cynnydd wedi’i arbed
   edit: Golygu

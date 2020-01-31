@@ -1141,6 +1141,26 @@ it('should submit full awards for all application', () => {
     });
 });
 
+it('should allow editing from the Summary screen', () => {
+    cy.seedAndLogin().then(() => {
+        cy.visit('/apply/awards-for-all/new');
+
+        cy.findByTestId('expand-all-sections').click();
+
+        cy.findAllByText('Change')
+            .first()
+            .click();
+
+        cy.findByLabelText('What is the name of your project?').type(
+            'My project'
+        );
+
+        cy.findByText('Continue').click();
+
+        cy.findByTestId('summary-title').should('contain', 'Summary');
+    });
+});
+
 it('should complete standard your funding proposal form', () => {
     const orgTradingName = sample([faker.company.companyName(), '']);
     const mock = {

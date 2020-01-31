@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="step-summary__data__link">
-                            <a href="{{ formBaseUrl }}/{{ step.slug }}#form-field-{{ field.name }}" class="u-edit-link">
+                            <a href="{{ formBaseUrl }}/{{ step.slug }}?edit#form-field-{{ field.name }}" class="u-edit-link">
                                 {{ copy.change }} <span class="u-visually-hidden">{{ field.label | safe }}</span>
                             </a>
                         </div>
@@ -188,7 +188,7 @@
 
             {{ formHeaderWithData(formTitle, form.summary.title) }}
 
-            <h1 class="t2 u-tone-brand-primary">{{ copy.summary.title }}</h1>
+            <h1 class="t2 u-tone-brand-primary" data-testid="summary-title">{{ copy.summary.title }}</h1>
 
             {{ summariseErrors() }}
 
@@ -210,7 +210,8 @@
                         class="btn-link u-text-small js-toggle-all-details js-only u-align-right"
                         aria-expanded="{% if expandSections %}true{% else %}false{% endif %}"
                         data-label-open="{{ copy.summary.collapseAll }}"
-                        data-label-closed="{{ copy.summary.expandAll }}">
+                        data-label-closed="{{ copy.summary.expandAll }}"
+                        data-testid="expand-all-sections">
                     </button>
                 </p>
             {% endif %}
