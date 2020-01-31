@@ -6,11 +6,14 @@ module.exports = function getLeadTimeWeeks(
     enableVariableLeadTime = config.get('awardsForAll.enableNewDateRange')
 ) {
     if (enableVariableLeadTime) {
-        if (country === 'england') {
-            return 18;
-        } else {
-            return 12;
-        }
+        const countryLeadTimes = {
+            'england': 18,
+            'northern-ireland': 12,
+            'scotland': 12,
+            'wales': 18
+        };
+
+        return countryLeadTimes[country] || 18;
     } else {
         return 18;
     }

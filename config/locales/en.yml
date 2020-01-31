@@ -1783,8 +1783,8 @@ awardsForAll:
             description: >
               Tell us about your idea to help people improve their lives and communities.
               You’ll have up to three months to finish your online application form.
-              Once you send us your application, it’ll take around 12 weeks for us to assess it
-              (or 18 weeks for projects in England).
+              Once you send us your application, it’ll take around 18 weeks for us to assess it
+              (or 12 weeks for projects in Scotland or Northern Ireland).
           - type: action
             title: Application assessed
           - type: step
