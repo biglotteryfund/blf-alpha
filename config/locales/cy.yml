@@ -129,6 +129,7 @@ global:
     to: i
     on: ar
     of: o
+    in: yn
     phone: ffôn
     email: email
     printThisPage: Argraffu'r dudalen hon
