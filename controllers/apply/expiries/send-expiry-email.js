@@ -1,14 +1,10 @@
 'use strict';
 const path = require('path');
 const moment = require('moment');
-const jwt = require('jsonwebtoken');
-const get = require('lodash/fp/get');
+const get = require('lodash/get');
 
-const {
-    EMAIL_EXPIRY_TEST_ADDRESS,
-    JWT_SIGNING_TOKEN
-} = require('../../../common/secrets');
 const appData = require('../../../common/appData');
+const { EMAIL_EXPIRY_TEST_ADDRESS } = require('../../../common/secrets');
 const { sendHtmlEmail } = require('../../../common/mail');
 
 /**
@@ -87,23 +83,11 @@ function getPhoneFor(country) {
     return countryPhone || '0345 4 10 20 30';
 }
 
-function signUnsubscribeToken(applicationId) {
-    return jwt.sign(
-        {
-            data: {
-                applicationId: applicationId,
-                action: 'unsubscribe'
-            }
-        },
-        JWT_SIGNING_TOKEN,
-        { expiresIn: '30d' }
-    );
-}
-
 module.exports = function sendExpiryEmail(
     {
-        emailType,
         formId,
+        emailType,
+        unsubscribeToken,
         applicationId,
         applicationData = {},
         expiresAt,
@@ -111,8 +95,6 @@ module.exports = function sendExpiryEmail(
     },
     mockMailTransport = null
 ) {
-    const getAppData = field => get(field)(applicationData);
-
     const emailConfig = {
         'awards-for-all': {
             name: 'application_expiry_afa',
@@ -132,9 +114,9 @@ module.exports = function sendExpiryEmail(
 
     function getProjectCountry() {
         if (formId === 'awards-for-all') {
-            return getAppData('projectCountry');
+            return get(applicationData, 'projectCountry');
         } else if (formId === 'standard-enquiry') {
-            const countries = getAppData('projectCountries');
+            const countries = get(applicationData, 'projectCountries');
             return countries && countries.length === 1
                 ? countries[0]
                 : 'Multiple';
@@ -143,9 +125,9 @@ module.exports = function sendExpiryEmail(
 
     function getBilingualStatus() {
         if (formId === 'awards-for-all') {
-            return getAppData('projectCountry') === 'wales';
+            return get(applicationData, 'projectCountry') === 'wales';
         } else if (formId === 'standard-enquiry') {
-            const countries = getAppData('projectCountries');
+            const countries = get(applicationData, 'projectCountries');
             return countries && countries.includes('wales');
         }
     }
@@ -159,8 +141,6 @@ module.exports = function sendExpiryEmail(
         ? [subjectLine.en, subjectLine.cy].join(' / ')
         : subjectLine.en;
 
-    const token = signUnsubscribeToken(applicationId);
-
     const expiresOn = moment(expiresAt);
 
     const dateFormat = 'D MMMM, YYYY HH:mm';
@@ -169,11 +149,11 @@ module.exports = function sendExpiryEmail(
         cy: expiresOn.locale('cy').format(dateFormat)
     };
 
-    const baseLink = `/apply/emails/unsubscribe?token=${token}`;
+    const baseLink = `/apply/emails/unsubscribe?token=${unsubscribeToken}`;
 
     const templateData = {
         isBilingual: isBilingual,
-        projectName: getAppData('projectName'),
+        projectName: get(applicationData, 'projectName'),
         countryPhoneNumber: getPhoneFor(projectCountry),
         countryEmail: getEmailFor(projectCountry),
         unsubscribeLink: {

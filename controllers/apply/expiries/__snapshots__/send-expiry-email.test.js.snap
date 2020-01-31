@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expiry email for awards for all 1`] = `
+" Hello,
+
+ Your National Lottery Awards for All application isn’t finished yet.
+We noticed you started applying for Example project name. But you haven’t finished your application. 
+
+ You have until 1 June, 2050 12:00 to finish your application.
+If you don’t complete your application before that time, we’ll delete it - so that we can keep your data safe. 
+
+ To finish your application
+Log in to your account [https://www.tnlcommunityfund.org.uk/apply/awards-for-all/edit/MOCK_APPLICATION_ID?s=expiryEmail]and answer
+the rest of the questions. 
+
+ If you don’t want more reminders from us
+You can tell us to stop sending emails [https://tnlcommunityfund.org.uk//apply/emails/unsubscribe?token=MOCK_TOKEN] that remind
+you about your application. 
+
+ If you have any questions at all
+You can call 0345 4 10 20 30. Or email general.enquiries@tnlcommunityfund.org.uk. We’ll be happy to help you. 
+
+Best wishes,
+The National Lottery Awards for All Team"
+`;
+
+exports[`expiry email for standard funding proposal 1`] = `
+" Hello,
+
+ Your funding proposal isn’t finished yet
+We noticed you started telling us about Example project name. But you haven’t finished yet. 
+
+ You have until 1 June, 2050 12:00 to finish your funding proposal. 
+If you don’t complete it before that time, we’ll delete it - so that we can keep your data safe. 
+
+ How to finish your funding proposal
+Log in to your account [https://www.tnlcommunityfund.org.uk/apply/your-funding-proposal/edit/MOCK_APPLICATION_ID?s=expiryEmail]and
+answer the rest of the questions. 
+
+ If you don’t want more reminders from us
+You can tell us to stop sending you these reminder emails.
+[https://tnlcommunityfund.org.uk//apply/emails/unsubscribe?token=MOCK_TOKEN] 
+
+ If you have any questions at all
+You can call 0345 4 10 20 30. Or email general.enquiries@tnlcommunityfund.org.uk. We’ll be happy to help you. 
+
+Best wishes,
+The National Lottery Community Fund"
+`;

@@ -11,7 +11,8 @@ const {
 const appData = require('../../../common/appData');
 const {
     EMAIL_EXPIRY_TEST_ADDRESS,
-    EMAIL_EXPIRY_SECRET
+    EMAIL_EXPIRY_SECRET,
+    JWT_SIGNING_TOKEN
 } = require('../../../common/secrets');
 
 const logger = require('../../../common/logger').child({
@@ -21,6 +22,19 @@ const logger = require('../../../common/logger').child({
 const sendExpiryEmail = require('./send-expiry-email');
 
 const router = express.Router();
+
+function signUnsubscribeToken(applicationId) {
+    return jwt.sign(
+        {
+            data: {
+                applicationId: applicationId,
+                action: 'unsubscribe'
+            }
+        },
+        JWT_SIGNING_TOKEN,
+        { expiresIn: '30d' }
+    );
+}
 
 /**
  * Email Queue Handler:
@@ -44,6 +58,7 @@ async function sendExpiryEmails(req, emailQueue) {
 
             const emailStatus = await sendExpiryEmail({
                 emailType: emailType,
+                unsubscribeToken: signUnsubscribeToken(PendingApplication.id),
                 formId: PendingApplication.formId,
                 applicationId: PendingApplication.id,
                 applicationData: PendingApplication.applicationData,
