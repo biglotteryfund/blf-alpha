@@ -1,9 +1,5 @@
 'use strict';
-const path = require('path');
 const express = require('express');
-const moment = require('moment');
-const jwt = require('jsonwebtoken');
-const get = require('lodash/get');
 const config = require('config');
 const enableExpiration = config.get('awardsForAll.enableExpiration');
 
@@ -12,55 +8,19 @@ const {
     PendingApplication
 } = require('../../../db/models');
 
-const { getSubjectLineForEmail, getEditLink } = require('./email-helpers');
-
 const appData = require('../../../common/appData');
 const {
     EMAIL_EXPIRY_TEST_ADDRESS,
-    EMAIL_EXPIRY_SECRET,
-    JWT_SIGNING_TOKEN
+    EMAIL_EXPIRY_SECRET
 } = require('../../../common/secrets');
-const { getAbsoluteUrl } = require('../../../common/urls');
-const { sendHtmlEmail } = require('../../../common/mail');
 
 const logger = require('../../../common/logger').child({
     service: 'application-expiry'
 });
 
+const sendExpiryEmail = require('./send-expiry-email');
+
 const router = express.Router();
-
-function signUnsubscribeToken(applicationId) {
-    return jwt.sign(
-        {
-            data: {
-                applicationId: applicationId,
-                action: 'unsubscribe'
-            }
-        },
-        JWT_SIGNING_TOKEN,
-        { expiresIn: '30d' }
-    );
-}
-
-function getEmailFor(country) {
-    const countryEmail = {
-        'scotland': 'advicescotland@tnlcommunityfund.org.uk',
-        'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
-        'wales': 'wales@tnlcommunityfund.org.uk'
-    }[country];
-
-    return countryEmail || 'general.enquiries@tnlcommunityfund.org.uk';
-}
-
-function getPhoneFor(country) {
-    const countryPhone = {
-        'scotland': '0300 123 7110',
-        'northern-ireland': '028 9055 1455',
-        'wales': '0300 123 0735'
-    }[country];
-
-    return countryPhone || '0345 4 10 20 30';
-}
 
 /**
  * Email Queue Handler:
@@ -80,128 +40,32 @@ async function sendExpiryEmails(req, emailQueue) {
 
     return await Promise.all(
         emailQueue.map(async emailToSend => {
-            const formId = emailToSend.PendingApplication.formId;
-
-            function getAppData(field) {
-                return get(
-                    emailToSend.PendingApplication,
-                    `applicationData.${field}`
-                );
-            }
-
-            function getEmailConfig() {
-                return {
-                    'awards-for-all': {
-                        name: 'application_expiry_afa',
-                        template: path.resolve(
-                            __dirname,
-                            './awards-for-all-expiry-email.njk'
-                        )
-                    },
-                    'standard-enquiry': {
-                        name: 'application_expiry_standard',
-                        template: path.resolve(
-                            __dirname,
-                            './standard-expiry-email.njk'
-                        )
-                    }
-                }[formId];
-            }
-
-            function getProjectCountry() {
-                if (formId === 'awards-for-all') {
-                    return getAppData('projectCountry');
-                } else if (formId === 'standard-enquiry') {
-                    const countries = getAppData('projectCountries');
-                    return countries && countries.length === 1
-                        ? countries[0]
-                        : 'Multiple';
-                }
-            }
-
-            function getBilingualStatus() {
-                if (formId === 'awards-for-all') {
-                    return getAppData('projectCountry') === 'wales';
-                } else if (formId === 'standard-enquiry') {
-                    const countries = getAppData('projectCountries');
-                    return countries && countries.includes('wales');
-                }
-            }
-
-            const emailConfig = getEmailConfig();
-            const projectCountry = getProjectCountry();
-            const isBilingual = getBilingualStatus();
-
-            let subjectLine = getSubjectLineForEmail(emailToSend.emailType);
-            // Combine subject lines for bilingual emails
-            subjectLine = isBilingual
-                ? [subjectLine.en, subjectLine.cy].join(' / ')
-                : subjectLine.en;
-
-            const token = signUnsubscribeToken(
-                emailToSend.PendingApplication.id
-            );
-
-            const expiresOn = moment(emailToSend.PendingApplication.expiresAt);
-
-            const dateFormat = 'D MMMM, YYYY HH:mm';
-            const expiryDates = {
-                en: expiresOn.format(dateFormat),
-                cy: expiresOn.locale('cy').format(dateFormat)
-            };
-
-            const baseLink = `/apply/emails/unsubscribe?token=${token}`;
-
-            const templateData = {
-                isBilingual: isBilingual,
-                projectName: getAppData('projectName'),
-                countryPhoneNumber: getPhoneFor(projectCountry),
-                countryEmail: getEmailFor(projectCountry),
-                application: emailToSend.PendingApplication,
-                unsubscribeLink: {
-                    en: getAbsoluteUrl(req, baseLink),
-                    cy: getAbsoluteUrl(req, `/welsh${baseLink}`)
-                },
-                expiryDate: expiryDates,
-                editLink: getEditLink(formId, emailToSend.PendingApplication.id)
-            };
-
-            const emailStatus = await sendHtmlEmail(
-                {
-                    template: emailConfig.template,
-                    templateData: templateData
-                },
-                {
-                    name: emailConfig.name,
-                    sendTo: appData.isNotProduction
-                        ? EMAIL_EXPIRY_TEST_ADDRESS
-                        : emailToSend.PendingApplication.user.username,
-                    subject: subjectLine
-                }
-            );
-
-            let returnObj = { emailSent: false, dbUpdated: false };
+            const emailStatus = await sendExpiryEmail(emailToSend);
 
             if (emailStatus.response || appData.isTestServer) {
                 if (enableExpiration) {
-                    returnObj.emailSent = true;
+                    const queueStatus = await ApplicationEmailQueue.updateStatusToSent(
+                        emailToSend.id
+                    );
 
-                    const dbStatus = (
-                        await ApplicationEmailQueue.updateStatusToSent(
-                            emailToSend.id
-                        )
-                    )[0];
-
-                    if (dbStatus === 1) {
-                        returnObj.dbUpdated = true;
-                    }
+                    return {
+                        emailSent: true,
+                        dbUpdated: queueStatus[0] === 1
+                    };
                 } else {
-                    // Simulate a successful response but indicate no emails/deletions were made
-                    returnObj = { emailSent: true, dbUpdated: true };
-                    returnObj.wasSimulated = true;
+                    /**
+                     * Simulate a successful response but
+                     * indicate no deletions were made
+                     */
+                    return {
+                        emailSent: true,
+                        dbUpdated: true,
+                        wasSimulated: true
+                    };
                 }
+            } else {
+                return { emailSent: false, dbUpdated: false };
             }
-            return returnObj;
         })
     );
 }
