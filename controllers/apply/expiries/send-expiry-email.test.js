@@ -21,7 +21,7 @@ test('expiry email for awards for all', async function() {
                 projectName: 'Example project name'
             },
             expiresAt: moment('2050-06-01 12:00').toISOString(),
-            username: 'example@example.com'
+            sendTo: 'example@example.com'
         },
         mockTransport
     );
@@ -50,7 +50,7 @@ test('expiry email for standard funding proposal', async function() {
                 projectName: 'Example project name'
             },
             expiresAt: moment('2050-06-01 12:00').toISOString(),
-            username: 'example@example.com'
+            sendTo: 'example@example.com'
         },
         mockTransport
     );

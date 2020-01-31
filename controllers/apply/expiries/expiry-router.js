@@ -62,7 +62,9 @@ async function sendExpiryEmails(req, emailQueue) {
                 applicationId: PendingApplication.id,
                 applicationData: PendingApplication.applicationData,
                 expiresAt: PendingApplication.expiresAt,
-                username: PendingApplication.user.username
+                sendTo: appData.isNotProduction
+                    ? EMAIL_EXPIRY_TEST_ADDRESS
+                    : PendingApplication.user.username
             });
 
             if (emailStatus.response || appData.isTestServer) {

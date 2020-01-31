@@ -3,8 +3,6 @@ const path = require('path');
 const moment = require('moment');
 const get = require('lodash/get');
 
-const appData = require('../../../common/appData');
-const { EMAIL_EXPIRY_TEST_ADDRESS } = require('../../../common/secrets');
 const { sendHtmlEmail } = require('../../../common/mail');
 
 /**
@@ -12,55 +10,52 @@ const { sendHtmlEmail } = require('../../../common/mail');
  * @TODO: Can we vary this on form type and assume the
  *        same cadence for email types, this seems messy?
  */
-function getSubjectLineForEmail(emailType) {
+function getSubjectLine(emailType, isBilingual = false) {
+    let subjectLine;
     switch (emailType) {
         case 'AFA_ONE_MONTH':
-            return {
+            subjectLine = {
                 en: 'You have one month to finish your application',
                 cy: 'Mae gennych fis i orffen eich cais'
             };
+            break;
         case 'AFA_ONE_WEEK':
-            return {
+            subjectLine = {
                 en: 'You have one week to finish your application',
                 cy: 'Mae gennych wythnos i orffen eich cais'
             };
+            break;
         case 'AFA_ONE_DAY':
-            return {
+            subjectLine = {
                 en: 'You have one day to finish your application',
                 cy: 'Mae gennych ddiwrnod i orffen eich cais'
             };
+            break;
         case 'STANDARD_ONE_MONTH':
-            return {
+            subjectLine = {
                 en: 'You have one month to finish your funding proposal',
                 cy: 'Mae gennych fis ar ôl i orffen eich cynnig'
             };
+            break;
         case 'STANDARD_ONE_WEEK':
-            return {
+            subjectLine = {
                 en: 'You have one week to finish your funding proposal',
                 cy: 'Mae gennych wythnos ar ôl i orffen eich cynnig'
             };
+            break;
         case 'STANDARD_ONE_DAY':
-            return {
+            subjectLine = {
                 en: 'You have one day to finish your funding proposal',
                 cy: 'Mae gennych ddiwrnod ar ôl i orffen eich cynnig'
             };
+            break;
     }
-}
 
-/**
- * Generate a link to edit an application,
- * along with a tracking source parameter
- */
-function getEditLink(formId, applicationId) {
-    const baseUrl = 'https://www.tnlcommunityfund.org.uk/';
-    const path = `apply/${
-        formId === 'awards-for-all' ? formId : 'your-funding-proposal'
-    }/edit/${applicationId}?s=expiryEmail`;
-
-    return {
-        en: `${baseUrl}${path}`,
-        cy: `${baseUrl}welsh/${path}`
-    };
+    if (isBilingual) {
+        return [subjectLine.en, subjectLine.cy].join(' / ');
+    } else {
+        return subjectLine.en;
+    }
 }
 
 function getEmailFor(country) {
@@ -91,7 +86,7 @@ module.exports = function sendExpiryEmail(
         applicationId,
         applicationData = {},
         expiresAt,
-        username
+        sendTo
     },
     mockMailTransport = null
 ) {
@@ -132,36 +127,39 @@ module.exports = function sendExpiryEmail(
         }
     }
 
-    const projectCountry = getProjectCountry();
-    const isBilingual = getBilingualStatus();
+    function getExpiryDates() {
+        const expiresOn = moment(expiresAt);
+        const dateFormat = 'D MMMM, YYYY HH:mm';
+        return {
+            en: expiresOn.format(dateFormat),
+            cy: expiresOn.locale('cy').format(dateFormat)
+        };
+    }
 
-    let subjectLine = getSubjectLineForEmail(emailType);
-    // Combine subject lines for bilingual emails
-    subjectLine = isBilingual
-        ? [subjectLine.en, subjectLine.cy].join(' / ')
-        : subjectLine.en;
+    const baseUrl = 'https://www.tnlcommunityfund.org.uk';
 
-    const expiresOn = moment(expiresAt);
-
-    const dateFormat = 'D MMMM, YYYY HH:mm';
-    const expiryDates = {
-        en: expiresOn.format(dateFormat),
-        cy: expiresOn.locale('cy').format(dateFormat)
+    const unsubscribeLinkUrlPath = `/apply/emails/unsubscribe?token=${unsubscribeToken}`;
+    const unsubscribeLink = {
+        en: `${baseUrl}${unsubscribeLinkUrlPath}`,
+        cy: `${baseUrl}welsh${unsubscribeLinkUrlPath}`
     };
 
-    const baseLink = `/apply/emails/unsubscribe?token=${unsubscribeToken}`;
+    const editLinkUrlPath = `/apply/${
+        formId === 'awards-for-all' ? formId : 'your-funding-proposal'
+    }/edit/${applicationId}?s=expiryEmail`;
+    const editLink = {
+        en: `${baseUrl}${editLinkUrlPath}`,
+        cy: `${baseUrl}welsh/${editLinkUrlPath}`
+    };
 
     const templateData = {
-        isBilingual: isBilingual,
+        isBilingual: getBilingualStatus(),
         projectName: get(applicationData, 'projectName'),
-        countryPhoneNumber: getPhoneFor(projectCountry),
-        countryEmail: getEmailFor(projectCountry),
-        unsubscribeLink: {
-            en: `https://tnlcommunityfund.org.uk/${baseLink}`,
-            cy: `https://tnlcommunityfund.org.uk/welsh${baseLink}`
-        },
-        expiryDate: expiryDates,
-        editLink: getEditLink(formId, applicationId)
+        countryPhoneNumber: getPhoneFor(getProjectCountry()),
+        countryEmail: getEmailFor(getProjectCountry()),
+        unsubscribeLink: unsubscribeLink,
+        expiryDate: getExpiryDates(),
+        editLink: editLink
     };
 
     return sendHtmlEmail(
@@ -171,10 +169,8 @@ module.exports = function sendExpiryEmail(
         },
         {
             name: emailConfig.name,
-            sendTo: appData.isNotProduction
-                ? EMAIL_EXPIRY_TEST_ADDRESS
-                : username,
-            subject: subjectLine
+            sendTo: sendTo,
+            subject: getSubjectLine(emailType, getBilingualStatus())
         },
         mockMailTransport
     );
