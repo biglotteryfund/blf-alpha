@@ -30,7 +30,6 @@
     "enableSessionExpiryWarning": true
   },
   "awardsForAll": {
-    "enableExpiration": true,
     "enableNewDateRange": false
   },
   "standardFundingProposal": {

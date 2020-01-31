@@ -1,9 +1,6 @@
 'use strict';
 const express = require('express');
-const config = require('config');
 const jwt = require('jsonwebtoken');
-
-const enableExpiration = config.get('awardsForAll.enableExpiration');
 
 const {
     ApplicationEmailQueue,
@@ -69,26 +66,14 @@ async function sendExpiryEmails(req, emailQueue) {
             });
 
             if (emailStatus.response || appData.isTestServer) {
-                if (enableExpiration) {
-                    const queueStatus = await ApplicationEmailQueue.updateStatusToSent(
-                        emailToSend.id
-                    );
+                const queueStatus = await ApplicationEmailQueue.updateStatusToSent(
+                    emailToSend.id
+                );
 
-                    return {
-                        emailSent: true,
-                        dbUpdated: queueStatus[0] === 1
-                    };
-                } else {
-                    /**
-                     * Simulate a successful response but
-                     * indicate no deletions were made
-                     */
-                    return {
-                        emailSent: true,
-                        dbUpdated: true,
-                        wasSimulated: true
-                    };
-                }
+                return {
+                    emailSent: true,
+                    dbUpdated: queueStatus[0] === 1
+                };
             } else {
                 return { emailSent: false, dbUpdated: false };
             }
@@ -106,28 +91,21 @@ async function deleteExpiredApplications(expiredApplications) {
     try {
         logger.info('Handling expired applications');
 
-        if (enableExpiration) {
-            const ids = expiredApplications.map(application => application.id);
+        const ids = expiredApplications.map(application => application.id);
 
-            const dbStatus = await PendingApplication.deleteBatch(ids);
+        const dbStatus = await PendingApplication.deleteBatch(ids);
 
-            const status = expiredApplications.map(application => {
-                logger.info(`Deleting expired application`, {
-                    formId: application.formId,
-                    applicationStatus: application.currentProgressState
-                });
-                return {
-                    applicationDeleted: true
-                };
+        const status = expiredApplications.map(application => {
+            logger.info(`Deleting expired application`, {
+                formId: application.formId,
+                applicationStatus: application.currentProgressState
             });
+            return {
+                applicationDeleted: true
+            };
+        });
 
-            return dbStatus === expiredApplications.length ? status : false;
-        } else {
-            logger.info(
-                `Simulated deleting ${expiredApplications.length} expired applications`
-            );
-            return true;
-        }
+        return dbStatus === expiredApplications.length ? status : false;
     } catch (err) {
         logger.error('Error handling expired applications: ', err);
         return { error: err.message };
