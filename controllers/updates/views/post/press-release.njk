@@ -2,7 +2,6 @@
 {% from "components/card/macro.njk" import card %}
 {% from "components/document-list/macro.njk" import documentList %}
 {% from "components/flexible-content/macro.njk" import flexibleContent %}
-{% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
 
@@ -31,7 +30,7 @@
 {% block content %}
     <main role="main">
         {{ pageTitle(title) }}
-    
+
         <section class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
 

@@ -157,7 +157,6 @@ router.get(
                 slug: req.params.slug,
                 query: pick(req.query, [
                     'page',
-                    'tag',
                     'author',
                     'category',
                     'region',
@@ -174,9 +173,6 @@ router.get(
                 const getCrumbName = entriesMeta => {
                     let title;
                     switch (entriesMeta.pageType) {
-                        case 'tag':
-                            title = `${copy.filters.tag}: ${entriesMeta.activeTag.title}`;
-                            break;
                         case 'category':
                             title = `${copy.filters.category}: ${entriesMeta.activeCategory.title}`;
                             break;

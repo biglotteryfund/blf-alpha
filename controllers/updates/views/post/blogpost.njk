@@ -3,7 +3,6 @@
 {% from "components/card/macro.njk" import card %}
 {% from "components/flexible-content/macro.njk" import flexibleContent %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
-{% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
@@ -11,7 +10,6 @@
 {% set bodyClass = 'has-static-header' %}
 
 {% macro articleMeta(entry) %}
-
     {% set aboutTitle = copy.author.plural if entry.authors.length > 1  else copy.author.singular %}
     {% call card(aboutTitle) %}
         {% for author in entry.authors -%}
@@ -49,25 +47,12 @@
             </p>
         {% endif %}
 
-        <ul class="tags-list">
-            {% if entry.category %}
-                <li class="tag">
-                    <a href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
-                        {{ entry.category.title }}
-                    </a>
-                </li>
-            {% endif %}
-            {% for tag in entry.tags %}
-                <li class="tag tag--secondary">
-                    <a href="{{ localify('/news/' + updateType + '?tag=' + tag.slug) }}">
-                        {{ tag.title }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% if entry.category %}
+            <p><a class="o-tag" href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
+                {{ entry.category.title }}
+            </a></p>
+        {% endif %}
     {% endcall %}
-
-
 {% endmacro %}
 
 {% block content %}
@@ -99,16 +84,6 @@
                     {{ articleMeta(entry) }}
                 </div>
             </div>
-
-            {% if entry.tags.length > 0 %}
-                <aside class="article__topics" role="aside">
-                    {% set links = [] %}
-                    {% for tag in entry.tags %}
-                        {% set links = (links.push({ "label": tag.title, "url": localify('/news/' + updateType + '?tag=' + tag.slug) }), links) %}
-                    {% endfor %}
-                    {{ inlineLinks(prefix = __('global.misc.topics') | title, links = links) }}
-                </aside>
-            {% endif %}
 
             <div class="o-button-group-flex u-gutter-half u-margin-top">
                 <a class="btn btn--small btn--outline"

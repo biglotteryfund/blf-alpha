@@ -36,9 +36,6 @@
                             {% endif %}
                         </div>
                     </aside>
-                {% elseif entriesMeta.pageType === 'tag' %}
-                    {% set activeTag = entriesMeta.activeTag %}
-                    <h1>{{ copy.filters.viewPostsTagged }} "{{ activeTag.title }}"</h1>
                 {% elseif entriesMeta.pageType === 'category' %}
                     {% set activeCategory = entriesMeta.activeCategory %}
                     <h1>{{ copy.filters.viewPostsIn }} {{ activeCategory.title }}</h1>
