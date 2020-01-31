@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 const config = require('config');
+const jwt = require('jsonwebtoken');
+
 const enableExpiration = config.get('awardsForAll.enableExpiration');
 
 const {
