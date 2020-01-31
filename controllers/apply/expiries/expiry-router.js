@@ -40,7 +40,16 @@ async function sendExpiryEmails(req, emailQueue) {
 
     return await Promise.all(
         emailQueue.map(async emailToSend => {
-            const emailStatus = await sendExpiryEmail(emailToSend);
+            const { emailType, PendingApplication } = emailToSend;
+
+            const emailStatus = await sendExpiryEmail({
+                emailType: emailType,
+                formId: PendingApplication.formId,
+                applicationId: PendingApplication.id,
+                applicationData: PendingApplication.applicationData,
+                expiresAt: PendingApplication.expiresAt,
+                username: PendingApplication.user.username
+            });
 
             if (emailStatus.response || appData.isTestServer) {
                 if (enableExpiration) {

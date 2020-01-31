@@ -2,7 +2,7 @@
 const path = require('path');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
-const get = require('lodash/get');
+const get = require('lodash/fp/get');
 
 const {
     EMAIL_EXPIRY_TEST_ADDRESS,
@@ -101,14 +101,17 @@ function signUnsubscribeToken(applicationId) {
 }
 
 module.exports = function sendExpiryEmail(
-    emailToSend,
+    {
+        emailType,
+        formId,
+        applicationId,
+        applicationData = {},
+        expiresAt,
+        username
+    },
     mockMailTransport = null
 ) {
-    const formId = emailToSend.PendingApplication.formId;
-
-    function getAppData(field) {
-        return get(emailToSend.PendingApplication, `applicationData.${field}`);
-    }
+    const getAppData = field => get(field)(applicationData);
 
     const emailConfig = {
         'awards-for-all': {
@@ -150,15 +153,15 @@ module.exports = function sendExpiryEmail(
     const projectCountry = getProjectCountry();
     const isBilingual = getBilingualStatus();
 
-    let subjectLine = getSubjectLineForEmail(emailToSend.emailType);
+    let subjectLine = getSubjectLineForEmail(emailType);
     // Combine subject lines for bilingual emails
     subjectLine = isBilingual
         ? [subjectLine.en, subjectLine.cy].join(' / ')
         : subjectLine.en;
 
-    const token = signUnsubscribeToken(emailToSend.PendingApplication.id);
+    const token = signUnsubscribeToken(applicationId);
 
-    const expiresOn = moment(emailToSend.PendingApplication.expiresAt);
+    const expiresOn = moment(expiresAt);
 
     const dateFormat = 'D MMMM, YYYY HH:mm';
     const expiryDates = {
@@ -173,13 +176,12 @@ module.exports = function sendExpiryEmail(
         projectName: getAppData('projectName'),
         countryPhoneNumber: getPhoneFor(projectCountry),
         countryEmail: getEmailFor(projectCountry),
-        application: emailToSend.PendingApplication,
         unsubscribeLink: {
             en: `https://tnlcommunityfund.org.uk/${baseLink}`,
             cy: `https://tnlcommunityfund.org.uk/welsh${baseLink}`
         },
         expiryDate: expiryDates,
-        editLink: getEditLink(formId, emailToSend.PendingApplication.id)
+        editLink: getEditLink(formId, applicationId)
     };
 
     return sendHtmlEmail(
@@ -191,7 +193,7 @@ module.exports = function sendExpiryEmail(
             name: emailConfig.name,
             sendTo: appData.isNotProduction
                 ? EMAIL_EXPIRY_TEST_ADDRESS
-                : emailToSend.PendingApplication.user.username,
+                : username,
             subject: subjectLine
         },
         mockMailTransport
