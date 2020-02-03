@@ -10,7 +10,8 @@ router.get('/', injectCopy('toplevel.home'), async (req, res, next) => {
     try {
         const { featuredLinks, promotedUpdates } = await contentApi.getHomepage(
             {
-                locale: req.i18n.getLocale()
+                locale: req.i18n.getLocale(),
+                requestParams: req.query
             }
         );
 
