@@ -102,7 +102,7 @@ const EXPIRY_EMAIL_REMINDERS = [
     {
         emailType: 'AFA_ONE_WEEK',
         sendBeforeExpiry: {
-            amount: 14,
+            amount: 7,
             unit: 'days'
         }
     },
