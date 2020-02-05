@@ -3,8 +3,6 @@ const config = require('config');
 const moment = require('moment-timezone');
 const isString = require('lodash/isString');
 
-const features = config.get('features');
-
 const appData = require('./appData');
 const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
 
@@ -46,7 +44,7 @@ module.exports = function(req, res, next) {
      * Feature flags
      */
     res.locals.enableSiteSurvey = true;
-    res.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
+    res.locals.hotjarId = config.get('hotjarId');
 
     /**
      * Global copy

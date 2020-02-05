@@ -23,7 +23,6 @@
     }
   },
   "features": {
-    "enableHotjar": false,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
@@ -37,6 +36,6 @@
     "cookieLogin": "blf-auth-state",
     "expiryInSeconds": 7200
   },
-  "hotjarId": 1036292,
+  "hotjarId": null,
   "googleAnalyticsCode": "UA-98908627-1"
 }
