@@ -136,7 +136,7 @@
         flex-basis: 100%;
     }
 
-    .blogpost-attribution__tags {
+    .blogpost-attribution__extra {
         flex-basis: 100%;
     }
 
@@ -146,45 +146,8 @@
             order: 0;
             flex-basis: auto;
         }
-        .blogpost-attribution__tags {
+        .blogpost-attribution__extra {
             flex-basis: auto;
-        }
-    }
-}
-
-/* =========================================================================
-   Tag List
-   ========================================================================= */
-
-.tags-list {
-    $primaryColour: get-color('brand', 'primary');
-    $secondaryColour: get-color('text', 'note');
-    .tag {
-        display: inline-block;
-
-        a {
-            border: 1px solid $primaryColour;
-            color: $primaryColour;
-            display: inline-block;
-            padding: 2px 7px;
-            text-decoration: none;
-            font-size: 14px;
-            margin: 3px 3px 3px 0;
-            @include on-interact() {
-                border-color: darken($primaryColour, 10%);
-                color: darken($primaryColour, 10%);
-            }
-        }
-
-        &.tag--secondary {
-            a {
-                border-color: $secondaryColour;
-                color: $secondaryColour;
-                @include on-interact() {
-                    border-color: darken($secondaryColour, 10%);
-                    color: darken($secondaryColour, 10%);
-                }
-            }
         }
     }
 }
