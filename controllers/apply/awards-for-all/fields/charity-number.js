@@ -19,7 +19,7 @@ module.exports = function(locale, data) {
 
     const baseSchema = Joi.string()
         .regex(excludeRegex)
-        .min(5)
+        .min(4)
         .max(FREE_TEXT_MAXLENGTH.large);
 
     const schema = Joi.when(Joi.ref('organisationType'), {
