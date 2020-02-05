@@ -3,6 +3,7 @@
 {% from "components/card/macro.njk" import card %}
 {% from "components/flexible-content/macro.njk" import flexibleContent %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
+{% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
@@ -86,6 +87,13 @@
                     {{ articleMeta(entry) }}
                 </div>
             </div>
+
+            {% if entryTagList.length > 0 %}
+                {{ inlineLinks(
+                    prefix = __('global.misc.topics') | title,
+                    links = entryTagList
+                ) }}
+            {% endif %}
 
             <div class="o-button-group-flex u-gutter-half u-margin-top">
                 <a class="btn btn--small btn--outline"
