@@ -431,6 +431,21 @@ test('disallow letter O in charity number', function() {
     );
 });
 
+test('disallow too-short charity number', function() {
+    const data = mockResponse({
+        organisationType: 'unincorporated-registered-charity',
+        charityNumber: 'N/A'
+    });
+
+    const result = formBuilder({ data }).validation;
+
+    expect(mapMessages(result)).toEqual(
+        expect.arrayContaining([
+            expect.stringContaining('Enter your organisation’s charity number')
+        ])
+    );
+});
+
 test('valid form for different trading names', function() {
     const data = mockResponse({
         organisationLegalName: 'Cheap Meat For School Dinners',
