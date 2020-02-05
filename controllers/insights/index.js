@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const clone = require('lodash/clone');
+const compact = require('lodash/compact');
 const pick = require('lodash/pick');
 
 const contentApi = require('../../common/content-api');
@@ -75,13 +76,23 @@ router.get(
     }
 );
 
-router.get('/:slug', async function(req, res, next) {
+router.get('/:slug/:child_slug?', async function(req, res, next) {
     try {
         const entry = await contentApi.getResearch({
-            slug: req.params.slug,
+            slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
             requestParams: req.query
         });
+
+        const breadcrumbs = entry.parent
+            ? res.locals.breadcrumbs.concat([
+                  {
+                      label: entry.parent.title,
+                      url: entry.parent.linkUrl
+                  },
+                  { label: entry.title }
+              ])
+            : res.locals.breadcrumbs.concat({ label: entry.title });
 
         setCommonLocals(req, res, entry);
 
@@ -89,9 +100,7 @@ router.get('/:slug', async function(req, res, next) {
             res.render(path.resolve(__dirname, './views/insights-detail'), {
                 extraCopy: req.i18n.__('insights.detail'),
                 entry: entry,
-                breadcrumbs: res.locals.breadcrumbs.concat({
-                    label: entry.title
-                })
+                breadcrumbs: breadcrumbs
             });
         } else {
             next();
