@@ -62,6 +62,9 @@ Object {
   "projectLocation": "derbyshire",
   "projectLocationDescription": "description",
   "projectName": "My project",
+  "projectRegions": Array [
+    "midlands",
+  ],
   "yourIdeaActivities": Any<String>,
   "yourIdeaCommunity": Any<String>,
   "yourIdeaProject": Any<String>,

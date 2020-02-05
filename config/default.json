@@ -27,6 +27,7 @@
     "enableSalesforceConnector": true
   },
   "standardFundingProposal": {
+    "enableNewLocationQuestions": false,
     "allowedCountries": ["england", "northern-ireland"]
   },
   "session": {

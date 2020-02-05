@@ -6,7 +6,7 @@ const path = require('path');
 
 const formBuilder = require('../form');
 
-const form = formBuilder();
+const form = formBuilder({ flags: { enableNewLocationQuestions: false } });
 
 const docContents = fs.readFileSync(
     path.resolve(__dirname, './schema.md'),

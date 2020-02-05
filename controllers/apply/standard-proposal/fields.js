@@ -10,19 +10,25 @@ const Joi = require('../lib/joi-extensions');
 
 const {
     Field,
-    TextareaField,
-    EmailField,
-    PhoneField,
+    AddressField,
+    CheckboxField,
     CurrencyField,
+    EmailField,
+    NameField,
+    PhoneField,
     RadioField,
     SelectField,
-    AddressField,
-    NameField
+    TextareaField
 } = require('../lib/field-types');
 
 const { locationOptions } = require('../lib/location-options');
+const {
+    englandRegions,
+    englandLocationOptions,
+    northernIrelandLocationOptions
+} = require('./lib/locations'); // Used for new location questions
 
-module.exports = function fieldsFor({ locale, data = {} }) {
+module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
@@ -163,22 +169,62 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
+    function fieldProjectRegions() {
+        const options = englandRegions();
+        return new CheckboxField({
+            locale: 'en',
+            name: 'projectRegions',
+            label: 'Project regions',
+            options: options,
+            schema: Joi.when(Joi.ref('projectCountries'), {
+                is: Joi.array()
+                    .items(
+                        Joi.string()
+                            .only('england')
+                            .required(),
+                        Joi.any()
+                    )
+                    .required(),
+                then: Joi.array()
+                    .items(
+                        Joi.string().valid(options.map(option => option.value))
+                    )
+                    .single()
+                    .required(),
+                otherwise: Joi.any().strip()
+            }),
+            messages: [{ type: 'base', message: 'Select one or more regions' }]
+        });
+    }
+
     function fieldProjectLocation() {
         function optgroups() {
-            const locations = locationOptions(locale);
-
-            if (projectCountries.length > 1) {
-                return [];
-            } else if (projectCountries.includes('england')) {
-                return locations.england;
-            } else if (projectCountries.includes('northern-ireland')) {
-                return locations.northernIreland;
-            } else if (projectCountries.includes('scotland')) {
-                return locations.scotland;
-            } else if (projectCountries.includes('wales')) {
-                return locations.wales;
+            if (flags.enableNewLocationQuestions) {
+                if (projectCountries.length > 1) {
+                    return [];
+                } else if (projectCountries.includes('england')) {
+                    return englandLocationOptions(get('projectRegions')(data));
+                } else if (projectCountries.includes('northern-ireland')) {
+                    return northernIrelandLocationOptions();
+                } else {
+                    return [];
+                }
             } else {
-                return [];
+                const locations = locationOptions(locale);
+
+                if (projectCountries.length > 1) {
+                    return [];
+                } else if (projectCountries.includes('england')) {
+                    return locations.england;
+                } else if (projectCountries.includes('northern-ireland')) {
+                    return locations.northernIreland;
+                } else if (projectCountries.includes('scotland')) {
+                    return locations.scotland;
+                } else if (projectCountries.includes('wales')) {
+                    return locations.wales;
+                } else {
+                    return [];
+                }
             }
         }
 
@@ -872,7 +918,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    return {
+    const allFields = {
         projectName: fieldProjectName(),
         projectCountries: fieldProjectCountries(),
         projectLocation: fieldProjectLocation(),
@@ -893,4 +939,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         contactLanguagePreference: fieldContactLanguagePreference(),
         contactCommunicationNeeds: fieldContactCommunicationNeeds()
     };
+
+    if (flags.enableNewLocationQuestions) {
+        allFields.projectRegions = fieldProjectRegions();
+    }
+
+    return allFields;
 };

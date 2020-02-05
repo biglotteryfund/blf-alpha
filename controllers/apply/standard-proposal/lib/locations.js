@@ -297,11 +297,12 @@ function englandLocationOptions(filterRegions = []) {
         ]
     };
 
-    const regions = filterRegions.length
-        ? englandRegions().filter(region =>
-              filterRegions.includes(region.value)
-          )
-        : englandRegions();
+    const regions =
+        Array.isArray(filterRegions) && filterRegions.length
+            ? englandRegions().filter(region =>
+                  filterRegions.includes(region.value)
+              )
+            : englandRegions();
 
     return regions.map(function(region) {
         return {
