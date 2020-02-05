@@ -119,9 +119,7 @@ router.get(
                             breadcrumbs: res.locals.breadcrumbs.concat(
                                 {
                                     label: typeCopy.plural,
-                                    url: res.locals.localify(
-                                        `${req.baseUrl}/press-releases`
-                                    )
+                                    url: `${req.baseUrl}/press-releases`
                                 },
                                 { label: entry.title }
                             )
@@ -189,7 +187,7 @@ router.get(
 
                 const crumbs = res.locals.breadcrumbs.concat({
                     label: typeCopy.plural,
-                    url: res.locals.localify(`${req.baseUrl}/${updateType}`)
+                    url: `${req.baseUrl}/${updateType}`
                 });
 
                 const crumbName = getCrumbName(response.meta);
