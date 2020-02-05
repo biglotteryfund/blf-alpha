@@ -4,6 +4,10 @@ The following documents the data schema for Awards for All applications when sub
 
 ## Changelog
 
+### v1.3
+
+- Document new `projectStartDate` and `projectEndDate` fields and add deprecated note to `projectDateRange` field
+
 ### v1.2
 
 - Added `clientIp` to meta
@@ -39,6 +43,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
     "application": {
         "projectName": "My project name",
         "projectCountry": "england",
+        "projectStartDate": "2020-12-12",
+        "projectEndDate": "2020-12-12",
         "projectDateRange": {
             "startDate": "2020-12-12",
             "endDate": "2020-12-12"
@@ -199,7 +205,21 @@ type: `string`
 
 Allowed values: `england`, `northern-ireland`, `scotland`, `wales`
 
+### projectStartDate
+
+type: `string`
+
+Date string in the format `YYYY-MM-DD`
+
+### projectEndDate
+
+type: `string`
+
+Date string in the format `YYYY-MM-DD`
+
 ### projectDateRange
+
+**DEPRECATED: This is included for backward compatibility, prefer newer `projectStartDate` and `projectDateRange` fields**
 
 type: `object`
 

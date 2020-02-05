@@ -36,7 +36,7 @@ test('validate model shape', () => {
 });
 
 test('empty form', () => {
-    const form = formBuilder({ flags: { enableNewDateRange: false } });
+    const form = formBuilder();
     expect(mapMessageSummary(form.validation)).toMatchSnapshot();
     expect(form.progress).toMatchSnapshot();
 });
@@ -95,10 +95,7 @@ test('invalid form', () => {
         mainContactDateOfBirth: mockDateOfBirth(0, 15) // too young
     });
 
-    const form = formBuilder({
-        data,
-        flags: { enableNewDateRange: false }
-    });
+    const form = formBuilder({ data });
 
     expect(mapMessageSummary(form.validation)).toMatchSnapshot();
 
@@ -473,169 +470,130 @@ test('valid form for different trading names', function() {
     );
 });
 
-test('project dates must be within range', () => {
-    function validateDateRange(start, end, messages) {
-        const data = mockResponse({
-            projectDateRange: { startDate: start, endDate: end }
-        });
+test('maintain backwards compatibility for date schema', function() {
+    const form = formBuilder({
+        data: mockResponse({
+            projectStartDate: { day: 3, month: 3, year: 2021 },
+            projectEndDate: { day: 3, month: 4, year: 2021 }
+        })
+    });
 
-        const form = formBuilder({
-            data,
-            flags: { enableNewDateRange: false }
-        });
+    expect(form.validation.error).toBeNull();
 
-        expect(mapMessages(form.validation)).toEqual(
-            expect.arrayContaining(messages)
-        );
-    }
+    // Maintain backwards compatibility with salesforce schema
+    const salesforceResult = form.forSalesforce();
+    expect(salesforceResult.projectStartDate).toBe('2021-03-03');
+    expect(salesforceResult.projectEndDate).toBe('2021-04-03');
+    expect(salesforceResult.projectDateRange).toEqual({
+        startDate: '2021-03-03',
+        endDate: '2021-04-03'
+    });
+});
 
-    validateDateRange(
-        { day: 1, month: 1, year: 2020 },
-        { day: 1, month: 1, year: 2021 },
-        [expect.stringMatching(/Date you start the project must be after/)]
-    );
+test('require project dates', function() {
+    const form = formBuilder({
+        data: mockResponse({
+            projectStartDate: null,
+            projectEndDate: null
+        })
+    });
 
-    validateDateRange(
-        toDateParts(moment().add('25', 'weeks')),
-        toDateParts(moment().add('2', 'years')),
-        [expect.stringMatching(/Date you end the project must be within/)]
+    expect(mapMessages(form.validation)).toEqual(
+        expect.arrayContaining([
+            'Enter a project start date',
+            'Enter a project end date'
+        ])
     );
 });
 
-describe('new project date schema', function() {
-    test('support new project date schema', function() {
-        const data = mockResponse({
-            projectStartDate: { day: 3, month: 3, year: 2021 },
-            projectEndDate: { day: 3, month: 4, year: 2021 }
-        });
-
-        const form = formBuilder({
-            data: data,
-            flags: { enableNewDateRange: true }
-        });
-
-        expect(form.validation.error).toBeNull();
-
-        // Maintain backwards compatibility with salesforce schema
-        const salesforceResult = form.forSalesforce();
-        expect(salesforceResult.projectStartDate).toBe('2021-03-03');
-        expect(salesforceResult.projectEndDate).toBe('2021-04-03');
-        expect(salesforceResult.projectDateRange).toEqual({
-            startDate: '2021-03-03',
-            endDate: '2021-04-03'
-        });
-    });
-
-    test('require project dates', function() {
-        const form = formBuilder({
+test('start date must be at least 18 weeks away in England', function() {
+    [
+        { projectCountry: 'england', projectLocation: 'derbyshire' },
+        {
+            projectCountry: 'wales',
+            projectLocation: 'monmouthshire',
+            beneficiariesWelshLanguage: 'all',
+            mainContactLanguagePreference: 'welsh',
+            seniorContactLanguagePreference: 'welsh'
+        }
+    ].forEach(function(countryData) {
+        const invalidDate = toDateParts(moment().add('17', 'weeks'));
+        const invalidForm = formBuilder({
             data: mockResponse({
-                projectStartDate: null,
-                projectEndDate: null
-            }),
-            flags: { enableNewDateRange: true }
+                ...countryData,
+                ...{
+                    projectStartDate: invalidDate,
+                    projectEndDate: invalidDate
+                }
+            })
         });
 
-        expect(mapMessages(form.validation)).toEqual(
+        expect(mapMessages(invalidForm.validation)).toEqual(
             expect.arrayContaining([
-                'Enter a project start date',
-                'Enter a project end date'
+                expect.stringMatching(
+                    /Date you start the project must be on or after/
+                )
             ])
         );
-    });
 
-    test('start date must be at least 18 weeks away in England', function() {
-        [
-            { projectCountry: 'england', projectLocation: 'derbyshire' },
-            {
-                projectCountry: 'wales',
-                projectLocation: 'monmouthshire',
-                beneficiariesWelshLanguage: 'all',
-                mainContactLanguagePreference: 'welsh',
-                seniorContactLanguagePreference: 'welsh'
-            }
-        ].forEach(function(countryData) {
-            const invalidDate = toDateParts(moment().add('17', 'weeks'));
-            const invalidForm = formBuilder({
-                data: mockResponse({
-                    ...countryData,
-                    ...{
-                        projectStartDate: invalidDate,
-                        projectEndDate: invalidDate
-                    }
-                }),
-                flags: { enableNewDateRange: true }
-            });
-
-            expect(mapMessages(invalidForm.validation)).toEqual(
-                expect.arrayContaining([
-                    expect.stringMatching(
-                        /Date you start the project must be on or after/
-                    )
-                ])
-            );
-
-            const validDate = toDateParts(moment().add('18', 'weeks'));
-            const validForm = formBuilder({
-                data: mockResponse({
-                    ...countryData,
-                    ...{
-                        projectStartDate: validDate,
-                        projectEndDate: validDate
-                    }
-                }),
-                flags: { enableNewDateRange: true }
-            });
-
-            expect(validForm.validation.error).toBeNull();
+        const validDate = toDateParts(moment().add('18', 'weeks'));
+        const validForm = formBuilder({
+            data: mockResponse({
+                ...countryData,
+                ...{
+                    projectStartDate: validDate,
+                    projectEndDate: validDate
+                }
+            })
         });
+
+        expect(validForm.validation.error).toBeNull();
     });
+});
 
-    test('start date must be at least 12 weeks away in all other countries', function() {
-        [
-            {
-                projectCountry: 'northern-ireland',
-                projectLocation: 'derry-and-strabane',
-                beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
-            },
-            {
-                projectCountry: 'scotland',
-                projectLocation: 'fife'
-            }
-        ].forEach(function(countryData) {
-            const invalidDate = toDateParts(moment().add('11', 'weeks'));
-            const invalidForm = formBuilder({
-                data: mockResponse({
-                    ...countryData,
-                    ...{
-                        projectStartDate: invalidDate,
-                        projectEndDate: invalidDate
-                    }
-                }),
-                flags: { enableNewDateRange: true }
-            });
-
-            expect(mapMessages(invalidForm.validation)).toEqual(
-                expect.arrayContaining([
-                    expect.stringMatching(
-                        /Date you start the project must be on or after/
-                    )
-                ])
-            );
-
-            const validDate = toDateParts(moment().add('12', 'weeks'));
-            const validForm = formBuilder({
-                data: mockResponse({
-                    ...countryData,
-                    ...{
-                        projectStartDate: validDate,
-                        projectEndDate: validDate
-                    }
-                }),
-                flags: { enableNewDateRange: true }
-            });
-
-            expect(validForm.validation.error).toBeNull();
+test('start date must be at least 12 weeks away in all other countries', function() {
+    [
+        {
+            projectCountry: 'northern-ireland',
+            projectLocation: 'derry-and-strabane',
+            beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
+        },
+        {
+            projectCountry: 'scotland',
+            projectLocation: 'fife'
+        }
+    ].forEach(function(countryData) {
+        const invalidDate = toDateParts(moment().add('11', 'weeks'));
+        const invalidForm = formBuilder({
+            data: mockResponse({
+                ...countryData,
+                ...{
+                    projectStartDate: invalidDate,
+                    projectEndDate: invalidDate
+                }
+            })
         });
+
+        expect(mapMessages(invalidForm.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringMatching(
+                    /Date you start the project must be on or after/
+                )
+            ])
+        );
+
+        const validDate = toDateParts(moment().add('12', 'weeks'));
+        const validForm = formBuilder({
+            data: mockResponse({
+                ...countryData,
+                ...{
+                    projectStartDate: validDate,
+                    projectEndDate: validDate
+                }
+            })
+        });
+
+        expect(validForm.validation.error).toBeNull();
     });
 });
 

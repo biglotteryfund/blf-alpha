@@ -1,12 +1,11 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
 const fs = require('fs');
 const path = require('path');
 
 const formBuilder = require('../form');
 
-const form = formBuilder({ flags: { enableNewDateRange: false } });
+const form = formBuilder();
 
 const docContents = fs.readFileSync(
     path.resolve(__dirname, './schema.md'),

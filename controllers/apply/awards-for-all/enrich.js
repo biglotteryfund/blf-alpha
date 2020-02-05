@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const get = require('lodash/fp/get');
 const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
@@ -21,18 +20,12 @@ function details(application, data, locale) {
     }
 
     function formatProjectDates() {
-        if (config.get('awardsForAll.enableNewDateRange')) {
-            return data.projectStartDate && data.projectEndDate
-                ? formatDateRange(locale)({
-                      startDate: data.projectStartDate,
-                      endDate: data.projectEndDate
-                  })
-                : null;
-        } else {
-            return data.projectDateRange
-                ? formatDateRange(locale)(data.projectDateRange)
-                : null;
-        }
+        return data.projectStartDate && data.projectEndDate
+            ? formatDateRange(locale)({
+                  startDate: data.projectStartDate,
+                  endDate: data.projectEndDate
+              })
+            : null;
     }
 
     return {
