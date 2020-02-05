@@ -28,7 +28,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactDateOfBirth: fieldDateOfBirth({
             locale: locale,
             name: 'mainContactDateOfBirth',
-            minAge: 16,
+            minAge: 18,
             contactName: mainContactFullName
         }),
         mainContactAddress: fieldMainContactAddress({

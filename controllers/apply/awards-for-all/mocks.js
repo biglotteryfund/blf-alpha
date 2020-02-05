@@ -98,7 +98,7 @@ function mockResponse(overrides = {}) {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName()
         },
-        mainContactDateOfBirth: mockDateOfBirth(16),
+        mainContactDateOfBirth: mockDateOfBirth(18),
         mainContactAddress: mockAddress(),
         mainContactAddressHistory: {
             currentAddressMeetsMinimum: 'no',

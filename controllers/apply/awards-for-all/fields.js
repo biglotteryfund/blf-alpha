@@ -40,8 +40,7 @@ const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
     MAX_BUDGET_TOTAL_GBP,
-    MIN_AGE_MAIN_CONTACT,
-    MIN_AGE_SENIOR_CONTACT,
+    MIN_CONTACT_AGE,
     MIN_BUDGET_TOTAL_GBP,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
@@ -1469,7 +1468,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }),
         mainContactDateOfBirth: dateOfBirthField(
             'mainContactDateOfBirth',
-            MIN_AGE_MAIN_CONTACT
+            MIN_CONTACT_AGE
         ),
         mainContactAddress: fieldAddress(
             locale,
@@ -1585,7 +1584,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }),
         seniorContactDateOfBirth: dateOfBirthField(
             'seniorContactDateOfBirth',
-            MIN_AGE_SENIOR_CONTACT
+            MIN_CONTACT_AGE
         ),
         seniorContactAddress: fieldAddress(
             locale,
