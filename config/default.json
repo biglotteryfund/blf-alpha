@@ -29,9 +29,6 @@
     "enableSeeders": false,
     "enableSessionExpiryWarning": true
   },
-  "awardsForAll": {
-    "enableExpiration": true
-  },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]
   },
