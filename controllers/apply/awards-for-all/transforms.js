@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const has = require('lodash/fp/has');
 const get = require('lodash/fp/get');
 const Sentry = require('@sentry/node');
@@ -39,11 +38,10 @@ function transformOrgHasDifferentTradingName(applicationData) {
 
 function transform(applicationData) {
     // Add any default transforms here
-    let transformsToRun = [transformOrgHasDifferentTradingName];
-
-    if (config.get('awardsForAll.enableNewDateRange') === true) {
-        transformsToRun.push(transformProjectDateRange);
-    }
+    const transformsToRun = [
+        transformOrgHasDifferentTradingName,
+        transformProjectDateRange
+    ];
 
     if (transformsToRun.length === 0) {
         return applicationData;

@@ -30,8 +30,7 @@
     "enableSessionExpiryWarning": true
   },
   "awardsForAll": {
-    "enableExpiration": true,
-    "enableNewDateRange": true
+    "enableExpiration": true
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]
