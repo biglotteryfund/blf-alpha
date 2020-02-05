@@ -11,7 +11,6 @@ const expiryCheckIntervalSeconds = 30;
 // Note: if changing this, the accompanying copy will need to change too
 const warningShownSecondsRemaining = 10 * 60;
 
-const showWarnings = window.AppConfig.apply.enableSessionExpiryWarning;
 let hasShownWarning = false;
 
 function handleBeforeUnload(e) {
@@ -254,17 +253,13 @@ function handleSessionExpiration() {
             tagHotjarRecording(['App: User session expired']);
             // Prevent the page abandonment warning from showing
             removeBeforeUnload();
-            if (showWarnings) {
-                modal.triggerModal('apply-expiry-expired');
-            }
+            modal.triggerModal('apply-expiry-expired');
         } else if (expiryTimeRemaining <= warningShownSecondsRemaining) {
             // The user has a few minutes remaining before logout
             if (!hasShownWarning) {
                 trackEvent('Session', 'Warning', 'Timeout almost reached');
                 tagHotjarRecording(['App: User shown session expiry warning']);
-                if (showWarnings) {
-                    modal.triggerModal('apply-expiry-pending');
-                }
+                modal.triggerModal('apply-expiry-pending');
                 hasShownWarning = true;
             }
         }

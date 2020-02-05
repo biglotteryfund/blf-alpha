@@ -26,8 +26,7 @@
     "enableHotjar": false,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
-    "enableSeeders": false,
-    "enableSessionExpiryWarning": true
+    "enableSeeders": false
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]
