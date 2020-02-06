@@ -24,8 +24,7 @@
   },
   "features": {
     "enableRelatedGrants": false,
-    "enableSalesforceConnector": true,
-    "enableSeeders": false
+    "enableSalesforceConnector": true
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]
