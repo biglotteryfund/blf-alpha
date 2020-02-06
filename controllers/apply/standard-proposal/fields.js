@@ -170,7 +170,21 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     }
 
     function fieldProjectRegions() {
-        const options = englandRegions();
+        const options = englandRegions().map(function(item) {
+            const locationOptions = englandLocationOptions().filter(
+                group => group.id === item.value
+            );
+
+            const locationOptionsSummary = locationOptions
+                .map(item => item.label)
+                .join(', ');
+
+            item.explanation = locationOptionsSummary
+                ? `Covering ${locationOptionsSummary}`
+                : null;
+            return item;
+        });
+
         return new CheckboxField({
             locale: 'en',
             name: 'projectRegions',
