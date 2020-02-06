@@ -21,7 +21,7 @@ const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 
 const { getObject } = require('./lib/file-uploads');
-const { generateEmailQueueItems } = require('./lib/emailQueue');
+const { generateEmailQueueItems } = require('./lib/email-queue');
 const { getShortId } = require('./lib/hotjar');
 
 function initFormRouter({
