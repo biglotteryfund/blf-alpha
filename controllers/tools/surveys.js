@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const faker = require('faker');
 const moment = require('moment');
 const concat = require('lodash/concat');
 const countBy = require('lodash/countBy');
@@ -12,9 +11,7 @@ const maxBy = require('lodash/maxBy');
 const minBy = require('lodash/minBy');
 const orderBy = require('lodash/orderBy');
 const partition = require('lodash/partition');
-const random = require('lodash/random');
 const times = require('lodash/times');
-const features = require('config').get('features');
 const { sanitise } = require('../../common/sanitise');
 const { parse } = require('json2csv');
 
@@ -154,36 +151,5 @@ router.get('/', async (req, res, next) => {
         }
     }
 });
-
-if (features.enableSeeders) {
-    router.get('/seed', async (_req, res, next) => {
-        function mockResponses(count) {
-            const promises = times(count, function() {
-                const choice = Math.random() > 0.05 ? 'yes' : 'no';
-                return SurveyAnswer.create({
-                    choice: choice,
-                    path: faker.random.arrayElement([
-                        '/',
-                        '/funding',
-                        '/about'
-                    ]),
-                    message: choice === 'no' ? faker.lorem.paragraphs(1) : null,
-                    createdAt: moment()
-                        .subtract(random(0, 90), 'days')
-                        .toISOString()
-                });
-            });
-
-            return Promise.all(promises);
-        }
-
-        try {
-            const results = await mockResponses(50);
-            res.send(`Seeded ${results.length} survey responses`);
-        } catch (error) {
-            next(error);
-        }
-    });
-}
 
 module.exports = router;
