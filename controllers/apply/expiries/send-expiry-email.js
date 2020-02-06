@@ -141,7 +141,7 @@ module.exports = function sendExpiryEmail(
     const unsubscribeLinkUrlPath = `/apply/emails/unsubscribe?token=${unsubscribeToken}`;
     const unsubscribeLink = {
         en: `${baseUrl}${unsubscribeLinkUrlPath}`,
-        cy: `${baseUrl}welsh${unsubscribeLinkUrlPath}`
+        cy: `${baseUrl}/welsh${unsubscribeLinkUrlPath}`
     };
 
     const editLinkUrlPath = `/apply/${
@@ -149,7 +149,7 @@ module.exports = function sendExpiryEmail(
     }/edit/${applicationId}?s=expiryEmail`;
     const editLink = {
         en: `${baseUrl}${editLinkUrlPath}`,
-        cy: `${baseUrl}welsh/${editLinkUrlPath}`
+        cy: `${baseUrl}/welsh/${editLinkUrlPath}`
     };
 
     const templateData = {
