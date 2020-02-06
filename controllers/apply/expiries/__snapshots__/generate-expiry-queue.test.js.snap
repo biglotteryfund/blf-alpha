@@ -4,19 +4,19 @@ exports[`generate email queue items 1`] = `
 Array [
   Object {
     "applicationId": "MOCK_APPLICATION_ID",
-    "dateToSend": "2040-04-06T08:00:00.000Z",
+    "dateToSend": "2040-04-06T09:01:15.000Z",
     "emailType": "ONE_MONTH",
     "userId": 123,
   },
   Object {
     "applicationId": "MOCK_APPLICATION_ID",
-    "dateToSend": "2040-04-29T08:00:00.000Z",
+    "dateToSend": "2040-04-29T09:01:15.000Z",
     "emailType": "ONE_WEEK",
     "userId": 123,
   },
   Object {
     "applicationId": "MOCK_APPLICATION_ID",
-    "dateToSend": "2040-05-05T08:00:00.000Z",
+    "dateToSend": "2040-05-05T09:01:15.000Z",
     "emailType": "ONE_DAY",
     "userId": 123,
   },
