@@ -1,7 +1,7 @@
 'use strict';
 const moment = require('moment');
 
-function generateEmailQueueItems(application, expiryEmailPeriods) {
+module.exports = function generateExpiryQueue(application, expiryEmailPeriods) {
     return expiryEmailPeriods.map(emailConfig => {
         return {
             applicationId: application.id,
@@ -17,8 +17,4 @@ function generateEmailQueueItems(application, expiryEmailPeriods) {
                 .second(0)
         };
     });
-}
-
-module.exports = {
-    generateEmailQueueItems
 };
