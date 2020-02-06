@@ -73,11 +73,16 @@ async function sendExpiryEmails(req, emailQueue) {
                 );
 
                 return {
+                    formId: PendingApplication.formId,
                     emailSent: true,
                     dbUpdated: queueStatus[0] === 1
                 };
             } else {
-                return { emailSent: false, dbUpdated: false };
+                return {
+                    formId: PendingApplication.formId,
+                    emailSent: false,
+                    dbUpdated: false
+                };
             }
         })
     );
