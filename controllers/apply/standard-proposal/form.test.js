@@ -123,16 +123,3 @@ test.each([
     const result = form.validate(expected);
     expect(result.error).toBeNull();
 });
-
-test('featured messages based on allow list', () => {
-    const form = formBuilder({
-        data: mockResponse({
-            projectLocationDescription: null
-        })
-    });
-
-    const messages = form.validation.featuredMessages.map(item => item.msg);
-    expect(messages).toEqual([
-        expect.stringContaining('Tell us all of the locations')
-    ]);
-});
