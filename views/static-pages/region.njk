@@ -1,24 +1,9 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
+{% from "components/fact-river/macro.njk" import factRiver %}
 
 {% extends "layouts/main.njk" %}
 
-{% macro factRiver(facts) %}
-    <ul class="fact-river">
-        {% for fact in facts %}
-            <li class="fact-river__item">
-                <div class="fact-item{% if (loop.index % 2 === 0) %} fact-item--reversed{% endif %}">
-                    {% if fact.image %}
-                        <div class="fact-item__image">
-                            <img src="{{ "/assets/images/illustrations/" + fact.image }} " alt="">
-                        </div>
-                    {% endif %}
-                    <div class="fact-item__text">{{ fact.text | safe }}</div>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-{% endmacro %}
 
 {% block content %}
     {% set availableFundingContent %}
@@ -61,7 +46,7 @@
             {% if (copy.sections.fundingInRegion.groups.length > 1) %}
                 <h2 class="t2 t--underline">{{ group.description }}</h2>
             {% endif %}
-            {{ factRiver(group.facts) }}
+            {{ factRiver(group.facts, useLocalImages = true) }}
         {% endfor %}
     {% endset %}
 
