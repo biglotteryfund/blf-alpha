@@ -13,9 +13,8 @@ module.exports = {
         });
 
         const surveyResponses = dateRange.flatMap(function(date) {
-            const choice = Math.random() > 0.05 ? 'yes' : 'no';
-
-            return times(random(1, 20), function() {
+            return times(random(10, 25), function() {
+                const choice = Math.random() > 0.05 ? 'yes' : 'no';
                 return {
                     choice: choice,
                     path: faker.random.arrayElement([
