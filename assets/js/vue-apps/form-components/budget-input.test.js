@@ -15,7 +15,7 @@ function checkItemCount(wrapper, count) {
     expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(count);
 }
 
-test('should be able to add items up to max limit', () => {
+test('should be able to add items up to max limit', async function() {
     const maxItems = 10;
     const maxBudget = 10000;
     const minBudget = 300;
@@ -31,10 +31,11 @@ test('should be able to add items up to max limit', () => {
         }
     });
 
-    function addItem(description, amount) {
+    async function addItem(description, amount) {
         const row = wrapper.find('[data-testid="budget-row"]:last-child');
         row.find('input[type="text"]').setValue(description);
         row.find('input[type="number"]').setValue(amount);
+        await localVue.nextTick();
     }
 
     function checkTotal(amount) {
@@ -50,28 +51,28 @@ test('should be able to add items up to max limit', () => {
     }
 
     checkItemCount(wrapper, 1);
-    addItem('My thing 1', 100);
+    await addItem('My thing 1', 100);
 
-    addItem('My thing 2', 100);
-    addItem('My thing 3', 50);
+    await addItem('My thing 2', 100);
+    await addItem('My thing 3', 50);
     checkTotal('£250');
     checkItemCount(wrapper, 4);
 
-    addItem('My thing 4', 250);
-    addItem('My thing 5', 750);
-    addItem('My thing 6', 1500);
-    addItem('My thing 7', 1250);
-    addItem('My thing 8', 500);
+    await addItem('My thing 4', 250);
+    await addItem('My thing 5', 750);
+    await addItem('My thing 6', 1500);
+    await addItem('My thing 7', 1250);
+    await addItem('My thing 8', 500);
     checkItemCount(wrapper, 9);
     checkTotal('£4,500');
 
-    addItem('My thing 9', 6000);
+    await addItem('My thing 9', 6000);
     checkItemCount(wrapper, 10);
     checkTotal('£10,500');
     checkWarning(`£${maxBudget.toLocaleString()}.`);
 
     // Reach limit
-    addItem('My thing 10', 500);
+    await addItem('My thing 10', 500);
     checkItemCount(wrapper, 10);
     checkTotal('£11,000');
     checkWarning(`${maxItems}`);
