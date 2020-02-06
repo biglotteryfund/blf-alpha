@@ -6,14 +6,14 @@ const times = require('lodash/times');
 
 module.exports = {
     up: async function(queryInterface) {
-        const dateRange = times(30, function(i) {
+        const dateRange = times(90, function(i) {
             return moment()
                 .subtract(i, 'days')
                 .toDate();
         });
 
         const surveyResponses = dateRange.flatMap(function(date) {
-            return times(random(10, 25), function() {
+            return times(random(5, 15), function() {
                 const choice = Math.random() > 0.05 ? 'yes' : 'no';
                 return {
                     choice: choice,
