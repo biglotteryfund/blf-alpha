@@ -162,8 +162,10 @@ function getHeroImage({ locale, slug }) {
     );
 }
 
-function getHomepage({ locale }) {
-    return fetch(`/v1/${locale}/homepage`).then(
+function getHomepage({ locale, query= {}, requestParams = {} }) {
+    return fetch(`/v1/${locale}/homepage`, {
+        qs: addPreviewParams(requestParams, { ...query })
+    }).then(
         response => response.data.attributes
     );
 }

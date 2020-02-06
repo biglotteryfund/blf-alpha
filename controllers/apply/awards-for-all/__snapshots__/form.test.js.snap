@@ -6,6 +6,8 @@ Array [
   "projectCountry: Select a country",
   "projectLocation: Select a location",
   "projectLocationDescription: Tell us the towns, villages or wards your beneficiaries live in",
+  "projectStartDate: Enter a project start date",
+  "projectEndDate: Enter a project end date",
   "projectPostcode: Enter a real postcode",
   "yourIdeaProject: Tell us about your project",
   "yourIdeaPriorities: Tell us how your project meets at least one of our funding priorities",
@@ -123,7 +125,6 @@ Array [
   "seniorContactAddressHistory: Enter a full UK address",
   "mainContactEmail: Main contact email address must be different from the senior contact's email address",
   "seniorContactPhone: Enter a real UK telephone number",
-  "projectDateRange: Date you end the project must be after the start date",
 ]
 `;
 
@@ -133,7 +134,6 @@ Array [
   "Enter a real UK telephone number",
   "Senior contact role is not valid",
   "Main contact email address must be different from the senior contact's email address",
-  "Date you end the project must be after the start date",
 ]
 `;
 

@@ -119,9 +119,7 @@ router.get(
                             breadcrumbs: res.locals.breadcrumbs.concat(
                                 {
                                     label: typeCopy.plural,
-                                    url: res.locals.localify(
-                                        `${req.baseUrl}/press-releases`
-                                    )
+                                    url: `${req.baseUrl}/press-releases`
                                 },
                                 { label: entry.title }
                             )
@@ -189,7 +187,7 @@ router.get(
 
                 const crumbs = res.locals.breadcrumbs.concat({
                     label: typeCopy.plural,
-                    url: res.locals.localify(`${req.baseUrl}/${updateType}`)
+                    url: `${req.baseUrl}/${updateType}`
                 });
 
                 const crumbName = getCrumbName(response.meta);
@@ -210,28 +208,37 @@ router.get(
                 if (shouldRedirectLinkUrl(req, entry)) {
                     res.redirect(entry.linkUrl);
                 } else if (entry.content.length > 0) {
-                    res.locals.isBilingual =
-                        entry.availableLanguages.length === 2;
-                    res.locals.openGraph = get(entry, 'openGraph', false);
+                    const entryTags = get(entry, 'tags', []);
+                    const entryTagList = entryTags.map(function(tag) {
+                        return {
+                            label: tag.title.toLowerCase(),
+                            url: localify(req.i18n.getLocale())(
+                                `/news/${updateType}?tag=${tag.slug}`
+                            )
+                        };
+                    });
+
+                    const viewData = {
+                        updateType: updateType,
+                        title: entry.title,
+                        isBilingual: entry.availableLanguages.length === 2,
+                        description: entry.summary,
+                        openGraph: get(entry, 'openGraph', false),
+                        socialImage: get(entry, 'thumbnail.large', false),
+                        entry: entry,
+                        entryTagList: entryTagList,
+                        breadcrumbs: res.locals.breadcrumbs.concat(
+                            {
+                                label: typeCopy.singular,
+                                url: `${req.baseUrl}/${updateType}`
+                            },
+                            { label: entry.title }
+                        )
+                    };
 
                     return res.render(
                         path.resolve(__dirname, './views/post/blogpost'),
-                        {
-                            updateType: updateType,
-                            title: entry.title,
-                            description: entry.summary,
-                            socialImage: get(entry, 'thumbnail.large', false),
-                            entry: entry,
-                            breadcrumbs: res.locals.breadcrumbs.concat(
-                                {
-                                    label: typeCopy.singular,
-                                    url: res.locals.localify(
-                                        `${req.baseUrl}/${updateType}`
-                                    )
-                                },
-                                { label: entry.title }
-                            )
-                        }
+                        viewData
                     );
                 } else {
                     next();

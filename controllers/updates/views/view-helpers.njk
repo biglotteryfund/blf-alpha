@@ -55,17 +55,14 @@
                 </div>
             {% endif %}
 
-            <div class="blogpost-attribution__tags">
-                <ul class="tags-list">
-                    {% if entry.category %}
-                        <li class="tag">
-                            <a href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
-                                {{ entry.category.title }}
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+            {% if entry.category %}
+                <div class="blogpost-attribution__extra">
+                    <a class="o-tag"
+                       href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
+                    {{ entry.category.title }}
+                    </a>
+                </div>
+            {% endif %}
         </div>
     {% endcall %}
 {% endmacro %}

@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
@@ -90,43 +89,42 @@ module.exports = function({ locale }) {
     }
 
     function question3() {
-        if (config.get('awardsForAll.enableNewDateRange')) {
-            return {
-                question: localise({
-                    en: oneLine`Do you want to start your project at least
+        return {
+            question: localise({
+                en: oneLine`Do you want to start your project at least
                         18 weeks after you plan to send us your application?
                         (If your project is in Scotland or Northern Ireland,
                         it can start after at least 12 weeks)`,
-                    cy: oneLine`A ydych eisiau dechrau eich prosiect o leiaf
+                cy: oneLine`A ydych eisiau dechrau eich prosiect o leiaf
                         18 wythnos ar ôl i chi gynllunio anfon eich cais?
                         (Os yw eich prosiect yn Yr Alban neu Ogledd Iwerddon,
                         gall ddechrau ar ôl o leiaf 12 wythnos)`
-                }),
-                explanation: localise({
-                    en: oneLine`We need to know because we need to give ourselves
+            }),
+            explanation: localise({
+                en: oneLine`We need to know because we need to give ourselves
                         at least 18 weeks to assess your application
                         (or 12 weeks if your project is in Scotland or Northern Ireland).
                         And then make a decision on whether we'll fund your project or not.`,
-                    cy: oneLine`Rydym angen gwybod i roi o leiaf 18 wythnos i’n
+                cy: oneLine`Rydym angen gwybod i roi o leiaf 18 wythnos i’n
                         hunain asesu eich cais (neu 12 wythnos os yw eich prosiect
                         yn Yr Alban neu Ogledd Iwerddon). Ac yna gwneud penderfyniad
                         ar p’un ai byddwn yn ariannu eich prosiect neu beidio.`
-                }),
-                yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
-                noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
-                errorMessage: localise({
-                    en: 'Answer Yes or No',
-                    cy: 'Ydi / Nac ydi'
-                }),
-                ineligible: {
-                    reason: localise({
-                        en: oneLine`This is because you want to start your
+            }),
+            yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
+            noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
+            errorMessage: localise({
+                en: 'Answer Yes or No',
+                cy: 'Ydi / Nac ydi'
+            }),
+            ineligible: {
+                reason: localise({
+                    en: oneLine`This is because you want to start your
                             project sooner than we can assess your application.`,
-                        cy: oneLine`Mae hyn oherwydd eich bod eisiau dechrau eich
+                    cy: oneLine`Mae hyn oherwydd eich bod eisiau dechrau eich
                             prosiect yn gynt nag y gallwn asesu eich cais.`
-                    }),
-                    detail: localise({
-                        en: `<p>
+                }),
+                detail: localise({
+                    en: `<p>
                             We don't want communities to miss out on a great
                             idea that will help them thrive.
                         </p>
@@ -141,7 +139,7 @@ module.exports = function({ locale }) {
                         </strong></p>
                         <p>Continue your application.</p>`,
 
-                        cy: `<p>
+                    cy: `<p>
                             Nid ydym eisiau i gymunedau fethu allan ar syniad
                             gwych fydd yn eu helpu i ffynnu.
                         </p>
@@ -155,39 +153,9 @@ module.exports = function({ locale }) {
                             eich prosiect ychydig yn ddiweddarach nag y cynllunioch chi
                         </strong></p>
                         <p>Parhewch â’ch cais.</p>`
-                    })
-                }
-            };
-        } else {
-            return {
-                question: localise({
-                    en: `Does your project start at least 18 weeks from when you plan to submit your application?`,
-                    cy: `A yw eich prosiect yn dechrau o leiaf 18 wythnos o bryd rydych yn bwriadu anfon eich cais?`
-                }),
-                explanation: localise({
-                    en: `We need 18 weeks to be able to assess your application and pay your grant, if you're successful. So projects need to start at least 18 weeks from the date you submit your application to us.`,
-                    cy: `Rydym angen 18 wythnos i allu asesu eich cais a thalu eich grant, os ydych yn llwyddiannus. Felly mae angen i brosiectau ddechrau o leiaf 18 wythnos o’r dyddiad rydych yn anfon eich cais.`
-                }),
-                yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
-                noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
-                errorMessage: localise({
-                    en: 'Answer Yes or No',
-                    cy: 'Ydi / Nac ydi'
-                }),
-                ineligible: {
-                    reason: localise({
-                        en: `This is because you told us that your project doesn't start at least 18 weeks from when you plan to submit your application.`,
-                        cy: `Mae hyn oherwydd eich bod wedi dweud wrthym nad yw eich prosiect yn dechrau tan o leiaf 18 wythnos o bryd rydych yn bwriadu anfon eich cais.`
-                    }),
-                    detail: localise({
-                        en: `<p>We don't want communities to miss out on a great idea that will help them thrive.</p>
-                         <p>Have a think and see if it's possible to start your project at least 18 weeks from now. We need this time to consider your application, carry out checks and, if successful, pay your grant. If it is possible, continue with your application.</p>`,
-                        cy: `<p>Nid ydym eisiau i gymunedau fethu allan ar syniad gwych a fydd yn eu helpu i ffynnu.</p>
-                         <p>Meddyliwch os yw’n bosib dechrau eich prosiect o leiaf 18 wythnos o rŵan. Rydym angen yr amser hyn i ystyried eich cais, cynnal gwiriadau ac os y byddwch yn llwyddiannus, talu eich grant.</p>`
-                    })
-                }
-            };
-        }
+                })
+            }
+        };
     }
 
     function question4() {

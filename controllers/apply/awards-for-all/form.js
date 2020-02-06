@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -33,11 +32,7 @@ const { checkBankAccountDetails } = require('./lib/bank-api');
 module.exports = function({
     locale = 'en',
     data = {},
-    showAllFields = false,
-    flags = {
-        // Set default flags based on config, but allow overriding for tests
-        enableNewDateRange: config.get('awardsForAll.enableNewDateRange')
-    }
+    showAllFields = false
 } = {}) {
     const localise = get(locale);
 
@@ -59,8 +54,7 @@ module.exports = function({
 
     const fields = fieldsFor({
         locale: locale,
-        data: data,
-        flags: flags
+        data: data
     });
 
     function stepProjectName() {
@@ -126,18 +120,18 @@ module.exports = function({
     }
 
     function stepProjectLength() {
-        const stepFields = flags.enableNewDateRange
-            ? has('projectCountry')(data)
-                ? [fields.projectStartDate, fields.projectEndDate]
-                : []
-            : [fields.projectDateRange];
-
         return new Step({
             title: localise({
                 en: 'Project length',
                 cy: 'Hyd y prosiect'
             }),
-            fieldsets: [{ fields: stepFields }]
+            fieldsets: [
+                {
+                    fields: has('projectCountry')(data)
+                        ? [fields.projectStartDate, fields.projectEndDate]
+                        : []
+                }
+            ]
         });
     }
 
@@ -1152,23 +1146,14 @@ module.exports = function({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`
             }),
-            steps: flags.enableNewDateRange
-                ? [
-                      stepProjectName(),
-                      stepProjectCountry(),
-                      stepProjectLocation(),
-                      stepProjectLength(),
-                      stepYourIdea(),
-                      stepProjectCosts()
-                  ]
-                : [
-                      stepProjectName(),
-                      stepProjectLength(),
-                      stepProjectCountry(),
-                      stepProjectLocation(),
-                      stepYourIdea(),
-                      stepProjectCosts()
-                  ]
+            steps: [
+                stepProjectName(),
+                stepProjectCountry(),
+                stepProjectLocation(),
+                stepProjectLength(),
+                stepYourIdea(),
+                stepProjectCosts()
+            ]
         };
     }
 
@@ -1342,25 +1327,14 @@ module.exports = function({
 
         const enriched = clone(data);
 
-        if (
-            flags.enableNewDateRange &&
-            has('projectStartDate')(enriched) &&
-            has('projectEndDate')(enriched)
-        ) {
-            enriched.projectStartDate = dateFormat(enriched.projectStartDate);
-            enriched.projectEndDate = dateFormat(enriched.projectEndDate);
+        enriched.projectStartDate = dateFormat(enriched.projectStartDate);
+        enriched.projectEndDate = dateFormat(enriched.projectEndDate);
 
-            // Support previous schema format
-            enriched.projectDateRange = {
-                startDate: dateFormat(enriched.projectStartDate),
-                endDate: dateFormat(enriched.projectEndDate)
-            };
-        } else {
-            enriched.projectDateRange = {
-                startDate: dateFormat(enriched.projectDateRange.startDate),
-                endDate: dateFormat(enriched.projectDateRange.endDate)
-            };
-        }
+        // Support previous date range schema format
+        enriched.projectDateRange = {
+            startDate: dateFormat(enriched.projectStartDate),
+            endDate: dateFormat(enriched.projectEndDate)
+        };
 
         if (has('mainContactDateOfBirth')(enriched)) {
             enriched.mainContactDateOfBirth = dateFormat(
@@ -1397,7 +1371,7 @@ module.exports = function({
             { fieldName: 'mainContactPhone', includeBase: false }
         ],
         summary: summary(),
-        schemaVersion: 'v1.2',
+        schemaVersion: 'v1.3',
         forSalesforce: forSalesforce,
         sections: [
             sectionYourProject(),
