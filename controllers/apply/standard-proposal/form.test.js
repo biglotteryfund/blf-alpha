@@ -140,4 +140,18 @@ describe('new location questions', function() {
             expect.arrayContaining(['Select one or more regions'])
         );
     });
+
+    test('strip other region selections when all-england is selected', function() {
+        const form = formBuilder({
+            data: mockResponse({
+                projectCountries: ['england'],
+                projectRegions: ['all-england', 'midlands', 'north-west']
+            }),
+            flags: {
+                enableNewLocationQuestions: true
+            }
+        });
+
+        expect(form.validation.value.projectRegions).toEqual(['all-england']);
+    });
 });

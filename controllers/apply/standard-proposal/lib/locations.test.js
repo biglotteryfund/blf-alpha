@@ -5,7 +5,7 @@ const { englandRegions, englandLocationOptions } = require('./locations');
 test('england region groups should match location groups', function() {
     const regionValues = englandRegions().map(region => region.value);
     const locationGroups = englandLocationOptions().map(group => group.id);
-    expect(regionValues).toEqual(locationGroups);
+    expect(regionValues).toEqual(['all-england'].concat(locationGroups));
 });
 
 test('filter england location options by region', function() {

@@ -3,6 +3,10 @@
 function englandRegions() {
     return [
         {
+            label: 'All of England',
+            value: 'all-england'
+        },
+        {
             label: 'East and West Midlands',
             value: 'midlands'
         },
@@ -298,19 +302,23 @@ function englandLocationOptions(filterRegions = []) {
     };
 
     const regions =
-        Array.isArray(filterRegions) && filterRegions.length
+        Array.isArray(filterRegions) &&
+        filterRegions.length &&
+        filterRegions.includes('all-england') === false
             ? englandRegions().filter(region =>
                   filterRegions.includes(region.value)
               )
             : englandRegions();
 
-    return regions.map(function(region) {
-        return {
-            id: region.value,
-            label: region.label,
-            options: locationOptions[region.value]
-        };
-    });
+    return regions
+        .filter(region => region.value !== 'all-england')
+        .map(function(region) {
+            return {
+                id: region.value,
+                label: region.label,
+                options: locationOptions[region.value]
+            };
+        });
 }
 
 function northernIrelandLocationOptions() {

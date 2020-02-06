@@ -185,28 +185,42 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             return item;
         });
 
+        function schema() {
+            const isEnglandSelected = Joi.array().items(
+                Joi.string()
+                    .only('england')
+                    .required(),
+                Joi.any()
+            );
+
+            const validAllEngland = Joi.array()
+                .items(
+                    Joi.string()
+                        .only('all-england')
+                        .required(),
+                    Joi.any().strip()
+                )
+                .single()
+                .required();
+
+            const validRegionOptions = Joi.array()
+                .items(Joi.string().valid(options.map(option => option.value)))
+                .single()
+                .required();
+
+            return Joi.when(Joi.ref('projectCountries'), {
+                is: isEnglandSelected,
+                then: [validAllEngland, validRegionOptions],
+                otherwise: Joi.any().strip()
+            });
+        }
+
         return new CheckboxField({
             locale: 'en',
             name: 'projectRegions',
-            label: 'Project regions',
+            label: 'Where will your project take place?',
             options: options,
-            schema: Joi.when(Joi.ref('projectCountries'), {
-                is: Joi.array()
-                    .items(
-                        Joi.string()
-                            .only('england')
-                            .required(),
-                        Joi.any()
-                    )
-                    .required(),
-                then: Joi.array()
-                    .items(
-                        Joi.string().valid(options.map(option => option.value))
-                    )
-                    .single()
-                    .required(),
-                otherwise: Joi.any().strip()
-            }),
+            schema: schema(),
             messages: [{ type: 'base', message: 'Select one or more regions' }]
         });
     }
