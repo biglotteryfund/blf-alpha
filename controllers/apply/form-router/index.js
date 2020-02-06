@@ -7,7 +7,6 @@ const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
-const features = require('config').get('features');
 const formidable = require('formidable');
 
 const {
@@ -18,6 +17,7 @@ const {
 const logger = require('../../../common/logger').child({ service: 'apply' });
 const { localify, isWelsh, removeWelsh } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
+const { isDev } = require('../../../common/appData');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 
 const { getObject } = require('./lib/file-uploads');
@@ -87,7 +87,7 @@ function initFormRouter({
      * Application seed endpoint
      * Allows generation of seed applications in test environments
      */
-    if (features.enableSeeders) {
+    if (isDev) {
         router.post('/seed', async (req, res) => {
             const application = await PendingApplication.createNewApplication({
                 formId: formId,

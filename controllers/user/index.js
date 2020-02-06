@@ -1,10 +1,10 @@
 'use strict';
 const express = require('express');
 const uuidv4 = require('uuid/v4');
-const features = require('config').get('features');
 const moment = require('moment-timezone');
 
 const { Users } = require('../../db/models');
+const { isDev } = require('../../common/appData');
 const { localify } = require('../../common/urls');
 const { noStore } = require('../../common/cached');
 const { requireNotStaffAuth } = require('../../common/authed');
@@ -27,7 +27,7 @@ router.use('/staff', require('./staff'));
  * Seed users have isActive automatically set as true
  * to bypass activation flow in tests.
  */
-if (features.enableSeeders) {
+if (isDev) {
     router.post('/seed', (req, res) => {
         const username = `${uuidv4()}@example.com`;
         const password = uuidv4();
