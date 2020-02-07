@@ -15,6 +15,11 @@ class Salesforce {
             json: true
         });
     }
+    describeObject(name) {
+        return this.get(
+            `/services/data/${this.apiVersion}/sobjects/${name}/describe`
+        );
+    }
     postJson(urlPath, body) {
         return request.post({
             url: `${this.apiUrl}${urlPath}`,
@@ -30,7 +35,40 @@ class Salesforce {
             )}`
         ).then(function(result) {
             if (result.records.length > 0) {
-                return result.records[0]['Funding_Request__r']['Status__c'];
+                const rawStatus =
+                    result.records[0]['Funding_Request__r']['Status__c'];
+
+                let friendlyStatus = 'Unknown';
+                switch (rawStatus) {
+                    case 'Idea':
+                    case 'Invited to apply':
+                    case 'Application Received':
+                        friendlyStatus = 'In progress';
+                        break;
+                    case 'Initial Checks':
+                    case 'Assessment in Progress':
+                    case 'Recommendation Made':
+                    case 'Authenticity Checks':
+                        friendlyStatus = 'In assessment';
+                        break;
+                    case 'Offer':
+                    case 'Set up':
+                    case 'Award':
+                        friendlyStatus = 'Grant set-up';
+                        break;
+                    case 'Grant Active':
+                    case 'Completed':
+                        friendlyStatus = 'Grant active';
+                        break;
+                    case 'Withdrawn':
+                    case 'Deferred':
+                    case 'Unsuccessful':
+                    case 'Transfer':
+                        friendlyStatus = 'Grant unsuccessful';
+                        break;
+                }
+
+                return friendlyStatus;
             } else {
                 return null;
             }
