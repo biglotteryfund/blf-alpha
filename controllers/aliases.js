@@ -322,7 +322,7 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/funding/under10k/managing-your-grant`,
-        to: `/funding/managing-your-grant/under-10k`
+        to: `/funding/managing-your-grant/under10k`
     }),
     withRegionPrefixes({
         from: `/funding/funding-guidance`,
