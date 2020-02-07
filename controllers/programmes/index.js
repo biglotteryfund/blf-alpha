@@ -192,11 +192,6 @@ router.get(
 );
 
 /**
- * Digital Fund
- */
-router.use('/digital-fund', require('../digital-fund'));
-
-/**
  * Programme detail
  */
 router.get('/:slug/:child_slug?', async (req, res, next) => {
