@@ -19,23 +19,6 @@ const toplevel = {
             router: require('./home')
         },
         {
-            path: '/northern-ireland',
-            router: staticPage({
-                lang: 'toplevel.northernIreland',
-                disableLanguageLink: true,
-                heroSlug: 'cruse-bereavement-care-new',
-                template: 'static-pages/region'
-            })
-        },
-        {
-            path: '/wales',
-            router: staticPage({
-                lang: 'toplevel.wales',
-                heroSlug: 'the-outdoor-partnership-new',
-                template: 'static-pages/region'
-            })
-        },
-        {
             path: '/data',
             router: require('./data')
         },
