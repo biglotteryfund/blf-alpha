@@ -281,9 +281,9 @@ toplevel:
     latestProgrammesPartnerships: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
     - label: Dysgu sut i ymgeisio am grantiau o dan £10,000
-      href: "/welsh/funding/under10k"
+      href: "/welsh/funding/under-10k"
     - label: Dysgu sut i ymgeisio am grantiau sy’n fwy na £10,000
-      href: "/welsh/funding/over10k"
+      href: "/welsh/funding/over-10k"
     - label: Gweld pob rhaglen grantiau agored
       href: "/welsh/funding/programmes"
     - label: Gweld pob rhaglen grantiau sydd ar gau
@@ -914,7 +914,7 @@ applyNext:
     beforeYouStart:
       title: Cyn i chi ddechrau
       body: >
-        Efallai hoffech edrych ar gyngor ac awgrymiadau defnyddiol am <a href="/welsh/funding/under10k">ymgeisio am arian ar ein gwefan</a>.
+        Efallai hoffech edrych ar gyngor ac awgrymiadau defnyddiol am <a href="/welsh/funding/under-10k">ymgeisio am arian ar ein gwefan</a>.
     decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
       <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
     newApplication:
@@ -1053,7 +1053,7 @@ applyNext:
       body: >
         Isod, mae rhestr o’r holl gwestiynau gellir gofyn i chi wrth ichi ymgeisio am %1$s.
         Mae rhai o’r cwestiynau yn ddewisol gan ddibynnu ar eich atebion eraill ar y ffurflen.
-        Efallai y bydd yn ddefnyddiol i chi adolygu ein <a href="/funding/under10k">canllaw %1$s</a>.
+        Efallai y bydd yn ddefnyddiol i chi adolygu ein <a href="/funding/under-10k">canllaw %1$s</a>.
         Er mwyn anfon eich cais, bydd angen i chi gytuno a’n amodau a thelerau.
     eligibility:
       title: Cwestiynau cymhwysedd
@@ -1128,9 +1128,9 @@ awardsForAll:
       body: >
         <ul>
           <li>Cymrwch olwg ar ein gwefan am
-            <a href="/welsh/funding/under10k">wybodaeth am ein harian grant o dan £10,000</a></li>
+            <a href="/welsh/funding/under-10k">wybodaeth am ein harian grant o dan £10,000</a></li>
           <li>Os oes angen mwy na £10,000 arnoch, cymrwch olwg ar ein gwefan am
-            <a href="/welsh/funding/over10k">wybodaeth am ein harian grant dros £10,000</a></li>
+            <a href="/welsh/funding/over-10k">wybodaeth am ein harian grant dros £10,000</a></li>
         </ul>
     whatInformation:
       title: Pa wybodaeth rydych ei angen i ymgeisio

@@ -204,9 +204,9 @@ toplevel:
     latestProgrammesPartnerships: Latest Programmes & Partnerships
     sectionLinks:
     - label: Learn how to apply for funding under £10,000
-      href: "/funding/under10k"
+      href: "/funding/under-10k"
     - label: Learn how to apply for funding above £10,000
-      href: "/funding/over10k"
+      href: "/funding/over-10k"
     - label: View all open funding programmes
       href: "/funding/programmes"
     - label: View all closed funding programmes
@@ -847,7 +847,7 @@ applyNext:
     beforeYouStart:
       title: Before you start
       body: >
-        You might want to look at some helpful advice and tips about <a href="/funding/under10k">applying for funding on our website</a>.
+        You might want to look at some helpful advice and tips about <a href="/funding/under-10k">applying for funding on our website</a>.
     decisionMessage: We aim to let you know our decision in about %s weeks. If you have any questions,
       <a href="/contact">contact a member of our advice team</a>.
     newApplication:
@@ -984,7 +984,7 @@ applyNext:
     introduction:
       title: Questions you'll be asked
       body: >
-        Below is a list of all of the questions you may be asked when applying for %1$s. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="/funding/under10k">%1$s guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our terms and conditions.
+        Below is a list of all of the questions you may be asked when applying for %1$s. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="/funding/under-10k">%1$s guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our terms and conditions.
     eligibility:
       title: Eligibility questions
       note: You'll need to answer all of these before beginning your application form.
@@ -1058,8 +1058,8 @@ awardsForAll:
       title: Before you start
       body: >
         <ul>
-          <li>Have a look at our website for <a href="/funding/under10k">information about funding under £10,000</a></li>
-          <li>If you need more than £10,000, have a look at our website for <a href="/funding/over10k">information about funding over £10,000</a></li>
+          <li>Have a look at our website for <a href="/funding/under-10k">information about funding under £10,000</a></li>
+          <li>If you need more than £10,000, have a look at our website for <a href="/funding/over-10k">information about funding over £10,000</a></li>
         </ul>
     whatInformation:
       title: What information you need to apply
@@ -1146,13 +1146,13 @@ yourFundingProposal:
       - title: Applying for a project in England or Northern Ireland?
         message: Great—you're in the right place.
       - title: Applying for a project in Wales or Scotland? Or right across the UK?
-        message: You'll need to <a href="/funding/over10k">look at our programme pages for funding over £10,000</a> to find out how to apply.
+        message: You'll need to <a href="/funding/over-10k">look at our programme pages for funding over £10,000</a> to find out how to apply.
     beforeYouStart:
       title: Before you start
       items:
-        - Have a look at our website for <a href="/funding/over10k">information about funding over £10,000</a>
+        - Have a look at our website for <a href="/funding/over-10k">information about funding over £10,000</a>
         - If you'd rather chat to us on the phone about your idea—<a href="/contact">talk to us</a>
-        - If you <a href="/funding/under10k">need less than £10,000 you can apply straight away</a>
+        - If you <a href="/funding/under-10k">need less than £10,000 you can apply straight away</a>
     whatInformation:
       title: What information will you need handy for this form?
       checklist:
