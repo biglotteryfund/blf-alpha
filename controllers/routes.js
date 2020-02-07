@@ -1,6 +1,6 @@
 'use strict';
 
-const { basicContent, flexibleContent, staticPage } = require('./common');
+const { basicContent, flexibleContent } = require('./common');
 
 /**
  * @typedef {object} Section

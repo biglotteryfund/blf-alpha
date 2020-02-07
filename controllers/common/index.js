@@ -1,71 +1,13 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const Sentry = require('@sentry/node');
-const isEmpty = require('lodash/isEmpty');
 const getOr = require('lodash/fp/getOr');
 
 const {
     injectCopy,
     injectFlexibleContent,
-    injectHeroImage,
     injectListingContent
 } = require('../../common/inject-content');
-const { isWelsh } = require('../../common/urls');
-const contentApi = require('../../common/content-api');
-
-function staticPage({
-    lang = null,
-    template = null,
-    heroSlug = null,
-    projectStorySlugs = [],
-    disableLanguageLink = false
-} = {}) {
-    const router = express.Router();
-
-    router.get('/', injectHeroImage(heroSlug), injectCopy(lang), async function(
-        req,
-        res,
-        next
-    ) {
-        const { copy } = res.locals;
-
-        function shouldRedirectLang() {
-            return (
-                (disableLanguageLink === true || isEmpty(copy)) &&
-                isWelsh(req.originalUrl)
-            );
-        }
-
-        if (shouldRedirectLang()) {
-            next();
-        } else {
-            /**
-             * Inject project stories if we've been provided any slugs to fetch
-             */
-            let stories;
-            if (projectStorySlugs.length > 0) {
-                try {
-                    stories = await contentApi.getProjectStories({
-                        locale: req.i18n.getLocale(),
-                        slugs: projectStorySlugs
-                    });
-                } catch (error) {
-                    Sentry.captureException(error);
-                }
-            }
-
-            res.render(template, {
-                title: copy.title,
-                description: copy.description || false,
-                isBilingual: disableLanguageLink === false,
-                stories: stories
-            });
-        }
-    });
-
-    return router;
-}
 
 function renderListingPage(res, content) {
     // What layout mode should we use? (eg. do all of the children have an image?)
@@ -191,7 +133,6 @@ function renderFlexibleContentChild(req, res, entry) {
 }
 
 module.exports = {
-    staticPage,
     basicContent,
     flexibleContent,
     renderFlexibleContentChild
