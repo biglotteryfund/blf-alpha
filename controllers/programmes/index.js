@@ -68,14 +68,14 @@ router.get(
             if (parseInt(req.query.min, 10) === 10000) {
                 res.locals.breadcrumbs.push({
                     label: res.locals.copy.over10k,
-                    url: '/over-10k'
+                    url: '/over10k'
                 });
             }
 
             if (parseInt(req.query.max, 10) === 10000) {
                 res.locals.breadcrumbs.push({
                     label: res.locals.copy.under10k,
-                    url: '/under-10k'
+                    url: '/under10k'
                 });
             }
 

@@ -286,11 +286,11 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/funding/awards-for-all`,
-        to: `/funding/under-10k`
+        to: `/funding/under10k`
     }),
     withRegionPrefixes({
         from: `/funding/Awards-For-All`,
-        to: `/funding/under-10k`
+        to: `/funding/under10k`
     }),
     withRegionPrefixes({
         from: `/funding/funding-finder?sc=1`,

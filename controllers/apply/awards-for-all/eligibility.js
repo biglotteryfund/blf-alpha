@@ -76,12 +76,12 @@ module.exports = function({ locale }) {
                     en: `<p>This isn't the end. Here are a couple of ideas about what you can do:</p>
                 <ul>
                     <li>Consider asking us to fund part of your project through National Lottery Awards for All, and find out if there are other sources of funding that can cover the rest of your project</li>
-                    <li><a href="/funding/over-10k">Look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}.</li>
+                    <li><a href="/funding/over10k">Look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}.</li>
                 </ul>`,
                     cy: `<p>Nid dyma diwedd y daith. Dyma rhai syniadau am yr hyn gallwch ei wneud:</p>
                 <ul>
                     <li>Ystyried gofyn i ni ariannu rhan o’ch prosiect drwy Arian i Bawb y Loteri Genedlaethol, a darganfod os oes ffynonellau eraill o arian gall ariannu gweddill eich prosiect</li>
-                    <li><a href="/welsh/funding/over-10k">Edrych ar ein rhaglenni ariannu eraill</a> i weld os ydynt yn talu’r swm o arian rydych eisiau ymgeisio amdano a hyd yr amser rydych eisiau rhedeg eich prosiect, ac ystyriwch ymgeisio inni am grant sydd werth mwy na £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}.</li>
+                    <li><a href="/welsh/funding/over10k">Edrych ar ein rhaglenni ariannu eraill</a> i weld os ydynt yn talu’r swm o arian rydych eisiau ymgeisio amdano a hyd yr amser rydych eisiau rhedeg eich prosiect, ac ystyriwch ymgeisio inni am grant sydd werth mwy na £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}.</li>
                 </ul>`
                 })
             }
