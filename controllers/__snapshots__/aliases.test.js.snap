@@ -2572,43 +2572,43 @@ Array [
   },
   Object {
     "from": "/funding/under10k/managing-your-grant",
-    "to": "/funding/managing-your-grant/under-10k",
+    "to": "/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/welsh/funding/under10k/managing-your-grant",
-    "to": "/welsh/funding/managing-your-grant/under-10k",
+    "to": "/welsh/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/england/funding/under10k/managing-your-grant",
-    "to": "/funding/managing-your-grant/under-10k",
+    "to": "/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/welsh/england/funding/under10k/managing-your-grant",
-    "to": "/welsh/funding/managing-your-grant/under-10k",
+    "to": "/welsh/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/scotland/funding/under10k/managing-your-grant",
-    "to": "/funding/managing-your-grant/under-10k",
+    "to": "/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/welsh/scotland/funding/under10k/managing-your-grant",
-    "to": "/welsh/funding/managing-your-grant/under-10k",
+    "to": "/welsh/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/northernireland/funding/under10k/managing-your-grant",
-    "to": "/funding/managing-your-grant/under-10k",
+    "to": "/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/welsh/northernireland/funding/under10k/managing-your-grant",
-    "to": "/welsh/funding/managing-your-grant/under-10k",
+    "to": "/welsh/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/wales/funding/under10k/managing-your-grant",
-    "to": "/funding/managing-your-grant/under-10k",
+    "to": "/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/welsh/wales/funding/under10k/managing-your-grant",
-    "to": "/welsh/funding/managing-your-grant/under-10k",
+    "to": "/welsh/funding/managing-your-grant/under10k",
   },
   Object {
     "from": "/funding/funding-guidance",
