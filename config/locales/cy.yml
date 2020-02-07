@@ -725,6 +725,7 @@ funding:
     under10k: Grantiau dan £10,000
     over10k: Grantiau dros £10,000
     allProgrammes: Gweld pob rhaglen grantiau
+    noResults: Dim canlyniadau
   archivedProgramme:
     archivedMessage: Nid yw’r rhaglen hon ar gael bellach, mae wedi cael ei archifo
     archivedDetail: >
@@ -904,47 +905,6 @@ funding:
         criteria:
         - Mae’n rhaid bod eich mudiad wedi sefydlu ei strwythur cyfreithiol ar ôl 2000
         - Mae'n rhaid i chi weithredu cynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol
-    eligibilityChecker:
-      title: Gofyn am alwad
-      introduction: I gychwyn arni, atebwch y cwestiwn cyntaf hwn.
-      unsureTitle: Dydw i ddim yn siŵ
-      ineligibleTitle: Anghymwys i gael eich ariannu
-      strand1:
-        question: Ydych chi'n rhan o elusen gofrestredig a leolir yn y Deyrnas Unedig yr oedd ei hincwm dros £500,000 y llynedd?
-        eligibilitySummary:
-          introduction: "Mae edefyn hwn y Gronfa Ddigidol wedi'i dylunio'n benodol i helpu mudiadau sydd:"
-          criteria:
-            - ag incwm o dros £500,000 y flwyddyn
-            - â strwythurau a dulliau gweithio a ddatblygwyd cyn i'r rhyngrwyd gael ei ddefnyddio'n gyffredinol
-            - am wneud newid mawr i'r ffordd yr ydym yn gweithio
-            - helpu pobl yn y Deyrnas Unedig
-        ineligible:
-          introduction: Mae'n flin gennym, dydych chi ddim yn gymwys i dderbyn grant Edefyn 1.
-          body: >
-            <p>Peidiwch â phoeni, mae <a href="/funding/programmes">rhaglenni ariannu eraill sy'n derbyn ceisiadau</a></p>
-            <p><a href="https://en-gb.facebook.com/TNLCommunityFundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
-      strand2:
-        question: Oes gennych gynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol?
-        eligibilitySummary:
-          introduction: "Mae edefyn hwn y Gronfa Ddigidol wedi'i dylunio'n benodol i helpu mudiadau sydd:"
-          criteria:
-            - wedi cael ei gorffori ar ôl 2000
-            - yn gweithredu cynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol
-        ineligible:
-          introduction: Mae'n flin gennym, dydych chi ddim yn gymwys i dderbyn grant Edefyn 2.
-          body: >
-            <p>I gael mwy o wybodaeth, gweler y <a href="/welsh/funding/programmes/digital-fund/eligibility">meini prawf cymhwysedd</a> manwl llawn ar gyfer y rhaglen hon.</p>
-            <p>Os ydych mewn cam cynharach na hwn, rydym yn argymell i chi fwrw golwg ar:</p>
-            <ul>
-              <li><a href="/welsh/funding/programmes">Ein rhaglenni ariannu eraill</a>
-              <li><a href="https://bethnalgreenventures.com/">Bethnal Green Ventures (allanol)</a>
-              <li><a href="https://socialtechtrust.org/">Social Tech Trust (allanol)</a>
-              <li><a href="https://www.comicrelief.com/">Comic Relief (allanol)</a>
-              <li><a href="https://www.unltd.org.uk/">UnLtd (allanol)</a>
-            </li>
-      faqs:
-      - question: A allaf ddim ond yrru cais i mewn?
-        answer: Rydym yn hoffi sgwrsio mor fuan â phosib, fel y gallwn helpu chi i benderfynu a yw’r grant hwn yn iawn i chi. Bydd eich braslun o’ch syniad yn helpu ni ddweud wrthych p’un a yw’r Gronfa Ddigidol yn iawn i chi ai beidio.
 materials:
   orderEmail: >
     <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
@@ -1117,64 +1077,6 @@ user:
       title: Dal ddim yn gweithio?
       body: >
         <a href="%s">Cysylltwch â ni am gymorth</a>
-apply:
-  error:
-    title: Cafwyd problem gyda'ch cyflwyniad
-    message: >
-      <p>Rydym wedi cael ein hysbysu am y broblem.</p>
-      <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03001230735">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
-  digitalFundDefaults: &digitalFundDefaults
-    title: Dywedwch wrthym beth yw eich syniad
-    errorTitle: Cafwyd problem gyda'ch cyflwyniad
-    fields:
-      name:
-        label: Eich enw
-        errorMessage: Rhowch eich enw
-      email:
-        label: Cyfeiriad e-bost
-        errorMessage: Rhowch gyfeiriad e-bost dilys
-      organisation-name:
-        label: Enw’r mudiad
-        errorMessage: Rhowch enw eich mudiad
-      your-idea:
-        label: Dywedwch yn fras wrthym beth mae eich mudiad yn ei wneud a pha fathau o newidiadau sylweddol rydych wedi bod yn eu hystyried.
-        lengthHint: Cadwch hwn i gwpl o baragraffau
-        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
-      your-idea-product:
-        label: Dywedwch wrthym yn gryno am eich mudiad, y cynnyrch neu wasanaeth yr ydych wedi'i ddatblygu, a'r bobl a fydd yn ei ddefnyddio.
-        lengthHint: Cadwch hwn i gwpl o baragraffau
-        errorMessage: Dywedwch wrthym yn gryno beth mae eich mudiad yn ei wneud
-      technology:
-        label: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
-        lengthHint: Cadwch hwn i gwpl o baragraffau
-        errorMessage: Dywedwch wrthym yn gryno sut mae technoleg ddigidol yn bwysig i'ch prosiect
-    steps:
-      - name: Eich manylion
-        fieldsets:
-        - legend: Eich manylion cyswllt
-          introduction: Dywedwch ychydig wrthym am eich syniad a’ch mudiad fel y gallwn gysylltu â chi
-        - legend: Eich syniad
-    review:
-      title: Gwiriwch fod hyn yn gywir cyn cyflwyno eich gwybodaeth
-      declaration: >
-        Gan ein bod yn cywain data personol gennych fel rhan o’r broses ymgeisio, gallwch weld manylion sut y byddwn yn defnyddio’ch gwybodaeth yn ein
-        <a href="/welsh/about/customer-service/data-protection" target="_blank" rel="noopener">hysbysiad preifatrwydd</a>.
-      proceedLabel: Cyflwyno
-    success:
-      title: Diolch am gysylltu â ni
-      confirmation: Rydym wedi gyrru copi o'r hyn a gyflwynoch atoch trwy e-bost
-      message: Byddwn yn cysylltu’n ôl â chi mor fuan ag y gallwn.
-      nextStepsTitle: Beth sy'n digwydd nesaf?
-      feedback:
-        promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
-        fieldLabel: "Sut oedd eich profiad o'r broses hon?"
-        helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
-  digitalFundStrand1:
-    <<: *digitalFundDefaults
-    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-1">Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi’i deilwra. Y nod yw helpu mudiadau sefydledig i ddefnyddio digidol i gymryd cam sylweddol ymlaen
-  digitalFundStrand2:
-    <<: *digitalFundDefaults
-    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
 applyNext:
   navigation:
     previous: Yn ôl
