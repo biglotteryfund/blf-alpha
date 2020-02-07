@@ -380,42 +380,6 @@ ourPeople:
 funding:
   thinkingOfApplying:
     title: "Thinking of applying"
-  under10k:
-    title: National Lottery Awards for All - how to get a grant for up to £10,000
-    intro: 'National Lottery Funding can help you to make a difference in your community.
-      National Lottery Awards for All offers funding from £300 to £10,000 to support
-      what matters to people and communities. We will fund organisations with great
-      project ideas that:'
-    ideas:
-      - bring people together and build strong relationships in and across communities
-      - improve the places and spaces that matter to communities
-      - help more people to reach their potential, by supporting them at the earliest possible stage.
-    callToAction: Want to know more? Start by telling us where your project is going
-      to be
-    locations:
-      england: England
-      scotland: Scotland
-      wales: Wales
-      northernIreland: Northern Ireland
-    ukWideInfo: Occasionally the Fund makes grants of under £10,000 to projects that
-      benefit people right across the UK. <a href="/funding/programmes/awards-from-the-uk-portfolio">Find
-      out more about our UK-wide funding</a>. We also make grants of <a href="/over10k">more
-      than £10,000</a> for longer term projects.
-    projectExamples: Examples of projects that have been funded
-  over10k:
-    title: Discover our funding programmes for amounts above £10,000
-    intro: Larger grants are made through a variety of programmes that cover every
-      nation within the United Kingdom. This kind of flexible, longer-term funding
-      is aimed at organisations whose ambitions are shaped by the people they serve.
-    callToAction: Want to know more? Start by telling us where your project is going
-      to be
-    locations:
-      england: England
-      scotland: Scotland
-      wales: Wales
-      northernIreland: Northern Ireland
-      ukWide: My project will help people right across the UK
-    projectExamples: Examples of projects that have been funded
   pastGrants:
     search:
       title: Search all grants

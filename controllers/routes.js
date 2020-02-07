@@ -49,24 +49,6 @@ let funding = {
             router: require('./funding')
         },
         {
-            path: '/under10k',
-            router: staticPage({
-                lang: 'funding.under10k',
-                template: 'static-pages/under10k',
-                heroSlug: 'funding-under-10k-new',
-                projectStorySlugs: ['hapani', 'niid', 'new-routes']
-            })
-        },
-        {
-            path: '/over10k',
-            router: staticPage({
-                lang: 'funding.over10k',
-                template: 'static-pages/over10k',
-                heroSlug: 'headway-new',
-                projectStorySlugs: ['kvin', 'shettleston', 'rosies-trust']
-            })
-        },
-        {
             path: '/programmes',
             router: require('./programmes')
         },
