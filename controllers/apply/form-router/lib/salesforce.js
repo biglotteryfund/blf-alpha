@@ -23,6 +23,19 @@ class Salesforce {
             body: body
         });
     }
+    getFundingRequestStatus(formDataSalesforceId) {
+        return this.get(
+            `/services/data/${this.apiVersion}/query?q=${encodeURIComponent(
+                `SELECT Funding_Request__r.Status__c FROM Form_Data__c WHERE ID='${formDataSalesforceId}'`
+            )}`
+        ).then(function(result) {
+            if (result.records.length > 0) {
+                return result.records[0]['Funding_Request__r']['Status__c'];
+            } else {
+                return null;
+            }
+        });
+    }
     submitFormData({ application, meta }) {
         return this.postJson('/services/apexrest/FormData/', {
             meta: meta,
