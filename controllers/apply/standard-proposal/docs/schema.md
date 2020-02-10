@@ -85,9 +85,9 @@ validation rules: Required field, must be one or more of: `england`, `northern-i
 
 type: `array[string]`
 
-validation rules: If `projectCountries` contains `england` then `projectRegions` is included and required.
+validation rules: If `projectCountries` contains `england` then `projectRegions` is included and required. If `all-england` is selected all other values are stripped.
 
-allowed values: `midlands`, `london-and-south-east`, `north-east-and-cumbria`, `north-west`, `south-west`, `yorkshire-and-the-humber`
+allowed values: `all-england`, `midlands`, `london-and-south-east`, `north-east-and-cumbria`, `north-west`, `south-west`, `yorkshire-and-the-humber`
 
 ### projectLocation
 
