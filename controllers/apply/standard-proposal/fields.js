@@ -176,7 +176,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             );
 
             const locationOptionsSummary = locationOptions
-                .map(item => item.label)
+                .flatMap(group => group.options.map(item => item.label))
                 .join(', ');
 
             item.explanation = locationOptionsSummary
