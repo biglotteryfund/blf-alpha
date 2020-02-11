@@ -1,0 +1,87 @@
+{% extends "../../../../views/layouts/emails.njk" %}
+
+{% block content %}
+
+    {% if isBilingual %}
+        <p><strong>
+            Bilingual message – please scroll down for Welsh.<br />
+            Neges ddwyieithog – y Gymraeg i’w weld isod.
+        </strong></p>
+    {% endif %}
+
+    <p>Hello,</p>
+    <p>
+        <strong>Your funding proposal isn’t finished yet</strong><br/>
+        {% if projectName %}
+            We noticed you started telling us about {{ projectName | safe }}.
+            But you haven’t finished yet.
+        {% endif %}
+    </p>
+    <p>
+        <strong>
+            You have until {{ expiryDate.en }}
+            to finish your funding proposal.
+        </strong><br/>
+        If you don’t complete it before that time, we’ll delete it -
+        so that we can keep your data safe.
+    </p>
+    <p>
+        <strong>How to finish your funding proposal</strong><br/>
+        <a href="{{ editLink.en }}">Log in to your account</a>
+        and answer the rest of the questions.
+    </p>
+    <p>
+        <strong>If you don’t want more reminders from us</strong><br/>
+        You can <a href="{{ unsubscribeLink.en }}">
+            tell us to stop sending you these reminder emails.
+        </a>
+    </p>
+    <p>
+        <strong>If you have any questions at all</strong><br/>
+        You can call {{ countryPhoneNumber }}.
+        Or email {{ countryEmail }}. We’ll be happy to help you.
+    </p>
+    <p><strong>
+        Best wishes,<br/>
+        The National Lottery Community Fund
+    </strong></p>
+
+    {% if isBilingual %}
+        <p>Hello,</p>
+        <p>
+            <strong>Nid yw eich cynnig ariannu wedi gorffen eto</strong><br/>
+            {% if projectName %}
+                Fe sylweddolom eich bod wedi dechrau dweud wrthym am {{ projectName | safe }}.
+                Ond nid ydych wedi gorffen eto.
+            {% endif %}
+        </p>
+        <p>
+            <strong>
+                Mae gennych tan {{ expiryDate.en }}
+                 i orffen eich cynnig ariannu.
+            </strong><br/>
+            Os nad ydych yn ei gwblhau yn yr amser yna, byddwn yn ei ddileu -
+            er mwyn i ni allu cadw eich data yn ddiogel.
+        </p>
+        <p>
+            <strong>Sut i orffen eich cynnig ariannu</strong><br/>
+            <a href="{{ editLink.en }}">Mewngofnodwch i’ch cyfrif</a>
+             ac ateb gweddill y cwestiynau.
+        </p>
+        <p>
+            <strong>Os nad ydych eisiau mwy o nodiadau atgoffa gennym</strong><br/>
+            <a href="{{ unsubscribeLink.en }}">
+                Gallwch ddweud wrthym i stopio anfon yr e-byst atgoffa hyn
+            </a>
+        </p>
+        <p>
+            <strong>Os oes gennych unrhyw gwestiynau</strong><br/>
+            Gallwch ffonio {{ countryPhoneNumber }}.
+            Neu e-bostio {{ countryEmail }}. Byddwn yn hapus i’ch helpu.
+        </p>
+        <p><strong>
+            Cofion gorau,<br/>
+            Cronfa Gymunedol y Loteri Genedlaethol
+        </strong></p>
+    {% endif %}
+{% endblock %}

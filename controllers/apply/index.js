@@ -27,7 +27,7 @@ if (appData.isNotProduction) {
     router.use('/contacts-next', require('./contacts-next'));
 }
 
-router.use('/emails/unsubscribe', require('./unsubscribe'));
-router.use('/handle-expiry', require('./expiry'));
+router.use('/emails/unsubscribe', require('./expiries/unsubscribe-router'));
+router.use('/handle-expiry', require('./expiries/expiry-router'));
 
 module.exports = router;

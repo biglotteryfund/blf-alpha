@@ -1,4 +1,4 @@
-{% extends "views/layouts/emails.njk" %}
+{% extends "../../../../views/layouts/emails.njk" %}
 
 {% block content %}
 
@@ -14,7 +14,7 @@
     <p>Hello,</p>
 
     <p>
-        <strong>{{ introLine.en | safe }}</strong><br/>
+        <strong>Your National Lottery Awards for All application isn’t finished yet.</strong><br/>
         We noticed you started applying{% if projectName %} for {{ projectName | safe }}{% endif %}. But you haven’t finished your application.
     </p>
 
@@ -25,7 +25,8 @@
 
     <p>
         <strong>To finish your application</strong><br/>
-        <a href="{{ editLink.en }}">Log in to your account</a> and answer the rest of the questions.
+        <a href="{{ editLink.en }}">Log in to your account</a>
+        and answer the rest of the questions.
     </p>
 
     <p>
@@ -38,13 +39,7 @@
         You can call {{ countryPhoneNumber }}. Or email {{ countryEmail }}. We’ll be happy to help you.
     </p>
 
-    <p>
-        <strong>
-            Best wishes,<br/>
-            {{ senderName.en | safe }}
-        </strong>
-    </p>
-
+    <p><strong>Best wishes,<br/>  The National Lottery Awards for All Team</strong></p>
 
     {% if isBilingual %}
         <hr />
@@ -52,7 +47,7 @@
         <p>Helo,</p>
 
         <p>
-            <strong>{{ introLine.cy | safe }}</strong><br/>
+            <strong>Nid yw eich cais Arian i Bawb y Loteri Genedlaethol wedi’i gwblhau eto.</strong><br/>
             Fe sylweddolom eich bod wedi dechrau ymgeisio{% if projectName %} am {{ projectName | safe }}{% endif %}. Ond nid ydych wedi cwblhau eich cais.
         </p>
 
@@ -76,12 +71,7 @@
             Gallwch ffonio {{ countryPhoneNumber }}. Neu e-bostiwch cymru@cronfagymunedolylg.org.uk. Byddwn yn hapus i’ch helpu.
         </p>
 
-        <p>
-            <strong>
-                Cofion,<br />
-                {{ senderName.cy | safe }}
-            </strong>
-        </p>
+        <p><strong>Cofion,<br /> Tîm Arian i Bawb y Loteri Genedlaethol</strong></p>
     {% endif %}
 
 {% endblock %}
