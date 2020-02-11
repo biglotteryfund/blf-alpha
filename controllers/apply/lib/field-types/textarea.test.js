@@ -24,7 +24,7 @@ test('TextareaField', function() {
 
     field.withValue(goodValue);
     expect(field.displayValue).toEqual(
-        `${goodValue}\n\n(${minWords + 1} words)`
+        `${goodValue}\n\n${minWords + 1}/${maxWords} words`
     );
     expect(field.validate().error).toBeNull();
 
