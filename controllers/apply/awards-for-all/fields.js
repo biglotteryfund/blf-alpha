@@ -13,6 +13,7 @@ const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
 const RadioField = require('../lib/field-types/radio');
 
+const fieldProjectName = require('./fields/project-name');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
@@ -262,38 +263,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     return {
-        projectName: {
-            name: 'projectName',
-            label: localise({
-                en: 'What is the name of your project?',
-                cy: 'Beth yw enw eich prosiect?'
-            }),
-            explanation: localise({
-                en: 'The project name should be simple and to the point',
-                cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.medium)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a project name',
-                        cy: 'Rhowch enw prosiect'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Project name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: `Rhaid i enw’r prosiect fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                    })
-                }
-            ]
-        },
+        projectName: fieldProjectName(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: {
