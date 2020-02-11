@@ -62,8 +62,11 @@ class TextareaField extends Field {
     get displayValue() {
         if (this.value) {
             const val = this.value.toString();
-            const words = this.localise({ en: 'words', cy: 'gair' });
-            return `${val}\n\n(${countWords(val)} ${words})`;
+            const wordCountSummary = `${countWords(val)}/${
+                this.maxWords
+            } ${this.localise({ en: 'words', cy: 'gair' })}`;
+
+            return `${val}\n\n${wordCountSummary}`;
         } else {
             return '';
         }
