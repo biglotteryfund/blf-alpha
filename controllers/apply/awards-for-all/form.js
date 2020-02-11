@@ -32,7 +32,8 @@ const { checkBankAccountDetails } = require('./lib/bank-api');
 module.exports = function({
     locale = 'en',
     data = {},
-    showAllFields = false
+    showAllFields = false,
+    metadata = {}
 } = {}) {
     const localise = get(locale);
 
@@ -1346,6 +1347,10 @@ module.exports = function({
             enriched.seniorContactDateOfBirth = dateFormat(
                 enriched.seniorContactDateOfBirth
             );
+        }
+
+        if (metadata.formBrand) {
+            enriched.projectName = `${metadata.formBrand}: ${enriched.projectName}`;
         }
 
         return enriched;

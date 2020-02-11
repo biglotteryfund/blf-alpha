@@ -7,6 +7,7 @@ const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
+const unset = require('lodash/unset');
 const formidable = require('formidable');
 
 const {
@@ -40,6 +41,10 @@ function initFormRouter({
         return `forms.${formId}.currentEditingId`;
     }
 
+    function formBrandSessionKey() {
+        return `forms.${formId}.formBrand`;
+    }
+
     function redirectWelsh(req, res, next) {
         if (isBilingual === false && isWelsh(req.originalUrl)) {
             return res.redirect(removeWelsh(req.originalUrl));
@@ -64,10 +69,20 @@ function initFormRouter({
         next();
     }
 
+    function setFormBrand(req, res, next) {
+        const allowedBrands = ['kingsFund'];
+        if (allowedBrands.includes(req.query.brand)) {
+            set(req.session, formBrandSessionKey(), req.query.brand);
+        }
+        req.session.save(() => {
+            next();
+        });
+    }
+
     /**
      * Common router middleware
      */
-    router.use(noStore, redirectWelsh, setCommonLocals);
+    router.use(noStore, redirectWelsh, setFormBrand, setCommonLocals);
 
     router.get('/start', function(req, res) {
         const nextPageUrl = eligibilityBuilder
@@ -220,10 +235,22 @@ function initFormRouter({
      */
     router.get('/new', async function(req, res, next) {
         try {
-            const application = await PendingApplication.createNewApplication({
+            let newApplication = {
                 formId: formId,
                 userId: req.user.userData.id
-            });
+            };
+
+            const formBrand = get(req.session, formBrandSessionKey());
+            if (formBrand) {
+                newApplication.metadata = {
+                    formBrand: formBrand
+                };
+                unset(req.session, formBrandSessionKey());
+            }
+
+            const application = await PendingApplication.createNewApplication(
+                newApplication
+            );
 
             if (expiryEmailPeriods) {
                 // Convert this application's expiry periods into a set of queue items

@@ -1,7 +1,9 @@
 'use strict';
+const clone = require('lodash/clone');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const includes = require('lodash/includes');
+
 const { oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
@@ -9,7 +11,7 @@ const { Step } = require('../lib/step-model');
 
 const fieldsFor = require('./fields');
 
-module.exports = function({ locale = 'en', data = {} } = {}) {
+module.exports = function({ locale = 'en', data = {}, metadata = {} } = {}) {
     const localise = get(locale);
 
     const allFields = fieldsFor({ locale, data });
@@ -216,7 +218,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         summary: summary(),
         schemaVersion: 'v0.2',
         forSalesforce() {
-            return data;
+            const enriched = clone(data);
+            if (metadata.formBrand) {
+                enriched.projectName = `${metadata.formBrand}: ${enriched.projectName}`;
+            }
+            return enriched;
         },
         sections: [
             {
