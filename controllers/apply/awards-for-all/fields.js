@@ -25,6 +25,7 @@ const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldProjectLocation = require('./fields/project-location');
+const fieldProjectLocationDescription = require('./fields/project-location-description');
 const fieldProjectStartDate = require('./fields/project-start-date');
 const fieldProjectEndDate = require('./fields/project-end-date');
 const fieldCompanyNumber = require('./fields/company-number');
@@ -266,36 +267,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectName: fieldProjectName(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
-        projectLocationDescription: {
-            name: 'projectLocationDescription',
-            label: localise({
-                en: oneLine`Tell us the towns or villages where people who
-                    will benefit from your project live`,
-                cy: oneLine`Dywedwch wrthym y trefi neu bentrefi mae’r bobl
-                    a fydd yn elwa o’ch prosiect yn byw`
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Tell us the towns, villages or wards your beneficiaries live in`,
-                        cy: `Dywedwch wrthym y trefi, pentrefi neu wardiau mae eich buddiolwyr yn byw`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Project locations must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i leoliadau’r prosiect fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
+        projectLocationDescription: fieldProjectLocationDescription(locale),
         projectStartDate: fieldProjectStartDate(locale, data),
         projectEndDate: fieldProjectEndDate(locale),
         projectPostcode: {
