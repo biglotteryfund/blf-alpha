@@ -220,7 +220,7 @@ module.exports = function({ locale = 'en', data = {}, metadata = {} } = {}) {
         forSalesforce() {
             const enriched = clone(data);
             if (metadata.formBrand) {
-                enriched.projectName = `${metadata.formBrand}: ${enriched.projectName}`;
+                enriched.projectName = `${metadata.formBrand.title}: ${enriched.projectName}`;
             }
             return enriched;
         },

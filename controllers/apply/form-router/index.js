@@ -33,7 +33,8 @@ function initFormRouter({
     confirmationBuilder,
     transformFunction = null,
     expiryEmailPeriods = null,
-    isBilingual = true
+    isBilingual = true,
+    allowedBrands = []
 }) {
     const router = express.Router();
 
@@ -70,9 +71,11 @@ function initFormRouter({
     }
 
     function setFormBrand(req, res, next) {
-        const allowedBrands = ['kingsFund'];
-        if (allowedBrands.includes(req.query.brand)) {
-            set(req.session, formBrandSessionKey(), req.query.brand);
+        const validBrand = allowedBrands.find(
+            brand => brand.slug === req.query.brand
+        );
+        if (validBrand) {
+            set(req.session, formBrandSessionKey(), validBrand);
         }
         req.session.save(() => {
             next();
