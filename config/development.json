@@ -1,7 +1,6 @@
 {
   "logLevel": "debug",
   "features": {
-    "enableSeeders": true,
     "enableSalesforceConnector": false
   }
 }

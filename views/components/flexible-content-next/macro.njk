@@ -1,5 +1,6 @@
 {% from "components/callout/macro.njk" import callout %}
 {% from "components/child-pages/macro.njk" import childPages %}
+{% from "components/fact-river/macro.njk" import factRiver %}
 {% from "components/media-aside/macro.njk" import mediaAside %}
 {% from "components/related-content/macro.njk" import relatedContent %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
@@ -41,6 +42,8 @@
                             image = { "url": part.photo, "caption": part.photoCaption },
                             isReversed = mediaAsideCycler.next() if mediaAsideCycler else false
                         ) }}
+                    {% elseif part.type === 'factRiver' %}
+                        {{ factRiver(part.content) }}
                     {% elseif part.type === 'relatedContent' %}
                         {{ relatedContent(
                             articles = part.content,

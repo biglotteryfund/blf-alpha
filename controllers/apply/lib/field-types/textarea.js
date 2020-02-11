@@ -32,18 +32,8 @@ class TextareaField extends Field {
         this.schema = this.isRequired
             ? baseSchema.required()
             : baseSchema.allow('').optional();
-    }
 
-    getType() {
-        return 'textarea';
-    }
-
-    defaultAttributes() {
-        return { rows: 15 };
-    }
-
-    defaultMessages() {
-        return [
+        this.messages = [
             {
                 type: 'string.minWords',
                 message: this.localise({
@@ -58,14 +48,25 @@ class TextareaField extends Field {
                     cy: `Rhaid i’r ateb fod yn llai na ${this.maxWords} gair`
                 })
             }
-        ];
+        ].concat(props.messages || []);
+    }
+
+    getType() {
+        return 'textarea';
+    }
+
+    defaultAttributes() {
+        return { rows: 15 };
     }
 
     get displayValue() {
         if (this.value) {
             const val = this.value.toString();
-            const words = this.localise({ en: 'words', cy: 'gair' });
-            return `${val}\n\n(${countWords(val)} ${words})`;
+            const wordCountSummary = `${countWords(val)}/${
+                this.maxWords
+            } ${this.localise({ en: 'words', cy: 'gair' })}`;
+
+            return `${val}\n\n${wordCountSummary}`;
         } else {
             return '';
         }

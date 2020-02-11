@@ -10,7 +10,8 @@ const localVue = createLocalVue();
 const i18n = setupI18n(localVue, 'en');
 
 import WordCount from './word-count.vue';
-test('should render word count', () => {
+
+test('should render word count', async function() {
     const wrapper = shallowMount(WordCount, {
         localVue,
         i18n,
@@ -29,14 +30,19 @@ test('should render word count', () => {
     expect(wrapper.text()).toEqual(`0 / 150 words Must be at least 50 words.`);
 
     wrapper.setProps({ currentText: faker.lorem.words(10) });
+    await localVue.nextTick();
     expect(wrapper.text()).toContain(
         `10 / 150 words Must be at least 50 words.`
     );
 
     wrapper.setProps({ currentText: faker.lorem.words(50) });
+    await localVue.nextTick();
+
     expect(wrapper.text()).toContain(`50 / 150 words`);
 
     wrapper.setProps({ currentText: faker.lorem.words(175) });
+    await localVue.nextTick();
+
     expect(wrapper.text()).toContain(
         '175 / 150 words You have 25 words too many.'
     );
