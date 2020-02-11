@@ -13,28 +13,31 @@ const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
 const RadioField = require('../lib/field-types/radio');
 
+const fieldAddress = require('./fields/address');
+const fieldBankAccountName = require('./fields/bank-account-name');
+const fieldBankAccountNumber = require('./fields/bank-account-number');
+const fieldBankSortCode = require('./fields/bank-sort-code');
+const fieldBankStatement = require('./fields/bank-statement');
+const fieldBuildingSocietyNumber = require('./fields/building-society-number');
+const fieldCharityNumber = require('./fields/charity-number');
+const fieldCompanyNumber = require('./fields/company-number');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
+const fieldEducationNumber = require('./fields/education-number');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectCountry = require('./fields/project-country');
+const fieldProjectEndDate = require('./fields/project-end-date');
+const fieldProjectLocation = require('./fields/project-location');
+const fieldProjectLocationDescription = require('./fields/project-location-description');
+const fieldProjectName = require('./fields/project-name');
+const fieldProjectPostcode = require('./fields/project-postcode');
+const fieldProjectStartDate = require('./fields/project-start-date');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
-const fieldProjectLocation = require('./fields/project-location');
-const fieldProjectStartDate = require('./fields/project-start-date');
-const fieldProjectEndDate = require('./fields/project-end-date');
-const fieldCompanyNumber = require('./fields/company-number');
-const fieldCharityNumber = require('./fields/charity-number');
-const fieldEducationNumber = require('./fields/education-number');
-const fieldAddress = require('./fields/address');
-const fieldBankStatement = require('./fields/bank-statement');
-const fieldBuildingSocietyNumber = require('./fields/building-society-number');
-const fieldBankAccountNumber = require('./fields/bank-account-number');
-const fieldBankSortCode = require('./fields/bank-sort-code');
-const fieldBankAccountName = require('./fields/bank-account-name');
 
 const {
     BENEFICIARY_GROUPS,
@@ -262,103 +265,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     return {
-        projectName: {
-            name: 'projectName',
-            label: localise({
-                en: 'What is the name of your project?',
-                cy: 'Beth yw enw eich prosiect?'
-            }),
-            explanation: localise({
-                en: 'The project name should be simple and to the point',
-                cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.medium)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a project name',
-                        cy: 'Rhowch enw prosiect'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Project name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: `Rhaid i enw’r prosiect fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                    })
-                }
-            ]
-        },
+        projectName: fieldProjectName(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
-        projectLocationDescription: {
-            name: 'projectLocationDescription',
-            label: localise({
-                en: oneLine`Tell us the towns or villages where people who
-                    will benefit from your project live`,
-                cy: oneLine`Dywedwch wrthym y trefi neu bentrefi mae’r bobl
-                    a fydd yn elwa o’ch prosiect yn byw`
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Tell us the towns, villages or wards your beneficiaries live in`,
-                        cy: `Dywedwch wrthym y trefi, pentrefi neu wardiau mae eich buddiolwyr yn byw`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Project locations must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i leoliadau’r prosiect fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
+        projectLocationDescription: fieldProjectLocationDescription(locale),
         projectStartDate: fieldProjectStartDate(locale, data),
         projectEndDate: fieldProjectEndDate(locale),
-        projectPostcode: {
-            name: 'projectPostcode',
-            label: localise({
-                en: `What is the postcode of where your project will take place?`,
-                cy: `Beth yw côd post lleoliad eich prosiect?`
-            }),
-            explanation: localise({
-                en: oneLine`If your project will take place across different locations,
-                    please use the postcode where most of the project will take place.`,
-                cy: oneLine`Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
-                    defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.`
-            }),
-            type: 'text',
-            attributes: {
-                size: 10,
-                autocomplete: 'postal-code'
-            },
-            isRequired: true,
-            schema: Joi.string()
-                .postcode()
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn'
-                    })
-                }
-            ]
-        },
+        projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale),
         yourIdeaCommunity: fieldYourIdeaCommunity(locale),

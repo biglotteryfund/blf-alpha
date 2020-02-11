@@ -1,9 +1,8 @@
 'use strict';
 const get = require('lodash/fp/get');
-const flatMap = require('lodash/flatMap');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const SelectField = require('../../lib/field-types/select');
 const { locationOptions } = require('../../lib/location-options');
 
 module.exports = function(locale, data) {
@@ -28,7 +27,9 @@ module.exports = function(locale, data) {
 
         return result;
     }
-    return {
+
+    return new SelectField({
+        locale: locale,
         name: 'projectLocation',
         label: localise({
             en: 'Where will your project take place?',
@@ -40,20 +41,11 @@ module.exports = function(locale, data) {
             cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
                 wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
         }),
-        type: 'select',
         defaultOption: localise({
             en: 'Select a location',
             cy: 'Dewiswch leoliad'
         }),
         optgroups: optgroups(),
-        isRequired: true,
-        schema: Joi.string()
-            .valid(
-                flatMap(optgroups(), group => group.options).map(
-                    option => option.value
-                )
-            )
-            .required(),
         messages: [
             {
                 type: 'base',
@@ -63,5 +55,5 @@ module.exports = function(locale, data) {
                 })
             }
         ]
-    };
+    });
 };

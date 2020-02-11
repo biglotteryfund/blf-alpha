@@ -3,47 +3,32 @@ const get = require('lodash/fp/get');
 const orderBy = require('lodash/orderBy');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const RadioField = require('../../lib/field-types/radio');
 
 module.exports = function(locale) {
     const localise = get(locale);
 
-    const options = orderBy(
-        [
-            {
-                value: 'england',
-                label: localise({
-                    en: 'England',
-                    cy: 'Lloegr'
-                })
-            },
-            {
-                value: 'scotland',
-                label: localise({
-                    en: 'Scotland',
-                    cy: 'Yr Alban'
-                })
-            },
-            {
-                value: 'wales',
-                label: localise({
-                    en: 'Wales',
-                    cy: 'Cymru'
-                })
-            },
-            {
-                value: 'northern-ireland',
-                label: localise({
-                    en: 'Northern Ireland',
-                    cy: 'Gogledd Iwerddon'
-                })
-            }
-        ],
-        ['label'],
-        ['asc']
-    );
+    const countries = [
+        {
+            value: 'england',
+            label: localise({ en: 'England', cy: 'Lloegr' })
+        },
+        {
+            value: 'scotland',
+            label: localise({ en: 'Scotland', cy: 'Yr Alban' })
+        },
+        {
+            value: 'wales',
+            label: localise({ en: 'Wales', cy: 'Cymru' })
+        },
+        {
+            value: 'northern-ireland',
+            label: localise({ en: 'Northern Ireland', cy: 'Gogledd Iwerddon' })
+        }
+    ];
 
-    return {
+    return new RadioField({
+        locale: locale,
         name: 'projectCountry',
         label: localise({
             en: `What country will your project be based in?`,
@@ -57,12 +42,7 @@ module.exports = function(locale) {
                 ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu 
                 anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
         }),
-        type: 'radio',
-        options: options,
-        isRequired: true,
-        schema: Joi.string()
-            .valid(options.map(option => option.value))
-            .required(),
+        options: orderBy(countries, ['label'], ['asc']),
         messages: [
             {
                 type: 'base',
@@ -72,5 +52,5 @@ module.exports = function(locale) {
                 })
             }
         ]
-    };
+    });
 };
