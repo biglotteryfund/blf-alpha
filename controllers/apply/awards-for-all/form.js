@@ -1349,7 +1349,7 @@ module.exports = function({
             );
         }
 
-        if (metadata.formBrand) {
+        if (metadata && metadata.formBrand) {
             enriched.projectName = `${metadata.formBrand}: ${enriched.projectName}`;
         }
 
