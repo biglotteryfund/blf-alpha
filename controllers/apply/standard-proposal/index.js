@@ -14,10 +14,7 @@ module.exports = initFormRouter({
     confirmationBuilder: confirmationBuilder,
     isBilingual: false,
     expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS,
-    allowedBrands: [
-        {
-            slug: `kingsFund`,
-            title: `The Kings Fund`
-        }
-    ]
+    allowedBrands: {
+        kingsFund: { title: 'The Kings Fund' }
+    }
 });

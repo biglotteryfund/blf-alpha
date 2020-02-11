@@ -34,7 +34,7 @@ function initFormRouter({
     transformFunction = null,
     expiryEmailPeriods = null,
     isBilingual = true,
-    allowedBrands = []
+    allowedBrands = {}
 }) {
     const router = express.Router();
 
@@ -71,15 +71,15 @@ function initFormRouter({
     }
 
     function setFormBrand(req, res, next) {
-        const validBrand = allowedBrands.find(
-            brand => brand.slug === req.query.brand
-        );
+        const validBrand = get(allowedBrands, req.query.brand);
         if (validBrand) {
             set(req.session, formBrandSessionKey(), validBrand);
-        }
-        req.session.save(() => {
+            req.session.save(() => {
+                next();
+            });
+        } else {
             next();
-        });
+        }
     }
 
     /**
@@ -249,6 +249,7 @@ function initFormRouter({
                     formBrand: formBrand
                 };
                 unset(req.session, formBrandSessionKey());
+                await req.session.save();
             }
 
             const application = await PendingApplication.createNewApplication(
