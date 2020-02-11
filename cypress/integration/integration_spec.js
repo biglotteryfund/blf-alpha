@@ -150,7 +150,7 @@ function generateAccountPassword() {
     return `password${uuid()}`;
 }
 
-it('log in and log out', function() {
+it('should be able to log in and log out', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password);
 
@@ -164,7 +164,7 @@ it('log in and log out', function() {
     });
 });
 
-it('activate user account without logging in', function() {
+it('should be able to activate user account without logging in', function() {
     const username = generateAccountEmail();
     const password = generateAccountPassword();
 
@@ -181,7 +181,7 @@ it('activate user account without logging in', function() {
     });
 });
 
-it('log in and log out using global header link', function() {
+it('should be allow access to account via global header link', function() {
     cy.seedUser().then(newUser => {
         logIn(newUser.username, newUser.password, true);
 
@@ -197,18 +197,22 @@ it('log in and log out using global header link', function() {
 });
 
 it('should prevent invalid log ins', () => {
-    logIn(generateAccountEmail(), generateAccountPassword());
+    const unregisteredEmail = generateAccountEmail();
+
+    logIn(unregisteredEmail, generateAccountPassword());
+
     cy.findByTestId('form-errors').should(
         'contain',
         `Your username and password aren't quite right`
     );
 
     cy.checkA11y();
-});
 
-it('should return error when logging in with invalid password', () => {
     cy.seedUser().then(newUser => {
-        logIn(newUser.username, generateAccountPassword());
+        const incorrectPassword = generateAccountPassword();
+
+        logIn(newUser.username, incorrectPassword);
+
         cy.findByTestId('form-errors').should(
             'contain',
             `Your username and password aren't quite right`
@@ -216,22 +220,22 @@ it('should return error when logging in with invalid password', () => {
     });
 });
 
-it('should rate-limit users attempting to login too often', () => {
-    const email = generateAccountEmail();
-    const password = generateAccountPassword();
+it('should rate-limit failed log in attempts', () => {
+    const unregisteredEmail = generateAccountEmail();
+    const invalidPassword = generateAccountPassword();
 
     times(10, function() {
         cy.loginUser({
-            username: email,
-            password: password
+            username: unregisteredEmail,
+            password: invalidPassword
         }).then(response => {
             expect(response.status).to.eq(200);
         });
     });
 
     cy.loginUser({
-        username: email,
-        password: password,
+        username: unregisteredEmail,
+        password: invalidPassword,
         failOnStatusCode: false
     }).then(response => {
         expect(response.status).to.eq(429);
@@ -1101,7 +1105,7 @@ it('should submit full awards for all application', () => {
     });
 });
 
-it('should allow editing from the Summary screen', () => {
+it('should allow editing from the summary screen', () => {
     cy.seedAndLogin().then(() => {
         cy.visit('/apply/awards-for-all/new');
 
@@ -1288,6 +1292,69 @@ it('should complete standard your funding proposal form', () => {
     });
 });
 
+
+it('should correctly email users with expiring applications', () => {
+    cy.seedUser().then(newUser => {
+        /**
+         * Seed some applications with various expiry dates (past and future)
+         */
+        [
+            moment().subtract(1, 'days'),
+            moment().subtract(40, 'days'),
+            moment().subtract(80, 'days'),
+            moment().add(1, 'days'),
+            // these future expiry dates should not generate any emails to be sent
+            moment().add(10, 'week'),
+            moment().add(3, 'months')
+        ].map(expiry => {
+            cy.request('POST', '/apply/your-funding-proposal/seed', {
+                userId: newUser.id,
+                expiresAt: expiry.toDate()
+            });
+
+            cy.request('POST', '/apply/awards-for-all/seed', {
+                userId: newUser.id,
+                expiresAt: expiry.toDate()
+            });
+        });
+
+        /**
+         * Process expiry emails for the above applications
+         */
+        cy.request('POST', '/apply/handle-expiry').then(response => {
+            const { emailQueue } = response.body;
+
+            expect(emailQueue.length).to.eq(24);
+
+            cy.log(response.body);
+
+            const sentEmails = emailQueue.filter(function(item) {
+                return item.emailSent === true;
+            });
+
+            expect(sentEmails.length).to.eq(24);
+
+            const [awardsForAllEmails, standardEmails] = partition(
+                sentEmails,
+                function(item) {
+                    return item.formId === 'awards-for-all';
+                }
+            );
+
+            expect(awardsForAllEmails.length).to.eq(12);
+            expect(standardEmails.length).to.eq(12);
+
+            /**
+             * Check again for expiry emails to confirm there are
+             * no items left in the queue (eg. it's been processed)
+             */
+            cy.request('POST', '/apply/handle-expiry').then(newResponse => {
+                expect(newResponse.body.emailQueue.length).to.eq(0);
+            });
+        });
+    });
+});
+
 it('should submit materials order', () => {
     cy.visit(
         '/funding/funding-guidance/managing-your-funding/ordering-free-materials'
@@ -1359,66 +1426,4 @@ it('should be able to browse grants search results', () => {
         .click();
 
     cy.findByText('Previous page', { exact: false }).should('be.visible');
-});
-
-it('should correctly email users with expiring applications', () => {
-    cy.seedUser().then(newUser => {
-        /**
-         * Seed some applications with various expiry dates (past and future)
-         */
-        [
-            moment().subtract(1, 'days'),
-            moment().subtract(40, 'days'),
-            moment().subtract(80, 'days'),
-            moment().add(1, 'days'),
-            // these future expiry dates should not generate any emails to be sent
-            moment().add(10, 'week'),
-            moment().add(3, 'months')
-        ].map(expiry => {
-            cy.request('POST', '/apply/your-funding-proposal/seed', {
-                userId: newUser.id,
-                expiresAt: expiry.toDate()
-            });
-
-            cy.request('POST', '/apply/awards-for-all/seed', {
-                userId: newUser.id,
-                expiresAt: expiry.toDate()
-            });
-        });
-
-        /**
-         * Process expiry emails for the above applications
-         */
-        cy.request('POST', '/apply/handle-expiry').then(response => {
-            const { emailQueue } = response.body;
-
-            expect(emailQueue.length).to.eq(24);
-
-            cy.log(response.body);
-
-            const sentEmails = emailQueue.filter(function(item) {
-                return item.emailSent === true;
-            });
-
-            expect(sentEmails.length).to.eq(24);
-
-            const [awardsForAllEmails, standardEmails] = partition(
-                sentEmails,
-                function(item) {
-                    return item.formId === 'awards-for-all';
-                }
-            );
-
-            expect(awardsForAllEmails.length).to.eq(12);
-            expect(standardEmails.length).to.eq(12);
-
-            /**
-             * Check again for expiry emails to confirm there are
-             * no items left in the queue (eg. it's been processed)
-             */
-            cy.request('POST', '/apply/handle-expiry').then(newResponse => {
-                expect(newResponse.body.emailQueue.length).to.eq(0);
-            });
-        });
-    });
 });
