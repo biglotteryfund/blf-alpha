@@ -148,7 +148,11 @@ function generateAccountPassword() {
 
 it('should be able to log in and log out', function() {
     cy.seedUser().then(newUser => {
-        cy.visit('/user/login');
+        cy.visit('/');
+        cy.get('.js-toggle-login').within(function() {
+            cy.findByText('Log in', { exact: false }).click();
+        });
+
         logIn(newUser.username, newUser.password);
 
         cy.get('.global-header__navigation-secondary').within(() => {
@@ -162,12 +166,9 @@ it('should be able to log in and log out', function() {
 });
 
 it('should be able to activate user account without logging in', function() {
-    const username = generateAccountEmail();
-    const password = generateAccountPassword();
-
     cy.registerUser({
-        username: username,
-        password: password,
+        username: generateAccountEmail(),
+        password: generateAccountPassword(),
         returnToken: true
     }).then(res => {
         cy.visit(`/user/activate?token=${res.body.token}`);
@@ -175,26 +176,6 @@ it('should be able to activate user account without logging in', function() {
         cy.findByText('Your account was successfully activated!').should(
             'be.visible'
         );
-    });
-});
-
-it('should be allow access to account via global header link', function() {
-    cy.seedUser().then(newUser => {
-        cy.visit('/');
-        cy.get('.js-toggle-login').within(function() {
-            cy.findByText('Log in', { exact: false }).click();
-        });
-
-        logIn(newUser.username, newUser.password);
-
-        cy.wait(0);
-        cy.get('.global-header__navigation-secondary').within(() => {
-            cy.findByText('Log out', { exact: false }).click();
-        });
-
-        cy.findByText('You were successfully logged out', {
-            exact: false
-        }).should('be.visible');
     });
 });
 
