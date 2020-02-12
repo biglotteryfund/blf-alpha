@@ -13,16 +13,6 @@ function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
 }
 
-function checkRedirect({ from, to,  status = 301 }) {
-    cy.request({
-        url: from,
-        followRedirects: false
-    }).then(response => {
-        expect(response.status).to.eq(status);
-        expect(response.redirectedToUrl).to.eq(`http://localhost:8090${to}`);
-    });
-}
-
 it('should have expected cache headers', () => {
     cy.request('/').then(response => {
         expect(response.headers['cache-control']).to.eq(
@@ -73,19 +63,27 @@ it('should redirect archived pages to the national archives', () => {
 });
 
 it('should redirect legacy funding programmes', () => {
-    checkRedirect({
-        from: `/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities`,
-        to: `/funding/programmes/green-spaces-and-sustainable-communities`
-    });
-
-    checkRedirect({
-        from: `/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future`,
-        to: `/funding/programmes/young-peoples-fund-change-ur-future`
-    });
-
-    checkRedirect({
-        from: `/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap`,
-        to: `/welsh/funding/programmes/young-peoples-fund-bridging-the-gap`
+    [
+        {
+            from: `/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities`,
+            to: `/funding/programmes/green-spaces-and-sustainable-communities`
+        },
+        {
+            from: `/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future`,
+            to: `/funding/programmes/young-peoples-fund-change-ur-future`
+        },
+        {
+            from: `/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap`,
+            to: `/welsh/funding/programmes/young-peoples-fund-bridging-the-gap`
+        }
+    ].forEach(function(page) {
+        cy.request({
+            url: page.from,
+            followRedirects: false
+        }).then(response => {
+            expect(response.status).to.eq(301);
+            expect(response.redirectedToUrl).to.eq(`${Cypress.config('baseUrl')}${(page.to)}`);
+        });
     });
 });
 
@@ -94,10 +92,13 @@ it('should protect access to staff-only tools', () => {
         `/tools/survey-results`,
         `/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc`
     ].forEach(urlPath => {
-        checkRedirect({
-            from: urlPath,
-            to: `/user/staff/login?redirectUrl=${encodeURIComponent(urlPath)}`,
-            status: 302
+        cy.request({
+            url: urlPath,
+            followRedirects: false
+        }).then(response => {
+            const redirectPath = `/user/staff/login?redirectUrl=${encodeURIComponent(urlPath)}`;
+            expect(response.status).to.eq(302);
+            expect(response.redirectedToUrl).to.eq(`${Cypress.config('baseUrl')}${redirectPath}`);
         });
     });
 });
@@ -1292,7 +1293,6 @@ it('should complete standard your funding proposal form', () => {
         cy.get('h1').should('contain', 'Thanks for telling us your proposal');
     });
 });
-
 
 it('should correctly email users with expiring applications', () => {
     cy.seedUser().then(newUser => {
