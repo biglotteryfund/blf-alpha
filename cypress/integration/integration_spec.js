@@ -42,7 +42,7 @@ it('should 404 unknown routes', () => {
     check404('/not/a/page');
 });
 
-it.only('should redirect search queries to a google site search', () => {
+it('should redirect search queries to a google site search', () => {
     cy.request({
         url: '/search?q=This is my search query',
         followRedirects: false
@@ -82,7 +82,9 @@ it('should redirect legacy funding programmes', () => {
             followRedirects: false
         }).then(response => {
             expect(response.status).to.eq(301);
-            expect(response.redirectedToUrl).to.eq(`${Cypress.config('baseUrl')}${(page.to)}`);
+            expect(response.redirectedToUrl).to.eq(
+                `${Cypress.config('baseUrl')}${page.to}`
+            );
         });
     });
 });
@@ -96,26 +98,18 @@ it('should protect access to staff-only tools', () => {
             url: urlPath,
             followRedirects: false
         }).then(response => {
-            const redirectPath = `/user/staff/login?redirectUrl=${encodeURIComponent(urlPath)}`;
+            const redirectPath = `/user/staff/login?redirectUrl=${encodeURIComponent(
+                urlPath
+            )}`;
             expect(response.status).to.eq(302);
-            expect(response.redirectedToUrl).to.eq(`${Cypress.config('baseUrl')}${redirectPath}`);
+            expect(response.redirectedToUrl).to.eq(
+                `${Cypress.config('baseUrl')}${redirectPath}`
+            );
         });
     });
 });
 
-function logIn(username, password, usingGlobalHeader = false) {
-    if (usingGlobalHeader) {
-        cy.visit('/');
-        cy.wait(0);
-        cy.get('.global-header__navigation-secondary .js-toggle-login').within(
-            () => {
-                cy.findByText('Log in', { exact: false }).click();
-            }
-        );
-    } else {
-        cy.visit('/user/login');
-    }
-
+function logIn(username, password) {
     cy.findByLabelText('Email address')
         .clear()
         .type(username);
@@ -154,6 +148,7 @@ function generateAccountPassword() {
 
 it('should be able to log in and log out', function() {
     cy.seedUser().then(newUser => {
+        cy.visit('/user/login');
         logIn(newUser.username, newUser.password);
 
         cy.get('.global-header__navigation-secondary').within(() => {
@@ -185,7 +180,12 @@ it('should be able to activate user account without logging in', function() {
 
 it('should be allow access to account via global header link', function() {
     cy.seedUser().then(newUser => {
-        logIn(newUser.username, newUser.password, true);
+        cy.visit('/');
+        cy.get('.js-toggle-login').within(function() {
+            cy.findByText('Log in', { exact: false }).click();
+        });
+
+        logIn(newUser.username, newUser.password);
 
         cy.wait(0);
         cy.get('.global-header__navigation-secondary').within(() => {
@@ -201,6 +201,7 @@ it('should be allow access to account via global header link', function() {
 it('should prevent invalid log ins', () => {
     const unregisteredEmail = generateAccountEmail();
 
+    cy.visit('/user/login');
     logIn(unregisteredEmail, generateAccountPassword());
 
     cy.findByTestId('form-errors').should(
@@ -211,8 +212,9 @@ it('should prevent invalid log ins', () => {
     cy.checkA11y();
 
     cy.seedUser().then(newUser => {
-        const incorrectPassword = generateAccountPassword();
+        cy.visit('/user/login');
 
+        const incorrectPassword = generateAccountPassword();
         logIn(newUser.username, incorrectPassword);
 
         cy.findByTestId('form-errors').should(
@@ -325,6 +327,7 @@ function submitPasswordReset(
 
 it('should be able to log in and update account details', () => {
     cy.seedUser().then(user => {
+        cy.visit('/user/login');
         logIn(user.username, user.password);
 
         cy.get('.user-nav__links').within(() => {
