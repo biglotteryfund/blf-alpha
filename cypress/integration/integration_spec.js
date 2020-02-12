@@ -13,14 +13,13 @@ function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
 }
 
-function checkRedirect({ from, to, isRelative = true, status = 301 }) {
+function checkRedirect({ from, to,  status = 301 }) {
     cy.request({
         url: from,
         followRedirects: false
     }).then(response => {
-        const expected = isRelative ? `http://localhost:8090${to}` : to;
         expect(response.status).to.eq(status);
-        expect(response.redirectedToUrl).to.eq(expected);
+        expect(response.redirectedToUrl).to.eq(`http://localhost:8090${to}`);
     });
 }
 
@@ -53,12 +52,14 @@ it('should 404 unknown routes', () => {
     check404('/not/a/page');
 });
 
-it('should redirect search queries to a google site search', () => {
-    checkRedirect({
-        from: '/search?q=This is my search query',
-        to: `https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query`,
-        isRelative: false,
-        status: 302
+it.only('should redirect search queries to a google site search', () => {
+    cy.request({
+        url: '/search?q=This is my search query',
+        followRedirects: false
+    }).then(response => {
+        const expected = `https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query`;
+        expect(response.status).to.eq(302);
+        expect(response.redirectedToUrl).to.eq(expected);
     });
 });
 
