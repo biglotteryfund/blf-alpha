@@ -52,7 +52,7 @@ class PendingApplication extends Model {
 
             /**
              * Custom metadata attached to this application
-             * (eg. form brand)
+             * (eg. form programme)
              */
             metadata: {
                 type: DataTypes.JSON,

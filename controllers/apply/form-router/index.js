@@ -34,7 +34,7 @@ function initFormRouter({
     transformFunction = null,
     expiryEmailPeriods = null,
     isBilingual = true,
-    allowedBrands = {}
+    allowedProgrammes = {}
 }) {
     const router = express.Router();
 
@@ -42,8 +42,8 @@ function initFormRouter({
         return `forms.${formId}.currentEditingId`;
     }
 
-    function formBrandSessionKey() {
-        return `forms.${formId}.formBrand`;
+    function formProgrammeSessionKey() {
+        return `forms.${formId}.programme`;
     }
 
     function redirectWelsh(req, res, next) {
@@ -70,10 +70,10 @@ function initFormRouter({
         next();
     }
 
-    function setFormBrand(req, res, next) {
-        const validBrand = get(allowedBrands, req.query.brand);
-        if (validBrand) {
-            set(req.session, formBrandSessionKey(), validBrand);
+    function setFormProgramme(req, res, next) {
+        const validProgramme = get(allowedProgrammes, req.query.programme);
+        if (validProgramme) {
+            set(req.session, formProgrammeSessionKey(), validProgramme);
             req.session.save(() => {
                 next();
             });
@@ -85,7 +85,7 @@ function initFormRouter({
     /**
      * Common router middleware
      */
-    router.use(noStore, redirectWelsh, setFormBrand, setCommonLocals);
+    router.use(noStore, redirectWelsh, setFormProgramme, setCommonLocals);
 
     router.get('/start', function(req, res) {
         const nextPageUrl = eligibilityBuilder
@@ -243,12 +243,12 @@ function initFormRouter({
                 userId: req.user.userData.id
             };
 
-            const formBrand = get(req.session, formBrandSessionKey());
-            if (formBrand) {
+            const programme = get(req.session, formProgrammeSessionKey());
+            if (programme) {
                 newApplication.metadata = {
-                    formBrand: formBrand
+                    programme: programme
                 };
-                unset(req.session, formBrandSessionKey());
+                unset(req.session, formProgrammeSessionKey());
                 await req.session.save();
             }
 

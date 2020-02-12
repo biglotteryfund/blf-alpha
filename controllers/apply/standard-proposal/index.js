@@ -14,7 +14,7 @@ module.exports = initFormRouter({
     confirmationBuilder: confirmationBuilder,
     isBilingual: false,
     expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS,
-    allowedBrands: {
+    allowedProgrammes: {
         kingsFund: { title: 'The Kings Fund' }
     }
 });

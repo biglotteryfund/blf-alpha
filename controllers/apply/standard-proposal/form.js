@@ -219,8 +219,8 @@ module.exports = function({ locale = 'en', data = {}, metadata = {} } = {}) {
         schemaVersion: 'v0.2',
         forSalesforce() {
             const enriched = clone(data);
-            if (metadata && metadata.formBrand) {
-                enriched.projectName = `${metadata.formBrand.title}: ${enriched.projectName}`;
+            if (metadata && metadata.programme) {
+                enriched.projectName = `${metadata.programme.title}: ${enriched.projectName}`;
             }
             return enriched;
         },
