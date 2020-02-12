@@ -13,6 +13,37 @@ function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
 }
 
+it('should test common interactions', () => {
+    cy.visit('/');
+
+    // @TODO: Confirm contrast ratio issue on miniature heroes?
+    cy.checkA11y({
+        options: { rules: { 'color-contrast': { enabled: false } } }
+    });
+
+    cy.viewport(375, 667);
+
+    cy.get('.js-toggle-nav').as('navToggle');
+    cy.get('#global-nav').as('nav');
+    cy.get('.js-toggle-search').as('searchToggle');
+    cy.get('#global-search').as('search');
+
+    cy.get('@nav').should('not.be.visible');
+    cy.get('@search').should('not.be.visible');
+
+    // Toggle search
+    cy.get('@searchToggle').click();
+    cy.get('@nav').should('not.be.visible');
+    cy.get('@search').should('be.visible');
+    // Check search input for focus
+    cy.focused().should('have.attr', 'name', 'q');
+
+    // Toggle mobile navigation
+    cy.get('@navToggle').click();
+    cy.get('@nav').should('be.visible');
+    cy.get('@search').should('not.be.visible');
+});
+
 it('should have expected cache headers', () => {
     cy.request('/').then(response => {
         expect(response.headers['cache-control']).to.eq(
@@ -122,8 +153,6 @@ function logIn(username, password) {
 }
 
 function createAccount(username, password) {
-    cy.visit('/user/register');
-
     cy.findByLabelText('Email address')
         .clear()
         .type(username, { delay: 0 });
@@ -165,7 +194,7 @@ it('should be able to log in and log out', function() {
     });
 });
 
-it('should be able to activate user account without logging in', function() {
+it('should be able to activate user account', function() {
     cy.registerUser({
         username: generateAccountEmail(),
         password: generateAccountPassword(),
@@ -179,11 +208,10 @@ it('should be able to activate user account without logging in', function() {
     });
 });
 
-it('should prevent invalid log ins', () => {
-    const unregisteredEmail = generateAccountEmail();
-
+it('should prevent invalid log in attempts for unregistered accounts', function() {
     cy.visit('/user/login');
-    logIn(unregisteredEmail, generateAccountPassword());
+
+    logIn(generateAccountEmail(), generateAccountPassword());
 
     cy.findByTestId('form-errors').should(
         'contain',
@@ -191,12 +219,13 @@ it('should prevent invalid log ins', () => {
     );
 
     cy.checkA11y();
+});
 
+it('should prevent invalid log in attempts for registered accounts', function() {
     cy.seedUser().then(newUser => {
         cy.visit('/user/login');
 
-        const incorrectPassword = generateAccountPassword();
-        logIn(newUser.username, incorrectPassword);
+        logIn(newUser.username, generateAccountPassword());
 
         cy.findByTestId('form-errors').should(
             'contain',
@@ -228,9 +257,10 @@ it('should rate-limit failed log in attempts', () => {
     });
 });
 
-it('should prevent registrations with invalid passwords', () => {
+it('should prevent registration with invalid passwords', () => {
     const username = generateAccountEmail();
 
+    cy.visit('/user/register');
     createAccount(username, '5555555555');
     cy.findByTestId('form-errors').should('contain', 'Password is too weak');
 
@@ -253,12 +283,13 @@ it('should prevent registrations with invalid passwords', () => {
 });
 
 it('should register and see activation screen', function() {
+    cy.visit('/user/register');
     createAccount(generateAccountEmail(), generateAccountPassword());
     cy.checkA11y();
     cy.get('body').should('contain', 'Activate your account');
 });
 
-it('should email valid users with a token', () => {
+it('should generate an activation token when registering', () => {
     const username = generateAccountEmail();
     const password = generateAccountPassword();
 
@@ -278,11 +309,7 @@ it('should email valid users with a token', () => {
     });
 });
 
-function submitPasswordReset(
-    newPassword,
-    oldPassword = null,
-    expectError = false
-) {
+function submitPasswordReset(newPassword, oldPassword = null) {
     if (oldPassword) {
         cy.findByText('Change your password').click();
         cy.findByLabelText('Your old password').type(oldPassword);
@@ -293,17 +320,6 @@ function submitPasswordReset(
     cy.get('.form-actions').within(() => {
         cy.findByText('Reset password').click();
     });
-
-    if (expectError) {
-        cy.findByTestId('form-errors').should(
-            'contain',
-            'There was a problem with your submission'
-        );
-    } else {
-        cy.findByText('Your password was successfully updated!').should(
-            'be.visible'
-        );
-    }
 }
 
 it('should be able to log in and update account details', () => {
@@ -317,6 +333,9 @@ it('should be able to log in and update account details', () => {
 
         const newPassword = generateAccountPassword();
         submitPasswordReset(newPassword, user.password);
+        cy.findByText('Your password was successfully updated!').should(
+            'be.visible'
+        );
 
         cy.findByText('Change your email address').click();
         cy.findByLabelText('Email address').type(generateAccountEmail());
@@ -351,11 +370,14 @@ it('should be able to reset password while logged out', () => {
         }).then(response => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
             submitPasswordReset(generateAccountPassword());
+            cy.findByText('Your password was successfully updated!').should(
+                'be.visible'
+            );
         });
     });
 });
 
-it('should throw errors on multiple error requests on pwd reset', () => {
+it('should throw errors on multiple failed password reset attempts', () => {
     const weakPassword = 'password123';
     cy.seedUser().then(user => {
         cy.request('POST', '/user/password/forgot', {
@@ -363,8 +385,14 @@ it('should throw errors on multiple error requests on pwd reset', () => {
             returnToken: true
         }).then(response => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
-            submitPasswordReset(weakPassword, null, true);
-            submitPasswordReset(weakPassword, null, true);
+
+            times(2, function() {
+                submitPasswordReset(weakPassword, null, true);
+                cy.findByTestId('form-errors').should(
+                    'contain',
+                    'Password is too weak, try another password'
+                );
+            });
         });
     });
 });
@@ -383,90 +411,6 @@ it('should return forgotten password screen for invalid accounts', () => {
     cy.findByText('Password reset requested', { exact: false }).should(
         'be.visible'
     );
-});
-
-it('should allow survey API responses', () => {
-    const dataYes = {
-        choice: 'yes',
-        path: '/'
-    };
-
-    cy.request('POST', '/api/survey', dataYes).then(response => {
-        expect(response.body.result).to.have.property('id');
-        expect(response.body.status).to.equal('success');
-        expect(response.body.result.choice).to.equal(dataYes.choice);
-        expect(response.body.result.path).to.equal(dataYes.path);
-    });
-
-    const dataNo = {
-        choice: 'no',
-        path: '/',
-        message: 'this is an example message'
-    };
-
-    cy.request('POST', '/api/survey', dataNo).then(response => {
-        expect(response.body.result).to.have.property('id');
-        expect(response.body.status).to.equal('success');
-        expect(response.body.result.choice).to.equal(dataNo.choice);
-        expect(response.body.result.path).to.equal(dataNo.path);
-        expect(response.body.result.message).to.equal(dataNo.message);
-    });
-});
-
-it('should allow feedback API responses', () => {
-    const data = {
-        description: 'example',
-        message: 'this is an example message'
-    };
-
-    cy.request('POST', '/api/feedback', data).then(response => {
-        expect(response.body.result).to.have.property('id');
-        expect(response.body.status).to.equal('success');
-        expect(response.body.result.description).to.equal(data.description);
-        expect(response.body.result.message).to.equal(data.message);
-    });
-});
-
-it('should test common interactions', () => {
-    cy.visit('/');
-
-    // @TODO: Confirm contrast ratio issue on miniature heroes?
-    cy.checkA11y({
-        options: { rules: { 'color-contrast': { enabled: false } } }
-    });
-
-    cy.viewport(375, 667);
-
-    cy.get('.js-toggle-nav').as('navToggle');
-    cy.get('#global-nav').as('nav');
-    cy.get('.js-toggle-search').as('searchToggle');
-    cy.get('#global-search').as('search');
-
-    cy.get('@nav').should('not.be.visible');
-    cy.get('@search').should('not.be.visible');
-
-    // Toggle search
-    cy.get('@searchToggle').click();
-    cy.get('@nav').should('not.be.visible');
-    cy.get('@search').should('be.visible');
-    // Check search input for focus
-    cy.focused().should('have.attr', 'name', 'q');
-
-    // Toggle mobile navigation
-    cy.get('@navToggle').click();
-    cy.get('@nav').should('be.visible');
-    cy.get('@search').should('not.be.visible');
-});
-
-it('should test common pages', () => {
-    cy.visit('/welsh');
-    cy.checkA11y();
-
-    cy.visit('/funding/programmes');
-    // @TODO: Review colour contrast on promo cards
-    cy.checkA11y({
-        options: { rules: { 'color-contrast': { enabled: false } } }
-    });
 });
 
 it('should submit full awards for all application', () => {
@@ -1411,4 +1355,46 @@ it('should be able to browse grants search results', () => {
         .click();
 
     cy.findByText('Previous page', { exact: false }).should('be.visible');
+});
+
+it('should allow survey API responses', () => {
+    const dataYes = {
+        choice: 'yes',
+        path: '/'
+    };
+
+    cy.request('POST', '/api/survey', dataYes).then(response => {
+        expect(response.body.result).to.have.property('id');
+        expect(response.body.status).to.equal('success');
+        expect(response.body.result.choice).to.equal(dataYes.choice);
+        expect(response.body.result.path).to.equal(dataYes.path);
+    });
+
+    const dataNo = {
+        choice: 'no',
+        path: '/',
+        message: 'this is an example message'
+    };
+
+    cy.request('POST', '/api/survey', dataNo).then(response => {
+        expect(response.body.result).to.have.property('id');
+        expect(response.body.status).to.equal('success');
+        expect(response.body.result.choice).to.equal(dataNo.choice);
+        expect(response.body.result.path).to.equal(dataNo.path);
+        expect(response.body.result.message).to.equal(dataNo.message);
+    });
+});
+
+it('should allow feedback API responses', () => {
+    const data = {
+        description: 'example',
+        message: 'this is an example message'
+    };
+
+    cy.request('POST', '/api/feedback', data).then(response => {
+        expect(response.body.result).to.have.property('id');
+        expect(response.body.status).to.equal('success');
+        expect(response.body.result.description).to.equal(data.description);
+        expect(response.body.result.message).to.equal(data.message);
+    });
 });
