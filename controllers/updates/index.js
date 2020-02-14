@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 const get = require('lodash/get');
 const isArray = require('lodash/isArray');
-const pick = require('lodash/pick');
 
 const { buildArchiveUrl, localify } = require('../../common/urls');
 const { injectCopy, injectHeroImage } = require('../../common/inject-content');
@@ -72,8 +71,7 @@ router.get(
                 type: 'press-releases',
                 date: req.params.date,
                 slug: req.params.slug,
-                query: pick(req.query, ['page', 'region', 'social']),
-                requestParams: req.query
+                searchParams: req.query
             });
 
             if (!response.result) {
@@ -153,15 +151,7 @@ router.get(
                 type: updateType,
                 date: req.params.date,
                 slug: req.params.slug,
-                query: pick(req.query, [
-                    'page',
-                    'tag',
-                    'author',
-                    'category',
-                    'region',
-                    'social'
-                ]),
-                requestParams: req.query
+                searchParams: req.query
             });
 
             if (!response.result) {
