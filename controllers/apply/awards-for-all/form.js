@@ -27,7 +27,7 @@ const terms = require('./terms');
 const { getContactFullName } = require('./lib/contacts');
 
 const { isTestServer } = require('../../../common/appData');
-const { checkBankAccountDetails } = require('./lib/bank-api');
+const { queryBankAccountCheckerApi } = require('./lib/bank-api');
 
 module.exports = function({
     locale = 'en',
@@ -870,7 +870,7 @@ module.exports = function({
             return Promise.resolve();
         } else {
             return new Promise((resolve, reject) => {
-                checkBankAccountDetails(sortCode, accountNumber)
+                queryBankAccountCheckerApi(sortCode, accountNumber)
                     .then(bankStatus => {
                         const messages = messagesForStatus(bankStatus);
                         if (messages.length > 0) {

@@ -1,21 +1,20 @@
 'use strict';
-const request = require('request-promise-native');
+const got = require('got');
 const { BANK_API } = require('../../../../common/secrets');
 
-function checkBankAccountDetails(sortCode, accountNumber) {
-    return request
-        .get({
-            uri: 'https://www.bankaccountchecker.com/listener.php',
-            qs: {
+function queryBankAccountCheckerApi(sortCode, accountNumber) {
+    return got
+        .get('https://www.bankaccountchecker.com/listener.php', {
+            searchParams: {
                 key: BANK_API.KEY,
                 password: BANK_API.PASSWORD,
                 output: 'json',
                 type: 'uk_bankaccount',
                 sortcode: sortCode,
                 bankaccount: accountNumber
-            },
-            json: true
+            }
         })
+        .json()
         .then(normalizeResponse);
 }
 
@@ -38,6 +37,6 @@ function normalizeResponse(response) {
 }
 
 module.exports = {
-    checkBankAccountDetails,
+    queryBankAccountCheckerApi,
     normalizeResponse
 };
