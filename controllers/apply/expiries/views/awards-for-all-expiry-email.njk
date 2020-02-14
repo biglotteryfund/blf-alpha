@@ -11,7 +11,7 @@
     <p>
         <strong>Your National Lottery Awards for All application isn’t finished yet</strong><br/>
         We noticed you started applying{% if projectName %} for {{ projectName | safe }}{% endif %},
-        but haven’t finished your application.
+        but haven’t finished yet.
     </p>
     <p>
         <strong>
@@ -19,18 +19,18 @@
             to finish your application
         </strong><br/>
         If you don’t complete it before that time,
-        we’ll delete it–so that we can keep your data safe.
+        we’ll delete it, so we can keep your data safe.
     </p>
     <p>
-        <strong>How to finish your application</strong>
+        <strong>How to finish your application</strong><br/>
         <a href="{{ editLink.en }}">Log in to your account</a>
         and answer the rest of the questions.
     </p>
     <p>
         <strong>If you don’t want more reminders from us</strong><br/>
         You can <a href="{{ unsubscribeLink.en }}">
-            tell us to stop sending you these reminder emails
-        </a>.
+            tell us to stop sending you these reminder emails.
+        </a>
     </p>
     <p>
         <strong>If you have any questions at all</strong><br/>
@@ -44,7 +44,7 @@
     {% if isBilingual %}
         <hr />
 
-        <p>Hello,</p>
+        <p>Helo,</p>
         <p>
             <strong>Nid yw eich cais Arian i Bawb y Loteri Genedlaethol wedi ei orffen eto</strong><br/>
             Fe sylweddolom eich bod wedi dechrau ymgeisio{% if projectName %} am {{ projectName | safe }}{% endif %},
@@ -55,8 +55,8 @@
                 Mae gennych tan {{ expiryDate.cy }}
                 i orffen eich cais
             </strong><br/>
-            Os nad ydych yn cwblhau eich cais cyn hynny,
-            byddwn yn ei ddileu—felly gallwn gadw eich data yn ddiogel.
+            Os nad ydych yn ei gwblhau yn yr amser yna,
+            byddwn yn ei ddileu, er mwyn i ni gadw eich data’n ddiogel.
         </p>
         <p>
             <strong>Sut i orffen eich cais</strong>
@@ -65,18 +65,18 @@
         </p>
         <p>
             <strong>Os nad ydych eisiau rhagor o nodiadau atgoffa gennym</strong><br/>
-            <a href="{{ unsubscribeLink.cy }}">
-                Gallwch ddweud wrthym i stopio anfon yr e-byst atgoffa hyn atoch
+            Gallwch ddweud wrthym i <a href="{{ unsubscribeLink.cy }}">
+                stopio anfon yr e-byst atgoffa hyn atoch
             </a>.
         </p>
         <p>
             <strong>Os oes gennych unrhyw gwestiynau</strong><br/>
-            Gallwch ffonio {{ countryPhoneNumber }}. Neu e-bostio {{ countryEmail }}. Byddwn yn hapus i’ch helpu.
+            Gallwch ffonio {{ countryPhoneNumber }}. Neu e-bostio {{ countryEmail }}.
+            Byddwn yn hapus i’ch helpu.
         </p>
         <p>
             <strong>Cofion gorau,<br/>
             Tîm Arian i Bawb y Loteri Genedlaethol</strong>
         </p>
     {% endif %}
-
 {% endblock %}

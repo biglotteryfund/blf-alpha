@@ -4,18 +4,18 @@ exports[`expiry email for awards for all 1`] = `
 " Hello,
 
  Your National Lottery Awards for All application isn’t finished yet
-We noticed you started applying for Example project name, but haven’t finished your application. 
+We noticed you started applying for Example project name, but haven’t finished yet. 
 
  You have until 1 June, 2050 12:00 to finish your application 
-If you don’t complete it before that time, we’ll delete it–so that we can keep your data safe. 
+If you don’t complete it before that time, we’ll delete it, so we can keep your data safe. 
 
- How to finish your application Log in to your account
-[https://www.tnlcommunityfund.org.uk/apply/awards-for-all/edit/MOCK_APPLICATION_ID?s=expiryEmail]and answer the rest of the
-questions. 
+ How to finish your application
+Log in to your account [https://www.tnlcommunityfund.org.uk/apply/awards-for-all/edit/MOCK_APPLICATION_ID?s=expiryEmail]and answer
+the rest of the questions. 
 
  If you don’t want more reminders from us
-You can tell us to stop sending you these reminder emails
-[https://www.tnlcommunityfund.org.uk/apply/emails/unsubscribe?token=MOCK_TOKEN]. 
+You can tell us to stop sending you these reminder emails.
+[https://www.tnlcommunityfund.org.uk/apply/emails/unsubscribe?token=MOCK_TOKEN] 
 
  If you have any questions at all
 You can call 0345 4 10 20 30. Or email general.enquiries@tnlcommunityfund.org.uk. We’ll be happy to help you. 
@@ -55,18 +55,18 @@ Neges ddwyieithog – y Gymraeg i’w weld isod.
 Hello,
 
  Your National Lottery Awards for All application isn’t finished yet
-We noticed you started applying for Example project name, but haven’t finished your application. 
+We noticed you started applying for Example project name, but haven’t finished yet. 
 
  You have until 1 June, 2050 12:00 to finish your application 
-If you don’t complete it before that time, we’ll delete it–so that we can keep your data safe. 
+If you don’t complete it before that time, we’ll delete it, so we can keep your data safe. 
 
- How to finish your application Log in to your account
-[https://www.tnlcommunityfund.org.uk/apply/awards-for-all/edit/MOCK_APPLICATION_ID?s=expiryEmail]and answer the rest of the
-questions. 
+ How to finish your application
+Log in to your account [https://www.tnlcommunityfund.org.uk/apply/awards-for-all/edit/MOCK_APPLICATION_ID?s=expiryEmail]and answer
+the rest of the questions. 
 
  If you don’t want more reminders from us
-You can tell us to stop sending you these reminder emails
-[https://www.tnlcommunityfund.org.uk/apply/emails/unsubscribe?token=MOCK_TOKEN]. 
+You can tell us to stop sending you these reminder emails.
+[https://www.tnlcommunityfund.org.uk/apply/emails/unsubscribe?token=MOCK_TOKEN] 
 
  If you have any questions at all
 You can call 0300 123 0735. Or email wales@tnlcommunityfund.org.uk. We’ll be happy to help you. 
@@ -77,13 +77,13 @@ The National Lottery Awards for All Team
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
-Hello,
+Helo,
 
  Nid yw eich cais Arian i Bawb y Loteri Genedlaethol wedi ei orffen eto
 Fe sylweddolom eich bod wedi dechrau ymgeisio am Example project name, ond heb orffen eich cais. 
 
  Mae gennych tan 1 Mehefin, 2050 12:00 i orffen eich cais 
-Os nad ydych yn cwblhau eich cais cyn hynny, byddwn yn ei ddileu—felly gallwn gadw eich data yn ddiogel. 
+Os nad ydych yn ei gwblhau yn yr amser yna, byddwn yn ei ddileu, er mwyn i ni gadw eich data’n ddiogel. 
 
  Sut i orffen eich cais Mewngofnodi i’ch cyfrif
 [https://www.tnlcommunityfund.org.uk/welsh//apply/awards-for-all/edit/MOCK_APPLICATION_ID?s=expiryEmail]ac ateb gweddill y
