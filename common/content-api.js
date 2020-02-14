@@ -1,4 +1,7 @@
 'use strict';
+const got = require('got');
+const querystring = require('querystring');
+const request = require('request-promise-native');
 const filter = require('lodash/fp/filter');
 const find = require('lodash/fp/find');
 const get = require('lodash/fp/get');
@@ -8,16 +11,24 @@ const map = require('lodash/fp/map');
 const pick = require('lodash/pick');
 const sortBy = require('lodash/fp/sortBy');
 
-const request = require('request-promise-native');
-const querystring = require('querystring');
-
 const logger = require('./logger');
+const { sanitiseUrlPath } = require('./urls');
+const { CONTENT_API_URL } = require('./secrets');
 
 const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
 
-const { sanitiseUrlPath } = require('./urls');
-let { CONTENT_API_URL } = require('./secrets');
+const queryContentApi = got.extend({
+    prefixUrl: CONTENT_API_URL,
+    headers: { 'user-agent': 'tnlcf-www' },
+    hooks: {
+        beforeRequest: [
+            function(options) {
+                logger.debug(`Fetching ${options.url.href}`);
+            }
+        ]
+    }
+});
 
 function fetch(urlPath, options) {
     logger.debug(
