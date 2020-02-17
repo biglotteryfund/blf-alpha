@@ -10,9 +10,8 @@ const checkPreviewMode = require('./check-preview-mode');
  * Populate hero image (with social image URLs too)
  * */
 function setHeroLocals({ res, entry }) {
-    // @TODO: Rename this once API has been updated back to `hero`
-    const heroImage = get('heroNew.image')(entry);
-    const heroCredit = get('heroNew.credit')(entry);
+    const heroImage = get('hero.image')(entry);
+    const heroCredit = get('hero.credit')(entry);
 
     if (heroImage) {
         res.locals.pageHero = {

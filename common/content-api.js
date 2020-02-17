@@ -16,7 +16,7 @@ const logger = require('./logger');
 const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
 
-const { sanitiseUrlPath } = require('./urls');
+const { sanitiseUrlPath, stripTrailingSlashes } = require('./urls');
 let { CONTENT_API_URL } = require('./secrets');
 
 function fetch(urlPath, options) {
@@ -162,12 +162,10 @@ function getHeroImage({ locale, slug }) {
     );
 }
 
-function getHomepage({ locale, query= {}, requestParams = {} }) {
+function getHomepage({ locale, query = {}, requestParams = {} }) {
     return fetch(`/v1/${locale}/homepage`, {
         qs: addPreviewParams(requestParams, { ...query })
-    }).then(
-        response => response.data.attributes
-    );
+    }).then(response => response.data.attributes);
 }
 
 /**
@@ -304,7 +302,14 @@ function getListingPage({ locale, path, query = {}, requestParams = {} }) {
         })
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
-        return attributes.find(_ => _.path === sanitisedPath);
+        // @TODO remove the check for attr.path, which will shortly be removed the CMS
+        return attributes.find(attr => {
+            if (get(attr, 'path')) {
+                return attr.path === sanitisedPath;
+            } else {
+                return attr.linkUrl === stripTrailingSlashes(path);
+            }
+        });
     });
 }
 
