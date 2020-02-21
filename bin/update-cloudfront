@@ -6,7 +6,7 @@ const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
 const prompt = require('prompt');
-const rp = require('request-promise-native');
+const got = require('got');
 const cloneDeep = require('lodash/cloneDeep');
 const filter = require('lodash/filter');
 const find = require('lodash/find');
@@ -46,20 +46,6 @@ if (argv.file) {
     }
 }
 
-// get server statuses for app environments
-function getEnvStatus(env) {
-    const URLs = {
-        test: process.env.TEST_URL,
-        production: process.env.PROD_URL
-    };
-
-    return rp({
-        url: URLs[env] + '/status'
-    }).then(response => {
-        return JSON.parse(response);
-    });
-}
-
 const configFilename = IS_LIVE ? 'live' : 'test';
 const configPath = `config/cloudfront/${configFilename}.json`;
 const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/contents/${configPath}`;
@@ -68,9 +54,14 @@ const CONFIG_URL = `https://api.github.com/repos/biglotteryfund/blf-alpha/conten
 if (customConfig) {
     beginUpdate(customConfig);
 } else {
+    const environmentUrl = IS_LIVE
+        ? process.env.PROD_URL
+        : process.env.TEST_URL;
+
     // get the current commit IDs
-    getEnvStatus(IS_LIVE ? 'production' : 'test')
-        .then(status => {
+    got(`${environmentUrl}/status`)
+        .json()
+        .then(function(status) {
             // look up the file at the chosen environment's current commit
             let routesParams = {
                 ref: status.COMMIT_ID
@@ -86,27 +77,23 @@ if (customConfig) {
             );
 
             // fetch the routes file details
-            rp({
-                url: CONFIG_URL,
-                qs: routesParams,
+            got(CONFIG_URL, {
+                searchParams: routesParams,
                 headers: {
-                    'User-Agent': 'BLF-Cloudfront-Tool'
+                    'user-agent': 'BLF-Cloudfront-Tool'
                 }
             })
+                .json()
                 .then(response => {
-                    let json = JSON.parse(response);
-                    let filePath = json.download_url;
                     console.log(
-                        `Got the file data, downloading content from ${filePath}...`
+                        `Got the file data, downloading content from ${response.download_url}...`
                     );
 
                     // now fetch the file content itself
-                    rp({
-                        url: filePath
-                    })
+                    got(response.download_url)
+                        .json()
                         .then(fileContent => {
-                            console.log(`Fetched file content, parsing...`);
-                            beginUpdate(JSON.parse(fileContent));
+                            beginUpdate(fileContent);
                         })
                         .catch(err => {
                             console.log(
