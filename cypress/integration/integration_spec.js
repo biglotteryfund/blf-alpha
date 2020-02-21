@@ -960,7 +960,7 @@ it('should submit full awards for all application', () => {
 
         cy.get('h1').should(
             'contain',
-            'Your application has been submitted. Good luck!'
+            'Thanks - we’ve got your application now'
         );
     }
 
