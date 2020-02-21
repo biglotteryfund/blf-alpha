@@ -2,6 +2,7 @@
 const { get } = require('lodash/fp');
 
 const getLeadTimeWeeks = require('./lib/lead-time');
+const { getContactFullName } = require('./lib/contacts');
 
 function getEmailFor(country) {
     const countryEmail = {
@@ -29,64 +30,81 @@ module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const country = get('projectCountry')(data);
 
+    const [mainContact, seniorContact] = ['main', 'senior'].map(contactType => {
+        return {
+            fullName: getContactFullName(
+                get(`${contactType}ContactName`)(data),
+                false
+            ),
+            email: get(`${contactType}ContactEmail`)(data)
+        };
+    });
+
     function enConfirmationBody() {
-        return `<p>Thank you for submitting your application to National Lottery Awards for All.</p>
-<h2>What happens next?</h2>
-<p>
-    We will now review your application and may contact you
-    to find out more about your project. It will take around
-    <strong>${getLeadTimeWeeks(country)} weeks</strong>
-    for us to make a decision and we will
-    let you know whether you have been successful by email.
-</p>
-<p>
-    In the meantime, if you have any questions, please call <strong>${getPhoneFor(
-        country
-    )}</strong> or email <a href="mailto:${getEmailFor(country)}">${getEmailFor(
+        return `<h2>We’ve just sent an email to your main and senior contact</h2>
+<p>This is just a confirmation email, with a summary of your answers (in case you want to look back at them at any point).</p>
+
+<h2>Now we’ve got your application – we'll start assessing it as soon as we can</h2>
+<p>We’ll look at your idea and do some checks. <strong>It’ll take us around ${getLeadTimeWeeks(
             country
-        )}</a> and we will be happy to help you.
-</p>
+        )} weeks to decide to fund your project or not</strong>.</p>
+
+<h2>While we’re assessing your application – we might get in touch</h2>
+<p>We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.</p>
+
+<h2>We’ll let ${mainContact.fullName} and ${
+            seniorContact.fullName
+        } know our decision by email</h2>
+<p>We’ll email <strong>${mainContact.email}</strong> and <strong>${
+            seniorContact.email
+        }</strong>. Make sure to check the junk mail too (just in case).</p>
+
+<h2>If you have any questions, you can contact us in the meantime</h2>
+<p>Please call ${getPhoneFor(country)} or email <a href="mailto:${getEmailFor(
+            country
+        )}">${getEmailFor(country)}</a> and we will be happy to help you.</p>
+
 <p>
-    We’ll email a copy of your answers to your main and senior contact.
-    Please keep this for your records as you may need to refer to it.
+    Good luck with your application!<br />
+    <strong>The National Lottery Awards for All team</strong>
 </p>
-<p>
-    Good luck with your application,<br />
-    <strong>The National Lottery Awards for All Team</strong>
-</p>`;
+        `;
     }
 
     function cyConfirmationBody() {
-        return `<p>Diolch am anfon eich cais i Arian i Bawb y Loteri Genedlaethol.</p>
-<h2>Beth nesaf?</h2>
-<p>
-    Byddwn nawr yn adolygu eich cais ac efallai byddwn mewn cysylltiad i 
-    ddarganfod mwy am eich prosiect. Bydd yn cymryd oddeutu
-    <strong>${getLeadTimeWeeks(country)} wythnos</strong>
-    i ni wneud penderfyniad a byddwn yn gadael i chi wybod 
-    p’un a ydych wedi bod yn llwyddiannus ai beidio drwy e-bost.
-</p>
-<p>
-    Yn y cyfamser, os oes gennych unrhyw gwestiynau, ffoniwch <strong>${getPhoneFor(
-        country
-    )}</strong> neu gyrrwch e-bost i <a href="mailto:${getEmailFor(
+        return `<h2>Rydym newydd anfon e-bost i’ch prif ac uwch gyswllt </h2>
+<p>Dim ond e-bost cadarnhad yw hwn, gyda chrynodeb o’ch atebion (rhag ofn eich bod eisiau edrych yn ôl arnyn nhw ar unrhyw bwynt).</p>
+
+<h2>Nawr ein bod gyda’ch cais – byddwn yn dechrau ei asesu mor fuan ag y gallwn</h2>
+<p>Byddwn yn edrych ar eich syniad a gwneud rhai gwiriadau. <strong>Bydd yn cymryd oddeutu ${getLeadTimeWeeks(
             country
-        )}">${getEmailFor(country)}</a> a byddwn yn hapus i’ch helpu.
-</p>
+        )} wythnos i ni benderfynu ariannu eich prosiect ai beidio</strong>.</p>
+
+<h2>Tra rydym yn asesu eich cais – efallai byddwn mewn cysylltiad</h2>
+<p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
+
+<h2>Byddwn yn rhoi gwybod o’n penderfyniad i ${mainContact.fullName} a ${
+            seniorContact.fullName
+        } dros e-bost</h2>
+<p>Byddwn yn e-bostio <strong>${mainContact.email}</strong> a <strong>${
+            seniorContact.email
+        }</strong>. Sicrhewch eich bod yn gwirio eich post sothach hefyd (rhag ofn).</p>
+
+<h2>Os oes gennych unrhyw gwestiynau, gallwch gysylltu â ni yn y cyfamser</h2>
+<p>Ffoniwch ${getPhoneFor(country)} neu e-bostio <a href="mailto:${getEmailFor(
+            country
+        )}">${getEmailFor(country)}</a> a byddwn yn hapus i’ch helpu.</p>
+
 <p>
-    Byddwn yn e-bostio copi o’ch atebion i’ch prif gyswllt a’ch uwch gyswllt.
-    Cadwch hwn ar gyfer eich cofnodion rhag ofn bydd angen ichi gyfeirio ato.
-</p>
-<p>
-    Pob lwc gyda’ch cais,<br />
+    Pob lwc gyda’ch cais!<br />
     <strong>Tîm Arian i Bawb y Loteri Genedlaethol</strong>
 </p>`;
     }
 
     return {
         title: localise({
-            en: `Your application has been submitted. Good luck!`,
-            cy: `Mae eich cais wedi’i gyflwyno. Pob lwc!`
+            en: `Thanks - we’ve got your application now`,
+            cy: `Diolch – mae gennym eich cais nawr`
         }),
         body: localise({
             en: enConfirmationBody(),
