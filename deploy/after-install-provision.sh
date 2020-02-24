@@ -1,5 +1,8 @@
 #!/bin/bash
 set -e
+#################################################
+# AfterInstall provision script
+#################################################
 
 # Install Passenger/nginx
 apt-get install -y dirmngr gnupg

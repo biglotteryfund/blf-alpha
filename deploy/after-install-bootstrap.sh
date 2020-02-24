@@ -1,5 +1,8 @@
 #!/bin/bash
 set -e
+#################################################
+# AfterInstall bootstrap script
+#################################################
 
 # Change ownership of app directory to web user
 chown -R www-data:www-data /var/www/biglotteryfund/

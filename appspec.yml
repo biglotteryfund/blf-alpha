@@ -5,16 +5,16 @@ files:
     destination: /var/www/biglotteryfund
 hooks:
   BeforeInstall:
-    - location: deploy/pre-install.sh
+    - location: deploy/before-install.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: deploy/provision.sh
+    - location: deploy/after-install-provision.sh
       timeout: 600
       runas: root
-    - location: deploy/bootstrap.sh
+    - location: deploy/after-install-bootstrap.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: deploy/start.sh
+    - location: deploy/application-start.sh
       timeout: 300
