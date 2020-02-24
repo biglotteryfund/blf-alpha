@@ -332,15 +332,12 @@ $filterSpacing: 10px;
         padding: 3px 6px;
 
         a {
+            font-weight: normal;
             vertical-align: middle;
         }
 
         &.link-filters__item--selected {
             border: 1px solid get-color('border', 'base');
-        }
-
-        a {
-            font-weight: normal;
         }
     }
 }
