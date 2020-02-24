@@ -11,7 +11,7 @@
 apt-get update
 apt-get install ruby -y
 apt-get install wget -y
-cd /home/ubuntu
+cd /home/ubuntu || exit
 wget https://aws-codedeploy-eu-west-2.s3.amazonaws.com/latest/install
 chmod +x ./install
 ./install auto
