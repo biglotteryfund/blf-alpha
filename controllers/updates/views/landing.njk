@@ -53,11 +53,11 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <footer class="related-content__footer">
+                <div class="related-content__footer">
                     <a class="related-content__more" href="{{ localify('/news/blog') }}">
                         {{ copy.blogpost.viewAllBlogPosts }} &rarr;
                     </a>
-                </footer>
+                </div>
             </section>
 
             {# People stories #}
@@ -75,11 +75,11 @@
                             {% endfor %}
                         </ul>
                     </div>
-                    <footer class="related-content__footer">
+                    <div class="related-content__footer">
                         <a class="related-content__more" href="{{ localify('/news/people-stories') }}">
                             {{ copy['people-stories'].viewAllPeopleStories }} &rarr;
                         </a>
-                    </footer>
+                    </div>
                 </section>
             {% endif %}
 
