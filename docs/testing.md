@@ -53,3 +53,15 @@ In a new terminal
 ```shell script
 npx cypress open
 ```
+
+## Accessibility testing
+
+As part of our Cypress tests we use `axe-core` to perform automated accessibility checks on key pages during our end-to-end tests. We accept that this kind of testing can only catch _some_ accessibility issues and is not a substitute for regular accessibility testing but running these smoke tests in an automated way catches common errors early.
+
+## npm audit
+
+As part of our CI step we run `npm audit` which checks our production npm dependencies for vulnerabilities. By running this during CI we can fail the build if any new vulnerabiliies are discovered forcing us to act on security notices early and often.
+
+## Dependabot
+
+Related to the `npm audit` step we also have [Dependabot](https://dependabot.com/) configured as a GitHub app. This too regularly raises pull requests to keep our dependencies up to date. Automating this ensures we are kept up to date and reduces risk by encouraging us to merge dependency updates in small regular increments.
