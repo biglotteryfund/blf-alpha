@@ -13,7 +13,3 @@ Deploys to production are manual. Once a deploy has been checked on the test env
 ```
 
 This command will begin a deployment by listing the previous 10 releases deployed to the test environment and asking which build you wish to deploy. It will provide you with a GitHub diff link for the changes are going to be deployed, and will ask you to confirm if you wish to proceed. Progress updates will be posted to Slack, and can be followed in the AWS console, as the deployment proceeds.
-
-## Provisioning
-
-CodeDeploy handles provisioning of new servers. Scripts used to provision servers can be found in the `deploy/` directory. These scripts map to different CodeDeploy lifecyle stages as defined in `appspec.yml`

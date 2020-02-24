@@ -12,6 +12,7 @@ View the [Getting Started](./docs/getting-started.md) guide for instructions on 
 
 You can read more detailed guides on the following topics:
 
+-   [Architecture](./docs/testing.md)
 -   [Testing](./docs/testing.md)
 -   [Client-side builds](./docs/testing.md)
 -   [Deployment](./docs/deployment.md)
