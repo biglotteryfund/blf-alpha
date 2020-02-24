@@ -1,14 +1,15 @@
-{% macro icon(slug, title, viewbox, variant = 'small', skipLabel = false) %}
+{% macro icon(slug, title, viewbox, variant = 'small', ariaHidden = false) %}
     {% set id = 'aria-' + slug + '-title-' | appendUuid %}
     <svg
         role="img"
         class="icon icon--{{ variant }} icon--{{ slug }}"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="{{ viewbox }}" width="32" height="32"
-        {% if not skipLabel %}aria-labelledby="{{ id }}"{% endif %}
+        {% if ariaHidden %}aria-hidden="true"{% endif %}
+        aria-labelledby="{{ id }}"
         focusable="false"
     >
-        {% if not skipLabel %}<title id="{{ id }}">{{ title }}</title>{% endif %}
+        <title id="{{ id }}">{{ title }}</title>
         {{ caller() }}
     </svg>
 {% endmacro %}
@@ -32,7 +33,7 @@
 {% endmacro %}
 
 {% macro iconSearch() %}
-    {% call icon('search', 'Search', viewbox="0 0 512 512", skipLabel = true) %}
+    {% call icon('search', 'Search', viewbox="0 0 512 512", ariaHidden = true) %}
         <path d="M445 386.7l-84.8-85.9c13.8-24.1 21-50.9 21-77.9C381.2 135.3 310 64 222.6 64 135.2 64 64 135.3 64 222.9c0 87.6 71.2 158.9 158.6 158.9 27.9 0 55.5-7.7 80.1-22.4l84.4 85.6c1.9 1.9 4.6 3.1 7.3 3.1s5.4-1.1 7.3-3.1l43.3-43.8c4-4.1 4-10.5 0-14.5zM222.6 125.9c53.4 0 96.8 43.5 96.8 97s-43.4 97-96.8 97-96.8-43.5-96.8-97 43.4-97 96.8-97z"></path>
     {% endcall %}
 {% endmacro %}
@@ -80,10 +81,30 @@
     {% endcall %}
 {% endmacro %}
 
-
 {% macro iconInfo() %}
-    {% call icon('info', 'Info icon', skipLabel = true, viewbox="0 0 16 16") %}
+    {% call icon('info', 'Info icon', viewbox="0 0 16 16", ariaHidden = true) %}
         <path d="M8 0.32c-4.242 0-7.681 3.438-7.681 7.68s3.438 7.681 7.681 7.681c4.241 0 7.68-3.438 7.68-7.681s-3.439-7.68-7.68-7.68zM8.717 3.093c0.749 0 0.969 0.434 0.969 0.931 0 0.62-0.496 1.194-1.343 1.194-0.709 0-1.046-0.356-1.026-0.946 0-0.497 0.415-1.179 1.4-1.179zM6.798 12.6c-0.512 0-0.886-0.311-0.528-1.675l0.586-2.42c0.102-0.387 0.118-0.542 0-0.542-0.153 0-0.818 0.267-1.21 0.531l-0.255-0.418c1.244-1.039 2.674-1.649 3.286-1.649 0.512 0 0.597 0.605 0.342 1.536l-0.672 2.544c-0.119 0.45-0.068 0.605 0.051 0.605 0.154 0 0.656-0.186 1.15-0.575l0.29 0.389c-1.21 1.21-2.53 1.675-3.041 1.675z"></path>
+    {% endcall %}
+{% endmacro %}
+
+{% macro iconUser() %}
+    {% call icon('user', 'Account icon', viewbox="0 0 24.98 26.4", ariaHidden = true) %}
+        <path d="M16.61,15.26a8.91,8.91,0,0,1-8.24,0A11.87,11.87,0,0,0,0,26.4H25A11.87,11.87,0,0,0,16.61,15.26Z"/>
+        <circle cx="12.49" cy="7.34" r="7.34"/>
+    {% endcall %}
+{% endmacro %}
+
+{% macro iconLogin() %}
+    {% call icon('login', 'Log in icon', viewbox="0 0 71.75 78.87", ariaHidden = true) %}
+        <path d="M6.25 28.52h20.34V17l29.16 22.44-29.16 22.43V50.34H6.25V28.52z"/>
+        <path d="M32.32 78.87A39.59 39.59 0 01.48 62.7a2.5 2.5 0 014-3 34.44 34.44 0 100-40.63 2.5 2.5 0 01-4-2.95 39.43 39.43 0 1131.84 62.7z"/>
+    {% endcall %}
+{% endmacro %}
+
+{% macro iconLogout() %}
+    {% call icon('logout', 'Log out icon', viewbox="0 0 71.75 78.87", ariaHidden = true) %}
+        <path d="M51.82 28.52H31.48V17L2.32 39.44l29.16 22.43V50.34h20.34V28.52z"/>
+        <path d="M32.32 78.87A39.59 39.59 0 01.48 62.7a2.5 2.5 0 014-3 34.44 34.44 0 100-40.63 2.5 2.5 0 01-4-2.95 39.43 39.43 0 1131.84 62.7z"/>
     {% endcall %}
 {% endmacro %}
 
@@ -153,51 +174,5 @@
     >
         <title id="aria-i-twitter-title">The Twitter icon</title>
         <path d="M94.72 243.18c112.46 0 173.96-93.168 173.96-173.96 0-2.646-.054-5.28-.173-7.903 11.938-8.63 22.314-19.4 30.498-31.66-10.955 4.87-22.744 8.147-35.11 9.625 12.622-7.57 22.313-19.543 26.885-33.817-11.813 7.004-24.895 12.093-38.824 14.84C240.8 8.423 224.916.99 207.326.99c-33.763 0-61.143 27.38-61.143 61.13 0 4.8.537 9.466 1.586 13.942-50.816-2.556-95.875-26.886-126.03-63.88-5.252 9.036-8.28 19.53-8.28 30.73 0 21.212 10.794 39.938 27.208 50.893-10.03-.31-19.454-3.063-27.69-7.646-.01.255-.01.505-.01.78 0 29.61 21.076 54.33 49.052 59.933-5.137 1.4-10.543 2.152-16.122 2.152-3.933 0-7.766-.387-11.49-1.103 7.783 24.293 30.354 41.97 57.114 42.465-20.926 16.402-47.287 26.17-75.937 26.17-4.93 0-9.798-.28-14.584-.845 27.06 17.344 59.19 27.464 93.723 27.464"></path>
-    </svg>
-{% endmacro %}
-
-{% macro iconUser() %}
-    <svg
-        role="img"
-        class="icon icon--user"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24.98 26.4" width="13" height="13"
-    >
-        <g>
-            <g>
-                <path d="M16.61,15.26a8.91,8.91,0,0,1-8.24,0A11.87,11.87,0,0,0,0,26.4H25A11.87,11.87,0,0,0,16.61,15.26Z"/>
-                <circle cx="12.49" cy="7.34" r="7.34"/>
-            </g>
-        </g>
-    </svg>
-{% endmacro %}
-
-{% macro iconLogin() %}
-    <svg role="img"
-         class="icon icon--login"
-         xmlns="http://www.w3.org/2000/svg"
-         viewBox="0 0 71.75 78.87"
-         width="13" height="13">
-        <g>
-            <g>
-                <path d="M6.25 28.52h20.34V17l29.16 22.44-29.16 22.43V50.34H6.25V28.52z"/>
-                <path d="M32.32 78.87A39.59 39.59 0 01.48 62.7a2.5 2.5 0 014-3 34.44 34.44 0 100-40.63 2.5 2.5 0 01-4-2.95 39.43 39.43 0 1131.84 62.7z"/>
-            </g>
-        </g>
-    </svg>
-{% endmacro %}
-
-{% macro iconLogout() %}
-    <svg role="img"
-         class="icon icon--logout"
-         xmlns="http://www.w3.org/2000/svg"
-         viewBox="0 0 71.75 78.87"
-         width="13" height="13">
-        <g>
-            <g>
-                <path d="M51.82 28.52H31.48V17L2.32 39.44l29.16 22.43V50.34h20.34V28.52z"/>
-                <path d="M32.32 78.87A39.59 39.59 0 01.48 62.7a2.5 2.5 0 014-3 34.44 34.44 0 100-40.63 2.5 2.5 0 01-4-2.95 39.43 39.43 0 1131.84 62.7z"/>
-            </g>
-        </g>
     </svg>
 {% endmacro %}
