@@ -9,10 +9,8 @@ const router = express.Router();
 router.get('/', injectCopy('toplevel.home'), async (req, res, next) => {
     try {
         const { featuredLinks, promotedUpdates } = await contentApi.getHomepage(
-            {
-                locale: req.i18n.getLocale(),
-                requestParams: req.query
-            }
+            req.i18n.getLocale(),
+            req.query
         );
 
         res.render(path.resolve(__dirname, './views/home'), {

@@ -1286,7 +1286,7 @@ it('should correctly email users with expiring applications', () => {
 
 it('should submit materials order', () => {
     cy.visit(
-        '/funding/funding-guidance/managing-your-funding/ordering-free-materials'
+        '/funding/managing-your-grant/promoting-your-project/order-free-materials'
     );
     cy.get('a[href="#monolingual"]').click();
 
