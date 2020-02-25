@@ -2,18 +2,18 @@
 
 ## Web app
 
-This project covers the main web app. This is a Node.js app written in Express. Its purpose is to provide the main front-end for the website, as well as handling the application forms and user flow used to apply for funding.
+This project covers the main web app, this is a Node.js app written in Express. Its purpose is to provide the main front-end for the website, as well as handling the application forms and user flow used to apply for funding.
 
 ### CloudFront
 
-All requests to www.tnlcommunityfund.org.uk are routed via CloudFront. Requests are sent to one of two locations.
+All requests to www.tnlcommunityfund.org.uk are routed via CloudFront. Requests are sent to one of two locations:
 
 -   Anything under `/assets` is routed directly to a static S3 bucket
 -   All other requests are sent to the web app load balancer
 
 ### NGINX and Passenger
 
-Requests to the origin are routed via NGINX(https://www.nginx.com/) which is primarily concerned with sending requests to via [Passenger](https://www.phusionpassenger.com/) which handles all Node.js processes.
+Requests to the origin are handled by NGINX(https://www.nginx.com/) which is primarily concerned with routing requests to [Passenger](https://www.phusionpassenger.com/) which handles all Node.js processes. We also use NGINX as a rate limiter to avoid overloading user endpoints.
 
 ### EC2 and ELB
 
@@ -31,7 +31,7 @@ We use MySQL hosted on RDS for our database instance.
 
 We have a handful of internal staff tools within the application which are protected behind staff-only log in. This relies on a small Active Directory app which is controls access permissions.
 
-## Related services
+## Connected services
 
 As well as the main web app there are two other key services that power the website: A CMS-backed content API, and a past grants API. You can run the main app without having the other two services set up locally.
 
@@ -43,6 +43,6 @@ See [https://github.com/biglotteryfund/craft-dev]()
 
 ## Past grants API
 
-We run a separate API service for all of our historic past grants data. This is a set of serverless methods which are backed by a Mongo database. Specifically, used to power [https://www.tnlcommunityfund.org.uk/funding/grants]()
+We run a separate API service for all of our historic past grants data. This is a set of serverless methods which are backed by a Mongo database.
 
 See [https://github.com/biglotteryfund/grants-service]()

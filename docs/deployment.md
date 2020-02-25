@@ -12,4 +12,4 @@ Deploys to production are manual. Once a deploy has been checked on the test env
 ./bin/deploy --live
 ```
 
-This command will begin a deployment by listing the previous 10 releases deployed to the test environment and asking which build you wish to deploy. It will provide you with a GitHub diff link for the changes are going to be deployed, and will ask you to confirm if you wish to proceed. Progress updates will be posted to Slack, and can be followed in the AWS console, as the deployment proceeds.
+This command will begin a deployment by listing the previous 10 releases deployed to the test environment and asking which build you wish to deploy. It will provide you with a GitHub diff link for the changes that are going to be deployed, and will ask you to confirm if you wish to proceed. Progress updates will be posted to Slack, and can be followed in the AWS console, as the deployment proceeds.
