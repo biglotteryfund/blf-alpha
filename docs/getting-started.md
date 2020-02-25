@@ -10,7 +10,7 @@ You'll need the following tools installed in order to run the project locally:
 
 Once you have the prerequisites installed on your machine, and have the project checked out locally, run these commands in your terminal of choice:
 
-## Install dependencies:
+## Install dependencies
 
 From the root of the project run:
 
@@ -22,7 +22,7 @@ npm install
 
 Next, you'll need to download the application secrets. These are configuration settings that allow the application to external services like a database or email sending service.
 
-Create a directory called `/etc/blf/` and make sure it is writeable. This is where application secrets will stored.
+Create a directory called `/etc/blf/` and make sure it is writeable. This is where application secrets will be stored.
 
 ```shell script
 mkdir -p /etc/blf
@@ -36,20 +36,9 @@ Next, fetch the secrets
 
 ## Create a local `.env` file
 
-Create an `.env` in the root of the project. Values set here are used for local configuration.
-The minimum settings you'll want are as follows:
+This is used to set local configuration values. There is a `.env.sample` file at the root of the project which documents available options. You should make a copy of this as `.env`.
 
-```dotenv
-# Database connection string
-# If no value is set the app will use an in memory sqlite database
-DB_CONNECTION_URI=mysql://some-mysql-connection-string
-
-# Watch nunjucks templates for changes.
-WATCH_TEMPLATES=true
-
-# Staff auth
-MS_REDIRECT_URL=http://localhost:3000/user/staff/auth/openid/return
-```
+At a minimum you need to set a `DB_CONNECTION_URI` value to point to a local database instance. This can be a SQLite database in development but we recommend setting up a local MySQL instance for parity with production.
 
 ## Run a build
 
