@@ -92,7 +92,6 @@ body.is-modal {
     cursor: pointer;
 
     @include on-interact() {
-        outline: none;
         color: black;
         background: #dfdfdf;
         outline: $inputOutline;

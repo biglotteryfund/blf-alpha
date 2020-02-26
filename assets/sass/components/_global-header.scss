@@ -91,9 +91,7 @@ $breakpointLarge: 840px;
             background-color: #f4f4f4;
             box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.15);
             z-index: 100;
-        }
 
-        .global-header__navigation {
             display: none;
 
             html.has-toggled-navigation & {
@@ -178,10 +176,8 @@ $breakpointLarge: 840px;
             background-color: #f4f4f4;
             box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.15);
             z-index: 100;
-        }
-
-        .global-header__search {
             padding: $spacingUnit;
+
             display: none;
 
             html.has-toggled-search & {

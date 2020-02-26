@@ -82,9 +82,7 @@
         @include mq('medium-minor') {
             width: 35%;
         }
-    }
 
-    .global-footer__meta {
         @include mq('medium-minor', 'max') {
             background-color: darken(get-color('background', 'dark-neutral'), 3%);
         }

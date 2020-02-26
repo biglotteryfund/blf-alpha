@@ -211,8 +211,8 @@ $filterSpacing: 10px;
         border: none;
         cursor: inherit;
         margin: 0;
-        padding: 0;
-        text-align: inherit;
+        padding: 0 0 0 100px;
+        text-align: right;
         text-decoration: none;
         white-space: normal;
         word-wrap: break-word;
@@ -220,8 +220,6 @@ $filterSpacing: 10px;
         position: absolute;
         top: $filterSpacing;
         right: $filterSpacing;
-        padding-left: 100px;
-        text-align: right;
 
         &:active,
         &:focus {
@@ -334,15 +332,12 @@ $filterSpacing: 10px;
         padding: 3px 6px;
 
         a {
+            font-weight: normal;
             vertical-align: middle;
         }
 
         &.link-filters__item--selected {
             border: 1px solid get-color('border', 'base');
-        }
-
-        a {
-            font-weight: normal;
         }
     }
 }
