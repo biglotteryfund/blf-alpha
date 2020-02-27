@@ -29,7 +29,7 @@ We use MySQL hosted on RDS for our database instance.
 
 ### Azure Active Directory auth
 
-We have a handful of internal staff tools within the application which are protected behind staff-only log in. This relies on a small Active Directory app which is controls access permissions.
+We have a handful of internal staff tools within the application which are protected behind staff-only log in. This relies on a small Active Directory app which controls access permissions. This app lives in Azure and configured separately there.
 
 ## Connected services
 
