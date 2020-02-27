@@ -1,6 +1,6 @@
 ## Client-side assets
 
-Contains JavaScript and Sass source files for the app. Everything here is compiled into build files are an stored in the `/public` directory.
+Contains JavaScript and Sass source files for the app. Everything here is compiled into build files and stored in the `/public` directory.
 
 ### Stylesheets
 
