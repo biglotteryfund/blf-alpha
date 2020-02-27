@@ -1,8 +1,4 @@
 #!/bin/bash
-set -e
-#################################################
-# ApplicationStart script
-#################################################
 
-# Trigger a Passenger "restart" to reload latest config
+# trigger passenger restart
 touch /var/www/biglotteryfund/tmp/restart.txt

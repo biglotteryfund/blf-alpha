@@ -3,13 +3,6 @@
 const querystring = require('querystring');
 const https = require('https');
 
-/**
- * Lambda scheduled job to process application expiry emails.
- * Single HTTP call to a handler endpoint.
- *
- * process.env.SECRET matches up with EMAIL_EXPIRY_SECRET
- * within the main app, acting as basic access control.
- */
 exports.handler = (event, context, callback) => {
     const postData = querystring.stringify({
         secret: process.env.SECRET
