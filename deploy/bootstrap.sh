@@ -34,6 +34,10 @@ then
     APP_ENV="production"
 fi
 
+# Define placeholder string to be replaced
+# with dynamic $APP_ENV value.
+APP_ENV_PLACEHOLDER="APP_ENV"
+
 #################################################
 # Deploy manifest
 #################################################
@@ -79,7 +83,6 @@ nginx_config=/var/www/biglotteryfund/deploy/nginx.conf
 server_config=/var/www/biglotteryfund/deploy/server.conf
 
 # Update NODE_ENV based on deploy group ID
-APP_ENV_PLACEHOLDER="APP_ENV"
 sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $server_config
 
 # Configure nginx / passenger
