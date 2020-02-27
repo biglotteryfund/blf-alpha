@@ -28,7 +28,7 @@ Create a directory called `/etc/blf/` and make sure it is writeable. This is whe
 mkdir -p /etc/blf
 ```
 
-Next, fetch the secrets
+Next, fetch the secrets. You'll need to ask a mmember of the team to grant you the appropriate AWS permissions otherwise this step will fail.
 
 ```shell script
 ./bin/get-secrets
