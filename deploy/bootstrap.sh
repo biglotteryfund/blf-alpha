@@ -1,10 +1,22 @@
 #!/bin/bash
 set -e
+#################################################
+# AfterInstall / Bootstrap script
+#################################################
+# Run during the "AfterInstall" CodeDeploy phase
 
-# Change ownership of app directory to web user
+#################################################
+# Permissions
+#################################################
+
+# Override default owner set in deploy artefact to web user
 chown -R www-data:www-data /var/www/biglotteryfund/
 
-# Configure the patterns for the CodeDeploy deployment group names
+#################################################
+# App environment
+#################################################
+# Set app environment based on CodeDeploy group
+
 TEST_FLEET="Test_Fleet";
 TEST_IN_PLACE="Test_In_Place";
 LIVE_FLEET="Live_Fleet";
@@ -22,7 +34,13 @@ then
     APP_ENV="production"
 fi
 
-# Store deployment ID in a JSON file
+#################################################
+# Deploy manifest
+#################################################
+# deploy.json is created by Travis and contains
+# the build number and commit ID for the app
+# along with a DEPLOY_ID placeholder
+
 deploy_file=/var/www/biglotteryfund/config/deploy.json
 touch $deploy_file
 if [ -f "$deploy_file" ]
@@ -31,16 +49,17 @@ then
     sed -i "s|$DEPLOY_PLACEHOLDER|$DEPLOYMENT_ID|g" $deploy_file
 fi
 
-# Run environment var script to add them to the current shell
+#################################################
+# App secrets
+#################################################
+# Written to /etc/blf/parameters.json to
+# be later loaded by the app.
+
 /var/www/biglotteryfund/bin/get-secrets --environment=$APP_ENV
 
-# Copy nginx config files to correct place
-nginx_config=/var/www/biglotteryfund/deploy/nginx.conf
-server_config=/var/www/biglotteryfund/deploy/server.conf
-
-# Update NODE_ENV based on deploy group ID
-APP_ENV_PLACEHOLDER="APP_ENV"
-sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $server_config
+#################################################
+# Configure CloudWatch agent
+#################################################
 
 # Configure/start Cloudwatch agent with config file
 cloudwatch_config_src=/var/www/biglotteryfund/deploy/cloudwatch-agent.json
@@ -50,6 +69,18 @@ cloudwatch_config_dest=/opt/aws/amazon-cloudwatch-agent/bin/tnlcf.json
 cp $cloudwatch_config_src $cloudwatch_config_dest
 amazon-cloudwatch-agent-ctl -a fetch-config -c file:$cloudwatch_config_dest -s
 amazon-cloudwatch-agent-ctl -a start
+
+#################################################
+# Configure NGINX
+#################################################
+
+# Copy nginx config files to correct place
+nginx_config=/var/www/biglotteryfund/deploy/nginx.conf
+server_config=/var/www/biglotteryfund/deploy/server.conf
+
+# Update NODE_ENV based on deploy group ID
+APP_ENV_PLACEHOLDER="APP_ENV"
+sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $server_config
 
 # Configure nginx / passenger
 if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi
