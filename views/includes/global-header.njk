@@ -29,7 +29,7 @@
                 <li class="js-toggle-login js-hidden">
                     <a href="{{ globalNavigation.login.url }}" class="global-header__account-link global-header__account-link--cta">
                         {{ iconLogin() }}
-                        <span>
+                        <span data-testid="global-login">
                             {{ globalNavigation.login.label }}
                         </span>
                     </a>
@@ -37,7 +37,7 @@
                 <li class="js-toggle-logout js-hidden u-hidden">
                     <a href="{{ globalNavigation.logout.url }}" class="global-header__account-link">
                         {{ iconLogout() }}
-                        <span>
+                        <span data-testid="global-logout">
                             {{ globalNavigation.logout.label }}
                         </span>
                     </a>

@@ -5,8 +5,6 @@
 
 {% block content %}
     <main role="main">
-        <h1 class="u-visually-hidden">{{ globalCopy.brand.title }}</h1>
-
         {# Hero introduction #}
         <section class="super-hero">
             <figure class="super-hero__image">
@@ -24,7 +22,7 @@
             </figure>
             <div class="super-hero__content">
                 <div class="super-hero__header" id="content">
-                    <h2 class="super-hero__title">{{ copy.introNew.title | widont | safe }}</h2>
+                    <h1 class="super-hero__title">{{ copy.introNew.title | widont | safe }}</h1>
                     <div class="super-hero__intro">
                         {{ __(copy.introNew.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
                     </div>
@@ -46,7 +44,7 @@
                 </div>
             </div>
         </section>
-        
+
         {# Featured sections #}
         <section class="u-inner u-margin-bottom">
             <ul class="flex-grid flex-grid--3up">
@@ -56,7 +54,7 @@
                             "title": item.label,
                             "linkUrl": localify(item.href),
                             "image": item.image
-                        }) }}
+                        }, headingLevel = 2) }}
                     </li>
                 {% endfor %}
             </ul>
@@ -72,7 +70,7 @@
                         "url": localify('/news'),
                         "label": __('global.misc.viewAllNews')
                     }
-                ) }}   
+                ) }}
             </section>
         {% endif %}
 

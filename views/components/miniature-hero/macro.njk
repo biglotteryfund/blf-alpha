@@ -9,7 +9,7 @@ props: {Object}
 - image {Object} { url: {String}, alt: {String} }
 isLarge: {Boolean} - Use featured style for promo card
 #}
-{% macro miniatureHero(props, isLarge = false) %}
+{% macro miniatureHero(props, headingLevel = 3, isLarge = false) %}
     <a href="{{ props.linkUrl }}" class="miniature-hero{% if isLarge %} miniature-hero--large{% endif %}">
         <div class="miniature-hero__inner">
             <div class="miniature-hero__image">
@@ -24,9 +24,9 @@ isLarge: {Boolean} - Use featured style for promo card
                     </picture>
                 {% endif %}
             </div>
-            <h3 class="miniature-hero__title">
+            <h{{ headingLevel }} class="miniature-hero__title">
                 <span class="miniature-hero__title-text">{{ props.title }}</span>
-            </h3>
+            </h{{ headingLevel }}>
         </div>
     </a>
 {% endmacro %}

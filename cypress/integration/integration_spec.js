@@ -178,15 +178,11 @@ function generateAccountPassword() {
 it('should be able to log in and log out', function() {
     cy.seedUser().then(newUser => {
         cy.visit('/');
-        cy.get('.js-toggle-login').within(function() {
-            cy.findByText('Log in', { exact: false }).click();
-        });
+        cy.findByTestId('global-login').click();
 
         logIn(newUser.username, newUser.password);
 
-        cy.get('.global-header__navigation-secondary').within(() => {
-            cy.findByText('Log out', { exact: false }).click();
-        });
+        cy.findByTestId('global-logout').click();
 
         cy.findByText('You were successfully logged out', {
             exact: false
