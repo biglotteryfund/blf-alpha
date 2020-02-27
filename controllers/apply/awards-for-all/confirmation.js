@@ -32,10 +32,7 @@ module.exports = function({ locale, data = {} }) {
 
     const [mainContact, seniorContact] = ['main', 'senior'].map(contactType => {
         return {
-            fullName: getContactFullName(
-                get(`${contactType}ContactName`)(data),
-                false
-            ),
+            fullName: getContactFullName(get(`${contactType}ContactName`)(data)),
             email: get(`${contactType}ContactEmail`)(data)
         };
     });

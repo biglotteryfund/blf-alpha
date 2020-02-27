@@ -719,8 +719,9 @@ module.exports = function({
                         const seniorName = getContactFullName(
                             get('seniorContactName')(data)
                         );
+
                         const seniorNameMsg = seniorName
-                            ? `, ${seniorName}`
+                            ? safeHtml`, <strong data-hj-suppress>${seniorName}</strong>`
                             : '';
 
                         return localise({
