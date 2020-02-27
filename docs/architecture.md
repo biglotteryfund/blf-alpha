@@ -21,7 +21,7 @@ The application runs on EC2 behind an ELB. Provisioning of new servers is handle
 
 ### Lambda
 
-This has a single Lamda function which is run on a schedule an used to trigger periodic application expiry emails.
+This has a single Lambda function which is run on a schedule and used to trigger periodic application expiry emails.
 
 ### RDS
 
@@ -37,7 +37,7 @@ As well as the main web app there are two other key services that power the webs
 
 ## Content API
 
-The Content API is a headless CMS powered by [Craft](https://craftcms.com/). We use this for managing most frequently changing content on the website. The main exceptions to this are landing pages and any copy related to applicaiton forms where we need more control over what is presented to users.
+The Content API is a headless CMS powered by [Craft](https://craftcms.com/). We use this for managing most frequently changing content on the website. The main exceptions to this are landing pages and any copy related to application forms where we need more control over what is presented to users.
 
 See [https://github.com/biglotteryfund/craft-dev]()
 

@@ -3,7 +3,7 @@ set -e
 #################################################
 # AfterInstall / Bootstrap script
 #################################################
-# Ran during the "AfterInstall" CodeDeploy phase
+# Run during the "AfterInstall" CodeDeploy phase
 
 #################################################
 # Permissions

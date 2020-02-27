@@ -3,7 +3,7 @@ set -e
 #################################################
 # AfterInstall / Provision script
 #################################################
-# Ran during the "AfterInstall" CodeDeploy phase
+# Run during the "AfterInstall" CodeDeploy phase
 
 #################################################
 # Install NGINX and Passenger

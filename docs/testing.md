@@ -60,7 +60,7 @@ As part of our Cypress tests we use `axe-core` to perform automated accessibilit
 
 ## npm audit
 
-As part of our CI step we run `npm audit` which checks our production npm dependencies for vulnerabilities. By running this during CI we can fail the build if any new vulnerabiliies are discovered forcing us to act on security notices early and often.
+As part of our CI step we run `npm audit` which checks our production npm dependencies for vulnerabilities. By running this during CI we can fail the build if any new vulnerabilities are discovered forcing us to act on security notices early and often.
 
 ## Dependabot
 
