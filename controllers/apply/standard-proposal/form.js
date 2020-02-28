@@ -1,18 +1,32 @@
 'use strict';
+const config = require('config');
+const { oneLine } = require('common-tags');
+const compact = require('lodash/compact');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const includes = require('lodash/includes');
-const { oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
 const { Step } = require('../lib/step-model');
 
 const fieldsFor = require('./fields');
 
-module.exports = function({ locale = 'en', data = {} } = {}) {
+module.exports = function({
+    locale = 'en',
+    data = {},
+    flags = {
+        enableNewLocationQuestions: config.get(
+            'standardFundingProposal.enableNewLocationQuestions'
+        )
+    }
+} = {}) {
     const localise = get(locale);
 
-    const allFields = fieldsFor({ locale, data });
+    const allFields = fieldsFor({
+        locale,
+        data,
+        flags
+    });
 
     const projectCountries = getOr([], 'projectCountries')(data);
 
@@ -33,6 +47,22 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 cy: 'Gwlad y prosiect'
             }),
             fieldsets: [{ fields: [allFields.projectCountries] }]
+        });
+    }
+
+    function stepProjectRegions() {
+        return new Step({
+            title: localise({
+                en: 'Project area',
+                cy: ''
+            }),
+            fieldsets: [
+                {
+                    fields: projectCountries.includes('england')
+                        ? [allFields.projectRegions]
+                        : []
+                }
+            ]
         });
     }
 
@@ -203,6 +233,68 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         };
     }
 
+    function sectionYourProject() {
+        return {
+            slug: 'your-project',
+            title: localise({
+                en: 'Your project',
+                cy: 'Eich prosiect'
+            }),
+            summary: localise({
+                en: `Please tell us about your project in this section.`,
+                cy: ``
+            }),
+            steps: compact([
+                stepProjectName(),
+                stepProjectCountries(),
+                flags.enableNewLocationQuestions && stepProjectRegions(),
+                stepProjectLocation(),
+                stepProjectCosts(),
+                stepProjectDuration(),
+                stepYourIdea()
+            ])
+        };
+    }
+
+    function sectionYourOrganisation() {
+        return {
+            slug: 'your-organisation',
+            title: localise({
+                en: 'Your organisation',
+                cy: 'Eich sefydliad'
+            }),
+            summary: localise({
+                en: oneLine`Please tell us about your organisation,
+                    including legal name and registered address.
+                    This helps us understand the type of organisation you are.`,
+                cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr
+                    enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
+                    Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`
+            }),
+            steps: [
+                stepOrganisationDetails(),
+                stepOrganisationType(),
+                stepOrganisationSubType()
+            ]
+        };
+    }
+
+    function sectionYourDetails() {
+        return {
+            slug: 'your-details',
+            title: localise({
+                en: 'Your details',
+                cy: ''
+            }),
+            summary: localise({
+                en: oneLine`Please provide details for the person
+                    we should contact to talk about your idea.`,
+                cy: ``
+            }),
+            steps: [stepContactDetails()]
+        };
+    }
+
     const form = {
         title: localise({
             en: 'Your funding proposal',
@@ -214,63 +306,14 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         }),
         allFields,
         summary: summary(),
-        schemaVersion: 'v0.2',
+        schemaVersion: flags.enableNewLocationQuestions ? 'v1.0-beta' : 'v0.2',
         forSalesforce() {
             return data;
         },
         sections: [
-            {
-                slug: 'your-project',
-                title: localise({
-                    en: 'Your project',
-                    cy: 'Eich prosiect'
-                }),
-                summary: localise({
-                    en: oneLine`Please tell us about your project in this section.`,
-                    cy: ``
-                }),
-                steps: [
-                    stepProjectName(),
-                    stepProjectCountries(),
-                    stepProjectLocation(),
-                    stepProjectCosts(),
-                    stepProjectDuration(),
-                    stepYourIdea()
-                ]
-            },
-            {
-                slug: 'your-organisation',
-                title: localise({
-                    en: 'Your organisation',
-                    cy: 'Eich sefydliad'
-                }),
-                summary: localise({
-                    en: oneLine`Please tell us about your organisation,
-                        including legal name and registered address.
-                        This helps us understand the type of organisation you are.`,
-                    cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr
-                        enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
-                        Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`
-                }),
-                steps: [
-                    stepOrganisationDetails(),
-                    stepOrganisationType(),
-                    stepOrganisationSubType()
-                ]
-            },
-            {
-                slug: 'your-details',
-                title: localise({
-                    en: 'Your details',
-                    cy: ''
-                }),
-                summary: localise({
-                    en: oneLine`Please provide details for the person
-                        we should contact to talk about your idea.`,
-                    cy: ``
-                }),
-                steps: [stepContactDetails()]
-            }
+            sectionYourProject(),
+            sectionYourOrganisation(),
+            sectionYourDetails()
         ]
     };
 

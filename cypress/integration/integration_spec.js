@@ -1055,7 +1055,9 @@ it('should complete standard your funding proposal form', () => {
     const orgTradingName = sample([faker.company.companyName(), '']);
     const mock = {
         projectName: faker.lorem.words(5),
-        projectCountries: sampleSize(['England', 'Northern Ireland'], 1),
+        projectCountries: ['England'],
+        projectRegions: ['North West', 'South West'],
+        projectLocation: 'Bournemouth',
         projectLocationDescription: faker.lorem.words(5),
         projectCosts: random(10001, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
@@ -1114,23 +1116,15 @@ it('should complete standard your funding proposal form', () => {
 
         submitStep();
 
-        function randomProjectLocation() {
-            if (mock.projectCountries.includes('Northern Ireland')) {
-                return 'Derry and Strabane';
-            } else if (mock.projectCountries.includes('Scotland')) {
-                return 'Highland';
-            } else if (mock.projectCountries.includes('Wales')) {
-                return 'Caerphilly';
-            } else {
-                return 'Bath and North East Somerset';
-            }
-        }
+        mock.projectRegions.forEach(function(region) {
+            cy.findByLabelText(region).click();
+        });
 
-        if (mock.projectCountries.length === 1) {
-            cy.findByLabelText('Where will your project take place?').select(
-                randomProjectLocation()
-            );
-        }
+        submitStep();
+
+        cy.findByLabelText(
+            'Where will most of your project take place?'
+        ).select(mock.projectLocation);
 
         cy.findByLabelText('Project location', { exact: false }).type(
             mock.projectLocationDescription
@@ -1143,10 +1137,8 @@ it('should complete standard your funding proposal form', () => {
         );
         submitStep();
 
-        if (mock.projectCountries.length === 1) {
-            cy.findByLabelText(mock.projectDurationYears).click();
-            submitStep();
-        }
+        cy.findByLabelText(mock.projectDurationYears).click();
+        submitStep();
 
         cy.findByLabelText('What would you like to do?')
             .invoke('val', mock.yourIdeaProject)
