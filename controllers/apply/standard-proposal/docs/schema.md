@@ -6,15 +6,15 @@ The following documents the data schema for the standard product funding proposa
 
 ### v1.0-beta
 
-- Add new conditional `projectRegions` value for applications in england. Used to determine new queue mapping rules.
+-   Add new conditional `projectRegions` value for applications in england. Used to determine new queue mapping rules.
 
 ### v0.2
 
-- Add `projectName` field
+-   Add `projectName` field
 
 ### v0.1
 
-- Initial draft
+-   Initial draft
 
 ---
 
@@ -129,7 +129,6 @@ validation rules: If `projectCountries` contains more than one selection then `p
 -   **North Wales**: `conwy`, `denbighshire`, `flintshire`, `gwynedd`, `isle-of-anglesey`, `wrexham`
 -   **Mid & West Wales**: `bridgend`, `carmarthenshire`, `ceredigion`, `neath-port-talbot`, `pembrokeshire`, `powys`, `swansea`
 -   **South East & Central Wales**: `blaenau-gwent`, `caerphilly`, `cardiff`, `merthyr-tydfil`, `monmouthshire`, `newport`, `rhondda-cynon-taf`, `the-vale-of-glamorgan`, `torfaen`
-
 
 ### projectLocationDescription
 
