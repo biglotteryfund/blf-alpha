@@ -1122,9 +1122,9 @@ it('should complete standard your funding proposal form', () => {
 
         submitStep();
 
-        cy.findByLabelText('Where will your project take place?').select(
-            mock.projectLocation
-        );
+        cy.findByLabelText(
+            'Where will most of your project take place?'
+        ).select(mock.projectLocation);
 
         cy.findByLabelText('Project location', { exact: false }).type(
             mock.projectLocationDescription
