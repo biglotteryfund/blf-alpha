@@ -13,7 +13,7 @@ All requests to www.tnlcommunityfund.org.uk are routed via CloudFront. Requests 
 
 ### NGINX and Passenger
 
-Requests to the origin are handled by NGINX(https://www.nginx.com/) which is primarily concerned with routing requests to [Passenger](https://www.phusionpassenger.com/) which handles all Node.js processes. We also use NGINX as a rate limiter to avoid overloading user endpoints.
+Requests to the origin are handled by [NGINX](https://www.nginx.com/) which is primarily concerned with routing requests to [Passenger](https://www.phusionpassenger.com/) which handles all Node.js processes. We also use NGINX as a rate limiter to avoid overloading user endpoints.
 
 ### EC2 and ELB
 
