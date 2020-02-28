@@ -6,7 +6,8 @@ const mockProgrammes = [
     {
         title: 'National Lottery Awards for All England',
         linkUrl: '/funding/programmes/national-lottery-awards-for-all-england',
-        description: '<p>A quick and simple way to get small National Lottery grants of between £300 and £10,000.</p>',
+        description:
+            '<p>A quick and simple way to get small National Lottery grants of between £300 and £10,000.</p>',
         area: {
             label: 'England',
             value: 'england'
@@ -41,7 +42,8 @@ const mockProgrammes = [
     {
         title: 'People and Places: Large grants',
         linkUrl: '/funding/programmes/people-and-places-large-grants',
-        description: '<p>Funding capital and revenue community projects from £100,001 to £500,000.</p>',
+        description:
+            '<p>Funding capital and revenue community projects from £100,001 to £500,000.</p>',
         area: {
             label: 'Wales',
             value: 'wales'
@@ -49,11 +51,13 @@ const mockProgrammes = [
         fundingSize: {
             minimum: 100001,
             maximum: 500000,
-            totalAvailable: 'Up to £15 million each year through both strands of the People and Places programme',
+            totalAvailable:
+                'Up to £15 million each year through both strands of the People and Places programme',
             description: null
         },
         applicationDeadline: '<p>Ongoing</p>',
-        organisationType: 'Voluntary or community organisations, Public sector organisations'
+        organisationType:
+            'Voluntary or community organisations, Public sector organisations'
     },
     {
         title: 'Our Place',
@@ -96,7 +100,9 @@ const mockProgrammes = [
 
 describe('#getValidLocation', () => {
     it('should only return valid regions', () => {
-        expect(getValidLocation(mockProgrammes, 'northernIreland')).toBe('northernIreland');
+        expect(getValidLocation(mockProgrammes, 'northernIreland')).toBe(
+            'northernIreland'
+        );
         expect(getValidLocation(mockProgrammes, 'england')).toBe('england');
         expect(getValidLocation(mockProgrammes, 'nowhere')).toBeUndefined();
     });
@@ -104,34 +110,56 @@ describe('#getValidLocation', () => {
 
 describe('#programmeFilters', () => {
     it('should filter programmes by England', () => {
-        const res = mockProgrammes.filter(programmeFilters.filterByLocation('england'));
-        expect(res.map(item => item.title)).toEqual(['National Lottery Awards for All England']);
+        const res = mockProgrammes.filter(
+            programmeFilters.filterByLocation('england')
+        );
+        expect(res.map(item => item.title)).toEqual([
+            'National Lottery Awards for All England'
+        ]);
     });
 
     it('should filter programmes by Northern Ireland', () => {
-        const res = mockProgrammes.filter(programmeFilters.filterByLocation('northernIreland'));
-        expect(res.map(item => item.title)).toEqual(['Empowering Young People']);
+        const res = mockProgrammes.filter(
+            programmeFilters.filterByLocation('northernIreland')
+        );
+        expect(res.map(item => item.title)).toEqual([
+            'Empowering Young People'
+        ]);
     });
 
     it('should filter programmes by Wales', () => {
-        const res = mockProgrammes.filter(programmeFilters.filterByLocation('wales'));
-        expect(res.map(item => item.title)).toEqual(['People and Places: Large grants']);
+        const res = mockProgrammes.filter(
+            programmeFilters.filterByLocation('wales')
+        );
+        expect(res.map(item => item.title)).toEqual([
+            'People and Places: Large grants'
+        ]);
     });
 
     it('should filter programmes by Scotland', () => {
-        const res = mockProgrammes.filter(programmeFilters.filterByLocation('scotland'));
+        const res = mockProgrammes.filter(
+            programmeFilters.filterByLocation('scotland')
+        );
         expect(res.map(item => item.title)).toEqual(['Our Place']);
     });
 
     it('should filter programmes by min amount, including programmes with no range', () => {
-        const res = mockProgrammes.filter(programmeFilters.filterByMinAmount(10000));
+        const res = mockProgrammes.filter(
+            programmeFilters.filterByMinAmount(10000)
+        );
         expect(res.map(item => item.title)).toEqual(
-            expect.arrayContaining(['Empowering Young People', 'People and Places: Large grants', 'Our Place'])
+            expect.arrayContaining([
+                'Empowering Young People',
+                'People and Places: Large grants',
+                'Our Place'
+            ])
         );
     });
 
     it('should filter programmes by maximum amount', () => {
-        const res = mockProgrammes.filter(programmeFilters.filterByMaxAmount(10000));
+        const res = mockProgrammes.filter(
+            programmeFilters.filterByMaxAmount(10000)
+        );
         expect(res.map(item => item.title)).toEqual(
             expect.arrayContaining(['National Lottery Awards for All England'])
         );

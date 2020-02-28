@@ -8,7 +8,7 @@ We use [Sass](https://sass-lang.com/) along with [PostCSS](https://postcss.org/)
 
 ### JavaScript
 
-We use [Babel](https://babeljs.io/) and [webpack](https://webpack.js.org/concepts/) for our JavaScript.  This is a mix of vanilla JavaScript and a small number of [Vue](https://vuejs.org/) components. We use relativelty little JavaScript on the client-side, only where necessary to enhance a baseline experience.
+We use [Babel](https://babeljs.io/) and [webpack](https://webpack.js.org/concepts/) for our JavaScript. This is a mix of vanilla JavaScript and a small number of [Vue](https://vuejs.org/) components. We use relativelty little JavaScript on the client-side, only where necessary to enhance a baseline experience.
 
 ### Builds
 
