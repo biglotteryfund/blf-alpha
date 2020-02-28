@@ -260,7 +260,23 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         return new SelectField({
             locale: locale,
             name: 'projectLocation',
-            label: 'Where will most of your project take place?',
+            label: flags.enableNewLocationQuestions
+                ? localise({
+                      en: `Where will most of your project take place?`,
+                      cy: ``
+                  })
+                : localise({
+                      en: `Where will your project take place?`,
+                      cy: `Lle bydd eich prosiect wedi’i leoli?`
+                  }),
+            explanation: flags.enableNewLocationQuestions
+                ? null
+                : localise({
+                      en: oneLine`If your project covers more than one area please
+                    tell us where most of it will take place`,
+                      cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
+                  }),
             defaultOption: localise({
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad'
