@@ -96,7 +96,10 @@
             background-color: get-color('background', 'light-neutral');
 
             &:nth-child(even) {
-                background-color: darken(get-color('background', 'light-neutral'), 3%);
+                background-color: darken(
+                    get-color('background', 'light-neutral'),
+                    3%
+                );
             }
 
             td {
@@ -125,7 +128,8 @@
             }
 
             tr th {
-                border-left: $table-spacing solid lighten(get-color('brand', 'primary'), 5%);
+                border-left: $table-spacing solid
+                    lighten(get-color('brand', 'primary'), 5%);
 
                 &:first-of-type {
                     border-left: 0;
@@ -195,7 +199,7 @@
             margin-top: 0;
         }
 
-        &.image-right{
+        &.image-right {
             float: right;
             margin-left: $spacingUnit;
             margin-bottom: $spacingUnit;

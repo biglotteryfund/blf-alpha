@@ -320,7 +320,8 @@
                         height: 0;
                         border-top: $arrowSize solid transparent;
                         border-bottom: $arrowSize solid transparent;
-                        border-left: $arrowSize solid get-color('brand', 'primary');
+                        border-left: $arrowSize solid
+                            get-color('brand', 'primary');
                     }
                 }
             }
@@ -349,13 +350,11 @@
                 }
 
                 @include mq('medium') {
-                    display: none
+                    display: none;
                 }
             }
-
         }
     }
-
 }
 
 /* =========================================================================

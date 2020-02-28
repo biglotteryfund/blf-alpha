@@ -55,7 +55,6 @@ $breakpointLarge: 840px;
             &:hover {
                 text-decoration: underline;
             }
-
         }
     }
 
@@ -165,7 +164,6 @@ $breakpointLarge: 840px;
                 }
             }
         }
-
     }
 
     @media only screen and (max-width: $breakpointSmall) {
@@ -328,7 +326,6 @@ $breakpointLarge: 840px;
                 top: -1px;
             }
         }
-
     }
 
     @media only screen and (min-width: $maxWidth + 20px) {
