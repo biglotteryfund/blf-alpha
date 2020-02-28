@@ -218,7 +218,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         return new CheckboxField({
             locale: 'en',
             name: 'projectRegions',
-            label: 'Where will your project take place?',
+            label: 'What areas will your project take place in?',
+            explanation: 'You can tells us one (or more) areas',
             options: options,
             schema: schema(),
             messages: [{ type: 'base', message: 'Select one or more regions' }]
@@ -259,16 +260,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         return new SelectField({
             locale: locale,
             name: 'projectLocation',
-            label: localise({
-                en: `Where will your project take place?`,
-                cy: `Lle bydd eich prosiect wedi’i leoli?`
-            }),
-            explanation: localise({
-                en: oneLine`If your project covers more than one area please
-                    tell us where most of it will take place`,
-                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
-                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
-            }),
+            label: 'Where will most of your project take place?',
             defaultOption: localise({
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad'

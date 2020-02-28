@@ -53,7 +53,7 @@ module.exports = function({
     function stepProjectRegions() {
         return new Step({
             title: localise({
-                en: 'Project region',
+                en: 'Project area',
                 cy: ''
             }),
             fieldsets: [
