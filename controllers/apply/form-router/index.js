@@ -7,6 +7,7 @@ const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
+const unset = require('lodash/unset');
 const formidable = require('formidable');
 
 const {
@@ -32,12 +33,17 @@ function initFormRouter({
     confirmationBuilder,
     transformFunction = null,
     expiryEmailPeriods = null,
-    isBilingual = true
+    isBilingual = true,
+    allowedProgrammes = {}
 }) {
     const router = express.Router();
 
     function currentlyEditingSessionKey() {
         return `forms.${formId}.currentEditingId`;
+    }
+
+    function formProgrammeSessionKey() {
+        return `forms.${formId}.programme`;
     }
 
     function redirectWelsh(req, res, next) {
@@ -64,10 +70,22 @@ function initFormRouter({
         next();
     }
 
+    function setFormProgramme(req, res, next) {
+        const validProgramme = get(allowedProgrammes, req.query.programme);
+        if (validProgramme) {
+            set(req.session, formProgrammeSessionKey(), validProgramme);
+            req.session.save(() => {
+                next();
+            });
+        } else {
+            next();
+        }
+    }
+
     /**
      * Common router middleware
      */
-    router.use(noStore, redirectWelsh, setCommonLocals);
+    router.use(noStore, redirectWelsh, setFormProgramme, setCommonLocals);
 
     router.get('/start', function(req, res) {
         const nextPageUrl = eligibilityBuilder
@@ -218,10 +236,23 @@ function initFormRouter({
      */
     router.get('/new', async function(req, res, next) {
         try {
-            const application = await PendingApplication.createNewApplication({
+            let newApplication = {
                 formId: formId,
                 userId: req.user.userData.id
-            });
+            };
+
+            const programme = get(req.session, formProgrammeSessionKey());
+            if (programme) {
+                newApplication.metadata = {
+                    programme: programme
+                };
+                unset(req.session, formProgrammeSessionKey());
+                await req.session.save();
+            }
+
+            const application = await PendingApplication.createNewApplication(
+                newApplication
+            );
 
             if (expiryEmailPeriods) {
                 // Convert this application's expiry periods into a set of queue items
