@@ -13,8 +13,5 @@ module.exports = initFormRouter({
     startTemplate: path.resolve(__dirname, './views/startpage.njk'),
     confirmationBuilder: confirmationBuilder,
     isBilingual: false,
-    expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS,
-    allowedProgrammes: {
-        kingsFund: { title: 'The Kings Fund' }
-    }
+    expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS
 });
