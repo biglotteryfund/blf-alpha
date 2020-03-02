@@ -23,7 +23,7 @@ $btnConf: (
 
 $buttonColor: get-color('brand', 'primary');
 $buttonColorInteract: get-color('brand', 'secondary-burgundy');
-$buttonColorDarker: #DB0079; // Passes contrast a11y tests for use with smaller text
+$buttonColorDarker: #db0079; // Passes contrast a11y tests for use with smaller text
 
 @mixin getBtnVertPadding($conf) {
     $height: map-get($conf, 'desiredHeight');
@@ -402,8 +402,6 @@ $buttonColorDarker: #DB0079; // Passes contrast a11y tests for use with smaller 
     }
 }
 
-
-
 .btn--save {
     // Update the .js-save-btn timings in forms.js if changing these values
     $iconAnimationDuration: 0.3s;
@@ -427,7 +425,7 @@ $buttonColorDarker: #DB0079; // Passes contrast a11y tests for use with smaller 
             top: -10px;
         }
         100% {
-            transform: scale(1.0);
+            transform: scale(1);
             top: 0;
         }
     }

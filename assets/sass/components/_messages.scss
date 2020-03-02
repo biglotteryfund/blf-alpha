@@ -78,7 +78,8 @@
     background-color: get-color('background', 'light-neutral');
     font-size: 16px;
     padding: 12px 6px;
-    border-bottom: 1px solid darken(get-color('background', 'light-neutral'), 10%);
+    border-bottom: 1px solid
+        darken(get-color('background', 'light-neutral'), 10%);
 
     &.is-shown {
         display: block;

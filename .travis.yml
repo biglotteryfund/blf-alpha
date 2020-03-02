@@ -9,16 +9,19 @@ env:
 
 dist: bionic
 
-addons:
-  chrome: stable
-
 # Defaults
 language: node_js
 
-before_install:
-  # Required for Cypress on xenial
-  # Subset of https://docs.cypress.io/guides/guides/continuous-integration.html#Docker
-  - sudo apt-get install -y libgconf-2-4
+addons:
+  apt:
+    packages:
+      # Required for Cypress on Ubuntu 16+
+      # See https://docs.cypress.io/guides/guides/continuous-integration.html#Travis
+      - libgconf-2-4
+      # Used for checking deploy scripts
+      - shellcheck
+  # Used to run Cypress using headless chrome rather than default Electron
+  chrome: stable
 
 # Cache locations
 cache:
@@ -27,6 +30,7 @@ cache:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
 script:
+  - shellcheck deploy/*.sh
   - npm audit --production
   - npm run lint
   - npm run test-unit
@@ -41,11 +45,7 @@ before_deploy:
   - >
     if ! [ "$BEFORE_DEPLOY_RUN" ]; then
       export BEFORE_DEPLOY_RUN=1;
-      npm prune --production > /dev/null 2>&1;
-      sh deploy/store_deploy_info.sh;
-      zip -qr latest * -x .\* -x "README.md" -x assets/\*;
-      mkdir -p dpl_cd_upload
-      mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
+      ./deploy/travis-prepare-deploy.sh
     fi
 
 deploy:

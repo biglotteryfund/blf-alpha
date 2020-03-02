@@ -2,5 +2,8 @@
   "logLevel": "debug",
   "features": {
     "enableSalesforceConnector": false
+  },
+  "standardFundingProposal": {
+    "enableNewLocationQuestions": true
   }
 }

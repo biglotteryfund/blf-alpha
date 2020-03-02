@@ -106,7 +106,8 @@ const EMAIL_EXPIRY_SECRET =
     process.env.EMAIL_EXPIRY_SECRET || getParameter('emailExpiry.secret');
 
 const EMAIL_EXPIRY_TEST_ADDRESS =
-    process.env.APPLICATION_EXPIRY_EMAIL || getParameter('emailExpiry.testEmail');
+    process.env.EMAIL_EXPIRY_TEST_ADDRESS ||
+    getParameter('emailExpiry.testEmail');
 
 module.exports = {
     AZURE_AUTH,

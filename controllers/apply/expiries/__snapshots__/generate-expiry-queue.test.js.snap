@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate email queue items 1`] = `
+Array [
+  Object {
+    "applicationId": "MOCK_APPLICATION_ID",
+    "dateToSend": "2040-04-06T12:01:00.000Z",
+    "emailType": "ONE_MONTH",
+    "userId": 123,
+  },
+  Object {
+    "applicationId": "MOCK_APPLICATION_ID",
+    "dateToSend": "2040-04-29T12:01:00.000Z",
+    "emailType": "ONE_WEEK",
+    "userId": 123,
+  },
+  Object {
+    "applicationId": "MOCK_APPLICATION_ID",
+    "dateToSend": "2040-05-05T12:01:00.000Z",
+    "emailType": "ONE_DAY",
+    "userId": 123,
+  },
+]
+`;

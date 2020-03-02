@@ -1,6 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
-const Joi = require('../../lib/joi-extensions');
+
+const TextareaField = require('../../lib/field-types/textarea');
 
 module.exports = function(locale) {
     const localise = get(locale);
@@ -8,7 +9,8 @@ module.exports = function(locale) {
     const minWords = 50;
     const maxWords = 200;
 
-    return {
+    return new TextareaField({
+        locale: locale,
         name: 'yourIdeaCommunity',
         label: localise({
             en: `How does your project involve your community?`,
@@ -78,19 +80,8 @@ module.exports = function(locale) {
                 ond peidiwch â poeni os byddwch yn defnyddio llai.
             </strong></p>`
         }),
-        type: 'textarea',
-        settings: {
-            stackedSummary: true,
-            showWordCount: true,
-            minWords: minWords,
-            maxWords: maxWords
-        },
-        attributes: { rows: 15 },
-        isRequired: true,
-        schema: Joi.string()
-            .minWords(minWords)
-            .maxWords(maxWords)
-            .required(),
+        minWords: minWords,
+        maxWords: maxWords,
         messages: [
             {
                 type: 'base',
@@ -98,21 +89,7 @@ module.exports = function(locale) {
                     en: `Tell us how your project involves your community`,
                     cy: `Dywedwch wrthym sut mae eich prosiect yn cynnwys eich cymuned`
                 })
-            },
-            {
-                type: 'string.minWords',
-                message: localise({
-                    en: `Answer must be at least ${minWords} words`,
-                    cy: `Rhaid i’r ateb fod yn o leiaf ${minWords} gair`
-                })
-            },
-            {
-                type: 'string.maxWords',
-                message: localise({
-                    en: `Answer must be no more than ${maxWords} words`,
-                    cy: `Rhaid i’r ateb fod yn llai na ${maxWords} gair`
-                })
             }
         ]
-    };
+    });
 };

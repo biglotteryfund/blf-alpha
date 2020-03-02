@@ -18,7 +18,10 @@ module.exports = function password(joi) {
         rules: {
             strength: {
                 method(minScore) {
-                    return this.$_addRule({ name: 'strength', args: { minScore } });
+                    return this.$_addRule({
+                        name: 'strength',
+                        args: { minScore }
+                    });
                 },
                 args: [
                     {
@@ -32,7 +35,9 @@ module.exports = function password(joi) {
                     if (commonPasswords.includes(value)) {
                         return helpers.error('password.common');
                     } else if (zxcvbn(value).score < args.minScore) {
-                        return helpers.error('password.strength', { minScore: args.minScore });
+                        return helpers.error('password.strength', {
+                            minScore: args.minScore
+                        });
                     } else {
                         return value;
                     }

@@ -42,7 +42,10 @@ class Feedback extends Model {
 
     static findAllGroupedByDescription() {
         return this.findAll({
-            order: [['description', 'ASC'], ['updatedAt', 'DESC']]
+            order: [
+                ['description', 'ASC'],
+                ['updatedAt', 'DESC']
+            ]
         }).then(groupBy(result => result.description.toLowerCase()));
     }
 
@@ -53,7 +56,10 @@ class Feedback extends Model {
                     [Op.eq]: description
                 }
             },
-            order: [['description', 'ASC'], ['updatedAt', 'DESC']]
+            order: [
+                ['description', 'ASC'],
+                ['updatedAt', 'DESC']
+            ]
         });
     }
 }

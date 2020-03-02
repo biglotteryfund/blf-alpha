@@ -69,9 +69,9 @@
                                 <div class="card__body">
                                     {% for programme in entry.relatedFundingProgrammes %}
                                         <a href="{{ programme.linkUrl }}" class="related-programme">
-                                            {% if programme.thumbnail %}
+                                            {% if programme.trailImage %}
                                                 <span class="related-programme__media">
-                                                    <img src="{{ programme.thumbnail }}"
+                                                    <img src="{{ programme.trailImage }}"
                                                         alt="{{ programme.title }}" />
                                                 </span>
                                             {% endif %}

@@ -1,27 +1,21 @@
 'use strict';
-const request = require('request-promise-native');
+const got = require('got');
 const { PAST_GRANTS_API_URI } = require('../../common/secrets');
 
+const queryPastGrants = got.extend({
+    prefixUrl: PAST_GRANTS_API_URI
+});
+
 module.exports = {
-    query(params) {
-        return request({
-            url: PAST_GRANTS_API_URI,
-            json: true,
-            qs: params
-        });
+    query(searchParams) {
+        return queryPastGrants('', { searchParams: searchParams }).json();
     },
     getGrantById({ id, locale }) {
-        return request({
-            url: `${PAST_GRANTS_API_URI}/${id}`,
-            json: true,
-            qs: { locale }
-        });
+        return queryPastGrants(`/${id}`, { searchParams: { locale } }).json();
     },
     getRecipientById({ id, locale, page = 1 }) {
-        return request({
-            url: `${PAST_GRANTS_API_URI}/recipient/${encodeURIComponent(id)}`,
-            json: true,
-            qs: { locale, page }
-        });
+        return queryPastGrants(`/recipient/${encodeURIComponent(id)}`, {
+            searchParams: { locale, page }
+        }).json();
     }
 };

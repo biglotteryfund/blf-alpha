@@ -10,19 +10,25 @@ const Joi = require('../lib/joi-extensions');
 
 const {
     Field,
-    TextareaField,
-    EmailField,
-    PhoneField,
+    AddressField,
+    CheckboxField,
     CurrencyField,
+    EmailField,
+    NameField,
+    PhoneField,
     RadioField,
     SelectField,
-    AddressField,
-    NameField
+    TextareaField
 } = require('../lib/field-types');
 
 const { locationOptions } = require('../lib/location-options');
+const {
+    englandRegions,
+    englandLocationOptions,
+    northernIrelandLocationOptions
+} = require('./lib/locations'); // Used for new location questions
 
-module.exports = function fieldsFor({ locale, data = {} }) {
+module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
@@ -163,38 +169,114 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
+    function fieldProjectRegions() {
+        const options = englandRegions().map(function(item) {
+            const locationOptions = englandLocationOptions().filter(
+                group => group.id === item.value
+            );
+
+            const locationOptionsSummary = locationOptions
+                .flatMap(group => group.options.map(item => item.label))
+                .join(', ');
+
+            item.explanation = locationOptionsSummary
+                ? `Covering ${locationOptionsSummary}`
+                : null;
+            return item;
+        });
+
+        function schema() {
+            const isEnglandSelected = Joi.array().items(
+                Joi.string()
+                    .only('england')
+                    .required(),
+                Joi.any()
+            );
+
+            const validAllEngland = Joi.array()
+                .items(
+                    Joi.string()
+                        .only('all-england')
+                        .required(),
+                    Joi.any().strip()
+                )
+                .single()
+                .required();
+
+            const validRegionOptions = Joi.array()
+                .items(Joi.string().valid(options.map(option => option.value)))
+                .single()
+                .required();
+
+            return Joi.when(Joi.ref('projectCountries'), {
+                is: isEnglandSelected,
+                then: [validAllEngland, validRegionOptions],
+                otherwise: Joi.any().strip()
+            });
+        }
+
+        return new CheckboxField({
+            locale: 'en',
+            name: 'projectRegions',
+            label: 'What areas will your project take place in?',
+            explanation: 'You can tells us one (or more) areas',
+            options: options,
+            schema: schema(),
+            messages: [{ type: 'base', message: 'Select one or more regions' }]
+        });
+    }
+
     function fieldProjectLocation() {
         function optgroups() {
-            const locations = locationOptions(locale);
-
-            if (projectCountries.length > 1) {
-                return [];
-            } else if (projectCountries.includes('england')) {
-                return locations.england;
-            } else if (projectCountries.includes('northern-ireland')) {
-                return locations.northernIreland;
-            } else if (projectCountries.includes('scotland')) {
-                return locations.scotland;
-            } else if (projectCountries.includes('wales')) {
-                return locations.wales;
+            if (flags.enableNewLocationQuestions) {
+                if (projectCountries.length > 1) {
+                    return [];
+                } else if (projectCountries.includes('england')) {
+                    return englandLocationOptions(get('projectRegions')(data));
+                } else if (projectCountries.includes('northern-ireland')) {
+                    return northernIrelandLocationOptions();
+                } else {
+                    return [];
+                }
             } else {
-                return [];
+                const locations = locationOptions(locale);
+
+                if (projectCountries.length > 1) {
+                    return [];
+                } else if (projectCountries.includes('england')) {
+                    return locations.england;
+                } else if (projectCountries.includes('northern-ireland')) {
+                    return locations.northernIreland;
+                } else if (projectCountries.includes('scotland')) {
+                    return locations.scotland;
+                } else if (projectCountries.includes('wales')) {
+                    return locations.wales;
+                } else {
+                    return [];
+                }
             }
         }
 
         return new SelectField({
             locale: locale,
             name: 'projectLocation',
-            label: localise({
-                en: `Where will your project take place?`,
-                cy: `Lle bydd eich prosiect wedi’i leoli?`
-            }),
-            explanation: localise({
-                en: oneLine`If your project covers more than one area please
+            label: flags.enableNewLocationQuestions
+                ? localise({
+                      en: `Where will most of your project take place?`,
+                      cy: ``
+                  })
+                : localise({
+                      en: `Where will your project take place?`,
+                      cy: `Lle bydd eich prosiect wedi’i leoli?`
+                  }),
+            explanation: flags.enableNewLocationQuestions
+                ? null
+                : localise({
+                      en: oneLine`If your project covers more than one area please
                     tell us where most of it will take place`,
-                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                      cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
                     wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
-            }),
+                  }),
             defaultOption: localise({
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad'
@@ -872,7 +954,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    return {
+    const allFields = {
         projectName: fieldProjectName(),
         projectCountries: fieldProjectCountries(),
         projectLocation: fieldProjectLocation(),
@@ -893,4 +975,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         contactLanguagePreference: fieldContactLanguagePreference(),
         contactCommunicationNeeds: fieldContactCommunicationNeeds()
     };
+
+    if (flags.enableNewLocationQuestions) {
+        allFields.projectRegions = fieldProjectRegions();
+    }
+
+    return allFields;
 };

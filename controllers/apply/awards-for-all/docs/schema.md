@@ -6,20 +6,20 @@ The following documents the data schema for Awards for All applications when sub
 
 ### v1.3
 
-- Document new `projectStartDate` and `projectEndDate` fields and add deprecated note to `projectDateRange` field
+-   Document new `projectStartDate` and `projectEndDate` fields and add deprecated note to `projectDateRange` field
 
 ### v1.2
 
-- Added `clientIp` to meta
+-   Added `clientIp` to meta
 
 ### v1.1
 
-- Added `locale` to meta
-- Added `mainContactLanguagePreference` and `seniorContactLanguagePreference` fields in Wales. 
+-   Added `locale` to meta
+-   Added `mainContactLanguagePreference` and `seniorContactLanguagePreference` fields in Wales.
 
 ### v1.0
-       
-Initial release                                                                                     
+
+Initial release
 
 ---
 

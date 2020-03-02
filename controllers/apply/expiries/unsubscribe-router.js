@@ -3,9 +3,9 @@ const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 
-const { ApplicationEmailQueue } = require('../../db/models');
-const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
-const logger = require('../../common/logger').child({
+const { ApplicationEmailQueue } = require('../../../db/models');
+const { JWT_SIGNING_TOKEN } = require('../../../common/secrets');
+const logger = require('../../../common/logger').child({
     service: 'application-expiry'
 });
 
@@ -44,7 +44,7 @@ router.get('/', async function(req, res) {
             );
             logger.info('User unsubscribed from application expiry emails');
             res.render(
-                path.resolve(__dirname, './form-router/views/unsubscribed'),
+                path.resolve(__dirname, '../form-router/views/unsubscribed'),
                 {
                     en: {
                         title: 'Unsubscription successful',

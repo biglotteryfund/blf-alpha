@@ -123,3 +123,35 @@ test.each([
     const result = form.validate(expected);
     expect(result.error).toBeNull();
 });
+
+describe('new location questions', function() {
+    test('require region when england is selected', function() {
+        const form = formBuilder({
+            data: mockResponse({
+                projectCountries: ['england'],
+                projectRegions: null
+            }),
+            flags: {
+                enableNewLocationQuestions: true
+            }
+        });
+
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining(['Select one or more regions'])
+        );
+    });
+
+    test('strip other region selections when all-england is selected', function() {
+        const form = formBuilder({
+            data: mockResponse({
+                projectCountries: ['england'],
+                projectRegions: ['all-england', 'midlands', 'north-west']
+            }),
+            flags: {
+                enableNewLocationQuestions: true
+            }
+        });
+
+        expect(form.validation.value.projectRegions).toEqual(['all-england']);
+    });
+});

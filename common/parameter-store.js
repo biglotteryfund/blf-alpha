@@ -19,10 +19,7 @@ function getFromRawParameters(
     name,
     shouldThrowIfMissing = false
 ) {
-    const mapKeyedValues = flow(
-        keyBy('Name'),
-        mapValues('Value')
-    );
+    const mapKeyedValues = flow(keyBy('Name'), mapValues('Value'));
 
     const allParameters = mapKeyedValues(rawParameters);
     const match = allParameters[name];

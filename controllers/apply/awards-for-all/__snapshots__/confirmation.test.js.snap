@@ -1,81 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should return confirmation text based on country 1`] = `
-<p>
-  Thank you for submitting your application to National Lottery Awards for All.
-</p>
 <h2>
-  What happens next?
+  We’ve just sent an email to your main and senior contact
 </h2>
 <p>
-  We will now review your application and may contact you
-    to find out more about your project. It will take around
-  <strong>
-    18 weeks
-  </strong>
-  for us to make a decision and we will
-    let you know whether you have been successful by email.
+  This is just a confirmation email, with a summary of your answers (in case you want to look back at them at any point).
 </p>
+<h2>
+  Now we’ve got your application – we'll start assessing it as soon as we can
+</h2>
 <p>
-  In the meantime, if you have any questions, please call
+  We’ll look at your idea and do some checks.
   <strong>
-    0345 4 10 20 30
+    It’ll take us around 18 weeks to decide to fund your project or not
   </strong>
-  or email
+  .
+</p>
+<h2>
+  While we’re assessing your application – we might get in touch
+</h2>
+<p>
+  We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.
+</p>
+<h2>
+  We’ll let null and null know our decision by email
+</h2>
+<p>
+  We’ll email
+  <strong>
+    undefined
+  </strong>
+  and
+  <strong>
+    undefined
+  </strong>
+  . Make sure to check the junk mail too (just in case).
+</p>
+<h2>
+  If you have any questions, you can contact us in the meantime
+</h2>
+<p>
+  Please call 0345 4 10 20 30 or email
   <a href="mailto:afe@tnlcommunityfund.org.uk">
     afe@tnlcommunityfund.org.uk
   </a>
   and we will be happy to help you.
 </p>
 <p>
-  We’ll email a copy of your answers to your main and senior contact.
-    Please keep this for your records as you may need to refer to it.
-</p>
-<p>
-  Good luck with your application,
+  Good luck with your application!
   <br>
   <strong>
-    The National Lottery Awards for All Team
+    The National Lottery Awards for All team
   </strong>
 </p>
 `;
 
 exports[`should return confirmation text based on country 2`] = `
-<p>
-  Thank you for submitting your application to National Lottery Awards for All.
-</p>
 <h2>
-  What happens next?
+  We’ve just sent an email to your main and senior contact
 </h2>
 <p>
-  We will now review your application and may contact you
-    to find out more about your project. It will take around
-  <strong>
-    12 weeks
-  </strong>
-  for us to make a decision and we will
-    let you know whether you have been successful by email.
+  This is just a confirmation email, with a summary of your answers (in case you want to look back at them at any point).
 </p>
+<h2>
+  Now we’ve got your application – we'll start assessing it as soon as we can
+</h2>
 <p>
-  In the meantime, if you have any questions, please call
+  We’ll look at your idea and do some checks.
   <strong>
-    0300 123 7110
+    It’ll take us around 12 weeks to decide to fund your project or not
   </strong>
-  or email
+  .
+</p>
+<h2>
+  While we’re assessing your application – we might get in touch
+</h2>
+<p>
+  We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.
+</p>
+<h2>
+  We’ll let null and null know our decision by email
+</h2>
+<p>
+  We’ll email
+  <strong>
+    undefined
+  </strong>
+  and
+  <strong>
+    undefined
+  </strong>
+  . Make sure to check the junk mail too (just in case).
+</p>
+<h2>
+  If you have any questions, you can contact us in the meantime
+</h2>
+<p>
+  Please call 0300 123 7110 or email
   <a href="mailto:advicescotland@tnlcommunityfund.org.uk">
     advicescotland@tnlcommunityfund.org.uk
   </a>
   and we will be happy to help you.
 </p>
 <p>
-  We’ll email a copy of your answers to your main and senior contact.
-    Please keep this for your records as you may need to refer to it.
-</p>
-<p>
-  Good luck with your application,
+  Good luck with your application!
   <br>
   <strong>
-    The National Lottery Awards for All Team
+    The National Lottery Awards for All team
   </strong>
 </p>
 `;

@@ -6,6 +6,7 @@ function mockResponse(overrides = {}) {
     const defaults = {
         projectName: 'My project',
         projectCountries: ['england'],
+        projectRegions: ['midlands'],
         projectLocation: 'derbyshire',
         projectLocationDescription: 'description',
         projectCosts: '250,000',

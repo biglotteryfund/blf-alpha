@@ -57,10 +57,7 @@ async function getCanonicalRoutes() {
     const cmsCanonicalUrls = await contentApi.getRoutes();
     const combined = concat(staticRoutes, cmsCanonicalUrls);
     const filtered = combined.filter(route => route.live);
-    return compose(
-        sortBy('path'),
-        uniqBy('path')
-    )(filtered);
+    return compose(sortBy('path'), uniqBy('path'))(filtered);
 }
 
 router.get('/', sMaxAge(1800), async (req, res, next) => {

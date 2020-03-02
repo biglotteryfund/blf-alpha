@@ -20,9 +20,9 @@ const { localify, isWelsh, removeWelsh } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { isDev } = require('../../../common/appData');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
+const generateExpiryQueue = require('../expiries/generate-expiry-queue');
 
 const { getObject } = require('./lib/file-uploads');
-const { generateEmailQueueItems } = require('./lib/emailQueue');
 const { getShortId } = require('./lib/hotjar');
 
 function initFormRouter({
@@ -114,11 +114,9 @@ function initFormRouter({
             });
 
             if (expiryEmailPeriods) {
-                const emailsToQueue = generateEmailQueueItems(
-                    application,
-                    expiryEmailPeriods
+                await ApplicationEmailQueue.createNewQueue(
+                    generateExpiryQueue(application, expiryEmailPeriods)
                 );
-                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
             }
 
             res.json(application);
@@ -258,11 +256,9 @@ function initFormRouter({
 
             if (expiryEmailPeriods) {
                 // Convert this application's expiry periods into a set of queue items
-                const emailsToQueue = generateEmailQueueItems(
-                    application,
-                    expiryEmailPeriods
+                await ApplicationEmailQueue.createNewQueue(
+                    generateExpiryQueue(application, expiryEmailPeriods)
                 );
-                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
             }
 
             logger.info('Application created', { formId });

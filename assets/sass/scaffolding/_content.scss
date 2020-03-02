@@ -122,7 +122,7 @@
     @include mq('medium') {
         padding: $spacingUnit;
     }
-    
+
     &.content-box--borderless {
         border-right: none;
         border-bottom: none;

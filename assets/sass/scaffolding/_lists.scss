@@ -59,13 +59,12 @@
     }
 
     li:before {
-        content: counters(item, ".") ". ";
+        content: counters(item, '.') '. ';
         display: table-cell;
         padding-right: 0.6em;
     }
 
     li li:before {
-        content: counters(item, ".") " ";
+        content: counters(item, '.') ' ';
     }
 }
-

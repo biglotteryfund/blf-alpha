@@ -70,7 +70,10 @@ describe('buildMailOptions', () => {
     test('handle multiple send to addresses', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
-            sendTo: [{ address: 'example@biglotteryfund.org.uk' }, { address: 'example@blah.com' }],
+            sendTo: [
+                { address: 'example@biglotteryfund.org.uk' },
+                { address: 'example@blah.com' }
+            ],
             content: 'This is a test'
         });
 
@@ -157,38 +160,61 @@ describe('getSendAddress', () => {
     });
 
     test('return internal send from address for internal send to addresses', () => {
-        expect(getSendAddress([{ address: exampleEmail }])).toBe(expectedInternal);
-        expect(getSendAddress([{ address: exampleEmailNew }])).toBe(expectedInternal);
+        expect(getSendAddress([{ address: exampleEmail }])).toBe(
+            expectedInternal
+        );
+        expect(getSendAddress([{ address: exampleEmailNew }])).toBe(
+            expectedInternal
+        );
         // Assert against similar looking but incorrect emails to test for false positives
-        expect(getSendAddress([{ address: 'example@tnlcommmunityfun.org.uk' }])).toBe(expectedDefault);
-        expect(getSendAddress([{ address: 'example@biggerlotteryfund.org.uk' }])).toBe(expectedDefault);
-        expect(getSendAddress([{ address: 'example@biggestlotteryfund.org.uk' }])).toBe(expectedDefault);
-        expect(getSendAddress([{ address: 'biglotteryfund.org.uk@example.com' }])).toBe(expectedDefault);
+        expect(
+            getSendAddress([{ address: 'example@tnlcommmunityfun.org.uk' }])
+        ).toBe(expectedDefault);
+        expect(
+            getSendAddress([{ address: 'example@biggerlotteryfund.org.uk' }])
+        ).toBe(expectedDefault);
+        expect(
+            getSendAddress([{ address: 'example@biggestlotteryfund.org.uk' }])
+        ).toBe(expectedDefault);
+        expect(
+            getSendAddress([{ address: 'biglotteryfund.org.uk@example.com' }])
+        ).toBe(expectedDefault);
     });
 });
 
 describe('normaliseSendTo', () => {
     test('handle a single address string', () => {
-        expect(normaliseSendTo('example@example.com')).toEqual([{ address: 'example@example.com' }]);
+        expect(normaliseSendTo('example@example.com')).toEqual([
+            { address: 'example@example.com' }
+        ]);
     });
 
     test('handle a multiple address string', () => {
-        expect(normaliseSendTo('example@example.com,another@example.com')).toEqual([
+        expect(
+            normaliseSendTo('example@example.com,another@example.com')
+        ).toEqual([
             { address: 'example@example.com' },
             { address: 'another@example.com' }
         ]);
     });
 
     test('handle a single address object', () => {
-        expect(normaliseSendTo({ address: 'example@example.com' })).toEqual([{ address: 'example@example.com' }]);
-
-        expect(normaliseSendTo({ name: 'Example Name', address: 'example@example.com' })).toEqual([
-            { name: 'Example Name', address: 'example@example.com' }
+        expect(normaliseSendTo({ address: 'example@example.com' })).toEqual([
+            { address: 'example@example.com' }
         ]);
+
+        expect(
+            normaliseSendTo({
+                name: 'Example Name',
+                address: 'example@example.com'
+            })
+        ).toEqual([{ name: 'Example Name', address: 'example@example.com' }]);
     });
 
     test('handle an array of address objects', () => {
-        expect(normaliseSendTo([{ address: 'example@example.com' }])).toEqual([{ address: 'example@example.com' }]);
+        expect(normaliseSendTo([{ address: 'example@example.com' }])).toEqual([
+            { address: 'example@example.com' }
+        ]);
 
         expect(
             normaliseSendTo([
@@ -245,7 +271,9 @@ describe('sendHTMLEmail', () => {
             sendTo: [{ address: 'example@example.com' }]
         });
 
-        expect(htmlEmail.envelope.from).toEqual('noreply@tnlcommunityfund.org.uk');
+        expect(htmlEmail.envelope.from).toEqual(
+            'noreply@tnlcommunityfund.org.uk'
+        );
         expect(htmlEmail.envelope.to).toEqual(['example@example.com']);
 
         const infoMessage = JSON.parse(htmlEmail.message);
