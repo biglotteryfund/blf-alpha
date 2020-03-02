@@ -98,9 +98,10 @@ export default {
             );
         },
         onlyNumber($event) {
-            let keyCode = $event.keyCode ? $event.keyCode : $event.which;
-            // disallow commas and periods
-            if (keyCode === 46 || keyCode === 44) {
+            const keyCode = $event.keyCode ? $event.keyCode : $event.which;
+            const bannedKeys = [46, 44, 45]; // comma, period, dash
+            const isBannedKey = bannedKeys.indexOf(keyCode) !== -1;
+            if (isBannedKey) {
                 $event.preventDefault();
             }
         }
