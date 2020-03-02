@@ -1,6 +1,7 @@
 'use strict';
 const config = require('config');
 const { oneLine } = require('common-tags');
+const clone = require('lodash/clone');
 const compact = require('lodash/compact');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
@@ -18,7 +19,8 @@ module.exports = function({
         enableNewLocationQuestions: config.get(
             'standardFundingProposal.enableNewLocationQuestions'
         )
-    }
+    },
+    metadata = {}
 } = {}) {
     const localise = get(locale);
 
@@ -308,7 +310,11 @@ module.exports = function({
         summary: summary(),
         schemaVersion: flags.enableNewLocationQuestions ? 'v1.0-beta' : 'v0.2',
         forSalesforce() {
-            return data;
+            const enriched = clone(data);
+            if (metadata && metadata.programme) {
+                enriched.projectName = `${metadata.programme.title}: ${enriched.projectName}`;
+            }
+            return enriched;
         },
         sections: [
             sectionYourProject(),

@@ -37,7 +37,8 @@ module.exports = function(
 
         const form = formBuilder({
             locale: req.i18n.getLocale(),
-            data: currentApplicationData
+            data: currentApplicationData,
+            metadata: currentApplication.metadata
         });
 
         if (form.progress.isComplete === false) {

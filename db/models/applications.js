@@ -51,6 +51,15 @@ class PendingApplication extends Model {
             },
 
             /**
+             * Custom metadata attached to this application
+             * (eg. form programme)
+             */
+            metadata: {
+                type: DataTypes.JSON,
+                allowNull: true
+            },
+
+            /**
              * Track submission attempts
              * If there is an error in submission this will be incremented,
              * allowing us to report on failed submission attempts.
@@ -140,7 +149,7 @@ class PendingApplication extends Model {
         ).length;
     }
 
-    static createNewApplication({ userId, formId, customExpiry = null }) {
+    static createNewApplication({ userId, formId, customExpiry = null, metadata = null }) {
         // @TODO: Should this be defined in config?
         const expiresAt = customExpiry
             ? customExpiry
@@ -152,6 +161,7 @@ class PendingApplication extends Model {
             userId: userId,
             formId: formId,
             applicationData: null,
+            metadata: metadata,
             expiresAt: expiresAt
         });
     }
