@@ -32,7 +32,9 @@ module.exports = function({ locale, data = {} }) {
 
     const [mainContact, seniorContact] = ['main', 'senior'].map(contactType => {
         return {
-            fullName: getContactFullName(get(`${contactType}ContactName`)(data)),
+            fullName: getContactFullName(
+                get(`${contactType}ContactName`)(data)
+            ),
             email: get(`${contactType}ContactEmail`)(data)
         };
     });
@@ -49,10 +51,12 @@ module.exports = function({ locale, data = {} }) {
 <h2>While we’re assessing your application – we might get in touch</h2>
 <p>We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.</p>
 
-<h2>We’ll let ${mainContact.fullName} and ${
+<h2>We’ll let <span data-hj-suppress>${mainContact.fullName} and ${
             seniorContact.fullName
-        } know our decision by email</h2>
-<p>We’ll email <strong>${mainContact.email}</strong> and <strong>${
+        }</span> know our decision by email</h2>
+<p>We’ll email <strong data-hj-suppress>${
+            mainContact.email
+        }</strong> and <strong data-hj-suppress>${
             seniorContact.email
         }</strong>. Make sure to check the junk mail too (just in case).</p>
 
@@ -80,10 +84,12 @@ module.exports = function({ locale, data = {} }) {
 <h2>Tra rydym yn asesu eich cais – efallai byddwn mewn cysylltiad</h2>
 <p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
 
-<h2>Byddwn yn rhoi gwybod o’n penderfyniad i ${mainContact.fullName} a ${
-            seniorContact.fullName
-        } dros e-bost</h2>
-<p>Byddwn yn e-bostio <strong>${mainContact.email}</strong> a <strong>${
+<h2>Byddwn yn rhoi gwybod o’n penderfyniad i <span data-hj-suppress>${
+            mainContact.fullName
+        } a ${seniorContact.fullName}</span> dros e-bost</h2>
+<p>Byddwn yn e-bostio <strong data-hj-suppress>${
+            mainContact.email
+        }</strong> a <strong data-hj-suppress>${
             seniorContact.email
         }</strong>. Sicrhewch eich bod yn gwirio eich post sothach hefyd (rhag ofn).</p>
 
