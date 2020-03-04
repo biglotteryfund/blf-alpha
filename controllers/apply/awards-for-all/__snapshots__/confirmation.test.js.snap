@@ -24,15 +24,19 @@ exports[`should return confirmation text based on country 1`] = `
   We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.
 </p>
 <h2>
-  We’ll let null and null know our decision by email
+  We’ll let
+  <span data-hj-suppress>
+    null and null
+  </span>
+  know our decision by email
 </h2>
 <p>
   We’ll email
-  <strong>
+  <strong data-hj-suppress>
     undefined
   </strong>
   and
-  <strong>
+  <strong data-hj-suppress>
     undefined
   </strong>
   . Make sure to check the junk mail too (just in case).
@@ -80,15 +84,19 @@ exports[`should return confirmation text based on country 2`] = `
   We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.
 </p>
 <h2>
-  We’ll let null and null know our decision by email
+  We’ll let
+  <span data-hj-suppress>
+    null and null
+  </span>
+  know our decision by email
 </h2>
 <p>
   We’ll email
-  <strong>
+  <strong data-hj-suppress>
     undefined
   </strong>
   and
-  <strong>
+  <strong data-hj-suppress>
     undefined
   </strong>
   . Make sure to check the junk mail too (just in case).
