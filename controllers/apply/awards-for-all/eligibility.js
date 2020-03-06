@@ -94,19 +94,18 @@ module.exports = function({ locale }) {
                 en: oneLine`Do you want to start your project at least 12 weeks 
                 after you plan to send us your application? (If your project is 
                 in England, it can start after at least 18 weeks)`,
-                cy: oneLine`A ydych eisiau dechrau eich prosiect o leiaf
-                        18 wythnos ar ôl i chi gynllunio anfon eich cais?
-                        (Os yw eich prosiect yn Yr Alban neu Ogledd Iwerddon,
-                        gall ddechrau ar ôl o leiaf 12 wythnos)`
+                cy: oneLine`A ydych eisiau dechrau eich prosiect o leiaf 
+                12 wythnos ar ôl i chi gynllunio anfon eich cais i ni? 
+                (Os yw eich prosiect yn Lloegr, gall ddechrau ar ôl o leiaf 18 wythnos)`
             }),
             explanation: localise({
                 en: oneLine`We need to know because we need to give ourselves
                         at least 12 weeks to assess your application
                         (or 18 weeks if your project is in England).
                         And then make a decision on whether we'll fund your project or not.`,
-                cy: oneLine`Rydym angen gwybod i roi o leiaf 18 wythnos i’n
-                        hunain asesu eich cais (neu 12 wythnos os yw eich prosiect
-                        yn Yr Alban neu Ogledd Iwerddon). Ac yna gwneud penderfyniad
+                cy: oneLine`Rydym angen gwybod gan ein bod angen rhoi o leiaf
+                        12 wythnos i’n hunain asesu eich cais (neu 18 wythnos 
+                        os yw eich prosiect yn Lloegr). Ac yna gwneud penderfyniad 
                         ar p’un ai byddwn yn ariannu eich prosiect neu beidio.`
             }),
             yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
