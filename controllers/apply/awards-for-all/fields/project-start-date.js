@@ -28,7 +28,7 @@ module.exports = function(locale, data = {}) {
         }),
         explanation: localise({
             en: oneLine`Don't worry, this can be an estimate.
-                But your project must start after
+                But your project must start on or after
                 <strong>${minDateExample}.</strong>`,
             cy: oneLine`Peidiwch a poeni, gall hwn fod yn amcangyfrif.
                 Ond mae angen i’ch prosiect ddechrau ar ôl

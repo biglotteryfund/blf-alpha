@@ -91,10 +91,9 @@ module.exports = function({ locale }) {
     function question3() {
         return {
             question: localise({
-                en: oneLine`Do you want to start your project at least
-                        18 weeks after you plan to send us your application?
-                        (If your project is in Scotland or Northern Ireland,
-                        it can start after at least 12 weeks)`,
+                en: oneLine`Do you want to start your project at least 12 weeks 
+                after you plan to send us your application? (If your project is 
+                in England, it can start after at least 18 weeks)`,
                 cy: oneLine`A ydych eisiau dechrau eich prosiect o leiaf
                         18 wythnos ar ôl i chi gynllunio anfon eich cais?
                         (Os yw eich prosiect yn Yr Alban neu Ogledd Iwerddon,
@@ -102,8 +101,8 @@ module.exports = function({ locale }) {
             }),
             explanation: localise({
                 en: oneLine`We need to know because we need to give ourselves
-                        at least 18 weeks to assess your application
-                        (or 12 weeks if your project is in Scotland or Northern Ireland).
+                        at least 12 weeks to assess your application
+                        (or 18 weeks if your project is in England).
                         And then make a decision on whether we'll fund your project or not.`,
                 cy: oneLine`Rydym angen gwybod i roi o leiaf 18 wythnos i’n
                         hunain asesu eich cais (neu 12 wythnos os yw eich prosiect
@@ -130,8 +129,8 @@ module.exports = function({ locale }) {
                         </p>
                         <p>
                             Have a think and see if it's possible to start your
-                            project at least 18 weeks from now (or 12 weeks from
-                            now if your project is in Scotland or Northern Ireland).
+                            project at least 12 weeks from now (or 18 weeks from
+                            now if your project is in England).
                         </p>
                         <p><strong>
                             If you've now decided you can start your project
