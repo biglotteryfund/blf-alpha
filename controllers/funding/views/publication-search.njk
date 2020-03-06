@@ -147,7 +147,11 @@
                                 <div class="u-margin-bottom-s">
                                     {% call promoCard({
                                         "title": entry.title,
-                                        "trailText": entry.trailText
+                                        "title": entry.title,
+                                        "trailText": entry.trailText,
+                                        "link": {
+                                            "url": entry.linkUrl
+                                        }
                                     }) %}
                                         <p>
                                             <a class="btn btn--outline btn--small"

@@ -70,6 +70,7 @@ router.get(
                 requestParams: req.query
             });
 
+            res.locals.isBilingual = false;
             res.locals.publicationEntries = publications.result;
             res.locals.publicationTags = publicationTags;
 
