@@ -17,7 +17,7 @@ router.get(
         let latestProgrammes = [];
         try {
             const fundingProgrammes = await contentApi.getRecentFundingProgrammes(
-                { locale: req.i18n.getLocale(), limit: 3 }
+                req.i18n.getLocale()
             );
 
             latestProgrammes = fundingProgrammes.result

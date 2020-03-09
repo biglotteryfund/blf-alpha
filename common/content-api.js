@@ -8,16 +8,28 @@ const map = require('lodash/fp/map');
 const pick = require('lodash/pick');
 const sortBy = require('lodash/fp/sortBy');
 
+const got = require('got');
 const request = require('request-promise-native');
 const querystring = require('querystring');
 
 const logger = require('./logger');
+const { sanitiseUrlPath, stripTrailingSlashes } = require('./urls');
+const { CONTENT_API_URL } = require('./secrets');
 
 const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
 
-const { sanitiseUrlPath, stripTrailingSlashes } = require('./urls');
-let { CONTENT_API_URL } = require('./secrets');
+const queryContentApi = got.extend({
+    prefixUrl: CONTENT_API_URL,
+    headers: { 'user-agent': 'tnlcf-www' },
+    hooks: {
+        beforeRequest: [
+            function(options) {
+                logger.debug(`Fetching ${options.url.href}`);
+            }
+        ]
+    }
+});
 
 function fetch(urlPath, options) {
     logger.debug(
@@ -228,15 +240,18 @@ function getFundingProgrammes({
     });
 }
 
-function getRecentFundingProgrammes({ locale, limit = 3 }) {
-    return fetch(`/v2/${locale}/funding-programmes`, {
-        qs: { 'page': 1, 'page-limit': limit, 'newest': true }
-    }).then(response => {
-        return {
-            meta: response.meta,
-            result: mapAttrs(response)
-        };
-    });
+function getRecentFundingProgrammes(locale) {
+    return queryContentApi
+        .get(`v2/${locale}/funding-programmes`, {
+            searchParams: { 'page': 1, 'page-limit': 3, 'newest': true }
+        })
+        .json()
+        .then(response => {
+            return {
+                meta: response.meta,
+                result: mapAttrs(response)
+            };
+        });
 }
 
 function getFundingProgramme({ locale, slug, query = {}, requestParams = {} }) {
