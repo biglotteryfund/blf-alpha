@@ -1,12 +1,10 @@
 'use strict';
-const filter = require('lodash/fp/filter');
 const find = require('lodash/fp/find');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const head = require('lodash/fp/head');
 const map = require('lodash/fp/map');
 const pick = require('lodash/pick');
-const sortBy = require('lodash/fp/sortBy');
 
 const got = require('got');
 const request = require('request-promise-native');
@@ -96,11 +94,6 @@ function mergeWelshBy(propName) {
             })(enResults);
         }
     };
-}
-
-function filterBySlugs(list, slugs) {
-    const matches = filter(result => slugs.indexOf(result.slug) !== -1)(list);
-    return sortBy(item => slugs.indexOf(item.slug))(matches);
 }
 
 /**
@@ -344,16 +337,6 @@ function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
     }).then(getAttrs);
 }
 
-function getProjectStories({ locale, slugs = [] }) {
-    return fetchAllLocales(
-        reqLocale => `/v1/${reqLocale}/project-stories`
-    ).then(responses => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
-        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
-        return slugs.length > 0 ? filterBySlugs(results, slugs) : results;
-    });
-}
-
 function getOurPeople({ locale, requestParams = {} }) {
     return fetch(`/v1/${locale}/our-people`, {
         qs: addPreviewParams(requestParams)
@@ -380,7 +363,6 @@ module.exports = {
     // API methods
     getAlias,
     getProjectStory,
-    getProjectStories,
     getDataStats,
     getFlexibleContent,
     getFundingProgramme,
