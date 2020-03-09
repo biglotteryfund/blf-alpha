@@ -90,16 +90,6 @@ app.get('/status', (req, res) => {
 });
 
 /**
- * Robots.txt
- */
-app.get('/robots.txt', noStore, require('./controllers/robots'));
-
-/**
- * Site-map
- */
-app.use('/sitemap.xml', require('./controllers/sitemap'));
-
-/**
  * Static asset paths
  * Mount early to avoid being processed by any middleware
  * @see https://expressjs.com/en/4x/api.html#express.static
@@ -184,6 +174,8 @@ app.use([
 /**
  * Mount utility routes
  */
+app.get('/robots.txt', noStore, require('./controllers/robots'));
+app.use('/sitemap.xml', require('./controllers/sitemap'));
 app.use('/api', require('./controllers/api'));
 app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));

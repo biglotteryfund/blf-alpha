@@ -1,10 +1,10 @@
 'use strict';
 const express = require('express');
-const { createSitemap } = require('sitemap');
 const compose = require('lodash/fp/compose');
 const concat = require('lodash/fp/concat');
 const sortBy = require('lodash/fp/sortBy');
 const uniqBy = require('lodash/fp/uniqBy');
+const { SitemapStream } = require('sitemap');
 
 const contentApi = require('../common/content-api');
 const { getBaseUrl } = require('../common/urls');
@@ -60,21 +60,24 @@ async function getCanonicalRoutes() {
     return compose(sortBy('path'), uniqBy('path'))(filtered);
 }
 
-router.get('/', sMaxAge(1800), async (req, res, next) => {
+router.get('/', sMaxAge(1800), async function(req, res, next) {
     try {
+        res.header('Content-Type', 'application/xml');
+
         const canonicalRoutes = await getCanonicalRoutes();
 
-        // @ts-ignore
-        const sitemapInstance = createSitemap({
-            hostname: getBaseUrl(req),
-            urls: canonicalRoutes.map(route => ({
-                url: route.path
-            }))
+        const stream = new SitemapStream({ hostname: getBaseUrl(req) });
+
+        canonicalRoutes.forEach(function(route) {
+            stream.write({ url: route.path });
         });
 
-        const xml = sitemapInstance.toXML();
-        res.header('Content-Type', 'application/xml');
-        res.send(xml);
+        stream
+            .end()
+            .pipe(res)
+            .on('error', function(err) {
+                throw err;
+            });
     } catch (error) {
         next(error);
     }
