@@ -280,6 +280,8 @@ toplevel:
     latestProgrammes: Rhaglenni diweddaraf
     latestProgrammesPartnerships: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
+    - label: "Meddwl am ymgeisio am arian grant?"
+      href: "/welsh/funding/thinking-of-applying-for-funding"
     - label: Dysgu sut i ymgeisio am grantiau o dan £10,000
       href: "/welsh/funding/under10k"
     - label: Dysgu sut i ymgeisio am grantiau sy’n fwy na £10,000
