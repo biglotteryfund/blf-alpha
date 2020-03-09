@@ -1,23 +1,33 @@
 'use strict';
-const filter = require('lodash/fp/filter');
 const find = require('lodash/fp/find');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const head = require('lodash/fp/head');
 const map = require('lodash/fp/map');
 const pick = require('lodash/pick');
-const sortBy = require('lodash/fp/sortBy');
 
+const got = require('got');
 const request = require('request-promise-native');
 const querystring = require('querystring');
 
 const logger = require('./logger');
+const { sanitiseUrlPath, stripTrailingSlashes } = require('./urls');
+const { CONTENT_API_URL } = require('./secrets');
 
 const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
 
-const { sanitiseUrlPath, stripTrailingSlashes } = require('./urls');
-let { CONTENT_API_URL } = require('./secrets');
+const queryContentApi = got.extend({
+    prefixUrl: CONTENT_API_URL,
+    headers: { 'user-agent': 'tnlcf-www' },
+    hooks: {
+        beforeRequest: [
+            function(options) {
+                logger.debug(`Fetching ${options.url.href}`);
+            }
+        ]
+    }
+});
 
 function fetch(urlPath, options) {
     logger.debug(
@@ -84,11 +94,6 @@ function mergeWelshBy(propName) {
             })(enResults);
         }
     };
-}
-
-function filterBySlugs(list, slugs) {
-    const matches = filter(result => slugs.indexOf(result.slug) !== -1)(list);
-    return sortBy(item => slugs.indexOf(item.slug))(matches);
 }
 
 /**
@@ -228,15 +233,18 @@ function getFundingProgrammes({
     });
 }
 
-function getRecentFundingProgrammes({ locale, limit = 3 }) {
-    return fetch(`/v2/${locale}/funding-programmes`, {
-        qs: { 'page': 1, 'page-limit': limit, 'newest': true }
-    }).then(response => {
-        return {
-            meta: response.meta,
-            result: mapAttrs(response)
-        };
-    });
+function getRecentFundingProgrammes(locale) {
+    return queryContentApi
+        .get(`v2/${locale}/funding-programmes`, {
+            searchParams: { 'page': 1, 'page-limit': 3, 'newest': true }
+        })
+        .json()
+        .then(response => {
+            return {
+                meta: response.meta,
+                result: mapAttrs(response)
+            };
+        });
 }
 
 function getFundingProgramme({ locale, slug, query = {}, requestParams = {} }) {
@@ -329,16 +337,6 @@ function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
     }).then(getAttrs);
 }
 
-function getProjectStories({ locale, slugs = [] }) {
-    return fetchAllLocales(
-        reqLocale => `/v1/${reqLocale}/project-stories`
-    ).then(responses => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
-        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
-        return slugs.length > 0 ? filterBySlugs(results, slugs) : results;
-    });
-}
-
 function getOurPeople({ locale, requestParams = {} }) {
     return fetch(`/v1/${locale}/our-people`, {
         qs: addPreviewParams(requestParams)
@@ -365,7 +363,6 @@ module.exports = {
     // API methods
     getAlias,
     getProjectStory,
-    getProjectStories,
     getDataStats,
     getFlexibleContent,
     getFundingProgramme,
