@@ -52,33 +52,29 @@ router.get(
     checkValidPublicationProgramme,
     injectCopy('insights.documents'),
     injectHeroImage('a-better-start-new'),
-    async (req, res, next) => {
-        let query = pick(req.query, ['page', 'tag', 'q', 'sort']);
-        res.locals.queryParams = clone(query);
-        query['page-limit'] = 10;
-        const programme = req.params.programme;
-
+    async function(req, res, next) {
         try {
-            const publicationTags = await contentApi.getPublicationTags({
-                locale: req.i18n.getLocale(),
-                programme: programme
-            });
-            const publications = await contentApi.getPublications({
-                locale: req.i18n.getLocale(),
-                programme: programme,
-                query: query,
-                requestParams: req.query
-            });
-
-            res.locals.isBilingual = false;
-            res.locals.publicationEntries = publications.result;
-            res.locals.publicationTags = publicationTags;
+            const [publicationTags, publications] = await Promise.all([
+                contentApi.getPublicationTags({
+                    locale: req.i18n.getLocale(),
+                    programme: req.params.programme
+                }),
+                contentApi.getPublications({
+                    locale: req.i18n.getLocale(),
+                    programme: req.params.programme,
+                    requestParams: req.query
+                })
+            ]);
 
             res.render(path.resolve(__dirname, './views/publication-search'), {
+                isBilingual: false, // @TODO: Should we enable Welsh language here?
+                publicationEntries: publications.result,
+                publicationTags: publicationTags,
+                queryParams: req.query,
                 baseUrl: req.baseUrl + req.path,
                 entriesMeta: publications.meta,
                 pagination: publications.pagination,
-                programme: programme
+                programme: req.params.programme
             });
         } catch (error) {
             next(error);

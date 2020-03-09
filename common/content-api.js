@@ -280,13 +280,25 @@ function getPublications({
     locale,
     programme,
     slug = null,
-    query = {},
     requestParams = {}
 }) {
+    const filteredRequestParams = pick(requestParams, [
+        'page',
+        'tag',
+        'q',
+        'sort'
+    ]);
+
+    const apiRequestParams = {
+        // Override default page-limit
+        ...{ 'page-limit': 10 },
+        ...filteredRequestParams
+    };
+
     const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
     if (slug) {
         return fetch(`${baseUrl}/${slug}`, {
-            qs: addPreviewParams(requestParams, { ...query })
+            qs: addPreviewParams(requestParams, apiRequestParams)
         }).then(response => {
             return {
                 meta: response.meta,
@@ -295,12 +307,15 @@ function getPublications({
         });
     } else {
         return fetch(baseUrl, {
-            qs: addPreviewParams(requestParams, { ...query })
+            qs: addPreviewParams(requestParams, apiRequestParams)
         }).then(response => {
             return {
                 meta: response.meta,
                 result: mapAttrs(response),
-                pagination: _buildPagination(response.meta.pagination, query)
+                pagination: _buildPagination(
+                    response.meta.pagination,
+                    apiRequestParams
+                )
             };
         });
     }
