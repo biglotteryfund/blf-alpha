@@ -1,8 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const clone = require('lodash/clone');
-const pick = require('lodash/pick');
 
 const {
     injectCopy,
