@@ -507,6 +507,36 @@ test('require project dates', function() {
 });
 
 test('start date must be at least 18 weeks away in England', function() {
+    const invalidDate = toDateParts(moment().add('17', 'weeks'));
+    const invalidForm = formBuilder({
+        data: mockResponse({
+            projectCountry: 'england',
+            projectLocation: 'derbyshire',
+            projectStartDate: invalidDate,
+            projectEndDate: invalidDate
+        })
+    });
+
+    expect(mapMessages(invalidForm.validation)).toEqual(
+        expect.arrayContaining([
+            expect.stringMatching(
+                /Date you start the project must be on or after/
+            )
+        ])
+    );
+
+    const validDate = toDateParts(moment().add('18', 'weeks'));
+    const validForm = formBuilder({
+        data: mockResponse({
+            projectCountry: 'england',
+            projectLocation: 'derbyshire',
+            projectStartDate: validDate,
+            projectEndDate: validDate
+        })
+    });
+
+    expect(validForm.validation.error).toBeNull();
+});
     [{ projectCountry: 'england', projectLocation: 'derbyshire' }].forEach(
         function(countryData) {
             const invalidDate = toDateParts(moment().add('17', 'weeks'));
