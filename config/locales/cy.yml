@@ -292,6 +292,8 @@ toplevel:
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
       href: "/welsh/funding/managing-your-grant"
+    - label: "Meddwl am ymgeisio am arian grant?"
+      href: "/welsh/funding/thinking-of-applying-for-funding"
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
