@@ -130,7 +130,9 @@ function _buildPagination(paginationMeta, currentQuery = {}) {
  ***********************************************/
 
 function getRoutes() {
-    return fetch('/v1/list-routes').then(mapAttrs);
+    return queryContentApi('v1/list-routes')
+        .json()
+        .then(mapAttrs);
 }
 
 function getAliasForLocale({ locale, urlPath }) {
