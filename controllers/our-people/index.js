@@ -33,10 +33,10 @@ router.get('/', injectHeroImage('mental-health-foundation-new'), async function(
     next
 ) {
     try {
-        const people = await contentApi.getOurPeople({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
+        const people = await contentApi.getOurPeople(
+            req.i18n.getLocale(),
+            req.query
+        );
 
         res.render(path.resolve(__dirname, './views/our-people'), {
             ourPeopleLinks: mapLinks(people)
@@ -48,10 +48,10 @@ router.get('/', injectHeroImage('mental-health-foundation-new'), async function(
 
 router.get('/:slug', async function(req, res, next) {
     try {
-        const people = await contentApi.getOurPeople({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
+        const people = await contentApi.getOurPeople(
+            req.i18n.getLocale(),
+            req.query
+        );
 
         const entry = people.find(item => item.slug === req.params.slug);
 

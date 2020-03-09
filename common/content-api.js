@@ -339,15 +339,17 @@ function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
     }).then(getAttrs);
 }
 
-function getOurPeople({ locale, requestParams = {} }) {
-    return fetch(`/v1/${locale}/our-people`, {
-        qs: addPreviewParams(requestParams)
-    }).then(mapAttrs);
+function getOurPeople(locale, searchParams = {}) {
+    return queryContentApi(`v1/${locale}/our-people`, {
+        searchParams: addPreviewParams(searchParams)
+    })
+        .json()
+        .then(mapAttrs);
 }
 
-function getDataStats(locale, requestParams = {}) {
+function getDataStats(locale, searchParams = {}) {
     return queryContentApi(`v1/${locale}/data`, {
-        searchParams: addPreviewParams(requestParams)
+        searchParams: addPreviewParams(searchParams)
     })
         .json()
         .then(getAttrs);
