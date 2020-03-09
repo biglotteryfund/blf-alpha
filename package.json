@@ -193,7 +193,7 @@
     "vue-jest": "3.0.5",
     "vue-loader": "15.8.3",
     "vue-template-compiler": "2.6.11",
-    "wait-on": "4.0.0",
+    "wait-on": "4.0.1",
     "webpack": "4.42.0",
     "webpack-cli": "3.3.11"
   }
