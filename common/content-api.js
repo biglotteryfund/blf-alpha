@@ -343,10 +343,12 @@ function getOurPeople({ locale, requestParams = {} }) {
     }).then(mapAttrs);
 }
 
-function getDataStats({ locale, query = {}, requestParams = {} }) {
-    return fetch(`/v1/${locale}/data`, {
-        qs: addPreviewParams(requestParams, { ...query })
-    }).then(response => response.data.attributes);
+function getDataStats(locale, requestParams = {}) {
+    return queryContentApi(`v1/${locale}/data`, {
+        searchParams: addPreviewParams(requestParams)
+    })
+        .json()
+        .then(getAttrs);
 }
 
 function getMerchandise({ locale, showAll = false } = {}) {
