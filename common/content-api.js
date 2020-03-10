@@ -356,11 +356,16 @@ function getDataStats(locale, searchParams = {}) {
 }
 
 function getMerchandise({ locale, showAll = false } = {}) {
-    let params = {};
+    let searchParams = {};
     if (showAll) {
-        params.all = 'true';
+        searchParams.all = 'true';
     }
-    return fetch(`/v1/${locale}/merchandise`, { qs: params }).then(mapAttrs);
+
+    return queryContentApi(`v1/${locale}/merchandise`, {
+        searchParams: searchParams
+    })
+        .json()
+        .then(mapAttrs);
 }
 
 module.exports = {
