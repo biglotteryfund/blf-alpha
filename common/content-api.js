@@ -252,12 +252,7 @@ function getRecentFundingProgrammes(locale) {
             searchParams: { 'page': 1, 'page-limit': 3, 'newest': true }
         })
         .json()
-        .then(response => {
-            return {
-                meta: response.meta,
-                result: mapAttrs(response)
-            };
-        });
+        .then(mapAttrs);
 }
 
 function getFundingProgramme({ locale, slug, searchParams = {} }) {

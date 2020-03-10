@@ -270,8 +270,7 @@ toplevel:
         introduction: Mae Cronfa Gymunedol y Loteri Genedlaethol yn gofalu am ein hamgylchedd ac rydym bob amser yn ceisio rheoli ein heffaith amgylcheddol. Rydym yn annog ac yn cefnogi prosiectau a chymunedau i wneud yr un peth. Dysgwch fwy am sut y gallwch <a href="/welsh/funding/funding-guidance/reducing-your-environmental-footprint">Dysgu mwy am sut y gallwch wneud eich prosiect neu ddigwyddiad yn fwy cynaliadwy yn amgylcheddol ac efallai arbed arian ar yr un pryd</a>.
   funding:
     title: Ariannu
-    latestProgrammes: Rhaglenni diweddaraf
-    latestProgrammesPartnerships: Rhaglenni a phartneriaethau diweddaraf
+    latestTitle: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
     - label: "Meddwl am ymgeisio am arian grant?"
       href: "/welsh/funding/thinking-of-applying-for-funding"
