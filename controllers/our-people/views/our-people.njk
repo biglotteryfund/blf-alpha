@@ -2,6 +2,8 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
 
+{% set title = __('ourPeople.title') %}
+
 {% block content %}
     <main role="main">
         {{ hero(title, pageHero.image) }}
@@ -9,7 +11,7 @@
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only">
                 <div class="s-prose">
-                    {{ copy.introduction | safe }}
+                    {{ __('ourPeople.introduction') | safe }}
                 </div>
                 {{ sectionLinks(ourPeopleLinks) }}
             </section>

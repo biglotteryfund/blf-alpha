@@ -130,7 +130,9 @@ function _buildPagination(paginationMeta, currentQuery = {}) {
  ***********************************************/
 
 function getRoutes() {
-    return fetch('/v1/list-routes').then(mapAttrs);
+    return queryContentApi('v1/list-routes')
+        .json()
+        .then(mapAttrs);
 }
 
 function getAliasForLocale({ locale, urlPath }) {
@@ -337,24 +339,33 @@ function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
     }).then(getAttrs);
 }
 
-function getOurPeople({ locale, requestParams = {} }) {
-    return fetch(`/v1/${locale}/our-people`, {
-        qs: addPreviewParams(requestParams)
-    }).then(mapAttrs);
+function getOurPeople(locale, searchParams = {}) {
+    return queryContentApi(`v1/${locale}/our-people`, {
+        searchParams: addPreviewParams(searchParams)
+    })
+        .json()
+        .then(mapAttrs);
 }
 
-function getDataStats({ locale, query = {}, requestParams = {} }) {
-    return fetch(`/v1/${locale}/data`, {
-        qs: addPreviewParams(requestParams, { ...query })
-    }).then(response => response.data.attributes);
+function getDataStats(locale, searchParams = {}) {
+    return queryContentApi(`v1/${locale}/data`, {
+        searchParams: addPreviewParams(searchParams)
+    })
+        .json()
+        .then(getAttrs);
 }
 
 function getMerchandise({ locale, showAll = false } = {}) {
-    let params = {};
+    let searchParams = {};
     if (showAll) {
-        params.all = 'true';
+        searchParams.all = 'true';
     }
-    return fetch(`/v1/${locale}/merchandise`, { qs: params }).then(mapAttrs);
+
+    return queryContentApi(`v1/${locale}/merchandise`, {
+        searchParams: searchParams
+    })
+        .json()
+        .then(mapAttrs);
 }
 
 module.exports = {

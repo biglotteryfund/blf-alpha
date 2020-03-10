@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 
 const {
-    injectCopy,
     injectHeroImage,
     setCommonLocals
 } = require('../../common/inject-content');
@@ -11,62 +10,49 @@ const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 
-function mapLinks(people) {
-    return people.map(item => {
-        return {
-            label: item.title,
-            slug: item.slug,
-            href: item.linkUrl
-        };
-    });
-}
-
-router.use(injectCopy('ourPeople'), async function(req, res, next) {
-    const { title } = res.locals.copy;
-    res.locals.sectionTitle = title;
-    next();
-});
-
-router.get('/', injectHeroImage('mental-health-foundation-new'), async function(
-    req,
-    res,
-    next
-) {
+router.use(async function(req, res, next) {
     try {
-        const people = await contentApi.getOurPeople({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
+        const people = await contentApi.getOurPeople(
+            req.i18n.getLocale(),
+            req.query
+        );
+
+        res.locals.people = people;
+        res.locals.sectionTitle = req.i18n.__('ourPeople.title');
+        res.locals.ourPeopleLinks = people.map(item => {
+            return {
+                label: item.title,
+                slug: item.slug,
+                href: item.linkUrl
+            };
         });
 
-        res.render(path.resolve(__dirname, './views/our-people'), {
-            ourPeopleLinks: mapLinks(people)
-        });
+        next();
     } catch (error) {
         next(error);
     }
 });
 
+router.get('/', injectHeroImage('mental-health-foundation-new'), function(
+    req,
+    res
+) {
+    res.render(path.resolve(__dirname, './views/our-people'));
+});
+
 router.get('/:slug', async function(req, res, next) {
-    try {
-        const people = await contentApi.getOurPeople({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
+    const entry = res.locals.people.find(function(item) {
+        return item.slug === req.params.slug;
+    });
+
+    if (entry) {
+        setCommonLocals(req, res, entry);
+
+        res.render(path.resolve(__dirname, './views/profiles'), {
+            entry: entry
         });
-
-        const entry = people.find(item => item.slug === req.params.slug);
-
-        if (entry) {
-            setCommonLocals(req, res, entry);
-
-            res.render(path.resolve(__dirname, './views/profiles'), {
-                entry: entry,
-                ourPeopleLinks: mapLinks(people)
-            });
-        } else {
-            next();
-        }
-    } catch (error) {
-        next(error);
+    } else {
+        next();
     }
 });
 

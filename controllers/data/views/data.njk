@@ -1,7 +1,8 @@
+{% extends "layouts/main.njk" %}
 {% from "components/data.njk" import statsGrid %}
 {% from "components/hero.njk" import hero with context %}
 
-{% extends "layouts/main.njk" %}
+{% set copy = __('toplevel.data') %}
 
 {% macro mapPane(id, title, stats, isActive = false) %}
     <section id="region-{{ id }}" class="js-tab-pane tab__pane{% if isActive %} is-active{% endif %}">

@@ -1,5 +1,4 @@
 {% extends "layouts/main.njk" %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/document-list/macro.njk" import documentList %}
 {% from "components/hero.njk" import hero with context %}
 
@@ -9,8 +8,6 @@
 
         <div class="page-section u-inner-wide-only nudge-up">
             <div class="page-section__content">
-                {{ breadcrumbTrail(breadcrumbs) }}
-
                 {% for person in entry.people %}
                     <article id="profile-{{ person.name | slugify }}" class="content-box">
 
