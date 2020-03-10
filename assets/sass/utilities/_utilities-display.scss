@@ -117,26 +117,8 @@
    Visibility
    ========================================================================= */
 
-@include mq('large', 'max') {
-    .u-wide-only {
-        display: none !important;
-    }
-}
-
-@include mq('large') {
-    .u-not-wide {
-        display: none !important;
-    }
-}
-
 @include mq('medium', 'max') {
     .u-desktop-only {
-        display: none !important;
-    }
-}
-
-@include mq('medium') {
-    .u-mobile-only {
         display: none !important;
     }
 }
@@ -147,10 +129,6 @@
 
 .u-visually-hidden {
     @include visually-hidden();
-}
-
-.u-invisible {
-    visibility: hidden;
 }
 
 // hide JS things for users without JS

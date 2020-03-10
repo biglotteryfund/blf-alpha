@@ -182,18 +182,11 @@ global:
 toplevel:
   home:
     title: Hafan
-    intro: >
-      Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> yn codi arian ar gyfer achosion da,
-      rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ar draws y Deyrnas Unedig bob blwyddy
-    introNew:
+    intro:
       title: Rydym yn cefnogi pobl a chymunedau i ffynnu
       description: <p>Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ledled y Deyrnas Unedig bob blwyddyn</p>
-    under10k:
-      short: Ymgeisio am grant o dan £10,000
-      long: Cael gwybod sut i ymgeisio am grant o dan £10,000
-    over10k:
-      short: Ymgeisio am grant dros £10,000
-      long: Cael gwybod sut i ymgeisio am grant dros £10,000
+    under10k: Ymgeisio am grant o dan £10,000
+    over10k: Ymgeisio am grant dros £10,000
   wales:
     title: Cymru
     introduction: Cronfa Gymunedol y Loteri Genedlaethol yw ariannwr cymunedol mwyaf y Deyrnas Unedig.

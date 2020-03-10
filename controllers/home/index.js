@@ -1,23 +1,21 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+
 const contentApi = require('../../common/content-api');
-const { injectCopy } = require('../../common/inject-content');
 
 const router = express.Router();
 
-router.get('/', injectCopy('toplevel.home'), async (req, res, next) => {
+router.get('/', async function(req, res, next) {
     try {
-        const { featuredLinks, promotedUpdates } = await contentApi.getHomepage(
-            {
-                locale: req.i18n.getLocale(),
-                requestParams: req.query
-            }
-        );
+        const entry = await contentApi.getHomepage({
+            locale: req.i18n.getLocale(),
+            requestParams: req.query
+        });
 
         res.render(path.resolve(__dirname, './views/home'), {
-            featuredLinks,
-            promotedUpdates,
+            featuredLinks: entry.featuredLinks,
+            promotedUpdates: entry.promotedUpdates,
             heroImage: {
                 small: '/assets/images/home/superhero-small-v2.jpg',
                 medium: '/assets/images/home/superhero-medium-v2.jpg',
