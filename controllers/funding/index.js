@@ -2,33 +2,27 @@
 const path = require('path');
 const express = require('express');
 
-const { injectCopy, injectHeroImage } = require('../../common/inject-content');
-const { sMaxAge } = require('../../common/cached');
+const { injectHeroImage } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 
-router.get(
-    '/',
-    sMaxAge(1800),
-    injectCopy('toplevel.funding'),
-    injectHeroImage('funding-letterbox-new'),
-    async (req, res) => {
-        let latestProgrammes = [];
-        try {
-            const fundingProgrammes = await contentApi.getRecentFundingProgrammes(
-                req.i18n.getLocale()
-            );
+router.get('/', injectHeroImage('funding-letterbox-new'), async (req, res) => {
+    /**
+     * Fetch latest funding programmes, but consider them optional,
+     * we can still render the page without them.
+     */
+    let latestProgrammes = [];
+    try {
+        latestProgrammes = await contentApi.getRecentFundingProgrammes(
+            req.i18n.getLocale()
+        );
+    } catch (error) {} // eslint-disable-line no-empty
 
-            latestProgrammes = fundingProgrammes.result
-                ? fundingProgrammes.result
-                : [];
-        } catch (error) {} // eslint-disable-line no-empty
-
-        res.render(path.resolve(__dirname, './views/funding-landing'), {
-            latestProgrammes
-        });
-    }
-);
+    res.render(path.resolve(__dirname, './views/funding-landing'), {
+        title: req.i18n.__('toplevel.funding.title'),
+        latestProgrammes: latestProgrammes
+    });
+});
 
 module.exports = router;
