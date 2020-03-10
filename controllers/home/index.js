@@ -8,10 +8,10 @@ const router = express.Router();
 
 router.get('/', async function(req, res, next) {
     try {
-        const entry = await contentApi.getHomepage({
-            locale: req.i18n.getLocale(),
-            requestParams: req.query
-        });
+        const entry = await contentApi.getHomepage(
+            req.i18n.getLocale(),
+            req.query
+        );
 
         res.render(path.resolve(__dirname, './views/home'), {
             featuredLinks: entry.featuredLinks,

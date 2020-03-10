@@ -63,14 +63,14 @@ function fetchAllLocales(toUrlPathFn, options = {}) {
  * Adds the preview parameters to the request
  * (if accessed via the preview domain)
  */
-function addPreviewParams(requestParams = {}, params = {}) {
-    const globalParams = pick(requestParams, [
+function withPreviewParams(rawSearchParams = {}, extraSearchParams = {}) {
+    const globalParams = pick(rawSearchParams, [
         'social',
         'x-craft-live-preview',
         'x-craft-preview',
         'token'
     ]);
-    return Object.assign({}, globalParams, params);
+    return Object.assign({}, globalParams, extraSearchParams);
 }
 
 /**
@@ -169,10 +169,12 @@ function getHeroImage({ locale, slug }) {
     );
 }
 
-function getHomepage({ locale, query = {}, requestParams = {} }) {
-    return fetch(`/v1/${locale}/homepage`, {
-        qs: addPreviewParams(requestParams, { ...query })
-    }).then(response => response.data.attributes);
+function getHomepage(locale, searchParams = {}) {
+    return queryContentApi(`v1/${locale}/homepage`, {
+        searchParams: withPreviewParams(searchParams)
+    })
+        .json()
+        .then(getAttrs);
 }
 
 /**
@@ -195,7 +197,7 @@ function getUpdates({
 }) {
     if (slug) {
         return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
-            qs: addPreviewParams(requestParams, { ...query })
+            qs: withPreviewParams(requestParams, { ...query })
         }).then(response => {
             return {
                 meta: response.meta,
@@ -204,7 +206,7 @@ function getUpdates({
         });
     } else {
         return fetch(`/v1/${locale}/updates/${type || ''}`, {
-            qs: addPreviewParams(requestParams, {
+            qs: withPreviewParams(requestParams, {
                 ...query,
                 ...{ 'page-limit': 10 }
             })
@@ -251,7 +253,7 @@ function getRecentFundingProgrammes(locale) {
 
 function getFundingProgramme({ locale, slug, query = {}, requestParams = {} }) {
     return fetch(`/v2/${locale}/funding-programmes/${slug}`, {
-        qs: addPreviewParams(requestParams, { ...query })
+        qs: withPreviewParams(requestParams, { ...query })
     }).then(response => get('data.attributes')(response));
 }
 
@@ -264,7 +266,7 @@ function getResearch({
 }) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
-            qs: addPreviewParams(requestParams, { ...query })
+            qs: withPreviewParams(requestParams, { ...query })
         }).then(getAttrs);
     } else {
         let path = `/v1/${locale}/research`;
@@ -272,7 +274,7 @@ function getResearch({
             path += `/${type}`;
         }
         return fetch(path, {
-            qs: addPreviewParams(requestParams, { ...query })
+            qs: withPreviewParams(requestParams, { ...query })
         }).then(response => {
             return {
                 meta: response.meta,
@@ -291,7 +293,7 @@ function getStrategicProgrammes({
 }) {
     if (slug) {
         return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
-            qs: addPreviewParams(requestParams, { ...query })
+            qs: withPreviewParams(requestParams, { ...query })
         }).then(response => get('data.attributes')(response));
     } else {
         return fetchAllLocales(
@@ -306,7 +308,7 @@ function getStrategicProgrammes({
 function getListingPage({ locale, path, query = {}, requestParams = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/listing`, {
-        qs: addPreviewParams(requestParams, {
+        qs: withPreviewParams(requestParams, {
             ...query,
             ...{ path: sanitisedPath }
         })
@@ -326,7 +328,7 @@ function getListingPage({ locale, path, query = {}, requestParams = {} }) {
 function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/flexible-content`, {
-        qs: addPreviewParams(requestParams, {
+        qs: withPreviewParams(requestParams, {
             ...query,
             ...{ path: sanitisedPath }
         })
@@ -335,13 +337,13 @@ function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
 
 function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
     return fetch(`/v1/${locale}/project-stories/${grantId}`, {
-        qs: addPreviewParams(requestParams, { ...query })
+        qs: withPreviewParams(requestParams, { ...query })
     }).then(getAttrs);
 }
 
 function getOurPeople(locale, searchParams = {}) {
     return queryContentApi(`v1/${locale}/our-people`, {
-        searchParams: addPreviewParams(searchParams)
+        searchParams: withPreviewParams(searchParams)
     })
         .json()
         .then(mapAttrs);
@@ -349,7 +351,7 @@ function getOurPeople(locale, searchParams = {}) {
 
 function getDataStats(locale, searchParams = {}) {
     return queryContentApi(`v1/${locale}/data`, {
-        searchParams: addPreviewParams(searchParams)
+        searchParams: withPreviewParams(searchParams)
     })
         .json()
         .then(getAttrs);
