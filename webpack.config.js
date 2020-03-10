@@ -35,7 +35,7 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        chunkFilename: '[name].bundle.js',
+        chunkFilename: '[name][chunkhash].js',
         path: path.resolve(__dirname, pkgConfig.dist.js)
     },
     devtool: isProduction ? 'source-map' : 'eval-source-map',
