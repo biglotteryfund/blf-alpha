@@ -33,10 +33,12 @@
 
                 {# All programmes #}
                 <div class="u-align-center u-margin-bottom-l">
-                    <a href="{{ localify('/funding/programmes/all') }}" class="btn btn--medium btn--outline">{{ copy.allProgrammes }}</a>
+                    <a href="{{ localify('/funding/programmes/all') }}" class="btn btn--medium btn--outline">
+                        {{ __('funding.programmes.allProgrammes') }}
+                    </a>
                 </div>
             {% else %}
-                <p>{{ copy.noResults }}</p>
+                <p>{{ __('funding.programmes.noResults') }}</p>
             {% endif %}
         </section>
     </main>
