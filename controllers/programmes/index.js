@@ -16,7 +16,8 @@ const contentApi = require('../../common/content-api');
 
 const { basicContent, renderFlexibleContentChild } = require('../common');
 
-const { getValidLocation, programmeFilters } = require('./helpers');
+const getValidLocation = require('./lib/get-valid-location');
+const programmeFilters = require('./lib/programme-filters');
 
 const router = express.Router();
 
