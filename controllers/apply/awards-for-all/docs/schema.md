@@ -1,6 +1,6 @@
-# Awards for All: Schema
+# Funding under £10,000: Schema
 
-The following documents the data schema for Awards for All applications when submitted to Salesforce.
+The following documents the data schema for simple funding applications (funding under £10,000) when submitted to Salesforce.
 
 ## Changelog
 
