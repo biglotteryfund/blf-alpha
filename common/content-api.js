@@ -1,7 +1,7 @@
 'use strict';
 const countBy = require('lodash/countBy');
-const filter = require('lodash/fp/filter');
 const find = require('lodash/fp/find');
+const flatten = require('lodash/flatten');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const head = require('lodash/fp/head');
@@ -287,6 +287,69 @@ function getResearch({
     }
 }
 
+function getPublications({
+    locale,
+    programme,
+    slug = null,
+    requestParams = {}
+}) {
+    const filteredRequestParams = pick(requestParams, [
+        'page',
+        'tag',
+        'q',
+        'sort'
+    ]);
+
+    const apiRequestParams = {
+        // Override default page-limit
+        ...{ 'page-limit': 10 },
+        ...filteredRequestParams
+    };
+
+    const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
+    if (slug) {
+        return fetch(`${baseUrl}/${slug}`, {
+            qs: addPreviewParams(requestParams, apiRequestParams)
+        }).then(response => {
+            return {
+                meta: response.meta,
+                entry: getAttrs(response)
+            };
+        });
+    } else {
+        return fetch(baseUrl, {
+            qs: addPreviewParams(requestParams, apiRequestParams)
+        }).then(response => {
+            return {
+                meta: response.meta,
+                result: mapAttrs(response),
+                pagination: _buildPagination(
+                    response.meta.pagination,
+                    apiRequestParams
+                )
+            };
+        });
+    }
+}
+
+function getPublicationTags({ locale, programme }) {
+    return fetch(`/v1/${locale}/funding/publications/${programme}/tags`).then(
+        response => {
+            const attrs = mapAttrs(response);
+            // Strip entries to just their tags
+            const allTags = flatten(attrs.map(_ => _.tags));
+            // Count the occurrences of each tag
+            const counts = countBy(allTags, 'id');
+            // Merge these counts into the tag list after de-duping
+            const tags = uniqBy(allTags, 'id').map(tag => {
+                tag.count = counts[tag.id];
+                return tag;
+            });
+            return sortBy('count')(tags).reverse();
+        }
+    );
+}
+
 function getStrategicProgrammes({
     locale,
     slug = null,
@@ -388,6 +451,8 @@ module.exports = {
     getListingPage,
     getMerchandise,
     getOurPeople,
+    getPublications,
+    getPublicationTags,
     getResearch,
     getRoutes,
     getStrategicProgrammes,
