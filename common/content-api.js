@@ -226,9 +226,18 @@ function getFundingProgrammes({
     pageLimit = 100,
     showAll = false
 }) {
-    return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`, {
-        qs: { 'page': page, 'page-limit': pageLimit, 'all': showAll === true }
-    }).then(responses => {
+    const requestOptions = {
+        searchParams: {
+            'page': page,
+            'page-limit': pageLimit,
+            'all': showAll === true
+        }
+    };
+
+    return Promise.all([
+        queryContentApi.get('v2/en/funding-programmes', requestOptions).json(),
+        queryContentApi.get('v2/cy/funding-programmes', requestOptions).json()
+    ]).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         return {
             meta: head(responses).meta,
@@ -251,10 +260,13 @@ function getRecentFundingProgrammes(locale) {
         });
 }
 
-function getFundingProgramme({ locale, slug, query = {}, requestParams = {} }) {
-    return fetch(`/v2/${locale}/funding-programmes/${slug}`, {
-        qs: withPreviewParams(requestParams, { ...query })
-    }).then(response => get('data.attributes')(response));
+function getFundingProgramme({ locale, slug, searchParams = {} }) {
+    return queryContentApi
+        .get(`v2/${locale}/funding-programmes/${slug}`, {
+            searchParams: withPreviewParams(searchParams)
+        })
+        .json()
+        .then(getAttrs);
 }
 
 function getResearch({
