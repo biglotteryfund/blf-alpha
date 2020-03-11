@@ -149,7 +149,12 @@ class PendingApplication extends Model {
         ).length;
     }
 
-    static createNewApplication({ userId, formId, customExpiry = null, metadata = null }) {
+    static createNewApplication({
+        userId,
+        formId,
+        customExpiry = null,
+        metadata = null
+    }) {
         // @TODO: Should this be defined in config?
         const expiresAt = customExpiry
             ? customExpiry
