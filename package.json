@@ -136,7 +136,7 @@
     "sitemap": "^4.0.2",
     "slugify": "^1.4.0",
     "sqlite3": "4.1.1",
-    "uuid": "^3.4.0",
+    "uuid": "^7.0.2",
     "vary": "^1.1.1",
     "winston": "3.2.1",
     "winston-cloudwatch": "2.3.0",
