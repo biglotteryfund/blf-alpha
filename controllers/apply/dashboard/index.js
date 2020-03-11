@@ -4,14 +4,17 @@ const express = require('express');
 const moment = require('moment');
 const isEmpty = require('lodash/isEmpty');
 
-const { localify } = require('../../common/urls');
-const { noStore } = require('../../common/cached');
-const { requireActiveUser } = require('../../common/authed');
-const { PendingApplication, SubmittedApplication } = require('../../db/models');
+const { localify } = require('../../../common/urls');
+const { noStore } = require('../../../common/cached');
+const { requireActiveUser } = require('../../../common/authed');
+const {
+    PendingApplication,
+    SubmittedApplication
+} = require('../../../db/models');
 
-const enrichAwardsForAll = require('./awards-for-all/enrich');
-const enrichStandard = require('./standard-proposal/enrich');
-const enrichContactsNext = require('./contacts-next/enrich');
+const enrichAwardsForAll = require('../awards-for-all/enrich');
+const enrichStandard = require('../standard-proposal/enrich');
+const enrichContactsNext = require('../contacts-next/enrich');
 
 const router = express.Router();
 
