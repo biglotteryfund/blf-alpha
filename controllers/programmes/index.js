@@ -200,7 +200,7 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
         const entry = await contentApi.getFundingProgramme({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
-            requestParams: req.query
+            searchParams: req.query
         });
 
         setCommonLocals(req, res, entry);
