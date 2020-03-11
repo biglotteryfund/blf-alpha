@@ -184,20 +184,13 @@ global:
 toplevel:
   home:
     title: Home
-    intro: >
-      Thanks to <a href="%s">National Lottery</a> players raising funding for good causes,
-        we give out more than <a href="%s">£500 million</a> to communities across the UK each year
-    introNew:
+    intro:
       title: When people are in the lead, communities thrive
       description: >
         The National Lottery Community Fund distributes <a href="%s">over £600m</a> a year to communities across the UK,
         raised by players of <a href="%s">The National Lottery</a>
-    under10k:
-      short: Apply for funding under £10,000
-      long: Learn how to apply for funding under £10,000
-    over10k:
-      short: Apply for funding over £10,000
-      long: Learn how to apply for funding over £10,000
+    under10k: Apply for funding under £10,000
+    over10k: Apply for funding over £10,000
   funding:
     title: Funding
     latestProgrammes: Latest Programmes
