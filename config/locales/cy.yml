@@ -102,6 +102,8 @@ global:
       Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
       <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
+  covidMsg: >
+    Neges gan Dawn Austwick, Prif Swyddog Gweithredol, Cronfa Gymunedol y Loteri Genedlaethol: COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys

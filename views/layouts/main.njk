@@ -26,6 +26,12 @@
                 <aside class="announcement-banner announcement-banner--info">
                     ✋ This is a test environment. Please do not share this page.
                 </aside>
+            {% elseif showCovidBanner %}
+                <aside class="announcement-banner">
+                    <a href="{{ localify('/news/press-releases/2020-03-11/message-from-dawn-austwick-ceo-the-national-lottery-community-fund-covid-19') }}">
+                        {{ __('global.covidMsg') }}
+                    </a>
+                </aside>
             {% endif %}
 
             {# Cookie consent #}

@@ -13,6 +13,7 @@ router.get('/', async function(req, res, next) {
             req.query
         );
 
+        res.locals.showCovidBanner = true;
         res.render(path.resolve(__dirname, './views/home'), {
             featuredLinks: entry.featuredLinks,
             promotedUpdates: entry.promotedUpdates,
