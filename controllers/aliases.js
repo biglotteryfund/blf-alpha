@@ -679,5 +679,9 @@ module.exports = createAliases([
     {
         from: `/-/media/Images/Logos/JPEGs/hi_big_e_min_pink.jpg`,
         to: `/assets/images/logos/tnlcf/monolingual/colour.png`
+    },
+    {
+        from: `/news/press-releases/2019-07-18/100-million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk`,
+        to: `/news/press-releases/2019-07-18/100million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk`
     }
 ]);
