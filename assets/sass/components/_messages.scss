@@ -126,6 +126,11 @@
     color: white;
     background-color: get-color('brand', 'primary');
 
+    &.announcement-banner--major {
+        font-size: 15px;
+        padding: 14px 6px;
+    }
+
     a {
         color: white;
         font-weight: font-weight('body', 'bold');
