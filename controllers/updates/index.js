@@ -129,8 +129,12 @@ router.get(
                     next();
                 }
             }
-        } catch (e) {
-            next(e);
+        } catch (error) {
+            if (error.statusCode >= 500) {
+                next(error);
+            } else {
+                next();
+            }
         }
     }
 );
