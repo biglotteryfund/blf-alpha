@@ -380,13 +380,14 @@ funding:
     search:
       title: Search all grants
       survey:
-        prompt: Please help us improve this service by sending us feedback
+        prompt: We'd love to hear what you think of our tool so far. Please share some feedback if you have a couple of minutes spare.
         label: How was your experience of using our past grants search today?
       beta: Beta
       intro: >
-        Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that. You can try our new service in Beta now or <a href="%s">explore our data with GrantNav</a>.
+        <p>You can look through the projects we've given funding to, with this search tool.</p>
+        <p>You'll only find information on projects we've funded from <strong>%s - %s</strong>. But we're working to get the more recent projects we've funded on there soon. As well as making some other improvements to the tool that will help us keep it up to date in future.</p>
+        <p>If you want to look at more recent projects we've given funding to, <a href="%s">try GrantNav</a>.</p>
       helpText: e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
-      dateRange: Our grants data currently runs from <strong>%s - %s</strong>.
       submit: Search
       pleaseWait: Searching, please wait...
       resultsCount: projects found
