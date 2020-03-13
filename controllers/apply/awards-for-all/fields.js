@@ -1541,7 +1541,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `We’ll use this whenever we get in touch about the project`,
                 cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`
-            })
+            }),
+            schema: Joi.string()
+                .email()
+                .lowercase()
         }),
         seniorContactPhone: new PhoneField({
             locale: locale,
