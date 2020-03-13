@@ -107,6 +107,38 @@ test('invalid form', () => {
     expect(featuredMessages).toMatchSnapshot();
 });
 
+test('contact email addresses must not match', function() {
+    const emails = {
+        lowercase: 'example@example.com',
+        uppercase: 'Example@example.com'
+    };
+    // Test each combination of cases to ensure the order of completion has no effect
+    const forms = [
+        formBuilder({
+            data: mockResponse({
+                mainContactEmail: emails.lowercase,
+                seniorContactEmail: emails.uppercase
+            })
+        }),
+        formBuilder({
+            data: mockResponse({
+                mainContactEmail: emails.uppercase,
+                seniorContactEmail: emails.lowercase
+            })
+        })
+    ];
+
+    forms.forEach(form => {
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringContaining(
+                    'Main contact email address must be different'
+                )
+            ])
+        );
+    });
+});
+
 test('valid form for england', () => {
     const data = mockResponse({
         projectCountry: 'england',
