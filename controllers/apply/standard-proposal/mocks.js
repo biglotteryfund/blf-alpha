@@ -28,7 +28,7 @@ function mockResponse(overrides = {}) {
             lastName: 'Guðmundsdóttir'
         },
         contactEmail: 'general.enquiries@tnlcommunityfund.org.uk',
-        contactPhone: '0345 4 10 20 30',
+        contactPhone: '028 9568 0143',
         contactCommunicationNeeds: 'Large print'
     };
 

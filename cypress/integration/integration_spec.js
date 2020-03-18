@@ -985,7 +985,7 @@ it('should submit full awards for all application', () => {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
             email: Cypress.env('afa_senior_contact_email'),
-            phone: '0345 4 10 20 30',
+            phone: '028 9568 0143',
             dateOfBirth: moment().subtract(random(18, 90), 'years'),
             address: {
                 streetAddress: `The Bar, 2 St James' Blvd`,
@@ -1081,7 +1081,7 @@ it('should complete standard your funding proposal form', () => {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName()
         },
-        contactPhone: '0345 4 10 20 30',
+        contactPhone: '028 9568 0143',
         contactCommunicationNeeds: 'Example communication need'
     };
 

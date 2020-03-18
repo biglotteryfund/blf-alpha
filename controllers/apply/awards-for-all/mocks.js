@@ -105,7 +105,7 @@ function mockResponse(overrides = {}) {
             previousAddress: mockAddress()
         },
         mainContactEmail: faker.internet.exampleEmail(),
-        mainContactPhone: '0345 4 10 20 30',
+        mainContactPhone: '028 9568 0143',
         mainContactCommunicationNeeds: '',
         seniorContactName: {
             firstName: faker.name.firstName(),

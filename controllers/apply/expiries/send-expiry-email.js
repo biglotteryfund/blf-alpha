@@ -75,7 +75,7 @@ function getPhoneFor(country) {
         'wales': '0300 123 0735'
     }[country];
 
-    return countryPhone || '0345 4 10 20 30';
+    return countryPhone || '028 9568 0143';
 }
 
 module.exports = function sendExpiryEmail(
