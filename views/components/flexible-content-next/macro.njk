@@ -2,7 +2,7 @@
 {% from "components/child-pages/macro.njk" import childPages %}
 {% from "components/fact-river/macro.njk" import factRiver %}
 {% from "components/media-aside/macro.njk" import mediaAside %}
-{% from "components/related-content/macro.njk" import relatedContent %}
+{% from "components/promo-card/macro.njk" import promoCard with context %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 
 {% set flexAnchor = 'item' %}
@@ -45,11 +45,22 @@
                     {% elseif part.type === 'factRiver' %}
                         {{ factRiver(part.content) }}
                     {% elseif part.type === 'relatedContent' %}
-                        {{ relatedContent(
-                            articles = part.content,
-                            title = part.heading,
-                            usePromo = true
-                        ) }}
+                        <h2 class="t--underline">{{ part.heading }}</h2>
+                        <ul class="flex-grid flex-grid--3up">
+                            {% for article in part.content %}
+                                <li class="flex-grid__item">
+                                    {{ promoCard({
+                                        "title": article.title + "floop",
+                                        "trailText": article.summary,
+                                        "image": {
+                                            "url": article.trailImage,
+                                            "alt": article.title
+                                        },
+                                        "link": { "url": article.linkUrl }
+                                    }) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
                     {% elseif part.type === 'tableOfContents' and flexibleContent %}
                         <div class="s-prose u-constrained-content-wide">
                             {{ part.content | safe }}
