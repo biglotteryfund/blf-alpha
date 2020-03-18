@@ -32,16 +32,16 @@ global:
     email: general.enquiries@tnlcommunityfund.org.uk
     regions:
     - label: England and UK-wide
-      phone: 0345 4 10 20 30
+      phone: 028 9568 0143
       email: general.enquiries@tnlcommunityfund.org.uk
     - label: Northern Ireland
-      phone: 028 9055 1455
+      phone: 028 4378 0003
       email: enquiries.ni@tnlcommunityfund.org.uk
     - label: Scotland
-      phone: 0300 123 7110
+      phone: 0141 846 0447
       email: advicescotland@tnlcommunityfund.org.uk
     - label: Wales
-      phone: 0300 123 0735
+      phone: 029 2168 0214
       email: wales@tnlcommunityfund.org.uk
     press:
       title: How do I get in contact if I have a press query?
