@@ -71,7 +71,7 @@ function getEmailFor(country) {
 function getPhoneFor(country) {
     const countryPhone = {
         'scotland': '0300 123 7110',
-        'northern-ireland': '028 9055 1455',
+        'northern-ireland': '028 4378 0003',
         'wales': '0300 123 0735'
     }[country];
 
