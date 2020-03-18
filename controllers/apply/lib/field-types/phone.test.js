@@ -11,12 +11,12 @@ test('valid field', function() {
     expect(field.label).toBe('Telephone number');
     expect(field.type).toBe('tel');
 
-    const goodValue = '0345 4 10 20 30';
+    const goodValue = '028 9568 0143';
     const badValue = '0345 444';
 
     field.withValue(goodValue);
     expect(field.validate().error).toBeNull();
-    expect(field.validate().value).toBe('0345 410 2030');
+    expect(field.validate().value).toBe('028 9568 0143');
 
     field.withValue(badValue);
     expect(field.validate().error.message).toEqual(
