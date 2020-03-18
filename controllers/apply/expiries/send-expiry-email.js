@@ -72,7 +72,7 @@ function getPhoneFor(country) {
     const countryPhone = {
         'scotland': '0141 846 0447',
         'northern-ireland': '028 4378 0003',
-        'wales': '0300 123 0735'
+        'wales': '029 2168 0214'
     }[country];
 
     return countryPhone || '028 9568 0143';
