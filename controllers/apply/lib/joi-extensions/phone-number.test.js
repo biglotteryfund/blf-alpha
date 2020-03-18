@@ -23,7 +23,7 @@ test('format valid phone numbers', () => {
         ['028 9 5 68 0143', '028 9568 0143'],
         ['028 4378 00 03', '028 4378 0003'],
         ['01418460447', '0141 846 0447'],
-        ['03001230735', '0300 123 0735']
+        ['02921680214', '029 2168 0214']
     ];
     validUkPhoneNumbers.forEach(function([input, expected]) {
         const result = schema.validate(input);
