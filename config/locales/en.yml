@@ -866,7 +866,7 @@ applyNext:
     actions:
       simple:
         title: "Funding under £10,000: Start an application"
-        description: National Lottery Awards for All—a quick way to apply for smaller amounts of funding between £300 and £10,000.
+        description: A quick way to apply for smaller amounts of funding between £300 and £10,000.
         link:
           url: /apply/awards-for-all/start
           label: Start a new application
