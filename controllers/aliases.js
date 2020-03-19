@@ -4,6 +4,13 @@ const flatten = require('lodash/flatten');
 const uniqBy = require('lodash/fp/uniqBy');
 const { makeWelsh } = require('../common/urls');
 
+/**
+ * The previous biglotteryfund.org.uk website duplicated content
+ * under country specific paths. For any urls that existed on
+ * the old website that we want to redirect we need to make sure
+ * we handle each variant. This method allows us to mark an alias
+ * as needing these extra redirects.
+ */
 function withRegionPrefixes(alias) {
     const prefixes = [
         '',
@@ -18,6 +25,10 @@ function withRegionPrefixes(alias) {
     });
 }
 
+/**
+ * Create full list of aliases
+ * Takes list of urls and duplicates them with a corresponding /welsh redirect
+ */
 function createAliases(aliases) {
     return flatMap(uniqBy(alias => alias.from)(flatten(aliases)), alias => {
         return [
@@ -683,5 +694,9 @@ module.exports = createAliases([
     {
         from: `/news/press-releases/2019-07-18/100-million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk`,
         to: `/news/press-releases/2019-07-18/100million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk`
+    },
+    {
+        from: '/funding/programmes/coastal-communities-fund-1',
+        to: '/funding/programmes/coastal-communities-fund'
     }
 ]);

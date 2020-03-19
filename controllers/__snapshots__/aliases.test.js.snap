@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`aliases should export mappedAliases 1`] = `
+exports[`should export mappedAliases 1`] = `
 Array [
   Object {
     "from": "/home/funding",
@@ -6081,6 +6081,14 @@ Array [
   Object {
     "from": "/welsh/news/press-releases/2019-07-18/100-million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk",
     "to": "/welsh/news/press-releases/2019-07-18/100million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk",
+  },
+  Object {
+    "from": "/funding/programmes/coastal-communities-fund-1",
+    "to": "/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/welsh/funding/programmes/coastal-communities-fund-1",
+    "to": "/welsh/funding/programmes/coastal-communities-fund",
   },
 ]
 `;
