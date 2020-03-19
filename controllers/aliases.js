@@ -683,5 +683,9 @@ module.exports = createAliases([
     {
         from: `/news/press-releases/2019-07-18/100-million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk`,
         to: `/news/press-releases/2019-07-18/100million-national-lottery-climate-action-fund-launched-for-communities-across-the-uk`
+    },
+    {
+        from: '/funding/programmes/coastal-communities-fund-1',
+        to: '/funding/programmes/coastal-communities-fund'
     }
 ]);
