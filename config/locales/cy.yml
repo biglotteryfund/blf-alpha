@@ -888,10 +888,6 @@ applyNext:
     delete: Dileu
     createdAt: Wedi’i greu ar %s am %s
     expiresAt: Mae gennych nes <strong>%s</strong> i gwblhau eich cais
-  startApplication:
-    title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
-    intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
-    callToAction: Dechrau cais newydd
   dashboard:
     title: Eich ceisiadau
     introduction: >

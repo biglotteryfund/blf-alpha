@@ -821,10 +821,6 @@ applyNext:
     delete: Delete
     createdAt: Created %s at %s
     expiresAt: You have until <strong>%s</strong> to complete your application
-  startApplication:
-    title: Start an application for National Lottery Awards for All
-    intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
-    callToAction: Start a new application
   dashboard:
     title: Your applications
     introduction: >
