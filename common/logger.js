@@ -5,16 +5,30 @@ const WinstonCloudWatch = require('winston-cloudwatch');
 
 const { environment, buildNumber, isTestServer, isDev } = require('./appData');
 
-function enableCloudWatchLogs() {
-    if (process.env.CI || isTestServer === true) {
-        return false;
-    } else {
-        return isDev === false;
-    }
+function useConsoleLogger() {
+    return (
+        process.env.IS_TEST_RUN ||
+        process.env.CI ||
+        isTestServer === true ||
+        isDev === true
+    );
 }
 
 function getTransports() {
-    if (enableCloudWatchLogs()) {
+    if (useConsoleLogger()) {
+        return [
+            new transports.Console({
+                silent: process.env.CI || process.env.IS_TEST_RUN,
+                format: format.combine(
+                    format.colorize(),
+                    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+                    format.printf(function(info) {
+                        return `${info.timestamp} [${info.level}] ${info.message}`;
+                    })
+                )
+            })
+        ];
+    } else {
         return [
             new WinstonCloudWatch({
                 level: process.env.LOG_LEVEL || config.get('logLevel'),
@@ -23,19 +37,6 @@ function getTransports() {
                 logStreamName: `build-${buildNumber}`,
                 jsonMessage: true,
                 retentionInDays: 30
-            })
-        ];
-    } else {
-        return [
-            new transports.Console({
-                silent: process.env.CI,
-                format: format.combine(
-                    format.colorize(),
-                    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                    format.printf(function(info) {
-                        return `${info.timestamp} [${info.level}] ${info.message}`;
-                    })
-                )
             })
         ];
     }

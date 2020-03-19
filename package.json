@@ -19,7 +19,7 @@
     "start-test": "DB_CONNECTION_URI=sqlite://:memory PORT=8090 TEST_SERVER=true npm run start",
     "lint": "eslint . bin/* --ext .js,.vue && stylelint assets/sass",
     "format": "prettier --write '{*,**/*}.{js,vue,scss,md}'",
-    "test-unit": "jest --maxWorkers=4",
+    "test-unit": "IS_TEST_RUN=true jest --maxWorkers=4",
     "test": "npm run lint && npm run test-unit",
     "test-integration": "npm run start-test & wait-on http://localhost:8090 && npx cypress run --browser chrome",
     "clean": "del-cli $npm_package_config_dist_root/* ./config/assets.json",
