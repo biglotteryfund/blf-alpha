@@ -1120,7 +1120,7 @@ awardsForAll:
           - type: action
             title: Able to apply
           - type: step
-            title: Awards for all online application
+            title: Online application
             description: >
               Tell us about your idea to help people improve their lives and communities.
               You’ll have up to three months to finish your online application form.
