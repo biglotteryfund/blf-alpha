@@ -384,9 +384,8 @@ funding:
         label: How was your experience of using our past grants search today?
       beta: Beta
       intro: >
-        <p>You can look through the projects we've given funding to, with this search tool.</p>
-        <p>You'll only find information on projects we've funded from <strong>%s - %s</strong>. But we're working to get the more recent projects we've funded on there soon. As well as making some other improvements to the tool that will help us keep it up to date in future.</p>
-        <p>If you want to look at more recent projects we've given funding to, <a href="%s">try GrantNav</a>.</p>
+        <p>You can look through the projects we've given funding to, with this search tool. <a href="%s">Or by using GrantNav</a>.</p>
+        <p>You'll only find information on projects we've funded from <strong>%s - %s</strong>. But we're working to get more recent projects we've funded on there soon. As well as making some other improvements to our search tool that will help us keep it up to date in future.
       helpText: e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
       submit: Search
       pleaseWait: Searching, please wait...

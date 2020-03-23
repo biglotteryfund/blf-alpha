@@ -455,9 +455,8 @@ funding:
         label: Sut brofiad cawsoch chi o chwilio ein grantiau blaenorol heddiw?
       beta: Beta
       intro: >
-        <p>Gallwch edrych drwy’r prosiectau rydym wedi’i ariannu gan ddefnyddio’r offeryn chwilio hwn.</p>
+        <p>Gallwch edrych drwy’r prosiectau a ariennir gennym gyda’r offeryn chwilio hwn. <a href="%s">Neu trwy ddefnyddio GrantNav</a>.</p>
         <p>Byddwch ond yn gallu dod o hyd i wybodaeth ar brosiectau rydym wedi’i ariannu ers <strong>%s - %s</strong>. Ond rydym yn gweithio i gael y prosiectau a ariennir diweddaraf arno’n fuan.  Yn ogystal â gwneud rhai gwelliannau eraill i’r offeryn a wneith ein helpu ei gadw wedi’i ddiweddaru yn y dyfodol.</p>
-        <p>Os ydych eisiau edrych ar brosiectau a ariennir yn fwy diweddar, <a href="%s">trïwch GrantNav</a>.</p>
       helpText: e.e. allweddair fel "unigrwydd", lleoliad, mudiad neu faes gwaith
       submit: Chwilio
       pleaseWait: Wrthi'n chwilio, arhoswch...
