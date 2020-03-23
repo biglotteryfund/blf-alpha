@@ -180,7 +180,7 @@
     "picturefill": "3.0.3",
     "postcss-cli": "7.1.0",
     "postcss-foft-classes": "1.0.4",
-    "prettier": "1.19.1",
+    "prettier": "2.0.1",
     "prompt": "1.0.0",
     "query-string": "^5.0.1",
     "sane": "4.1.0",
