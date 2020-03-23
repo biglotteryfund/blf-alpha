@@ -10,20 +10,20 @@ describe('sanitiseRequestBody', () => {
             numberValue: 1000,
             objectValue: {
                 a: 'this value is OK',
-                b: 'this one is not OK<script>alert(1)</script>'
+                b: 'this one is not OK<script>alert(1)</script>',
             },
             arrayValue: [
                 'something',
-                'this one is bad<script>alert(1)</script>'
+                'this one is bad<script>alert(1)</script>',
             ],
             arrayOfObjects: [
                 { a: 'good', b: 'bad<script>alert(1)</script>' },
-                { a: 'good', b: '<script>alert(1)</script>' }
+                { a: 'good', b: '<script>alert(1)</script>' },
             ],
             nestedObject: {
-                a: { x: 'good', y: 'bad<script>alert(1)</script>' }
+                a: { x: 'good', y: 'bad<script>alert(1)</script>' },
             },
-            stringWithAmpersands: "My favourite place in London is M&M's World"
+            stringWithAmpersands: "My favourite place in London is M&M's World",
         });
 
         expect(result).toEqual({
@@ -33,10 +33,10 @@ describe('sanitiseRequestBody', () => {
             arrayValue: ['something', 'this one is bad'],
             arrayOfObjects: [
                 { a: 'good', b: 'bad' },
-                { a: 'good', b: '' }
+                { a: 'good', b: '' },
             ],
             nestedObject: { a: { x: 'good', y: 'bad' } },
-            stringWithAmpersands: "My favourite place in London is M&M's World"
+            stringWithAmpersands: "My favourite place in London is M&M's World",
         });
     });
 });

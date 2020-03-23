@@ -11,7 +11,7 @@ const i18n = setupI18n(localVue, 'en');
 
 import WordCount from './word-count.vue';
 
-test('should render word count', async function() {
+test('should render word count', async function () {
     const wrapper = shallowMount(WordCount, {
         localVue,
         i18n,
@@ -19,8 +19,8 @@ test('should render word count', async function() {
             currentText: null,
             minWords: 50,
             maxWords: 150,
-            locale: 'en'
-        }
+            locale: 'en',
+        },
     });
 
     expect(wrapper.vm.countWords('this is a test')).toBe(4);

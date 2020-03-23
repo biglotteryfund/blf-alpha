@@ -6,6 +6,6 @@ export function setupI18n(vueInstance, localeOverride = null) {
     return new VueI18n({
         locale: localeOverride || window.AppConfig.locale,
         fallbackLocale: 'en',
-        messages: require('./locales.json')
+        messages: require('./locales.json'),
     });
 }

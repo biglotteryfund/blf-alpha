@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 
 const TextareaField = require('../../lib/field-types/textarea');
 
-module.exports = function(locale) {
+module.exports = function (locale) {
     const localise = get(locale);
 
     const minWords = 50;
@@ -14,12 +14,12 @@ module.exports = function(locale) {
         name: 'yourIdeaCommunity',
         label: localise({
             en: `How does your project involve your community?`,
-            cy: `Sut mae eich prosiect yn cynnwys eich cymuned?`
+            cy: `Sut mae eich prosiect yn cynnwys eich cymuned?`,
         }),
         labelDetails: {
             summary: localise({
                 en: `What do we mean by community?`,
-                cy: `Beth rydym yn ei olygu drwy gymuned?`
+                cy: `Beth rydym yn ei olygu drwy gymuned?`,
             }),
             content: localise({
                 en: `<ol>
@@ -37,8 +37,8 @@ module.exports = function(locale) {
                     <li>Er gall ysgolion fod wrth wraidd cymuned—byddwn dim ond yn
                         ariannu ysgolion sydd hefyd yn rhoi budd i gymunedau o’u cwmpas.
                     </li>
-                </ol>`
-            })
+                </ol>`,
+            }),
         },
         explanation: localise({
             en: `<p>
@@ -78,7 +78,7 @@ module.exports = function(locale) {
             <p><strong>
                 Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon,
                 ond peidiwch â poeni os byddwch yn defnyddio llai.
-            </strong></p>`
+            </strong></p>`,
         }),
         minWords: minWords,
         maxWords: maxWords,
@@ -87,9 +87,9 @@ module.exports = function(locale) {
                 type: 'base',
                 message: localise({
                     en: `Tell us how your project involves your community`,
-                    cy: `Dywedwch wrthym sut mae eich prosiect yn cynnwys eich cymuned`
-                })
-            }
-        ]
+                    cy: `Dywedwch wrthym sut mae eich prosiect yn cynnwys eich cymuned`,
+                }),
+            },
+        ],
     });
 };

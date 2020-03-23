@@ -18,7 +18,7 @@ it('should test common interactions', () => {
 
     // @TODO: Confirm contrast ratio issue on miniature heroes?
     cy.checkA11y({
-        options: { rules: { 'color-contrast': { enabled: false } } }
+        options: { rules: { 'color-contrast': { enabled: false } } },
     });
 
     cy.viewport(375, 667);
@@ -45,13 +45,13 @@ it('should test common interactions', () => {
 });
 
 it('should have expected cache headers', () => {
-    cy.request('/').then(response => {
+    cy.request('/').then((response) => {
         expect(response.headers['cache-control']).to.eq(
             'max-age=30,s-maxage=300'
         );
     });
 
-    cy.request('/user/login').then(response => {
+    cy.request('/user/login').then((response) => {
         expect(response.headers['cache-control']).to.eq(
             'no-store,no-cache,max-age=0'
         );
@@ -62,8 +62,8 @@ it('should 404 unknown routes', () => {
     function check404(urlPath) {
         cy.request({
             url: urlPath,
-            failOnStatusCode: false
-        }).then(response => {
+            failOnStatusCode: false,
+        }).then((response) => {
             expect(response.status).to.eq(404);
             expect(response.body).to.include('Error 404');
         });
@@ -76,8 +76,8 @@ it('should 404 unknown routes', () => {
 it('should redirect search queries to a google site search', () => {
     cy.request({
         url: '/search?q=This is my search query',
-        followRedirects: false
-    }).then(response => {
+        followRedirects: false,
+    }).then((response) => {
         const expected = `https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query`;
         expect(response.status).to.eq(302);
         expect(response.redirectedToUrl).to.eq(expected);
@@ -86,7 +86,7 @@ it('should redirect search queries to a google site search', () => {
 
 it('should redirect archived pages to the national archives', () => {
     const urlPath = `/funding/funding-guidance/applying-for-funding/aims-and-outcomes`;
-    cy.request(urlPath).then(response => {
+    cy.request(urlPath).then((response) => {
         expect(response.body).to.include(
             `http://webarchive.nationalarchives.gov.uk/20171011152352/https://www.biglotteryfund.org.uk${urlPath}`
         );
@@ -97,21 +97,21 @@ it('should redirect legacy funding programmes', () => {
     [
         {
             from: `/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities`,
-            to: `/funding/programmes/green-spaces-and-sustainable-communities`
+            to: `/funding/programmes/green-spaces-and-sustainable-communities`,
         },
         {
             from: `/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future`,
-            to: `/funding/programmes/young-peoples-fund-change-ur-future`
+            to: `/funding/programmes/young-peoples-fund-change-ur-future`,
         },
         {
             from: `/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap`,
-            to: `/welsh/funding/programmes/young-peoples-fund-bridging-the-gap`
-        }
-    ].forEach(function(page) {
+            to: `/welsh/funding/programmes/young-peoples-fund-bridging-the-gap`,
+        },
+    ].forEach(function (page) {
         cy.request({
             url: page.from,
-            followRedirects: false
-        }).then(response => {
+            followRedirects: false,
+        }).then((response) => {
             expect(response.status).to.eq(301);
             expect(response.redirectedToUrl).to.eq(
                 `${Cypress.config('baseUrl')}${page.to}`
@@ -123,12 +123,12 @@ it('should redirect legacy funding programmes', () => {
 it('should protect access to staff-only tools', () => {
     [
         `/tools/survey-results`,
-        `/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc`
-    ].forEach(urlPath => {
+        `/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc`,
+    ].forEach((urlPath) => {
         cy.request({
             url: urlPath,
-            followRedirects: false
-        }).then(response => {
+            followRedirects: false,
+        }).then((response) => {
             const redirectPath = `/user/staff/login?redirectUrl=${encodeURIComponent(
                 urlPath
             )}`;
@@ -141,24 +141,16 @@ it('should protect access to staff-only tools', () => {
 });
 
 function logIn(username, password) {
-    cy.findByLabelText('Email address')
-        .clear()
-        .type(username);
-    cy.findByLabelText('Password')
-        .clear()
-        .type(password);
+    cy.findByLabelText('Email address').clear().type(username);
+    cy.findByLabelText('Password').clear().type(password);
     cy.get('.form-actions').within(() => {
         cy.findByText('Log in').click();
     });
 }
 
 function createAccount(username, password) {
-    cy.findByLabelText('Email address')
-        .clear()
-        .type(username, { delay: 0 });
-    cy.findByLabelText('Password')
-        .clear()
-        .type(password, { delay: 0 });
+    cy.findByLabelText('Email address').clear().type(username, { delay: 0 });
+    cy.findByLabelText('Password').clear().type(password, { delay: 0 });
     cy.findByLabelText('Password confirmation', { exact: false })
         .clear()
         .type(password, { delay: 0 });
@@ -175,8 +167,8 @@ function generateAccountPassword() {
     return `password${uuid()}`;
 }
 
-it('should be able to log in and log out', function() {
-    cy.seedUser().then(newUser => {
+it('should be able to log in and log out', function () {
+    cy.seedUser().then((newUser) => {
         cy.visit('/');
         cy.findByTestId('global-login').click();
 
@@ -185,17 +177,17 @@ it('should be able to log in and log out', function() {
         cy.findByTestId('global-logout').click();
 
         cy.findByText('You were successfully logged out', {
-            exact: false
+            exact: false,
         }).should('be.visible');
     });
 });
 
-it('should be able to activate user account', function() {
+it('should be able to activate user account', function () {
     cy.registerUser({
         username: generateAccountEmail(),
         password: generateAccountPassword(),
-        returnToken: true
-    }).then(res => {
+        returnToken: true,
+    }).then((res) => {
         cy.visit(`/user/activate?token=${res.body.token}`);
 
         cy.findByText('Your account was successfully activated!').should(
@@ -204,7 +196,7 @@ it('should be able to activate user account', function() {
     });
 });
 
-it('should prevent invalid log in attempts for unregistered accounts', function() {
+it('should prevent invalid log in attempts for unregistered accounts', function () {
     cy.visit('/user/login');
 
     logIn(generateAccountEmail(), generateAccountPassword());
@@ -217,8 +209,8 @@ it('should prevent invalid log in attempts for unregistered accounts', function(
     cy.checkA11y();
 });
 
-it('should prevent invalid log in attempts for registered accounts', function() {
-    cy.seedUser().then(newUser => {
+it('should prevent invalid log in attempts for registered accounts', function () {
+    cy.seedUser().then((newUser) => {
         cy.visit('/user/login');
 
         logIn(newUser.username, generateAccountPassword());
@@ -234,11 +226,11 @@ it('should rate-limit failed log in attempts', () => {
     const unregisteredEmail = generateAccountEmail();
     const invalidPassword = generateAccountPassword();
 
-    times(10, function() {
+    times(10, function () {
         cy.loginUser({
             username: unregisteredEmail,
-            password: invalidPassword
-        }).then(response => {
+            password: invalidPassword,
+        }).then((response) => {
             expect(response.status).to.eq(200);
         });
     });
@@ -246,8 +238,8 @@ it('should rate-limit failed log in attempts', () => {
     cy.loginUser({
         username: unregisteredEmail,
         password: invalidPassword,
-        failOnStatusCode: false
-    }).then(response => {
+        failOnStatusCode: false,
+    }).then((response) => {
         expect(response.status).to.eq(429);
         expect(response.body).to.include('Too many requests');
     });
@@ -263,8 +255,8 @@ it('should prevent registration with invalid passwords', () => {
     // Non-UI tests for remaining validations for speed
     cy.registerUser({
         username: username,
-        password: username
-    }).then(res => {
+        password: username,
+    }).then((res) => {
         expect(res.body).to.contain(
             'Password must be different from your email address'
         );
@@ -272,13 +264,13 @@ it('should prevent registration with invalid passwords', () => {
 
     cy.registerUser({
         username: username,
-        password: 'tooshort'
-    }).then(res => {
+        password: 'tooshort',
+    }).then((res) => {
         expect(res.body).to.contain('Password must be at least');
     });
 });
 
-it('should register and see activation screen', function() {
+it('should register and see activation screen', function () {
     cy.visit('/user/register');
     createAccount(generateAccountEmail(), generateAccountPassword());
     cy.checkA11y();
@@ -292,8 +284,8 @@ it('should generate an activation token when registering', () => {
     cy.registerUser({
         username: username,
         password: password,
-        returnToken: true
-    }).then(res => {
+        returnToken: true,
+    }).then((res) => {
         // via https://github.com/auth0/node-jsonwebtoken/issues/162
         expect(res.body.token).to.match(
             /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/
@@ -319,7 +311,7 @@ function submitPasswordReset(newPassword, oldPassword = null) {
 }
 
 it('should be able to log in and update account details', () => {
-    cy.seedUser().then(user => {
+    cy.seedUser().then((user) => {
         cy.visit('/user/login');
         logIn(user.username, user.password);
 
@@ -346,9 +338,7 @@ it('should be able to log in and update account details', () => {
             'There was an error updating your details'
         );
 
-        cy.findByLabelText('Password confirmation')
-            .clear()
-            .type(newPassword);
+        cy.findByLabelText('Password confirmation').clear().type(newPassword);
 
         cy.get('.form-actions').within(() => {
             cy.findByText('Update email address').click();
@@ -359,11 +349,11 @@ it('should be able to log in and update account details', () => {
 });
 
 it('should be able to reset password while logged out', () => {
-    cy.seedUser().then(user => {
+    cy.seedUser().then((user) => {
         cy.request('POST', '/user/password/forgot', {
             username: user.username,
-            returnToken: true
-        }).then(response => {
+            returnToken: true,
+        }).then((response) => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
             submitPasswordReset(generateAccountPassword());
             cy.findByText('Your password was successfully updated!').should(
@@ -375,14 +365,14 @@ it('should be able to reset password while logged out', () => {
 
 it('should throw errors on multiple failed password reset attempts', () => {
     const weakPassword = 'password123';
-    cy.seedUser().then(user => {
+    cy.seedUser().then((user) => {
         cy.request('POST', '/user/password/forgot', {
             username: user.username,
-            returnToken: true
-        }).then(response => {
+            returnToken: true,
+        }).then((response) => {
             cy.visit(`/user/password/reset?token=${response.body.token}`);
 
-            times(2, function() {
+            times(2, function () {
                 submitPasswordReset(weakPassword, null, true);
                 cy.findByTestId('form-errors').should(
                     'contain',
@@ -437,16 +427,14 @@ it('should submit full awards for all application', () => {
         cy.findByText('Start your application').click();
 
         // Eligibility checker
-        times(5, function() {
+        times(5, function () {
             cy.findByLabelText('Yes').click();
             cy.findByText('Continue').click();
         });
         cy.findByText('Start your application').click();
 
         // Summary page
-        cy.findAllByText('Start your application')
-            .first()
-            .click();
+        cy.findAllByText('Start your application').first().click();
     }
 
     function stepProjectName(mock) {
@@ -470,27 +458,27 @@ it('should submit full awards for all application', () => {
             case 'Northern Ireland':
                 location = {
                     option: 'Derry and Strabane',
-                    postcode: 'BT82 8AE'
+                    postcode: 'BT82 8AE',
                 };
                 break;
             case 'Scotland':
                 location = {
                     option: 'Highland',
-                    postcode: 'KW8 6JF'
+                    postcode: 'KW8 6JF',
                 };
 
                 break;
             case 'Wales':
                 location = {
                     option: 'Caerphilly',
-                    postcode: 'CF83 1AP'
+                    postcode: 'CF83 1AP',
                 };
 
                 break;
             default:
                 location = {
                     option: 'Bath and North East Somerset',
-                    postcode: 'BA1 0DH'
+                    postcode: 'BA1 0DH',
                 };
 
                 break;
@@ -607,7 +595,7 @@ it('should submit full awards for all application', () => {
                 'People of a particular gender',
                 'People of a particular age',
                 'Disabled people',
-                'Lesbian, gay, or bisexual people'
+                'Lesbian, gay, or bisexual people',
             ],
             2
         );
@@ -616,7 +604,7 @@ it('should submit full awards for all application', () => {
 
         cy.checkA11y();
 
-        randomBeneficiaryGroups.forEach(label => {
+        randomBeneficiaryGroups.forEach((label) => {
             cy.findByLabelText(label).click();
         });
 
@@ -674,7 +662,7 @@ it('should submit full awards for all application', () => {
         cy.findByLabelText(
             'What is the full legal name of your organisation?',
             {
-                exact: false
+                exact: false,
             }
         ).type(mock.organisationName);
 
@@ -703,7 +691,7 @@ it('should submit full awards for all application', () => {
                 fillAddress({
                     streetAddress: '1 Plough Place, Holborn',
                     city: 'London',
-                    postcode: 'EC4A 1DE'
+                    postcode: 'EC4A 1DE',
                 });
             });
 
@@ -716,7 +704,7 @@ it('should submit full awards for all application', () => {
             mock.organisationHasDifferentTradingName
         ) {
             cy.findByLabelText('Organisation trading name', {
-                exact: false
+                exact: false,
             }).type(mock.organisationTradingName);
         }
 
@@ -731,7 +719,7 @@ it('should submit full awards for all application', () => {
         if (mock.organisationType === 'Statutory body') {
             // @TODO: Should we further randomise the sub-types?
             cy.findByLabelText('Parish Council', {
-                exact: false
+                exact: false,
             }).click();
             submitStep();
         }
@@ -742,9 +730,7 @@ it('should submit full awards for all application', () => {
          * so we need to check if the step exists first.
          */
         function randomId(digits) {
-            return random(10000, 99999999)
-                .toString()
-                .padStart(digits, '0');
+            return random(10000, 99999999).toString().padStart(digits, '0');
         }
 
         const companyNumberTypes = ['Not-for-profit company'];
@@ -753,7 +739,7 @@ it('should submit full awards for all application', () => {
             'Charitable Incorporated Organisation (CIO or SCIO)',
             'Faith-based group',
             'Not-for-profit company',
-            'Registered charity (unincorporated)'
+            'Registered charity (unincorporated)',
         ];
 
         const educationNumberTypes = ['School', 'College or University'];
@@ -772,13 +758,13 @@ it('should submit full awards for all application', () => {
 
         if (includes(charityNumberTypes, mock.organisationType)) {
             cy.findByLabelText('Charity registration number', {
-                exact: false
+                exact: false,
             }).type(randomId(7));
         }
 
         if (includes(educationNumberTypes, mock.organisationType)) {
             cy.findByLabelText('Department for Education number', {
-                exact: false
+                exact: false,
             }).type(randomId(6));
         }
 
@@ -788,7 +774,7 @@ it('should submit full awards for all application', () => {
 
         cy.checkA11y();
         cy.findByText('What is your accounting year end date?', {
-            exact: false
+            exact: false,
         })
             .parent()
             .within(() => {
@@ -797,7 +783,7 @@ it('should submit full awards for all application', () => {
             });
 
         cy.findByLabelText('What is your total income for the year?', {
-            exact: false
+            exact: false,
         }).type(random(25000, 150000).toString());
 
         submitStep();
@@ -843,7 +829,7 @@ it('should submit full awards for all application', () => {
                     fillAddress({
                         streetAddress: `Apex house, Edgbaston`,
                         city: 'Birmingham',
-                        postcode: 'B15 1TR'
+                        postcode: 'B15 1TR',
                     });
                 });
         }
@@ -858,9 +844,9 @@ it('should submit full awards for all application', () => {
             cy.findByText(
                 'What language should we use to contact this person?',
                 {
-                    exact: false
+                    exact: false,
                 }
-            ).then(el => {
+            ).then((el) => {
                 cy.wrap(el)
                     .parent()
                     .within(() => {
@@ -870,7 +856,7 @@ it('should submit full awards for all application', () => {
         }
 
         cy.findByLabelText('tell us about any particular communication needs', {
-            exact: false
+            exact: false,
         }).type('Example communication need');
     }
 
@@ -900,7 +886,7 @@ it('should submit full awards for all application', () => {
         cy.checkA11y();
 
         cy.findByLabelText('Tell us the name of your organisation', {
-            exact: false
+            exact: false,
         }).type(mock.organisationName);
 
         cy.findByLabelText('Account number', { exact: false }).type('25337846');
@@ -911,15 +897,15 @@ it('should submit full awards for all application', () => {
 
         cy.checkA11y();
 
-        cy.fixture('example.pdf', 'base64').then(fileContent => {
+        cy.fixture('example.pdf', 'base64').then((fileContent) => {
             cy.findByLabelText('Upload a bank statement', {
-                exact: false
+                exact: false,
             }).upload(
                 {
                     fileContent,
                     fileName: 'example.pdf',
                     mimeType: 'application/pdf',
-                    encoding: 'base64'
+                    encoding: 'base64',
                 },
                 { subjectType: 'input' }
             );
@@ -931,16 +917,16 @@ it('should submit full awards for all application', () => {
     function sectionTermsAndConditions() {
         cy.checkA11y();
 
-        cy.findAllByLabelText('I agree').each($el => {
+        cy.findAllByLabelText('I agree').each(($el) => {
             cy.wrap($el).click();
         });
 
         cy.findByLabelText('Full name of person completing this form', {
-            exact: false
+            exact: false,
         }).type(faker.name.findName());
 
         cy.findByLabelText('Position in organisation', {
-            exact: false
+            exact: false,
         }).type('CEO');
 
         submitStep();
@@ -950,9 +936,7 @@ it('should submit full awards for all application', () => {
         cy.checkA11y();
         cy.get('h1').should('contain', 'Summary');
 
-        cy.findAllByText('Submit application')
-            .first()
-            .click();
+        cy.findAllByText('Submit application').first().click();
 
         cy.get('h1').should(
             'contain',
@@ -966,7 +950,7 @@ it('should submit full awards for all application', () => {
         projectName: 'Test application',
         projectDateRange: {
             startDate: startDate,
-            endDate: startDate.clone().add(random(0, 52), 'weeks')
+            endDate: startDate.clone().add(random(0, 52), 'weeks'),
         },
         country: sample(['England', 'Northern Ireland', 'Scotland', 'Wales']),
         organisationType: sample([
@@ -977,7 +961,7 @@ it('should submit full awards for all application', () => {
             'School',
             'College or University',
             'Statutory body',
-            'Faith-based group'
+            'Faith-based group',
         ]),
         organisationHasDifferentTradingName: 'no',
         organisationName: faker.company.companyName(),
@@ -990,8 +974,8 @@ it('should submit full awards for all application', () => {
             address: {
                 streetAddress: `The Bar, 2 St James' Blvd`,
                 city: 'Newcastle',
-                postcode: 'NE4 7JH'
-            }
+                postcode: 'NE4 7JH',
+            },
         },
         mainContact: {
             firstName: faker.name.firstName(),
@@ -1002,9 +986,9 @@ it('should submit full awards for all application', () => {
             address: {
                 streetAddress: 'Pacific House, 70 Wellington St',
                 city: 'Glasgow',
-                postcode: 'G2 6UA'
-            }
-        }
+                postcode: 'G2 6UA',
+            },
+        },
     };
 
     Object.entries(mock).forEach(([key, value]) => {
@@ -1037,9 +1021,7 @@ it('should allow editing from the summary screen', () => {
 
         cy.findByTestId('expand-all-sections').click();
 
-        cy.findAllByText('Change')
-            .first()
-            .click();
+        cy.findAllByText('Change').first().click();
 
         cy.findByLabelText('What is the name of your project?').type(
             'My project'
@@ -1069,20 +1051,20 @@ it('should complete standard your funding proposal form', () => {
         organisationAddress: {
             streetAddress: `The Bar, 2 St James' Blvd`,
             city: 'Newcastle',
-            postcode: 'NE4 7JH'
+            postcode: 'NE4 7JH',
         },
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Not-for-profit company',
-            'Charitable Incorporated Organisation'
+            'Charitable Incorporated Organisation',
         ]),
         contactEmail: 'digital.monitoring@tnlcommunityfund.org.uk',
         contactName: {
             firstName: faker.name.firstName(),
-            lastName: faker.name.lastName()
+            lastName: faker.name.lastName(),
         },
         contactPhone: '028 9568 0143',
-        contactCommunicationNeeds: 'Example communication need'
+        contactCommunicationNeeds: 'Example communication need',
     };
 
     function submitStep() {
@@ -1100,9 +1082,7 @@ it('should complete standard your funding proposal form', () => {
             cy.findAllByText('Start your proposal').click();
         });
 
-        cy.findAllByText('Start your proposal')
-            .first()
-            .click();
+        cy.findAllByText('Start your proposal').first().click();
 
         cy.findByLabelText('What is the name of your project?').type(
             mock.projectName
@@ -1110,13 +1090,13 @@ it('should complete standard your funding proposal form', () => {
 
         submitStep();
 
-        mock.projectCountries.forEach(function(country) {
+        mock.projectCountries.forEach(function (country) {
             cy.findByLabelText(country).click();
         });
 
         submitStep();
 
-        mock.projectRegions.forEach(function(region) {
+        mock.projectRegions.forEach(function (region) {
             cy.findByLabelText(region).click();
         });
 
@@ -1202,16 +1182,14 @@ it('should complete standard your funding proposal form', () => {
             .first()
             .should('exist');
 
-        cy.findAllByText('Submit application')
-            .first()
-            .click();
+        cy.findAllByText('Submit application').first().click();
 
         cy.get('h1').should('contain', 'Thanks for telling us your proposal');
     });
 });
 
 it('should correctly email users with expiring applications', () => {
-    cy.seedUser().then(newUser => {
+    cy.seedUser().then((newUser) => {
         /**
          * Seed some applications with various expiry dates (past and future)
          */
@@ -1222,30 +1200,30 @@ it('should correctly email users with expiring applications', () => {
             moment().add(1, 'days'),
             // these future expiry dates should not generate any emails to be sent
             moment().add(10, 'week'),
-            moment().add(3, 'months')
-        ].map(expiry => {
+            moment().add(3, 'months'),
+        ].map((expiry) => {
             cy.request('POST', '/apply/your-funding-proposal/seed', {
                 userId: newUser.id,
-                expiresAt: expiry.toDate()
+                expiresAt: expiry.toDate(),
             });
 
             cy.request('POST', '/apply/awards-for-all/seed', {
                 userId: newUser.id,
-                expiresAt: expiry.toDate()
+                expiresAt: expiry.toDate(),
             });
         });
 
         /**
          * Process expiry emails for the above applications
          */
-        cy.request('POST', '/apply/handle-expiry').then(response => {
+        cy.request('POST', '/apply/handle-expiry').then((response) => {
             const { emailQueue } = response.body;
 
             expect(emailQueue.length).to.eq(24);
 
             cy.log(response.body);
 
-            const sentEmails = emailQueue.filter(function(item) {
+            const sentEmails = emailQueue.filter(function (item) {
                 return item.emailSent === true;
             });
 
@@ -1253,7 +1231,7 @@ it('should correctly email users with expiring applications', () => {
 
             const [awardsForAllEmails, standardEmails] = partition(
                 sentEmails,
-                function(item) {
+                function (item) {
                     return item.formId === 'awards-for-all';
                 }
             );
@@ -1265,7 +1243,7 @@ it('should correctly email users with expiring applications', () => {
              * Check again for expiry emails to confirm there are
              * no items left in the queue (eg. it's been processed)
              */
-            cy.request('POST', '/apply/handle-expiry').then(newResponse => {
+            cy.request('POST', '/apply/handle-expiry').then((newResponse) => {
                 expect(newResponse.body.emailQueue.length).to.eq(0);
             });
         });
@@ -1282,29 +1260,17 @@ it('should submit materials order', () => {
     cy.get('#qa-material-monolingual-2').as('materialA');
     cy.get('#qa-material-monolingual-3').as('materialB');
 
-    cy.get('@materialA')
-        .find('button[value="increase"]')
-        .click();
+    cy.get('@materialA').find('button[value="increase"]').click();
 
-    cy.get('@materialA')
-        .find('.step-control__quantity')
-        .should('contain', 1);
+    cy.get('@materialA').find('.step-control__quantity').should('contain', 1);
 
-    cy.get('@materialA')
-        .find('button[value="increase"]')
-        .click();
+    cy.get('@materialA').find('button[value="increase"]').click();
 
-    cy.get('@materialA')
-        .find('.step-control__quantity')
-        .should('contain', 2);
+    cy.get('@materialA').find('.step-control__quantity').should('contain', 2);
 
-    cy.get('@materialB')
-        .find('button[value="increase"]')
-        .click();
+    cy.get('@materialB').find('button[value="increase"]').click();
 
-    cy.get('@materialB')
-        .find('.step-control__quantity')
-        .should('contain', 1);
+    cy.get('@materialB').find('.step-control__quantity').should('contain', 1);
 
     // Fill in form
     cy.get('#ff-yourName').type('Example', { delay: 0 });
@@ -1338,9 +1304,7 @@ it('should be able to browse grants search results', () => {
     cy.get('.filter-list').should('contain', 'Under £10,000');
 
     // Test pagination
-    cy.findByText('Next page', { exact: false })
-        .should('be.visible')
-        .click();
+    cy.findByText('Next page', { exact: false }).should('be.visible').click();
 
     cy.findByText('Previous page', { exact: false }).should('be.visible');
 });
@@ -1348,10 +1312,10 @@ it('should be able to browse grants search results', () => {
 it('should allow survey API responses', () => {
     const dataYes = {
         choice: 'yes',
-        path: '/'
+        path: '/',
     };
 
-    cy.request('POST', '/api/survey', dataYes).then(response => {
+    cy.request('POST', '/api/survey', dataYes).then((response) => {
         expect(response.body.result).to.have.property('id');
         expect(response.body.status).to.equal('success');
         expect(response.body.result.choice).to.equal(dataYes.choice);
@@ -1361,10 +1325,10 @@ it('should allow survey API responses', () => {
     const dataNo = {
         choice: 'no',
         path: '/',
-        message: 'this is an example message'
+        message: 'this is an example message',
     };
 
-    cy.request('POST', '/api/survey', dataNo).then(response => {
+    cy.request('POST', '/api/survey', dataNo).then((response) => {
         expect(response.body.result).to.have.property('id');
         expect(response.body.status).to.equal('success');
         expect(response.body.result.choice).to.equal(dataNo.choice);
@@ -1376,10 +1340,10 @@ it('should allow survey API responses', () => {
 it('should allow feedback API responses', () => {
     const data = {
         description: 'example',
-        message: 'this is an example message'
+        message: 'this is an example message',
     };
 
-    cy.request('POST', '/api/feedback', data).then(response => {
+    cy.request('POST', '/api/feedback', data).then((response) => {
         expect(response.body.result).to.have.property('id');
         expect(response.body.status).to.equal('success');
         expect(response.body.result.description).to.equal(data.description);

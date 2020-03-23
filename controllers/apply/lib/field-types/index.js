@@ -11,5 +11,5 @@ module.exports = {
     SelectField: require('./select'),
     DateField: require('./date'),
     AddressField: require('./address'),
-    NameField: require('./name')
+    NameField: require('./name'),
 };

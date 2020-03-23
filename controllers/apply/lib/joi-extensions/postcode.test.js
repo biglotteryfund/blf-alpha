@@ -22,7 +22,7 @@ test('valid postcodes', () => {
         ['EH1 JS', false],
         ['EH1JS', false],
         ['EH 1JS', false],
-        ['BT35 8GE', true]
+        ['BT35 8GE', true],
     ].forEach(([postcode, shouldBeValid]) => {
         if (shouldBeValid === true) {
             expect(Joi.attempt(postcode, schema)).toEqual(postcode.trim());

@@ -46,5 +46,5 @@ function getParameter(name, shouldThrowIfMissing = false) {
 
 module.exports = {
     getFromRawParameters,
-    getParameter
+    getParameter,
 };

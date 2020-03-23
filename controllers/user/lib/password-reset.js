@@ -6,14 +6,14 @@ const { sendHtmlEmail } = require('../../../common/mail');
 const { signTokenPasswordReset } = require('./jwt');
 const { getAbsoluteUrl, localify } = require('../../../common/urls');
 const logger = require('../../../common/logger').child({
-    service: 'user'
+    service: 'user',
 });
 
 async function processResetRequest(req, user, source = 'user') {
     const token = signTokenPasswordReset(user.id);
 
     logger.info('Password reset request attempted', {
-        eventSource: source
+        eventSource: source,
     });
 
     const template = path.resolve(
@@ -26,7 +26,7 @@ async function processResetRequest(req, user, source = 'user') {
     );
     const resetUrl = getAbsoluteUrl(req, urlPath);
     const templateData = {
-        body: req.i18n.__('user.forgottenPassword.email.body', resetUrl)
+        body: req.i18n.__('user.forgottenPassword.email.body', resetUrl),
     };
 
     await sendHtmlEmail(
@@ -34,7 +34,7 @@ async function processResetRequest(req, user, source = 'user') {
         {
             name: 'user_password_reset',
             sendTo: user.username,
-            subject: req.i18n.__('user.forgottenPassword.email.subject')
+            subject: req.i18n.__('user.forgottenPassword.email.subject'),
         }
     );
 
@@ -47,5 +47,5 @@ async function processResetRequest(req, user, source = 'user') {
 }
 
 module.exports = {
-    processResetRequest
+    processResetRequest,
 };

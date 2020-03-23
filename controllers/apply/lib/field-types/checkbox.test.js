@@ -2,7 +2,7 @@
 'use strict';
 const CheckboxField = require('./checkbox');
 
-test('valid field', function() {
+test('valid field', function () {
     const field = new CheckboxField({
         locale: 'en',
         name: 'example',
@@ -10,9 +10,9 @@ test('valid field', function() {
         options: [
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' },
-            { label: 'Option 3', value: 'option-3' }
+            { label: 'Option 3', value: 'option-3' },
         ],
-        messages: [{ type: 'base', message: 'Select an option' }]
+        messages: [{ type: 'base', message: 'Select an option' }],
     });
 
     expect(field.type).toBe('checkbox');
@@ -28,7 +28,7 @@ test('valid field', function() {
     );
 });
 
-test('optional field', function() {
+test('optional field', function () {
     const field = new CheckboxField({
         locale: 'en',
         name: 'example',
@@ -37,25 +37,25 @@ test('optional field', function() {
         options: [
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' },
-            { label: 'Option 3', value: 'option-3' }
-        ]
+            { label: 'Option 3', value: 'option-3' },
+        ],
     });
 
     expect(field.validate().error).toBeNull();
 });
 
-test('must provide options', function() {
+test('must provide options', function () {
     expect(() => {
         new CheckboxField({
             locale: 'en',
             name: 'example',
             label: 'Example field',
-            messages: [{ type: 'base', message: 'Select an option' }]
+            messages: [{ type: 'base', message: 'Select an option' }],
         });
     }).toThrowError('Must provide options');
 });
 
-test('options must contain unique values', function() {
+test('options must contain unique values', function () {
     expect(() => {
         new CheckboxField({
             locale: 'en',
@@ -64,9 +64,9 @@ test('options must contain unique values', function() {
             options: [
                 { label: 'Option 1', value: 'duplicate-value' },
                 { label: 'Option 2', value: 'duplicate-value' },
-                { label: 'Option 3', value: 'option-3' }
+                { label: 'Option 3', value: 'option-3' },
             ],
-            messages: [{ type: 'base', message: 'Select an option' }]
+            messages: [{ type: 'base', message: 'Select an option' }],
         });
     }).toThrowError('Options must contain unique values');
 });

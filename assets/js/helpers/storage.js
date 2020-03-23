@@ -31,7 +31,7 @@ export function setWithExpiry({ type, key, data, expiryInMinutes }) {
     const expirationMs = expiryInMinutes * 60 * 1000;
     const record = {
         value: JSON.stringify(data),
-        timestamp: new Date().getTime() + expirationMs
+        timestamp: new Date().getTime() + expirationMs,
     };
     window[type].setItem(key, JSON.stringify(record));
     return data;

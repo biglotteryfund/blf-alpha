@@ -17,8 +17,8 @@ export default {
             canStore && window.localStorage.setItem(STORAGE_KEY, 'true');
             trackEvent('Cookie Warning', 'Click', 'Accept');
             this.isShown = false;
-        }
-    }
+        },
+    },
 };
 </script>
 

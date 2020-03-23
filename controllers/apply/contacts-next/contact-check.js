@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 
-module.exports = function(req, res, props) {
+module.exports = function (req, res, props) {
     const { form } = props;
 
     const seniorContactFieldMappings = {
@@ -12,7 +12,7 @@ module.exports = function(req, res, props) {
         seniorContactAddressHistory: 'Previous address',
         seniorContactEmail: 'Email',
         seniorContactPhone: 'Phone',
-        seniorContactCommunicationNeeds: 'Communication needs'
+        seniorContactCommunicationNeeds: 'Communication needs',
     };
 
     const mainContactFieldMappings = {
@@ -22,27 +22,27 @@ module.exports = function(req, res, props) {
         mainContactAddressHistory: 'Previous address',
         mainContactEmail: 'Email',
         mainContactPhone: 'Phone',
-        mainContactCommunicationNeeds: 'Communication needs'
+        mainContactCommunicationNeeds: 'Communication needs',
     };
 
     function contactSummary(mappings) {
         let results = [];
 
         form.sections
-            .flatMap(section => section.steps)
-            .forEach(function(step) {
+            .flatMap((section) => section.steps)
+            .forEach(function (step) {
                 step.getCurrentFields()
-                    .filter(function(field) {
+                    .filter(function (field) {
                         return (
                             Object.keys(mappings).includes(field.name) &&
                             field.displayValue
                         );
                     })
-                    .forEach(function(field) {
+                    .forEach(function (field) {
                         results.push({
                             label: mappings[field.name] || field.label,
                             value: field.displayValue,
-                            editSlug: `${step.slug}#form-field-${field.name}`
+                            editSlug: `${step.slug}#form-field-${field.name}`,
                         });
                     });
             });
@@ -52,11 +52,11 @@ module.exports = function(req, res, props) {
 
     const customViewData = {
         seniorContactSummary: contactSummary(seniorContactFieldMappings),
-        mainContactSummary: contactSummary(mainContactFieldMappings)
+        mainContactSummary: contactSummary(mainContactFieldMappings),
     };
 
     res.render(path.resolve(__dirname, './views/contact-check.njk'), {
         ...props,
-        ...customViewData
+        ...customViewData,
     });
 };

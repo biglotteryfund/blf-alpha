@@ -3,7 +3,7 @@ import $ from 'jquery';
 function animateSaveButtons() {
     $('.js-save-btn-form')
         .find('input[type="submit"], button[type="submit"]')
-        .on('click', function(event) {
+        .on('click', function (event) {
             // Prevent previous / next buttons from triggering animations
             const targetName = $(this).attr('name');
             if (['previousBtn', 'nextBtn'].indexOf(targetName) !== -1) {
@@ -13,9 +13,7 @@ function animateSaveButtons() {
             // Prevent form submission initially
             event.preventDefault();
 
-            const $form = $(this)
-                .parents('form')
-                .first();
+            const $form = $(this).parents('form').first();
             const $btn = $form.find('.js-save-btn');
             const $label = $btn.find('.js-save-btn-label');
 
@@ -25,27 +23,27 @@ function animateSaveButtons() {
 
             const text = {
                 interstitial: $btn.data('interstitial'),
-                complete: $btn.data('complete')
+                complete: $btn.data('complete'),
             };
 
             const classes = {
                 loading: 'is-loading',
-                complete: 'is-complete'
+                complete: 'is-complete',
             };
 
-            const setBtnLabel = text => {
+            const setBtnLabel = (text) => {
                 $label.text(text);
             };
 
             $btn.addClass(classes.loading);
             setBtnLabel(text.interstitial);
 
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 setBtnLabel(text.complete);
                 $btn.addClass(classes.complete);
             }, cssDotAnimationDuration);
 
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 // Re-trigger the submit request
                 $form.submit();
             }, cssDotAnimationDuration + cssIconAnimationDuration);
@@ -60,5 +58,5 @@ function init() {
 }
 
 export default {
-    init
+    init,
 };

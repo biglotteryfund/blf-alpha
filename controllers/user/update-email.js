@@ -20,7 +20,7 @@ function render(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/update-email'), {
         csrfToken: req.csrfToken(),
         formValues: data,
-        errors: errors
+        errors: errors,
     });
 }
 
@@ -46,7 +46,7 @@ async function handleSubmission(req, res, next) {
                 const userId = req.user.userData.id;
                 await Users.updateNewEmail({
                     id: userId,
-                    newEmail: username
+                    newEmail: username,
                 });
                 const updatedUser = await Users.findByPk(userId);
                 await sendActivationEmail(req, updatedUser);
@@ -62,7 +62,7 @@ async function handleSubmission(req, res, next) {
                  * exists with the requested email address
                  */
                 render(req, res, validationResult.value, [
-                    { msg: res.locals.copy.genericError }
+                    { msg: res.locals.copy.genericError },
                 ]);
             }
         } catch (error) {

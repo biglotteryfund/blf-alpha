@@ -5,9 +5,7 @@ const Joi = baseJoi.extend(require('./password-strength'));
 const MIN_PASSWORD_LENGTH = 10;
 const MIN_PASSWORD_STRENGTH = 2;
 
-const username = Joi.string()
-    .email()
-    .required();
+const username = Joi.string().email().required();
 
 const passwordSchema = Joi.password()
     .min(MIN_PASSWORD_LENGTH) // Min characters
@@ -20,7 +18,7 @@ const passwordConfirmationSchema = Joi.string()
     .required();
 
 function getTranslations(i18n) {
-    return function(path, ...params) {
+    return function (path, ...params) {
         return i18n && i18n.__(`user.validationMessages.${path}`, ...params);
     };
 }
@@ -30,16 +28,16 @@ module.exports = {
         const messageForLocale = getTranslations(i18n);
         return {
             schema: Joi.object({
-                username: username
+                username: username,
             }),
             messages: {
                 username: [
                     {
                         type: 'base',
-                        message: messageForLocale('emailInvalid')
-                    }
-                ]
-            }
+                        message: messageForLocale('emailInvalid'),
+                    },
+                ],
+            },
         };
     },
 
@@ -50,47 +48,47 @@ module.exports = {
             schema: Joi.object({
                 username: username,
                 password: passwordSchema,
-                passwordConfirmation: passwordConfirmationSchema
+                passwordConfirmation: passwordConfirmationSchema,
             }),
             messages: {
                 username: [
                     {
                         type: 'base',
-                        message: messageForLocale('emailInvalid')
-                    }
+                        message: messageForLocale('emailInvalid'),
+                    },
                 ],
                 password: [
                     {
                         type: 'base',
-                        message: messageForLocale('passwordRequired')
+                        message: messageForLocale('passwordRequired'),
                     },
                     {
                         type: 'any.invalid',
-                        message: messageForLocale('passwordMatchesEmail')
+                        message: messageForLocale('passwordMatchesEmail'),
                     },
                     {
                         type: 'string.min',
                         message: messageForLocale(
                             'passwordLength',
                             MIN_PASSWORD_LENGTH
-                        )
+                        ),
                     },
                     {
                         type: 'password.common',
-                        message: messageForLocale('passwordStrength')
+                        message: messageForLocale('passwordStrength'),
                     },
                     {
                         type: 'password.strength',
-                        message: messageForLocale('passwordStrength')
-                    }
+                        message: messageForLocale('passwordStrength'),
+                    },
                 ],
                 passwordConfirmation: [
                     {
                         type: 'base',
-                        message: messageForLocale('passwordConfirmation')
-                    }
-                ]
-            }
+                        message: messageForLocale('passwordConfirmation'),
+                    },
+                ],
+            },
         };
     },
 
@@ -101,50 +99,50 @@ module.exports = {
                 oldPassword: Joi.when(Joi.ref('token'), {
                     is: Joi.exist(),
                     then: Joi.any().strip(),
-                    otherwise: Joi.string().required()
+                    otherwise: Joi.string().required(),
                 }),
                 password: passwordSchema,
-                passwordConfirmation: passwordConfirmationSchema
+                passwordConfirmation: passwordConfirmationSchema,
             }),
             messages: {
                 oldPassword: [
                     {
                         type: 'base',
-                        message: messageForLocale('oldPasswordRequired')
-                    }
+                        message: messageForLocale('oldPasswordRequired'),
+                    },
                 ],
                 password: [
                     {
                         type: 'base',
-                        message: messageForLocale('passwordRequired')
+                        message: messageForLocale('passwordRequired'),
                     },
                     {
                         type: 'any.invalid',
-                        message: messageForLocale('passwordMatchesEmail')
+                        message: messageForLocale('passwordMatchesEmail'),
                     },
                     {
                         type: 'string.min',
                         message: messageForLocale(
                             'passwordLength',
                             MIN_PASSWORD_LENGTH
-                        )
+                        ),
                     },
                     {
                         type: 'password.common',
-                        message: messageForLocale('passwordStrength')
+                        message: messageForLocale('passwordStrength'),
                     },
                     {
                         type: 'password.strength',
-                        message: messageForLocale('passwordStrength')
-                    }
+                        message: messageForLocale('passwordStrength'),
+                    },
                 ],
                 passwordConfirmation: [
                     {
                         type: 'base',
-                        message: messageForLocale('passwordConfirmation')
-                    }
-                ]
-            }
+                        message: messageForLocale('passwordConfirmation'),
+                    },
+                ],
+            },
         };
-    }
+    },
 };

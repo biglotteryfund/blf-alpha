@@ -16,7 +16,7 @@ router.get(
         res.render(path.resolve(__dirname, './views/dashboard'), {
             alertMessage: req.query.s
                 ? req.i18n.__(`user.common.alertMessages.${req.query.s}`)
-                : null
+                : null,
         });
     }
 );

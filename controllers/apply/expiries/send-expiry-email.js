@@ -16,37 +16,37 @@ function getSubjectLine(emailType, isBilingual = false) {
         case 'AFA_ONE_MONTH':
             subjectLine = {
                 en: 'You have one month to finish your application',
-                cy: 'Mae gennych fis i orffen eich cais'
+                cy: 'Mae gennych fis i orffen eich cais',
             };
             break;
         case 'AFA_ONE_WEEK':
             subjectLine = {
                 en: 'You have one week to finish your application',
-                cy: 'Mae gennych wythnos i orffen eich cais'
+                cy: 'Mae gennych wythnos i orffen eich cais',
             };
             break;
         case 'AFA_ONE_DAY':
             subjectLine = {
                 en: 'You have one day to finish your application',
-                cy: 'Mae gennych ddiwrnod i orffen eich cais'
+                cy: 'Mae gennych ddiwrnod i orffen eich cais',
             };
             break;
         case 'STANDARD_ONE_MONTH':
             subjectLine = {
                 en: 'You have one month to finish your funding proposal',
-                cy: 'Mae gennych fis ar ôl i orffen eich cynnig'
+                cy: 'Mae gennych fis ar ôl i orffen eich cynnig',
             };
             break;
         case 'STANDARD_ONE_WEEK':
             subjectLine = {
                 en: 'You have one week to finish your funding proposal',
-                cy: 'Mae gennych wythnos ar ôl i orffen eich cynnig'
+                cy: 'Mae gennych wythnos ar ôl i orffen eich cynnig',
             };
             break;
         case 'STANDARD_ONE_DAY':
             subjectLine = {
                 en: 'You have one day to finish your funding proposal',
-                cy: 'Mae gennych ddiwrnod ar ôl i orffen eich cynnig'
+                cy: 'Mae gennych ddiwrnod ar ôl i orffen eich cynnig',
             };
             break;
     }
@@ -62,7 +62,7 @@ function getEmailFor(country) {
     const countryEmail = {
         'scotland': 'advicescotland@tnlcommunityfund.org.uk',
         'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
-        'wales': 'wales@tnlcommunityfund.org.uk'
+        'wales': 'wales@tnlcommunityfund.org.uk',
     }[country];
 
     return countryEmail || 'general.enquiries@tnlcommunityfund.org.uk';
@@ -72,7 +72,7 @@ function getPhoneFor(country) {
     const countryPhone = {
         'scotland': '0141 846 0447',
         'northern-ireland': '028 4378 0003',
-        'wales': '029 2168 0214'
+        'wales': '029 2168 0214',
     }[country];
 
     return countryPhone || '028 9568 0143';
@@ -86,7 +86,7 @@ module.exports = function sendExpiryEmail(
         applicationId,
         applicationData = {},
         expiresAt,
-        sendTo
+        sendTo,
     },
     mockMailTransport = null
 ) {
@@ -96,15 +96,15 @@ module.exports = function sendExpiryEmail(
             template: path.resolve(
                 __dirname,
                 './views/awards-for-all-expiry-email.njk'
-            )
+            ),
         },
         'standard-enquiry': {
             name: 'application_expiry_standard',
             template: path.resolve(
                 __dirname,
                 './views/standard-expiry-email.njk'
-            )
-        }
+            ),
+        },
     }[formId];
 
     function getProjectCountry() {
@@ -132,7 +132,7 @@ module.exports = function sendExpiryEmail(
         const dateFormat = 'D MMMM, YYYY HH:mm';
         return {
             en: expiresOn.format(dateFormat),
-            cy: expiresOn.locale('cy').format(dateFormat)
+            cy: expiresOn.locale('cy').format(dateFormat),
         };
     }
 
@@ -141,7 +141,7 @@ module.exports = function sendExpiryEmail(
     const unsubscribeLinkUrlPath = `/apply/emails/unsubscribe?token=${unsubscribeToken}`;
     const unsubscribeLink = {
         en: `${baseUrl}${unsubscribeLinkUrlPath}`,
-        cy: `${baseUrl}/welsh${unsubscribeLinkUrlPath}`
+        cy: `${baseUrl}/welsh${unsubscribeLinkUrlPath}`,
     };
 
     const editLinkUrlPath = `/apply/${
@@ -149,7 +149,7 @@ module.exports = function sendExpiryEmail(
     }/edit/${applicationId}?s=expiryEmail`;
     const editLink = {
         en: `${baseUrl}${editLinkUrlPath}`,
-        cy: `${baseUrl}/welsh/${editLinkUrlPath}`
+        cy: `${baseUrl}/welsh/${editLinkUrlPath}`,
     };
 
     const templateData = {
@@ -159,18 +159,18 @@ module.exports = function sendExpiryEmail(
         countryEmail: getEmailFor(getProjectCountry()),
         unsubscribeLink: unsubscribeLink,
         expiryDate: getExpiryDates(),
-        editLink: editLink
+        editLink: editLink,
     };
 
     return sendHtmlEmail(
         {
             template: emailConfig.template,
-            templateData: templateData
+            templateData: templateData,
         },
         {
             name: emailConfig.name,
             sendTo: sendTo,
-            subject: getSubjectLine(emailType, getBilingualStatus())
+            subject: getSubjectLine(emailType, getBilingualStatus()),
         },
         mockMailTransport
     );

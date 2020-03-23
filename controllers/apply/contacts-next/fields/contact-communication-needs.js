@@ -5,7 +5,7 @@ const get = require('lodash/fp/get');
 const Field = require('../../lib/field-types/field');
 const { FREE_TEXT_MAXLENGTH } = require('../constants');
 
-module.exports = function({ locale, name }) {
+module.exports = function ({ locale, name }) {
     const localise = get(locale);
 
     return new Field({
@@ -15,7 +15,7 @@ module.exports = function({ locale, name }) {
             en: oneLine`Please tell us about any particular
                 communication needs this contact has.`,
             cy: oneLine`Dywedwch wrthym am unrhyw anghenion
-                cyfathrebu penodol sydd gan y cyswllt hwn.`
+                cyfathrebu penodol sydd gan y cyswllt hwn.`,
         }),
         isRequired: false,
         maxLength: FREE_TEXT_MAXLENGTH.large,
@@ -26,9 +26,9 @@ module.exports = function({ locale, name }) {
                     en: oneLine`Communication needs must be
                         ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                     cy: oneLine`Rhaid i’r anghenion cyfathrebu
-                        fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                })
-            }
-        ]
+                        fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`,
+                }),
+            },
+        ],
     });
 };

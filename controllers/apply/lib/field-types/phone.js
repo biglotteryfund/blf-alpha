@@ -15,7 +15,7 @@ class PhoneField extends Field {
     defaultLabel() {
         return this.localise({
             en: `Telephone number`,
-            cy: `Rhif ffôn`
+            cy: `Rhif ffôn`,
         });
     }
 
@@ -32,16 +32,16 @@ class PhoneField extends Field {
                 type: 'base',
                 message: this.localise({
                     en: 'Enter a UK telephone number',
-                    cy: 'Rhowch rif ffôn Prydeinig'
-                })
+                    cy: 'Rhowch rif ffôn Prydeinig',
+                }),
             },
             {
                 type: 'string.phonenumber',
                 message: this.localise({
                     en: 'Enter a real UK telephone number',
-                    cy: 'Rhowch rif ffôn Prydeinig go iawn'
-                })
-            }
+                    cy: 'Rhowch rif ffôn Prydeinig go iawn',
+                }),
+            },
         ];
     }
 }

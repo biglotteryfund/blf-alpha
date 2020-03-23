@@ -13,39 +13,39 @@ describe('account schemas', () => {
             validateSchema(newAccounts(), {
                 username: username,
                 password: username,
-                passwordConfirmation: username
+                passwordConfirmation: username,
             }).messages
         ).toEqual([
             {
                 param: 'password',
-                type: 'any.invalid'
-            }
+                type: 'any.invalid',
+            },
         ]);
 
         expect(
             validateSchema(newAccounts(), {
                 username: username,
                 password: commonPassword,
-                passwordConfirmation: commonPassword
+                passwordConfirmation: commonPassword,
             }).messages
         ).toEqual([
             {
                 param: 'password',
-                type: 'password.common'
-            }
+                type: 'password.common',
+            },
         ]);
 
         expect(
             validateSchema(newAccounts(), {
                 username: username,
                 password: weakPassword,
-                passwordConfirmation: weakPassword
+                passwordConfirmation: weakPassword,
             }).messages
         ).toEqual([
             {
                 param: 'password',
-                type: 'password.strength'
-            }
+                type: 'password.strength',
+            },
         ]);
     });
 });

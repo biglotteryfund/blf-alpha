@@ -19,9 +19,9 @@ class DateField extends Field {
                 type: 'any.invalid',
                 message: this.localise({
                     en: 'Enter a real date',
-                    cy: 'Rhowch ddyddiad go iawn'
-                })
-            }
+                    cy: 'Rhowch ddyddiad go iawn',
+                }),
+            },
         ];
     }
 

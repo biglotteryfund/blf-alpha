@@ -12,7 +12,7 @@ const { csrfProtection } = require('../../common/cached');
 const { injectCopy } = require('../../common/inject-content');
 const {
     requireNoAuth,
-    redirectUrlWithFallback
+    redirectUrlWithFallback,
 } = require('../../common/authed');
 
 const validateSchema = require('../../common/validate-schema');
@@ -22,11 +22,11 @@ const sendActivationEmail = require('./lib/activation-email');
 const router = express.Router();
 
 function logIn(req, res, next) {
-    passport.authenticate('local', function(authError, authUser) {
+    passport.authenticate('local', function (authError, authUser) {
         if (authError) {
             next(authError);
         } else {
-            req.logIn(authUser, function(loginErr) {
+            req.logIn(authUser, function (loginErr) {
                 res.locals.setAuthCookie();
                 if (loginErr) {
                     next(loginErr);
@@ -42,7 +42,7 @@ function renderForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/register'), {
         csrfToken: req.csrfToken(),
         formValues: data,
-        errors: errors
+        errors: errors,
     });
 }
 
@@ -66,8 +66,8 @@ router
                 msg: req.i18n.__(
                     res.locals.copy.genericError,
                     localify(req.i18n.getLocale())('/user/password/forgot')
-                )
-            }
+                ),
+            },
         ];
 
         if (validationResult.isValid) {
@@ -90,7 +90,7 @@ router
                 } else {
                     const newUser = await Users.createUser({
                         username: sanitise(username),
-                        password: password
+                        password: password,
                     });
 
                     // Success! now send them an activation email
@@ -119,16 +119,16 @@ router
              */
             if (validationResult.messages.length > 0) {
                 const hasPasswordIssue = validationResult.messages.some(
-                    _ => _.param === 'password'
+                    (_) => _.param === 'password'
                 );
 
                 if (hasPasswordIssue) {
                     res.locals.hotJarTagList = [
-                        'User: Error on password creation'
+                        'User: Error on password creation',
                     ];
                 }
 
-                validationResult.messages.forEach(item => {
+                validationResult.messages.forEach((item) => {
                     logger.info(item.msg, { type: item.type });
                 });
             }

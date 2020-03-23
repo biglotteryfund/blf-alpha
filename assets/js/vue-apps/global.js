@@ -8,7 +8,7 @@ function initCookieConsent() {
     if (el) {
         new Vue({
             el: el,
-            components: { 'cookie-consent': CookieConsent }
+            components: { 'cookie-consent': CookieConsent },
         });
     }
 }
@@ -18,7 +18,7 @@ function initSurvey() {
     if (el) {
         new Vue({
             el: el,
-            components: { survey: Survey }
+            components: { survey: Survey },
         });
     }
 }
@@ -28,7 +28,7 @@ function initInlineFeedback() {
     if (el) {
         new Vue({
             el: el,
-            components: { 'feedback-form': Feedback }
+            components: { 'feedback-form': Feedback },
         });
     }
 }
@@ -40,5 +40,5 @@ function init() {
 }
 
 export default {
-    init
+    init,
 };

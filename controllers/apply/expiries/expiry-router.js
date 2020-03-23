@@ -4,18 +4,18 @@ const jwt = require('jsonwebtoken');
 
 const {
     ApplicationEmailQueue,
-    PendingApplication
+    PendingApplication,
 } = require('../../../db/models');
 
 const appData = require('../../../common/appData');
 const {
     EMAIL_EXPIRY_TEST_ADDRESS,
     EMAIL_EXPIRY_SECRET,
-    JWT_SIGNING_TOKEN
+    JWT_SIGNING_TOKEN,
 } = require('../../../common/secrets');
 
 const logger = require('../../../common/logger').child({
-    service: 'application-expiry'
+    service: 'application-expiry',
 });
 
 const sendExpiryEmail = require('./send-expiry-email');
@@ -27,8 +27,8 @@ function signUnsubscribeToken(applicationId) {
         {
             data: {
                 applicationId: applicationId,
-                action: 'unsubscribe'
-            }
+                action: 'unsubscribe',
+            },
         },
         JWT_SIGNING_TOKEN,
         { expiresIn: '30d' }
@@ -52,7 +52,7 @@ async function sendExpiryEmails(req, emailQueue) {
     }
 
     return await Promise.all(
-        emailQueue.map(async emailToSend => {
+        emailQueue.map(async (emailToSend) => {
             const { emailType, PendingApplication } = emailToSend;
 
             const emailStatus = await sendExpiryEmail({
@@ -64,7 +64,7 @@ async function sendExpiryEmails(req, emailQueue) {
                 expiresAt: PendingApplication.expiresAt,
                 sendTo: appData.isNotProduction
                     ? EMAIL_EXPIRY_TEST_ADDRESS
-                    : PendingApplication.user.username
+                    : PendingApplication.user.username,
             });
 
             if (emailStatus.response || appData.isTestServer) {
@@ -75,13 +75,13 @@ async function sendExpiryEmails(req, emailQueue) {
                 return {
                     formId: PendingApplication.formId,
                     emailSent: true,
-                    dbUpdated: queueStatus[0] === 1
+                    dbUpdated: queueStatus[0] === 1,
                 };
             } else {
                 return {
                     formId: PendingApplication.formId,
                     emailSent: false,
-                    dbUpdated: false
+                    dbUpdated: false,
                 };
             }
         })
@@ -98,17 +98,17 @@ async function deleteExpiredApplications(expiredApplications) {
     try {
         logger.info('Handling expired applications');
 
-        const ids = expiredApplications.map(application => application.id);
+        const ids = expiredApplications.map((application) => application.id);
 
         const dbStatus = await PendingApplication.deleteBatch(ids);
 
-        const status = expiredApplications.map(application => {
+        const status = expiredApplications.map((application) => {
             logger.info(`Deleting expired application`, {
                 formId: application.formId,
-                applicationStatus: application.currentProgressState
+                applicationStatus: application.currentProgressState,
             });
             return {
-                applicationDeleted: true
+                applicationDeleted: true,
             };
         });
 
@@ -134,7 +134,7 @@ router.post('/', async (req, res) => {
 
         const [emailQueue, expiredApplications] = await Promise.all([
             ApplicationEmailQueue.getEmailsToSend(),
-            PendingApplication.findExpiredApplications()
+            PendingApplication.findExpiredApplications(),
         ]);
 
         if (emailQueue.length > 0) {
@@ -153,13 +153,13 @@ router.post('/', async (req, res) => {
 
         logger.info('application expiries processed', {
             emailsSent: response.emailQueue.length,
-            expiredAppsDeleted: response.expired.length
+            expiredAppsDeleted: response.expired.length,
         });
 
         res.json(response);
     } catch (error) {
         res.status(400).json({
-            err: error.message
+            err: error.message,
         });
     }
 });

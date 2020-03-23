@@ -9,8 +9,8 @@ describe('formatters', () => {
             options: {
                 a: { value: 'a', label: 'A' },
                 b: { value: 'b', label: 'B' },
-                c: { value: 'c', label: 'C' }
-            }
+                c: { value: 'c', label: 'C' },
+            },
         };
 
         expect(formatterFor(field)('a')).toBe('A');
@@ -22,8 +22,8 @@ describe('formatters', () => {
             options: {
                 a: { value: 'a', label: 'A' },
                 b: { value: 'b', label: 'B' },
-                c: { value: 'c', label: 'C' }
-            }
+                c: { value: 'c', label: 'C' },
+            },
         });
 
         expect(formatter(['b', 'c'])).toBe('B,\nC');
@@ -35,8 +35,8 @@ describe('formatters', () => {
             options: {
                 a: { value: 'a', label: 'A' },
                 b: { value: 'b', label: 'B' },
-                c: { value: 'c', label: 'C' }
-            }
+                c: { value: 'c', label: 'C' },
+            },
         });
 
         expect(formatter(['b', 'c'])).toBe('B,\nC');
@@ -49,7 +49,7 @@ describe('formatters', () => {
             line1: 'Apex House, 3 Embassy Drive',
             townCity: 'Birmingham',
             county: 'West Midlands',
-            postcode: 'B15 1TR'
+            postcode: 'B15 1TR',
         });
 
         const expected =
@@ -65,40 +65,40 @@ describe('formatters', () => {
             line1: '',
             townCity: '',
             county: '',
-            postcode: ''
+            postcode: '',
         };
 
         const address = {
             line1: 'Apex House, 3 Embassy Drive',
             townCity: 'Birmingham',
             county: 'West Midlands',
-            postcode: 'B15 1TR'
+            postcode: 'B15 1TR',
         };
 
         expect(
             formatter({
-                currentAddressMeetsMinimum: 'yes'
+                currentAddressMeetsMinimum: 'yes',
             })
         ).toBe('Yes');
 
         expect(
             formatter({
                 currentAddressMeetsMinimum: 'yes',
-                previousAddress: address
+                previousAddress: address,
             })
         ).toBe('Yes');
 
         expect(
             formatter({
                 currentAddressMeetsMinimum: 'yes',
-                previousAddress: emptyAddress
+                previousAddress: emptyAddress,
             })
         ).toBe('Yes');
 
         expect(
             formatter({
                 currentAddressMeetsMinimum: 'no',
-                previousAddress: address
+                previousAddress: address,
             })
         ).toBe(
             'Apex House, 3 Embassy Drive,\nBirmingham,\nWest Midlands,\nB15 1TR'
@@ -112,7 +112,7 @@ describe('formatters', () => {
             formatter({
                 day: 31,
                 month: 7,
-                year: 2100
+                year: 2100,
             })
         ).toBe('31 July, 2100');
     });
@@ -123,7 +123,7 @@ describe('formatters', () => {
         expect(
             formatter({
                 startDate: { day: 31, month: 7, year: 2100 },
-                endDate: { day: 31, month: 7, year: 2101 }
+                endDate: { day: 31, month: 7, year: 2101 },
             })
         ).toBe('31 July, 2100–31 July, 2101');
     });
@@ -134,7 +134,7 @@ describe('formatters', () => {
         expect(
             formatter({
                 day: 31,
-                month: 7
+                month: 7,
             })
         ).toBe('31st July');
     });
@@ -151,14 +151,14 @@ describe('formatters', () => {
         const result = formatter([
             { item: 'Example A', cost: 100 },
             { item: 'Example B', cost: 1200 },
-            { item: 'Example C', cost: 525 }
+            { item: 'Example C', cost: 525 },
         ]);
 
         const expected = [
             'Example A – £100',
             'Example B – £1,200',
             'Example C – £525',
-            'Total: £1,825'
+            'Total: £1,825',
         ].join('\n');
 
         expect(formatter(result)).toBe(expected);

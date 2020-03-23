@@ -6,7 +6,7 @@ const { getFromRawParameters } = require('./parameter-store');
 function mockParameters() {
     return [
         { Name: 'some.parameter', Value: 'some-value' },
-        { Name: 'another.parameter', Value: 'another-value' }
+        { Name: 'another.parameter', Value: 'another-value' },
     ];
 }
 

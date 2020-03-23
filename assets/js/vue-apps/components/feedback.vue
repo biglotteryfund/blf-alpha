@@ -3,10 +3,10 @@ import $ from 'jquery';
 
 export default {
     props: ['description', 'fieldLabel', 'helpText', 'submitLabel', 'metadata'],
-    data: function() {
+    data: function () {
         return {
             statusMessage: null,
-            feedback: null
+            feedback: null,
         };
     },
     computed: {
@@ -17,7 +17,7 @@ export default {
                 message += `\n\n--\n${this.metadata}`;
             }
             return message;
-        }
+        },
     },
     methods: {
         handleSubmit() {
@@ -26,15 +26,15 @@ export default {
                 type: 'POST',
                 data: {
                     description: this.description,
-                    message: this.message
+                    message: this.message,
                 },
                 dataType: 'json',
-                success: response => {
+                success: (response) => {
                     this.statusMessage = response.message;
-                }
+                },
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

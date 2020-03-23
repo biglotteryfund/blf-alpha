@@ -12,22 +12,22 @@ const { Step } = require('../lib/step-model');
 
 const fieldsFor = require('./fields');
 
-module.exports = function({
+module.exports = function ({
     locale = 'en',
     data = {},
     flags = {
         enableNewLocationQuestions: config.get(
             'standardFundingProposal.enableNewLocationQuestions'
-        )
+        ),
     },
-    metadata = {}
+    metadata = {},
 } = {}) {
     const localise = get(locale);
 
     const allFields = fieldsFor({
         locale,
         data,
-        flags
+        flags,
     });
 
     const projectCountries = getOr([], 'projectCountries')(data);
@@ -36,9 +36,9 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Project name',
-                cy: 'Enw eich prosiect'
+                cy: 'Enw eich prosiect',
             }),
-            fieldsets: [{ fields: [allFields.projectName] }]
+            fieldsets: [{ fields: [allFields.projectName] }],
         });
     }
 
@@ -46,9 +46,9 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Project country',
-                cy: 'Gwlad y prosiect'
+                cy: 'Gwlad y prosiect',
             }),
-            fieldsets: [{ fields: [allFields.projectCountries] }]
+            fieldsets: [{ fields: [allFields.projectCountries] }],
         });
     }
 
@@ -56,15 +56,15 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Project area',
-                cy: ''
+                cy: '',
             }),
             fieldsets: [
                 {
                     fields: projectCountries.includes('england')
                         ? [allFields.projectRegions]
-                        : []
-                }
-            ]
+                        : [],
+                },
+            ],
         });
     }
 
@@ -75,7 +75,7 @@ module.exports = function({
             } else if (projectCountries.length > 0) {
                 return [
                     allFields.projectLocation,
-                    allFields.projectLocationDescription
+                    allFields.projectLocationDescription,
                 ];
             } else {
                 return [];
@@ -85,9 +85,9 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Project location',
-                cy: 'Lleoliad y prosiect'
+                cy: 'Lleoliad y prosiect',
             }),
-            fieldsets: [{ fields: fields() }]
+            fieldsets: [{ fields: fields() }],
         });
     }
 
@@ -95,9 +95,9 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Project costs',
-                cy: 'Costau’r prosiect'
+                cy: 'Costau’r prosiect',
             }),
-            fieldsets: [{ fields: [allFields.projectCosts] }]
+            fieldsets: [{ fields: [allFields.projectCosts] }],
         });
     }
 
@@ -112,7 +112,7 @@ module.exports = function({
 
         return new Step({
             title: localise({ en: 'Project duration', cy: '' }),
-            fieldsets: [{ fields: fields() }]
+            fieldsets: [{ fields: fields() }],
         });
     }
 
@@ -120,17 +120,17 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Your idea',
-                cy: 'Eich syniad'
+                cy: 'Eich syniad',
             }),
             fieldsets: [
                 {
                     fields: [
                         allFields.yourIdeaProject,
                         allFields.yourIdeaCommunity,
-                        allFields.yourIdeaActivities
-                    ]
-                }
-            ]
+                        allFields.yourIdeaActivities,
+                    ],
+                },
+            ],
         });
     }
 
@@ -138,7 +138,7 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Organisation details',
-                cy: ''
+                cy: '',
             }),
             noValidate: false,
             fieldsets: [
@@ -146,10 +146,10 @@ module.exports = function({
                     fields: [
                         allFields.organisationLegalName,
                         allFields.organisationTradingName,
-                        allFields.organisationAddress
-                    ]
-                }
-            ]
+                        allFields.organisationAddress,
+                    ],
+                },
+            ],
         });
     }
 
@@ -157,9 +157,9 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Organisation type',
-                cy: 'Math o sefydliad'
+                cy: 'Math o sefydliad',
             }),
-            fieldsets: [{ fields: [allFields.organisationType] }]
+            fieldsets: [{ fields: [allFields.organisationType] }],
         });
     }
 
@@ -176,9 +176,9 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Type of statutory body',
-                cy: 'Math o gorff statudol'
+                cy: 'Math o gorff statudol',
             }),
-            fieldsets: [{ fields: fields() }]
+            fieldsets: [{ fields: fields() }],
         });
     }
 
@@ -190,14 +190,14 @@ module.exports = function({
                     allFields.contactEmail,
                     allFields.contactPhone,
                     allFields.contactLanguagePreference,
-                    allFields.contactCommunicationNeeds
+                    allFields.contactCommunicationNeeds,
                 ];
             } else {
                 return [
                     allFields.contactName,
                     allFields.contactEmail,
                     allFields.contactPhone,
-                    allFields.contactCommunicationNeeds
+                    allFields.contactCommunicationNeeds,
                 ];
             }
         }
@@ -205,9 +205,9 @@ module.exports = function({
         return new Step({
             title: localise({
                 en: 'Contact details',
-                cy: ''
+                cy: '',
             }),
-            fieldsets: [{ fields: fields() }]
+            fieldsets: [{ fields: fields() }],
         });
     }
 
@@ -220,18 +220,20 @@ module.exports = function({
         const overview = [
             {
                 label: localise({ en: 'Requested amount', cy: '' }),
-                value: costs ? `£${costs.toLocaleString()}` : null
+                value: costs ? `£${costs.toLocaleString()}` : null,
             },
             {
                 label: localise({ en: 'Project duration', cy: '' }),
-                value: years ? localise({ en: `${years} years`, cy: '' }) : null
-            }
+                value: years
+                    ? localise({ en: `${years} years`, cy: '' })
+                    : null,
+            },
         ];
 
         return {
             title: title,
             country: countries.length > 1 ? 'uk-wide' : countries[0],
-            overview: overview
+            overview: overview,
         };
     }
 
@@ -240,11 +242,11 @@ module.exports = function({
             slug: 'your-project',
             title: localise({
                 en: 'Your project',
-                cy: 'Eich prosiect'
+                cy: 'Eich prosiect',
             }),
             summary: localise({
                 en: `Please tell us about your project in this section.`,
-                cy: ``
+                cy: ``,
             }),
             steps: compact([
                 stepProjectName(),
@@ -253,8 +255,8 @@ module.exports = function({
                 stepProjectLocation(),
                 stepProjectCosts(),
                 stepProjectDuration(),
-                stepYourIdea()
-            ])
+                stepYourIdea(),
+            ]),
         };
     }
 
@@ -263,7 +265,7 @@ module.exports = function({
             slug: 'your-organisation',
             title: localise({
                 en: 'Your organisation',
-                cy: 'Eich sefydliad'
+                cy: 'Eich sefydliad',
             }),
             summary: localise({
                 en: oneLine`Please tell us about your organisation,
@@ -271,13 +273,13 @@ module.exports = function({
                     This helps us understand the type of organisation you are.`,
                 cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr
                     enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
-                    Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`
+                    Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`,
             }),
             steps: [
                 stepOrganisationDetails(),
                 stepOrganisationType(),
-                stepOrganisationSubType()
-            ]
+                stepOrganisationSubType(),
+            ],
         };
     }
 
@@ -286,25 +288,25 @@ module.exports = function({
             slug: 'your-details',
             title: localise({
                 en: 'Your details',
-                cy: ''
+                cy: '',
             }),
             summary: localise({
                 en: oneLine`Please provide details for the person
                     we should contact to talk about your idea.`,
-                cy: ``
+                cy: ``,
             }),
-            steps: [stepContactDetails()]
+            steps: [stepContactDetails()],
         };
     }
 
     const form = {
         title: localise({
             en: 'Your funding proposal',
-            cy: ''
+            cy: '',
         }),
         startLabel: localise({
             en: 'Start your proposal',
-            cy: 'Dechrau ar eich cynnig'
+            cy: 'Dechrau ar eich cynnig',
         }),
         allFields,
         summary: summary(),
@@ -319,8 +321,8 @@ module.exports = function({
         sections: [
             sectionYourProject(),
             sectionYourOrganisation(),
-            sectionYourDetails()
-        ]
+            sectionYourDetails(),
+        ],
     };
 
     return new FormModel(form, data, locale);

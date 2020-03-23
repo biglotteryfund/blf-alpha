@@ -55,7 +55,7 @@ function requireUserAuth(req, res, next) {
         next();
     } else {
         logger.info('User required but got unauthed', {
-            url: req.originalUrl
+            url: req.originalUrl,
         });
         const returnUrl = req.query.s
             ? `/user/login?s=${req.query.s}`
@@ -70,7 +70,7 @@ function requireActiveUser(req, res, next, cb = null) {
             next();
         } else {
             logger.info('Active user required but got inactive', {
-                url: req.originalUrl
+                url: req.originalUrl,
             });
             redirectWithReturnUrl(req, res, '/user/activate');
         }
@@ -79,7 +79,7 @@ function requireActiveUser(req, res, next, cb = null) {
             cb(req, res);
         }
         logger.info('Active user required but got unauthed', {
-            url: req.originalUrl
+            url: req.originalUrl,
         });
         redirectWithReturnUrl(req, res, '/user/login');
     }
@@ -98,7 +98,7 @@ function requireUnactivatedUser(req, res, next) {
         next();
     } else {
         logger.info('Inactive user required but got other', {
-            url: req.originalUrl
+            url: req.originalUrl,
         });
         redirectUrlWithFallback(req, res, '/user');
     }
@@ -136,7 +136,7 @@ function requireStaffAuth(req, res, next) {
 function requireNotStaffAuth(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user)) {
         logger.info('Non-staff user required but got staff', {
-            url: req.originalUrl
+            url: req.originalUrl,
         });
         req.logout();
         res.locals.clearAuthCookie();
@@ -157,5 +157,5 @@ module.exports = {
     requireNotStaffAuth,
     redirectUrlWithFallback,
     requireActiveUserWithCallback,
-    isActivated
+    isActivated,
 };

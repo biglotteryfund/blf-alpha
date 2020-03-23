@@ -14,63 +14,63 @@ const fields = {
         name: 'yourName',
         label: localeKeyFor('yourName'),
         emailKey: 'Name',
-        required: true
+        required: true,
     },
     yourEmail: {
         type: 'email',
         name: 'yourEmail',
         label: localeKeyFor('yourEmail'),
         emailKey: 'Email address',
-        required: true
+        required: true,
     },
     yourAddress1: {
         type: 'text',
         name: 'yourAddress1',
         label: localeKeyFor('yourAddress1'),
         emailKey: 'Address line 1',
-        required: true
+        required: true,
     },
     yourAddress2: {
         type: 'text',
         name: 'yourAddress2',
         label: localeKeyFor('yourAddress2'),
         emailKey: 'Address line 2',
-        required: false
+        required: false,
     },
     yourTown: {
         type: 'text',
         name: 'yourTown',
         label: localeKeyFor('yourAddress2'),
         emailKey: 'Town/city',
-        required: true
+        required: true,
     },
     yourCounty: {
         type: 'text',
         name: 'yourCounty',
         label: localeKeyFor('yourCounty'),
         emailKey: 'County',
-        required: false
+        required: false,
     },
     yourCountry: {
         type: 'text',
         name: 'yourCountry',
         label: localeKeyFor('yourCountry'),
         emailKey: 'Country',
-        required: true
+        required: true,
     },
     yourPostcode: {
         type: 'text',
         name: 'yourPostcode',
         label: localeKeyFor('yourPostcode'),
         emailKey: 'Postcode',
-        required: true
+        required: true,
     },
     yourProjectName: {
         type: 'text',
         name: 'yourProjectName',
         label: localeKeyFor('yourProjectName'),
         emailKey: 'Project name',
-        required: false
+        required: false,
     },
     yourGrantAmount: {
         type: 'radio',
@@ -82,8 +82,8 @@ const fields = {
         options: [
             { name: localeKeyFor('grantSizes.under10k'), value: 'under10k' },
             { name: localeKeyFor('grantSizes.over10k'), value: 'over10k' },
-            { name: localeKeyFor('grantSizes.dunno'), value: 'dunno' }
-        ]
+            { name: localeKeyFor('grantSizes.dunno'), value: 'dunno' },
+        ],
     },
     yourReason: {
         type: 'radio',
@@ -95,26 +95,26 @@ const fields = {
         options: [
             {
                 name: localeKeyFor('reasons.event'),
-                value: 'event'
+                value: 'event',
             },
             {
                 name: localeKeyFor('reasons.projectOpening'),
-                value: 'projectOpening'
+                value: 'projectOpening',
             },
             {
                 name: localeKeyFor('reasons.photoOpportunity'),
-                value: 'photoOpportunity'
+                value: 'photoOpportunity',
             },
             {
                 name: localeKeyFor('reasons.mpVisit'),
-                value: 'mpVisit'
+                value: 'mpVisit',
             },
             {
                 name: localeKeyFor('reasons.grantAcknowledgment'),
-                value: 'grantAcknowledgment'
-            }
-        ]
-    }
+                value: 'grantAcknowledgment',
+            },
+        ],
+    },
 };
 
 function validate(data, locale = 'en') {
@@ -122,34 +122,18 @@ function validate(data, locale = 'en') {
 
     const schema = Joi.object({
         yourName: Joi.string().required(),
-        yourEmail: Joi.string()
-            .email()
-            .required(),
+        yourEmail: Joi.string().email().required(),
         yourAddress1: Joi.string().required(),
-        yourAddress2: Joi.string()
-            .allow('')
-            .optional(),
+        yourAddress2: Joi.string().allow('').optional(),
         yourTown: Joi.string().required(),
-        yourCounty: Joi.string()
-            .allow('')
-            .optional(),
+        yourCounty: Joi.string().allow('').optional(),
         yourCountry: Joi.string().required(),
         yourPostcode: Joi.string().required(),
-        yourProjectName: Joi.string()
-            .allow('')
-            .optional(),
-        yourGrantAmount: Joi.string()
-            .allow('')
-            .optional(),
-        yourGrantAmountOther: Joi.string()
-            .allow('')
-            .optional(),
-        yourReason: Joi.string()
-            .allow('')
-            .optional(),
-        yourReasonOther: Joi.string()
-            .allow('')
-            .optional()
+        yourProjectName: Joi.string().allow('').optional(),
+        yourGrantAmount: Joi.string().allow('').optional(),
+        yourGrantAmountOther: Joi.string().allow('').optional(),
+        yourReason: Joi.string().allow('').optional(),
+        yourReasonOther: Joi.string().allow('').optional(),
     });
 
     const messages = {
@@ -158,34 +142,34 @@ function validate(data, locale = 'en') {
                 type: 'base',
                 message: localise({
                     en: `Please provide the 'Name' field`,
-                    cy: `Darparwch y maes 'Eich enw'`
-                })
-            }
+                    cy: `Darparwch y maes 'Eich enw'`,
+                }),
+            },
         ],
         yourEmail: [
             {
                 type: 'base',
                 message: localise({
                     en: `Please provide the 'Email address' field`,
-                    cy: `Darparwch y maes 'Eich cyfeiriad e-bost'`
-                })
+                    cy: `Darparwch y maes 'Eich cyfeiriad e-bost'`,
+                }),
             },
             {
                 type: 'string.email',
                 message: localise({
                     en: `Please provide a valid email address`,
-                    cy: `Rhowch gyfeiriad e-bost dilys`
-                })
-            }
+                    cy: `Rhowch gyfeiriad e-bost dilys`,
+                }),
+            },
         ],
         yourAddress1: [
             {
                 type: 'base',
                 message: localise({
                     en: `Please provide the 'Address line 1' field`,
-                    cy: `Darparwch y maes 'Eich cyfeiriad llinell 1'`
-                })
-            }
+                    cy: `Darparwch y maes 'Eich cyfeiriad llinell 1'`,
+                }),
+            },
         ],
         yourAddress2: [],
         yourTown: [
@@ -193,9 +177,9 @@ function validate(data, locale = 'en') {
                 type: 'base',
                 message: localise({
                     en: `Please provide the 'Town/city' field`,
-                    cy: `Darparwch y maes 'Eich tref/dinas'`
-                })
-            }
+                    cy: `Darparwch y maes 'Eich tref/dinas'`,
+                }),
+            },
         ],
         yourCounty: [],
         yourCountry: [
@@ -203,24 +187,24 @@ function validate(data, locale = 'en') {
                 type: 'base',
                 message: localise({
                     en: `Please provide the 'Country' field`,
-                    cy: `Darparwch y maes 'Eich gwlad'`
-                })
-            }
+                    cy: `Darparwch y maes 'Eich gwlad'`,
+                }),
+            },
         ],
         yourPostcode: [
             {
                 type: 'base',
                 message: localise({
                     en: `Please provide the 'Postcode' field`,
-                    cy: `Darparwch y maes 'Eich côd post'`
-                })
-            }
+                    cy: `Darparwch y maes 'Eich côd post'`,
+                }),
+            },
         ],
         yourProjectName: [],
         yourGrantAmount: [],
         yourGrantAmountOther: [],
         yourReason: [],
-        yourReasonOther: []
+        yourReasonOther: [],
     };
 
     return validateSchema({ schema, messages }, data);
@@ -228,5 +212,5 @@ function validate(data, locale = 'en') {
 
 module.exports = {
     fields,
-    validate
+    validate,
 };

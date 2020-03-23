@@ -21,7 +21,7 @@ class SelectField extends Field {
             }
         }
 
-        const values = this.normalisedOptions.map(option => option.value);
+        const values = this.normalisedOptions.map((option) => option.value);
         if (values.length !== uniq(values).length) {
             throw new Error('Options must contain unique values');
         }
@@ -37,13 +37,13 @@ class SelectField extends Field {
         const optgroups = this.optgroups || [];
         const options = this.options || [];
         return optgroups.length > 0
-            ? optgroups.flatMap(group => group.options)
+            ? optgroups.flatMap((group) => group.options)
             : options;
     }
 
     defaultSchema() {
         const baseSchema = Joi.string().valid(
-            this.normalisedOptions.map(option => option.value)
+            this.normalisedOptions.map((option) => option.value)
         );
 
         if (this.isRequired) {
@@ -56,7 +56,7 @@ class SelectField extends Field {
     get displayValue() {
         if (this.value) {
             const match = this.normalisedOptions.find(
-                option => option.value === this.value
+                (option) => option.value === this.value
             );
             return match ? match.label : '';
         } else {

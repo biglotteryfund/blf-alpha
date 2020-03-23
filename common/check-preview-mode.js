@@ -12,6 +12,6 @@ module.exports = function checkPreviewMode(queryParams) {
     return {
         isPreview: isLivePreview() || isShareLink(),
         isLivePreview: isLivePreview(),
-        isShareLink: isShareLink()
+        isShareLink: isShareLink(),
     };
 };

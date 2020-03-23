@@ -20,7 +20,7 @@ function mockAddress() {
         line1: faker.address.streetAddress(),
         townCity: faker.address.city(),
         county: faker.address.county(),
-        postcode: 'B15 1TR'
+        postcode: 'B15 1TR',
     };
 }
 
@@ -34,7 +34,7 @@ function mockBeneficiaries(checkAnswer = 'yes') {
             'disabled-people',
             'religion',
             'lgbt',
-            'caring-responsibilities'
+            'caring-responsibilities',
         ],
         beneficiariesGroupsOther: 'Other value',
         beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
@@ -42,7 +42,7 @@ function mockBeneficiaries(checkAnswer = 'yes') {
         beneficiariesGroupsAge: ['0-12', '13-24'],
         beneficiariesGroupsDisabledPeople: ['sensory'],
         beneficiariesGroupsReligion: ['sikh'],
-        beneficiariesGroupsReligionOther: undefined
+        beneficiariesGroupsReligionOther: undefined,
     };
 }
 
@@ -61,7 +61,7 @@ function mockResponse(overrides = {}) {
         projectBudget: new Array(5).fill(null).map(() => {
             return {
                 item: faker.lorem.words(5),
-                cost: faker.random.number({ min: 100, max: 1000 })
+                cost: faker.random.number({ min: 100, max: 1000 }),
             };
         }),
         projectTotalCosts: 20000,
@@ -73,7 +73,7 @@ function mockResponse(overrides = {}) {
             'disabled-people',
             'religion',
             'lgbt',
-            'caring-responsibilities'
+            'caring-responsibilities',
         ],
         beneficiariesGroupsOther: undefined,
         beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
@@ -96,27 +96,27 @@ function mockResponse(overrides = {}) {
         totalIncomeYear: random(1000, 1000000),
         mainContactName: {
             firstName: faker.name.firstName(),
-            lastName: faker.name.lastName()
+            lastName: faker.name.lastName(),
         },
         mainContactDateOfBirth: mockDateOfBirth(16),
         mainContactAddress: mockAddress(),
         mainContactAddressHistory: {
             currentAddressMeetsMinimum: 'no',
-            previousAddress: mockAddress()
+            previousAddress: mockAddress(),
         },
         mainContactEmail: faker.internet.exampleEmail(),
         mainContactPhone: '028 9568 0143',
         mainContactCommunicationNeeds: '',
         seniorContactName: {
             firstName: faker.name.firstName(),
-            lastName: faker.name.lastName()
+            lastName: faker.name.lastName(),
         },
         seniorContactRole: 'trustee',
         seniorContactDateOfBirth: mockDateOfBirth(18),
         seniorContactAddress: mockAddress(),
         seniorContactAddressHistory: {
             currentAddressMeetsMinimum: 'yes',
-            previousAddress: null
+            previousAddress: null,
         },
         seniorContactEmail: faker.internet.exampleEmail(),
         seniorContactPhone: '020 7211 1888',
@@ -128,14 +128,14 @@ function mockResponse(overrides = {}) {
         bankStatement: {
             filename: 'example.pdf',
             size: 123,
-            type: 'application/pdf'
+            type: 'application/pdf',
         },
         termsAgreement1: 'yes',
         termsAgreement2: 'yes',
         termsAgreement3: 'yes',
         termsAgreement4: 'yes',
         termsPersonName: `${faker.name.firstName()} ${faker.name.lastName()}`,
-        termsPersonPosition: faker.name.jobTitle()
+        termsPersonPosition: faker.name.jobTitle(),
     };
 
     return Object.assign({}, defaults, overrides);
@@ -146,5 +146,5 @@ module.exports = {
     mockBeneficiaries,
     mockDateOfBirth,
     mockResponse,
-    toDateParts
+    toDateParts,
 };

@@ -4,13 +4,15 @@ const normaliseUserInput = require('./normalise-user-input');
 
 function summariseOrder(items) {
     return items
-        .filter(item => item.quantity > 0)
-        .map(item => `\t- x${item.quantity} ${item.code} (item: ${item.name})`);
+        .filter((item) => item.quantity > 0)
+        .map(
+            (item) => `\t- x${item.quantity} ${item.code} (item: ${item.name})`
+        );
 }
 
 module.exports = function makeOrderText(items, details) {
     const customerDetails = normaliseUserInput(details).map(
-        d => `\t${d.label}: ${d.value}`
+        (d) => `\t${d.label}: ${d.value}`
     );
 
     const text = stripIndents`

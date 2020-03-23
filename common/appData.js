@@ -28,7 +28,7 @@ const appData = {
     deployId: get(deploymentData, 'deployId', 'DEV'),
     buildNumber: get(deploymentData, 'buildNumber', 'DEV'),
     commitId: get(deploymentData, 'commitId', 'DEV'),
-    nodeVersion: process.version
+    nodeVersion: process.version,
 };
 
 module.exports = appData;

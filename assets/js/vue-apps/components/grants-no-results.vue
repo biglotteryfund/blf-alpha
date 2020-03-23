@@ -7,8 +7,8 @@ export default {
         },
         goBack() {
             return window.history.back();
-        }
-    }
+        },
+    },
 };
 </script>
 <template>
@@ -19,7 +19,11 @@ export default {
         <h3>{{ copy.errors.noResults.heading }}</h3>
 
         <div
-            v-if="searchSuggestions && searchSuggestions.suggestions && searchSuggestions.suggestions.length > 0"
+            v-if="
+                searchSuggestions &&
+                searchSuggestions.suggestions &&
+                searchSuggestions.suggestions.length > 0
+            "
         >
             <p v-html="copy.errors.noResults.didYouMean"></p>
             <ul>

@@ -30,17 +30,17 @@ router.get(
 
             const blogposts = await contentApi.getUpdates({
                 locale: req.i18n.getLocale(),
-                type: 'blog'
+                type: 'blog',
             });
 
             const peopleStories = await contentApi.getUpdates({
                 locale: req.i18n.getLocale(),
-                type: 'people-stories'
+                type: 'people-stories',
             });
 
             res.render(path.resolve(__dirname, `./views/landing`), {
                 blogposts: blogposts.result,
-                peopleStories: peopleStories.result
+                peopleStories: peopleStories.result,
             });
         } catch (e) {
             next(e);
@@ -73,7 +73,7 @@ router.get(
                 date: req.params.date,
                 slug: req.params.slug,
                 query: pick(req.query, ['page', 'region', 'social']),
-                requestParams: req.query
+                requestParams: req.query,
             });
 
             if (!response.result) {
@@ -94,8 +94,8 @@ router.get(
                             finalPressReleaseArchiveDate
                         ),
                         breadcrumbs: breadcrumbs.concat({
-                            label: typeCopy.plural
-                        })
+                            label: typeCopy.plural,
+                        }),
                     }
                 );
             } else {
@@ -119,10 +119,10 @@ router.get(
                             breadcrumbs: res.locals.breadcrumbs.concat(
                                 {
                                     label: typeCopy.plural,
-                                    url: `${req.baseUrl}/press-releases`
+                                    url: `${req.baseUrl}/press-releases`,
                                 },
                                 { label: entry.title }
-                            )
+                            ),
                         }
                     );
                 } else {
@@ -163,9 +163,9 @@ router.get(
                     'author',
                     'category',
                     'region',
-                    'social'
+                    'social',
                 ]),
-                requestParams: req.query
+                requestParams: req.query,
             });
 
             if (!response.result) {
@@ -173,7 +173,7 @@ router.get(
             }
 
             if (isArray(response.result)) {
-                const getCrumbName = entriesMeta => {
+                const getCrumbName = (entriesMeta) => {
                     let title;
                     switch (entriesMeta.pageType) {
                         case 'tag':
@@ -191,7 +191,7 @@ router.get(
 
                 const crumbs = res.locals.breadcrumbs.concat({
                     label: typeCopy.plural,
-                    url: `${req.baseUrl}/${updateType}`
+                    url: `${req.baseUrl}/${updateType}`,
                 });
 
                 const crumbName = getCrumbName(response.meta);
@@ -205,7 +205,7 @@ router.get(
                     entries: response.result,
                     entriesMeta: response.meta,
                     pagination: response.pagination,
-                    breadcrumbs: crumbs
+                    breadcrumbs: crumbs,
                 });
             } else {
                 const entry = response.result;
@@ -213,12 +213,12 @@ router.get(
                     res.redirect(entry.linkUrl);
                 } else if (entry.content.length > 0) {
                     const entryTags = get(entry, 'tags', []);
-                    const entryTagList = entryTags.map(function(tag) {
+                    const entryTagList = entryTags.map(function (tag) {
                         return {
                             label: tag.title.toLowerCase(),
                             url: localify(req.i18n.getLocale())(
                                 `/news/${updateType}?tag=${tag.slug}`
-                            )
+                            ),
                         };
                     });
 
@@ -234,10 +234,10 @@ router.get(
                         breadcrumbs: res.locals.breadcrumbs.concat(
                             {
                                 label: typeCopy.singular,
-                                url: `${req.baseUrl}/${updateType}`
+                                url: `${req.baseUrl}/${updateType}`,
                             },
                             { label: entry.title }
-                        )
+                        ),
                     };
 
                     return res.render(

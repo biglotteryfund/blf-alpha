@@ -46,17 +46,17 @@ async function getCanonicalRoutes() {
         '/news/blog',
         '/news/press-releases',
         '/northern-ireland',
-        '/wales'
-    ].map(path => {
+        '/wales',
+    ].map((path) => {
         return {
             path: path,
-            live: true
+            live: true,
         };
     });
 
     const cmsCanonicalUrls = await contentApi.getRoutes();
     const combined = concat(staticRoutes, cmsCanonicalUrls);
-    const filtered = combined.filter(route => route.live);
+    const filtered = combined.filter((route) => route.live);
     return compose(sortBy('path'), uniqBy('path'))(filtered);
 }
 
@@ -67,9 +67,9 @@ router.get('/', sMaxAge(1800), async (req, res, next) => {
         // @ts-ignore
         const sitemapInstance = createSitemap({
             hostname: getBaseUrl(req),
-            urls: canonicalRoutes.map(route => ({
-                url: route.path
-            }))
+            urls: canonicalRoutes.map((route) => ({
+                url: route.path,
+            })),
         });
 
         const xml = sitemapInstance.toXML();

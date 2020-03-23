@@ -3,7 +3,7 @@ const get = require('lodash/get');
 
 module.exports = {
     filterByLocation(locationValue) {
-        return function(programme) {
+        return function (programme) {
             if (!locationValue) {
                 return programme;
             }
@@ -13,7 +13,7 @@ module.exports = {
         };
     },
     filterByMinAmount(minAmount) {
-        return function(programme) {
+        return function (programme) {
             if (!minAmount) {
                 return programme;
             }
@@ -24,7 +24,7 @@ module.exports = {
         };
     },
     filterByMaxAmount(maxAmount) {
-        return function(programme) {
+        return function (programme) {
             if (!maxAmount) {
                 return programme;
             }
@@ -33,5 +33,5 @@ module.exports = {
             const programmeMax = get(programme, 'fundingSize.maximum');
             return programmeMax <= max || false;
         };
-    }
+    },
 };

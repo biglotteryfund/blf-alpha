@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 
 const TextareaField = require('../../lib/field-types/textarea');
 
-module.exports = function(locale) {
+module.exports = function (locale) {
     const localise = get(locale);
 
     const minWords = 50;
@@ -14,7 +14,7 @@ module.exports = function(locale) {
         name: 'yourIdeaPriorities',
         label: localise({
             en: `How does your project meet at least one of our funding priorities?`,
-            cy: `Sut mae eich prosiect yn bodloni o leiaf un o’n tair blaenoriaeth ariannu?`
+            cy: `Sut mae eich prosiect yn bodloni o leiaf un o’n tair blaenoriaeth ariannu?`,
         }),
         explanation: localise({
             en: `<p>
@@ -51,7 +51,7 @@ module.exports = function(locale) {
             <p><strong>
                 Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon, ond
                 peidiwch â phoeni os byddwch yn defnyddio llai. 
-            </strong></p>`
+            </strong></p>`,
         }),
         minWords: minWords,
         maxWords: maxWords,
@@ -61,9 +61,9 @@ module.exports = function(locale) {
                 type: 'base',
                 message: localise({
                     en: `Tell us how your project meets at least one of our funding priorities`,
-                    cy: `Dywedwch wrthym sut mae eich prosiect yn cwrdd ag o leiaf un o’n blaenoriaethau ariannu`
-                })
-            }
-        ]
+                    cy: `Dywedwch wrthym sut mae eich prosiect yn cwrdd ag o leiaf un o’n blaenoriaethau ariannu`,
+                }),
+            },
+        ],
     });
 };

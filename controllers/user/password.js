@@ -11,7 +11,7 @@ const { requireNoAuth } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 
 const logger = require('../../common/logger').child({
-    service: 'user'
+    service: 'user',
 });
 
 const { verifyTokenPasswordReset } = require('./lib/jwt');
@@ -31,13 +31,13 @@ function sendPasswordResetNotification(req, email) {
         {
             template: template,
             templateData: {
-                body: req.i18n.__('user.resetPassword.email.body')
-            }
+                body: req.i18n.__('user.resetPassword.email.body'),
+            },
         },
         {
             name: 'user_password_reset_success',
             sendTo: email,
-            subject: req.i18n.__('user.resetPassword.email.subject')
+            subject: req.i18n.__('user.resetPassword.email.subject'),
         }
     );
 }
@@ -45,14 +45,14 @@ function sendPasswordResetNotification(req, email) {
 function renderForgotForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/forgotten-password'), {
         formValues: data,
-        errors: errors
+        errors: errors,
     });
 }
 
 function renderResetForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/reset-password'), {
         formValues: data,
-        errors: errors
+        errors: errors,
     });
 }
 
@@ -67,7 +67,7 @@ router
     .route('/forgot')
     .all(requireNoAuth, injectCopy('user.forgottenPassword'))
     .get(renderForgotForm)
-    .post(async function(req, res) {
+    .post(async function (req, res) {
         const validationResult = validateSchema(
             schemas.emailOnly(req.i18n),
             req.body
@@ -154,8 +154,8 @@ router
                         param: 'oldPassword',
                         msg: req.i18n.__(
                             'user.validationMessages.oldPasswordWrong'
-                        )
-                    }
+                        ),
+                    },
                 ];
                 renderResetForm(req, res, null, errors);
             } else {
@@ -171,7 +171,7 @@ router
                         const { password } = validationResult.value;
                         await Users.updateNewPassword({
                             id: req.user.userData.id,
-                            newPassword: password
+                            newPassword: password,
                         });
                         await sendPasswordResetNotification(req, username);
                         logger.info('Password change successful');
@@ -186,8 +186,8 @@ router
                             {
                                 msg: req.i18n.__(
                                     'user.resetPassword.errorMessage'
-                                )
-                            }
+                                ),
+                            },
                         ]);
                     }
                 } else {
@@ -236,7 +236,7 @@ router
                         if (user) {
                             await Users.updateNewPassword({
                                 id: decodedData.userId,
-                                newPassword: validationResult.value.password
+                                newPassword: validationResult.value.password,
                             });
                             await sendPasswordResetNotification(
                                 req,
@@ -264,8 +264,8 @@ router
                             {
                                 msg: req.i18n.__(
                                     'user.resetPassword.errorMessage'
-                                )
-                            }
+                                ),
+                            },
                         ];
                         return renderResetForm(
                             req,

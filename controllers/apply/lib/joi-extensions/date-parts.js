@@ -6,24 +6,15 @@ module.exports = function dateParts(joi) {
     return {
         name: 'dateParts',
         base: joi.object({
-            day: joi
-                .number()
-                .integer()
-                .required(),
-            month: joi
-                .number()
-                .integer()
-                .required(),
-            year: joi
-                .number()
-                .integer()
-                .required()
+            day: joi.number().integer().required(),
+            month: joi.number().integer().required(),
+            year: joi.number().integer().required(),
         }),
         language: {
             minDate: 'Date must be on or after {{min}}',
             minDateRef: 'Date from must be on or after referenced date',
             maxDate: 'Date must be on or before {{max}}',
-            rangeLimit: 'Date must be within range'
+            rangeLimit: 'Date must be within range',
         },
         pre(value, state, options) {
             const dt = fromDateParts(value);
@@ -42,7 +33,7 @@ module.exports = function dateParts(joi) {
             {
                 name: 'minDate',
                 params: {
-                    min: joi.string().required()
+                    min: joi.string().required(),
                 },
                 validate(params, value, state, options) {
                     const date = fromDateParts(value);
@@ -57,12 +48,12 @@ module.exports = function dateParts(joi) {
                             options
                         );
                     }
-                }
+                },
             },
             {
                 name: 'minDateRef',
                 params: {
-                    ref: joi.func().ref()
+                    ref: joi.func().ref(),
                 },
                 validate(params, value, state, options) {
                     const refVal = params.ref(
@@ -87,12 +78,12 @@ module.exports = function dateParts(joi) {
                             options
                         );
                     }
-                }
+                },
             },
             {
                 name: 'maxDate',
                 params: {
-                    max: joi.string().required()
+                    max: joi.string().required(),
                 },
                 validate(params, value, state, options) {
                     const date = fromDateParts(value);
@@ -107,7 +98,7 @@ module.exports = function dateParts(joi) {
                             options
                         );
                     }
-                }
+                },
             },
             {
                 name: 'rangeLimit',
@@ -115,8 +106,8 @@ module.exports = function dateParts(joi) {
                     ref: joi.func().ref(),
                     limit: joi.object({
                         amount: joi.number().required(),
-                        unit: joi.string().required()
-                    })
+                        unit: joi.string().required(),
+                    }),
                 },
                 validate(params, value, state, options) {
                     const refVal = params.ref(
@@ -141,8 +132,8 @@ module.exports = function dateParts(joi) {
                             options
                         );
                     }
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

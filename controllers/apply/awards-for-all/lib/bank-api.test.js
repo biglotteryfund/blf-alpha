@@ -14,12 +14,12 @@ test('should normalise valid response', () => {
             bacs_credit: 'true',
             bacs_direct_debit: 'true',
             chaps: 'true',
-            cheque: 'false'
-        }
+            cheque: 'false',
+        },
     };
 
     expect(normalizeResponse(mockValidResponse)).toEqual({
-        code: 'VALID'
+        code: 'VALID',
     });
 });
 
@@ -34,30 +34,30 @@ test('should normalise invalid bacs response', () => {
             bacs_credit: 'false',
             bacs_direct_debit: 'false',
             chaps: 'true',
-            cheque: 'false'
-        }
+            cheque: 'false',
+        },
     };
 
     expect(normalizeResponse(mockValidResponse)).toEqual({
-        code: 'INVALID_BACS'
+        code: 'INVALID_BACS',
     });
 });
 
 test('should normalise invalid response', () => {
     const mockInvalidResponse = {
         resultCode: '02',
-        resultDescription: 'Sortcode and Bank Account are not valid'
+        resultDescription: 'Sortcode and Bank Account are not valid',
     };
 
     expect(normalizeResponse(mockInvalidResponse)).toEqual({
-        code: 'INVALID_ACCOUNT'
+        code: 'INVALID_ACCOUNT',
     });
 });
 
 test('should throw an error for bad response', () => {
     const mockBadResponse = {
         resultCode: '05',
-        resultDescription: 'Key and/or password are invalid.'
+        resultDescription: 'Key and/or password are invalid.',
     };
 
     expect(() => normalizeResponse(mockBadResponse)).toThrow(

@@ -17,7 +17,7 @@ const { Users, Staff } = require('../db/models');
  * User sign-in strategy
  */
 function localAuthStrategy() {
-    return new LocalStrategy(async function(username, password, done) {
+    return new LocalStrategy(async function (username, password, done) {
         try {
             const user = await Users.findByUsername(username);
             if (user) {
@@ -67,9 +67,9 @@ function azureAuthStrategy() {
             nonceLifetime: null,
             nonceMaxAmount: 5,
             useCookieInsteadOfSession: false,
-            clockSkew: null
+            clockSkew: null,
         },
-        async function(
+        async function (
             req,
             iss,
             sub,
@@ -103,7 +103,7 @@ function azureAuthStrategy() {
     );
 }
 
-module.exports = function() {
+module.exports = function () {
     passport.use(localAuthStrategy());
 
     /**
@@ -118,7 +118,7 @@ module.exports = function() {
         return {
             id: user.id,
             userType: user.constructor.name,
-            userData: user
+            userData: user,
         };
     }
 
@@ -127,7 +127,7 @@ module.exports = function() {
         return null;
     });
 
-    passport.deserializeUser(async function(serializedUser, done) {
+    passport.deserializeUser(async function (serializedUser, done) {
         try {
             const model = serializedUser.userType === 'staff' ? Staff : Users;
             const user = await model.findByPk(serializedUser.userData.id);

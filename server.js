@@ -36,11 +36,11 @@ Sentry.init({
     logger: 'server',
     environment: appData.environment,
     release: `tnlcf-web-${appData.commitId}`,
-    beforeSend: function(event) {
+    beforeSend: function (event) {
         // Clear all POST data
         delete event.request.data;
         return event;
-    }
+    },
 });
 
 /**
@@ -55,9 +55,9 @@ i18n.expressBind(app, {
     locales: ['en', 'cy'],
     directory: './config/locales',
     extension: '.yml',
-    parse: data => yaml.safeLoad(data),
-    dump: data => yaml.safeDump(data),
-    devMode: false
+    parse: (data) => yaml.safeLoad(data),
+    dump: (data) => yaml.safeDump(data),
+    devMode: false,
 });
 
 /**
@@ -85,7 +85,7 @@ app.get('/status', (req, res) => {
         COMMIT_ID: appData.commitId,
         BUILD_NUMBER: appData.buildNumber,
         START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
-        UPTIME: LAUNCH_DATE.toNow(true)
+        UPTIME: LAUNCH_DATE.toNow(true),
     });
 });
 
@@ -127,7 +127,7 @@ function initViewEngine() {
         autoescape: true,
         express: app,
         noCache: true, // Disable nunjucks memory cache
-        watch: shouldWatchTemplates
+        watch: shouldWatchTemplates,
     });
 
     forEach(require('./views/filters'), (filterFn, filterName) => {
@@ -156,29 +156,29 @@ app.use([
     helmet({
         contentSecurityPolicy: {
             directives: cspDirectives(),
-            browserSniff: false
+            browserSniff: false,
         },
         dnsPrefetchControl: { allow: true },
         frameguard: { action: 'sameorigin' },
         permittedCrossDomainPolicies: {
-            permittedPolicies: 'none'
+            permittedPolicies: 'none',
         },
         referrerPolicy: {
-            policy: 'no-referrer-when-downgrade'
+            policy: 'no-referrer-when-downgrade',
         },
         featurePolicy: {
             features: {
                 fullscreen: ["'self'"],
-                payment: ["'none'"]
-            }
-        }
+                payment: ["'none'"],
+            },
+        },
     }),
     express.json(),
     express.urlencoded({ extended: true }),
     require('./common/session')(app),
     require('./common/passport')(),
     require('./common/locals'),
-    require('./common/preview-auth')
+    require('./common/preview-auth'),
 ]);
 
 /**
@@ -191,7 +191,7 @@ app.use('/patterns', require('./controllers/pattern-library'));
 /**
  * Handle Aliases
  */
-aliases.forEach(redirect => {
+aliases.forEach((redirect) => {
     app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
 });
 
@@ -218,14 +218,14 @@ app.use('/', require('./controllers/archived'));
  * - Apply section specific controller logic
  * - Add common routing (for static/fully-CMS powered pages)
  */
-forEach(routes, function(section, sectionId) {
+forEach(routes, function (section, sectionId) {
     const router = express.Router();
 
     /**
      * Add section locals
      * Used for determining top-level section for navigation and breadcrumbs
      */
-    router.use(function(req, res, next) {
+    router.use(function (req, res, next) {
         const sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
         const sectionUrl = localify(req.i18n.getLocale())(req.baseUrl || '/');
 
@@ -243,7 +243,7 @@ forEach(routes, function(section, sectionId) {
     /**
      * Mount page router
      */
-    section.pages.forEach(function(page) {
+    section.pages.forEach(function (page) {
         router.use(page.path, page.router);
     });
 
@@ -274,7 +274,7 @@ app.use(renderNotFound);
 /**
  * Global error handler
  */
-app.use(Sentry.Handlers.errorHandler(), function(err, req, res, next) {
+app.use(Sentry.Handlers.errorHandler(), function (err, req, res, next) {
     if (res.headersSent) {
         return next(err);
     }

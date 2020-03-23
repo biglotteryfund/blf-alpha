@@ -6,21 +6,21 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:vue/strongly-recommended',
-        'plugin:compat/recommended'
+        'plugin:compat/recommended',
     ],
     settings: {
-        polyfills: ['Promise']
+        polyfills: ['Promise'],
     },
     env: {
         node: false,
         commonjs: true,
         browser: true,
-        es6: true
+        es6: true,
     },
     parserOptions: {
         parser: 'babel-eslint',
         sourceType: 'module',
-        allowImportExportEverywhere: true
+        allowImportExportEverywhere: true,
     },
     rules: {
         'lodash/import-scope': ['error', 'method'],
@@ -29,6 +29,6 @@ module.exports = {
         'vue/html-self-closing': 'off',
         'vue/max-attributes-per-line': 'off',
         'vue/require-prop-types': 'off',
-        'vue/singleline-html-element-content-newline': 'off'
-    }
+        'vue/singleline-html-element-content-newline': 'off',
+    },
 };

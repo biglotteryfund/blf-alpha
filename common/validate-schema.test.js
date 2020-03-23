@@ -6,13 +6,11 @@ const validateSchema = require('./validate-schema');
 describe('validate schemas', () => {
     test('should have right error value if validations pass', () => {
         const schema = Joi.object({
-            username: Joi.string()
-                .email()
-                .required()
+            username: Joi.string().email().required(),
         });
 
         const messages = {
-            username: [{ type: 'base', message: 'Invalid email' }]
+            username: [{ type: 'base', message: 'Invalid email' }],
         };
 
         const validationResult = validateSchema(

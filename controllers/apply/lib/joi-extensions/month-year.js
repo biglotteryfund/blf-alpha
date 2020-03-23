@@ -2,30 +2,23 @@
 const toInteger = require('lodash/toInteger');
 const moment = require('moment');
 
-const valueToDate = value => {
+const valueToDate = (value) => {
     return moment({
         year: toInteger(value.year),
         month: toInteger(value.month) - 1,
-        day: 1
+        day: 1,
     });
 };
 
-module.exports = function(joi) {
+module.exports = function (joi) {
     return {
         name: 'monthYear',
         base: joi.object({
-            month: joi
-                .number()
-                .integer()
-                .required(),
-            year: joi
-                .number()
-                .integer()
-                .min(1000)
-                .required()
+            month: joi.number().integer().required(),
+            year: joi.number().integer().min(1000).required(),
         }),
         language: {
-            pastDate: 'must be in the past'
+            pastDate: 'must be in the past',
         },
         pre(value, state, options) {
             const date = valueToDate(value);
@@ -56,13 +49,13 @@ module.exports = function(joi) {
                             options
                         );
                     }
-                }
+                },
             },
             {
                 name: 'minTimeAgo',
                 params: {
                     amount: joi.number().required(),
-                    units: joi.string().required()
+                    units: joi.string().required(),
                 },
                 /* eslint-disable-next-line no-unused-vars */
                 validate(params, value, state, options) {
@@ -75,8 +68,8 @@ module.exports = function(joi) {
                     );
                     value.isBeforeMin = isBeforeMin;
                     return value;
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

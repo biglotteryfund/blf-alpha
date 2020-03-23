@@ -32,13 +32,13 @@ const { buildArchiveUrl, makeWelsh } = require('../common/urls');
     '/funding/scotland-portfolio*',
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*',
     '/global-content/press-releases/*',
-    '/research*'
-].forEach(urlPath => {
+    '/research*',
+].forEach((urlPath) => {
     function renderArchived(req, res) {
         res.setHeader('X-Robots-Tag', 'noindex');
         res.render('static-pages/archived', {
             title: 'Archived',
-            archiveUrl: buildArchiveUrl(req.originalUrl)
+            archiveUrl: buildArchiveUrl(req.originalUrl),
         });
     }
 
@@ -58,7 +58,7 @@ router.get('/-/media/files/*', (req, res) => {
     res.setHeader('X-Robots-Tag', 'noindex');
     res.status(404).render('static-pages/legacy-file', {
         title: 'Document archived',
-        filePath: req.originalUrl
+        filePath: req.originalUrl,
     });
 });
 

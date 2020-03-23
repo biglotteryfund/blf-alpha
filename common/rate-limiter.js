@@ -8,7 +8,7 @@ const RateLimiterMemory = require('rate-limiter-flexible/lib/RateLimiterMemory')
 const { sequelize } = require('../db/models');
 const appData = require('./appData');
 const logger = require('./logger').child({
-    service: 'rate-limiter'
+    service: 'rate-limiter',
 });
 
 const sqlDialect = sequelize.getDialect();
@@ -22,14 +22,14 @@ function rateLimiterFor(conf) {
             keyPrefix: conf.keyPrefix,
             points: conf.maxPoints,
             duration: conf.duration,
-            blockDuration: conf.blockDuration
+            blockDuration: conf.blockDuration,
         });
     } else {
         return new RateLimiterMemory({
             keyPrefix: conf.keyPrefix,
             points: conf.maxPoints,
             duration: conf.duration,
-            blockDuration: conf.blockDuration
+            blockDuration: conf.blockDuration,
         });
     }
 }
@@ -38,7 +38,7 @@ function makeRateLimiter(id, conf) {
     return {
         id: id,
         config: conf,
-        instance: rateLimiterFor(conf)
+        instance: rateLimiterFor(conf),
     };
 }
 
@@ -47,8 +47,8 @@ const rateLimiterConfigs = {
         maxPoints: 10,
         keyPrefix: 'login_fail_consecutive_username',
         duration: 60 * 60 * 3, // Points will expire after 3 hours
-        blockDuration: 60 * 15 // Exceeding points locks user out for 15 minutes
-    })
+        blockDuration: 60 * 15, // Exceeding points locks user out for 15 minutes
+    }),
 };
 
 class RateLimiter {
@@ -80,7 +80,7 @@ class RateLimiter {
             logger.warn('User rate limited', {
                 rateLimiter: this.limiterConf.id,
                 consumedPoints: consumedPoints,
-                maximumPoints: this.maxPoints
+                maximumPoints: this.maxPoints,
             });
         }
         return isRateLimited;
@@ -125,5 +125,5 @@ class RateLimiter {
 
 module.exports = {
     RateLimiter,
-    rateLimiterConfigs
+    rateLimiterConfigs,
 };

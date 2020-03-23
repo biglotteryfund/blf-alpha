@@ -56,25 +56,25 @@ class FormModel {
 
             field.withErrors(
                 validation.messages.filter(
-                    messages => messages.param === field.name
+                    (messages) => messages.param === field.name
                 )
             );
 
             field.withFeaturedErrors(
                 validation.featuredMessages.filter(
-                    messages => messages.param === field.name
+                    (messages) => messages.param === field.name
                 )
             );
 
             return field;
         }
 
-        this.sections = props.sections.map(originalSection => {
+        this.sections = props.sections.map((originalSection) => {
             const section = cloneDeep(originalSection);
 
-            section.steps = section.steps.map(function(step, stepIndex) {
-                step.fieldsets = step.fieldsets.map(fieldset => {
-                    fieldset.fields = fieldset.fields.map(field => {
+            section.steps = section.steps.map(function (step, stepIndex) {
+                step.fieldsets = step.fieldsets.map((fieldset) => {
+                    fieldset.fields = fieldset.fields.map((field) => {
                         return has(field, '_isClass')
                             ? enrichFieldClass(field)
                             : enrichField(field);
@@ -88,12 +88,12 @@ class FormModel {
             });
 
             const sectionFieldNames = section.steps
-                .flatMap(step => step.getCurrentFields())
-                .map(field => field.name);
+                .flatMap((step) => step.getCurrentFields())
+                .map((field) => field.name);
 
             function sectionStatus() {
                 const fieldData = pick(data, sectionFieldNames);
-                const fieldErrors = validation.messages.filter(item =>
+                const fieldErrors = validation.messages.filter((item) =>
                     sectionFieldNames.includes(item.param)
                 );
 
@@ -121,11 +121,11 @@ class FormModel {
                 slug: section.slug,
                 label: section.shortTitle || section.title,
                 status: sectionStatus(),
-                statusLabel: sectionStatusLabel()
+                statusLabel: sectionStatusLabel(),
             };
 
-            section.hasFeaturedErrors = validation.featuredMessages.some(item =>
-                sectionFieldNames.includes(item.param)
+            section.hasFeaturedErrors = validation.featuredMessages.some(
+                (item) => sectionFieldNames.includes(item.param)
             );
 
             return section;
@@ -139,9 +139,9 @@ class FormModel {
             isComplete: formIsEmpty === false && this.validation.error === null,
             isPristine: formIsEmpty === true,
             sectionsComplete: this.sections.filter(
-                section => section.progress.status === 'complete'
+                (section) => section.progress.status === 'complete'
             ).length,
-            sections: this.sections.map(section => section.progress)
+            sections: this.sections.map((section) => section.progress),
         };
 
         this.summary = props.summary;
@@ -153,7 +153,7 @@ class FormModel {
         return Joi.object(
             reduce(
                 this.allFields,
-                function(acc, field) {
+                function (acc, field) {
                     acc[field.name] = field.schema;
                     return acc;
                 },
@@ -165,7 +165,7 @@ class FormModel {
     get messages() {
         return reduce(
             this.allFields,
-            function(acc, field) {
+            function (acc, field) {
                 acc[field.name] = field.messages;
                 return acc;
             },
@@ -183,8 +183,8 @@ class FormModel {
      * message types should be included in the list.
      */
     _getFeaturedMessages(messages) {
-        return messages.filter(message => {
-            return this.featuredErrorsAllowList.some(item => {
+        return messages.filter((message) => {
+            return this.featuredErrorsAllowList.some((item) => {
                 if (item.includeBase === true) {
                     return item.fieldName === message.param;
                 } else {
@@ -200,13 +200,13 @@ class FormModel {
     validate(data) {
         const { value, error } = this.schema.validate(data, {
             abortEarly: false,
-            stripUnknown: true
+            stripUnknown: true,
         });
 
         const messages = normaliseErrors({
             validationError: error,
             errorMessages: this.messages,
-            formFields: this.allFields
+            formFields: this.allFields,
         });
 
         return {
@@ -214,22 +214,22 @@ class FormModel {
             error: error,
             isValid: error === null && messages.length === 0,
             messages: messages,
-            featuredMessages: this._getFeaturedMessages(messages)
+            featuredMessages: this._getFeaturedMessages(messages),
         };
     }
 
     getSection(slug) {
-        return this.sections.find(section => section.slug === slug);
+        return this.sections.find((section) => section.slug === slug);
     }
 
     getCurrentSteps() {
-        return this.sections.flatMap(section => section.steps);
+        return this.sections.flatMap((section) => section.steps);
     }
 
     getCurrentFields() {
         return this.getCurrentSteps()
-            .flatMap(step => step.fieldsets)
-            .flatMap(fieldset => fieldset.fields);
+            .flatMap((step) => step.fieldsets)
+            .flatMap((fieldset) => fieldset.fields);
     }
 
     getStep(sectionSlug, stepIndex) {
@@ -240,10 +240,10 @@ class FormModel {
     getErrorsByStep() {
         const { messages } = this.validation;
         if (messages.length > 0) {
-            return this.getCurrentSteps().map(step => {
+            return this.getCurrentSteps().map((step) => {
                 return {
                     title: step.title,
-                    errors: step.filterErrors(messages)
+                    errors: step.filterErrors(messages),
                 };
             });
         } else {
@@ -254,7 +254,7 @@ class FormModel {
     previousSection(sectionSlug) {
         const currentSectionIndex = findIndex(
             this.sections,
-            section => section.slug === sectionSlug
+            (section) => section.slug === sectionSlug
         );
 
         return this.sections[currentSectionIndex - 1];
@@ -263,45 +263,48 @@ class FormModel {
     nextSection(sectionSlug) {
         const currentSectionIndex = findIndex(
             this.sections,
-            section => section.slug === sectionSlug
+            (section) => section.slug === sectionSlug
         );
 
         return this.sections[currentSectionIndex + 1];
     }
 
     previousPage({ baseUrl, sectionSlug, currentStepIndex = null, copy = {} }) {
-        const currentSection = find(this.sections, s => s.slug === sectionSlug);
+        const currentSection = find(
+            this.sections,
+            (s) => s.slug === sectionSlug
+        );
 
         const previousSection = this.previousSection(sectionSlug);
 
         if (currentStepIndex > 0) {
             const targetIndex = findLastIndex(
                 currentSection.steps,
-                step => step.isRequired === true,
+                (step) => step.isRequired === true,
                 currentStepIndex - 1
             );
             return {
                 label: currentSection.steps[targetIndex].title,
-                url: `${baseUrl}/${currentSection.slug}/${targetIndex + 1}`
+                url: `${baseUrl}/${currentSection.slug}/${targetIndex + 1}`,
             };
         } else if (currentStepIndex === 0 && currentSection.introduction) {
             return {
                 label: currentSection.steps[0].title,
-                url: `${baseUrl}/${currentSection.slug}`
+                url: `${baseUrl}/${currentSection.slug}`,
             };
         } else if (previousSection) {
             const targetIndex = findLastIndex(
                 previousSection.steps,
-                step => step.isRequired === true
+                (step) => step.isRequired === true
             );
             return {
                 label: previousSection.steps[targetIndex].title,
-                url: `${baseUrl}/${previousSection.slug}/${targetIndex + 1}`
+                url: `${baseUrl}/${previousSection.slug}/${targetIndex + 1}`,
             };
         } else {
             return {
                 label: copy.navigation.summary,
-                url: `${baseUrl}/summary`
+                url: `${baseUrl}/summary`,
             };
         }
     }
@@ -309,7 +312,7 @@ class FormModel {
     nextPage({ baseUrl, sectionSlug, currentStepIndex = null, copy = {} }) {
         const currentSection = find(
             this.sections,
-            section => section.slug === sectionSlug
+            (section) => section.slug === sectionSlug
         );
 
         const nextSection = this.nextSection(sectionSlug);
@@ -317,12 +320,12 @@ class FormModel {
         if (currentStepIndex === null && currentSection.introduction) {
             return {
                 label: currentSection.steps[0].title,
-                url: `${baseUrl}/${currentSection.slug}/1`
+                url: `${baseUrl}/${currentSection.slug}/1`,
             };
         } else {
             const targetIndex = findIndex(
                 currentSection.steps,
-                step => step.isRequired === true,
+                (step) => step.isRequired === true,
                 currentStepIndex + 1
             );
 
@@ -332,17 +335,17 @@ class FormModel {
             ) {
                 return {
                     label: currentSection.steps[targetIndex].title,
-                    url: `${baseUrl}/${currentSection.slug}/${targetIndex + 1}`
+                    url: `${baseUrl}/${currentSection.slug}/${targetIndex + 1}`,
                 };
             } else if (nextSection) {
                 return {
                     label: nextSection.steps[0].title,
-                    url: `${baseUrl}/${nextSection.slug}`
+                    url: `${baseUrl}/${nextSection.slug}`,
                 };
             } else {
                 return {
                     label: copy.navigation.summary,
-                    url: `${baseUrl}/summary`
+                    url: `${baseUrl}/summary`,
                 };
             }
         }
@@ -351,17 +354,17 @@ class FormModel {
     pagination(options) {
         return {
             nextPage: this.nextPage(options),
-            previousPage: this.previousPage(options)
+            previousPage: this.previousPage(options),
         };
     }
 
     fullSummary() {
         return this.getCurrentFields()
-            .filter(field => field.displayValue)
-            .map(field => {
+            .filter((field) => field.displayValue)
+            .map((field) => {
                 return {
                     label: field.label,
-                    value: field.displayValue
+                    value: field.displayValue,
                 };
             });
     }

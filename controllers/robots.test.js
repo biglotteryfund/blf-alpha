@@ -8,7 +8,7 @@ function createRequestFor(host) {
     return httpMocks.createRequest({
         method: 'GET',
         url: '/robots.txt',
-        headers: { 'Host': host, 'X-Forwarded-Proto': 'https' }
+        headers: { 'Host': host, 'X-Forwarded-Proto': 'https' },
     });
 }
 

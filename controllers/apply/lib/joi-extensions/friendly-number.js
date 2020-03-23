@@ -1,7 +1,7 @@
 'use strict';
 const isString = require('lodash/isString');
 
-module.exports = function(joi) {
+module.exports = function (joi) {
     return {
         name: 'friendlyNumber',
         base: joi.number(),
@@ -12,6 +12,6 @@ module.exports = function(joi) {
                 return value.replace(/[^0-9.]/g, '');
             }
             return value;
-        }
+        },
     };
 };

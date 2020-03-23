@@ -29,25 +29,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'mainContactDateOfBirth',
             minAge: 16,
-            contactName: mainContactFullName
+            contactName: mainContactFullName,
         }),
         mainContactAddress: fieldMainContactAddress({
             locale: locale,
-            contactName: mainContactFullName
+            contactName: mainContactFullName,
         }),
         mainContactAddressHistory: fieldAddressHistory({
             locale: locale,
-            name: 'mainContactAddressHistory'
+            name: 'mainContactAddressHistory',
         }),
         mainContactEmail: fieldMainContactEmail(locale),
         mainContactPhone: fieldMainContactPhone(locale),
         mainContactLanguagePreference: fieldContactLanguagePreference({
             locale: locale,
-            name: 'mainContactLanguagePreference'
+            name: 'mainContactLanguagePreference',
         }),
         mainContactCommunicationNeeds: fieldContactCommunicationNeeds({
             locale: locale,
-            name: 'mainContactCommunicationNeeds'
+            name: 'mainContactCommunicationNeeds',
         }),
         seniorContactRole: fieldSeniorContactRole(locale, data),
         seniorContactName: fieldSeniorContactName(locale),
@@ -55,25 +55,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'seniorContactDateOfBirth',
             minAge: 18,
-            contactName: seniorContactFullName
+            contactName: seniorContactFullName,
         }),
         seniorContactAddress: fieldSeniorContactAddress({
             locale: locale,
-            contactName: seniorContactFullName
+            contactName: seniorContactFullName,
         }),
         seniorContactAddressHistory: fieldAddressHistory({
             locale: locale,
-            name: 'seniorContactAddressHistory'
+            name: 'seniorContactAddressHistory',
         }),
         seniorContactEmail: fieldSeniorContactEmail(locale),
         seniorContactPhone: fieldSeniorContactPhone(locale),
         seniorContactLanguagePreference: fieldContactLanguagePreference({
             locale: locale,
-            name: 'seniorContactLanguagePreference'
+            name: 'seniorContactLanguagePreference',
         }),
         seniorContactCommunicationNeeds: fieldContactCommunicationNeeds({
             locale: locale,
-            name: 'seniorContactCommunicationNeeds'
-        })
+            name: 'seniorContactCommunicationNeeds',
+        }),
     };
 };

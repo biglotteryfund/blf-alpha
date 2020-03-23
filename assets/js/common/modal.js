@@ -6,7 +6,7 @@ import forEach from 'lodash/forEach';
 
 function ModalDialogue() {}
 
-ModalDialogue.prototype.start = function($module) {
+ModalDialogue.prototype.start = function ($module) {
     this.$module = $module;
     this.$dialogBox = this.$module.querySelector('.js-modal-dialog');
     this.$closeButton = this.$module.querySelector(
@@ -31,13 +31,13 @@ ModalDialogue.prototype.start = function($module) {
     }
 
     if (this.$allCloseButtons) {
-        forEach(this.$allCloseButtons, el => {
+        forEach(this.$allCloseButtons, (el) => {
             el.addEventListener('click', this.$module.close);
         });
     }
 };
 
-ModalDialogue.prototype.handleOpen = function(event) {
+ModalDialogue.prototype.handleOpen = function (event) {
     if (event) {
         event.preventDefault();
     }
@@ -59,7 +59,7 @@ ModalDialogue.prototype.handleOpen = function(event) {
     document.addEventListener('keydown', this.$module.boundKeyDown, true);
 };
 
-ModalDialogue.prototype.handleClose = function(event) {
+ModalDialogue.prototype.handleClose = function (event) {
     if (event) {
         event.preventDefault();
     }
@@ -72,13 +72,13 @@ ModalDialogue.prototype.handleClose = function(event) {
     document.removeEventListener('keydown', this.$module.boundKeyDown, true);
 };
 
-ModalDialogue.prototype.handleFocusDialog = function() {
+ModalDialogue.prototype.handleFocusDialog = function () {
     this.$dialogBox.focus();
 };
 
 // while open, prevent tabbing to outside the dialogue
 // and listen for ESC key to close the dialogue
-ModalDialogue.prototype.handleKeyDown = function(event) {
+ModalDialogue.prototype.handleKeyDown = function (event) {
     const KEY_TAB = 9;
     const KEY_ESC = 27;
 
@@ -120,7 +120,7 @@ ModalDialogue.prototype.handleKeyDown = function(event) {
 function init() {
     const modalStartedAttr = 'data-modal-started';
     const modalElements = document.querySelectorAll('[data-modal]');
-    forEach(modalElements, el => {
+    forEach(modalElements, (el) => {
         const started = el.getAttribute(modalStartedAttr);
         if (!started) {
             const modal = new ModalDialogue();
@@ -140,5 +140,5 @@ function triggerModal(id) {
 
 export default {
     init,
-    triggerModal
+    triggerModal,
 };

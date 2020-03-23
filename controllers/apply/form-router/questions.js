@@ -2,17 +2,17 @@
 const express = require('express');
 const path = require('path');
 
-module.exports = function(formId, formBuilder, eligibilityBuilder) {
+module.exports = function (formId, formBuilder, eligibilityBuilder) {
     const router = express.Router();
 
-    router.get('/', function(req, res) {
+    router.get('/', function (req, res) {
         const form = formBuilder({
             locale: req.i18n.getLocale(),
-            showAllFields: true
+            showAllFields: true,
         });
 
         const eligibility = eligibilityBuilder({
-            locale: req.i18n.getLocale()
+            locale: req.i18n.getLocale(),
         });
 
         res.locals.enableSiteSurvey = true;
@@ -22,7 +22,7 @@ module.exports = function(formId, formBuilder, eligibilityBuilder) {
             {
                 title: form.title,
                 form: form,
-                eligibility: eligibility
+                eligibility: eligibility,
             }
         );
     });

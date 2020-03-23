@@ -6,10 +6,10 @@ module.exports = {
     plugins: ['lodash', 'no-only-tests'],
     env: {
         es6: true,
-        node: true
+        node: true,
     },
     parserOptions: {
-        ecmaVersion: 2020
+        ecmaVersion: 2020,
     },
     rules: {
         'eqeqeq': 'error',
@@ -22,6 +22,6 @@ module.exports = {
         'no-only-tests/no-only-tests': 'error',
         'node/no-unpublished-require': 'off',
         'node/shebang': 'off',
-        'lodash/import-scope': ['warn', 'method']
-    }
+        'lodash/import-scope': ['warn', 'method'],
+    },
 };

@@ -7,19 +7,19 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
 
-module.exports = function(locale, data) {
+module.exports = function (locale, data) {
     const localise = get(locale);
 
     const budgetTotal = sumBy(
         getOr([], 'projectBudget')(data),
-        item => parseInt(item.cost, 10) || 0
+        (item) => parseInt(item.cost, 10) || 0
     );
 
     return {
         name: 'projectTotalCosts',
         label: localise({
             en: 'Tell us the total cost of your project',
-            cy: 'Dywedwch wrthym gyfanswm cost eich prosiect'
+            cy: 'Dywedwch wrthym gyfanswm cost eich prosiect',
         }),
         explanation: localise({
             en: `<p>
@@ -43,7 +43,7 @@ module.exports = function(locale, data) {
                     yna cyfanswm cost eich prosiect yw £18,000. Os ydych yn gofyn
                     i ni am £8,000 a bod dim costau ychwanegol, cyfanswm cost
                     eich prosiect yw £8,000.
-                </p>`
+                </p>`,
         }),
         type: 'currency',
         isRequired: true,
@@ -57,15 +57,15 @@ module.exports = function(locale, data) {
                 type: 'base',
                 message: localise({
                     en: 'Enter a total cost for your project',
-                    cy: 'Rhowch gyfanswm cost eich prosiect'
-                })
+                    cy: 'Rhowch gyfanswm cost eich prosiect',
+                }),
             },
             {
                 type: 'number.integer',
                 message: localise({
                     en: `Total cost must be a whole number (eg. no decimal point)`,
-                    cy: `Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)`
-                })
+                    cy: `Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)`,
+                }),
             },
             {
                 type: 'number.min',
@@ -73,9 +73,9 @@ module.exports = function(locale, data) {
                     en: oneLine`Total cost must be the same as or higher
                         than the amount you’re asking us to fund`,
                     cy: oneLine`Rhaid i’r cyfanswm cost fod yr un peth,
-                        neu’n fwy na faint rydych yn ei ofyn amdano. `
-                })
-            }
-        ]
+                        neu’n fwy na faint rydych yn ei ofyn amdano. `,
+                }),
+            },
+        ],
     };
 };

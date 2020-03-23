@@ -10,7 +10,7 @@ const {
     getSendAddress,
     normaliseSendTo,
     sendEmail,
-    sendHtmlEmail
+    sendHtmlEmail,
 } = require('./mail');
 
 const exampleEmail = 'example@biglotteryfund.org.uk';
@@ -21,15 +21,15 @@ function sendMockEmail(mailConfig) {
         name: 'mock_email',
         mailConfig: mailConfig,
         mailTransport: nodemailer.createTransport({
-            jsonTransport: true
-        })
+            jsonTransport: true,
+        }),
     });
 }
 
 function createMockHtml() {
     return generateHtmlEmail({
         template: path.resolve(__dirname, './mocks/test-email.njk'),
-        templateData: { example: 'Example data' }
+        templateData: { example: 'Example data' },
     });
 }
 
@@ -37,11 +37,11 @@ function createAndSendMockHtmlEmail(mailConfig) {
     return sendHtmlEmail(
         {
             template: path.resolve(__dirname, './mocks/test-email.njk'),
-            templateData: { example: 'Example data' }
+            templateData: { example: 'Example data' },
         },
         mailConfig,
         nodemailer.createTransport({
-            jsonTransport: true
+            jsonTransport: true,
         })
     );
 }
@@ -51,7 +51,7 @@ describe('buildMailOptions', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
             sendTo: 'example@example.com',
-            content: 'This is a test'
+            content: 'This is a test',
         });
 
         expect(mailOptions).toMatchSnapshot();
@@ -61,7 +61,7 @@ describe('buildMailOptions', () => {
         const mailOptions = buildMailOptions({
             subject: 'Test',
             sendTo: { name: 'Example Person', address: 'example@example.com' },
-            content: 'This is a test'
+            content: 'This is a test',
         });
 
         expect(mailOptions).toMatchSnapshot();
@@ -72,9 +72,9 @@ describe('buildMailOptions', () => {
             subject: 'Test',
             sendTo: [
                 { address: 'example@biglotteryfund.org.uk' },
-                { address: 'example@blah.com' }
+                { address: 'example@blah.com' },
             ],
-            content: 'This is a test'
+            content: 'This is a test',
         });
 
         expect(mailOptions).toMatchSnapshot();
@@ -85,7 +85,7 @@ describe('buildMailOptions', () => {
             subject: 'Test',
             sendTo: [{ address: 'example@example.com' }],
             type: 'html',
-            content: '<p>This is a test</p>'
+            content: '<p>This is a test</p>',
         });
 
         expect(mailOptions).toMatchSnapshot();
@@ -96,7 +96,7 @@ describe('buildMailOptions', () => {
             subject: 'Test',
             sendTo: [{ address: 'example@biglotteryfund.org.uk' }],
             type: 'html',
-            content: '<p>This is a test</p>'
+            content: '<p>This is a test</p>',
         });
 
         expect(mailOptions).toMatchSnapshot();
@@ -108,7 +108,7 @@ describe('buildMailOptions', () => {
                 subject: 'Test',
                 sendTo: [{ address: 'example@biglotteryfund.org.uk' }],
                 type: 'not_a_thing',
-                content: '<p>This is a test</p>'
+                content: '<p>This is a test</p>',
             });
         }).toThrow();
     });
@@ -132,7 +132,7 @@ describe('generateHtmlEmail', () => {
         await expect(
             generateHtmlEmail({
                 template: path.resolve(__dirname, 'bad-email.njk'),
-                templateData: { bad: 'Bad data' }
+                templateData: { bad: 'Bad data' },
             })
         ).rejects.toThrow();
     });
@@ -146,15 +146,15 @@ describe('getSendAddress', () => {
         expect(
             getSendAddress([
                 {
-                    address: 'example@example.com'
-                }
+                    address: 'example@example.com',
+                },
             ])
         ).toBe(expectedDefault);
         expect(
             getSendAddress([
                 {
-                    address: 'example@gmail.com'
-                }
+                    address: 'example@gmail.com',
+                },
             ])
         ).toBe(expectedDefault);
     });
@@ -185,7 +185,7 @@ describe('getSendAddress', () => {
 describe('normaliseSendTo', () => {
     test('handle a single address string', () => {
         expect(normaliseSendTo('example@example.com')).toEqual([
-            { address: 'example@example.com' }
+            { address: 'example@example.com' },
         ]);
     });
 
@@ -194,36 +194,36 @@ describe('normaliseSendTo', () => {
             normaliseSendTo('example@example.com,another@example.com')
         ).toEqual([
             { address: 'example@example.com' },
-            { address: 'another@example.com' }
+            { address: 'another@example.com' },
         ]);
     });
 
     test('handle a single address object', () => {
         expect(normaliseSendTo({ address: 'example@example.com' })).toEqual([
-            { address: 'example@example.com' }
+            { address: 'example@example.com' },
         ]);
 
         expect(
             normaliseSendTo({
                 name: 'Example Name',
-                address: 'example@example.com'
+                address: 'example@example.com',
             })
         ).toEqual([{ name: 'Example Name', address: 'example@example.com' }]);
     });
 
     test('handle an array of address objects', () => {
         expect(normaliseSendTo([{ address: 'example@example.com' }])).toEqual([
-            { address: 'example@example.com' }
+            { address: 'example@example.com' },
         ]);
 
         expect(
             normaliseSendTo([
                 { name: 'Example Name', address: 'example@example.com' },
-                { name: 'Another Name', address: 'another@example.com' }
+                { name: 'Another Name', address: 'another@example.com' },
             ])
         ).toEqual([
             { name: 'Example Name', address: 'example@example.com' },
-            { name: 'Another Name', address: 'another@example.com' }
+            { name: 'Another Name', address: 'another@example.com' },
         ]);
     });
 });
@@ -234,7 +234,7 @@ describe('sendEmail', () => {
             subject: 'Mock email',
             sendTo: [{ address: 'example@example.com' }],
             type: 'text',
-            content: 'This is a test email'
+            content: 'This is a test email',
         });
 
         expect(info.envelope.from).toEqual('noreply@tnlcommunityfund.org.uk');
@@ -251,7 +251,7 @@ describe('sendEmail', () => {
             subject: 'Mock email',
             sendTo: [{ address: 'example@example.com' }],
             type: 'html',
-            content: html
+            content: html,
         });
 
         expect(info.envelope.from).toEqual('noreply@tnlcommunityfund.org.uk');
@@ -268,7 +268,7 @@ describe('sendHTMLEmail', () => {
         const htmlEmail = await createAndSendMockHtmlEmail({
             name: 'mock_html_email',
             subject: 'Mock HTML email',
-            sendTo: [{ address: 'example@example.com' }]
+            sendTo: [{ address: 'example@example.com' }],
         });
 
         expect(htmlEmail.envelope.from).toEqual(

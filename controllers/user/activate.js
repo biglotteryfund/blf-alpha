@@ -6,7 +6,7 @@ const { Users } = require('../../db/models');
 const {
     redirectUrlWithFallback,
     requireUnactivatedUser,
-    isActivated
+    isActivated,
 } = require('../../common/authed');
 const { injectCopy } = require('../../common/inject-content');
 const logger = require('../../common/logger').child({ service: 'user' });
@@ -24,14 +24,14 @@ function renderTemplate(req, res) {
 router
     .route('/')
     .all(injectCopy('user.activate'))
-    .get(async function(req, res) {
+    .get(async function (req, res) {
         // Prevent activated users from persisting on this page
         if (req.user && isActivated(req.user)) {
             return res.redirect('/user');
         }
         if (req.query.token) {
             logger.info('Activation attempted', {
-                eventSource: 'user'
+                eventSource: 'user',
             });
             try {
                 const decodedData = await verifyTokenActivate(req.query.token);
@@ -47,7 +47,7 @@ router
             renderTemplate(req, res);
         }
     })
-    .post(requireUnactivatedUser, async function(req, res, next) {
+    .post(requireUnactivatedUser, async function (req, res, next) {
         try {
             await sendActivationEmail(req, req.user.userData);
 

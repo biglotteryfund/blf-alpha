@@ -41,7 +41,7 @@ const { isTestServer } = require('../common/appData');
  */
 function generateHtmlEmail({ template, templateData }) {
     return new Promise((resolve, reject) => {
-        nunjucks.render(template, templateData, function(renderErr, html) {
+        nunjucks.render(template, templateData, function (renderErr, html) {
             if (renderErr) {
                 reject(renderErr);
             } else {
@@ -52,10 +52,10 @@ function generateHtmlEmail({ template, templateData }) {
                         removeStyleTags: false,
                         webResources: {
                             relativeTo: publicRoot,
-                            images: false // add `data-inline-ignore` to images to force them to be base64 inlined
-                        }
+                            images: false, // add `data-inline-ignore` to images to force them to be base64 inlined
+                        },
                     },
-                    function(juiceErr, newHtml) {
+                    function (juiceErr, newHtml) {
                         /* istanbul ignore if */
                         if (juiceErr) {
                             reject(juiceErr);
@@ -91,14 +91,14 @@ async function sendHtmlEmail(
         ...mailParams,
         ...{
             type: 'html',
-            content: emailHtml
-        }
+            content: emailHtml,
+        },
     };
 
     return sendEmail({
         name: mailParams.name,
         mailConfig: mailConfig,
-        mailTransport: mailTransport
+        mailTransport: mailTransport,
     });
 }
 
@@ -112,10 +112,10 @@ async function sendHtmlEmail(
  * @return {string}
  */
 function getSendAddress(recipients) {
-    const addresses = recipients.map(recipient => recipient.address);
+    const addresses = recipients.map((recipient) => recipient.address);
     if (
         addresses.some(
-            address =>
+            (address) =>
                 /@biglotteryfund.org.uk$/.test(address) ||
                 /@tnlcommunityfund.org.uk$/.test(address)
         )
@@ -136,7 +136,7 @@ function getSendAddress(recipients) {
 function normaliseSendTo(sendTo) {
     if (isString(sendTo) === true) {
         const addresses = sendTo.split(',');
-        return addresses.map(address => ({ address }));
+        return addresses.map((address) => ({ address }));
     } else if (isArray(sendTo) === true) {
         return sendTo;
     } else {
@@ -155,14 +155,14 @@ function buildMailOptions({
     type = 'text',
     content,
     sendTo,
-    sendMode = 'to'
+    sendMode = 'to',
 }) {
     const normalisedSendTo = normaliseSendTo(sendTo);
     const sendFrom = getSendAddress(normalisedSendTo);
 
     const mailOptions = {
         from: `The National Lottery Community Fund <${sendFrom}>`,
-        subject: subject
+        subject: subject,
     };
 
     if (type === 'html') {
@@ -170,7 +170,7 @@ function buildMailOptions({
         mailOptions.text = htmlToText.fromString(content, {
             wordwrap: 130,
             hideLinkHrefIfSameAsText: true,
-            ignoreImage: true
+            ignoreImage: true,
         });
     } else if (type === 'text') {
         mailOptions.text = content;
@@ -191,7 +191,7 @@ function buildMailOptions({
 function createSesTransport() {
     const SES = new AWS.SES({
         apiVersion: '2010-12-01',
-        region: 'eu-west-1' // SES only available for EU in eu-west-1
+        region: 'eu-west-1', // SES only available for EU in eu-west-1
     });
 
     return nodemailer.createTransport({ SES });
@@ -221,7 +221,7 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
          */
         const transport = mailTransport ? mailTransport : createSesTransport();
 
-        return transport.sendMail(buildMailOptions(mailConfig)).then(info => {
+        return transport.sendMail(buildMailOptions(mailConfig)).then((info) => {
             logger.info('Mail sent', { name: name });
             return info;
         });
@@ -235,5 +235,5 @@ module.exports = {
     getSendAddress,
     normaliseSendTo,
     sendEmail,
-    sendHtmlEmail
+    sendHtmlEmail,
 };

@@ -6,14 +6,14 @@ test('determine files to upload', () => {
     const result = prepareFilesForUpload(
         [
             { name: 'bankStatement', type: 'file' },
-            { name: 'anotherField', type: 'text' }
+            { name: 'anotherField', type: 'text' },
         ],
         {
             bankStatement: {
                 size: 13264,
                 name: 'example.pdf',
-                type: 'application/pdf'
-            }
+                type: 'application/pdf',
+            },
         }
     );
 
@@ -24,14 +24,14 @@ test('trim file names for upload', () => {
     const result = prepareFilesForUpload(
         [
             { name: 'bankStatement', type: 'file' },
-            { name: 'anotherField', type: 'text' }
+            { name: 'anotherField', type: 'text' },
         ],
         {
             bankStatement: {
                 size: 13264,
                 name: '   example.pdf  ',
-                type: 'application/pdf'
-            }
+                type: 'application/pdf',
+            },
         }
     );
 

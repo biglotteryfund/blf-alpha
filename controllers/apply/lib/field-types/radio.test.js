@@ -2,16 +2,16 @@
 'use strict';
 const RadioField = require('./radio');
 
-test('valid field', function() {
+test('valid field', function () {
     const field = new RadioField({
         locale: 'en',
         name: 'example',
         label: 'Example field',
         options: [
             { label: 'Option 1', value: 'option-1' },
-            { label: 'Option 2', value: 'option-2' }
+            { label: 'Option 2', value: 'option-2' },
         ],
-        messages: [{ type: 'base', message: 'Select an option' }]
+        messages: [{ type: 'base', message: 'Select an option' }],
     });
 
     expect(field.type).toBe('radio');
@@ -27,13 +27,13 @@ test('valid field', function() {
     );
 });
 
-test('required properties', function() {
+test('required properties', function () {
     expect(() => {
         new RadioField({
             locale: 'en',
             name: 'example',
             label: 'Example field',
-            messages: [{ type: 'base', message: 'Select an option' }]
+            messages: [{ type: 'base', message: 'Select an option' }],
         });
     }).toThrowError('Must provide options');
 
@@ -45,9 +45,9 @@ test('required properties', function() {
             options: [
                 { label: 'Option 1', value: 'duplicate-value' },
                 { label: 'Option 2', value: 'duplicate-value' },
-                { label: 'Option 3', value: 'option-3' }
+                { label: 'Option 3', value: 'option-3' },
             ],
-            messages: [{ type: 'base', message: 'Select an option' }]
+            messages: [{ type: 'base', message: 'Select an option' }],
         });
     }).toThrowError('Options must contain unique values');
 });

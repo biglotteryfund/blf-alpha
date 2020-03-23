@@ -12,7 +12,7 @@ const formidable = require('formidable');
 
 const {
     PendingApplication,
-    ApplicationEmailQueue
+    ApplicationEmailQueue,
 } = require('../../../db/models');
 
 const logger = require('../../../common/logger').child({ service: 'apply' });
@@ -34,7 +34,7 @@ function initFormRouter({
     transformFunction = null,
     expiryEmailPeriods = null,
     isBilingual = true,
-    allowedProgrammes = {}
+    allowedProgrammes = {},
 }) {
     const router = express.Router();
 
@@ -59,7 +59,7 @@ function initFormRouter({
         res.locals.isBilingual = isBilingual;
 
         const form = formBuilder({
-            locale: req.i18n.getLocale()
+            locale: req.i18n.getLocale(),
         });
 
         res.locals.formTitle = form.title;
@@ -87,14 +87,14 @@ function initFormRouter({
      */
     router.use(noStore, redirectWelsh, setFormProgramme, setCommonLocals);
 
-    router.get('/start', function(req, res) {
+    router.get('/start', function (req, res) {
         const nextPageUrl = eligibilityBuilder
             ? `${req.baseUrl}/eligibility/1`
             : `${req.baseUrl}/new`;
 
         if (startTemplate) {
             res.render(startTemplate, {
-                nextPageUrl: nextPageUrl
+                nextPageUrl: nextPageUrl,
             });
         } else {
             res.redirect(nextPageUrl);
@@ -110,7 +110,7 @@ function initFormRouter({
             const application = await PendingApplication.createNewApplication({
                 formId: formId,
                 userId: req.body.userId,
-                customExpiry: req.body.expiresAt
+                customExpiry: req.body.expiresAt,
             });
 
             if (expiryEmailPeriods) {
@@ -149,7 +149,7 @@ function initFormRouter({
                         next();
                     }
                 })
-                .on('error', err => {
+                .on('error', (err) => {
                     next(err);
                 });
         } else {
@@ -162,20 +162,20 @@ function initFormRouter({
         res.locals.userNavigationLinks = [
             {
                 url: `${req.baseUrl}/summary`,
-                label: req.i18n.__('applyNext.navigation.summary')
+                label: req.i18n.__('applyNext.navigation.summary'),
             },
             {
                 url: res.locals.sectionUrl,
-                label: req.i18n.__('applyNext.navigation.latestApplication')
+                label: req.i18n.__('applyNext.navigation.latestApplication'),
             },
             {
                 url: `${res.locals.sectionUrl}/all`,
-                label: req.i18n.__('applyNext.navigation.allApplications')
+                label: req.i18n.__('applyNext.navigation.allApplications'),
             },
             {
                 url: localify(req.i18n.getLocale())('/user'),
-                label: req.i18n.__('applyNext.navigation.account')
-            }
+                label: req.i18n.__('applyNext.navigation.account'),
+            },
         ];
 
         next();
@@ -185,12 +185,12 @@ function initFormRouter({
      * Require active user past this point
      */
     router.use(
-        requireActiveUserWithCallback(req => {
+        requireActiveUserWithCallback((req) => {
             // Track attempts to submit form steps when session is expired/invalid
             if (req.method === 'POST') {
                 logger.info('User submitted POST data without valid session', {
                     formId: formId,
-                    url: req.originalUrl
+                    url: req.originalUrl,
                 });
             }
         }),
@@ -202,7 +202,7 @@ function initFormRouter({
     /**
      * Route: Redirect to apply dashboard
      */
-    router.get('/', function(req, res) {
+    router.get('/', function (req, res) {
         res.redirect(res.locals.sectionUrl);
     });
 
@@ -234,17 +234,17 @@ function initFormRouter({
     /**
      * Route: New application
      */
-    router.get('/new', async function(req, res, next) {
+    router.get('/new', async function (req, res, next) {
         try {
             let newApplication = {
                 formId: formId,
-                userId: req.user.userData.id
+                userId: req.user.userData.id,
             };
 
             const programme = get(req.session, formProgrammeSessionKey());
             if (programme) {
                 newApplication.metadata = {
-                    programme: programme
+                    programme: programme,
                 };
                 unset(req.session, formProgrammeSessionKey());
                 await req.session.save();
@@ -272,7 +272,7 @@ function initFormRouter({
     /**
      * Route: Edit application
      */
-    router.get('/edit/:applicationId', function(req, res) {
+    router.get('/edit/:applicationId', function (req, res) {
         // If this link includes a source (s) parameter, track it
         // eg. to analyse usage of expiry reminder emails
         if (req.query.s === 'expiryEmail') {
@@ -290,7 +290,7 @@ function initFormRouter({
      * Help pages
      * Used to render support pages for this application
      */
-    router.get('/help/:helpItem', function(req, res) {
+    router.get('/help/:helpItem', function (req, res) {
         const helpItems = ['bank-statement'];
         if (!includes(helpItems, req.params.helpItem)) {
             res.redirect(req.baseUrl);
@@ -308,7 +308,7 @@ function initFormRouter({
 
         res.render(path.resolve(__dirname, './views/help-item'), {
             title: title,
-            item: req.params.helpItem
+            item: req.params.helpItem,
         });
     });
 
@@ -327,7 +327,7 @@ function initFormRouter({
                     {
                         formId: formId,
                         applicationId: currentEditingId,
-                        userId: req.user.userData.id
+                        userId: req.user.userData.id,
                     }
                 );
 
@@ -373,7 +373,7 @@ function initFormRouter({
         if (res.locals.currentApplication.isExpired) {
             return res.render(path.resolve(__dirname, './views/expired'), {
                 title: res.locals.copy.expired.title,
-                csrfToken: req.csrfToken()
+                csrfToken: req.csrfToken(),
             });
         } else {
             next();
@@ -416,7 +416,7 @@ function initFormRouter({
                 const pathConfig = {
                     formId: formId,
                     applicationId: currentlyEditingId,
-                    filename: req.params.filename
+                    filename: req.params.filename,
                 };
 
                 getObject(pathConfig)
@@ -450,5 +450,5 @@ function initFormRouter({
 }
 
 module.exports = {
-    initFormRouter
+    initFormRouter,
 };

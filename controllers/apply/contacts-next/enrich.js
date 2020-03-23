@@ -13,7 +13,7 @@ function details(application, data, locale) {
 
     function formatBudgetTotal(value) {
         const total = value
-            ? sumBy(value, item => toInteger(item.cost) || 0)
+            ? sumBy(value, (item) => toInteger(item.cost) || 0)
             : 0;
         return `£${total.toLocaleString()}`;
     }
@@ -22,7 +22,7 @@ function details(application, data, locale) {
         return data.projectStartDate && data.projectEndDate
             ? formatDateRange(locale)({
                   startDate: data.projectStartDate,
-                  endDate: data.projectEndDate
+                  endDate: data.projectEndDate,
               })
             : null;
     }
@@ -31,28 +31,28 @@ function details(application, data, locale) {
         projectName: data.projectName,
         untitledName: localise({
             en: `Untitled application`,
-            cy: `Cais heb deitl`
+            cy: `Cais heb deitl`,
         }),
         amountRequested: formatBudgetTotal(data.projectBudget),
         overview: [
             {
                 label: localise({
                     en: 'Project dates',
-                    cy: 'Dyddiadau’r prosiect'
+                    cy: 'Dyddiadau’r prosiect',
                 }),
-                value: formatProjectDates()
+                value: formatProjectDates(),
             },
             {
                 label: localise({ en: 'Location', cy: 'Lleoliad' }),
-                value: findLocationName(data.projectLocation)
+                value: findLocationName(data.projectLocation),
             },
             {
                 label: localise({ en: 'Organisation', cy: 'Mudiad' }),
                 value: data.organisationTradingName
                     ? data.organisationTradingName
-                    : data.organisationLegalName
-            }
-        ]
+                    : data.organisationLegalName,
+            },
+        ],
     };
 }
 
@@ -71,7 +71,7 @@ function enrichPending(application, locale = 'en') {
         updatedAt: application.updatedAt,
         progress: form.progress,
         editUrl: `/apply/contacts-next/edit/${application.id}`,
-        deleteUrl: `/apply/contacts-next/delete/${application.id}`
+        deleteUrl: `/apply/contacts-next/delete/${application.id}`,
     };
 
     return Object.assign(defaults, details(application, data, locale));
@@ -84,7 +84,7 @@ function enrichSubmitted(application, locale = 'en') {
         type: 'submitted',
         id: application.id,
         formId: application.formId,
-        submittedAt: application.createdAt
+        submittedAt: application.createdAt,
     };
 
     return Object.assign(defaults, details(application, data, locale));
@@ -92,5 +92,5 @@ function enrichSubmitted(application, locale = 'en') {
 
 module.exports = {
     enrichPending,
-    enrichSubmitted
+    enrichSubmitted,
 };

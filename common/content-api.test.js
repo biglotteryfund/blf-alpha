@@ -10,7 +10,7 @@ it('should transform API pagination meta into object for views', () => {
             count: 10,
             per_page: 10,
             current_page: 1,
-            total_pages: 3
+            total_pages: 3,
         })
     ).toMatchSnapshot();
 
@@ -20,7 +20,7 @@ it('should transform API pagination meta into object for views', () => {
             count: 10,
             per_page: 10,
             current_page: 2,
-            total_pages: 3
+            total_pages: 3,
         })
     ).toMatchSnapshot();
 
@@ -30,7 +30,7 @@ it('should transform API pagination meta into object for views', () => {
             count: 10,
             per_page: 10,
             current_page: 3,
-            total_pages: 3
+            total_pages: 3,
         })
     ).toMatchSnapshot();
 
@@ -42,7 +42,7 @@ it('should transform API pagination meta into object for views', () => {
                 count: 10,
                 per_page: 10,
                 current_page: 2,
-                total_pages: 3
+                total_pages: 3,
             },
             { region: 'scotland' }
         )

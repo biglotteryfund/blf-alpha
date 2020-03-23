@@ -12,14 +12,11 @@ const { PendingApplication } = require('../../../db/models');
 const { prepareFilesForUpload, scanAndUpload } = require('./lib/file-uploads');
 
 function anonymiseId(id) {
-    return crypto
-        .createHash('md5')
-        .update(id)
-        .digest('hex');
+    return crypto.createHash('md5').update(id).digest('hex');
 }
 
 function logErrors({ errors, formId, applicationId, sectionSlug, stepNumber }) {
-    errors.forEach(item => {
+    errors.forEach((item) => {
         logger.info(item.msg, {
             service: 'step-validations',
             formId: formId,
@@ -28,12 +25,12 @@ function logErrors({ errors, formId, applicationId, sectionSlug, stepNumber }) {
             step: stepNumber,
             errorType: item.type,
             joiErrorType: item.joiType,
-            applicationId: anonymiseId(applicationId)
+            applicationId: anonymiseId(applicationId),
         });
     });
 }
 
-module.exports = function(formId, formBuilder) {
+module.exports = function (formId, formBuilder) {
     const router = express.Router();
 
     async function renderStep({
@@ -43,13 +40,13 @@ module.exports = function(formId, formBuilder) {
         stepNumber,
         currentApplicationData,
         errors = [],
-        isEditing = false
+        isEditing = false,
     }) {
         const locale = req.i18n.getLocale();
 
         const form = formBuilder({
             locale: locale,
-            data: currentApplicationData
+            data: currentApplicationData,
         });
 
         const section = form.getSection(sectionSlug);
@@ -84,7 +81,7 @@ module.exports = function(formId, formBuilder) {
             baseUrl: res.locals.formBaseUrl,
             sectionSlug: req.params.section,
             currentStepIndex: stepIndex,
-            copy: res.locals.copy
+            copy: res.locals.copy,
         });
 
         const stepCount = req.i18n.__(
@@ -97,7 +94,7 @@ module.exports = function(formId, formBuilder) {
             return [
                 `${step.title} (${stepCount})`,
                 section.shortTitle || section.title,
-                res.locals.formTitle
+                res.locals.formTitle,
             ].join(' | ');
         }
 
@@ -121,7 +118,7 @@ module.exports = function(formId, formBuilder) {
             nextPage: nextPage,
             errors: errors,
             hotJarTagList: hotJarTagList(),
-            isEditing: isEditing
+            isEditing: isEditing,
         };
 
         /**
@@ -133,7 +130,7 @@ module.exports = function(formId, formBuilder) {
                 formId: formId,
                 applicationId: res.locals.currentlyEditingId,
                 sectionSlug: section.slug,
-                stepNumber: stepNumber
+                stepNumber: stepNumber,
             });
         }
 
@@ -159,12 +156,12 @@ module.exports = function(formId, formBuilder) {
 
         const applicationData = {
             ...res.locals.currentApplicationData,
-            ...sanitisedBody
+            ...sanitisedBody,
         };
 
         const form = formBuilder({
             locale: req.i18n.getLocale(),
-            data: applicationData
+            data: applicationData,
         });
 
         const stepIndex = parseInt(req.params.step, 10) - 1;
@@ -182,7 +179,7 @@ module.exports = function(formId, formBuilder) {
          */
         const validationResult = form.validate({
             ...applicationData,
-            ...preparedFiles.valuesByField
+            ...preparedFiles.valuesByField,
         });
 
         const errorsForStep = step.filterErrors(validationResult.messages);
@@ -200,7 +197,7 @@ module.exports = function(formId, formBuilder) {
                 baseUrl: res.locals.formBaseUrl,
                 sectionSlug: req.params.section,
                 currentStepIndex: stepIndex,
-                copy: res.locals.copy
+                copy: res.locals.copy,
             });
 
             if (isEditing && !isPaginationLinks()) {
@@ -222,8 +219,8 @@ module.exports = function(formId, formBuilder) {
             if (errorsForStep.length > 0) {
                 const uploadedFieldNamesWithErrors = Object.keys(
                     preparedFiles.valuesByField
-                ).filter(fieldName =>
-                    errorsForStep.map(e => e.param).includes(fieldName)
+                ).filter((fieldName) =>
+                    errorsForStep.map((e) => e.param).includes(fieldName)
                 );
                 dataToStore = omit(dataToStore, uploadedFieldNamesWithErrors);
             }
@@ -250,7 +247,7 @@ module.exports = function(formId, formBuilder) {
                     stepNumber: req.params.step,
                     currentApplicationData: validationResult.value,
                     errors: errorsForStep,
-                    isEditing: isEditing
+                    isEditing: isEditing,
                 });
             } else {
                 /**
@@ -268,7 +265,7 @@ module.exports = function(formId, formBuilder) {
                             stepNumber: req.params.step,
                             currentApplicationData: validationResult.value,
                             errors: preflightErrors,
-                            isEditing: isEditing
+                            isEditing: isEditing,
                         });
                     }
                 }
@@ -279,12 +276,12 @@ module.exports = function(formId, formBuilder) {
                 if (preparedFiles.filesToUpload.length > 0) {
                     try {
                         await Promise.all(
-                            preparedFiles.filesToUpload.map(file => {
+                            preparedFiles.filesToUpload.map((file) => {
                                 return scanAndUpload({
                                     formId: formId,
                                     applicationId:
                                         res.locals.currentlyEditingId,
-                                    fileMetadata: file
+                                    fileMetadata: file,
                                 });
                             })
                         );
@@ -294,7 +291,7 @@ module.exports = function(formId, formBuilder) {
 
                         const uploadError = {
                             msg: req.i18n.__('applyNext.common.errorUploading'),
-                            param: rejection.fieldName
+                            param: rejection.fieldName,
                         };
 
                         await renderStep({
@@ -304,7 +301,7 @@ module.exports = function(formId, formBuilder) {
                             stepNumber: req.params.step,
                             currentApplicationData: validationResult.value,
                             errors: [uploadError],
-                            isEditing: isEditing
+                            isEditing: isEditing,
                         });
                     }
                 } else {
@@ -318,7 +315,7 @@ module.exports = function(formId, formBuilder) {
 
     router
         .route('/:section/:step?')
-        .get(async function(req, res, next) {
+        .get(async function (req, res, next) {
             try {
                 await renderStep({
                     req: req,
@@ -326,7 +323,7 @@ module.exports = function(formId, formBuilder) {
                     sectionSlug: req.params.section,
                     stepNumber: req.params.step,
                     currentApplicationData: res.locals.currentApplicationData,
-                    isEditing: has(req.query, 'edit')
+                    isEditing: has(req.query, 'edit'),
                 });
             } catch (err) {
                 next(err);

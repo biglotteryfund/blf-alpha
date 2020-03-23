@@ -10,7 +10,7 @@ export function trackEvent(category, action, label) {
             hitType: 'event',
             eventCategory: category,
             eventAction: action,
-            eventLabel: label
+            eventLabel: label,
         };
 
         if (label) {

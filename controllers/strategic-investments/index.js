@@ -5,7 +5,7 @@ const compact = require('lodash/compact');
 
 const {
     injectListingContent,
-    setCommonLocals
+    setCommonLocals,
 } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 
@@ -13,21 +13,21 @@ const { renderFlexibleContentChild } = require('../common');
 
 const router = express.Router();
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
         label: req.i18n.__('funding.strategics.title'),
-        url: req.baseUrl
+        url: req.baseUrl,
     });
     next();
 });
 
-router.get('/', injectListingContent, async function(req, res, next) {
+router.get('/', injectListingContent, async function (req, res, next) {
     try {
         res.render(path.resolve(__dirname, './views/strategic-investments'), {
             strategicProgrammes: await contentApi.getStrategicProgrammes({
                 locale: req.i18n.getLocale(),
-                requestParams: req.query
-            })
+                requestParams: req.query,
+            }),
         });
     } catch (error) {
         if (error.statusCode >= 500) {
@@ -38,12 +38,12 @@ router.get('/', injectListingContent, async function(req, res, next) {
     }
 });
 
-router.get('/:slug/:child_slug?', async function(req, res, next) {
+router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
         const entry = await contentApi.getStrategicProgrammes({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
-            requestParams: req.query
+            requestParams: req.query,
         });
 
         setCommonLocals(req, res, entry);
@@ -58,8 +58,8 @@ router.get('/:slug/:child_slug?', async function(req, res, next) {
             res.render(path.resolve(__dirname, './views/strategic-programme'), {
                 strategicProgramme: entry,
                 breadcrumbs: res.locals.breadcrumbs.concat({
-                    label: res.locals.title
-                })
+                    label: res.locals.title,
+                }),
             });
         } else {
             next();

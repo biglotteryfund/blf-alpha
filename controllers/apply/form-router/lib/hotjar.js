@@ -17,5 +17,5 @@ function getShortId(formId) {
 }
 
 module.exports = {
-    getShortId
+    getShortId,
 };

@@ -16,8 +16,8 @@ export default {
             type: Array,
             default() {
                 return [];
-            }
-        }
+            },
+        },
     },
     data() {
         // Add a ready-to-use new row if the budget isn't over the limit already
@@ -28,8 +28,8 @@ export default {
             budgetRows: initialBudgetRows,
             error: {
                 TOO_MANY_ITEMS: initialBudgetRows.length === this.maxItems,
-                OVER_BUDGET: this.maxBudget && this.total > this.maxBudget
-            }
+                OVER_BUDGET: this.maxBudget && this.total > this.maxBudget,
+            },
         };
     },
     mounted() {
@@ -37,8 +37,8 @@ export default {
     },
     computed: {
         total() {
-            return sumBy(this.budgetRows, row => parseInt(row.cost || 0));
-        }
+            return sumBy(this.budgetRows, (row) => parseInt(row.cost || 0));
+        },
     },
     watch: {
         budgetRows: {
@@ -48,8 +48,8 @@ export default {
                 }
                 this.checkErrors();
             },
-            deep: true
-        }
+            deep: true,
+        },
     },
     methods: {
         checkErrors() {
@@ -87,9 +87,9 @@ export default {
         },
         removeItem(item) {
             tagHotjarRecording([
-                `Apply: ${this.formShortId}: Budget: Row deleted`
+                `Apply: ${this.formShortId}: Budget: Row deleted`,
             ]);
-            this.budgetRows = this.budgetRows.filter(i => i !== item);
+            this.budgetRows = this.budgetRows.filter((i) => i !== item);
         },
         canDelete(index) {
             return (
@@ -104,8 +104,8 @@ export default {
             if (isBannedKey) {
                 $event.preventDefault();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

@@ -6,34 +6,36 @@ const getOr = require('lodash/fp/getOr');
 const {
     injectCopy,
     injectFlexibleContent,
-    injectListingContent
+    injectListingContent,
 } = require('../../common/inject-content');
 
 function renderListingPage(res, content) {
     // What layout mode should we use? (eg. do all of the children have an image?)
-    const missingTrailImages = content.children.some(page => !page.trailImage);
+    const missingTrailImages = content.children.some(
+        (page) => !page.trailImage
+    );
     const childrenLayoutMode = missingTrailImages ? 'plain' : 'heroes';
     if (missingTrailImages) {
-        content.children = content.children.map(page => {
+        content.children = content.children.map((page) => {
             return {
                 href: page.linkUrl,
-                label: page.trailText || page.title
+                label: page.trailText || page.title,
             };
         });
     }
     res.render(path.resolve(__dirname, './views/listing-page'), {
-        childrenLayoutMode: childrenLayoutMode
+        childrenLayoutMode: childrenLayoutMode,
     });
 }
 
 function basicContent({
     lang = null,
     customTemplate = null,
-    cmsPage = false
+    cmsPage = false,
 } = {}) {
     const router = express.Router();
 
-    router.get('/', injectCopy(lang), injectListingContent, function(
+    router.get('/', injectCopy(lang), injectListingContent, function (
         req,
         res,
         next
@@ -45,15 +47,15 @@ function basicContent({
         }
 
         const ancestors = getOr([], 'ancestors')(content);
-        ancestors.forEach(function(ancestor) {
+        ancestors.forEach(function (ancestor) {
             res.locals.breadcrumbs.push({
                 label: ancestor.title,
-                url: ancestor.linkUrl
+                url: ancestor.linkUrl,
             });
         });
 
         res.locals.breadcrumbs.push({
-            label: content.title
+            label: content.title,
         });
 
         /**
@@ -87,24 +89,24 @@ function basicContent({
 function flexibleContent() {
     const router = express.Router();
 
-    router.get('/', injectFlexibleContent, function(req, res, next) {
+    router.get('/', injectFlexibleContent, function (req, res, next) {
         const { content } = res.locals;
 
         if (content) {
             const ancestors = getOr([], 'ancestors')(content);
-            ancestors.forEach(function(ancestor) {
+            ancestors.forEach(function (ancestor) {
                 res.locals.breadcrumbs.push({
                     label: ancestor.title,
-                    url: ancestor.linkUrl
+                    url: ancestor.linkUrl,
                 });
             });
 
             res.locals.breadcrumbs.push({
-                label: content.title
+                label: content.title,
             });
 
             res.render(path.resolve(__dirname, './views/flexible-content'), {
-                flexibleContent: content.flexibleContent
+                flexibleContent: content.flexibleContent,
             });
         } else {
             next();
@@ -119,21 +121,21 @@ function renderFlexibleContentChild(req, res, entry) {
         ? res.locals.breadcrumbs.concat([
               {
                   label: entry.parent.title,
-                  url: entry.parent.linkUrl
+                  url: entry.parent.linkUrl,
               },
-              { label: res.locals.title }
+              { label: res.locals.title },
           ])
         : res.locals.breadcrumbs.concat({ label: res.locals.title });
 
     res.render(path.resolve(__dirname, './views/flexible-content'), {
         breadcrumbs: breadcrumbs,
         flexibleContent: entry.content,
-        useFlexNext: true
+        useFlexNext: true,
     });
 }
 
 module.exports = {
     basicContent,
     flexibleContent,
-    renderFlexibleContentChild
+    renderFlexibleContentChild,
 };

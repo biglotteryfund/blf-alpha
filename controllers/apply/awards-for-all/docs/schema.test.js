@@ -14,7 +14,7 @@ const docContents = fs.readFileSync(
 
 test.each(Object.keys(form.schema.describe().children))(
     '%s has documentation entry',
-    fieldName => {
+    (fieldName) => {
         const fieldNameRegexp = new RegExp(`### ${fieldName}`);
         const match = fieldNameRegexp.test(docContents);
         expect(match).toBeTruthy();

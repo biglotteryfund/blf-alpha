@@ -11,7 +11,7 @@
             <span
                 v-if="
                     props.status.error &&
-                        props.status.error.code === 'ERR-POSTCODE'
+                    props.status.error.code === 'ERR-POSTCODE'
                 "
             >
                 {{ props.copy.errors.postcode }}

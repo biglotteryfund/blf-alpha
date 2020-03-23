@@ -6,11 +6,11 @@ const { Users } = require('../models');
 const mockAwardsForAll = require('../../controllers/apply/awards-for-all/mocks');
 
 module.exports = {
-    up: async function(queryInterface) {
+    up: async function (queryInterface) {
         const user = await Users.createUser({
             username: `${uuidv4()}@example.com`,
             password: uuidv4(),
-            isActive: true
+            isActive: true,
         });
 
         const applications = [
@@ -18,8 +18,8 @@ module.exports = {
             moment().add('14', 'days'),
             moment().add('2', 'days'),
             moment(),
-            moment().subtract('5', 'days')
-        ].map(function(expiryDate) {
+            moment().subtract('5', 'days'),
+        ].map(function (expiryDate) {
             return {
                 id: uuidv4(),
                 userId: user.id,
@@ -30,7 +30,7 @@ module.exports = {
                 submissionAttempts: 0,
                 expiresAt: expiryDate.toDate(),
                 createdAt: moment().toDate(),
-                updatedAt: moment().toDate()
+                updatedAt: moment().toDate(),
             };
         });
 
@@ -41,7 +41,7 @@ module.exports = {
         );
     },
 
-    down: function(queryInterface) {
+    down: function (queryInterface) {
         return queryInterface.bulkDelete('PendingApplications', null, {});
-    }
+    },
 };

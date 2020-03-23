@@ -8,35 +8,33 @@ class Feedback extends Model {
     static init(sequelize, DataTypes) {
         const schema = {
             description: {
-                type: DataTypes.STRING
+                type: DataTypes.STRING,
             },
             message: {
-                type: DataTypes.TEXT
-            }
+                type: DataTypes.TEXT,
+            },
         };
 
         return super.init(schema, {
             modelName: 'feedback',
             freezeTableName: true,
-            sequelize
+            sequelize,
         });
     }
     static storeFeedback({ description, message }) {
-        const expiryDate = moment()
-            .subtract(3, 'months')
-            .toDate();
+        const expiryDate = moment().subtract(3, 'months').toDate();
 
         return Promise.all([
             this.create({
                 description,
-                message
+                message,
             }),
             // Clean up old responses
             this.destroy({
                 where: {
-                    createdAt: { [Op.lte]: expiryDate }
-                }
-            })
+                    createdAt: { [Op.lte]: expiryDate },
+                },
+            }),
         ]);
     }
 
@@ -44,22 +42,22 @@ class Feedback extends Model {
         return this.findAll({
             order: [
                 ['description', 'ASC'],
-                ['updatedAt', 'DESC']
-            ]
-        }).then(groupBy(result => result.description.toLowerCase()));
+                ['updatedAt', 'DESC'],
+            ],
+        }).then(groupBy((result) => result.description.toLowerCase()));
     }
 
     static findAllForDescription(description) {
         return this.findAll({
             where: {
                 description: {
-                    [Op.eq]: description
-                }
+                    [Op.eq]: description,
+                },
             },
             order: [
                 ['description', 'ASC'],
-                ['updatedAt', 'DESC']
-            ]
+                ['updatedAt', 'DESC'],
+            ],
         });
     }
 }

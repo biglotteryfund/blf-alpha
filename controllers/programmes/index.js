@@ -7,7 +7,7 @@ const groupBy = require('lodash/groupBy');
 
 const {
     injectHeroImage,
-    setCommonLocals
+    setCommonLocals,
 } = require('../../common/inject-content');
 const { buildArchiveUrl, localify } = require('../../common/urls');
 const { sMaxAge } = require('../../common/cached');
@@ -20,10 +20,10 @@ const programmeFilters = require('./lib/programme-filters');
 
 const router = express.Router();
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
         label: req.i18n.__('funding.programmes.title'),
-        url: req.baseUrl
+        url: req.baseUrl,
     });
     next();
 });
@@ -31,14 +31,14 @@ router.use(function(req, res, next) {
 /**
  * Programmes list
  */
-router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function(
+router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function (
     req,
     res,
     next
 ) {
     try {
         const response = await contentApi.getFundingProgrammes({
-            locale: req.i18n.getLocale()
+            locale: req.i18n.getLocale(),
         });
 
         const allFundingProgrammes = response.result || [];
@@ -68,14 +68,14 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function(
         if (parseInt(req.query.min, 10) === 10000) {
             res.locals.breadcrumbs.push({
                 label: req.i18n.__('funding.programmes.over10k'),
-                url: '/over10k'
+                url: '/over10k',
             });
         }
 
         if (parseInt(req.query.max, 10) === 10000) {
             res.locals.breadcrumbs.push({
                 label: req.i18n.__('funding.programmes.under10k'),
-                url: '/under10k'
+                url: '/under10k',
             });
         }
 
@@ -87,8 +87,8 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function(
                     wales: globalCopy.regions.wales,
                     scotland: globalCopy.regions.scotland,
                     northernIreland: globalCopy.regions.northernIreland,
-                    ukWide: globalCopy.regions.ukWide
-                }[locationParam]
+                    ukWide: globalCopy.regions.ukWide,
+                }[locationParam],
             });
         }
 
@@ -98,14 +98,14 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function(
         }
 
         const activeBreadcrumbsSummary = res.locals.breadcrumbs
-            .map(breadcrumb => breadcrumb.label)
+            .map((breadcrumb) => breadcrumb.label)
             .join(', ');
 
         res.render(path.resolve(__dirname, './views/programmes-list'), {
             title: req.i18n.__('funding.programmes.title'),
             programmes,
             groupedProgrammes,
-            activeBreadcrumbsSummary
+            activeBreadcrumbsSummary,
         });
     } catch (error) {
         next(error);
@@ -119,13 +119,13 @@ router.get(
     '/all',
     sMaxAge(86400 /* 1 day in seconds */),
     injectHeroImage('cbsa-2-letterbox-new'),
-    async function(req, res, next) {
+    async function (req, res, next) {
         try {
             const response = await contentApi.getFundingProgrammes({
                 locale: req.i18n.getLocale(),
                 showAll: true,
                 page: req.query.page || 1,
-                pageLimit: 250
+                pageLimit: 250,
             });
 
             const allFundingProgrammes = response.result || [];
@@ -142,13 +142,13 @@ router.get(
             /**
              * Group programmes alpha-numerically
              */
-            const groupedProgrammes = groupBy(programmes, function(programme) {
+            const groupedProgrammes = groupBy(programmes, function (programme) {
                 const firstLetter = programme.title.split('')[0].toUpperCase();
                 return /\d/.test(firstLetter) ? '#' : firstLetter;
             });
 
             const breadcrumbs = res.locals.breadcrumbs.concat({
-                label: res.locals.title
+                label: res.locals.title,
             });
 
             const regionsCopy = req.i18n.__('global.regions');
@@ -157,19 +157,19 @@ router.get(
                 wales: regionsCopy.wales,
                 scotland: regionsCopy.scotland,
                 northernIreland: regionsCopy.northernIreland,
-                ukWide: regionsCopy.ukWide
+                ukWide: regionsCopy.ukWide,
             };
 
             const locationLinks = Object.entries(locations).map(
                 ([key, value]) => ({
                     url: `${req.baseUrl}${req.path}?location=${key}`,
-                    label: value
+                    label: value,
                 })
             );
 
             if (locationParam) {
                 breadcrumbs.push({
-                    label: locations[locationParam]
+                    label: locations[locationParam],
                 });
             }
 
@@ -183,7 +183,7 @@ router.get(
                 locationLinks: locationLinks,
                 locationParam: locationParam,
                 groupedProgrammes: groupedProgrammes,
-                breadcrumbs: breadcrumbs
+                breadcrumbs: breadcrumbs,
             });
         } catch (error) {
             next(error);
@@ -199,7 +199,7 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
         const entry = await contentApi.getFundingProgramme({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
-            searchParams: req.query
+            searchParams: req.query,
         });
 
         setCommonLocals(req, res, entry);
@@ -213,8 +213,8 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
             res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
                 breadcrumbs: res.locals.breadcrumbs.concat({
-                    label: res.locals.title
-                })
+                    label: res.locals.title,
+                }),
             });
         } else if (get(entry, 'isArchived') === true) {
             /**
@@ -224,8 +224,8 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
                 entry: entry,
                 archiveUrl: buildArchiveUrl(entry.legacyPath),
                 breadcrumbs: res.locals.breadcrumbs.concat({
-                    label: res.locals.title
-                })
+                    label: res.locals.title,
+                }),
             });
         } else {
             next();
@@ -246,7 +246,7 @@ router.use(
             label: 'Building Better Opportunities',
             url: localify(req.i18n.getLocale())(
                 `/funding/programmes/building-better-opportunities`
-            )
+            ),
         });
         next();
     },

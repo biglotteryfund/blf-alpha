@@ -4,20 +4,20 @@ export default {
     props: {
         legend: {
             type: String,
-            required: true
+            required: true,
         },
         openByDefault: {
             type: Boolean,
-            default: true
+            default: true,
         },
         toggleLabel: {
             type: String,
-            required: true
+            required: true,
         },
         trackUi: {
             type: Function,
-            required: true
-        }
+            required: true,
+        },
     },
     components: { IconArrowDown },
     data() {
@@ -25,13 +25,11 @@ export default {
     },
     computed: {
         id() {
-            return Math.random()
-                .toString(36)
-                .substr(2, 9);
+            return Math.random().toString(36).substr(2, 9);
         },
         ariaId() {
             return `facet-group-${this.id}`;
-        }
+        },
     },
     methods: {
         toggle() {
@@ -39,8 +37,8 @@ export default {
             let action = 'Toggle group ';
             action += this.isOpen ? 'on' : 'off';
             this.trackUi(action, this.legend);
-        }
-    }
+        },
+    },
 };
 </script>
 

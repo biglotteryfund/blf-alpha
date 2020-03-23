@@ -8,7 +8,7 @@ import 'picturefill';
  */
 import 'details-element-polyfill';
 
-(function() {
+(function () {
     var docEl = document.documentElement;
     docEl.className = docEl.className.replace('no-js', 'js-on');
 

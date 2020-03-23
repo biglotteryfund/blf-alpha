@@ -9,7 +9,7 @@ module.exports = function postcodeString(joi) {
         base: joi.string().trim(),
         name: 'string',
         language: {
-            postcode: 'did not seem to be a valid postcode'
+            postcode: 'did not seem to be a valid postcode',
         },
         rules: [
             {
@@ -25,8 +25,8 @@ module.exports = function postcodeString(joi) {
                             options
                         );
                     }
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

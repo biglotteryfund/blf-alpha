@@ -5,7 +5,7 @@ const { oneLine } = require('common-tags');
 const Field = require('../../lib/field-types/field');
 const { FREE_TEXT_MAXLENGTH } = require('../constants');
 
-module.exports = function(locale) {
+module.exports = function (locale) {
     const localise = get(locale);
 
     return new Field({
@@ -15,7 +15,7 @@ module.exports = function(locale) {
             en: oneLine`Tell us the towns or villages where people who
                 will benefit from your project live`,
             cy: oneLine`Dywedwch wrthym y trefi neu bentrefi mae’r bobl
-                a fydd yn elwa o’ch prosiect yn byw`
+                a fydd yn elwa o’ch prosiect yn byw`,
         }),
         maxLength: FREE_TEXT_MAXLENGTH.large,
         messages: [
@@ -25,8 +25,8 @@ module.exports = function(locale) {
                     en: oneLine`Tell us the towns, villages or
                         wards your beneficiaries live in`,
                     cy: oneLine`Dywedwch wrthym y trefi,
-                        pentrefi neu wardiau mae eich buddiolwyr yn byw`
-                })
+                        pentrefi neu wardiau mae eich buddiolwyr yn byw`,
+                }),
             },
             {
                 type: 'string.max',
@@ -34,9 +34,9 @@ module.exports = function(locale) {
                     en: oneLine`Project locations must be
                         ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                     cy: oneLine`Rhaid i leoliadau’r prosiect fod yn
-                        llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                })
-            }
-        ]
+                        llai na ${FREE_TEXT_MAXLENGTH.large} nod`,
+                }),
+            },
+        ],
     });
 };

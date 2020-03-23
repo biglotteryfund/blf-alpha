@@ -14,7 +14,7 @@ module.exports = function phoneNumber(joi) {
         base: joi.string(),
         name: 'string',
         language: {
-            phonenumber: 'did not seem to be a phone number'
+            phonenumber: 'did not seem to be a phone number',
         },
         rules: [
             {
@@ -47,8 +47,8 @@ module.exports = function phoneNumber(joi) {
                             options
                         );
                     }
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

@@ -4,7 +4,7 @@ const { oneLine } = require('common-tags');
 
 const EmailField = require('../../lib/field-types/email');
 
-module.exports = function(locale) {
+module.exports = function (locale) {
     const localise = get(locale);
     return new EmailField({
         locale: locale,
@@ -13,7 +13,7 @@ module.exports = function(locale) {
             en: oneLine`We’ll use this whenever we get
                 in touch about the project`,
             cy: oneLine`Byddwn yn defnyddio hwn pan
-                fyddwn yn cysylltu ynglŷn â’r prosiect`
-        })
+                fyddwn yn cysylltu ynglŷn â’r prosiect`,
+        }),
     });
 };
