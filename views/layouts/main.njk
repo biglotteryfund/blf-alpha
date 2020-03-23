@@ -40,6 +40,12 @@
 
             {% include "includes/global-header.njk" %}
 
+            <aside class="announcement-banner announcement-banner--major">
+                <a href="{{ localify('/about/coronavirus-updates') }}">
+                    {{ __('global.covidMessage') }}
+                </a>
+            </aside>
+
             {% block content %}{% endblock %}
 
             {% include "includes/global-footer.njk" %}

@@ -103,8 +103,7 @@ global:
       This site uses cookies. For an explanation of their purpose and how to manage them see our
       <a href="/about/customer-service/cookies">cookies policy</a>.
     action: Accept cookies
-  covidMsg: >
-    Statement from Dawn Austwick, CEO, The National Lottery Community Fund: COVID-19
+  covidMessage: Read the latest updates on our COVID-19 page
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address
