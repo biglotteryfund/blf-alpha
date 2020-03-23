@@ -86,9 +86,9 @@
 
                 <div class="s-prose">
                     {{ __('funding.pastGrants.search.intro',
+                            grantNavLink,
                             formatDate(grantDataDates.start),
-                            formatDate(grantDataDates.end),
-                            grantNavLink
+                            formatDate(grantDataDates.end)
                         ) | safe
                     }}
                 </div>
