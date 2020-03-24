@@ -4,8 +4,13 @@ const flow = require('lodash/fp/flow');
 const keyBy = require('lodash/fp/keyBy');
 const mapValues = require('lodash/fp/mapValues');
 const has = require('lodash/has');
+const config = require('config');
 
-require('dotenv').config();
+const NODE_ENV = config.util.getEnv('NODE_ENV');
+
+if (NODE_ENV === 'development') {
+    require('dotenv').config();
+}
 
 function getRawParameters() {
     let rawParameters;
