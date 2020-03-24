@@ -318,7 +318,7 @@ function getPublications({
     const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
     if (slug) {
         return fetch(`${baseUrl}/${slug}`, {
-            qs: addPreviewParams(requestParams, apiRequestParams)
+            qs: withPreviewParams(requestParams, { ...apiRequestParams })
         }).then(response => {
             return {
                 meta: response.meta,
@@ -327,7 +327,7 @@ function getPublications({
         });
     } else {
         return fetch(baseUrl, {
-            qs: addPreviewParams(requestParams, apiRequestParams)
+            qs: withPreviewParams(requestParams, { ...apiRequestParams })
         }).then(response => {
             return {
                 meta: response.meta,
