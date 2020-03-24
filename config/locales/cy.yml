@@ -31,16 +31,16 @@ global:
     email: ymholiadau.cymru@cronfagymunedolylg.org.uk
     regions:
     - label: Lloegr ac DU gyfan
-      phone: 0345 4 10 20 30
+      phone: 028 9568 0143
       email: general.enquiries@tnlcommunityfund.org.uk
     - label: Gogledd Iwerddon
-      phone: 028 9055 1455
+      phone: 028 4378 0003
       email: enquiries.ni@tnlcommunityfund.org.uk
     - label: Yr Alban
-      phone: 0300 123 7110
+      phone: 0141 846 0447
       email: advicescotland@tnlcommunityfund.org.uk
     - label: Cymru
-      phone: 0300 123 0735
+      phone: 029 2168 0214
       email: cymru@cronfagymunedolylg.org.uk
     press:
       title: Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am y wasg?
@@ -102,6 +102,7 @@ global:
       Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
       <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
+  covidMessage: Darllenwch y diweddariadau diwethaf ar ein tudalen COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
@@ -182,18 +183,11 @@ global:
 toplevel:
   home:
     title: Hafan
-    intro: >
-      Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> yn codi arian ar gyfer achosion da,
-      rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ar draws y Deyrnas Unedig bob blwyddy
-    introNew:
+    intro:
       title: Rydym yn cefnogi pobl a chymunedau i ffynnu
       description: <p>Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ledled y Deyrnas Unedig bob blwyddyn</p>
-    under10k:
-      short: Ymgeisio am grant o dan £10,000
-      long: Cael gwybod sut i ymgeisio am grant o dan £10,000
-    over10k:
-      short: Ymgeisio am grant dros £10,000
-      long: Cael gwybod sut i ymgeisio am grant dros £10,000
+    under10k: Ymgeisio am grant o dan £10,000
+    over10k: Ymgeisio am grant dros £10,000
   wales:
     title: Cymru
     introduction: Cronfa Gymunedol y Loteri Genedlaethol yw ariannwr cymunedol mwyaf y Deyrnas Unedig.
@@ -277,8 +271,7 @@ toplevel:
         introduction: Mae Cronfa Gymunedol y Loteri Genedlaethol yn gofalu am ein hamgylchedd ac rydym bob amser yn ceisio rheoli ein heffaith amgylcheddol. Rydym yn annog ac yn cefnogi prosiectau a chymunedau i wneud yr un peth. Dysgwch fwy am sut y gallwch <a href="/welsh/funding/funding-guidance/reducing-your-environmental-footprint">Dysgu mwy am sut y gallwch wneud eich prosiect neu ddigwyddiad yn fwy cynaliadwy yn amgylcheddol ac efallai arbed arian ar yr un pryd</a>.
   funding:
     title: Ariannu
-    latestProgrammes: Rhaglenni diweddaraf
-    latestProgrammesPartnerships: Rhaglenni a phartneriaethau diweddaraf
+    latestTitle: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
     - label: "Meddwl am ymgeisio am arian grant?"
       href: "/welsh/funding/thinking-of-applying-for-funding"
@@ -457,13 +450,13 @@ funding:
     search:
       title: Chwilio grantiau a ddyfarnwyd
       survey:
-        prompt: Helpwch ni wella’r gwasanaeth hwn trwy yrru adborth atom
+        prompt: Byddem wrth ein boddau yn clywed beth rydych yn ei feddwl o’n hofferyn hyd yn hyn. Rhannwch eich adborth os oes gennych ychydig funudau i’w sbario.
         label: Sut brofiad cawsoch chi o chwilio ein grantiau blaenorol heddiw?
       beta: Beta
       intro: >
-        Diolch am ddewis defnyddio ein gwasanaeth "chwilio grantiau a ddyfarnwyd" newydd. Rydym yn gweithio i wella'r gwasanaeth a gynigiwn i chi, bydd eich adborth yn ein helpu gwneud hynny. Gallwch roi cynnig ar ein gwasanaeth newydd mewn Beta nawr neu <a href="%s">pori ein data gyda GrantNav</a>.
+        <p>Gallwch edrych drwy’r prosiectau a ariennir gennym gyda’r offeryn chwilio hwn. <a href="%s">Neu trwy ddefnyddio GrantNav</a>.</p>
+        <p>Byddwch ond yn gallu dod o hyd i wybodaeth ar brosiectau rydym wedi’i ariannu ers <strong>%s - %s</strong>. Ond rydym yn gweithio i gael y prosiectau a ariennir diweddaraf arno’n fuan.  Yn ogystal â gwneud rhai gwelliannau eraill i’r offeryn a wneith ein helpu ei gadw wedi’i ddiweddaru yn y dyfodol.</p>
       helpText: e.e. allweddair fel "unigrwydd", lleoliad, mudiad neu faes gwaith
-      dateRange: Ar hyn o bryd mae ein data grantiau'n cwmpasu <strong>%s - %s</strong>.
       submit: Chwilio
       pleaseWait: Wrthi'n chwilio, arhoswch...
       resultsCount: o brosiectau gwerth
@@ -1211,8 +1204,7 @@ awardsForAll:
               Dywedwch wrthym am eich syniad i helpu pobl wella eu bywydau a’u cymunedau.
               Bydd gennych hyd at dair mis i orffen eich ffurflen gais ar-lein.
               Unwaith y byddwch yn anfon eich cais i ni, bydd yn cymryd oddeutu
-              18 wythnos i ni ei asesu (neu 12 wythnos i brosiectau yn
-              Yr Alban neu Ogledd Iwerddon).
+              12 wythnos i ni ei asesu (neu 18 wythnos i brosiectau yn Lloegr).
           - type: action
             title: Cais wedi’i asesu
           - type: step

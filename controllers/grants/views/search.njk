@@ -85,17 +85,12 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose">
-                    <p><strong>{{ copy.beta | upper }}:</strong> {{ __('funding.pastGrants.search.intro', grantNavLink) | safe }}</p>
-
-                    {% if grantDataDates %}
-                        <p class="u-no-margin">
-                            {{ __(
-                                "funding.pastGrants.search.dateRange",
-                                formatDate(grantDataDates.start),
-                                formatDate(grantDataDates.end)
-                            ) | safe }}
-                        </p>
-                    {% endif %}
+                    {{ __('funding.pastGrants.search.intro',
+                            grantNavLink,
+                            formatDate(grantDataDates.start),
+                            formatDate(grantDataDates.end)
+                        ) | safe
+                    }}
                 </div>
 
                 <div id="feedback" class="u-margin-top">

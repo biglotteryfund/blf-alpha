@@ -31,6 +31,7 @@ Array [
   "seniorContactAddress: Enter a full UK address",
   "seniorContactAddressHistory: Enter a full UK address",
   "seniorContactEmail: Enter an email address",
+  "mainContactEmail: Enter an email address",
   "seniorContactPhone: Enter a UK telephone number",
   "bankAccountName: Enter the name of your organisation, as it appears on your bank statement",
   "bankSortCode: Enter a sort code",

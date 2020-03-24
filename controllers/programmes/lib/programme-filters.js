@@ -1,18 +1,7 @@
 'use strict';
-const find = require('lodash/find');
 const get = require('lodash/get');
-const uniq = require('lodash/uniq');
 
-function getValidLocation(programmes, requestedLocation) {
-    const validLocations = programmes
-        .map(programme => get(programme, 'area.value', false))
-        .filter(location => location !== false);
-
-    const uniqLocations = uniq(validLocations);
-    return find(uniqLocations, location => location === requestedLocation);
-}
-
-const programmeFilters = {
+module.exports = {
     filterByLocation(locationValue) {
         return function(programme) {
             if (!locationValue) {
@@ -45,9 +34,4 @@ const programmeFilters = {
             return programmeMax <= max || false;
         };
     }
-};
-
-module.exports = {
-    getValidLocation,
-    programmeFilters
 };

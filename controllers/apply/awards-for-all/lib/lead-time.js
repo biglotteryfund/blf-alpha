@@ -5,7 +5,7 @@ module.exports = function getLeadTimeWeeks(country) {
         'england': 18,
         'northern-ireland': 12,
         'scotland': 12,
-        'wales': 18
+        'wales': 12
     };
 
     return countryLeadTimes[country] || 18;

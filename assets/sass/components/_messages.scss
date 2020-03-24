@@ -126,6 +126,10 @@
     color: white;
     background-color: get-color('brand', 'primary');
 
+    &.announcement-banner--major {
+        margin-bottom: 5px;
+    }
+
     a {
         color: white;
         font-weight: font-weight('body', 'bold');

@@ -1072,7 +1072,7 @@ module.exports = function({
                 rights and how to contact us, can be found in our full
                 Data Protection and Privacy Notice which is published on our website
                 <a href="/data-protection">www.tnlcommunityfund.org.uk/data-protection</a>.
-                Contact us to request a hard copy by telephoning our advice line on 0345 4 10 20 30,
+                Contact us to request a hard copy by telephoning our advice line on 028 9568 0143,
                 or by writing to Customer Services, The National Lottery Community Fund,
                 2 St James’ Gate, Newcastle upon Tyne, NE1 4BE.
              </p>
@@ -1093,7 +1093,7 @@ module.exports = function({
                 asiantaethau atal twyll hyn, eich hawliau gwarchod data a sut i gysylltu â ni, ei ganfod yn ein 
                 Hysbysiad Diogelu Data a Phreifatrwydd llawn, sydd wedi’i gyhoeddi ar ein gwefan 
                 <a href="/welsh/about/customer-service/data-protection">https://www.tnlcommunityfund.org.uk/welsh/about/customer-service/data-protection</a>. 
-                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 0300 123 0735,
+                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 029 2168 0214,
                 neu drwy ysgrifennu i Cronfa Gymunedol y Loteri Genedlaethol, 10fed Llawr,
                 Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY
             </p>

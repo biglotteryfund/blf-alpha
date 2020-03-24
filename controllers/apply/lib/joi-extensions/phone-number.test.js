@@ -20,10 +20,10 @@ test('return error for invalid phone numbers', () => {
 
 test('format valid phone numbers', () => {
     const validUkPhoneNumbers = [
-        ['0345 4 10 20 30', '0345 410 2030'],
-        ['028 9055 1455', '028 9055 1455'],
-        ['03001237110', '0300 123 7110'],
-        ['03001230735', '0300 123 0735']
+        ['028 9 5 68 0143', '028 9568 0143'],
+        ['028 4378 00 03', '028 4378 0003'],
+        ['01418460447', '0141 846 0447'],
+        ['02921680214', '029 2168 0214']
     ];
     validUkPhoneNumbers.forEach(function([input, expected]) {
         const result = schema.validate(input);

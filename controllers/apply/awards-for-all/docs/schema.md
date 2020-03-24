@@ -138,7 +138,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             }
         },
         "mainContactEmail": "Lizzie87@example.com",
-        "mainContactPhone": "0345 4 10 20 30",
+        "mainContactPhone": "028 9568 0143",
         "mainContactLanguagePreference": "english",
         "mainContactCommunicationNeeds": "email",
         "seniorContactName": {

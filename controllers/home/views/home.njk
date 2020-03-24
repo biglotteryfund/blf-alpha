@@ -3,6 +3,9 @@
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/social-bar/macro.njk" import socialBar with context %}
 
+{% set copy = __('toplevel.home') %}
+{% set title = copy.title %}
+
 {% block content %}
     <main role="main">
         {# Hero introduction #}
@@ -22,23 +25,21 @@
             </figure>
             <div class="super-hero__content">
                 <div class="super-hero__header" id="content">
-                    <h1 class="super-hero__title">{{ copy.introNew.title | widont | safe }}</h1>
+                    <h1 class="super-hero__title">{{ copy.intro.title | widont | safe }}</h1>
                     <div class="super-hero__intro">
-                        {{ __(copy.introNew.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
+                        {{ __(copy.intro.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
                     </div>
 
                     <div class="o-button-group">
                         <a class="btn btn--medium btn--reversed"
                             href="{{ localify('/funding/under10k') }}"
                             id="qa-button-under10k">
-                            <span class="u-wide-only">{{ copy.under10k.long }}</span>
-                            <span class="u-not-wide">{{ copy.under10k.short }}</span>
+                            {{ copy.under10k }}
                         </a>
                         <a class="btn btn--medium btn--reversed"
                             href="{{ localify('/funding/over10k') }}"
                             id="qa-button-over10k">
-                            <span class="u-wide-only">{{ copy.over10k.long }}</span>
-                            <span class="u-not-wide">{{ copy.over10k.short }}</span>
+                            {{ copy.over10k }}
                         </a>
                     </div>
                 </div>

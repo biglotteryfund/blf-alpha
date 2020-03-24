@@ -70,12 +70,12 @@ function getEmailFor(country) {
 
 function getPhoneFor(country) {
     const countryPhone = {
-        'scotland': '0300 123 7110',
-        'northern-ireland': '028 9055 1455',
-        'wales': '0300 123 0735'
+        'scotland': '0141 846 0447',
+        'northern-ireland': '028 4378 0003',
+        'wales': '029 2168 0214'
     }[country];
 
-    return countryPhone || '0345 4 10 20 30';
+    return countryPhone || '028 9568 0143';
 }
 
 module.exports = function sendExpiryEmail(

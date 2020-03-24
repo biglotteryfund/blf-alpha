@@ -1429,6 +1429,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`
             }),
             schema: Joi.string()
+                .required()
                 .email()
                 .lowercase()
                 .invalid(Joi.ref('seniorContactEmail')),
@@ -1541,7 +1542,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `We’ll use this whenever we get in touch about the project`,
                 cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`
-            })
+            }),
+            schema: Joi.string()
+                .required()
+                .email()
+                .lowercase()
         }),
         seniorContactPhone: new PhoneField({
             locale: locale,
