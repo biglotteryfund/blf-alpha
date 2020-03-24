@@ -5,8 +5,7 @@ const keyBy = require('lodash/fp/keyBy');
 const mapValues = require('lodash/fp/mapValues');
 const has = require('lodash/has');
 
-const env = process.env.NODE_ENV || 'development';
-if (env === 'development') {
+if (process.env.NODE_ENV === 'development') {
     require('dotenv').config();
 }
 
