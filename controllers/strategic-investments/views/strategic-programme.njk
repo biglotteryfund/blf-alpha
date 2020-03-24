@@ -49,6 +49,10 @@
             {% endfor %}
         </ul>
     {% endif %}
+
+    {% if relatedContent.outro %}
+        {{ relatedContent.outro | safe }}
+    {% endif %}
 {% endmacro %}
 
 {% block content %}
