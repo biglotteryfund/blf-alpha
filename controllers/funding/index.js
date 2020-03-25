@@ -21,7 +21,7 @@ router.get('/', injectHeroImage('funding-letterbox-new'), async (req, res) => {
 
     res.render(path.resolve(__dirname, './views/funding-landing'), {
         title: req.i18n.__('toplevel.funding.title'),
-        latestProgrammes: latestProgrammes
+        latestProgrammes: latestProgrammes,
     });
 });
 

@@ -13,25 +13,25 @@ describe('GrantsSort', () => {
             sortOptions: [
                 {
                     label: 'Most recent',
-                    value: 'awardDate|desc'
+                    value: 'awardDate|desc',
                 },
                 {
                     label: 'Oldest first',
-                    value: 'awardDate|asc'
+                    value: 'awardDate|asc',
                 },
                 {
                     label: 'Lowest amount first',
-                    value: 'amountAwarded|asc'
+                    value: 'amountAwarded|asc',
                 },
                 {
                     label: 'Highest amount first',
-                    value: 'amountAwarded|desc'
-                }
-            ]
+                    value: 'amountAwarded|desc',
+                },
+            ],
         };
 
         const wrapper = shallowMount(GrantsSort, {
-            propsData: { sort, label: 'Ordered by' }
+            propsData: { sort, label: 'Ordered by' },
         });
 
         expect(wrapper.element).toMatchSnapshot();

@@ -12,20 +12,12 @@ module.exports = function budgetItems(joi) {
             .min(1)
             .items(
                 joi.object({
-                    item: joi
-                        .string()
-                        .trim()
-                        .max(255)
-                        .required(),
-                    cost: joi
-                        .friendlyNumber()
-                        .min(1)
-                        .integer()
-                        .required()
+                    item: joi.string().trim().max(255).required(),
+                    cost: joi.friendlyNumber().min(1).integer().required(),
                 })
             ),
         language: {
-            overBudget: 'over maximum budget'
+            overBudget: 'over maximum budget',
         },
         /* eslint-disable-next-line no-unused-vars */
         coerce(value, state, options) {
@@ -34,7 +26,7 @@ module.exports = function budgetItems(joi) {
                 // (eg. validate things that are half-supplied, but not empty)
                 return reject(
                     value,
-                    line => isEmpty(line.item) && isEmpty(line.cost)
+                    (line) => isEmpty(line.item) && isEmpty(line.cost)
                 );
             } else {
                 return value;
@@ -45,12 +37,12 @@ module.exports = function budgetItems(joi) {
                 name: 'validBudgetRange',
                 params: {
                     minBudget: joi.number().required(),
-                    maxBudget: joi.number().required()
+                    maxBudget: joi.number().required(),
                 },
                 validate(params, value, state, options) {
                     const total = sumBy(
                         value,
-                        item => parseInt(item.cost, 10) || 0
+                        (item) => parseInt(item.cost, 10) || 0
                     );
                     if (total > params.maxBudget) {
                         return this.createError(
@@ -69,8 +61,8 @@ module.exports = function budgetItems(joi) {
                     } else {
                         return value;
                     }
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

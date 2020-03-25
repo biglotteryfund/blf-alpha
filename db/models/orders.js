@@ -9,17 +9,17 @@ class OrderItem extends Model {
         const schema = {
             code: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             quantity: {
                 type: DataTypes.INTEGER,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         };
 
         return super.init(schema, {
             modelName: 'order_item',
-            sequelize
+            sequelize,
         });
     }
 }
@@ -29,27 +29,27 @@ class Order extends Model {
         const schema = {
             grantAmount: {
                 type: DataTypes.STRING,
-                allowNull: true
+                allowNull: true,
             },
             orderReason: {
                 type: DataTypes.STRING,
-                allowNull: true
+                allowNull: true,
             },
             postcodeArea: {
                 type: DataTypes.STRING,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         };
 
         return super.init(schema, {
             modelName: 'order',
-            sequelize
+            sequelize,
         });
     }
 
     static associate(models) {
         this.hasMany(models.OrderItem, {
-            as: 'items'
+            as: 'items',
         });
     }
 
@@ -57,40 +57,38 @@ class Order extends Model {
         let whereClause = {};
         if (dateRange.start && dateRange.end) {
             whereClause = {
-                createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
+                createdAt: { [Op.between]: [dateRange.start, dateRange.end] },
             };
         }
 
         return this.findAll({
             order: [['updatedAt', 'DESC']],
             where: whereClause,
-            include: [{ model: OrderItem, as: 'items' }]
+            include: [{ model: OrderItem, as: 'items' }],
         });
     }
 
     static getOldestOrder() {
         return this.findOne({
-            order: [['createdAt', 'ASC']]
+            order: [['createdAt', 'ASC']],
         });
     }
 
     static storeOrder({ grantAmount, orderReason, postcode, items }) {
-        const expiryDate = moment()
-            .subtract(5, 'months')
-            .toDate();
+        const expiryDate = moment().subtract(5, 'months').toDate();
         return Promise.all([
             this.destroy({
-                where: { createdAt: { [Op.lte]: expiryDate } }
+                where: { createdAt: { [Op.lte]: expiryDate } },
             }),
             this.create(
                 {
                     grantAmount: grantAmount,
                     orderReason: orderReason,
                     postcodeArea: Postcode.toOutcode(postcode),
-                    items: items
+                    items: items,
                 },
                 { include: [{ model: OrderItem, as: 'items' }] }
-            )
+            ),
         ]);
     }
 }

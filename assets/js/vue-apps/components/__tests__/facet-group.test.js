@@ -12,13 +12,13 @@ describe('FacetGroup', () => {
                 id: 'test',
                 legend: 'Testing',
                 toggleLabel: 'Toggle',
-                trackUi: function() {
+                trackUi: function () {
                     // noop
-                }
+                },
             },
             slots: {
-                default: '<div>dummy content</div>'
-            }
+                default: '<div>dummy content</div>',
+            },
         });
 
         const div = wrapper.find('.facet-group');

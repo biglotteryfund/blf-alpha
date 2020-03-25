@@ -16,25 +16,25 @@ const toplevel = {
     pages: [
         {
             path: '/',
-            router: require('./home')
+            router: require('./home'),
         },
         {
             path: '/data',
-            router: require('./data')
+            router: require('./data'),
         },
         {
             path: '/jobs*',
-            router: basicContent()
+            router: basicContent(),
         },
         {
             path: '/search',
-            router: require('./search')
+            router: require('./search'),
         },
         {
             path: '/user',
-            router: require('./user')
-        }
-    ]
+            router: require('./user'),
+        },
+    ],
 };
 
 /**
@@ -46,46 +46,46 @@ let funding = {
     pages: [
         {
             path: '/',
-            router: require('./funding')
+            router: require('./funding'),
         },
         {
             path: '/programmes',
-            router: require('./programmes')
+            router: require('./programmes'),
         },
         {
             path: '/strategic-investments',
-            router: require('./strategic-investments')
+            router: require('./strategic-investments'),
         },
         {
             path: '/the-big-lunch',
-            router: basicContent()
+            router: basicContent(),
         },
         {
             path: '/grants',
-            router: require('./grants')
+            router: require('./grants'),
         },
         {
             path: '/funding-guidance/*',
-            router: basicContent()
+            router: basicContent(),
         },
         {
             path: `/managing-your-grant/promoting-your-project/order-free-materials`,
-            router: require('./materials')
+            router: require('./materials'),
         },
         {
             path: `/managing-your-grant/promoting-your-project/download-our-logo`,
             router: basicContent({
                 lang: 'funding.guidance.logos',
-                customTemplate: 'static-pages/logos'
-            })
+                customTemplate: 'static-pages/logos',
+            }),
         },
         {
             path: '/*',
             router: basicContent({
-                cmsPage: true
-            })
-        }
-    ]
+                cmsPage: true,
+            }),
+        },
+    ],
 };
 
 /**
@@ -94,7 +94,7 @@ let funding = {
  */
 const insights = {
     path: '/insights',
-    pages: [{ path: '/', router: require('./insights') }]
+    pages: [{ path: '/', router: require('./insights') }],
 };
 
 /**
@@ -103,7 +103,7 @@ const insights = {
  */
 const talk = {
     path: '/contact',
-    pages: [{ path: '/', router: basicContent() }]
+    pages: [{ path: '/', router: basicContent() }],
 };
 
 /**
@@ -115,8 +115,8 @@ const about = {
     pages: [
         { path: '/', router: flexibleContent() },
         { path: '/our-people', router: require('./our-people') },
-        { path: '/*', router: basicContent() }
-    ]
+        { path: '/*', router: basicContent() },
+    ],
 };
 
 /**
@@ -125,7 +125,7 @@ const about = {
  */
 const updates = {
     path: '/news',
-    pages: [{ path: '/', router: require('./updates') }]
+    pages: [{ path: '/', router: require('./updates') }],
 };
 
 /**
@@ -134,7 +134,7 @@ const updates = {
  */
 const apply = {
     path: '/apply',
-    pages: [{ path: '/', router: require('./apply') }]
+    pages: [{ path: '/', router: require('./apply') }],
 };
 
 module.exports = {
@@ -144,5 +144,5 @@ module.exports = {
     talk: talk,
     about: about,
     updates: updates,
-    apply: apply
+    apply: apply,
 };

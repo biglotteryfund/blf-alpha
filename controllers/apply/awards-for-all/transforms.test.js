@@ -4,15 +4,15 @@
 const { mockResponse } = require('./mocks');
 const {
     transformProjectDateRange,
-    transformOrgHasDifferentTradingName
+    transformOrgHasDifferentTradingName,
 } = require('./transforms');
 
-test('should transform project date range', function() {
+test('should transform project date range', function () {
     const startDate = { day: 27, month: 3, year: 2020 };
     const endDate = { day: 19, month: 6, year: 2020 };
 
     const original = mockResponse({
-        projectDateRange: { startDate: startDate, endDate: endDate }
+        projectDateRange: { startDate: startDate, endDate: endDate },
     });
 
     expect(original).toHaveProperty('projectDateRange');
@@ -21,7 +21,7 @@ test('should transform project date range', function() {
 
     const result = transformProjectDateRange(
         mockResponse({
-            projectDateRange: { startDate: startDate, endDate: endDate }
+            projectDateRange: { startDate: startDate, endDate: endDate },
         })
     );
 
@@ -30,10 +30,10 @@ test('should transform project date range', function() {
     expect(result).not.toHaveProperty('projectDateRange');
 });
 
-test('should transform OrganisationHasDifferentTradingName', function() {
+test('should transform OrganisationHasDifferentTradingName', function () {
     const original = mockResponse({
         organisationTradingName: 'Some Trading Name',
-        organisationHasDifferentTradingName: null
+        organisationHasDifferentTradingName: null,
     });
 
     expect(original).toHaveProperty('organisationTradingName');
@@ -45,7 +45,7 @@ test('should transform OrganisationHasDifferentTradingName', function() {
     const unchanged = mockResponse({
         organisationLegalName: 'My Legal Name',
         organisationTradingName: null,
-        organisationHasDifferentTradingName: null
+        organisationHasDifferentTradingName: null,
     });
 
     const unmodifiedResult = transformOrgHasDifferentTradingName(unchanged);

@@ -7,23 +7,23 @@ const capitalize = require('lodash/capitalize');
 
 const router = express.Router();
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     res.setHeader('X-Robots-Tag', 'noindex');
     res.locals.breadcrumbs = [{ label: 'Design patterns', url: req.baseUrl }];
     next();
 });
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
     res.render(path.resolve(__dirname, './views/index'));
 });
 
-router.get('/styles', function(req, res) {
+router.get('/styles', function (req, res) {
     const title = 'Styles';
     res.render(path.resolve(__dirname, './views/styles'), {
         title,
         breadcrumbs: res.locals.breadcrumbs.concat({
-            label: title
-        })
+            label: title,
+        }),
     });
 });
 
@@ -35,7 +35,7 @@ router.get('/components', async (req, res, next) => {
                 `../../views/components/${req.query.component}/examples.njk`
             ),
             fs.constants.R_OK,
-            function(err) {
+            function (err) {
                 if (err) {
                     next();
                 } else {
@@ -45,9 +45,9 @@ router.get('/components', async (req, res, next) => {
                     const breadcrumbs = res.locals.breadcrumbs.concat([
                         {
                             label: 'Components',
-                            url: `${req.baseUrl}${req.path}`
+                            url: `${req.baseUrl}${req.path}`,
                         },
-                        { label: title }
+                        { label: title },
                     ]);
 
                     res.render(
@@ -55,7 +55,7 @@ router.get('/components', async (req, res, next) => {
                         {
                             title,
                             breadcrumbs,
-                            slug: req.query.component
+                            slug: req.query.component,
                         }
                     );
                 }
@@ -71,17 +71,17 @@ router.get('/components', async (req, res, next) => {
             if (matches.length > 0) {
                 const title = 'Components';
                 const breadcrumbs = res.locals.breadcrumbs.concat({
-                    label: title
+                    label: title,
                 });
 
                 const componentSlugs = matches
-                    .map(match => path.basename(path.dirname(match)))
+                    .map((match) => path.basename(path.dirname(match)))
                     .sort();
 
                 res.render(path.resolve(__dirname, './views/components'), {
                     title,
                     breadcrumbs,
-                    componentSlugs: componentSlugs
+                    componentSlugs: componentSlugs,
                 });
             } else {
                 next(new Error('No components found'));

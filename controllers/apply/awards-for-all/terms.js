@@ -58,8 +58,8 @@ module.exports = {
                 oneLine`if your project is being delivered in Wales, enable people to engage
                     in both Welsh and English, treating both languages equally.
                     Welsh speakers must be able to access information and services in Welsh
-                    and all materials must be produced bilingually.`
-            ]
+                    and all materials must be produced bilingually.`,
+            ],
         },
         {
             title: oneLine`You acknowledge that we are entitled to suspend or terminate the grant
@@ -83,8 +83,8 @@ module.exports = {
 
                 oneLine`You enter into, or in our view are likely to enter into, administration,
                     liquidation, receivership, dissolution or, in Scotland, have your
-                    organisation’s estate sequestrated.`
-            ]
+                    organisation’s estate sequestrated.`,
+            ],
         },
         {
             title: `You acknowledge that:`,
@@ -110,9 +110,9 @@ module.exports = {
                 oneLine`If the application and grant award are made electronically,
                     the agreement between us shall be deemed to be in writing and your
                     online acceptance of these Terms and Conditions shall be deemed to
-                    be a signature of that agreement.`
-            ]
-        }
+                    be a signature of that agreement.`,
+            ],
+        },
     ],
     cy: [
         {
@@ -140,8 +140,8 @@ module.exports = {
 
                 `Cronfa Gymunedol y Loteri Genedlaethol gyhoeddi a rhannu gwybodaeth amdanoch chi a'ch prosiect gan gynnwys eich enw a delweddau o weithgareddau prosiect. Trwy hyn rydych yn rhoi trwydded rhydd rhag breindaliadau i ni atgynhyrchu a chyhoeddi unrhyw wybodaeth brosiect a roddwch i ni. Byddwch yn ein hysbysu pan fyddwch yn darparu'r wybodaeth os nad oes gennych ganiatâd i ni ei defnyddio at y dibenion hyn; ac`,
 
-                `os yw eich prosiect i'w gyflwyno yng Nghymru, galluogi pobl i gymryd rhan yn Gymraeg a Saesneg, gan drin y ddwy iaith yn gyfartal. Mae'n rhaid i siaradwyr Cymraeg fedru cyrchu gwybodaeth a gwasanaethau yn Gymraeg ac mae'n rhaid creu pob deunydd yn ddwyieithog.`
-            ]
+                `os yw eich prosiect i'w gyflwyno yng Nghymru, galluogi pobl i gymryd rhan yn Gymraeg a Saesneg, gan drin y ddwy iaith yn gyfartal. Mae'n rhaid i siaradwyr Cymraeg fedru cyrchu gwybodaeth a gwasanaethau yn Gymraeg ac mae'n rhaid creu pob deunydd yn ddwyieithog.`,
+            ],
         },
         {
             title: `Rydych yn cydnabod bod gennym ni'r hawl i atal neu derfynu'r grant a/neu fynnu eich bod yn ad-dalu'r grant cyfan neu ran ohono mewn unrhyw un o'r sefyllfaoedd a ganlyn. Mae'n rhaid i chi ein hysbysu os yw unrhyw un o'r sefyllfaoedd hyn wedi digwydd neu'n debygol o ddigwydd:`,
@@ -154,8 +154,8 @@ module.exports = {
 
                 `Rydych yn darparu gwybodaeth ffug neu gamarweiniol naill ai wrth ymgeisio neu ar ôl dyfarnu'r grant, gweithredu'n anonest neu'n destun ymchwiliad gennym ni, corff rheoleiddio neu'r heddlu, neu os ydym yn ystyried am unrhyw reswm arall bod arian cyhoeddus wedi'i beryglu neu os byddwch yn gwneud unrhyw beth arall sy'n difrïo ni neu'r Loteri Genedlaethol.`,
 
-                `Rydych yn mynd, neu os yn ein barn ni rydych yn debygol o fynd, i ddwylo'r gweinyddwyr, datodiad, derbynyddiad, diddymiad neu, yn Yr Alban, os caiff ystâd eich sefydliad ei secwestru.`
-            ]
+                `Rydych yn mynd, neu os yn ein barn ni rydych yn debygol o fynd, i ddwylo'r gweinyddwyr, datodiad, derbynyddiad, diddymiad neu, yn Yr Alban, os caiff ystâd eich sefydliad ei secwestru.`,
+            ],
         },
         {
             title: `Rydych yn cydnabod y canlynol`,
@@ -170,8 +170,8 @@ module.exports = {
 
                 `bydd yr amodau a thelerau hyn yn parau mewn grym am flwyddyn ar ôl i'r grant gael ei dalu neu hyd nes y bydd y prosiect wedi'i gwblhau, p'un bynnag yw'r hwyraf. Bydd cymalau 1.2, 1.4, 1.6, 1.9, 1.10, 1.11 a 3.4 yn parhau ar ôl i'r Amodau a Thelerau ddod i ben; ac`,
 
-                `os caiff y cais a'r dyfarniad grant eu gwneud yn electronig, tybir bod y cytundeb rhyngom yn un ysgrifenedig a thybir mai derbyn ar-lein yr amodau a thelerau hyn gennych chi fydd y llofnod ar y cytundeb hwnnw.`
-            ]
-        }
-    ]
+                `os caiff y cais a'r dyfarniad grant eu gwneud yn electronig, tybir bod y cytundeb rhyngom yn un ysgrifenedig a thybir mai derbyn ar-lein yr amodau a thelerau hyn gennych chi fydd y llofnod ar y cytundeb hwnnw.`,
+            ],
+        },
+    ],
 };

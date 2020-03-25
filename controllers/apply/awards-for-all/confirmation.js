@@ -10,7 +10,7 @@ function getEmailFor(country) {
         'england': 'afe@tnlcommunityfund.org.uk',
         'scotland': 'advicescotland@tnlcommunityfund.org.uk',
         'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
-        'wales': 'wales@tnlcommunityfund.org.uk'
+        'wales': 'wales@tnlcommunityfund.org.uk',
     }[country];
 
     return countryEmail || 'general.enquiries@tnlcommunityfund.org.uk';
@@ -20,24 +20,26 @@ function getPhoneFor(country) {
     const countryPhone = {
         'scotland': '0141 846 0447',
         'northern-ireland': '028 4378 0003',
-        'wales': '029 2168 0214'
+        'wales': '029 2168 0214',
     }[country];
 
     return countryPhone || '028 9568 0143';
 }
 
-module.exports = function({ locale, data = {} }) {
+module.exports = function ({ locale, data = {} }) {
     const localise = get(locale);
     const country = get('projectCountry')(data);
 
-    const [mainContact, seniorContact] = ['main', 'senior'].map(contactType => {
-        return {
-            fullName: getContactFullName(
-                get(`${contactType}ContactName`)(data)
-            ),
-            email: get(`${contactType}ContactEmail`)(data)
-        };
-    });
+    const [mainContact, seniorContact] = ['main', 'senior'].map(
+        (contactType) => {
+            return {
+                fullName: getContactFullName(
+                    get(`${contactType}ContactName`)(data)
+                ),
+                email: get(`${contactType}ContactEmail`)(data),
+            };
+        }
+    );
 
     function enConfirmationBody() {
         return `<h2>We’ve just sent an email to your main and senior contact</h2>
@@ -107,11 +109,11 @@ module.exports = function({ locale, data = {} }) {
     return {
         title: localise({
             en: `Thanks - we’ve got your application now`,
-            cy: `Diolch – mae gennym eich cais nawr`
+            cy: `Diolch – mae gennym eich cais nawr`,
         }),
         body: localise({
             en: enConfirmationBody(),
-            cy: cyConfirmationBody()
-        })
+            cy: cyConfirmationBody(),
+        }),
     };
 };

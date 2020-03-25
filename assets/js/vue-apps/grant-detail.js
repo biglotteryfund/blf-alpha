@@ -12,15 +12,15 @@ function init(STORAGE_KEY) {
     new Vue({
         el: mountEl,
         data: {
-            STORAGE_KEY: STORAGE_KEY
+            STORAGE_KEY: STORAGE_KEY,
         },
         components: {
             'grants-related': GrantsRelated,
-            'grants-back-to-search': GrantsBackToSearch
-        }
+            'grants-back-to-search': GrantsBackToSearch,
+        },
     });
 }
 
 export default {
-    init
+    init,
 };

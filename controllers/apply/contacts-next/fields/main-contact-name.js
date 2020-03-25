@@ -5,7 +5,7 @@ const get = require('lodash/fp/get');
 const Joi = require('../../lib/joi-extensions');
 const NameField = require('../../lib/field-types/name');
 
-module.exports = function(locale, data = {}) {
+module.exports = function (locale, data = {}) {
     const localise = get(locale);
 
     const seniorSurname = get('seniorContactName.lastName')(data);
@@ -17,11 +17,11 @@ module.exports = function(locale, data = {}) {
         name: 'mainContactName',
         label: localise({
             en: 'Full name of main contact',
-            cy: 'Enw llawn y prif gyswllt'
+            cy: 'Enw llawn y prif gyswllt',
         }),
         explanation: localise({
             en: 'This person has to live in the UK.',
-            cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
+            cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.',
         }),
         warnings: compact([
             lastNamesMatch &&
@@ -32,20 +32,18 @@ module.exports = function(locale, data = {}) {
 
                     cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau
-                    lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`
-                })
+                    lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`,
+                }),
         ]),
-        schema: Joi.fullName()
-            .compare(Joi.ref('seniorContactName'))
-            .required(),
+        schema: Joi.fullName().compare(Joi.ref('seniorContactName')).required(),
         messages: [
             {
                 type: 'object.isEqual',
                 message: localise({
                     en: `Main contact name must be different from the senior contact's name`,
-                    cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`
-                })
-            }
-        ]
+                    cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`,
+                }),
+            },
+        ],
     });
 };

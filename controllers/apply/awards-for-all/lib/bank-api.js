@@ -12,9 +12,9 @@ function checkBankAccountDetails(sortCode, accountNumber) {
                 output: 'json',
                 type: 'uk_bankaccount',
                 sortcode: sortCode,
-                bankaccount: accountNumber
+                bankaccount: accountNumber,
             },
-            json: true
+            json: true,
         })
         .then(normalizeResponse);
 }
@@ -26,11 +26,11 @@ function normalizeResponse(response) {
                 code:
                     response.accountProperties.bacs_credit === 'true'
                         ? 'VALID'
-                        : 'INVALID_BACS'
+                        : 'INVALID_BACS',
             };
         case '02':
             return {
-                code: 'INVALID_ACCOUNT'
+                code: 'INVALID_ACCOUNT',
             };
         default:
             throw new Error(response.resultDescription);
@@ -39,5 +39,5 @@ function normalizeResponse(response) {
 
 module.exports = {
     checkBankAccountDetails,
-    normalizeResponse
+    normalizeResponse,
 };

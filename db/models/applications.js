@@ -12,14 +12,14 @@ class PendingApplication extends Model {
                 primaryKey: true,
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
              * User model reference
              */
             userId: {
-                type: DataTypes.INTEGER
+                type: DataTypes.INTEGER,
             },
 
             /**
@@ -28,7 +28,7 @@ class PendingApplication extends Model {
              */
             formId: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -38,7 +38,7 @@ class PendingApplication extends Model {
             currentProgressState: {
                 type: DataTypes.ENUM('NOT_STARTED', 'PENDING', 'COMPLETE'),
                 allowNull: true,
-                defaultValue: 'NOT_STARTED'
+                defaultValue: 'NOT_STARTED',
             },
 
             /**
@@ -47,7 +47,7 @@ class PendingApplication extends Model {
              */
             applicationData: {
                 type: DataTypes.JSON,
-                allowNull: true
+                allowNull: true,
             },
 
             /**
@@ -56,7 +56,7 @@ class PendingApplication extends Model {
              */
             metadata: {
                 type: DataTypes.JSON,
-                allowNull: true
+                allowNull: true,
             },
 
             /**
@@ -67,7 +67,7 @@ class PendingApplication extends Model {
             submissionAttempts: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -76,13 +76,13 @@ class PendingApplication extends Model {
              */
             expiresAt: {
                 type: DataTypes.DATE,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         };
 
         return super.init(schema, {
             modelName: 'PendingApplication',
-            sequelize
+            sequelize,
         });
     }
 
@@ -90,9 +90,9 @@ class PendingApplication extends Model {
         return this.findAll({
             where: {
                 formId: { [Op.eq]: formId },
-                createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
+                createdAt: { [Op.between]: [dateRange.start, dateRange.end] },
             },
-            order: [['createdAt', 'ASC']]
+            order: [['createdAt', 'ASC']],
         });
     }
 
@@ -100,25 +100,25 @@ class PendingApplication extends Model {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },
-                formId: { [Op.eq]: formId }
+                formId: { [Op.eq]: formId },
             },
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']],
         });
     }
 
     static findLatestByUserId(userId) {
         return this.findOne({
             where: {
-                userId: { [Op.eq]: userId }
+                userId: { [Op.eq]: userId },
             },
-            order: [['updatedAt', 'DESC']]
+            order: [['updatedAt', 'DESC']],
         });
     }
 
     static findAllByUserId(userId) {
         return this.findAll({
             where: { userId: { [Op.eq]: userId } },
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']],
         });
     }
 
@@ -127,9 +127,9 @@ class PendingApplication extends Model {
             attributes: ['id', 'formId', 'currentProgressState'],
             where: {
                 expiresAt: {
-                    [Op.lte]: moment().toDate()
-                }
-            }
+                    [Op.lte]: moment().toDate(),
+                },
+            },
         });
     }
 
@@ -138,14 +138,14 @@ class PendingApplication extends Model {
             where: {
                 id: { [Op.eq]: applicationId },
                 formId: { [Op.eq]: formId },
-                userId: { [Op.eq]: userId }
-            }
+                userId: { [Op.eq]: userId },
+            },
         });
     }
 
     static countCompleted(applications) {
         return applications.filter(
-            app => app.currentProgressState === 'COMPLETE'
+            (app) => app.currentProgressState === 'COMPLETE'
         ).length;
     }
 
@@ -153,21 +153,19 @@ class PendingApplication extends Model {
         userId,
         formId,
         customExpiry = null,
-        metadata = null
+        metadata = null,
     }) {
         // @TODO: Should this be defined in config?
         const expiresAt = customExpiry
             ? customExpiry
-            : moment()
-                  .add('3', 'months')
-                  .toDate();
+            : moment().add('3', 'months').toDate();
 
         return this.create({
             userId: userId,
             formId: formId,
             applicationData: null,
             metadata: metadata,
-            expiresAt: expiresAt
+            expiresAt: expiresAt,
         });
     }
 
@@ -175,7 +173,7 @@ class PendingApplication extends Model {
         return this.update(
             {
                 applicationData: data,
-                currentProgressState
+                currentProgressState,
             },
             { where: { id: { [Op.eq]: id } } }
         );
@@ -185,9 +183,9 @@ class PendingApplication extends Model {
         return this.findOne({
             attributes: ['updatedAt'],
             where: {
-                id: { [Op.eq]: applicationId }
-            }
-        }).then(function(record) {
+                id: { [Op.eq]: applicationId },
+            },
+        }).then(function (record) {
             return record.updatedAt;
         });
     }
@@ -199,16 +197,16 @@ class PendingApplication extends Model {
         return this.destroy({
             where: {
                 userId: { [Op.eq]: userId },
-                id: { [Op.eq]: id }
-            }
+                id: { [Op.eq]: id },
+            },
         });
     }
 
     static deleteBatch(applicationIds) {
         return this.destroy({
             where: {
-                id: { [Op.in]: applicationIds }
-            }
+                id: { [Op.in]: applicationIds },
+            },
         });
     }
 
@@ -224,14 +222,14 @@ class SubmittedApplication extends Model {
                 primaryKey: true,
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
              * User model reference
              */
             userId: {
-                type: DataTypes.INTEGER
+                type: DataTypes.INTEGER,
             },
 
             /**
@@ -240,7 +238,7 @@ class SubmittedApplication extends Model {
              */
             formId: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -248,7 +246,7 @@ class SubmittedApplication extends Model {
              */
             applicationTitle: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -256,7 +254,7 @@ class SubmittedApplication extends Model {
              */
             applicationCountry: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -265,7 +263,7 @@ class SubmittedApplication extends Model {
              */
             applicationOverview: {
                 type: DataTypes.JSON,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -274,7 +272,7 @@ class SubmittedApplication extends Model {
              */
             applicationSummary: {
                 type: DataTypes.JSON,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -282,7 +280,7 @@ class SubmittedApplication extends Model {
              */
             salesforceId: {
                 type: DataTypes.STRING,
-                allowNull: true
+                allowNull: true,
             },
 
             /**
@@ -291,7 +289,7 @@ class SubmittedApplication extends Model {
              */
             salesforceSubmission: {
                 type: DataTypes.JSON,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -301,12 +299,12 @@ class SubmittedApplication extends Model {
              */
             startedAt: {
                 type: DataTypes.DATE,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         };
 
         return super.init(schema, {
-            sequelize
+            sequelize,
         });
     }
 
@@ -314,27 +312,27 @@ class SubmittedApplication extends Model {
         return this.findAll({
             where: {
                 formId: { [Op.eq]: formId },
-                createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
+                createdAt: { [Op.between]: [dateRange.start, dateRange.end] },
             },
-            order: [['createdAt', 'ASC']]
+            order: [['createdAt', 'ASC']],
         });
     }
 
     static findLatestByUserId(userId) {
         return this.findOne({
             where: {
-                userId: { [Op.eq]: userId }
+                userId: { [Op.eq]: userId },
             },
-            order: [['updatedAt', 'DESC']]
+            order: [['updatedAt', 'DESC']],
         });
     }
 
     static findAllByUserId(userId) {
         return this.findAll({
             where: {
-                userId: { [Op.eq]: userId }
+                userId: { [Op.eq]: userId },
             },
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']],
         });
     }
 
@@ -342,9 +340,9 @@ class SubmittedApplication extends Model {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },
-                formId: { [Op.eq]: formId }
+                formId: { [Op.eq]: formId },
             },
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']],
         });
     }
 
@@ -353,7 +351,7 @@ class SubmittedApplication extends Model {
         form,
         userId,
         formId,
-        salesforceRecord = {}
+        salesforceRecord = {},
     }) {
         return this.create({
             id: pendingApplication.id,
@@ -365,7 +363,7 @@ class SubmittedApplication extends Model {
             applicationSummary: form.fullSummary(),
             salesforceId: salesforceRecord.id,
             salesforceSubmission: salesforceRecord.submission,
-            startedAt: pendingApplication.createdAt
+            startedAt: pendingApplication.createdAt,
         });
     }
 }
@@ -377,14 +375,14 @@ class ApplicationEmailQueue extends Model {
                 primaryKey: true,
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
              * PendingApplication model reference
              */
             applicationId: {
-                type: DataTypes.UUID
+                type: DataTypes.UUID,
             },
 
             /**
@@ -395,7 +393,7 @@ class ApplicationEmailQueue extends Model {
              */
             userId: {
                 type: DataTypes.INTEGER,
-                allowNull: true
+                allowNull: true,
             },
 
             /**
@@ -404,7 +402,7 @@ class ApplicationEmailQueue extends Model {
              */
             emailType: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
 
             /**
@@ -414,7 +412,7 @@ class ApplicationEmailQueue extends Model {
             status: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue: 'NOT_SENT'
+                defaultValue: 'NOT_SENT',
             },
 
             /**
@@ -422,36 +420,34 @@ class ApplicationEmailQueue extends Model {
              */
             dateToSend: {
                 type: DataTypes.DATE,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         };
 
         return super.init(schema, {
             modelName: 'ApplicationEmailQueue',
             freezeTableName: true,
-            sequelize
+            sequelize,
         });
     }
 
     // Remove old email queue items once their sent date is more than 3 months ago
     static async cleanupQueue() {
-        const expiryDate = moment()
-            .subtract(3, 'months')
-            .toDate();
+        const expiryDate = moment().subtract(3, 'months').toDate();
 
         this.destroy({
             where: {
                 status: { [Op.eq]: 'SENT' },
-                dateToSend: { [Op.lte]: expiryDate }
-            }
+                dateToSend: { [Op.lte]: expiryDate },
+            },
         });
     }
 
     static deleteEmailsForApplication(applicationId) {
         return this.destroy({
             where: {
-                applicationId: { [Op.eq]: applicationId }
-            }
+                applicationId: { [Op.eq]: applicationId },
+            },
         });
     }
 
@@ -473,26 +469,26 @@ class ApplicationEmailQueue extends Model {
             where: {
                 status: { [Op.eq]: 'NOT_SENT' },
                 dateToSend: {
-                    [Op.lte]: moment().toDate()
-                }
+                    [Op.lte]: moment().toDate(),
+                },
             },
             include: [
                 {
                     model: PendingApplication,
                     include: [
                         {
-                            model: Users
-                        }
-                    ]
-                }
-            ]
+                            model: Users,
+                        },
+                    ],
+                },
+            ],
         });
     }
 
     static updateStatusToSent(queueId) {
         return this.update(
             {
-                status: 'SENT'
+                status: 'SENT',
             },
             { where: { id: { [Op.eq]: queueId } } }
         );
@@ -502,5 +498,5 @@ class ApplicationEmailQueue extends Model {
 module.exports = {
     PendingApplication,
     SubmittedApplication,
-    ApplicationEmailQueue
+    ApplicationEmailQueue,
 };

@@ -16,7 +16,7 @@ class CheckboxField extends Field {
             throw new Error('Must provide options');
         }
 
-        const values = options.map(option => option.value);
+        const values = options.map((option) => option.value);
         if (values.length !== uniq(values).length) {
             throw new Error('Options must contain unique values');
         }
@@ -29,7 +29,7 @@ class CheckboxField extends Field {
     defaultSchema() {
         const options = this.options || [];
         const baseSchema = Joi.array()
-            .items(Joi.string().valid(options.map(option => option.value)))
+            .items(Joi.string().valid(options.map((option) => option.value)))
             .single();
 
         if (this.isRequired) {
@@ -42,8 +42,10 @@ class CheckboxField extends Field {
     get displayValue() {
         if (this.value) {
             return this.options
-                .filter(option => castArray(this.value).includes(option.value))
-                .map(match => match.label)
+                .filter((option) =>
+                    castArray(this.value).includes(option.value)
+                )
+                .map((match) => match.label)
                 .join(',\n');
         } else {
             return '';

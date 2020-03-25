@@ -3,7 +3,7 @@ const got = require('got');
 const { PAST_GRANTS_API_URI } = require('../../common/secrets');
 
 const queryPastGrants = got.extend({
-    prefixUrl: PAST_GRANTS_API_URI
+    prefixUrl: PAST_GRANTS_API_URI,
 });
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
     },
     getRecipientById({ id, locale, page = 1 }) {
         return queryPastGrants(`/recipient/${encodeURIComponent(id)}`, {
-            searchParams: { locale, page }
+            searchParams: { locale, page },
         }).json();
-    }
+    },
 };

@@ -14,16 +14,16 @@ class FileField extends Field {
 
         const maxFileSize = {
             value: 12 * 1048576,
-            label: '12MB'
+            label: '12MB',
         };
 
         const supportedFileTypes = [
             { mime: 'image/png', label: 'PNG' },
             { mime: 'image/jpeg', label: 'JPEG' },
-            { mime: 'application/pdf', label: 'PDF' }
+            { mime: 'application/pdf', label: 'PDF' },
         ];
 
-        const supportedMimeTypes = supportedFileTypes.map(type => type.mime);
+        const supportedMimeTypes = supportedFileTypes.map((type) => type.mime);
 
         this.attributes = Object.assign(
             {},
@@ -35,31 +35,29 @@ class FileField extends Field {
 
         this.schema = Joi.object({
             filename: Joi.string().required(),
-            size: Joi.number()
-                .max(maxFileSize.value)
-                .required(),
-            type: Joi.string()
-                .valid(supportedMimeTypes)
-                .required()
+            size: Joi.number().max(maxFileSize.value).required(),
+            type: Joi.string().valid(supportedMimeTypes).required(),
         }).required();
 
-        const typeList = supportedFileTypes.map(type => type.label).join(', ');
+        const typeList = supportedFileTypes
+            .map((type) => type.label)
+            .join(', ');
 
         this.messages = [
             {
                 type: 'any.allowOnly',
                 message: this.localise({
                     en: `Please upload a file in one of these formats: ${typeList}`,
-                    cy: `Uwch lwythwch ffeil yn un o’r fformatiau hyn: ${typeList}`
-                })
+                    cy: `Uwch lwythwch ffeil yn un o’r fformatiau hyn: ${typeList}`,
+                }),
             },
             {
                 type: 'number.max',
                 message: this.localise({
                     en: `Please upload a file below ${maxFileSize.label}`,
-                    cy: `Uwch lwythwch ffeil isod ${maxFileSize.label}`
-                })
-            }
+                    cy: `Uwch lwythwch ffeil isod ${maxFileSize.label}`,
+                }),
+            },
         ].concat(props.messages || []);
     }
 
@@ -73,7 +71,7 @@ class FileField extends Field {
             const formatted = fileSize(this.value.size, { round: 0 });
             return `${this.value.filename} (${compact([
                 mimeType && mimeType.toUpperCase(),
-                formatted
+                formatted,
             ]).join(', ')})`;
         } else {
             return '';

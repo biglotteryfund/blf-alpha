@@ -12,7 +12,7 @@ class Salesforce {
         return request.get({
             uri: `${this.apiUrl}${urlPath}`,
             headers: this.headers,
-            json: true
+            json: true,
         });
     }
     postJson(urlPath, body) {
@@ -20,13 +20,13 @@ class Salesforce {
             url: `${this.apiUrl}${urlPath}`,
             headers: this.headers,
             json: true,
-            body: body
+            body: body,
         });
     }
     submitFormData({ application, meta }) {
         return this.postJson('/services/apexrest/FormData/', {
             meta: meta,
-            application: application
+            application: application,
         });
     }
     async contentVersion({ recordId, attachmentName, versionData }) {
@@ -38,14 +38,14 @@ class Salesforce {
                     value: JSON.stringify({
                         FirstPublishLocationId: recordId,
                         ReasonForChange: `Application attachment ${attachmentName}`,
-                        PathOnClient: attachmentName
+                        PathOnClient: attachmentName,
                     }),
                     options: {
-                        contentType: 'application/json'
-                    }
+                        contentType: 'application/json',
+                    },
                 },
-                VersionData: versionData
-            }
+                VersionData: versionData,
+            },
         });
     }
 }
@@ -60,8 +60,8 @@ async function authorise() {
             client_id: SALESFORCE_AUTH.consumerKey,
             client_secret: SALESFORCE_AUTH.consumerSecret,
             username: SALESFORCE_AUTH.username,
-            password: `${SALESFORCE_AUTH.password}${SALESFORCE_AUTH.token}`
-        }
+            password: `${SALESFORCE_AUTH.password}${SALESFORCE_AUTH.token}`,
+        },
     });
 
     return new Salesforce(resultJson.instance_url, resultJson.access_token);
@@ -71,11 +71,11 @@ function checkStatus() {
     return request({
         url: `https://api.status.salesforce.com/v1/instances/${SALESFORCE_AUTH.instanceId}/status`,
         json: true,
-        timeout: 3000
+        timeout: 3000,
     });
 }
 
 module.exports = {
     authorise,
-    checkStatus
+    checkStatus,
 };

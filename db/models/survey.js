@@ -8,38 +8,36 @@ class SurveyAnswer extends Model {
         const schema = {
             choice: {
                 type: DataTypes.ENUM('yes', 'no'),
-                allowNull: false
+                allowNull: false,
             },
             path: {
                 type: DataTypes.TEXT,
-                allowNull: false
+                allowNull: false,
             },
             message: {
-                type: DataTypes.TEXT
-            }
+                type: DataTypes.TEXT,
+            },
         };
 
         return super.init(schema, {
             modelName: 'survey',
             freezeTableName: true,
-            sequelize
+            sequelize,
         });
     }
     static createResponse({ choice, path, message }) {
-        const expiryDate = moment()
-            .subtract(3, 'months')
-            .toDate();
+        const expiryDate = moment().subtract(3, 'months').toDate();
 
         return Promise.all([
             this.create({
                 choice: choice,
                 path: path,
-                message: message
+                message: message,
             }),
             // Clean up old responses
             this.destroy({
-                where: { createdAt: { [Op.lte]: expiryDate } }
-            })
+                where: { createdAt: { [Op.lte]: expiryDate } },
+            }),
         ]);
     }
     static findAllByPath(urlPath) {

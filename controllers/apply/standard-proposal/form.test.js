@@ -6,7 +6,7 @@ const { mockResponse } = require('./mocks');
 const formBuilder = require('./form');
 
 function mapMessages(validationResult) {
-    return validationResult.messages.map(detail => detail.msg);
+    return validationResult.messages.map((detail) => detail.msg);
 }
 
 test('empty form', () => {
@@ -22,7 +22,7 @@ test('valid form', () => {
     expect(result.value).toMatchSnapshot({
         yourIdeaProject: expect.any(String),
         yourIdeaCommunity: expect.any(String),
-        yourIdeaActivities: expect.any(String)
+        yourIdeaActivities: expect.any(String),
     });
 });
 
@@ -35,7 +35,7 @@ test('invalid form', () => {
         projectCosts: 10000,
         projectDurationYears: 10,
         organisationLegalName: 'Same organisation name',
-        organisationTradingName: 'Same organisation name'
+        organisationTradingName: 'Same organisation name',
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
@@ -45,8 +45,8 @@ test('strip projectLocation when applying for more than one country', () => {
     const form = formBuilder({
         data: mockResponse({
             projectCountries: ['england', 'scotland'],
-            projectLocation: 'this-should-be-stripped'
-        })
+            projectLocation: 'this-should-be-stripped',
+        }),
     });
 
     expect(form.validation.value).not.toHaveProperty('projectLocation');
@@ -56,14 +56,14 @@ test('strip projectDurationYears when applying for more than one country', () =>
     const form = formBuilder({
         data: mockResponse({
             projectCountries: ['england', 'scotland'],
-            projectDurationYears: 5
-        })
+            projectDurationYears: 5,
+        }),
     });
 
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
 });
 
-test('organisation sub-type required for statutory-body', function() {
+test('organisation sub-type required for statutory-body', function () {
     const requiredData = mockResponse({ organisationType: 'statutory-body' });
     const requiredResult = formBuilder({ data: requiredData }).validation;
 
@@ -73,17 +73,17 @@ test('organisation sub-type required for statutory-body', function() {
 
     const validData = mockResponse({
         organisationType: 'statutory-body',
-        organisationSubType: 'fire-service'
+        organisationSubType: 'fire-service',
     });
     const result = formBuilder({ data: validData }).validation;
     expect(result.error).toBeNull();
 });
 
-test('language preference required in wales', function() {
+test('language preference required in wales', function () {
     const form = formBuilder({
         data: mockResponse({
-            projectCountries: ['england', 'wales']
-        })
+            projectCountries: ['england', 'wales'],
+        }),
     });
 
     expect(mapMessages(form.validation)).toEqual(
@@ -93,8 +93,8 @@ test('language preference required in wales', function() {
     const formValid = formBuilder({
         data: mockResponse({
             projectCountries: ['england', 'wales'],
-            contactLanguagePreference: 'welsh'
-        })
+            contactLanguagePreference: 'welsh',
+        }),
     });
 
     expect(formValid.validation.error).toBeNull();
@@ -102,8 +102,8 @@ test('language preference required in wales', function() {
     const formStrip = formBuilder({
         data: mockResponse({
             projectCountries: ['england'],
-            contactLanguagePreference: 'welsh'
-        })
+            contactLanguagePreference: 'welsh',
+        }),
     });
 
     expect(formStrip.validation.value).not.toHaveProperty(
@@ -114,8 +114,8 @@ test('language preference required in wales', function() {
 test.each([
     'organisationTradingName',
     'contactPhone',
-    'contactCommunicationNeeds'
-])('optional %p field', function(fieldName) {
+    'contactCommunicationNeeds',
+])('optional %p field', function (fieldName) {
     const data = mockResponse();
     const form = formBuilder({ data });
 
@@ -124,16 +124,16 @@ test.each([
     expect(result.error).toBeNull();
 });
 
-describe('new location questions', function() {
-    test('require region when england is selected', function() {
+describe('new location questions', function () {
+    test('require region when england is selected', function () {
         const form = formBuilder({
             data: mockResponse({
                 projectCountries: ['england'],
-                projectRegions: null
+                projectRegions: null,
             }),
             flags: {
-                enableNewLocationQuestions: true
-            }
+                enableNewLocationQuestions: true,
+            },
         });
 
         expect(mapMessages(form.validation)).toEqual(
@@ -141,15 +141,15 @@ describe('new location questions', function() {
         );
     });
 
-    test('strip other region selections when all-england is selected', function() {
+    test('strip other region selections when all-england is selected', function () {
         const form = formBuilder({
             data: mockResponse({
                 projectCountries: ['england'],
-                projectRegions: ['all-england', 'midlands', 'north-west']
+                projectRegions: ['all-england', 'midlands', 'north-west'],
             }),
             flags: {
-                enableNewLocationQuestions: true
-            }
+                enableNewLocationQuestions: true,
+            },
         });
 
         expect(form.validation.value.projectRegions).toEqual(['all-england']);

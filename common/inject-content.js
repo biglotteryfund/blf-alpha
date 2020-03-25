@@ -16,7 +16,7 @@ function setHeroLocals({ res, entry }) {
     if (heroImage) {
         res.locals.pageHero = {
             image: heroImage,
-            credit: heroCredit
+            credit: heroCredit,
         };
         res.locals.socialImage = heroImage;
     } else {
@@ -42,14 +42,14 @@ function setCommonLocals(req, res, entry) {
         isPreview: checkPreviewMode(req.query).isPreview,
         lastUpdated: moment(entry.dateUpdated.date).format(
             'Do MMM YYYY [at] h:mma'
-        )
+        ),
     };
 
     setHeroLocals({ res, entry });
 }
 
 function injectHeroImage(heroSlug) {
-    return async function(req, res, next) {
+    return async function (req, res, next) {
         if (heroSlug) {
             const { fallbackHeroImage } = res.locals;
 
@@ -60,7 +60,7 @@ function injectHeroImage(heroSlug) {
             try {
                 const image = await contentApi.getHeroImage({
                     locale: req.i18n.getLocale(),
-                    slug: heroSlug
+                    slug: heroSlug,
                 });
 
                 res.locals.pageHero = { image: image };
@@ -77,7 +77,7 @@ function injectHeroImage(heroSlug) {
 }
 
 function injectCopy(lang) {
-    return function(req, res, next) {
+    return function (req, res, next) {
         if (lang) {
             const copy = req.i18n.__(lang);
             res.locals.copy = copy;
@@ -94,7 +94,7 @@ async function injectListingContent(req, res, next) {
         const entry = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            requestParams: req.query
+            requestParams: req.query,
         });
 
         if (entry) {
@@ -113,7 +113,7 @@ async function injectFlexibleContent(req, res, next) {
         const entry = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            requestParams: req.query
+            requestParams: req.query,
         });
 
         if (entry) {
@@ -133,5 +133,5 @@ module.exports = {
     injectHeroImage,
     injectListingContent,
     setCommonLocals,
-    setHeroLocals
+    setHeroLocals,
 };

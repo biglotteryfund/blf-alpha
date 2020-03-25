@@ -7,90 +7,93 @@ const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');
 module.exports = function rolesFor({
     locale = 'en',
     organisationType,
-    organisationSubType
+    organisationSubType,
 }) {
     const localise = get(locale);
     const ROLES = {
         CHAIR: {
             value: 'chair',
-            label: localise({ en: 'Chair', cy: 'Cadeirydd' })
+            label: localise({ en: 'Chair', cy: 'Cadeirydd' }),
         },
         CHANCELLOR: {
             value: 'chancellor',
-            label: localise({ en: 'Chancellor', cy: 'Canghellor' })
+            label: localise({ en: 'Chancellor', cy: 'Canghellor' }),
         },
         CHIEF_EXECUTIVE: {
             value: 'chief-executive',
-            label: localise({ en: 'Chief Executive', cy: 'Prif Weithredwr' })
+            label: localise({ en: 'Chief Executive', cy: 'Prif Weithredwr' }),
         },
         CHIEF_EXECUTIVE_OFFICER: {
             value: 'chief-executive-officer',
             label: localise({
                 en: 'Chief Executive Officer',
-                cy: 'Swyddog Prif Weithredwr'
-            })
+                cy: 'Swyddog Prif Weithredwr',
+            }),
         },
         COMPANY_DIRECTOR: {
             value: 'company-director',
-            label: localise({ en: 'Company Director', cy: 'Cyfarwyddwr Cwmni' })
+            label: localise({
+                en: 'Company Director',
+                cy: 'Cyfarwyddwr Cwmni',
+            }),
         },
         COMPANY_SECRETARY: {
             value: 'company-secretary',
             label: localise({
                 en: 'Company Secretary',
-                cy: 'Ysgrifennydd cwmni'
-            })
+                cy: 'Ysgrifennydd cwmni',
+            }),
         },
         DEPUTY_PARISH_CLERK: {
             value: 'deputy-parish-clerk',
             label: localise({
                 en: 'Deputy Parish Clerk',
-                cy: 'Dirprwy Glerc y Plwyf'
-            })
+                cy: 'Dirprwy Glerc y Plwyf',
+            }),
         },
         DIRECTOR: {
             value: 'director',
-            label: localise({ en: 'Director', cy: 'Cyfarwyddwr' })
+            label: localise({ en: 'Director', cy: 'Cyfarwyddwr' }),
         },
         ELECTED_MEMBER: {
             value: 'elected-member',
-            label: localise({ en: 'Elected Member', cy: 'Aelod etholedig' })
+            label: localise({ en: 'Elected Member', cy: 'Aelod etholedig' }),
         },
         HEAD_TEACHER: {
             value: 'head-teacher',
-            label: localise({ en: 'Head Teacher', cy: 'Prifathro' })
+            label: localise({ en: 'Head Teacher', cy: 'Prifathro' }),
         },
         PARISH_CLERK: {
             value: 'parish-clerk',
-            label: localise({ en: 'Parish Clerk', cy: 'Clerc Plwyf' })
+            label: localise({ en: 'Parish Clerk', cy: 'Clerc Plwyf' }),
         },
         RELIGIOUS_LEADER: {
             value: 'religious-leader',
             label: localise({
                 en: 'Religious leader (eg. rabbi, imam, vicar)',
-                cy: 'Arweinydd crefyddol (e.e. rabi, imam, ficar)'
-            })
+                cy: 'Arweinydd crefyddol (e.e. rabi, imam, ficar)',
+            }),
         },
         SECRETARY: {
             value: 'secretary',
-            label: localise({ en: 'Secretary', cy: 'Ysgrifennydd' })
+            label: localise({ en: 'Secretary', cy: 'Ysgrifennydd' }),
         },
         TREASURER: {
             value: 'treasurer',
-            label: localise({ en: 'Treasurer', cy: 'Trysorydd' })
+            label: localise({ en: 'Treasurer', cy: 'Trysorydd' }),
         },
         TRUSTEE: {
             value: 'trustee',
-            label: localise({ en: 'Trustee', cy: 'Ymddiriedolwr' })
+            label: localise({ en: 'Trustee', cy: 'Ymddiriedolwr' }),
         },
         VICE_CHAIR: {
             value: 'vice-chair',
-            label: localise({ en: 'Vice-chair', cy: 'Is-gadeirydd' })
+            label: localise({ en: 'Vice-chair', cy: 'Is-gadeirydd' }),
         },
         VICE_CHANCELLOR: {
             value: 'vice-chancellor',
-            label: localise({ en: 'Vice-chancellor', cy: 'Is-ganghellor' })
-        }
+            label: localise({ en: 'Vice-chancellor', cy: 'Is-ganghellor' }),
+        },
     };
 
     let options = [];
@@ -100,7 +103,7 @@ module.exports = function rolesFor({
                 ROLES.CHAIR,
                 ROLES.VICE_CHAIR,
                 ROLES.SECRETARY,
-                ROLES.TREASURER
+                ROLES.TREASURER,
             ];
             break;
         case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
@@ -124,7 +127,7 @@ module.exports = function rolesFor({
                 ROLES.VICE_CHAIR,
                 ROLES.SECRETARY,
                 ROLES.TREASURER,
-                ROLES.RELIGIOUS_LEADER
+                ROLES.RELIGIOUS_LEADER,
             ];
             break;
         case ORGANISATION_TYPES.CIC:

@@ -13,7 +13,7 @@ export const init = () => {
 
     forEach(
         document.querySelectorAll('.fluid-width-video-wrapper iframe'),
-        function(el) {
+        function (el) {
             el.removeAttribute('style');
         }
     );

@@ -7,7 +7,7 @@ const { SESSION_SECRET } = require('./secrets');
 const { isDev } = require('./appData');
 const { sequelize } = require('../db/models');
 
-module.exports = function(app) {
+module.exports = function (app) {
     const store = new SequelizeStore({ db: sequelize });
 
     /**
@@ -28,8 +28,8 @@ module.exports = function(app) {
         cookie: {
             sameSite: false,
             secure: isDev === false,
-            maxAge: config.get('session.expiryInSeconds') * 1000
-        }
+            maxAge: config.get('session.expiryInSeconds') * 1000,
+        },
     };
 
     if (isDev === false) {

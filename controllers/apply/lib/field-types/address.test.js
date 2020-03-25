@@ -2,11 +2,11 @@
 'use strict';
 const AddressField = require('./address');
 
-test('address field', function() {
+test('address field', function () {
     const field = new AddressField({
         locale: 'en',
         name: 'example',
-        label: 'Address field'
+        label: 'Address field',
     });
 
     expect(field.type).toBe('address');
@@ -15,7 +15,7 @@ test('address field', function() {
     field.withValue({
         line1: '1234 example street',
         townCity: 'Birmingham',
-        county: 'West Midlands'
+        county: 'West Midlands',
     });
 
     expect(field.validate().error.message).toEqual(
@@ -27,7 +27,7 @@ test('address field', function() {
         line2: 'Edgbaston',
         townCity: 'Birmingham',
         county: 'West Midlands',
-        postcode: 'B15 1TR'
+        postcode: 'B15 1TR',
     });
 
     expect(field.displayValue).toBe(

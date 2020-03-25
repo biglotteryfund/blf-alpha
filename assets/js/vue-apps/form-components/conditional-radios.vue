@@ -4,7 +4,7 @@ export default {
     data() {
         return {
             radioOptions: [],
-            currentChoice: null
+            currentChoice: null,
         };
     },
     mounted() {
@@ -21,18 +21,18 @@ export default {
     methods: {
         optionId(option) {
             return `option-${this.fieldName}-${option.value}`;
-        }
+        },
     },
     computed: {
         inputName() {
             return `${this.fieldName}[${this.subFieldName}]`;
-        }
+        },
     },
     watch: {
         currentChoice(value) {
             this.$root.$emit('update:conditionalRadio', value);
-        }
-    }
+        },
+    },
 };
 </script>
 

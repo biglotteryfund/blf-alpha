@@ -27,35 +27,31 @@ module.exports = function validateModel(formModel) {
                 'select',
                 'tel',
                 'text',
-                'textarea'
+                'textarea',
             ])
             .required(),
         attributes: Joi.object().optional(),
         settings: Joi.object().optional(),
         options: Joi.array().optional(),
         isRequired: Joi.alternatives().try(Joi.boolean(), Joi.func()),
-        schema: Joi.object()
-            .schema()
-            .required(),
+        schema: Joi.object().schema().required(),
         messages: Joi.array().items(
             Joi.object({
                 type: Joi.string().required(),
                 key: Joi.string().optional(),
-                message: Joi.string().required()
+                message: Joi.string().required(),
             })
         ),
         warnings: Joi.array().optional(),
         errors: Joi.array().optional(),
-        featuredErrors: Joi.array().optional()
+        featuredErrors: Joi.array().optional(),
     });
 
     const fieldsetSchema = Joi.object({
         legend: Joi.string().required(),
         introduction: Joi.string().optional(),
-        fields: Joi.array()
-            .items(fieldSchema)
-            .required(),
-        footer: Joi.string().optional()
+        fields: Joi.array().items(fieldSchema).required(),
+        footer: Joi.string().optional(),
     });
 
     const stepSchema = Joi.object({
@@ -64,11 +60,9 @@ module.exports = function validateModel(formModel) {
         noValidate: Joi.boolean().optional(),
         slug: Joi.string().required(),
         isRequired: Joi.boolean().required(),
-        fieldsets: Joi.array()
-            .items(fieldsetSchema)
-            .required(),
+        fieldsets: Joi.array().items(fieldsetSchema).required(),
         preFlightCheck: Joi.func().optional(),
-        isMultipart: Joi.boolean().optional()
+        isMultipart: Joi.boolean().optional(),
     });
 
     const sectionSchema = Joi.object({
@@ -77,11 +71,9 @@ module.exports = function validateModel(formModel) {
         shortTitle: Joi.string().optional(),
         summary: Joi.string().required(),
         introduction: Joi.string().optional(),
-        steps: Joi.array()
-            .items(stepSchema)
-            .required(),
+        steps: Joi.array().items(stepSchema).required(),
         hasFeaturedErrors: Joi.boolean().required(),
-        progress: Joi.object().required()
+        progress: Joi.object().required(),
     });
 
     const formSchema = Joi.object({
@@ -95,13 +87,11 @@ module.exports = function validateModel(formModel) {
         validation: Joi.object().required(),
         progress: Joi.object().required(),
         featuredErrorsAllowList: Joi.array().optional(),
-        sections: Joi.array()
-            .items(sectionSchema)
-            .required()
+        sections: Joi.array().items(sectionSchema).required(),
     });
 
     const validationResult = Joi.validate(formModel, formSchema, {
-        allowUnknown: true
+        allowUnknown: true,
     });
 
     const arrayFieldTypes = [
@@ -109,18 +99,18 @@ module.exports = function validateModel(formModel) {
         'checkbox',
         'date',
         'date-range',
-        'day-month'
+        'day-month',
     ];
 
     // Check that we haven't used a multipart field on a step with array values
     // because we use a custom body parser (Formidable) which doesn't handle these
     // in the same way as body-parser (eg. using qs library). Throws an error if
     // we attempt to add an array field to one of these steps.
-    formModel.sections = formModel.sections.map(section => {
-        section.steps = section.steps.map(step => {
+    formModel.sections = formModel.sections.map((section) => {
+        section.steps = section.steps.map((step) => {
             if (step.isMultipart) {
-                step.fieldsets.some(fieldset => {
-                    fieldset.fields.some(field => {
+                step.fieldsets.some((fieldset) => {
+                    fieldset.fields.some((field) => {
                         if (arrayFieldTypes.indexOf(field.type) !== -1) {
                             throw new Error(
                                 `Error: An array field "${field.name}" was added to this multipart step "${step.title}", which will fail.`

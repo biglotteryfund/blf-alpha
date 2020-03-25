@@ -37,7 +37,7 @@ function removeBeforeUnload() {
  * Caveats: form must have the class below and the field must lose focus to trigger the change() event.
  * */
 function warnOnUnsavedChanges() {
-    $('.js-form-warn-unsaved').each(function() {
+    $('.js-form-warn-unsaved').each(function () {
         const $form = $(this);
 
         const initialState = $form.serialize();
@@ -53,7 +53,7 @@ function warnOnUnsavedChanges() {
             if (formHasErrors) {
                 window.addEventListener('beforeunload', handleBeforeUnload);
             }
-            $(':input', $form).change(function() {
+            $(':input', $form).change(function () {
                 if ($form.serialize() !== initialState) {
                     window.addEventListener('beforeunload', handleBeforeUnload);
                 } else {
@@ -69,7 +69,7 @@ function handleExpandingDetails() {
     const $toggleBtn = $('.js-toggle-all-details');
     $toggleBtn.text($toggleBtn.data('label-closed')).show();
 
-    $toggleBtn.on('click', function() {
+    $toggleBtn.on('click', function () {
         $toggleBtn.text(
             isClosed
                 ? $toggleBtn.data('label-open')
@@ -82,7 +82,7 @@ function handleExpandingDetails() {
 }
 
 function handleConditionalRadios() {
-    forEach(document.querySelectorAll('.js-conditional-radios'), el => {
+    forEach(document.querySelectorAll('.js-conditional-radios'), (el) => {
         function setAttributes(radioEl) {
             var inputIsChecked = radioEl.checked;
             var conditionalEl = el.querySelector(
@@ -100,7 +100,7 @@ function handleConditionalRadios() {
         }
 
         const radioEls = el.querySelectorAll('input[type="radio"]');
-        forEach(radioEls, radioEl => {
+        forEach(radioEls, (radioEl) => {
             const controls = radioEl.getAttribute('data-aria-controls');
             if (controls) {
                 radioEl.setAttribute('aria-controls', controls);
@@ -109,8 +109,8 @@ function handleConditionalRadios() {
             }
         });
 
-        el.addEventListener('click', function() {
-            forEach(radioEls, radioEl => {
+        el.addEventListener('click', function () {
+            forEach(radioEls, (radioEl) => {
                 // If a radio with aria-controls, handle click
                 var isRadio = radioEl.getAttribute('type') === 'radio';
                 var hasAriaControls = radioEl.getAttribute('aria-controls');
@@ -126,7 +126,7 @@ function handleConditionalRadios() {
 // eg. to highlight potential confusion around questions
 function trackIndecisiveness($form) {
     let fields = {};
-    $('input[type="radio"]', $form).on('click', function() {
+    $('input[type="radio"]', $form).on('click', function () {
         const name = $(this).attr('name');
         const value = $(this).val();
         if (!fields[name]) {
@@ -134,7 +134,7 @@ function trackIndecisiveness($form) {
         } else {
             if (fields[name] !== value) {
                 tagHotjarRecording([
-                    'App: User changed selection on radio button'
+                    'App: User changed selection on radio button',
                 ]);
                 fields[name] = value;
             }
@@ -145,7 +145,7 @@ function trackIndecisiveness($form) {
 // Track when a radio button is clicked that has no other options
 // (eg. when a contact role choice is limited to a single item)
 function trackOneOptionRadios($form) {
-    $('input[type="radio"]', $form).on('click', function() {
+    $('input[type="radio"]', $form).on('click', function () {
         const name = $(this).attr('name');
         const others = $(`input[type="radio"][name="${name}"]`);
         if (others.length === 1) {
@@ -158,17 +158,17 @@ function trackOneOptionRadios($form) {
 function trackSharedSurnameWarning($form, shortId) {
     if ($('.js-form-warning-surname', $form).length > 0) {
         tagHotjarRecording([
-            `Apply: ${shortId}: Contacts: User contact surname match`
+            `Apply: ${shortId}: Contacts: User contact surname match`,
         ]);
     }
 }
 
 // Track clicks on details expandos
 function trackDetailsClicks($form, shortId) {
-    $('details summary', $form).on('click', function() {
+    $('details summary', $form).on('click', function () {
         const componentLocation = $(this).data('name') || 'Clicky Thing';
         tagHotjarRecording([
-            `Apply: ${shortId}: ${componentLocation}: User toggles details element`
+            `Apply: ${shortId}: ${componentLocation}: User toggles details element`,
         ]);
     });
 }
@@ -176,10 +176,8 @@ function trackDetailsClicks($form, shortId) {
 // Detect attempted form submissions and log when the browser prevents the submission
 // due to inline validation failure.
 function trackInvalidSubmissionAttempts($form) {
-    $('[type="submit"]', $form).on('click', function() {
-        const $parentForm = $(this)
-            .parents('form')
-            .first();
+    $('[type="submit"]', $form).on('click', function () {
+        const $parentForm = $(this).parents('form').first();
         const formIsValid = $parentForm[0].checkValidity();
         if (!formIsValid) {
             tagHotjarRecording(['App: User shown browser validation error']);
@@ -189,8 +187,8 @@ function trackInvalidSubmissionAttempts($form) {
 }
 
 function initHotjarTracking() {
-    $(document).ready(function() {
-        $('.js-apply-form').each(function() {
+    $(document).ready(function () {
+        $('.js-apply-form').each(function () {
             const $form = $(this);
             const shortId = $(this).data('form-short-id');
             trackInvalidSubmissionAttempts($form);
@@ -268,7 +266,7 @@ function handleSessionExpiration() {
     const handleActivity = () => {
         if (isAuthenticated) {
             // Extend their session
-            getUserSession().then(response => {
+            getUserSession().then((response) => {
                 // Reset the timeout clock
                 expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
                 isAuthenticated = response.isAuthenticated;
@@ -289,8 +287,8 @@ function getUserSession() {
     return $.ajax({
         type: 'get',
         url: `${window.AppConfig.localePrefix}/user/session`,
-        dataType: 'json'
-    }).then(response => {
+        dataType: 'json',
+    }).then((response) => {
         if (response.expiresOn) {
             $('.js-session-expiry-time').text(response.expiresOn.time);
             $('.js-session-expiry-date').text(response.expiresOn.date);
@@ -307,14 +305,14 @@ function preventDoubleSubmits() {
     const DEBOUNCE_TIMEOUT_IN_SECONDS = 3;
     $('input[type="submit"][data-prevent-double-click="true"]').on(
         'click',
-        function(event) {
+        function (event) {
             // If the timer is still running then we want to prevent the click from submitting the form
             if (debounceFormSubmitTimer) {
                 event.preventDefault();
                 return false;
             }
 
-            debounceFormSubmitTimer = setTimeout(function() {
+            debounceFormSubmitTimer = setTimeout(function () {
                 debounceFormSubmitTimer = null;
             }, DEBOUNCE_TIMEOUT_IN_SECONDS * 1000);
         }
@@ -340,5 +338,5 @@ function init() {
 }
 
 export default {
-    init
+    init,
 };

@@ -42,7 +42,7 @@ function enrichSubmitted(application, locale) {
 async function getLatestApplication(userId, locale) {
     const [pending, submitted] = await Promise.all([
         PendingApplication.findLatestByUserId(userId),
-        SubmittedApplication.findLatestByUserId(userId)
+        SubmittedApplication.findLatestByUserId(userId),
     ]);
 
     if (pending && submitted) {
@@ -62,16 +62,16 @@ function injectNavigationLinks(req, res, next) {
     res.locals.userNavigationLinks = [
         {
             url: req.baseUrl,
-            label: req.i18n.__('applyNext.navigation.latestApplication')
+            label: req.i18n.__('applyNext.navigation.latestApplication'),
         },
         {
             url: `${req.baseUrl}/all`,
-            label: req.i18n.__('applyNext.navigation.allApplications')
+            label: req.i18n.__('applyNext.navigation.allApplications'),
         },
         {
             url: localify(req.i18n.getLocale())('/user'),
-            label: req.i18n.__('applyNext.navigation.account')
-        }
+            label: req.i18n.__('applyNext.navigation.account'),
+        },
     ];
 
     next();
@@ -82,7 +82,7 @@ router.get(
     noStore,
     requireActiveUser,
     injectNavigationLinks,
-    async function(req, res, next) {
+    async function (req, res, next) {
         const copy = req.i18n.__('applyNext.dashboardNew');
 
         try {
@@ -95,17 +95,17 @@ router.get(
             const [
                 latestApplication,
                 pendingSimple,
-                pendingStandard
+                pendingStandard,
             ] = await Promise.all([
                 getLatestApplication(req.user.id, req.i18n.getLocale()),
                 PendingApplication.findUserApplicationsByForm({
                     userId: req.user.id,
-                    formId: 'awards-for-all'
+                    formId: 'awards-for-all',
                 }),
                 PendingApplication.findUserApplicationsByForm({
                     userId: req.user.id,
-                    formId: 'standard-enquiry'
-                })
+                    formId: 'standard-enquiry',
+                }),
             ]);
 
             res.render(path.resolve(__dirname, './views/dashboard'), {
@@ -113,7 +113,7 @@ router.get(
                 title: copy.latest.title,
                 latestApplication: latestApplication,
                 hasPendingSimpleApplication: !isEmpty(pendingSimple),
-                hasPendingStandardApplication: !isEmpty(pendingStandard)
+                hasPendingStandardApplication: !isEmpty(pendingStandard),
             });
         } catch (err) {
             next(err);
@@ -126,16 +126,16 @@ router.get(
     noStore,
     requireActiveUser,
     injectNavigationLinks,
-    async function(req, res, next) {
+    async function (req, res, next) {
         const copy = req.i18n.__('applyNext.dashboardNew');
 
         try {
             const [
                 pendingApplications,
-                submittedApplications
+                submittedApplications,
             ] = await Promise.all([
                 PendingApplication.findAllByUserId(req.user.id),
-                SubmittedApplication.findAllByUserId(req.user.id)
+                SubmittedApplication.findAllByUserId(req.user.id),
             ]);
 
             if (req.query.s === 'applicationDeleted') {
@@ -146,12 +146,13 @@ router.get(
             res.render(path.resolve(__dirname, './views/dashboard-all'), {
                 copy: copy,
                 title: copy.all.title,
-                pendingApplications: pendingApplications.map(application =>
+                pendingApplications: pendingApplications.map((application) =>
                     enrichPending(application, req.i18n.getLocale())
                 ),
-                submittedApplications: submittedApplications.map(application =>
-                    enrichSubmitted(application, req.i18n.getLocale())
-                )
+                submittedApplications: submittedApplications.map(
+                    (application) =>
+                        enrichSubmitted(application, req.i18n.getLocale())
+                ),
             });
         } catch (err) {
             next(err);

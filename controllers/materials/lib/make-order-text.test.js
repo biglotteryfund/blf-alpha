@@ -7,7 +7,7 @@ test('should make order text for email', () => {
     const items = [
         { name: 'Stainless steel plaque', code: 'BLF-BR088', quantity: 1 },
         { name: 'Vinyl banner (pink)', code: 'BIG-BANNP', quantity: 1 },
-        { name: 'Balloons', code: 'BIG-EVBLN', quantity: 2 }
+        { name: 'Balloons', code: 'BIG-EVBLN', quantity: 2 },
     ];
 
     const details = {
@@ -23,7 +23,7 @@ test('should make order text for email', () => {
         yourReason: 'projectOpening',
         yourReasonOther: '',
         yourGrantAmount: 'over10k',
-        yourGrantAmountOther: ''
+        yourGrantAmountOther: '',
     };
 
     expect(makeOrderText(items, details)).toMatchSnapshot();

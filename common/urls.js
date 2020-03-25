@@ -4,7 +4,7 @@ const querystring = require('querystring');
 
 const WELSH_REGEX = /^\/welsh(\/|$)/;
 
-const isAbsoluteUrl = str => str.indexOf('://') !== -1;
+const isAbsoluteUrl = (str) => str.indexOf('://') !== -1;
 
 /**
  * isWelsh
@@ -35,7 +35,7 @@ function removeWelsh(urlPath) {
  * Rewrite urlPath into the current locale
  */
 function localify(locale) {
-    return function(urlPath) {
+    return function (urlPath) {
         if (isAbsoluteUrl(urlPath)) {
             return urlPath;
         } else {
@@ -169,5 +169,5 @@ module.exports = {
     removeWelsh,
     sanitiseUrlPath,
     stripTrailingSlashes,
-    buildArchiveUrl
+    buildArchiveUrl,
 };

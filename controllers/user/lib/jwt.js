@@ -15,15 +15,15 @@ function signTokenActivate(userId, dateOfActivationAttempt) {
         data: {
             userId: userId,
             reason: 'activate',
-            dateOfActivationAttempt: dateOfActivationAttempt.unix()
-        }
+            dateOfActivationAttempt: dateOfActivationAttempt.unix(),
+        },
     };
 
     return {
         expiresAt: dateOfActivationAttempt.clone().add('3', 'hours'),
         token: jwt.sign(payload, JWT_SIGNING_TOKEN, {
-            expiresIn: '3h' // Short-lived token
-        })
+            expiresIn: '3h', // Short-lived token
+        }),
     };
 }
 
@@ -34,7 +34,7 @@ function verifyTokenActivate(token) {
         try {
             const decoded = jwt.verify(token, JWT_SIGNING_TOKEN);
             Users.findByPk(decoded.data.userId)
-                .then(user => {
+                .then((user) => {
                     // Ensure that the token's stored date matches the one in the database
                     // (eg. it's the most recently-generated link)
                     const isNewestLink =
@@ -47,7 +47,7 @@ function verifyTokenActivate(token) {
                         reject(new Error('Invalid token reason'));
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     reject(err);
                 });
         } catch (err) {
@@ -59,7 +59,7 @@ function verifyTokenActivate(token) {
 function signTokenPasswordReset(userId) {
     const payload = { data: { userId: userId, reason: 'resetpassword' } };
     return jwt.sign(payload, JWT_SIGNING_TOKEN, {
-        expiresIn: '3h' // Short-lived token
+        expiresIn: '3h', // Short-lived token
     });
 }
 
@@ -83,5 +83,5 @@ module.exports = {
     signTokenActivate,
     verifyTokenActivate,
     signTokenPasswordReset,
-    verifyTokenPasswordReset
+    verifyTokenPasswordReset,
 };

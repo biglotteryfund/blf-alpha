@@ -15,7 +15,7 @@ class RadioField extends Field {
             throw Error('Must provide options');
         }
 
-        const values = options.map(option => option.value);
+        const values = options.map((option) => option.value);
         if (values.length !== uniq(values).length) {
             throw new Error('Options must contain unique values');
         }
@@ -32,7 +32,7 @@ class RadioField extends Field {
     defaultSchema() {
         const options = this.options || [];
         const baseSchema = Joi.string().valid(
-            options.map(option => option.value)
+            options.map((option) => option.value)
         );
 
         return this.isRequired ? baseSchema.required() : baseSchema.optional();
@@ -41,7 +41,7 @@ class RadioField extends Field {
     get displayValue() {
         if (this.value) {
             const choices = castArray(this.value);
-            const match = find(option => option.value === choices[0])(
+            const match = find((option) => option.value === choices[0])(
                 this.options
             );
             return match ? match.label : '';

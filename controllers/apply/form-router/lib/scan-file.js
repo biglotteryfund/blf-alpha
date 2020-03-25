@@ -3,7 +3,7 @@ const NodeClam = require('clamscan');
 
 const { isDev } = require('../../../../common/appData');
 const logger = require('../../../../common/logger').child({
-    service: 'scan-file'
+    service: 'scan-file',
 });
 
 module.exports = async function scanFile(filePath) {
@@ -19,8 +19,8 @@ module.exports = async function scanFile(filePath) {
             local_fallback: true,
             path: process.env.CLAMDSCAN_PATH || '/var/lib/clamav',
             config_file:
-                process.env.CLAMDSCAN_CONFIG_FILE || '/etc/clamav/clamd.conf'
-        }
+                process.env.CLAMDSCAN_CONFIG_FILE || '/etc/clamav/clamd.conf',
+        },
     });
 
     const { is_infected, viruses } = await clamscan.scan_file(filePath);

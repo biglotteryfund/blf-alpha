@@ -6,7 +6,7 @@ const unset = require('lodash/unset');
 
 const {
     PendingApplication,
-    SubmittedApplication
+    SubmittedApplication,
 } = require('../../../db/models');
 
 const appData = require('../../../common/appData');
@@ -16,7 +16,7 @@ const { localify } = require('../../../common/urls');
 const salesforceService = require('./lib/salesforce');
 const { buildMultipartData } = require('./lib/file-uploads');
 
-module.exports = function(
+module.exports = function (
     formId,
     formBuilder,
     confirmationBuilder,
@@ -26,7 +26,7 @@ module.exports = function(
 
     const logger = commonLogger.child({
         service: 'salesforce',
-        formId: formId
+        formId: formId,
     });
 
     /**
@@ -38,7 +38,7 @@ module.exports = function(
         const form = formBuilder({
             locale: req.i18n.getLocale(),
             data: currentApplicationData,
-            metadata: currentApplication.metadata
+            metadata: currentApplication.metadata,
         });
 
         if (form.progress.isComplete === false) {
@@ -47,10 +47,10 @@ module.exports = function(
 
         function renderConfirmation() {
             unset(req.session, currentlyEditingSessionKey());
-            req.session.save(function() {
+            req.session.save(function () {
                 const confirmation = confirmationBuilder({
                     locale: req.i18n.getLocale(),
-                    data: currentApplicationData
+                    data: currentApplicationData,
                 });
 
                 logger.info('Submission successful');
@@ -63,20 +63,20 @@ module.exports = function(
                             url: res.locals.sectionUrl,
                             label: req.i18n.__(
                                 'applyNext.navigation.latestApplication'
-                            )
+                            ),
                         },
                         {
                             url: `${res.locals.sectionUrl}/all`,
                             label: req.i18n.__(
                                 'applyNext.navigation.allApplications'
-                            )
+                            ),
                         },
                         {
                             url: localify(req.i18n.getLocale())('/user'),
-                            label: req.i18n.__('applyNext.navigation.account')
-                        }
+                            label: req.i18n.__('applyNext.navigation.account'),
+                        },
                     ],
-                    form: form
+                    form: form,
                 });
             });
         }
@@ -92,7 +92,7 @@ module.exports = function(
 
         if (submittedApplicationExists) {
             logger.warn('Duplicate submission prevented', {
-                applicationId: currentApplication.id
+                applicationId: currentApplication.id,
             });
             return renderConfirmation();
         }
@@ -122,8 +122,8 @@ module.exports = function(
                     clientIp: req.ip,
                     username: req.user.userData.username,
                     applicationId: currentApplication.id,
-                    startedAt: currentApplication.createdAt.toISOString()
-                }
+                    startedAt: currentApplication.createdAt.toISOString(),
+                },
             };
 
             /**
@@ -150,19 +150,19 @@ module.exports = function(
                 try {
                     const contentVersionPromises = form
                         .getCurrentFields()
-                        .filter(field => field.type === 'file')
-                        .map(async function(field) {
+                        .filter((field) => field.type === 'file')
+                        .map(async function (field) {
                             return buildMultipartData({
                                 formId: formId,
                                 applicationId: currentApplication.id,
-                                filename: field.value.filename
-                            }).then(versionData => {
+                                filename: field.value.filename,
+                            }).then((versionData) => {
                                 return salesforce.contentVersion({
                                     recordId: salesforceRecordId,
                                     attachmentName: `${
                                         field.name
                                     }${path.extname(field.value.filename)}`,
-                                    versionData: versionData
+                                    versionData: versionData,
                                 });
                             });
                         });
@@ -170,7 +170,7 @@ module.exports = function(
                     await Promise.all(contentVersionPromises);
                 } catch (error) {
                     logger.error('Error creating ContentVersion', error, {
-                        applicationId: currentApplication.id
+                        applicationId: currentApplication.id,
                     });
                 }
             } else {
@@ -189,8 +189,8 @@ module.exports = function(
                 formId: formId,
                 salesforceRecord: {
                     id: salesforceRecordId,
-                    submission: salesforceFormData
-                }
+                    submission: salesforceFormData,
+                },
             });
 
             /**

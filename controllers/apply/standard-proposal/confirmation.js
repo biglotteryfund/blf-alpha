@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function() {
+module.exports = function () {
     return {
         title: `Thanks for telling us your proposal`,
         body: `<p>
@@ -20,6 +20,6 @@ module.exports = function() {
             If it's something we can fund, you'll be asked if
             you want to make a full application.
         </p>
-        <p>Any questions in the meantime? <a href="/contact">Contact us</a></p>`
+        <p>Any questions in the meantime? <a href="/contact">Contact us</a></p>`,
     };
 };

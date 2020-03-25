@@ -6,7 +6,7 @@ const SELECTORS = {
     tabset: '.js-tabset',
     paneset: '.js-paneset',
     tab: '.js-tab',
-    tabpane: '.js-tab-pane'
+    tabpane: '.js-tab-pane',
 };
 
 const ACTIVE_CLASS = 'is-active';
@@ -66,7 +66,7 @@ function showNewTabPane($tabClicked) {
                 paneToShow: $paneToShow,
                 tabClicked: $tabClicked,
                 paneId: paneId,
-                paneSet: $paneSet
+                paneSet: $paneSet,
             };
         }
     }
@@ -80,7 +80,7 @@ function showNewTabPane($tabClicked) {
  */
 function addTabBehaviour($tabs) {
     // bind clicks on tabs
-    $tabs.on('click', function(e) {
+    $tabs.on('click', function (e) {
         // show the tab pane and get the associated elements
         let tabData = showNewTabPane($(this));
 
@@ -123,15 +123,13 @@ function addTabBehaviour($tabs) {
  * @TODO: Should this be triggered on dynamic tab changes?
  */
 function addAriaStates($tabs) {
-    $(SELECTORS.tabpane)
-        .not(`.${ACTIVE_CLASS}`)
-        .attr('aria-hidden', 'true');
+    $(SELECTORS.tabpane).not(`.${ACTIVE_CLASS}`).attr('aria-hidden', 'true');
 
     $tabs.not(`.${ACTIVE_CLASS}`).attr('aria-selected', 'false');
     $tabs.parents('li').attr('role', 'presentation');
 
     // match the panes with the tabs for ARIA labels
-    $tabs.each(function() {
+    $tabs.each(function () {
         let $pane = $($(this).attr('href'));
         let id = $(this).attr('id');
         if ($pane.length > 0 && id) {
@@ -207,5 +205,5 @@ function init() {
 }
 
 export default {
-    init
+    init,
 };

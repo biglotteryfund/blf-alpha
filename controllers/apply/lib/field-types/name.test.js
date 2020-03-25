@@ -2,11 +2,11 @@
 'use strict';
 const NameField = require('./name');
 
-test('NameField', function() {
+test('NameField', function () {
     const field = new NameField({
         locale: 'en',
         name: 'example',
-        label: 'Name field'
+        label: 'Name field',
     });
 
     expect(field.displayValue).toBe('');

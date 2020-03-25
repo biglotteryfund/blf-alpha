@@ -13,7 +13,7 @@ const SurveyAnswer = require('./survey');
 const {
     PendingApplication,
     SubmittedApplication,
-    ApplicationEmailQueue
+    ApplicationEmailQueue,
 } = require('./applications');
 const { Order, OrderItem } = require('./orders');
 
@@ -26,7 +26,7 @@ sequelize
     .then(() => {
         logger.info('Connection has been established successfully.');
     })
-    .catch(err => {
+    .catch((err) => {
         logger.info('Unable to connect to the database:', err);
     });
 
@@ -42,12 +42,12 @@ const db = {
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
     Order: Order.init(sequelize, Sequelize),
     OrderItem: OrderItem.init(sequelize, Sequelize),
-    ApplicationEmailQueue: ApplicationEmailQueue.init(sequelize, Sequelize)
+    ApplicationEmailQueue: ApplicationEmailQueue.init(sequelize, Sequelize),
 };
 
 // Relations
 db.PendingApplication.belongsTo(db.Users, {
-    constraints: false // don't delete users when deleting applications
+    constraints: false, // don't delete users when deleting applications
 });
 db.Users.hasMany(db.PendingApplication);
 
@@ -56,14 +56,14 @@ db.Users.hasMany(db.SubmittedApplication);
 
 db.ApplicationEmailQueue.belongsTo(db.PendingApplication, {
     foreignKey: 'applicationId',
-    constraints: false
+    constraints: false,
 });
 db.PendingApplication.hasMany(db.ApplicationEmailQueue, {
     foreignKey: 'applicationId',
-    constraints: false
+    constraints: false,
 });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
     if ('associate' in db[modelName]) {
         db[modelName].associate(db);
     }

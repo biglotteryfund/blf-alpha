@@ -33,7 +33,7 @@ function sanitiseRequestBody(body) {
 
     function sanitiseNested(value) {
         if (isObject(value)) {
-            return mapValues(value, function(nestedValue) {
+            return mapValues(value, function (nestedValue) {
                 return sanitiseNested(nestedValue);
             });
         } else {
@@ -41,9 +41,9 @@ function sanitiseRequestBody(body) {
         }
     }
 
-    return mapValues(body, function(value) {
+    return mapValues(body, function (value) {
         if (isArray(value)) {
-            return value.map(arrayValue => sanitiseNested(arrayValue));
+            return value.map((arrayValue) => sanitiseNested(arrayValue));
         } else {
             return sanitiseNested(value);
         }
@@ -52,5 +52,5 @@ function sanitiseRequestBody(body) {
 
 module.exports = {
     sanitise,
-    sanitiseRequestBody
+    sanitiseRequestBody,
 };

@@ -2,7 +2,7 @@
 'use strict';
 const SelectField = require('./select');
 
-test('select field', function() {
+test('select field', function () {
     const field = new SelectField({
         locale: 'en',
         name: 'example',
@@ -10,9 +10,9 @@ test('select field', function() {
         options: [
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' },
-            { label: 'Option 3', value: 'option-3' }
+            { label: 'Option 3', value: 'option-3' },
         ],
-        messages: [{ type: 'base', message: 'Select an option' }]
+        messages: [{ type: 'base', message: 'Select an option' }],
     });
 
     expect(field.type).toBe('select');
@@ -28,7 +28,7 @@ test('select field', function() {
     );
 });
 
-test('select field supports optgroups', function() {
+test('select field supports optgroups', function () {
     const field = new SelectField({
         locale: 'en',
         name: 'example',
@@ -37,23 +37,23 @@ test('select field supports optgroups', function() {
         optgroups: [
             {
                 label: 'Group 1',
-                options: [{ label: 'Option 1', value: 'option-1' }]
+                options: [{ label: 'Option 1', value: 'option-1' }],
             },
             {
                 label: 'Group 2',
-                options: [{ label: 'Option 2', value: 'option-2' }]
-            }
+                options: [{ label: 'Option 2', value: 'option-2' }],
+            },
         ],
-        messages: [{ type: 'base', message: 'Select an option' }]
+        messages: [{ type: 'base', message: 'Select an option' }],
     });
 
     expect(field.normalisedOptions).toEqual([
         { label: 'Option 1', value: 'option-1' },
-        { label: 'Option 2', value: 'option-2' }
+        { label: 'Option 2', value: 'option-2' },
     ]);
 });
 
-test('required properties', function() {
+test('required properties', function () {
     expect(() => {
         new SelectField({
             locale: 'en',
@@ -62,9 +62,9 @@ test('required properties', function() {
             options: [
                 { label: 'Option 1', value: 'duplicate-value' },
                 { label: 'Option 2', value: 'duplicate-value' },
-                { label: 'Option 3', value: 'option-3' }
+                { label: 'Option 3', value: 'option-3' },
             ],
-            messages: [{ type: 'base', message: 'Select an option' }]
+            messages: [{ type: 'base', message: 'Select an option' }],
         });
     }).toThrowError('Options must contain unique values');
 
@@ -77,14 +77,14 @@ test('required properties', function() {
             optgroups: [
                 {
                     label: 'Group 1',
-                    options: [{ label: 'Option 1', value: 'duplicate-value' }]
+                    options: [{ label: 'Option 1', value: 'duplicate-value' }],
                 },
                 {
                     label: 'Group 2',
-                    options: [{ label: 'Option 2', value: 'duplicate-value' }]
-                }
+                    options: [{ label: 'Option 2', value: 'duplicate-value' }],
+                },
             ],
-            messages: [{ type: 'base', message: 'Select an option' }]
+            messages: [{ type: 'base', message: 'Select an option' }],
         });
     }).toThrowError('Options must contain unique values');
 
@@ -96,10 +96,10 @@ test('required properties', function() {
             optgroups: [
                 {
                     label: 'Group 1',
-                    options: [{ label: 'Option 1', value: 'duplicate-value' }]
-                }
+                    options: [{ label: 'Option 1', value: 'duplicate-value' }],
+                },
             ],
-            messages: [{ type: 'base', message: 'Select an option' }]
+            messages: [{ type: 'base', message: 'Select an option' }],
         });
     }).toThrowError('Must provide default option when using optgroups');
 });

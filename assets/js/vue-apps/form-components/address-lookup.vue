@@ -15,7 +15,7 @@ const states = {
     Loading: 'Loading',
     Failure: 'Failure',
     Success: 'Success',
-    EnteringManually: 'EnteringManually'
+    EnteringManually: 'EnteringManually',
 };
 
 export default {
@@ -25,7 +25,7 @@ export default {
         label: { type: String, default: null },
         explanation: { type: String, default: null },
         address: { type: String, default: null },
-        formShortId: { type: String, default: null }
+        formShortId: { type: String, default: null },
     },
     data() {
         return {
@@ -38,20 +38,20 @@ export default {
                 line2: null,
                 townCity: null,
                 county: null,
-                postcode: null
+                postcode: null,
             },
             addressData: [],
             candidates: [],
             selectedAddressId: '',
             initialSelectValue: null,
-            selectHasChanged: false
+            selectHasChanged: false,
         };
     },
     mounted() {
-        this.$root.$on('update:conditionalRadio', value => {
+        this.$root.$on('update:conditionalRadio', (value) => {
             if (value === 'no') {
                 tagHotjarRecording([
-                    `Apply: ${this.formShortId}: Contacts: User needs address history`
+                    `Apply: ${this.formShortId}: Contacts: User needs address history`,
                 ]);
             }
 
@@ -75,7 +75,7 @@ export default {
                         line2: this.currentAddress.line2,
                         townCity: this.currentAddress.townCity,
                         county: this.currentAddress.county,
-                        postcode: this.currentAddress.postcode
+                        postcode: this.currentAddress.postcode,
                     };
                     this.currentState = this.states.AlreadyAnswered;
                     this.fullAddress = fullAddress;
@@ -85,7 +85,7 @@ export default {
 
         $('input[type="submit"], button[type="submit"]', this.$el.form).on(
             'click',
-            e => {
+            (e) => {
                 if (this.shouldWarn()) {
                     // Prevent form submission (for nested)
                     e.preventDefault();
@@ -113,7 +113,7 @@ export default {
             );
         },
         getAddressFromId(udprn) {
-            return find(this.addressData, _ => _.udprn === udprn);
+            return find(this.addressData, (_) => _.udprn === udprn);
         },
         formatAddress(address) {
             return {
@@ -121,7 +121,7 @@ export default {
                 line2: address.line_2,
                 townCity: address.post_town,
                 county: address.county,
-                postcode: address.postcode
+                postcode: address.postcode,
             };
         },
         handleFailure() {
@@ -133,7 +133,7 @@ export default {
                 'Error looking up address'
             );
             tagHotjarRecording([
-                `Apply: ${this.formShortId}: Org Details: Unable to find address`
+                `Apply: ${this.formShortId}: Org Details: Unable to find address`,
             ]);
             this.clearState();
         },
@@ -154,20 +154,20 @@ export default {
                 url: '/api/address-lookup',
                 dataType: 'json',
                 headers: {
-                    'CSRF-Token': token
+                    'CSRF-Token': token,
                 },
-                data: { q: this.postcode }
+                data: { q: this.postcode },
             })
-                .then(response => {
+                .then((response) => {
                     if (response.addresses.length > 0) {
                         this.currentState = this.states.Success;
                         this.addressData = response.addresses;
-                        this.candidates = this.addressData.map(result => {
+                        this.candidates = this.addressData.map((result) => {
                             const label = compact([
                                 result['line_1'],
                                 result['line_2'],
                                 result['post_town'],
-                                result['county']
+                                result['county'],
                             ]).join(', ');
                             return { value: result.udprn, label: label };
                         });
@@ -191,7 +191,7 @@ export default {
                 line2: null,
                 townCity: null,
                 county: null,
-                postcode: null
+                postcode: null,
             };
         },
         removeAddress() {
@@ -244,7 +244,7 @@ export default {
             } else {
                 this.selectHasChanged = false;
             }
-        }
+        },
     },
     computed: {
         shouldShowPostcodeLookup() {
@@ -277,14 +277,12 @@ export default {
             }
         },
         id() {
-            return Math.random()
-                .toString(36)
-                .substr(2, 9);
+            return Math.random().toString(36).substr(2, 9);
         },
         ariaId() {
             return `postcode-lookup-${this.id}`;
-        }
-    }
+        },
+    },
 };
 </script>
 

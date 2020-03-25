@@ -35,5 +35,5 @@ function renderError(err, req, res) {
 
 module.exports = {
     renderNotFound,
-    renderError
+    renderError,
 };

@@ -8,23 +8,20 @@ const DateField = require('../../lib/field-types/date');
 
 const getLeadTimeWeeks = require('../lib/lead-time');
 
-module.exports = function(locale, data = {}) {
+module.exports = function (locale, data = {}) {
     const localise = get(locale);
 
     const projectCountry = get('projectCountry')(data);
     const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
-    const minDateExample = minDate
-        .clone()
-        .locale(locale)
-        .format('DD MM YYYY');
+    const minDateExample = minDate.clone().locale(locale).format('DD MM YYYY');
 
     return new DateField({
         locale: locale,
         name: 'projectStartDate',
         label: localise({
             en: `When would you like to start your project?`,
-            cy: `Pryd hoffech ddechrau eich prosiect?`
+            cy: `Pryd hoffech ddechrau eich prosiect?`,
         }),
         explanation: localise({
             en: oneLine`Don't worry, this can be an estimate.
@@ -32,10 +29,10 @@ module.exports = function(locale, data = {}) {
                 <strong>${minDateExample}.</strong>`,
             cy: oneLine`Peidiwch a poeni, gall hwn fod yn amcangyfrif.
                 Ond mae angen i’ch prosiect ddechrau ar ôl
-                <strong>${minDateExample}.</strong>`
+                <strong>${minDateExample}.</strong>`,
         }),
         settings: {
-            minYear: minDate.format('YYYY')
+            minYear: minDate.format('YYYY'),
         },
         schema: Joi.dateParts()
             .minDate(minDate.format('YYYY-MM-DD'))
@@ -45,8 +42,8 @@ module.exports = function(locale, data = {}) {
                 type: 'base',
                 message: localise({
                     en: `Enter a project start date`,
-                    cy: `Cofnodwch ddyddiad dechrau i’ch prosiect`
-                })
+                    cy: `Cofnodwch ddyddiad dechrau i’ch prosiect`,
+                }),
             },
             {
                 type: 'dateParts.minDate',
@@ -54,9 +51,9 @@ module.exports = function(locale, data = {}) {
                     en: oneLine`Date you start the project must be on or after
                         ${minDateExample}`,
                     cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich prosiect
-                        fod ar neu ar ôl ${minDateExample}`
-                })
-            }
-        ]
+                        fod ar neu ar ôl ${minDateExample}`,
+                }),
+            },
+        ],
     });
 };

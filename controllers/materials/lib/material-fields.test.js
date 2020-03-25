@@ -3,12 +3,12 @@
 const { validate } = require('./material-fields');
 
 function mapMessages(validationResult) {
-    return validationResult.messages.map(item => item.msg);
+    return validationResult.messages.map((item) => item.msg);
 }
 
 test('should validate material fields schema', () => {
     const invalidResult = validate({
-        yourEmail: 'notanemail@invalid'
+        yourEmail: 'notanemail@invalid',
     });
 
     expect(mapMessages(invalidResult)).toMatchSnapshot();
@@ -26,7 +26,7 @@ test('should validate material fields schema', () => {
         yourGrantAmount: 'under10k',
         yourGrantAmountOther: '',
         yourReason: 'other',
-        yourReasonOther: 'Other reason'
+        yourReasonOther: 'Other reason',
     });
 
     expect(validResult.error).toBeUndefined();

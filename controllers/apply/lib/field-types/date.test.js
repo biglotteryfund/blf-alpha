@@ -2,12 +2,12 @@
 'use strict';
 const DateField = require('./date');
 
-test('DateField', function() {
+test('DateField', function () {
     const field = new DateField({
         locale: 'en',
         name: 'example',
         label: 'Date field',
-        messages: [{ type: 'base', message: 'Enter a date' }]
+        messages: [{ type: 'base', message: 'Enter a date' }],
     });
 
     expect(field.type).toBe('date');

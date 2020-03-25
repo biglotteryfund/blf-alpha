@@ -12,16 +12,12 @@ module.exports = function dateOfBirthField({
     locale,
     name,
     minAge,
-    contactName
+    contactName,
 }) {
     const localise = get(locale);
-    const minDate = moment()
-        .subtract(120, 'years')
-        .format('YYYY-MM-DD');
+    const minDate = moment().subtract(120, 'years').format('YYYY-MM-DD');
 
-    const maxDate = moment()
-        .subtract(minAge, 'years')
-        .format('YYYY-MM-DD');
+    const maxDate = moment().subtract(minAge, 'years').format('YYYY-MM-DD');
 
     return new DateField({
         locale: locale,
@@ -49,7 +45,7 @@ module.exports = function dateOfBirthField({
                 Felly sicrhewch eich bod wedi ei roi yn gywir.
                 Os nad ydych, gall oedi eich cais.
             </p>
-            <p><strong>Er enghraifft: 30 03 1980</strong></p>`
+            <p><strong>Er enghraifft: 30 03 1980</strong></p>`,
         }),
         attributes: { max: maxDate },
         schema: Joi.when(Joi.ref('organisationType'), {
@@ -58,22 +54,22 @@ module.exports = function dateOfBirthField({
             otherwise: Joi.dateParts()
                 .minDate(minDate)
                 .maxDate(maxDate)
-                .required()
+                .required(),
         }),
         messages: [
             {
                 type: 'base',
                 message: localise({
                     en: 'Enter a date of birth',
-                    cy: 'Rhowch ddyddiad geni'
-                })
+                    cy: 'Rhowch ddyddiad geni',
+                }),
             },
             {
                 type: 'dateParts.maxDate',
                 message: localise({
                     en: `Must be at least ${minAge} years old`,
-                    cy: `Rhaid bod yn o leiaf ${minAge} oed`
-                })
+                    cy: `Rhaid bod yn o leiaf ${minAge} oed`,
+                }),
             },
             {
                 type: 'dateParts.minDate',
@@ -81,9 +77,9 @@ module.exports = function dateOfBirthField({
                     en: oneLine`Their birth date is not valid—please
                             use four digits, eg. 1986`,
                     cy: oneLine`Nid yw’r dyddiad geni yn ddilys—defnyddiwch
-                            bedwar digid, e.e. 1986`
-                })
-            }
-        ]
+                            bedwar digid, e.e. 1986`,
+                }),
+            },
+        ],
     });
 };

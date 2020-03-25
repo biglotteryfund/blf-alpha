@@ -4,13 +4,13 @@ const path = require('path');
 
 const {
     injectHeroImage,
-    setCommonLocals
+    setCommonLocals,
 } = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 
-router.use(async function(req, res, next) {
+router.use(async function (req, res, next) {
     try {
         const people = await contentApi.getOurPeople(
             req.i18n.getLocale(),
@@ -19,11 +19,11 @@ router.use(async function(req, res, next) {
 
         res.locals.people = people;
         res.locals.sectionTitle = req.i18n.__('ourPeople.title');
-        res.locals.ourPeopleLinks = people.map(item => {
+        res.locals.ourPeopleLinks = people.map((item) => {
             return {
                 label: item.title,
                 slug: item.slug,
-                href: item.linkUrl
+                href: item.linkUrl,
             };
         });
 
@@ -33,15 +33,15 @@ router.use(async function(req, res, next) {
     }
 });
 
-router.get('/', injectHeroImage('mental-health-foundation-new'), function(
+router.get('/', injectHeroImage('mental-health-foundation-new'), function (
     req,
     res
 ) {
     res.render(path.resolve(__dirname, './views/our-people'));
 });
 
-router.get('/:slug', async function(req, res, next) {
-    const entry = res.locals.people.find(function(item) {
+router.get('/:slug', async function (req, res, next) {
+    const entry = res.locals.people.find(function (item) {
         return item.slug === req.params.slug;
     });
 
@@ -49,7 +49,7 @@ router.get('/:slug', async function(req, res, next) {
         setCommonLocals(req, res, entry);
 
         res.render(path.resolve(__dirname, './views/profiles'), {
-            entry: entry
+            entry: entry,
         });
     } else {
         next();

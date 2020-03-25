@@ -2,12 +2,12 @@
 'use strict';
 const FileField = require('./file');
 
-test('FileField', function() {
+test('FileField', function () {
     const field = new FileField({
         locale: 'en',
         name: 'example',
         label: 'File field',
-        messages: [{ type: 'base', message: 'Please provide a file' }]
+        messages: [{ type: 'base', message: 'Please provide a file' }],
     });
 
     expect(field.type).toBe('file');
@@ -16,7 +16,7 @@ test('FileField', function() {
     field.withValue({
         filename: 'example.pdf',
         size: 13264,
-        type: 'application/pdf'
+        type: 'application/pdf',
     });
     expect(field.validate().error).toBeNull();
     expect(field.displayValue).toBe('example.pdf (PDF, 13 KB)');
@@ -24,7 +24,7 @@ test('FileField', function() {
     field.withValue({
         filename: 'example.js',
         size: 13264,
-        type: 'application/javascript'
+        type: 'application/javascript',
     });
     expect(field.validate().error.message).toEqual(
         expect.stringContaining('"type" must be one of')
@@ -34,7 +34,7 @@ test('FileField', function() {
     field.withValue({
         filename: 'example.madeup',
         size: 13264,
-        type: 'application/not-a-thing'
+        type: 'application/not-a-thing',
     });
     expect(field.displayValue).toBe('example.madeup (13 KB)');
 });

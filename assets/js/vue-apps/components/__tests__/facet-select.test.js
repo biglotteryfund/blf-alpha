@@ -16,14 +16,14 @@ describe('FacetSelect', () => {
                 options: [
                     {
                         label: 'Option 1',
-                        value: 'option-1'
+                        value: 'option-1',
                     },
                     {
                         label: 'Option 2',
-                        value: 'option-2'
-                    }
-                ]
-            }
+                        value: 'option-2',
+                    },
+                ],
+            },
         });
 
         expect(wrapper.element).toMatchSnapshot();
@@ -39,25 +39,25 @@ describe('FacetSelect', () => {
                     'Group 1': [
                         {
                             label: 'Option 1',
-                            value: 'option-1'
+                            value: 'option-1',
                         },
                         {
                             label: 'Option 2',
-                            value: 'option-2'
-                        }
+                            value: 'option-2',
+                        },
                     ],
                     'Group 2': [
                         {
                             label: 'Option 3',
-                            value: 'option-2'
+                            value: 'option-2',
                         },
                         {
                             label: 'Option 4',
-                            value: 'option-4'
-                        }
-                    ]
-                }
-            }
+                            value: 'option-4',
+                        },
+                    ],
+                },
+            },
         });
 
         expect(wrapper.element).toMatchSnapshot();

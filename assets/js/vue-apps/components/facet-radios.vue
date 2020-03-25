@@ -13,7 +13,7 @@ export default {
         'optionLimit',
         'copy',
         'handleActiveFilter',
-        'trackUi'
+        'trackUi',
     ],
     data() {
         return { isOpen: false };
@@ -27,14 +27,14 @@ export default {
             } else {
                 return this.options;
             }
-        }
+        },
     },
     methods: {
         handleInput($event, option) {
             this.$emit('input', $event.target.value);
             this.handleActiveFilter({
                 label: option.label,
-                name: this.name
+                name: this.name,
             });
         },
         shouldTruncate() {
@@ -50,8 +50,8 @@ export default {
             let action = 'Toggle additional options ';
             action += this.isOpen ? 'on' : 'off';
             this.trackUi(action, this.name);
-        }
-    }
+        },
+    },
 };
 </script>
 

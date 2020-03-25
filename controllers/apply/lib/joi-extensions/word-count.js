@@ -7,17 +7,13 @@ module.exports = function wordCount(joi) {
         name: 'string',
         language: {
             maxWords: 'must have less than {{max}} words',
-            minWords: 'must have at least {{min}} words'
+            minWords: 'must have at least {{min}} words',
         },
         rules: [
             {
                 name: 'maxWords',
                 params: {
-                    max: joi
-                        .number()
-                        .integer()
-                        .min(0)
-                        .required()
+                    max: joi.number().integer().min(0).required(),
                 },
                 validate(params, value, state, options) {
                     if (countWords(value) > params.max) {
@@ -30,16 +26,12 @@ module.exports = function wordCount(joi) {
                     } else {
                         return value;
                     }
-                }
+                },
             },
             {
                 name: 'minWords',
                 params: {
-                    min: joi
-                        .number()
-                        .integer()
-                        .min(0)
-                        .required()
+                    min: joi.number().integer().min(0).required(),
                 },
                 validate(params, value, state, options) {
                     if (countWords(value) < params.min) {
@@ -52,8 +44,8 @@ module.exports = function wordCount(joi) {
                     } else {
                         return value;
                     }
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

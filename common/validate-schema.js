@@ -15,17 +15,17 @@ const uniqBy = require('lodash/fp/uniqBy');
  *    Allows us to show a generic message for any unmatched error type e.g. "Please enter your name"
  */
 function messagesForError(messages, detail) {
-    const filterKeyAndType = filter(function(message) {
+    const filterKeyAndType = filter(function (message) {
         return (
             message.key === detail.context.key && message.type === detail.type
         );
     });
 
-    const filterTypeOnly = filter(function(message) {
+    const filterTypeOnly = filter(function (message) {
         return !has(message, 'key') && message.type === detail.type;
     });
 
-    const filterBase = filter(function(message) {
+    const filterBase = filter(function (message) {
         return !has(message, 'key') && message.type === 'base';
     });
 
@@ -49,20 +49,20 @@ function messagesForError(messages, detail) {
  */
 function normaliseErrors({ validationError, errorMessages }) {
     const errorDetails = getOr([], 'details')(validationError);
-    const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
+    const uniqueErrorsDetails = uniqBy((detail) => head(detail.path))(
         errorDetails
     );
 
-    return flatMap(uniqueErrorsDetails, detail => {
+    return flatMap(uniqueErrorsDetails, (detail) => {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
         const matchingMessages = messagesForError(fieldMessages, detail);
 
-        return matchingMessages.map(match => {
+        return matchingMessages.map((match) => {
             return {
                 param: name,
                 type: match.type,
-                msg: match.message
+                msg: match.message,
             };
         });
     });
@@ -77,18 +77,18 @@ function normaliseErrors({ validationError, errorMessages }) {
 module.exports = function validateSchema({ schema, messages }, data = {}) {
     const { value, error } = schema.validate(data, {
         abortEarly: false,
-        stripUnknown: true
+        stripUnknown: true,
     });
 
     const normalisedErrors = normaliseErrors({
         validationError: error,
-        errorMessages: messages
+        errorMessages: messages,
     });
 
     return {
         value: value,
         error: error,
         isValid: error === undefined && normalisedErrors.length === 0,
-        messages: normalisedErrors
+        messages: normalisedErrors,
     };
 };

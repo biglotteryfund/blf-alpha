@@ -13,5 +13,5 @@ module.exports = baseJoi.extend([
     require('./phone-number'),
     require('./postcode'),
     require('./uk-address'),
-    require('./word-count')
+    require('./word-count'),
 ]);

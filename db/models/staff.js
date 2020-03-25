@@ -6,26 +6,26 @@ class Staff extends Model {
         const schema = {
             oid: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             email: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             given_name: {
                 type: DataTypes.STRING,
-                allowNull: true
+                allowNull: true,
             },
             family_name: {
                 type: DataTypes.STRING,
-                allowNull: true
-            }
+                allowNull: true,
+            },
         };
 
         return super.init(schema, {
             modelName: 'staff',
             freezeTableName: true,
-            sequelize
+            sequelize,
         });
     }
 
@@ -37,14 +37,14 @@ class Staff extends Model {
     static findOrCreateProfile(profile) {
         return this.findOrCreate({
             where: {
-                oid: { [Op.eq]: profile.oid }
+                oid: { [Op.eq]: profile.oid },
             },
             defaults: {
                 oid: profile.oid,
                 email: profile.upn,
                 given_name: profile.name.givenName,
-                family_name: profile.name.familyName
-            }
+                family_name: profile.name.familyName,
+            },
         }).then(([user]) => {
             user.changed('updatedAt', true);
             return user.save();

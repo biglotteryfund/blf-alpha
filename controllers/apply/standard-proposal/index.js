@@ -13,5 +13,5 @@ module.exports = initFormRouter({
     startTemplate: path.resolve(__dirname, './views/startpage.njk'),
     confirmationBuilder: confirmationBuilder,
     isBilingual: false,
-    expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS
+    expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS,
 });

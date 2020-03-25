@@ -9,7 +9,7 @@ router.get('/interstitial', (req, res) => {
     res.render(path.resolve(__dirname, 'views/interstitial'), {
         redirectUrl: req.query.redirectUrl
             ? decodeURIComponent(req.query.redirectUrl)
-            : '/tools'
+            : '/tools',
     });
 });
 
@@ -20,11 +20,11 @@ router.get('/interstitial', (req, res) => {
  * original URL once authenticated because the session bug
  * (below) causes req.session to be uninitialised.
  */
-router.get('/login', function(req, res, next) {
+router.get('/login', function (req, res, next) {
     passport.authenticate('azuread-openidconnect', {
         failureRedirect: '/user/staff/error',
         // @ts-ignore
-        customState: encodeURIComponent(req.query.redirectUrl)
+        customState: encodeURIComponent(req.query.redirectUrl),
     })(req, res, next);
 });
 
@@ -32,15 +32,15 @@ router.get('/login', function(req, res, next) {
  * OpenID return URL
  * User will be returned here after authenticating
  */
-router.post('/auth/openid/return', function(req, res, next) {
+router.post('/auth/openid/return', function (req, res, next) {
     passport.authenticate(
         'azuread-openidconnect',
         { failureRedirect: '/user/staff/error' },
-        function(authError, user) {
+        function (authError, user) {
             if (authError) {
                 return next(authError);
             } else if (user) {
-                req.login(user, loginErr => {
+                req.login(user, (loginErr) => {
                     if (loginErr) {
                         return next(loginErr);
                     }

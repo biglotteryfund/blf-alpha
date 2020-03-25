@@ -1,18 +1,18 @@
 'use strict';
 const isEqual = require('lodash/isEqual');
 
-module.exports = function(joi) {
+module.exports = function (joi) {
     return {
         base: joi.object(),
         name: 'object',
         language: {
-            isEqual: 'Objects must not match'
+            isEqual: 'Objects must not match',
         },
         rules: [
             {
                 name: 'compare',
                 params: {
-                    ref: joi.func().ref()
+                    ref: joi.func().ref(),
                 },
                 validate(params, value, state, options) {
                     const refVal = params.ref(
@@ -30,8 +30,8 @@ module.exports = function(joi) {
                     } else {
                         return value;
                     }
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

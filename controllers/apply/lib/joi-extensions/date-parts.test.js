@@ -4,36 +4,36 @@
 const baseJoi = require('@hapi/joi');
 const Joi = baseJoi.extend(require('./date-parts'));
 
-test('valid date', function() {
+test('valid date', function () {
     [
         { day: '1', month: '2', year: '2100' },
-        { day: 1, month: 2, year: 2100 }
-    ].forEach(function(value) {
+        { day: 1, month: 2, year: 2100 },
+    ].forEach(function (value) {
         expect(Joi.dateParts().validate(value).error).toBeNull();
     });
 });
 
-test('missing day', function() {
+test('missing day', function () {
     const result = Joi.dateParts().validate({ month: 2, year: 2100 });
     expect(result.error.message).toContain('"day" is required');
 });
 
-test('missing month', function() {
+test('missing month', function () {
     const result = Joi.dateParts().validate({ day: 1, year: 2100 });
     expect(result.error.message).toContain('"month" is required');
 });
 
-test('missing year', function() {
+test('missing year', function () {
     const result = Joi.dateParts().validate({ day: 1, month: 2 });
     expect(result.error.message).toContain('"year" is required');
 });
 
-test('invalid date', function() {
+test('invalid date', function () {
     const result = Joi.dateParts().validate({ day: 31, month: 2, year: 2100 });
     expect(result.error.message).toContain('contains an invalid value');
 });
 
-test('minDate', function() {
+test('minDate', function () {
     const schema = Joi.dateParts().minDate('2020-10-01');
 
     const valid = schema.validate({ day: 2, month: 10, year: 2020 });
@@ -45,7 +45,7 @@ test('minDate', function() {
     );
 });
 
-test('maxDate', function() {
+test('maxDate', function () {
     const schema = Joi.dateParts().maxDate('2020-10-01');
 
     const invalid = schema.validate({ day: 2, month: 10, year: 2020 });

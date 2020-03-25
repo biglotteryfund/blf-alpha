@@ -9,9 +9,7 @@ test('should validate that string is within word count limit', () => {
     const min = 10;
     const max = 25;
 
-    const schema = Joi.string()
-        .minWords(min)
-        .maxWords(max);
+    const schema = Joi.string().minWords(min).maxWords(max);
 
     expect(schema.validate(faker.lorem.words(20)).error).toBeNull();
 

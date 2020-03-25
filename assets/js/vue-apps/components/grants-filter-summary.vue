@@ -2,7 +2,7 @@
 import IconClose from './icon-close.vue';
 export default {
     components: { IconClose },
-    props: ['filterSummary', 'clearLabel']
+    props: ['filterSummary', 'clearLabel'],
 };
 </script>
 

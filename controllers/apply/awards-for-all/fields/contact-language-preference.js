@@ -3,12 +3,12 @@ const get = require('lodash/fp/get');
 
 const Joi = require('../../lib/joi-extensions');
 
-module.exports = function(locale, props) {
+module.exports = function (locale, props) {
     const localise = get(locale);
     const defaultProps = {
         label: localise({
             en: `What language should we use to contact this person?`,
-            cy: `Pa iaith y dylem ei ddefnyddio i gysylltu â’r person hwn?`
+            cy: `Pa iaith y dylem ei ddefnyddio i gysylltu â’r person hwn?`,
         }),
         type: 'radio',
         options: [
@@ -16,25 +16,25 @@ module.exports = function(locale, props) {
                 value: 'english',
                 label: localise({
                     en: `English`,
-                    cy: `Saesneg`
-                })
+                    cy: `Saesneg`,
+                }),
             },
             {
                 value: 'welsh',
                 label: localise({
                     en: `Welsh`,
-                    cy: `Cymraeg`
-                })
-            }
+                    cy: `Cymraeg`,
+                }),
+            },
         ],
         isRequired: true,
         get schema() {
             return Joi.when('projectCountry', {
                 is: 'wales',
                 then: Joi.string()
-                    .valid(this.options.map(option => option.value))
+                    .valid(this.options.map((option) => option.value))
                     .required(),
-                otherwise: Joi.any().strip()
+                otherwise: Joi.any().strip(),
             });
         },
         messages: [
@@ -42,10 +42,10 @@ module.exports = function(locale, props) {
                 type: 'base',
                 message: localise({
                     en: 'Select a language',
-                    cy: 'Dewiswch iaith'
-                })
-            }
-        ]
+                    cy: 'Dewiswch iaith',
+                }),
+            },
+        ],
     };
     return { ...defaultProps, ...props };
 };

@@ -50,7 +50,7 @@ class Field {
 
         if (
             this.isRequired &&
-            this.messages.some(message => message.type === 'base') === false
+            this.messages.some((message) => message.type === 'base') === false
         ) {
             throw new Error(
                 'Required fields must provide a base error message'

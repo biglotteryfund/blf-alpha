@@ -6,10 +6,8 @@ export default {
     },
     computed: {
         ariaId() {
-            return `facet-disclose-${Math.random()
-                .toString(36)
-                .substr(2, 9)}`;
-        }
+            return `facet-disclose-${Math.random().toString(36).substr(2, 9)}`;
+        },
     },
     methods: {
         toggle() {
@@ -17,8 +15,8 @@ export default {
             let action = 'Toggle disclose ';
             action += this.isOpen ? 'on' : 'off';
             this.trackUi(action, this.filterName);
-        }
-    }
+        },
+    },
 };
 </script>
 

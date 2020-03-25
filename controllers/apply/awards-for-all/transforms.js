@@ -4,7 +4,7 @@ const get = require('lodash/fp/get');
 const Sentry = require('@sentry/node');
 
 const logger = require('../../../common/logger').child({
-    service: 'transform'
+    service: 'transform',
 });
 
 function transformProjectDateRange(applicationData) {
@@ -40,7 +40,7 @@ function transform(applicationData) {
     // Add any default transforms here
     const transformsToRun = [
         transformOrgHasDifferentTradingName,
-        transformProjectDateRange
+        transformProjectDateRange,
     ];
 
     if (transformsToRun.length === 0) {
@@ -57,5 +57,5 @@ module.exports = {
     transform,
     // Export for tests
     transformProjectDateRange,
-    transformOrgHasDifferentTradingName
+    transformOrgHasDifferentTradingName,
 };

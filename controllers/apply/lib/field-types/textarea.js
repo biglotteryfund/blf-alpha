@@ -22,7 +22,7 @@ class TextareaField extends Field {
             stackedSummary: true,
             showWordCount: true,
             minWords: this.minWords,
-            maxWords: this.maxWords
+            maxWords: this.maxWords,
         };
 
         const baseSchema = Joi.string()
@@ -38,16 +38,16 @@ class TextareaField extends Field {
                 type: 'string.minWords',
                 message: this.localise({
                     en: `Answer must be at least ${this.minWords} words`,
-                    cy: `Rhaid i’r ateb fod yn o leiaf ${this.minWords} gair`
-                })
+                    cy: `Rhaid i’r ateb fod yn o leiaf ${this.minWords} gair`,
+                }),
             },
             {
                 type: 'string.maxWords',
                 message: this.localise({
                     en: `Answer must be no more than ${this.maxWords} words`,
-                    cy: `Rhaid i’r ateb fod yn llai na ${this.maxWords} gair`
-                })
-            }
+                    cy: `Rhaid i’r ateb fod yn llai na ${this.maxWords} gair`,
+                }),
+            },
         ].concat(props.messages || []);
     }
 

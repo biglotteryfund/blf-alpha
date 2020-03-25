@@ -5,20 +5,20 @@
 $btnConf: (
     'default': (
         'fontSize': 18px,
-        'desiredHeight': 59px
+        'desiredHeight': 59px,
     ),
     'medium': (
         'fontSize': 16px,
-        'desiredHeight': 42px
+        'desiredHeight': 42px,
     ),
     'small': (
         'fontSize': 16px,
-        'desiredHeight': 36px
+        'desiredHeight': 36px,
     ),
     'mini': (
         'fontSize': 13px,
-        'desiredHeight': 30px
-    )
+        'desiredHeight': 30px,
+    ),
 );
 
 $buttonColor: get-color('brand', 'primary');
