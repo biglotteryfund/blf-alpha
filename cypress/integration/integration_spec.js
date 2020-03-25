@@ -897,19 +897,9 @@ it('should submit full awards for all application', () => {
 
         cy.checkA11y();
 
-        cy.fixture('example.pdf', 'base64').then((fileContent) => {
-            cy.findByLabelText('Upload a bank statement', {
-                exact: false,
-            }).upload(
-                {
-                    fileContent,
-                    fileName: 'example.pdf',
-                    mimeType: 'application/pdf',
-                    encoding: 'base64',
-                },
-                { subjectType: 'input' }
-            );
-        });
+        cy.findByLabelText('Upload a bank statement', {
+            exact: false,
+        }).attachFile('example.pdf');
 
         submitStep();
     }
