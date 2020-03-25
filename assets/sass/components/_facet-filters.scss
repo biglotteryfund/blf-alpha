@@ -290,6 +290,11 @@ $filterSpacing: 10px;
         vertical-align: middle;
         margin-right: 10px;
     }
+
+    &.filter-list--stacked li {
+        display: block;
+        margin-bottom: 10px;
+    }
 }
 
 .active-filter {

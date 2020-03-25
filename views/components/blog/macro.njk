@@ -1,0 +1,57 @@
+{% from "components/promo-card/macro.njk" import promoCard %}
+
+{% macro blogTrail(entry, promoted = false, showAuthor = true, updateType = 'blog') %}
+    {% call promoCard({
+        "title": entry.trailText or entry.title,
+        "subtitle": formatDate(entry.postDate.date),
+        "trailText": entry.summary or entry.trailText,
+        "image": {
+            "url": entry.thumbnail.large or entry.hero.image.default,
+            "alt": entry.title
+        },
+        "link": {
+            "label": __('global.misc.readMore'),
+            "labelAria": __('global.misc.readMore'),
+            "url": entry.linkUrl
+        }
+    }) %}
+        <div class="blogpost-attribution{% if promoted %} blogpost-attribution--featured{% endif %}">
+            {% if showAuthor %}
+                <div class="blogpost-attribution__author">
+                    {% if entry.authors.length === 1 %}
+                        {% set author = entry.authors[0] %}
+
+                        <div class="o-media">
+                            {% if author.photo %}
+                                <img src="{{ author.photo }}"
+                                     alt="{{ author.title }}"
+                                     class="o-media__figure"
+                                     width="60"/>
+                            {% endif %}
+                            <div class="o-media__body">
+                                <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                                {% if author.authorTitle %}
+                                    <p>{{ author.authorTitle }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        {% set separator = joiner(',') %}
+                        {% for author in entry.authors -%}
+                            {{ separator() }} <strong>{{ author.title }}</strong>
+                        {%- endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if entry.category and updateType %}
+                <div class="blogpost-attribution__extra">
+                    <a class="o-tag"
+                       href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
+                        {{ entry.category.title }}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% endcall %}
+{% endmacro %}

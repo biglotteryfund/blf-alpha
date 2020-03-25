@@ -205,6 +205,17 @@ app.get('/:region?/global-content/programmes/:country/:slug', (req, res) => {
 });
 
 /**
+ * Handle migrated A Better Start child pages as wildcards
+ * (eg. redirect them to /funding/publications/a-better-start/<slug>)
+ */
+app.get('/funding/strategic-investments/a-better-start/:slug', (req, res) => {
+    res.redirect(
+        301,
+        `/funding/publications/a-better-start/${req.params.slug}`
+    );
+});
+
+/**
  * Archived paths
  * Handles archived pages (eg. redirect to National Archives)
  * and legacy files (eg. show a message about removed documents)
