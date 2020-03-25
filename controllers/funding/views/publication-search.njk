@@ -16,8 +16,7 @@
         <div class="nudge-up">
             {{ breadcrumbTrail(breadcrumbs) }}
             {% call contentBox() %}
-                <p>We want learning from the programme to be useful to other people in similar fields of work so that many more children can benefit.</p>
-                <p>Read updates from across the A Better Start programme sharing our experiences as we develop innovative ways to give babies and very young children the best possible start in life.</p>
+                <p>{{ intro | safe }}</p>
             {% endcall %}
         </div>
 
@@ -146,7 +145,6 @@
                             {% for entry in publicationEntries %}
                                 <div class="u-margin-bottom-s">
                                     {% call promoCard({
-                                        "title": entry.title,
                                         "title": entry.title,
                                         "trailText": entry.trailText,
                                         "link": {
