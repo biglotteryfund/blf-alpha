@@ -60,7 +60,7 @@ router.get(
 
             if (req.params.programme === 'a-better-start') {
                 res.locals.title = 'Publications: A Better Start';
-                res.locals.intro = `We want learning from A Better Start to influence parents, practitioners and policy makers. Read updates from across the A Better Start programme sharing our experiences as we develop innovative ways to give pregnant women and babies the best possible start.`
+                res.locals.intro = `We want learning from A Better Start to influence parents, practitioners and policy makers. Read updates from across the A Better Start programme sharing our experiences as we develop innovative ways to give pregnant women and babies the best possible start.`;
             }
 
             res.render(path.resolve(__dirname, './views/publication-search'), {
