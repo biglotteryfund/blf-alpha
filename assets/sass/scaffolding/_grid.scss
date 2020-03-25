@@ -29,6 +29,8 @@ $flexGridSpacing: $spacingUnit;
     > .flex-grid__item {
         max-width: 100%;
         margin-bottom: $flexGridSpacing;
+        list-style: none !important;
+        margin-left: 0 !important;
 
         @include mq('medium-minor') {
             flex: 0 0 50%;

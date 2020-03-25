@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-{% from "components/related-content/macro.njk" import relatedContent %}
+{% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/social-bar/macro.njk" import socialBar with context %}
 
@@ -63,16 +63,35 @@
 
         {# Latest News #}
         {% if promotedUpdates.length > 1 %}
-            <section class="u-border-top u-inner u-padded u-margin-bottom">
-                {{ relatedContent(
-                    articles = promotedUpdates | take(3),
-                    title = __('global.misc.latestNews'),
-                    allLink = {
-                        "url": localify('/news'),
-                        "label": __('global.misc.viewAllNews')
-                    }
-                ) }}
-            </section>
+            <div class="u-border-top u-inner u-padded u-margin-bottom">
+                <section class="related-content">
+                    <header class="related-content__header">
+                        <h2 class="related-content__title t--underline">
+                            {{ __('global.misc.latestNews') }}
+                        </h2>
+                    </header>
+                    <div class="related-content__content">
+                        <ul class="flex-grid flex-grid--3up">
+                            {% for article in promotedUpdates | take(3) %}
+                                <li class="flex-grid__item related-content__item">
+                                    {{ articleTeaser({
+                                        'title': article.trailText or article.title,
+                                        "subtitle": formatDate(article.postDate.date) if article.postDate,
+                                        'linkUrl': article.linkUrl,
+                                        'summary': article.summary
+                                    }) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="related-content__footer">
+                        <a class="related-content__more"
+                           href="{{ localify('/news') }}">
+                            {{ __('global.misc.viewAllNews') }}
+                        </a>
+                    </div>
+                </section>
+            </div>
         {% endif %}
 
         {{ socialBar() }}
