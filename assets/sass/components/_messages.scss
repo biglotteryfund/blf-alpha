@@ -126,10 +126,6 @@
     color: white;
     background-color: get-color('brand', 'primary');
 
-    &.announcement-banner--major {
-        margin-bottom: 5px;
-    }
-
     a {
         color: white;
         font-weight: font-weight('body', 'bold');
@@ -142,4 +138,12 @@
     @media print {
         display: none;
     }
+}
+
+.announcement-banner.announcement-banner--major {
+    font-size: 16px;
+}
+
+.has-static-header .announcement-banner--major {
+    margin-bottom: 15px;
 }
