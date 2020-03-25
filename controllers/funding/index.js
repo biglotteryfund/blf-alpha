@@ -8,7 +8,6 @@ const {
     setCommonLocals
 } = require('../../common/inject-content');
 const { renderFlexibleContentChild } = require('../common');
-const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
 
 const router = express.Router();
