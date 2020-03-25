@@ -90,7 +90,7 @@
     "@sentry/browser": "5.15.0",
     "@sentry/integrations": "5.15.0",
     "@sentry/node": "5.15.0",
-    "aws-sdk": "2.644.0",
+    "aws-sdk": "2.645.0",
     "bcryptjs": "^2.4.3",
     "clamscan": "1.2.0",
     "common-tags": "1.8.0",
