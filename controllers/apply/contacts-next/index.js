@@ -7,5 +7,5 @@ const confirmationBuilder = require('./confirmation');
 module.exports = initFormRouter({
     formId: 'dev-contacts-next',
     formBuilder: formBuilder,
-    confirmationBuilder: confirmationBuilder
+    confirmationBuilder: confirmationBuilder,
 });

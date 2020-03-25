@@ -12,13 +12,13 @@ const {
     getDateRangeWithDefault,
     groupByCreatedAt,
     getOldestDate,
-    getDaysInRange
+    getDaysInRange,
 } = require('./lib/date-helpers');
 
 const { processResetRequest } = require('../user/lib/password-reset');
 const { environment } = require('../../common/appData');
 const logger = require('../../common/logger').child({
-    service: 'user'
+    service: 'user',
 });
 
 const isProduction = environment === 'production';
@@ -30,7 +30,7 @@ function chartData(users) {
 
     const grouped = groupByCreatedAt(users);
 
-    return times(getDaysInRange(users) + 1, function(n) {
+    return times(getDaysInRange(users) + 1, function (n) {
         const key = moment(getOldestDate(users))
             .clone()
             .add(n, 'days')
@@ -40,7 +40,7 @@ function chartData(users) {
 
         return {
             x: key,
-            y: usersForDay.length
+            y: usersForDay.length,
         };
     });
 }
@@ -56,13 +56,13 @@ router.get('/', async (req, res, next) => {
 
         const allUsers = await Users.findAndCountAll({
             where: {
-                createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
-            }
+                createdAt: { [Op.between]: [dateRange.start, dateRange.end] },
+            },
         });
 
         const [active, inactive] = partition(
             allUsers.rows,
-            row => row.is_active
+            (row) => row.is_active
         );
 
         const title = 'User accounts summary';
@@ -78,7 +78,7 @@ router.get('/', async (req, res, next) => {
             ),
             dateRange: dateRange,
             oldestDate: getOldestDate(allUsers.rows),
-            now: new Date()
+            now: new Date(),
         });
     } catch (error) {
         next(error);
@@ -90,11 +90,11 @@ router
     .all((req, res, next) => {
         const allowedGroups = [
             'cc8dd518-4e0b-412f-983f-86e7ab852669', // advice
-            '40d00757-141c-4f20-9f56-8750fb7366e0' // digital
+            '40d00757-141c-4f20-9f56-8750fb7366e0', // digital
         ];
         if (
             req.session.activeDirectoryGroups &&
-            req.session.activeDirectoryGroups.some(groupId =>
+            req.session.activeDirectoryGroups.some((groupId) =>
                 allowedGroups.includes(groupId)
             )
         ) {
@@ -109,7 +109,7 @@ router
             const title = 'User dashboard';
             res.locals.title = title;
             res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
-                label: title
+                label: title,
             });
             const usernameSearch = req.query.q;
             const applicationsByUserId = req.query.appsById;
@@ -118,7 +118,7 @@ router
                 const allMatchingUsers = await Users.findByUsernameFuzzy(
                     usernameSearch
                 );
-                res.locals.users = allMatchingUsers.map(user => {
+                res.locals.users = allMatchingUsers.map((user) => {
                     if (!user.is_active && user.date_activation_sent) {
                         user.activationExpires = moment
                             .unix(user.date_activation_sent)
@@ -131,12 +131,12 @@ router
             } else if (applicationsByUserId) {
                 const [pendingApps, singleUser] = await Promise.all([
                     PendingApplication.findAllByUserId(applicationsByUserId),
-                    Users.findByPk(applicationsByUserId)
+                    Users.findByPk(applicationsByUserId),
                 ]);
 
                 res.locals.singleUser = singleUser;
 
-                res.locals.pendingApps = pendingApps.map(app => {
+                res.locals.pendingApps = pendingApps.map((app) => {
                     app.expiresAtRelative = moment(app.expiresAt)
                         .tz('Europe/London')
                         .fromNow();
@@ -172,7 +172,7 @@ router
                             confirmMode: true,
                             userToModify: user,
                             action: action,
-                            title: 'Please confirm your action'
+                            title: 'Please confirm your action',
                         }
                     );
                 } else {
@@ -180,7 +180,7 @@ router
                     if (action === 'activateUser') {
                         await Users.activateUser(user.id);
                         logger.info('Activation attempted', {
-                            eventSource: 'manual'
+                            eventSource: 'manual',
                         });
                         return res.redirect(
                             req.baseUrl + '/dashboard?s=userActivated'

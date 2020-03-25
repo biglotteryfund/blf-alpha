@@ -6,7 +6,7 @@ const Joi = require('../../lib/joi-extensions');
 const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');
 const rolesFor = require('../lib/roles');
 
-module.exports = function(locale, data) {
+module.exports = function (locale, data) {
     const localise = get(locale);
 
     const projectCountry = get('projectCountry')(data);
@@ -17,7 +17,7 @@ module.exports = function(locale, data) {
         currentOrganisationType === ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY;
 
     const isRegisteredCharity = [
-        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
+        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
     ].includes(currentOrganisationType);
 
     /**
@@ -29,7 +29,7 @@ module.exports = function(locale, data) {
         [
             STATUTORY_BODY_TYPES.PRISON_SERVICE,
             STATUTORY_BODY_TYPES.FIRE_SERVICE,
-            STATUTORY_BODY_TYPES.POLICE_AUTHORITY
+            STATUTORY_BODY_TYPES.POLICE_AUTHORITY,
         ].includes(currentOrganisationSubType);
 
     function warnings() {
@@ -41,7 +41,7 @@ module.exports = function(locale, data) {
                     en: oneLine`As you're a company, your senior contact needs
                         to be listed as one of your board members on Companies House.`,
                     cy: oneLine`Gan eich bod yn gwmni, rhaid i’ch uwch gyswllt gael
-                        ei restru fel un o’ch aelodau bwrdd ar Dŷ’r Cwmnïau.`
+                        ei restru fel un o’ch aelodau bwrdd ar Dŷ’r Cwmnïau.`,
                 })
             );
         }
@@ -58,7 +58,7 @@ module.exports = function(locale, data) {
                         with your charity regulator.`,
                     cy: oneLine`Gan eich bod yn elusen gofrestredig (sydd hefyd ddim yn gwmni),
                         rhaid i’ch uwch gyswllt gael ei restru fel un o’ch
-                        ymddiriedolwyr gyda’ch rheolydd elusennol.`
+                        ymddiriedolwyr gyda’ch rheolydd elusennol.`,
                 })
             );
         }
@@ -73,7 +73,7 @@ module.exports = function(locale, data) {
                     cy: oneLine`Fel elusen, gall eich uwch gyswllt fod yn un o
                         ymddiriedolwyr eich sefydliad. Gall hyn gynnwys
                         ymddiriedolwyr yn cymryd rôl fel Cadeirydd,
-                        Is-gadeirydd neu Drysorydd.  `
+                        Is-gadeirydd neu Drysorydd.  `,
                 })
             );
         }
@@ -89,7 +89,7 @@ module.exports = function(locale, data) {
                     cy: oneLine`Fel elusen gofrestredig, rhaid i’ch uwch gyswllt fod
                         yn un o ymddiriedolwyr eich sefydliad. Gall hyn gynnwys
                         ymddiriedolwyr yn cymryd rôl fel Cadeirydd,
-                        Is-gadeirydd neu Drysorydd. `
+                        Is-gadeirydd neu Drysorydd. `,
                 })
             );
         }
@@ -98,7 +98,7 @@ module.exports = function(locale, data) {
             result.push(
                 localise({
                     en: `As a school, your senior contact must be the headteacher`,
-                    cy: `Fel ysgol, rhaid i’ch uwch gyswllt fod y prifathro`
+                    cy: `Fel ysgol, rhaid i’ch uwch gyswllt fod y prifathro`,
                 })
             );
         }
@@ -132,14 +132,14 @@ module.exports = function(locale, data) {
                           Mae’r opsiynau sydd wedi ei ddarparu i chi ddewis
                           ohonynt wedi’i seilio ar hyn`
                 }
-            </p>`
+            </p>`,
         }),
         warnings: warnings(),
         type: isFreeText ? 'text' : 'radio',
         options: rolesFor({
             locale: locale,
             organisationType: currentOrganisationType,
-            organisationSubType: currentOrganisationSubType
+            organisationSubType: currentOrganisationSubType,
         }),
         isRequired: true,
         get schema() {
@@ -147,7 +147,7 @@ module.exports = function(locale, data) {
                 return Joi.string().required();
             } else {
                 return Joi.string()
-                    .valid(this.options.map(option => option.value))
+                    .valid(this.options.map((option) => option.value))
                     .required();
             }
         },
@@ -156,15 +156,15 @@ module.exports = function(locale, data) {
                 type: 'base',
                 message: isFreeText
                     ? localise({ en: 'Enter a role', cy: 'Rhowch rôl ' })
-                    : localise({ en: 'Choose a role', cy: 'Dewiswch rôl ' })
+                    : localise({ en: 'Choose a role', cy: 'Dewiswch rôl ' }),
             },
             {
                 type: 'any.allowOnly',
                 message: localise({
                     en: 'Senior contact role is not valid',
-                    cy: 'Nid yw’r rôl uwch gyswllt yn ddilys'
-                })
-            }
-        ]
+                    cy: 'Nid yw’r rôl uwch gyswllt yn ddilys',
+                }),
+            },
+        ],
     };
 };

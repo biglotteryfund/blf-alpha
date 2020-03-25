@@ -11,25 +11,23 @@ function init() {
             el: el,
             i18n: setupI18n(Vue),
             components: {
-                'budget-input': BudgetInput
+                'budget-input': BudgetInput,
             },
-            mounted: function() {
+            mounted: function () {
                 // Prevent the Enter key from submitting the entire form
                 // if pressed inside a budget field
-                $(this.$el).on('keypress', 'input', function(event) {
+                $(this.$el).on('keypress', 'input', function (event) {
                     return event.keyCode !== 13;
                 });
 
                 // Clear out <noscript> fallback otherwise they submit as well as the
                 // Vue-enhanced fields (eg. double inputs)
-                $(this.$el)
-                    .find('.js-fallback-only')
-                    .remove();
-            }
+                $(this.$el).find('.js-fallback-only').remove();
+            },
         });
     }
 }
 
 export default {
-    init
+    init,
 };

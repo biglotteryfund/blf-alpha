@@ -7,31 +7,31 @@ class User extends Model {
         const schema = {
             username: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             password: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             is_active: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
-                defaultValue: false
+                defaultValue: false,
             },
             date_activation_sent: {
                 type: DataTypes.INTEGER,
-                allowNull: true
+                allowNull: true,
             },
             is_password_reset: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
-                defaultValue: false
-            }
+                defaultValue: false,
+            },
         };
 
         return super.init(schema, {
             modelName: 'user',
-            sequelize
+            sequelize,
         });
     }
 
@@ -46,35 +46,37 @@ class User extends Model {
 
     static findByUsername(username) {
         return this.findOne({
-            where: { username: { [Op.eq]: username } }
+            where: { username: { [Op.eq]: username } },
         });
     }
 
     static findByUsernameFuzzy(search) {
         return this.findAll({
-            where: { username: { [Op.substring]: search } }
+            where: { username: { [Op.substring]: search } },
         });
     }
 
     static createUser({ username, password, isActive = false }) {
-        return this.encryptPassword(password).then(encryptedPassword => {
+        return this.encryptPassword(password).then((encryptedPassword) => {
             return this.create({
                 username: username,
                 password: encryptedPassword,
-                is_active: isActive
+                is_active: isActive,
             });
         });
     }
 
     static updateNewPassword({ id, newPassword }) {
-        return this.encryptPassword(newPassword).then(newEncryptedPassword => {
-            return this.findByPk(id).then(user => {
-                return user.update({
-                    password: newEncryptedPassword,
-                    is_password_reset: false
+        return this.encryptPassword(newPassword).then(
+            (newEncryptedPassword) => {
+                return this.findByPk(id).then((user) => {
+                    return user.update({
+                        password: newEncryptedPassword,
+                        is_password_reset: false,
+                    });
                 });
-            });
-        });
+            }
+        );
     }
 
     static updateNewEmail({ id, newEmail }) {
@@ -95,8 +97,8 @@ class User extends Model {
         return this.findOne({
             where: {
                 id: { [Op.eq]: id },
-                is_password_reset: true
-            }
+                is_password_reset: true,
+            },
         });
     }
 

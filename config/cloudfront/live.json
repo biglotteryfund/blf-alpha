@@ -9,48 +9,27 @@
     "Compress": true,
     "SmoothStreaming": false,
     "AllowedMethods": {
-      "Items": [
-        "HEAD",
-        "DELETE",
-        "POST",
-        "GET",
-        "OPTIONS",
-        "PUT",
-        "PATCH"
-      ],
+      "Items": ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"],
       "Quantity": 7,
       "CachedMethods": {
-        "Items": [
-          "HEAD",
-          "GET"
-        ],
+        "Items": ["HEAD", "GET"],
         "Quantity": 2
       }
     },
     "ForwardedValues": {
       "Headers": {
-        "Items": [
-          "Accept",
-          "Host"
-        ],
+        "Items": ["Accept", "Host"],
         "Quantity": 2
       },
       "QueryStringCacheKeys": {
-        "Items": [
-          "social",
-          "token",
-          "x-craft-live-preview",
-          "x-craft-preview"
-        ],
+        "Items": ["social", "token", "x-craft-live-preview", "x-craft-preview"],
         "Quantity": 4
       },
       "QueryString": true,
       "Cookies": {
         "Forward": "whitelist",
         "WhitelistedNames": {
-          "Items": [
-            "blf-alpha-session"
-          ],
+          "Items": ["blf-alpha-session"],
           "Quantity": 1
         }
       }
@@ -77,30 +56,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
+          "Items": ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"],
           "Quantity": 7,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -111,9 +76,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -139,30 +102,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
+          "Items": ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"],
           "Quantity": 7,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -195,25 +144,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -233,9 +173,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -261,25 +199,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -296,9 +225,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -324,25 +251,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -365,9 +283,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -393,25 +309,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -432,9 +339,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -460,25 +365,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -489,9 +385,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -517,30 +411,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
+          "Items": ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"],
           "Quantity": 7,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -559,9 +439,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -587,30 +465,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
+          "Items": ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"],
           "Quantity": 7,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -643,25 +507,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -681,9 +536,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -709,25 +562,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -744,9 +588,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -772,25 +614,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -813,9 +646,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -841,25 +672,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -880,9 +702,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -908,25 +728,16 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
         "ForwardedValues": {
           "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
+            "Items": ["Accept", "Host"],
             "Quantity": 2
           },
           "QueryStringCacheKeys": {
@@ -937,9 +748,7 @@
           "Cookies": {
             "Forward": "whitelist",
             "WhitelistedNames": {
-              "Items": [
-                "blf-alpha-session"
-              ],
+              "Items": ["blf-alpha-session"],
               "Quantity": 1
             }
           }
@@ -965,16 +774,10 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },
@@ -1018,16 +821,10 @@
         "Compress": true,
         "SmoothStreaming": false,
         "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
+          "Items": ["HEAD", "GET"],
           "Quantity": 2,
           "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
+            "Items": ["HEAD", "GET"],
             "Quantity": 2
           }
         },

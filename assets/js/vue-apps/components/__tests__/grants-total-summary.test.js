@@ -15,10 +15,10 @@ describe('GrantsTotalSummary', () => {
                     totalAwarded: 123456789,
                     copy: {
                         resultsCount: 'projects found',
-                        totalCount: 'totalling'
-                    }
-                }
-            }
+                        totalCount: 'totalling',
+                    },
+                },
+            },
         });
 
         expect(wrapper.element).toMatchSnapshot();

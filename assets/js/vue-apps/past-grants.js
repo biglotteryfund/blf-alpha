@@ -23,7 +23,7 @@ const states = {
     NotAsked: 'NotAsked',
     Loading: 'Loading',
     Failure: 'Failure',
-    Success: 'Success'
+    Success: 'Success',
 };
 
 const canStore = storageAvailable('localStorage');
@@ -42,7 +42,7 @@ function init(STORAGE_KEY) {
             'grants-total-summary': GrantsTotalSummary,
             'grants-filter-summary': GrantsFilterSummary,
             'grants-loading-status': GrantsLoadingStatus,
-            'grants-no-results': GrantsNoResults
+            'grants-no-results': GrantsNoResults,
         },
         data() {
             /**
@@ -68,7 +68,7 @@ function init(STORAGE_KEY) {
                 totalResults: initialData.totalResults || 0,
                 totalAwarded: initialData.totalAwarded || 0,
                 searchSuggestions: initialData.searchSuggestions || null,
-                copy: initialData.lang
+                copy: initialData.lang,
             };
         },
         watch: {
@@ -76,19 +76,17 @@ function init(STORAGE_KEY) {
                 handler() {
                     this.filterResults();
                 },
-                deep: true
-            }
+                deep: true,
+            },
         },
         mounted() {
             // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
-            $(this.$el)
-                .find('[disabled]')
-                .removeAttr('disabled');
+            $(this.$el).find('[disabled]').removeAttr('disabled');
 
             // Generate summary once we've parsed the facets
             this.filterSummary = this.buildFilterSummary(this.filters);
 
-            window.onpopstate = event => {
+            window.onpopstate = (event) => {
                 const historyUrlPath = get(
                     event,
                     'state.urlPath',
@@ -134,7 +132,7 @@ function init(STORAGE_KEY) {
 
                     return {
                         name: key,
-                        label: label || value
+                        label: label || value,
                     };
                 });
             },
@@ -150,7 +148,7 @@ function init(STORAGE_KEY) {
             handleActiveFilter(payload) {
                 const match = find(
                     this.filterSummary,
-                    item => item.name === payload.name
+                    (item) => item.name === payload.name
                 );
 
                 if (match) {
@@ -161,12 +159,12 @@ function init(STORAGE_KEY) {
                     // Update the existing one
                     find(
                         this.filterSummary,
-                        i => i.name === payload.name
+                        (i) => i.name === payload.name
                     ).label = payload.label;
                 } else {
                     // Add the new summary item
                     this.filterSummary = [].concat(this.filterSummary, [
-                        payload
+                        payload,
                     ]);
                     this.trackFilter(payload.name, payload.label);
                 }
@@ -188,7 +186,7 @@ function init(STORAGE_KEY) {
                         (value, key) => key !== name
                     );
                     this.filterSummary = this.filterSummary.filter(
-                        i => i.name !== name
+                        (i) => i.name !== name
                     );
                     if (name === 'q') {
                         this.activeQuery = null;
@@ -200,7 +198,7 @@ function init(STORAGE_KEY) {
                     this.filters.q = this.activeQuery; // reset query
                     // remove everything except the query from the summary
                     this.filterSummary = this.filterSummary.filter(
-                        i => i.name === 'q'
+                        (i) => i.name === 'q'
                     );
                     this.trackUi('Clear all filters');
                 }
@@ -221,7 +219,7 @@ function init(STORAGE_KEY) {
                         type: 'localStorage',
                         key: STORAGE_KEY,
                         data: filters,
-                        expiryInMinutes: 60
+                        expiryInMinutes: 60,
                     });
                 } else {
                     canStore && window.localStorage.removeItem(STORAGE_KEY);
@@ -235,13 +233,13 @@ function init(STORAGE_KEY) {
                     combinedFilters.q = trim(this.activeQuery);
                     this.handleActiveFilter({
                         label: this.activeQuery || undefined,
-                        name: 'q'
+                        name: 'q',
                     });
                 } else {
                     // Clear the filter if necessary
                     this.filters.q = undefined;
                     this.filterSummary = this.filterSummary.filter(
-                        i => i.name !== 'q'
+                        (i) => i.name !== 'q'
                     );
                 }
 
@@ -289,7 +287,7 @@ function init(STORAGE_KEY) {
                     url: urlPath,
                     dataType: 'json',
                     timeout: 20000,
-                    success: response => {
+                    success: (response) => {
                         this.resultsHtml = response.resultsHtml;
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
@@ -317,17 +315,17 @@ function init(STORAGE_KEY) {
                             const errMsg = errorThrown.responseJSON.error;
                             this.status = {
                                 state: states.Failure,
-                                error: errMsg
+                                error: errMsg,
                             };
                             this.trackUi('Search error', errMsg);
                         }
-                    }
+                    },
                 });
-            }
-        }
+            },
+        },
     });
 }
 
 export default {
-    init
+    init,
 };

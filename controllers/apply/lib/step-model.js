@@ -12,7 +12,7 @@ class Step {
 
         this._fieldsets = reject(
             props.fieldsets || [],
-            fieldset => fieldset.fields.length === 0
+            (fieldset) => fieldset.fields.length === 0
         );
 
         /**
@@ -62,12 +62,12 @@ class Step {
     }
 
     getCurrentFields() {
-        return this.fieldsets.flatMap(fieldset => fieldset.fields);
+        return this.fieldsets.flatMap((fieldset) => fieldset.fields);
     }
 
     filterErrors(messages) {
-        const fieldNames = this.getCurrentFields().map(field => field.name);
-        return messages.filter(item => fieldNames.includes(item.param));
+        const fieldNames = this.getCurrentFields().map((field) => field.name);
+        return messages.filter((item) => fieldNames.includes(item.param));
     }
 }
 
@@ -88,5 +88,5 @@ class CustomStep extends Step {
 
 module.exports = {
     Step,
-    CustomStep
+    CustomStep,
 };

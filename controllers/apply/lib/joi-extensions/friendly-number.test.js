@@ -10,9 +10,9 @@ test('allow comma separated values for numbers', () => {
         ['1,000', 1000],
         ['10,000', 10000],
         ['1,000,000', 1000000],
-        ['21,500.50', 21500.5]
+        ['21,500.50', 21500.5],
     ];
-    valid.forEach(function([input, expected]) {
+    valid.forEach(function ([input, expected]) {
         const result = schema.validate(input);
         expect(result.value).toEqual(expected);
         expect(result.error).toBe(null);

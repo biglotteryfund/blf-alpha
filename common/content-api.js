@@ -14,19 +14,19 @@ const logger = require('./logger');
 const { sanitiseUrlPath, stripTrailingSlashes } = require('./urls');
 const { CONTENT_API_URL } = require('./secrets');
 
-const getAttrs = response => get('data.attributes')(response);
-const mapAttrs = response => map('attributes')(response.data);
+const getAttrs = (response) => get('data.attributes')(response);
+const mapAttrs = (response) => map('attributes')(response.data);
 
 const queryContentApi = got.extend({
     prefixUrl: CONTENT_API_URL,
     headers: { 'user-agent': 'tnlcf-www' },
     hooks: {
         beforeRequest: [
-            function(options) {
+            function (options) {
                 logger.debug(`Fetching ${options.url.href}`);
-            }
-        ]
-    }
+            },
+        ],
+    },
 });
 
 function fetch(urlPath, options) {
@@ -38,7 +38,7 @@ function fetch(urlPath, options) {
 
     const defaults = {
         url: `${CONTENT_API_URL}${urlPath}`,
-        json: true
+        json: true,
     };
     const params = Object.assign({}, defaults, options);
     return request(params);
@@ -55,7 +55,7 @@ function fetch(urlPath, options) {
  */
 function fetchAllLocales(toUrlPathFn, options = {}) {
     const urlPaths = ['en', 'cy'].map(toUrlPathFn);
-    const promises = urlPaths.map(urlPath => fetch(urlPath, options));
+    const promises = urlPaths.map((urlPath) => fetch(urlPath, options));
     return Promise.all(promises);
 }
 
@@ -68,7 +68,7 @@ function withPreviewParams(rawSearchParams = {}, extraSearchParams = {}) {
         'social',
         'x-craft-live-preview',
         'x-craft-preview',
-        'token'
+        'token',
     ]);
     return Object.assign({}, globalParams, extraSearchParams);
 }
@@ -82,13 +82,13 @@ function withPreviewParams(rawSearchParams = {}, extraSearchParams = {}) {
  * ```
  */
 function mergeWelshBy(propName) {
-    return function(currentLocale, enResults, cyResults) {
+    return function (currentLocale, enResults, cyResults) {
         if (currentLocale === 'en') {
             return enResults;
         } else {
-            return map(enItem => {
+            return map((enItem) => {
                 const findCy = find(
-                    cyItem => cyItem[propName] === enItem[propName]
+                    (cyItem) => cyItem[propName] === enItem[propName]
                 );
                 return findCy(cyResults) || enItem;
             })(enResults);
@@ -106,11 +106,11 @@ function _buildPagination(paginationMeta, currentQuery = {}) {
         const totalPages = paginationMeta.total_pages;
         const prevLink = `?${querystring.stringify({
             ...currentQuery,
-            ...{ page: currentPage - 1 }
+            ...{ page: currentPage - 1 },
         })}`;
         const nextLink = `?${querystring.stringify({
             ...currentQuery,
-            ...{ page: currentPage + 1 }
+            ...{ page: currentPage + 1 },
         })}`;
 
         return {
@@ -120,7 +120,7 @@ function _buildPagination(paginationMeta, currentQuery = {}) {
             currentPage: currentPage,
             totalPages: totalPages,
             prevLink: currentPage > 1 ? prevLink : null,
-            nextLink: currentPage < totalPages ? nextLink : null
+            nextLink: currentPage < totalPages ? nextLink : null,
         };
     }
 }
@@ -130,17 +130,15 @@ function _buildPagination(paginationMeta, currentQuery = {}) {
  ***********************************************/
 
 function getRoutes() {
-    return queryContentApi('v1/list-routes')
-        .json()
-        .then(mapAttrs);
+    return queryContentApi('v1/list-routes').json().then(mapAttrs);
 }
 
 function getAliasForLocale({ locale, urlPath }) {
     return fetch(`/v1/${locale}/aliases`)
         .then(mapAttrs)
-        .then(matches => {
+        .then((matches) => {
             const findAlias = find(
-                alias => alias.from.toLowerCase() === urlPath.toLowerCase()
+                (alias) => alias.from.toLowerCase() === urlPath.toLowerCase()
             );
             return findAlias(matches);
         });
@@ -150,28 +148,28 @@ function getAlias(urlPath) {
     const getOrHomepage = getOr('/', 'to');
     return getAliasForLocale({
         locale: 'en',
-        urlPath: urlPath
-    }).then(enMatch => {
+        urlPath: urlPath,
+    }).then((enMatch) => {
         if (enMatch) {
             return getOrHomepage(enMatch);
         } else {
             return getAliasForLocale({
                 locale: 'cy',
-                urlPath: urlPath
-            }).then(cyMatch => (cyMatch ? getOrHomepage(cyMatch) : null));
+                urlPath: urlPath,
+            }).then((cyMatch) => (cyMatch ? getOrHomepage(cyMatch) : null));
         }
     });
 }
 
 function getHeroImage({ locale, slug }) {
     return fetch(`/v1/${locale}/hero-image/${slug}`).then(
-        response => response.data.attributes
+        (response) => response.data.attributes
     );
 }
 
 function getHomepage(locale, searchParams = {}) {
     return queryContentApi(`v1/${locale}/homepage`, {
-        searchParams: withPreviewParams(searchParams)
+        searchParams: withPreviewParams(searchParams),
     })
         .json()
         .then(getAttrs);
@@ -193,28 +191,28 @@ function getUpdates({
     date = null,
     slug = null,
     query = {},
-    requestParams = {}
+    requestParams = {},
 }) {
     if (slug) {
         return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query })
-        }).then(response => {
+            qs: withPreviewParams(requestParams, { ...query }),
+        }).then((response) => {
             return {
                 meta: response.meta,
-                result: response.data.attributes
+                result: response.data.attributes,
             };
         });
     } else {
         return fetch(`/v1/${locale}/updates/${type || ''}`, {
             qs: withPreviewParams(requestParams, {
                 ...query,
-                ...{ 'page-limit': 10 }
-            })
-        }).then(response => {
+                ...{ 'page-limit': 10 },
+            }),
+        }).then((response) => {
             return {
                 meta: response.meta,
                 result: mapAttrs(response),
-                pagination: _buildPagination(response.meta.pagination, query)
+                pagination: _buildPagination(response.meta.pagination, query),
             };
         });
     }
@@ -224,24 +222,24 @@ function getFundingProgrammes({
     locale,
     page = 1,
     pageLimit = 100,
-    showAll = false
+    showAll = false,
 }) {
     const requestOptions = {
         searchParams: {
             'page': page,
             'page-limit': pageLimit,
-            'all': showAll === true
-        }
+            'all': showAll === true,
+        },
     };
 
     return Promise.all([
         queryContentApi.get('v2/en/funding-programmes', requestOptions).json(),
-        queryContentApi.get('v2/cy/funding-programmes', requestOptions).json()
-    ]).then(responses => {
+        queryContentApi.get('v2/cy/funding-programmes', requestOptions).json(),
+    ]).then((responses) => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         return {
             meta: head(responses).meta,
-            result: mergeWelshBy('slug')(locale, enResults, cyResults)
+            result: mergeWelshBy('slug')(locale, enResults, cyResults),
         };
     });
 }
@@ -249,7 +247,7 @@ function getFundingProgrammes({
 function getRecentFundingProgrammes(locale) {
     return queryContentApi
         .get(`v2/${locale}/funding-programmes`, {
-            searchParams: { 'page': 1, 'page-limit': 3, 'newest': true }
+            searchParams: { 'page': 1, 'page-limit': 3, 'newest': true },
         })
         .json()
         .then(mapAttrs);
@@ -258,7 +256,7 @@ function getRecentFundingProgrammes(locale) {
 function getFundingProgramme({ locale, slug, searchParams = {} }) {
     return queryContentApi
         .get(`v2/${locale}/funding-programmes/${slug}`, {
-            searchParams: withPreviewParams(searchParams)
+            searchParams: withPreviewParams(searchParams),
         })
         .json()
         .then(getAttrs);
@@ -269,11 +267,11 @@ function getResearch({
     slug = null,
     query = {},
     requestParams = {},
-    type = null
+    type = null,
 }) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query })
+            qs: withPreviewParams(requestParams, { ...query }),
         }).then(getAttrs);
     } else {
         let path = `/v1/${locale}/research`;
@@ -281,12 +279,12 @@ function getResearch({
             path += `/${type}`;
         }
         return fetch(path, {
-            qs: withPreviewParams(requestParams, { ...query })
-        }).then(response => {
+            qs: withPreviewParams(requestParams, { ...query }),
+        }).then((response) => {
             return {
                 meta: response.meta,
                 result: mapAttrs(response),
-                pagination: _buildPagination(response.meta.pagination, query)
+                pagination: _buildPagination(response.meta.pagination, query),
             };
         });
     }
@@ -296,16 +294,16 @@ function getStrategicProgrammes({
     locale,
     slug = null,
     query = {},
-    requestParams = {}
+    requestParams = {},
 }) {
     if (slug) {
         return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query })
-        }).then(response => get('data.attributes')(response));
+            qs: withPreviewParams(requestParams, { ...query }),
+        }).then((response) => get('data.attributes')(response));
     } else {
         return fetchAllLocales(
-            reqLocale => `/v1/${reqLocale}/strategic-programmes`
-        ).then(responses => {
+            (reqLocale) => `/v1/${reqLocale}/strategic-programmes`
+        ).then((responses) => {
             const [enResults, cyResults] = responses.map(mapAttrs);
             return mergeWelshBy('urlPath')(locale, enResults, cyResults);
         });
@@ -317,12 +315,12 @@ function getListingPage({ locale, path, query = {}, requestParams = {} }) {
     return fetch(`/v1/${locale}/listing`, {
         qs: withPreviewParams(requestParams, {
             ...query,
-            ...{ path: sanitisedPath }
-        })
-    }).then(response => {
-        const attributes = response.data.map(item => item.attributes);
+            ...{ path: sanitisedPath },
+        }),
+    }).then((response) => {
+        const attributes = response.data.map((item) => item.attributes);
         // @TODO remove the check for attr.path, which will shortly be removed the CMS
-        return attributes.find(attr => {
+        return attributes.find((attr) => {
             if (get(attr, 'path')) {
                 return attr.path === sanitisedPath;
             } else {
@@ -337,20 +335,20 @@ function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
     return fetch(`/v1/${locale}/flexible-content`, {
         qs: withPreviewParams(requestParams, {
             ...query,
-            ...{ path: sanitisedPath }
-        })
-    }).then(response => response.data.attributes);
+            ...{ path: sanitisedPath },
+        }),
+    }).then((response) => response.data.attributes);
 }
 
 function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
     return fetch(`/v1/${locale}/project-stories/${grantId}`, {
-        qs: withPreviewParams(requestParams, { ...query })
+        qs: withPreviewParams(requestParams, { ...query }),
     }).then(getAttrs);
 }
 
 function getOurPeople(locale, searchParams = {}) {
     return queryContentApi(`v1/${locale}/our-people`, {
-        searchParams: withPreviewParams(searchParams)
+        searchParams: withPreviewParams(searchParams),
     })
         .json()
         .then(mapAttrs);
@@ -358,7 +356,7 @@ function getOurPeople(locale, searchParams = {}) {
 
 function getDataStats(locale, searchParams = {}) {
     return queryContentApi(`v1/${locale}/data`, {
-        searchParams: withPreviewParams(searchParams)
+        searchParams: withPreviewParams(searchParams),
     })
         .json()
         .then(getAttrs);
@@ -371,7 +369,7 @@ function getMerchandise({ locale, showAll = false } = {}) {
     }
 
     return queryContentApi(`v1/${locale}/merchandise`, {
-        searchParams: searchParams
+        searchParams: searchParams,
     })
         .json()
         .then(mapAttrs);
@@ -396,5 +394,5 @@ module.exports = {
     getResearch,
     getRoutes,
     getStrategicProgrammes,
-    getUpdates
+    getUpdates,
 };

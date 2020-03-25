@@ -15,7 +15,7 @@ function checkItemCount(wrapper, count) {
     expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(count);
 }
 
-test('should be able to add items up to max limit', async function() {
+test('should be able to add items up to max limit', async function () {
     const maxItems = 10;
     const maxBudget = 10000;
     const minBudget = 300;
@@ -27,8 +27,8 @@ test('should be able to add items up to max limit', async function() {
             fieldName: 'budget',
             minBudget: minBudget,
             maxBudget: maxBudget,
-            maxItems: maxItems
-        }
+            maxItems: maxItems,
+        },
     });
 
     async function addItem(description, amount) {
@@ -85,7 +85,7 @@ test('should not add new rows when loading a completed budget', () => {
 
     const budgetData = times(10, () => ({
         item: faker.lorem.words(5),
-        cost: 123
+        cost: 123,
     }));
 
     const wrapper = mount(BudgetInput, {
@@ -97,8 +97,8 @@ test('should not add new rows when loading a completed budget', () => {
             minBudget: minBudget,
             maxBudget: maxBudget,
             maxItems: maxItems,
-            budgetData: budgetData
-        }
+            budgetData: budgetData,
+        },
     });
 
     checkItemCount(wrapper, 10);

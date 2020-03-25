@@ -9,7 +9,7 @@ const {
     localify,
     pathCouldBeAlias,
     sanitiseUrlPath,
-    stripTrailingSlashes
+    stripTrailingSlashes,
 } = require('./urls');
 
 const httpMocks = require('node-mocks-http');
@@ -22,8 +22,8 @@ describe('URL Helpers', () => {
                 url: '/some/example/url/',
                 headers: {
                     'Host': 'example.com',
-                    'X-Forwarded-Proto': 'https'
-                }
+                    'X-Forwarded-Proto': 'https',
+                },
             });
             expect(getCurrentUrl(req, 'en')).toBe('/some/example/url');
             expect(getCurrentUrl(req, 'cy')).toBe('/welsh/some/example/url');
@@ -35,8 +35,8 @@ describe('URL Helpers', () => {
                 url: '/welsh/some/example/url/',
                 headers: {
                     'Host': 'example.com',
-                    'X-Forwarded-Proto': 'https'
-                }
+                    'X-Forwarded-Proto': 'https',
+                },
             });
 
             expect(getCurrentUrl(req, 'en')).toBe('/some/example/url');
@@ -50,8 +50,8 @@ describe('URL Helpers', () => {
                     url: `/some/example/url?${query}`,
                     headers: {
                         'Host': 'example.com',
-                        'X-Forwarded-Proto': 'https'
-                    }
+                        'X-Forwarded-Proto': 'https',
+                    },
                 });
             }
             expect(getCurrentUrl(withQuery('token=123'))).toBe(
@@ -119,8 +119,8 @@ describe('URL Helpers', () => {
                         method: 'GET',
                         protocol: 'http',
                         headers: {
-                            Host: 'example.org.uk'
-                        }
+                            Host: 'example.org.uk',
+                        },
                     })
                 )
             ).toBe('http://example.org.uk');
@@ -132,8 +132,8 @@ describe('URL Helpers', () => {
                         protocol: 'http',
                         headers: {
                             'Host': 'example.org.uk',
-                            'X-Forwarded-Proto': 'https'
-                        }
+                            'X-Forwarded-Proto': 'https',
+                        },
                     })
                 )
             ).toBe('https://example.org.uk');

@@ -5,10 +5,10 @@ const path = require('path');
 const commonLogger = require('../../../common/logger');
 
 const logger = commonLogger.child({
-    service: 'apply'
+    service: 'apply',
 });
 
-module.exports = function(eligibilityBuilder, formId) {
+module.exports = function (eligibilityBuilder, formId) {
     const router = express.Router();
 
     const templatePath = path.resolve(__dirname, './views/eligibility');
@@ -25,17 +25,17 @@ module.exports = function(eligibilityBuilder, formId) {
             csrfToken: req.csrfToken(),
             eligibilityStatus: 'pending',
             backUrl: backUrl,
-            errors: errors
+            errors: errors,
         });
     }
 
     router
         .route('/:step?')
-        .all(function(req, res, next) {
+        .all(function (req, res, next) {
             const copy = req.i18n.__('applyNext');
 
             const eligibility = eligibilityBuilder({
-                locale: req.i18n.getLocale()
+                locale: req.i18n.getLocale(),
             });
 
             res.locals.copy = copy;
@@ -54,10 +54,10 @@ module.exports = function(eligibilityBuilder, formId) {
                 return res.redirect(`${req.baseUrl}/1`);
             }
         })
-        .get(function(req, res) {
+        .get(function (req, res) {
             renderPending(req, res);
         })
-        .post(async function(req, res) {
+        .post(async function (req, res) {
             const { currentStep, currentStepNumber, totalSteps } = res.locals;
 
             if (req.body.eligibility === 'yes') {
@@ -65,7 +65,7 @@ module.exports = function(eligibilityBuilder, formId) {
                     logger.info('Passed eligibility check', { formId });
 
                     res.render(templatePath, {
-                        eligibilityStatus: 'eligible'
+                        eligibilityStatus: 'eligible',
                     });
                 } else {
                     res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
@@ -73,23 +73,23 @@ module.exports = function(eligibilityBuilder, formId) {
             } else if (req.body.eligibility === 'no') {
                 logger.info('Failed eligibility check', {
                     formId: formId,
-                    step: currentStepNumber
+                    step: currentStepNumber,
                 });
 
                 res.render(templatePath, {
                     eligibilityStatus: 'ineligible',
                     backUrl: `${req.baseUrl}/${currentStepNumber}`,
                     hotJarTagList: [
-                        `Apply: ${res.locals.formShortId}: Failed eligibility check question`
-                    ]
+                        `Apply: ${res.locals.formShortId}: Failed eligibility check question`,
+                    ],
                 });
             } else {
                 renderPending(req, res, [
                     {
                         param: 'eligibility',
                         label: currentStep.question,
-                        msg: currentStep.errorMessage
-                    }
+                        msg: currentStep.errorMessage,
+                    },
                 ]);
             }
         });

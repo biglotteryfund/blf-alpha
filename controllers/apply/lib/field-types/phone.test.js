@@ -2,10 +2,10 @@
 'use strict';
 const PhoneField = require('./phone');
 
-test('valid field', function() {
+test('valid field', function () {
     const field = new PhoneField({
         locale: 'en',
-        name: 'example'
+        name: 'example',
     });
 
     expect(field.label).toBe('Telephone number');
@@ -24,11 +24,11 @@ test('valid field', function() {
     );
 });
 
-test('optional field', function() {
+test('optional field', function () {
     const field = new PhoneField({
         locale: 'en',
         name: 'example',
-        isRequired: false
+        isRequired: false,
     });
 
     expect(field.validate().error).toBeNull();

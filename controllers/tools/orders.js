@@ -21,15 +21,17 @@ const router = express.Router();
 function summariseOrders(orders) {
     const normalisedDateFormat = 'YYYY-MM-DD';
 
-    const items = flatMap(orders, order => order.items);
+    const items = flatMap(orders, (order) => order.items);
 
     let totalOrders = orders.length;
     let averageProductsPerOrder = Math.round(meanBy(orders, 'items.length'));
     let averageItemQuantityPerOrder = Math.round(
-        meanBy(orders, o => o.items.reduce((acc, cur) => acc + cur.quantity, 0))
+        meanBy(orders, (o) =>
+            o.items.reduce((acc, cur) => acc + cur.quantity, 0)
+        )
     );
 
-    let orderByCount = arr => {
+    let orderByCount = (arr) => {
         const mapped = map(arr, (count, code) => ({ code, count }));
         return reverse(sortBy(mapped, 'count'));
     };
@@ -43,7 +45,7 @@ function summariseOrders(orders) {
         return acc;
     }, {});
 
-    const filterHasCode = filter(_ => _.code !== '' && _.code !== 'null');
+    const filterHasCode = filter((_) => _.code !== '' && _.code !== 'null');
 
     // order items by total ordered
     let mostPopularItemsByQuantity = orderByCount(itemsByQuantity);
@@ -71,7 +73,7 @@ function summariseOrders(orders) {
     ordersByDay = sortBy(
         map(ordersByDay, (order, date) => ({
             x: date,
-            y: order
+            y: order,
         })),
         'x'
     );
@@ -89,11 +91,11 @@ function summariseOrders(orders) {
         grantAmounts,
         ordersByPostcodes,
         ordersByDay,
-        averageOrdersPerDay
+        averageOrdersPerDay,
     };
 }
 
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
     try {
         const dateRange = getDateRangeWithDefault(
             req.query.start,
@@ -103,21 +105,21 @@ router.get('/', async function(req, res, next) {
         const [materials, oldestOrder, orderData] = await Promise.all([
             contentApi.getMerchandise({ locale: 'en', showAll: true }),
             Order.getOldestOrder(),
-            Order.getAllOrders(dateRange).then(summariseOrders)
+            Order.getAllOrders(dateRange).then(summariseOrders),
         ]);
 
-        res.locals.getItemName = function(code) {
+        res.locals.getItemName = function (code) {
             /**
              * we have to search twice here because we only know the product code
              * so we have to find the material first then check the product
              */
-            const material = materials.find(function(item) {
-                return item.products.find(product => product.code === code);
+            const material = materials.find(function (item) {
+                return item.products.find((product) => product.code === code);
             });
 
             if (material) {
                 const product = material.products.find(
-                    product => product.code === code
+                    (product) => product.code === code
                 );
                 return product.name ? product.name : material.title;
             } else {
@@ -133,7 +135,7 @@ router.get('/', async function(req, res, next) {
             oldestOrderDate: moment(oldestOrder.createdAt).toDate(),
             now: new Date(),
             dateRange: dateRange,
-            materials: materials
+            materials: materials,
         });
     } catch (error) {
         next(error);

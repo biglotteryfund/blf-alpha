@@ -4,27 +4,25 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
 
-module.exports = function(locale) {
+module.exports = function (locale) {
     const localise = get(locale);
 
     return {
         name: 'totalIncomeYear',
         label: localise({
             en: 'What is your total income for the year?',
-            cy: 'Beth yw cyfanswm eich incwm am y flwyddyn?'
+            cy: 'Beth yw cyfanswm eich incwm am y flwyddyn?',
         }),
         explanation: localise({
             en: 'Use whole numbers only, eg. 12000',
-            cy: 'Defnyddiwch rifau cyflawn yn unig, e.e. 12000'
+            cy: 'Defnyddiwch rifau cyflawn yn unig, e.e. 12000',
         }),
         type: 'currency',
         isRequired: true,
         schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
             is: true,
-            then: Joi.friendlyNumber()
-                .integer()
-                .required(),
-            otherwise: Joi.any().strip()
+            then: Joi.friendlyNumber().integer().required(),
+            otherwise: Joi.any().strip(),
         }),
         messages: [
             {
@@ -33,15 +31,15 @@ module.exports = function(locale) {
                     en: oneLine`Enter a total income for the year
                         (eg. a whole number with no commas or decimal points)`,
                     cy: oneLine`Rhowch gyfanswm incwm am y flwyddyn
-                        (e.e. rhif cyflawn heb goma na bwyntiau degol)`
-                })
+                        (e.e. rhif cyflawn heb goma na bwyntiau degol)`,
+                }),
             },
             {
                 type: 'any.invalid',
                 message: localise({
                     en: 'Total income must be a real number',
-                    cy: 'Rhaid i’r cyfanswm incwm fod yn rif go iawn'
-                })
+                    cy: 'Rhaid i’r cyfanswm incwm fod yn rif go iawn',
+                }),
             },
             {
                 type: 'number.integer',
@@ -49,9 +47,9 @@ module.exports = function(locale) {
                     en: oneLine`Total income must be a whole number
                         (eg. no decimal point)`,
                     cy: oneLine`Rhaid i’r cyfanswm incwm fod yn rif cyflawn
-                        (e.e. dim pwynt degol)`
-                })
-            }
-        ]
+                        (e.e. dim pwynt degol)`,
+                }),
+            },
+        ],
     };
 };

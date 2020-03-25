@@ -26,14 +26,14 @@ async function renderDownload(req, res, next) {
 
     if (responses.length > 0) {
         const preparedResults = responses
-            .filter(item => item.message)
-            .map(item => {
+            .filter((item) => item.message)
+            .map((item) => {
                 return {
                     'Date': item.createdAt.toISOString(),
                     'Date description': moment(item.createdAt)
                         .tz('Europe/London')
                         .format('D MMMM, YYYY h:ma'),
-                    'Message': item.message
+                    'Message': item.message,
                 };
             });
 
@@ -48,19 +48,19 @@ function voteDataFor(responses) {
         return [];
     }
 
-    const grouped = groupBy(responses, function(response) {
+    const grouped = groupBy(responses, function (response) {
         return moment(response.createdAt).format('YYYY-MM-DD');
     });
 
-    const newestResponse = maxBy(responses, response => response.createdAt);
-    const oldestResponse = minBy(responses, response => response.createdAt);
+    const newestResponse = maxBy(responses, (response) => response.createdAt);
+    const oldestResponse = minBy(responses, (response) => response.createdAt);
     const oldestResponseDate = moment(oldestResponse.createdAt);
 
     const daysInRange = moment(newestResponse.createdAt)
         .startOf('day')
         .diff(oldestResponseDate.startOf('day'), 'days');
 
-    const voteData = times(daysInRange, function(n) {
+    const voteData = times(daysInRange, function (n) {
         const key = oldestResponseDate
             .clone()
             .add(n, 'days')
@@ -68,7 +68,7 @@ function voteDataFor(responses) {
 
         const responsesForDay = grouped[key] || [];
 
-        const yesResponsesForDay = responsesForDay.filter(function(response) {
+        const yesResponsesForDay = responsesForDay.filter(function (response) {
             return response.choice === 'yes';
         });
 
@@ -78,7 +78,7 @@ function voteDataFor(responses) {
 
         return {
             x: key,
-            y: yesPercentageForDay
+            y: yesPercentageForDay,
         };
     });
 
@@ -86,7 +86,7 @@ function voteDataFor(responses) {
 }
 
 function recentStatsFor(responses) {
-    const recentResponses = responses.filter(response => {
+    const recentResponses = responses.filter((response) => {
         const startDt = moment().subtract('30', 'days');
         return moment(response.createdAt).isSameOrAfter(startDt, 'day');
     });
@@ -96,7 +96,9 @@ function recentStatsFor(responses) {
     return {
         yesCount: monthYes.length,
         noCount: monthNo.length,
-        percentage: Math.round((monthYes.length / recentResponses.length) * 100)
+        percentage: Math.round(
+            (monthYes.length / recentResponses.length) * 100
+        ),
     };
 }
 
@@ -104,7 +106,7 @@ function pageCountsFor(responses) {
     return orderBy(
         map(countBy(responses, 'path'), (val, key) => ({
             path: key,
-            count: val
+            count: val,
         })),
         'count',
         'desc'
@@ -128,23 +130,23 @@ router.get('/', async (req, res, next) => {
                 recentStats: recentStatsFor(responses),
                 pageCounts: pageCountsFor(responses),
                 pageCountsWithResponses: pageCountsFor(
-                    responses.filter(response => {
+                    responses.filter((response) => {
                         return response.message;
                     })
                 ),
-                noResponses: filter(responses, ['choice', 'no'])
+                noResponses: filter(responses, ['choice', 'no']),
             };
 
             const title = 'Surveys';
             const breadcrumbs = concat(res.locals.breadcrumbs, [
-                { label: title }
+                { label: title },
             ]);
 
             res.render(path.resolve(__dirname, './views/survey'), {
                 title: title,
                 breadcrumbs: breadcrumbs,
                 survey: survey,
-                pathQuery: req.query.path
+                pathQuery: req.query.path,
             });
         } catch (error) {
             next(error);

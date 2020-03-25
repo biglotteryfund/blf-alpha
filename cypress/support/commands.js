@@ -18,7 +18,7 @@ Cypress.Commands.add('getCsrf', () => {
     return cy
         .request('/user/login')
         .its('body')
-        .then(body => {
+        .then((body) => {
             const $html = Cypress.$(body);
             return $html.find('input[name=_csrf]').val();
         });
@@ -27,7 +27,7 @@ Cypress.Commands.add('getCsrf', () => {
 Cypress.Commands.add(
     'loginUser',
     ({ username, password, failOnStatusCode = true }) => {
-        return cy.getCsrf().then(csrfToken => {
+        return cy.getCsrf().then((csrfToken) => {
             return cy
                 .request({
                     method: 'POST',
@@ -37,8 +37,8 @@ Cypress.Commands.add(
                     body: {
                         _csrf: csrfToken,
                         username: username,
-                        password: password
-                    }
+                        password: password,
+                    },
                 })
                 .as('loginAttempt');
         });
@@ -50,25 +50,25 @@ Cypress.Commands.add('seedUser', () => {
 });
 
 Cypress.Commands.add('seedAndLogin', () => {
-    return cy.seedUser().then(newUser => {
+    return cy.seedUser().then((newUser) => {
         return cy.loginUser({
             username: newUser.username,
-            password: newUser.password
+            password: newUser.password,
         });
     });
 });
 
-Cypress.Commands.add('registerUser', function({
+Cypress.Commands.add('registerUser', function ({
     username,
     password,
-    returnToken = false
+    returnToken = false,
 }) {
-    return cy.getCsrf().then(csrfToken => {
+    return cy.getCsrf().then((csrfToken) => {
         const formBody = {
             _csrf: csrfToken,
             username: username,
             password: password,
-            passwordConfirmation: password
+            passwordConfirmation: password,
         };
 
         if (returnToken) {
@@ -81,7 +81,7 @@ Cypress.Commands.add('registerUser', function({
             failOnStatusCode: false,
             followRedirects: false,
             form: true,
-            body: formBody
+            body: formBody,
         });
     });
 });
@@ -91,7 +91,7 @@ Cypress.Commands.add('registerUser', function({
  * @see https://github.com/avanslaars/cypress-axe
  */
 Cypress.Commands.add('checkA11y', ({ context, options } = {}) => {
-    cy.window({ log: false }).then(window => {
+    cy.window({ log: false }).then((window) => {
         if (window.axe === undefined) {
             const axe = require('axe-core');
             window.eval(axe.source);
@@ -107,25 +107,25 @@ Cypress.Commands.add('checkA11y', ({ context, options } = {}) => {
     cy.log(combinedOptions);
 
     cy.window({ log: false })
-        .then(window => {
+        .then((window) => {
             return window.axe.run(context || window.document, combinedOptions);
         })
         .then(({ violations }) => {
             if (violations.length) {
                 cy.log(violations);
-                cy.wrap(violations, { log: true }).each(v => {
+                cy.wrap(violations, { log: true }).each((v) => {
                     Cypress.log({
                         name: 'a11y error!',
                         consoleProps: () => v,
                         message: `${v.id} on ${v.nodes.length} Node${
                             v.nodes.length === 1 ? '' : 's'
-                        }`
+                        }`,
                     });
                 });
             }
             return cy.wrap(violations, { log: false });
         })
-        .then(violations => {
+        .then((violations) => {
             assert.equal(
                 violations.length,
                 0,

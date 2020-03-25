@@ -19,7 +19,7 @@ const { getAbsoluteUrl } = require('../common/urls');
  * Covering on a link to a site-map and defining if the site as a whole should be
  * indexed based on the hostname (i.e. only indexed in production)
  */
-module.exports = function(req, res) {
+module.exports = function (req, res) {
     const shouldIndex = req.get('host') === 'www.tnlcommunityfund.org.uk';
 
     res.setHeader('Content-Type', 'text/plain');

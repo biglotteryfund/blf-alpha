@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['sort', 'label']
+    props: ['sort', 'label'],
 };
 </script>
 

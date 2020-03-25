@@ -35,8 +35,8 @@ if (isDev) {
         Users.createUser({
             username: username,
             password: password,
-            isActive: true
-        }).then(newUser => {
+            isActive: true,
+        }).then((newUser) => {
             res.json({ username, password, id: newUser.id });
         });
     });
@@ -48,7 +48,7 @@ if (isDev) {
  * Used in AJAX calls to determine the user's logged-in state.
  * Must appear here (eg. before we require non-staff users)
  */
-router.get('/session', function(req, res) {
+router.get('/session', function (req, res) {
     req.session.touch();
     req.session.save(() => {
         const locale = req.i18n.getLocale();
@@ -59,11 +59,13 @@ router.get('/session', function(req, res) {
         res.send({
             expiresOn: {
                 time: sessionExpiresOn.locale(locale).format('h:mma'),
-                date: sessionExpiresOn.locale(locale).format('dddd D MMMM YYYY')
+                date: sessionExpiresOn
+                    .locale(locale)
+                    .format('dddd D MMMM YYYY'),
             },
             maxAge: req.session.cookie.maxAge,
             isAuthenticated: req.isAuthenticated(),
-            userType: req.user ? req.user.userType : null
+            userType: req.user ? req.user.userType : null,
         });
     });
 });
@@ -72,7 +74,7 @@ router.get('/session', function(req, res) {
  * Public user routes
  * Disallow staff from this point on
  */
-router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
+router.use(requireNotStaffAuth, injectCopy('applyNext'), function (
     req,
     res,
     next
@@ -88,16 +90,16 @@ router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
         res.locals.userNavigationLinks = [
             {
                 url: localeUrl('/apply'),
-                label: req.i18n.__('applyNext.navigation.latestApplication')
+                label: req.i18n.__('applyNext.navigation.latestApplication'),
             },
             {
                 url: localeUrl('/apply/all'),
-                label: req.i18n.__('applyNext.navigation.allApplications')
+                label: req.i18n.__('applyNext.navigation.allApplications'),
             },
             {
                 url: req.baseUrl,
-                label: req.i18n.__('applyNext.navigation.account')
-            }
+                label: req.i18n.__('applyNext.navigation.account'),
+            },
         ];
     }
 
@@ -111,7 +113,7 @@ router.use('/activate', require('./activate'));
 router.use('/password', require('./password'));
 router.use('/update-email', require('./update-email'));
 
-router.get('/logout', function(req, res) {
+router.get('/logout', function (req, res) {
     req.logout();
     res.locals.clearAuthCookie();
     logger.info('User logout', { service: 'user' });

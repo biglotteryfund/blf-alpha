@@ -52,7 +52,7 @@ const AZURE_AUTH = {
     clientId: getParameter('ms.auth.tnlcf.clientId'),
     clientSecret: getParameter('ms.auth.tnlcf.clientSecret'),
     redirectUrl:
-        process.env.MS_REDIRECT_URL || getParameter('ms.auth.redirectUrl')
+        process.env.MS_REDIRECT_URL || getParameter('ms.auth.redirectUrl'),
 };
 
 /**
@@ -73,13 +73,14 @@ const SALESFORCE_AUTH = {
     token: process.env.SALESFORCE_TOKEN || getParameter('salesforce.token'),
     instanceId:
         process.env.SALESFORCE_INSTANCE_ID ||
-        getParameter('salesforce.instanceId')
+        getParameter('salesforce.instanceId'),
 };
 
 // These expire in July 2020
 const BANK_API = {
     KEY: process.env.BANK_API_TOKEN || getParameter('bank.api.key'),
-    PASSWORD: process.env.BANK_API_PASSWORD || getParameter('bank.api.password')
+    PASSWORD:
+        process.env.BANK_API_PASSWORD || getParameter('bank.api.password'),
 };
 
 /**
@@ -124,5 +125,5 @@ module.exports = {
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
     SENTRY_DSN,
-    SESSION_SECRET
+    SESSION_SECRET,
 };

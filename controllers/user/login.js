@@ -4,18 +4,18 @@ const express = require('express');
 const passport = require('passport');
 
 const logger = require('../../common/logger').child({
-    service: 'user'
+    service: 'user',
 });
 
 const {
     rateLimiterConfigs,
-    RateLimiter
+    RateLimiter,
 } = require('../../common/rate-limiter');
 
 const { injectCopy } = require('../../common/inject-content');
 const {
     requireNoAuth,
-    redirectUrlWithFallback
+    redirectUrlWithFallback,
 } = require('../../common/authed');
 const { csrfProtection } = require('../../common/cached');
 
@@ -25,7 +25,7 @@ function renderForm(req, res, formValues = null, errors = []) {
     res.render(path.resolve(__dirname, './views/login'), {
         csrfToken: req.csrfToken(),
         formValues: formValues,
-        errors: errors
+        errors: errors,
     });
 }
 
@@ -34,14 +34,14 @@ function renderRateLimitError(req, res, minutesLeft) {
     res.status(429).render(path.resolve(__dirname, './views/rate-limited'), {
         copy: copy,
         title: copy.title,
-        minutesLeft: minutesLeft
+        minutesLeft: minutesLeft,
     });
 }
 
 router
     .route('/')
     .all(csrfProtection, requireNoAuth, injectCopy('user.login'))
-    .get(function(req, res) {
+    .get(function (req, res) {
         if (req.query.s) {
             res.locals.alertMessage = req.i18n.__(
                 `user.common.alertMessages.${req.query.s}`
@@ -66,12 +66,12 @@ router
             const minutesLeft = LoginRateLimiter.minutesTillNextAllowedAttempt();
             return renderRateLimitError(req, res, minutesLeft);
         } else {
-            passport.authenticate('local', async function(err, user) {
+            passport.authenticate('local', async function (err, user) {
                 if (err) {
                     logger.error('Authentication failed', err);
                     next(err);
                 } else if (user) {
-                    req.logIn(user, async function(loginErr) {
+                    req.logIn(user, async function (loginErr) {
                         if (loginErr) {
                             logger.error(
                                 'Login failed: Error with authentication',
@@ -98,14 +98,14 @@ router
                      */
                     logger.warn('Login failed: Unsuccessful login attempt');
                     res.locals.hotJarTagList = [
-                        'User: Unsuccessful login attempt'
+                        'User: Unsuccessful login attempt',
                     ];
                     try {
                         await LoginRateLimiter.consumeRateLimit();
                         return renderForm(req, res, req.body, [
                             {
-                                msg: res.locals.copy.credentialError
-                            }
+                                msg: res.locals.copy.credentialError,
+                            },
                         ]);
                     } catch (rateLimitRejection) {
                         if (rateLimitRejection instanceof Error) {

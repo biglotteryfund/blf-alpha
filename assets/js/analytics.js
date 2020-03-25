@@ -4,7 +4,7 @@ import { trackEvent } from './helpers/metrics';
 
 function trackDocumentDownloads() {
     const links = document.querySelectorAll('a[href]');
-    forEach(links, function(link) {
+    forEach(links, function (link) {
         if (/\.(pdf|doc|docx|xls|xlsx)/i.test(link.href)) {
             link.addEventListener('click', () => {
                 trackEvent('Documents', 'Downloaded a document', link.href);
@@ -14,11 +14,11 @@ function trackDocumentDownloads() {
 }
 
 function trackSearchTerms() {
-    forEach(document.querySelectorAll('.js-global-search-form'), function(
+    forEach(document.querySelectorAll('.js-global-search-form'), function (
         form
     ) {
         const searchInput = form.querySelector('input[type=search]');
-        form.addEventListener('submit', function() {
+        form.addEventListener('submit', function () {
             trackEvent('Search', 'Term', searchInput.value);
         });
     });
@@ -29,7 +29,7 @@ function init() {
     const CONFIG = {
         uaCode: thisScript.getAttribute('data-ga-code'),
         abId: thisScript.getAttribute('data-ab-id'),
-        abVariant: thisScript.getAttribute('data-ab-variant')
+        abVariant: thisScript.getAttribute('data-ab-variant'),
     };
 
     /**
@@ -37,7 +37,7 @@ function init() {
      */
     window.ga =
         window.ga ||
-        function() {
+        function () {
             (ga.q = ga.q || []).push(arguments);
         };
     ga.l = +new Date();
@@ -46,7 +46,7 @@ function init() {
      * Initialise analytics
      */
     ga('create', CONFIG.uaCode, {
-        cookieDomain: 'none'
+        cookieDomain: 'none',
     });
 
     /**
@@ -73,7 +73,7 @@ function init() {
      * https://github.com/googleanalytics/autotrack/blob/master/docs/plugins/event-tracker.md
      */
     ga('require', 'eventTracker', {
-        attributePrefix: 'data-ga-'
+        attributePrefix: 'data-ga-',
     });
 
     /**

@@ -9,7 +9,7 @@ const contentApi = require('../../common/content-api');
 const {
     injectCopy,
     injectHeroImage,
-    setCommonLocals
+    setCommonLocals,
 } = require('../../common/inject-content');
 const { buildArchiveUrl, localify } = require('../../common/urls');
 
@@ -21,14 +21,14 @@ router.get('/', injectCopy('insights'), async (req, res, next) => {
     try {
         const research = await contentApi.getResearch({
             locale: req.i18n.getLocale(),
-            requestParams: req.query
+            requestParams: req.query,
         });
 
         res.render(path.resolve(__dirname, './views/insights-landing'), {
             researchEntries: research.result,
             researchArchiveUrl: buildArchiveUrl(
                 localify(req.i18n.getLocale())('/research')
-            )
+            ),
         });
     } catch (error) {
         next(error);
@@ -38,7 +38,7 @@ router.get('/', injectCopy('insights'), async (req, res, next) => {
 router.get(
     '/documents/:slug?',
     injectCopy('insights.documents'),
-    async function(req, res, next) {
+    async function (req, res, next) {
         let query = pick(req.query, [
             'page',
             'programme',
@@ -46,7 +46,7 @@ router.get(
             'doctype',
             'portfolio',
             'q',
-            'sort'
+            'sort',
         ]);
         res.locals.queryParams = clone(query);
         query['page-limit'] = 10;
@@ -61,14 +61,14 @@ router.get(
                 locale: req.i18n.getLocale(),
                 type: 'documents',
                 query: query,
-                requestParams: req.query
+                requestParams: req.query,
             });
 
             res.locals.researchEntries = research.result;
 
             res.render(path.resolve(__dirname, './views/insights-documents'), {
                 entriesMeta: research.meta,
-                pagination: research.pagination
+                pagination: research.pagination,
             });
         } catch (error) {
             next(error);
@@ -76,21 +76,21 @@ router.get(
     }
 );
 
-router.get('/:slug/:child_slug?', async function(req, res, next) {
+router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
         const entry = await contentApi.getResearch({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
-            requestParams: req.query
+            requestParams: req.query,
         });
 
         const breadcrumbs = entry.parent
             ? res.locals.breadcrumbs.concat([
                   {
                       label: entry.parent.title,
-                      url: entry.parent.linkUrl
+                      url: entry.parent.linkUrl,
                   },
-                  { label: entry.title }
+                  { label: entry.title },
               ])
             : res.locals.breadcrumbs.concat({ label: entry.title });
 
@@ -100,7 +100,7 @@ router.get('/:slug/:child_slug?', async function(req, res, next) {
             res.render(path.resolve(__dirname, './views/insights-detail'), {
                 extraCopy: req.i18n.__('insights.detail'),
                 entry: entry,
-                breadcrumbs: breadcrumbs
+                breadcrumbs: breadcrumbs,
             });
         } else {
             next();

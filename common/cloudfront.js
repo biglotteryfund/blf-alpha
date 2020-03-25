@@ -25,7 +25,7 @@ function makeBehaviourItem({
     cookiesInUse = [],
     queryStringWhitelist = [],
     allowAllQueryStrings = false,
-    headersToKeep = ['Accept', 'Host']
+    headersToKeep = ['Accept', 'Host'],
 }) {
     const allowedHttpMethods = isPostable
         ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
@@ -35,7 +35,7 @@ function makeBehaviourItem({
         'social',
         'token',
         'x-craft-live-preview',
-        'x-craft-preview'
+        'x-craft-preview',
     ];
     const queryStrings = globalQuerystrings.concat(queryStringWhitelist);
 
@@ -53,29 +53,29 @@ function makeBehaviourItem({
             Quantity: allowedHttpMethods.length,
             CachedMethods: {
                 Items: ['HEAD', 'GET'],
-                Quantity: 2
-            }
+                Quantity: 2,
+            },
         },
         ForwardedValues: {
             Headers: {
                 Items: headersToKeep,
-                Quantity: headersToKeep.length
+                Quantity: headersToKeep.length,
             },
             QueryStringCacheKeys: {
                 Items: [],
-                Quantity: 0
+                Quantity: 0,
             },
-            QueryString: false
+            QueryString: false,
         },
         TrustedSigners: {
             Enabled: false,
             Items: [],
-            Quantity: 0
+            Quantity: 0,
         },
         LambdaFunctionAssociations: {
             Items: [],
-            Quantity: 0
-        }
+            Quantity: 0,
+        },
     };
 
     if (pathPattern) {
@@ -87,12 +87,12 @@ function makeBehaviourItem({
             Forward: 'whitelist',
             WhitelistedNames: {
                 Items: cookiesInUse,
-                Quantity: cookiesInUse.length
-            }
+                Quantity: cookiesInUse.length,
+            },
         };
     } else {
         behaviour.ForwardedValues.Cookies = {
-            Forward: 'none'
+            Forward: 'none',
         };
     }
 
@@ -100,17 +100,17 @@ function makeBehaviourItem({
         behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
             QueryStringCacheKeys: {
                 Items: [],
-                Quantity: 0
+                Quantity: 0,
             },
-            QueryString: true
+            QueryString: true,
         });
     } else if (queryStrings.length > 0) {
         behaviour.ForwardedValues = assign({}, behaviour.ForwardedValues, {
             QueryStringCacheKeys: {
                 Items: queryStrings,
-                Quantity: queryStrings.length
+                Quantity: queryStrings.length,
             },
-            QueryString: true
+            QueryString: true,
         });
     }
 
@@ -128,7 +128,7 @@ function generateBehaviours(origins) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.site,
         isPostable: true,
-        cookiesInUse: defaultCookies
+        cookiesInUse: defaultCookies,
     });
 
     /**
@@ -138,11 +138,11 @@ function generateBehaviours(origins) {
      * NOTE: they should _not_ start with leading slashes
      * otherwise they fail to match directory names in S3.
      */
-    const s3Behaviours = ['assets/*', 'media/*'].map(path =>
+    const s3Behaviours = ['assets/*', 'media/*'].map((path) =>
         makeBehaviourItem({
             originId: origins.s3Assets,
             pathPattern: path,
-            headersToKeep: []
+            headersToKeep: [],
         })
     );
 
@@ -158,22 +158,22 @@ function generateBehaviours(origins) {
             isPostable: true,
             allowAllQueryStrings: true,
             isBilingual: true,
-            noSession: true
+            noSession: true,
         },
         {
             path: '/funding/programmes',
             queryStrings: ['location', 'amount', 'min', 'max'],
-            isBilingual: true
+            isBilingual: true,
         },
         {
             path: '/funding/programmes/all',
             queryStrings: ['location'],
-            isBilingual: true
+            isBilingual: true,
         },
         {
             path: '/news/*',
             queryStrings: ['page', 'tag', 'author', 'category', 'region'],
-            isBilingual: true
+            isBilingual: true,
         },
         {
             path: '/insights/documents*',
@@ -184,19 +184,19 @@ function generateBehaviours(origins) {
                 'doctype',
                 'portfolio',
                 'q',
-                'sort'
+                'sort',
             ],
-            isBilingual: true
+            isBilingual: true,
         },
         { path: '/search', allowAllQueryStrings: true, isBilingual: true },
         {
             path: '/user/*',
             isPostable: true,
-            queryStrings: ['redirectUrl', 's', 'token']
-        }
+            queryStrings: ['redirectUrl', 's', 'token'],
+        },
     ];
 
-    const primaryBehaviours = flatMap(customPaths, rule => {
+    const primaryBehaviours = flatMap(customPaths, (rule) => {
         const cookiesForRule = rule.noSession
             ? cookiesWithoutSession
             : defaultCookies;
@@ -207,7 +207,7 @@ function generateBehaviours(origins) {
             isPostable: rule.isPostable,
             queryStringWhitelist: rule.queryStrings,
             allowAllQueryStrings: rule.allowAllQueryStrings,
-            cookiesInUse: cookiesForRule
+            cookiesInUse: cookiesForRule,
         });
 
         if (rule.isBilingual) {
@@ -217,7 +217,7 @@ function generateBehaviours(origins) {
                 isPostable: rule.isPostable,
                 queryStringWhitelist: rule.queryStrings,
                 allowAllQueryStrings: rule.allowAllQueryStrings,
-                cookiesInUse: cookiesForRule
+                cookiesInUse: cookiesForRule,
             });
 
             return [behaviour, welshBehaviour];
@@ -233,12 +233,12 @@ function generateBehaviours(origins) {
         DefaultCacheBehavior: defaultBehaviour,
         CacheBehaviors: {
             Items: sortedBehaviours,
-            Quantity: sortedBehaviours.length
-        }
+            Quantity: sortedBehaviours.length,
+        },
     };
 }
 
 module.exports = {
     makeBehaviourItem,
-    generateBehaviours
+    generateBehaviours,
 };

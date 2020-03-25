@@ -5,25 +5,25 @@ const path = require('path');
 const { PendingApplication } = require('../../../db/models');
 const logger = require('../../../common/logger').child({ service: 'apply' });
 
-module.exports = function(formId) {
+module.exports = function (formId) {
     const router = express.Router();
 
     router
         .route('/:applicationId')
-        .get(async function(req, res) {
+        .get(async function (req, res) {
             const { applicationId } = req.params;
 
             if (applicationId && req.user) {
                 const application = await PendingApplication.findForUser({
                     formId: formId,
                     applicationId: applicationId,
-                    userId: req.user.id
+                    userId: req.user.id,
                 });
 
                 if (application) {
                     res.render(path.resolve(__dirname, './views/delete'), {
                         title: res.locals.copy.delete.title,
-                        csrfToken: req.csrfToken()
+                        csrfToken: req.csrfToken(),
                     });
                 } else {
                     return res.redirect(res.locals.sectionUrl);
@@ -32,7 +32,7 @@ module.exports = function(formId) {
                 res.redirect(res.locals.sectionUrl);
             }
         })
-        .post(async function(req, res, next) {
+        .post(async function (req, res, next) {
             const { applicationId } = req.params;
 
             try {

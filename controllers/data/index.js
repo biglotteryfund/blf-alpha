@@ -8,7 +8,7 @@ const { injectHeroImage } = require('../../common/inject-content');
 
 const router = express.Router();
 
-router.get('/', injectHeroImage('fsn-new'), async function(req, res, next) {
+router.get('/', injectHeroImage('fsn-new'), async function (req, res, next) {
     try {
         const dataStats = await contentApi.getDataStats(
             req.i18n.getLocale(),
@@ -18,7 +18,7 @@ router.get('/', injectHeroImage('fsn-new'), async function(req, res, next) {
         res.render(path.resolve(__dirname, './views/data'), {
             title: dataStats.title,
             openGraph: get(dataStats, 'openGraph', false),
-            dataStats: dataStats
+            dataStats: dataStats,
         });
     } catch (error) {
         next(error);

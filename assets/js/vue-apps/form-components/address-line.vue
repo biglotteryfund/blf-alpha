@@ -4,8 +4,8 @@ export default {
     computed: {
         required() {
             return this.isRequired === true;
-        }
-    }
+        },
+    },
 };
 </script>
 

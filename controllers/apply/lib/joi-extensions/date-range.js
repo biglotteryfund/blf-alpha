@@ -3,24 +3,15 @@ const fromDateParts = require('../from-date-parts');
 
 module.exports = function dateParts(joi) {
     const datePartsConfig = {
-        day: joi
-            .number()
-            .integer()
-            .required(),
-        month: joi
-            .number()
-            .integer()
-            .required(),
-        year: joi
-            .number()
-            .integer()
-            .required()
+        day: joi.number().integer().required(),
+        month: joi.number().integer().required(),
+        year: joi.number().integer().required(),
     };
 
     function toRange(value) {
         return {
             startDate: fromDateParts(value.startDate),
-            endDate: fromDateParts(value.endDate)
+            endDate: fromDateParts(value.endDate),
         };
     }
 
@@ -28,26 +19,26 @@ module.exports = function dateParts(joi) {
         name: 'dateRange',
         base: joi.object({
             startDate: datePartsConfig,
-            endDate: datePartsConfig
+            endDate: datePartsConfig,
         }),
         language: {
             both: {
-                invalid: 'Both startDate and endDate are invalid'
+                invalid: 'Both startDate and endDate are invalid',
             },
             startDate: {
-                invalid: 'Invalid startDate'
+                invalid: 'Invalid startDate',
             },
             endDate: {
                 invalid: 'Invalid endDate',
                 outsideLimit: 'Date is outside limit',
-                beforeStartDate: 'endDate must not be before startDate'
+                beforeStartDate: 'endDate must not be before startDate',
             },
             minDate: {
-                invalid: 'Date must be at least {{min}}'
+                invalid: 'Date must be at least {{min}}',
             },
             maxDate: {
-                invalid: 'Date is outside limit'
-            }
+                invalid: 'Date is outside limit',
+            },
         },
         pre(value, state, options) {
             const dates = toRange(value);
@@ -88,7 +79,7 @@ module.exports = function dateParts(joi) {
             {
                 name: 'minDate',
                 params: {
-                    min: joi.string().required()
+                    min: joi.string().required(),
                 },
                 validate(params, value, state, options) {
                     const dates = toRange(value);
@@ -108,13 +99,13 @@ module.exports = function dateParts(joi) {
                             options
                         );
                     }
-                }
+                },
             },
             {
                 name: 'endDateLimit',
                 params: {
                     amount: joi.number().required(),
-                    unit: joi.string().required()
+                    unit: joi.string().required(),
                 },
                 validate(params, value, state, options) {
                     const dates = toRange(value);
@@ -137,8 +128,8 @@ module.exports = function dateParts(joi) {
                             options
                         );
                     }
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 };

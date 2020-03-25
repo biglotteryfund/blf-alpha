@@ -16,7 +16,7 @@ async function render(req, res) {
     res.render(path.resolve(__dirname, './views/feedback'), {
         title: title,
         breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
-        feedback
+        feedback,
     });
 }
 
@@ -26,13 +26,13 @@ async function renderDownload(req, res, next) {
     );
 
     if (feedback.length > 0) {
-        const preparedResults = feedback.map(item => {
+        const preparedResults = feedback.map((item) => {
             return {
                 'Date': item.createdAt.toISOString(),
                 'Date description': moment(item.createdAt)
                     .tz('Europe/London')
                     .format('D MMMM, YYYY h:ma'),
-                'Message': item.message
+                'Message': item.message,
             };
         });
 
@@ -44,7 +44,7 @@ async function renderDownload(req, res, next) {
     }
 }
 
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
     if (req.query.download) {
         try {
             await renderDownload(req, res, next);

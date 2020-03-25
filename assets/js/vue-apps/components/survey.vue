@@ -5,7 +5,7 @@ const statuses = {
     NOT_ASKED: 'NOT_ASKED',
     MESSAGE_BOX_SHOWN: 'MESSAGE_BOX_SHOWN',
     SUBMISSION_SUCCESS: 'SUBMISSION_SUCCESS',
-    SUBMISSION_ERROR: 'SUBMISSION_ERROR'
+    SUBMISSION_ERROR: 'SUBMISSION_ERROR',
 };
 
 export default {
@@ -19,7 +19,7 @@ export default {
         'submit',
         'cancel',
         'success',
-        'error'
+        'error',
     ],
     data() {
         return {
@@ -27,8 +27,8 @@ export default {
             status: statuses.NOT_ASKED,
             response: {
                 choice: null,
-                message: null
-            }
+                message: null,
+            },
         };
     },
     methods: {
@@ -37,7 +37,7 @@ export default {
 
             const data = {
                 choice: choice,
-                path: window.location.pathname
+                path: window.location.pathname,
             };
 
             if (this.response.message) {
@@ -48,9 +48,9 @@ export default {
                 url: `/api/survey`,
                 type: 'POST',
                 dataType: 'json',
-                data: data
+                data: data,
             }).then(
-                response => {
+                (response) => {
                     if (response.status === 'success') {
                         this.status = this.statuses.SUBMISSION_SUCCESS;
                     } else {
@@ -69,8 +69,8 @@ export default {
         },
         resetChoice() {
             this.status = statuses.NOT_ASKED;
-        }
-    }
+        },
+    },
 };
 </script>
 

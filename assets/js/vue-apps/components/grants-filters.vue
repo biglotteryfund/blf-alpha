@@ -14,7 +14,7 @@ export default {
         'status',
         'copy',
         'handleActiveFilter',
-        'trackUi'
+        'trackUi',
     ],
     methods: {
         isActiveFacet(name) {
@@ -23,12 +23,9 @@ export default {
         triggerFeedbackPanel(event) {
             // Prevent this from updating the window history, which triggers a search
             event.preventDefault();
-            $('#feedback summary')
-                .click()
-                .get(0)
-                .scrollIntoView();
-        }
-    }
+            $('#feedback summary').click().get(0).scrollIntoView();
+        },
+    },
 };
 </script>
 
@@ -117,7 +114,7 @@ export default {
                 :label-closed="copy.filters.options.country.labelClosed"
                 :initial-open="
                     isActiveFacet('localAuthority') ||
-                        isActiveFacet('westminsterConstituency')
+                    isActiveFacet('westminsterConstituency')
                 "
                 :track-ui="trackUi"
                 :filter-name="'country'"

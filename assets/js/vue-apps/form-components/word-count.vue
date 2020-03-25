@@ -6,7 +6,7 @@ export default {
         currentText: { type: String, default: '' },
         maxWords: { type: Number, required: true },
         minWords: { type: Number, required: true },
-        formShortId: { type: String, default: null }
+        formShortId: { type: String, default: null },
     },
     methods: {
         /**
@@ -22,7 +22,7 @@ export default {
             } else {
                 return 0;
             }
-        }
+        },
     },
     computed: {
         currentCount() {
@@ -41,32 +41,32 @@ export default {
         currentCountMessage() {
             return this.$t('wordCounter.currentCount', {
                 currentCount: this.currentCount,
-                maxWords: this.maxWords
+                maxWords: this.maxWords,
             });
         },
         helpMessage() {
             if (this.isOverLimit) {
                 return this.$t('wordCounter.overLimit', {
-                    amountOver: this.amountOver
+                    amountOver: this.amountOver,
                 });
             } else if (this.currentCount < this.minWords) {
                 return this.$t('wordCounter.defaultMessage', {
-                    minWords: this.minWords
+                    minWords: this.minWords,
                 });
             } else {
                 return '';
             }
-        }
+        },
     },
     watch: {
         isOverLimit(isOver) {
             if (isOver) {
                 tagHotjarRecording([
-                    `Apply: ${this.formShortId}: Your Idea: Word count exceeded`
+                    `Apply: ${this.formShortId}: Your Idea: Word count exceeded`,
                 ]);
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

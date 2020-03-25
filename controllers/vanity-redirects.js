@@ -5,7 +5,7 @@ const contentApi = require('../common/content-api');
 /**
  * Lookup vanity URL and redirect if we have a match
  */
-module.exports = async function(req, res, next) {
+module.exports = async function (req, res, next) {
     if (pathCouldBeAlias(req.path)) {
         try {
             const urlMatch = await contentApi.getAlias(req.path);

@@ -24,8 +24,8 @@ module.exports = async function sendActivationEmail(req, user) {
         sendTo: user.username,
         subject: localise({
             en: 'Please confirm your email address',
-            cy: 'Cadarnhewch eich cyfeiriad e-bost'
-        })
+            cy: 'Cadarnhewch eich cyfeiriad e-bost',
+        }),
     };
 
     const email = await sendHtmlEmail(
@@ -43,20 +43,20 @@ module.exports = async function sendActivationEmail(req, user) {
                 loginUrl: localisedAbsoluteUrl(`/user/login`),
                 expiryDate: expiresAt
                     .locale(locale)
-                    .format('H:mm [on] dddd Do MMMM')
-            }
+                    .format('H:mm [on] dddd Do MMMM'),
+            },
         },
         mailParams
     );
 
     await Users.updateDateOfActivationAttempt({
         id: user.id,
-        dateOfActivationAttempt: now.unix()
+        dateOfActivationAttempt: now.unix(),
     });
 
     return {
         email: email,
         token: token,
-        mailParams: mailParams
+        mailParams: mailParams,
     };
 };

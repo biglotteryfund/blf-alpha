@@ -11,7 +11,7 @@ const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
  * - Local properties that depend on the request
  * - Local methods for use in views that depend on the request
  */
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
     /**
      * Set current locale
      */
@@ -50,7 +50,7 @@ module.exports = function(req, res, next) {
      * Global copy
      */
     res.locals.globalCopy = {
-        brand: req.i18n.__('global.brand')
+        brand: req.i18n.__('global.brand'),
     };
 
     /**
@@ -60,30 +60,30 @@ module.exports = function(req, res, next) {
     res.locals.globalNavigation = {
         home: {
             label: navCopy.home,
-            url: localify(locale)('/')
+            url: localify(locale)('/'),
         },
         login: {
             label: navCopy.logIn,
-            url: localify(locale)('/user/login')
+            url: localify(locale)('/user/login'),
         },
         logout: {
             label: navCopy.logOut,
-            url: localify(locale)('/user/logout')
+            url: localify(locale)('/user/logout'),
         },
         myApplications: {
             label: navCopy.myApplications,
-            url: localify(locale)('/apply')
+            url: localify(locale)('/apply'),
         },
         primaryLinks: [
             { label: navCopy.funding, url: localify(locale)('/funding') },
             { label: navCopy.updates, url: localify(locale)('/news') },
             { label: navCopy.insights, url: localify(locale)('/insights') },
-            { label: navCopy.contact, url: localify(locale)('/contact') }
+            { label: navCopy.contact, url: localify(locale)('/contact') },
         ],
         secondaryLinks: [
             { label: navCopy.about, url: localify(locale)('/about') },
-            { label: navCopy.jobs, url: localify(locale)('/jobs') }
-        ]
+            { label: navCopy.jobs, url: localify(locale)('/jobs') },
+        ],
     };
 
     /**
@@ -96,10 +96,10 @@ module.exports = function(req, res, next) {
         medium: '/assets/images/hero/hero-fallback-2019-medium.jpg',
         large: '/assets/images/hero/hero-fallback-2019-large.jpg',
         default: '/assets/images/hero/hero-fallback-2019-medium.jpg',
-        caption: 'The Outdoor Partnership'
+        caption: 'The Outdoor Partnership',
     };
 
-    res.locals.getSocialImageUrl = function(socialImage) {
+    res.locals.getSocialImageUrl = function (socialImage) {
         if (isString(socialImage)) {
             return socialImage.indexOf('://') !== -1
                 ? socialImage
@@ -112,7 +112,7 @@ module.exports = function(req, res, next) {
     /**
      * Get normalised page title for metadata
      */
-    res.locals.getMetaTitle = function(base, pageTitle) {
+    res.locals.getMetaTitle = function (base, pageTitle) {
         return pageTitle ? `${pageTitle} | ${base}` : base;
     };
 
@@ -124,7 +124,7 @@ module.exports = function(req, res, next) {
     /**
      * Absolute URL helper
      */
-    res.locals.getAbsoluteUrl = function(urlPath) {
+    res.locals.getAbsoluteUrl = function (urlPath) {
         return getAbsoluteUrl(req, urlPath);
     };
 
@@ -132,7 +132,7 @@ module.exports = function(req, res, next) {
      * Current URL helper
      * (Returns just the path)
      */
-    res.locals.getCurrentUrl = function(requestedLocale) {
+    res.locals.getCurrentUrl = function (requestedLocale) {
         return getCurrentUrl(req, requestedLocale);
     };
 
@@ -140,14 +140,14 @@ module.exports = function(req, res, next) {
      * Current absolute URL helper
      * (Returns the absolute URL including protocol/base)
      */
-    res.locals.getCurrentAbsoluteUrl = function(requestedLocale) {
+    res.locals.getCurrentAbsoluteUrl = function (requestedLocale) {
         return getAbsoluteUrl(req, getCurrentUrl(req, requestedLocale));
     };
 
     /**
      * View helper for outputting a path in the current locale
      */
-    res.locals.localify = function(urlPath) {
+    res.locals.localify = function (urlPath) {
         return localify(req.i18n.getLocale())(urlPath);
     };
 
@@ -158,7 +158,7 @@ module.exports = function(req, res, next) {
      * @return {String}
      * @param dateString
      */
-    res.locals.formatISODate = function(dateString) {
+    res.locals.formatISODate = function (dateString) {
         return moment(dateString).toISOString(true);
     };
 
@@ -170,10 +170,8 @@ module.exports = function(req, res, next) {
      * @param {String} format
      * @return {String}
      */
-    res.locals.formatDate = function(dateString, format = 'D MMMM, YYYY') {
-        return moment(dateString)
-            .locale(locale)
-            .format(format);
+    res.locals.formatDate = function (dateString, format = 'D MMMM, YYYY') {
+        return moment(dateString).locale(locale).format(format);
     };
 
     /**
@@ -184,14 +182,14 @@ module.exports = function(req, res, next) {
      * @return {String}
      * @param dateString
      */
-    res.locals.formatCalendarTime = function(dateString) {
+    res.locals.formatCalendarTime = function (dateString) {
         return (
             moment(dateString)
                 .tz('Europe/London')
                 // @TODO: Handle this consistently across date formatters
                 .locale(locale === 'en' ? 'en-gb' : 'cy')
                 .calendar(null, {
-                    sameElse: 'D MMMM, YYYY'
+                    sameElse: 'D MMMM, YYYY',
                 })
         );
     };
@@ -200,10 +198,8 @@ module.exports = function(req, res, next) {
      * View helper to represent date as relative time
      * @param {String} dateString
      */
-    res.locals.timeFromNow = function(dateString) {
-        return moment(dateString)
-            .locale(locale)
-            .fromNow();
+    res.locals.timeFromNow = function (dateString) {
+        return moment(dateString).locale(locale).fromNow();
     };
 
     /**
@@ -212,10 +208,10 @@ module.exports = function(req, res, next) {
 
     const authCookieOptions = {
         secure: !appData.isDev,
-        maxAge: config.get('session.expiryInSeconds') * 1000
+        maxAge: config.get('session.expiryInSeconds') * 1000,
     };
 
-    res.locals.setAuthCookie = function() {
+    res.locals.setAuthCookie = function () {
         res.cookie(
             config.get('session.cookieLogin'),
             'logged-in',
@@ -223,7 +219,7 @@ module.exports = function(req, res, next) {
         );
     };
 
-    res.locals.clearAuthCookie = function() {
+    res.locals.clearAuthCookie = function () {
         res.clearCookie(config.get('session.cookieLogin'), authCookieOptions);
     };
 

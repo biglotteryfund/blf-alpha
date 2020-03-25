@@ -13,7 +13,7 @@ const pick = require('lodash/pick');
 const {
     injectCopy,
     injectHeroImage,
-    setHeroLocals
+    setHeroLocals,
 } = require('../../common/inject-content');
 const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
@@ -22,10 +22,10 @@ const grantsService = require('./grants-service');
 
 const router = express.Router();
 
-router.use(sMaxAge(604800 /* 7 days in seconds */), function(req, res, next) {
+router.use(sMaxAge(604800 /* 7 days in seconds */), function (req, res, next) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
         label: req.i18n.__('funding.pastGrants.search.title'),
-        url: req.baseUrl
+        url: req.baseUrl,
     });
     next();
 });
@@ -42,9 +42,9 @@ function buildPagination(req, paginationMeta, currentQuery = {}) {
                 '?' +
                 querystring.stringify({
                     ...currentQuery,
-                    ...{ page: currentPage - 1 }
+                    ...{ page: currentPage - 1 },
                 }),
-            label: labels.prev
+            label: labels.prev,
         };
 
         const nextLink = {
@@ -52,16 +52,16 @@ function buildPagination(req, paginationMeta, currentQuery = {}) {
                 '?' +
                 querystring.stringify({
                     ...currentQuery,
-                    ...{ page: currentPage + 1 }
+                    ...{ page: currentPage + 1 },
                 }),
-            label: labels.next
+            label: labels.next,
         };
 
         return {
             currentPage: currentPage,
             totalPages: totalPages,
             prevLink: currentPage > 1 ? prevLink : null,
-            nextLink: currentPage < totalPages ? nextLink : null
+            nextLink: currentPage < totalPages ? nextLink : null,
         };
     } else {
         return;
@@ -93,12 +93,12 @@ router.get(
                 'westminsterConstituency',
                 'recipient',
                 'exclude',
-                'limit'
+                'limit',
             ]);
 
             const queryWithPage = {
                 ...facetParams,
-                ...{ page: req.query.page || 1, locale }
+                ...{ page: req.query.page || 1, locale },
             };
 
             const data = await grantsService.query(queryWithPage);
@@ -123,7 +123,7 @@ router.get(
                             req,
                             data.meta.pagination,
                             queryWithPage
-                        )
+                        ),
                     });
                 },
 
@@ -139,13 +139,13 @@ router.get(
                             req,
                             data.meta.pagination,
                             queryWithPage
-                        )
+                        ),
                     };
 
                     const context = {
                         ...res.locals,
                         ...req.app.locals,
-                        ...extraContext
+                        ...extraContext,
                     };
 
                     nunjucks.render(
@@ -155,19 +155,19 @@ router.get(
                             if (renderErr) {
                                 Sentry.captureException(renderErr);
                                 res.status(400).json({
-                                    error: 'ERR-TEMPLATE-ERROR'
+                                    error: 'ERR-TEMPLATE-ERROR',
                                 });
                             } else {
                                 res.json({
                                     meta: data.meta,
                                     facets: data.facets,
                                     searchSuggestions: searchSuggestions,
-                                    resultsHtml: html
+                                    resultsHtml: html,
                                 });
                             }
                         }
                     );
-                }
+                },
             });
         } catch (errorResponse) {
             return res.format({
@@ -177,9 +177,9 @@ router.get(
                 'application/json': () => {
                     Sentry.captureMessage(errorResponse);
                     res.status(errorResponse.error.error.status || 400).json({
-                        error: errorResponse.error.error
+                        error: errorResponse.error.error,
                     });
-                }
+                },
             });
         }
     }
@@ -207,7 +207,7 @@ if (config.get('features.enableRelatedGrants')) {
                 const context = {
                     ...res.locals,
                     ...req.app.locals,
-                    ...extraContext
+                    ...extraContext,
                 };
 
                 nunjucks.render(
@@ -217,12 +217,12 @@ if (config.get('features.enableRelatedGrants')) {
                         if (renderErr) {
                             Sentry.captureException(renderErr);
                             res.status(400).json({
-                                error: 'ERR-TEMPLATE-ERROR'
+                                error: 'ERR-TEMPLATE-ERROR',
                             });
                         } else {
                             res.json({
                                 meta: data.meta,
-                                resultsHtml: html
+                                resultsHtml: html,
                             });
                         }
                     }
@@ -230,7 +230,7 @@ if (config.get('features.enableRelatedGrants')) {
             } catch (rawError) {
                 const errorResponse = rawError.error.error;
                 return res.status(errorResponse.status || 400).json({
-                    error: errorResponse
+                    error: errorResponse,
                 });
             }
         }
@@ -245,7 +245,7 @@ router.get(
             const data = await grantsService.getRecipientById({
                 id: req.params.id,
                 locale: req.i18n.getLocale(),
-                page: req.query.page
+                page: req.query.page,
             });
 
             const organisation = get(
@@ -265,9 +265,9 @@ router.get(
                         totalAwarded: data.meta.totalAwarded.toLocaleString(),
                         totalResults: data.meta.totalResults.toLocaleString(),
                         breadcrumbs: res.locals.breadcrumbs.concat({
-                            label: organisation.name
+                            label: organisation.name,
                         }),
-                        pagination: buildPagination(req, data.meta.pagination)
+                        pagination: buildPagination(req, data.meta.pagination),
                     }
                 );
             } else {
@@ -286,7 +286,7 @@ router.get(
         try {
             const data = await grantsService.getGrantById({
                 id: req.params.id,
-                locale: req.i18n.getLocale()
+                locale: req.i18n.getLocale(),
             });
 
             let projectStory;
@@ -294,7 +294,7 @@ router.get(
                 projectStory = await contentApi.getProjectStory({
                     locale: req.i18n.getLocale(),
                     grantId: req.params.id,
-                    requestParams: req.query
+                    requestParams: req.query,
                 });
                 setHeroLocals({ res, entry: projectStory });
             } catch (e) {} // eslint-disable-line no-empty
@@ -313,7 +313,7 @@ router.get(
                         fundingProgramme = await contentApi.getFundingProgramme(
                             {
                                 slug: grantProgramme.url,
-                                locale: req.i18n.getLocale()
+                                locale: req.i18n.getLocale(),
                             }
                         );
                     } catch (e) {} // eslint-disable-line no-empty
@@ -325,8 +325,8 @@ router.get(
                     projectStory: projectStory,
                     fundingProgramme: fundingProgramme,
                     breadcrumbs: res.locals.breadcrumbs.concat({
-                        label: data.result.title
-                    })
+                        label: data.result.title,
+                    }),
                 });
             } else {
                 next();

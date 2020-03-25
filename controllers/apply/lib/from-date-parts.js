@@ -11,7 +11,7 @@ module.exports = function fromDateParts(value) {
             year: toInteger(value.year),
             // month is 0 indexed when constructing a date object
             month: toInteger(value.month) - 1,
-            day: toInteger(value.day)
+            day: toInteger(value.day),
         });
     }
 };

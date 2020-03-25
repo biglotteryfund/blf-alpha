@@ -16,5 +16,5 @@ module.exports = initFormRouter({
     startTemplate: path.resolve(__dirname, './views/startpage.njk'),
     confirmationBuilder: confirmationBuilder,
     transformFunction: transform,
-    expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS
+    expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS,
 });

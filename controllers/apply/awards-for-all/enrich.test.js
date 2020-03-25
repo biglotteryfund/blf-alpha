@@ -5,7 +5,7 @@ const moment = require('moment-timezone');
 const { toDateParts, mockResponse } = require('./mocks');
 const { enrichPending, enrichSubmitted } = require('./enrich');
 
-test('enrich pending applications', function() {
+test('enrich pending applications', function () {
     const projectDate = moment('2020-06-04T12:00:00.000Z').tz('Europe/London');
 
     const result = enrichPending({
@@ -26,17 +26,17 @@ test('enrich pending applications', function() {
             projectBudget: [
                 { item: 'item 1', cost: 1000 },
                 { item: 'item 1', cost: 350 },
-                { item: 'item 1', cost: 5400 }
-            ]
-        })
+                { item: 'item 1', cost: 5400 },
+            ],
+        }),
     });
 
     expect(result).toMatchSnapshot({
-        progress: expect.any(Object)
+        progress: expect.any(Object),
     });
 });
 
-test('enrich submitted applications', function() {
+test('enrich submitted applications', function () {
     const projectDate = moment('2020-06-04T12:00:00.000Z').tz('Europe/London');
 
     const result = enrichSubmitted({
@@ -54,10 +54,10 @@ test('enrich submitted applications', function() {
                 projectBudget: [
                     { item: 'item 1', cost: 1000 },
                     { item: 'item 1', cost: 350 },
-                    { item: 'item 1', cost: 5400 }
-                ]
-            })
-        }
+                    { item: 'item 1', cost: 5400 },
+                ],
+            }),
+        },
     });
 
     expect(result).toMatchSnapshot();

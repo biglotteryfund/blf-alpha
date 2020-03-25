@@ -5,26 +5,26 @@ const { oneLine } = require('common-tags');
 
 const RadioField = require('../../lib/field-types/radio');
 
-module.exports = function(locale) {
+module.exports = function (locale) {
     const localise = get(locale);
 
     const countries = [
         {
             value: 'england',
-            label: localise({ en: 'England', cy: 'Lloegr' })
+            label: localise({ en: 'England', cy: 'Lloegr' }),
         },
         {
             value: 'scotland',
-            label: localise({ en: 'Scotland', cy: 'Yr Alban' })
+            label: localise({ en: 'Scotland', cy: 'Yr Alban' }),
         },
         {
             value: 'wales',
-            label: localise({ en: 'Wales', cy: 'Cymru' })
+            label: localise({ en: 'Wales', cy: 'Cymru' }),
         },
         {
             value: 'northern-ireland',
-            label: localise({ en: 'Northern Ireland', cy: 'Gogledd Iwerddon' })
-        }
+            label: localise({ en: 'Northern Ireland', cy: 'Gogledd Iwerddon' }),
+        },
     ];
 
     return new RadioField({
@@ -32,7 +32,7 @@ module.exports = function(locale) {
         name: 'projectCountry',
         label: localise({
             en: `What country will your project be based in?`,
-            cy: `Pa wlad fydd eich prosiect wedi’i leoli?`
+            cy: `Pa wlad fydd eich prosiect wedi’i leoli?`,
         }),
         explanation: localise({
             en: oneLine`We work slightly differently depending on which
@@ -40,7 +40,7 @@ module.exports = function(locale) {
                 and the regulations that apply there.`,
             cy: oneLine`Rydym yn gweithredu ychydig yn wahanol, yn ddibynnol 
                 ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu 
-                anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
+                anghenion lleol a’r rheoliadau sy’n berthnasol yna.`,
         }),
         options: orderBy(countries, ['label'], ['asc']),
         messages: [
@@ -48,9 +48,9 @@ module.exports = function(locale) {
                 type: 'base',
                 message: localise({
                     en: 'Select a country',
-                    cy: 'Dewiswch wlad'
-                })
-            }
-        ]
+                    cy: 'Dewiswch wlad',
+                }),
+            },
+        ],
     });
 };

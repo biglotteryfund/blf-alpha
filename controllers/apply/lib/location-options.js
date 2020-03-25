@@ -11,283 +11,283 @@ function locationOptions(locale = 'en') {
             options: [
                 {
                     value: 'derbyshire',
-                    label: 'Derbyshire'
+                    label: 'Derbyshire',
                 },
                 {
                     value: 'herefordshire',
-                    label: 'Herefordshire'
+                    label: 'Herefordshire',
                 },
                 {
                     value: 'leicestershire',
-                    label: 'Leicestershire'
+                    label: 'Leicestershire',
                 },
                 {
                     value: 'lincolnshire',
-                    label: `Lincolnshire (except North and North East Lincolnshire)`
+                    label: `Lincolnshire (except North and North East Lincolnshire)`,
                 },
                 {
                     value: 'northamptonshire',
-                    label: 'Northamptonshire'
+                    label: 'Northamptonshire',
                 },
                 {
                     value: 'nottinghamshire',
-                    label: 'Nottinghamshire'
+                    label: 'Nottinghamshire',
                 },
                 {
                     value: 'rutland',
-                    label: 'Rutland'
+                    label: 'Rutland',
                 },
                 {
                     value: 'shropshire',
-                    label: 'Shropshire'
+                    label: 'Shropshire',
                 },
                 {
                     value: 'staffordshire',
-                    label: 'Staffordshire'
+                    label: 'Staffordshire',
                 },
                 {
                     value: 'warwickshire',
-                    label: 'Warwickshire'
+                    label: 'Warwickshire',
                 },
                 {
                     value: 'west-midlands',
-                    label: 'West Midlands'
+                    label: 'West Midlands',
                 },
                 {
                     value: 'worcestershire',
-                    label: 'Worcestershire'
-                }
-            ]
+                    label: 'Worcestershire',
+                },
+            ],
         },
         {
             label: 'London, South East and East of England',
             options: [
                 {
                     value: 'bedfordshire',
-                    label: 'Bedfordshire'
+                    label: 'Bedfordshire',
                 },
                 {
                     value: 'berkshire',
-                    label: 'Berkshire'
+                    label: 'Berkshire',
                 },
                 {
                     value: 'buckinghamshire',
-                    label: 'Buckinghamshire'
+                    label: 'Buckinghamshire',
                 },
                 {
                     value: 'cambridgeshire',
-                    label: 'Cambridgeshire'
+                    label: 'Cambridgeshire',
                 },
                 {
                     value: 'east-sussex',
-                    label: 'East Sussex'
+                    label: 'East Sussex',
                 },
                 {
                     value: 'essex',
-                    label: 'Essex'
+                    label: 'Essex',
                 },
                 {
                     value: 'greater-london',
-                    label: 'Greater London'
+                    label: 'Greater London',
                 },
                 {
                     value: 'hampshire',
-                    label: 'Hampshire'
+                    label: 'Hampshire',
                 },
                 {
                     value: 'hertfordshire',
-                    label: 'Hertfordshire'
+                    label: 'Hertfordshire',
                 },
                 {
                     value: 'kent',
-                    label: 'Kent'
+                    label: 'Kent',
                 },
                 {
                     value: 'norfolk',
-                    label: 'Norfolk'
+                    label: 'Norfolk',
                 },
                 {
                     value: 'oxfordshire',
-                    label: 'Oxfordshire'
+                    label: 'Oxfordshire',
                 },
                 {
                     value: 'peterborough',
-                    label: 'Peterborough'
+                    label: 'Peterborough',
                 },
                 {
                     value: 'suffolk',
-                    label: 'Suffolk'
+                    label: 'Suffolk',
                 },
                 {
                     value: 'surrey',
-                    label: 'Surrey'
+                    label: 'Surrey',
                 },
                 {
                     value: 'west-sussex',
-                    label: 'West Sussex'
+                    label: 'West Sussex',
                 },
                 {
                     value: 'the-isle-of-wight',
-                    label: 'the Isle of Wight'
-                }
-            ]
+                    label: 'the Isle of Wight',
+                },
+            ],
         },
         {
             label: 'North East & Cumbria',
             options: [
                 {
                     value: 'cleveland',
-                    label: 'Cleveland'
+                    label: 'Cleveland',
                 },
                 {
                     value: 'county-durham',
-                    label: 'County Durham'
+                    label: 'County Durham',
                 },
                 {
                     value: 'cumbria',
-                    label: 'Cumbria'
+                    label: 'Cumbria',
                 },
                 {
                     value: 'darlington',
-                    label: 'Darlington'
+                    label: 'Darlington',
                 },
                 {
                     value: 'middlesbrough',
-                    label: 'Middlesbrough'
+                    label: 'Middlesbrough',
                 },
                 {
                     value: 'northumberland',
-                    label: 'Northumberland'
+                    label: 'Northumberland',
                 },
                 {
                     value: 'stockton-on-tees',
-                    label: 'Stockton on Tees'
+                    label: 'Stockton on Tees',
                 },
                 {
                     value: 'tyne-and-wear',
-                    label: 'Tyne and Wear'
-                }
-            ]
+                    label: 'Tyne and Wear',
+                },
+            ],
         },
         {
             label: 'North West',
             options: [
                 {
                     value: 'cheshire',
-                    label: 'Cheshire'
+                    label: 'Cheshire',
                 },
                 {
                     value: 'greater-manchester',
-                    label: 'Greater Manchester'
+                    label: 'Greater Manchester',
                 },
                 {
                     value: 'lancashire',
-                    label: 'Lancashire'
+                    label: 'Lancashire',
                 },
                 {
                     value: 'merseyside',
-                    label: 'Merseyside'
-                }
-            ]
+                    label: 'Merseyside',
+                },
+            ],
         },
         {
             label: 'South West',
             options: [
                 {
                     value: 'bath-and-north-east-somerset',
-                    label: 'Bath and North East Somerset'
+                    label: 'Bath and North East Somerset',
                 },
                 {
                     value: 'bournemouth',
-                    label: 'Bournemouth'
+                    label: 'Bournemouth',
                 },
                 {
                     value: 'bristol',
-                    label: 'Bristol'
+                    label: 'Bristol',
                 },
                 {
                     value: 'cornwall',
-                    label: 'Cornwall'
+                    label: 'Cornwall',
                 },
                 {
                     value: 'devon',
-                    label: 'Devon'
+                    label: 'Devon',
                 },
                 {
                     value: 'dorset',
-                    label: 'Dorset'
+                    label: 'Dorset',
                 },
                 {
                     value: 'gloucestershire',
-                    label: 'Gloucestershire'
+                    label: 'Gloucestershire',
                 },
                 {
                     value: 'isles-of-scilly',
-                    label: 'Isles of Scilly'
+                    label: 'Isles of Scilly',
                 },
                 {
                     value: 'north-somerset',
-                    label: 'North Somerset'
+                    label: 'North Somerset',
                 },
                 {
                     value: 'plymouth',
-                    label: 'Plymouth'
+                    label: 'Plymouth',
                 },
                 {
                     value: 'poole',
-                    label: 'Poole'
+                    label: 'Poole',
                 },
                 {
                     value: 'somerset',
-                    label: 'Somerset'
+                    label: 'Somerset',
                 },
                 {
                     value: 'south-gloucestershire',
-                    label: 'South Gloucestershire'
+                    label: 'South Gloucestershire',
                 },
                 {
                     value: 'swindon',
-                    label: 'Swindon'
+                    label: 'Swindon',
                 },
                 {
                     value: 'torbay',
-                    label: 'Torbay'
+                    label: 'Torbay',
                 },
                 {
                     value: 'wiltshire',
-                    label: 'Wiltshire'
-                }
-            ]
+                    label: 'Wiltshire',
+                },
+            ],
         },
         {
             label: 'Yorkshire and the Humber',
             options: [
                 {
                     value: 'east-riding-of-yorkshire',
-                    label: 'East Riding of Yorkshire'
+                    label: 'East Riding of Yorkshire',
                 },
                 {
                     value: 'north-east-lincolnshire',
-                    label: 'North East Lincolnshire'
+                    label: 'North East Lincolnshire',
                 },
                 {
                     value: 'north-lincolnshire',
-                    label: 'North Lincolnshire'
+                    label: 'North Lincolnshire',
                 },
                 {
                     value: 'north-yorkshire',
-                    label: 'North Yorkshire'
+                    label: 'North Yorkshire',
                 },
                 {
                     value: 'south-yorkshire',
-                    label: 'South Yorkshire'
+                    label: 'South Yorkshire',
                 },
                 {
                     value: 'west-yorkshire',
-                    label: 'West Yorkshire'
-                }
-            ]
-        }
+                    label: 'West Yorkshire',
+                },
+            ],
+        },
     ];
 
     const scotland = [
@@ -296,134 +296,134 @@ function locationOptions(locale = 'en') {
             options: [
                 {
                     value: 'aberdeen-city',
-                    label: 'Aberdeen City'
+                    label: 'Aberdeen City',
                 },
                 {
                     value: 'aberdeenshire',
-                    label: 'Aberdeenshire'
+                    label: 'Aberdeenshire',
                 },
                 {
                     value: 'angus',
-                    label: 'Angus'
+                    label: 'Angus',
                 },
                 {
                     value: 'argyll-and-bute',
-                    label: 'Argyll & Bute'
+                    label: 'Argyll & Bute',
                 },
                 {
                     value: 'clackmannanshire',
-                    label: 'Clackmannanshire'
+                    label: 'Clackmannanshire',
                 },
                 {
                     value: 'dumfries-and-galloway',
-                    label: 'Dumfries & Galloway'
+                    label: 'Dumfries & Galloway',
                 },
                 {
                     value: 'dundee',
-                    label: 'Dundee'
+                    label: 'Dundee',
                 },
                 {
                     value: 'east-ayrshire',
-                    label: 'East Ayrshire'
+                    label: 'East Ayrshire',
                 },
                 {
                     value: 'east-dunbartonshire',
-                    label: 'East Dunbartonshire'
+                    label: 'East Dunbartonshire',
                 },
                 {
                     value: 'east-lothian',
-                    label: 'East Lothian'
+                    label: 'East Lothian',
                 },
                 {
                     value: 'east-renfrewshire',
-                    label: 'East Renfrewshire'
+                    label: 'East Renfrewshire',
                 },
                 {
                     value: 'edinburgh',
-                    label: 'Edinburgh'
+                    label: 'Edinburgh',
                 },
                 {
                     value: 'falkirk',
-                    label: 'Falkirk'
+                    label: 'Falkirk',
                 },
                 {
                     value: 'fife',
-                    label: 'Fife'
+                    label: 'Fife',
                 },
                 {
                     value: 'glasgow',
-                    label: 'Glasgow'
+                    label: 'Glasgow',
                 },
                 {
                     value: 'highland',
-                    label: 'Highland'
+                    label: 'Highland',
                 },
                 {
                     value: 'inverclyde',
-                    label: 'Inverclyde'
+                    label: 'Inverclyde',
                 },
                 {
                     value: 'midlothian',
-                    label: 'Midlothian'
+                    label: 'Midlothian',
                 },
                 {
                     value: 'moray',
-                    label: 'Moray'
+                    label: 'Moray',
                 },
                 {
                     value: 'north-ayrshire',
-                    label: 'North Ayrshire'
+                    label: 'North Ayrshire',
                 },
                 {
                     value: 'north-lanarkshire',
-                    label: 'North Lanarkshire'
+                    label: 'North Lanarkshire',
                 },
                 {
                     value: 'orkney-islands',
-                    label: 'Orkney Islands'
+                    label: 'Orkney Islands',
                 },
                 {
                     value: 'perth-and-kinross',
-                    label: 'Perth & Kinross'
+                    label: 'Perth & Kinross',
                 },
                 {
                     value: 'renfrewshire',
-                    label: 'Renfrewshire'
+                    label: 'Renfrewshire',
                 },
                 {
                     value: 'shetland-islands',
-                    label: 'Shetland Islands'
+                    label: 'Shetland Islands',
                 },
                 {
                     value: 'south-ayrshire',
-                    label: 'South Ayrshire'
+                    label: 'South Ayrshire',
                 },
                 {
                     value: 'south-lanarkshire',
-                    label: 'South Lanarkshire'
+                    label: 'South Lanarkshire',
                 },
                 {
                     value: 'stirling',
-                    label: 'Stirling'
+                    label: 'Stirling',
                 },
                 {
                     value: 'the-scottish-borders',
-                    label: 'The Scottish Borders'
+                    label: 'The Scottish Borders',
                 },
                 {
                     value: 'west-dunbartonshire',
-                    label: 'West Dunbartonshire'
+                    label: 'West Dunbartonshire',
                 },
                 {
                     value: 'west-lothian',
-                    label: 'West Lothian'
+                    label: 'West Lothian',
                 },
                 {
                     value: 'western-isles',
-                    label: 'Western Isles'
-                }
-            ]
-        }
+                    label: 'Western Isles',
+                },
+            ],
+        },
     ];
 
     const northernIreland = [
@@ -432,50 +432,50 @@ function locationOptions(locale = 'en') {
             options: [
                 {
                     value: 'antrim-and-newtownabbey',
-                    label: 'Antrim and Newtownabbey'
+                    label: 'Antrim and Newtownabbey',
                 },
                 {
                     value: 'ards-and-north-down',
-                    label: 'Ards and North Down'
+                    label: 'Ards and North Down',
                 },
                 {
                     value: 'armagh-banbridge-and-craigavon',
-                    label: 'Armagh, Banbridge and Craigavon'
+                    label: 'Armagh, Banbridge and Craigavon',
                 },
                 {
                     value: 'belfast',
-                    label: 'Belfast'
+                    label: 'Belfast',
                 },
                 {
                     value: 'causeway-coast-and-glens',
-                    label: 'Causeway, Coast and Glens'
+                    label: 'Causeway, Coast and Glens',
                 },
                 {
                     value: 'derry-and-strabane',
-                    label: 'Derry and Strabane'
+                    label: 'Derry and Strabane',
                 },
                 {
                     value: 'fermanagh-and-omagh',
-                    label: 'Fermanagh and Omagh'
+                    label: 'Fermanagh and Omagh',
                 },
                 {
                     value: 'lisburn-and-castlereagh',
-                    label: 'Lisburn and Castlereagh'
+                    label: 'Lisburn and Castlereagh',
                 },
                 {
                     value: 'mid-ulster',
-                    label: 'Mid Ulster'
+                    label: 'Mid Ulster',
                 },
                 {
                     value: 'mid-and-east-antrim',
-                    label: 'Mid and East Antrim'
+                    label: 'Mid and East Antrim',
                 },
                 {
                     value: 'newry-mourne-and-down',
-                    label: 'Newry, Mourne and Down'
-                }
-            ]
-        }
+                    label: 'Newry, Mourne and Down',
+                },
+            ],
+        },
     ];
 
     const wales = [
@@ -486,113 +486,113 @@ function locationOptions(locale = 'en') {
                     value: 'blaenau-gwent',
                     label: localise({
                         en: 'Blaenau Gwent',
-                        cy: 'Blaenau Gwent'
-                    })
+                        cy: 'Blaenau Gwent',
+                    }),
                 },
                 {
                     value: 'bridgend',
                     label: localise({
                         en: 'Bridgend',
-                        cy: 'Pen-y-bont ar Ogwr'
-                    })
+                        cy: 'Pen-y-bont ar Ogwr',
+                    }),
                 },
                 {
                     value: 'caerphilly',
-                    label: localise({ en: 'Caerphilly', cy: 'Caerffili' })
+                    label: localise({ en: 'Caerphilly', cy: 'Caerffili' }),
                 },
                 {
                     value: 'cardiff',
-                    label: localise({ en: 'Cardiff', cy: 'Caerdydd' })
+                    label: localise({ en: 'Cardiff', cy: 'Caerdydd' }),
                 },
                 {
                     value: 'carmarthenshire',
                     label: localise({
                         en: 'Carmarthenshire',
-                        cy: 'Sir Gaerfyrddin'
-                    })
+                        cy: 'Sir Gaerfyrddin',
+                    }),
                 },
                 {
                     value: 'ceredigion',
-                    label: localise({ en: 'Ceredigion', cy: 'Ceredigion' })
+                    label: localise({ en: 'Ceredigion', cy: 'Ceredigion' }),
                 },
                 {
                     value: 'conwy',
-                    label: localise({ en: 'Conwy', cy: 'Conwy' })
+                    label: localise({ en: 'Conwy', cy: 'Conwy' }),
                 },
                 {
                     value: 'denbighshire',
-                    label: localise({ en: 'Denbighshire', cy: 'Sir Ddinbych' })
+                    label: localise({ en: 'Denbighshire', cy: 'Sir Ddinbych' }),
                 },
                 {
                     value: 'flintshire',
-                    label: localise({ en: 'Flintshire', cy: 'Sir y Fflint' })
+                    label: localise({ en: 'Flintshire', cy: 'Sir y Fflint' }),
                 },
                 {
                     value: 'gwynedd',
-                    label: localise({ en: 'Gwynedd', cy: 'Gwynedd' })
+                    label: localise({ en: 'Gwynedd', cy: 'Gwynedd' }),
                 },
                 {
                     value: 'isle-of-anglesey',
-                    label: localise({ en: 'Isle of Anglesey', cy: 'Ynys Môn' })
+                    label: localise({ en: 'Isle of Anglesey', cy: 'Ynys Môn' }),
                 },
                 {
                     value: 'merthyr-tydfil',
                     label: localise({
                         en: 'Merthyr Tydfil',
-                        cy: 'Merthyr Tydfil'
-                    })
+                        cy: 'Merthyr Tydfil',
+                    }),
                 },
                 {
                     value: 'monmouthshire',
-                    label: localise({ en: 'Monmouthshire', cy: 'Sir Fynwy' })
+                    label: localise({ en: 'Monmouthshire', cy: 'Sir Fynwy' }),
                 },
                 {
                     value: 'neath-port-talbot',
                     label: localise({
                         en: 'Neath Port Talbot',
-                        cy: 'Castell-nedd Port Talbot'
-                    })
+                        cy: 'Castell-nedd Port Talbot',
+                    }),
                 },
                 {
                     value: 'newport',
-                    label: localise({ en: 'Newport', cy: 'Casnewydd' })
+                    label: localise({ en: 'Newport', cy: 'Casnewydd' }),
                 },
                 {
                     value: 'pembrokeshire',
-                    label: localise({ en: 'Pembrokeshire', cy: 'Sir Benfro' })
+                    label: localise({ en: 'Pembrokeshire', cy: 'Sir Benfro' }),
                 },
                 {
                     value: 'powys',
-                    label: localise({ en: 'Powys', cy: 'Powys' })
+                    label: localise({ en: 'Powys', cy: 'Powys' }),
                 },
                 {
                     value: 'rhondda-cynon-taf',
                     label: localise({
                         en: 'Rhondda Cynon Taf (RCT)',
-                        cy: 'Rhondda Cynon Taf'
-                    })
+                        cy: 'Rhondda Cynon Taf',
+                    }),
                 },
                 {
                     value: 'swansea',
-                    label: localise({ en: 'Swansea', cy: 'Abertawe' })
+                    label: localise({ en: 'Swansea', cy: 'Abertawe' }),
                 },
                 {
                     value: 'the-vale-of-glamorgan',
                     label: localise({
                         en: 'The Vale of Glamorgan',
-                        cy: 'Bro Morgannwg'
-                    })
+                        cy: 'Bro Morgannwg',
+                    }),
                 },
                 {
                     value: 'torfaen',
-                    label: localise({ en: 'Torfaen', cy: 'Torfaen' })
+                    label: localise({ en: 'Torfaen', cy: 'Torfaen' }),
                 },
                 {
                     value: 'wrexham',
-                    label: localise({ en: 'Wrexham', cy: 'Wrecsam' })
-                }
-            ]
-        }
+                    label: localise({ en: 'Wrexham', cy: 'Wrecsam' }),
+                },
+            ],
+        },
     ];
 
     return { england, northernIreland, scotland, wales };
@@ -600,14 +600,14 @@ function locationOptions(locale = 'en') {
 
 function findLocationName(value) {
     const { england, northernIreland, scotland, wales } = locationOptions();
-    const flatMapOptions = flatMap(groups => groups.options);
+    const flatMapOptions = flatMap((groups) => groups.options);
     const allOptions = [].concat(
         flatMapOptions(england),
         flatMapOptions(northernIreland),
         flatMapOptions(scotland),
         flatMapOptions(wales)
     );
-    const match = allOptions.find(option => option.value === value);
+    const match = allOptions.find((option) => option.value === value);
     return match ? match.label : null;
 }
 

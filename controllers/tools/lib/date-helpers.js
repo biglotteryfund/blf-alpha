@@ -20,7 +20,7 @@ function getDateRange(startVal, endVal) {
 
         result = {
             start: start.toDate(),
-            end: end.toDate()
+            end: end.toDate(),
         };
     }
 
@@ -33,27 +33,25 @@ function getDateRangeWithDefault(startVal, endVal) {
         return dateRange;
     } else {
         return {
-            start: moment()
-                .subtract(30, 'days')
-                .toDate(),
-            end: moment().toDate()
+            start: moment().subtract(30, 'days').toDate(),
+            end: moment().toDate(),
         };
     }
 }
 
 function groupByCreatedAt(items, dateFormat = 'YYYY-MM-DD') {
-    return groupBy(items, function(response) {
+    return groupBy(items, function (response) {
         return moment(response.createdAt).format(dateFormat);
     });
 }
 
 function getOldestDate(items) {
-    const oldest = minBy(items, response => response.createdAt);
+    const oldest = minBy(items, (response) => response.createdAt);
     return oldest.createdAt;
 }
 
 function getNewestDate(items) {
-    const newest = maxBy(items, response => response.createdAt);
+    const newest = maxBy(items, (response) => response.createdAt);
     return newest.createdAt;
 }
 
@@ -69,5 +67,5 @@ module.exports = {
     groupByCreatedAt,
     getOldestDate,
     getNewestDate,
-    getDaysInRange
+    getDaysInRange,
 };

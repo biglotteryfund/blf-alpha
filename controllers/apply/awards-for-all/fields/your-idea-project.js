@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 
 const TextareaField = require('../../lib/field-types/textarea');
 
-module.exports = function(locale) {
+module.exports = function (locale) {
     const localise = get(locale);
 
     const minWords = 50;
@@ -14,7 +14,7 @@ module.exports = function(locale) {
         name: 'yourIdeaProject',
         label: localise({
             en: `What would you like to do?`,
-            cy: `Beth yr hoffech ei wneud?`
+            cy: `Beth yr hoffech ei wneud?`,
         }),
         explanation: localise({
             en: `<p><strong>
@@ -56,7 +56,7 @@ module.exports = function(locale) {
             <p><strong>
                 Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon,
                 ond mae modd ysgrifennu llai.
-            </strong></p>`
+            </strong></p>`,
         }),
         type: 'textarea',
         minWords: minWords,
@@ -67,9 +67,9 @@ module.exports = function(locale) {
                 type: 'base',
                 message: localise({
                     en: 'Tell us about your project',
-                    cy: 'Dywedwch wrthym am eich prosiect'
-                })
-            }
-        ]
+                    cy: 'Dywedwch wrthym am eich prosiect',
+                }),
+            },
+        ],
     });
 };

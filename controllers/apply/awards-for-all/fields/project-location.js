@@ -5,7 +5,7 @@ const { oneLine } = require('common-tags');
 const SelectField = require('../../lib/field-types/select');
 const { locationOptions } = require('../../lib/location-options');
 
-module.exports = function(locale, data) {
+module.exports = function (locale, data) {
     const localise = get(locale);
 
     function optgroups() {
@@ -33,17 +33,17 @@ module.exports = function(locale, data) {
         name: 'projectLocation',
         label: localise({
             en: 'Where will your project take place?',
-            cy: 'Lle bydd eich prosiect wedi’i leoli? '
+            cy: 'Lle bydd eich prosiect wedi’i leoli? ',
         }),
         explanation: localise({
             en: oneLine`If your project covers more than one area please
                 tell us where most of it will take place`,
             cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
-                wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
+                wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`,
         }),
         defaultOption: localise({
             en: 'Select a location',
-            cy: 'Dewiswch leoliad'
+            cy: 'Dewiswch leoliad',
         }),
         optgroups: optgroups(),
         messages: [
@@ -51,9 +51,9 @@ module.exports = function(locale, data) {
                 type: 'base',
                 message: localise({
                     en: 'Select a location',
-                    cy: 'Dewiswch leoliad'
-                })
-            }
-        ]
+                    cy: 'Dewiswch leoliad',
+                }),
+            },
+        ],
     });
 };

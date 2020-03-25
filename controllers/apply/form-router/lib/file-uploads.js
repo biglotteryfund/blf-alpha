@@ -16,7 +16,7 @@ const S3_UPLOAD_BUCKET = config.get('aws.s3.formUploadBucket');
 
 const s3 = new AWS.S3({
     signatureVersion: 'v4',
-    region: 'eu-west-2'
+    region: 'eu-west-2',
 });
 
 /**
@@ -26,16 +26,16 @@ const s3 = new AWS.S3({
  */
 function determineFilesToUpload(fields, files) {
     const validFileFields = fields
-        .filter(field => field.type === 'file')
-        .filter(field => files[field.name].size > 0);
+        .filter((field) => field.type === 'file')
+        .filter((field) => files[field.name].size > 0);
 
-    return validFileFields.map(field => {
+    return validFileFields.map((field) => {
         const fileData = files[field.name];
 
         /**
          * Trim object string values
          */
-        const trimmedObject = Object.keys(fileData).reduce(function(acc, key) {
+        const trimmedObject = Object.keys(fileData).reduce(function (acc, key) {
             acc[key] = isString(fileData[key])
                 ? fileData[key].trim()
                 : fileData[key];
@@ -44,7 +44,7 @@ function determineFilesToUpload(fields, files) {
 
         return {
             fieldName: field.name,
-            fileData: trimmedObject
+            fileData: trimmedObject,
         };
     });
 }
@@ -58,11 +58,11 @@ function prepareFilesForUpload(fields, files) {
     const filesToUpload = determineFilesToUpload(fields, files);
 
     const keyedByFieldName = keyBy(filesToUpload, 'fieldName');
-    const valuesByField = mapValues(keyedByFieldName, function({ fileData }) {
+    const valuesByField = mapValues(keyedByFieldName, function ({ fileData }) {
         return {
             filename: fileData.name.trim(),
             size: fileData.size,
-            type: fileData.type
+            type: fileData.type,
         };
     });
 
@@ -73,10 +73,10 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
     return new Promise((resolve, reject) => {
         const fileStream = fs.createReadStream(fileMetadata.fileData.path);
 
-        fileStream.on('error', fileReadError => {
+        fileStream.on('error', (fileReadError) => {
             if (fileReadError) {
                 return reject({
-                    error: fileReadError
+                    error: fileReadError,
                 });
             }
         });
@@ -84,13 +84,13 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
         const uploadKey = [
             formId,
             applicationId,
-            fileMetadata.fileData.name
+            fileMetadata.fileData.name,
         ].join('/');
 
         fileStream.on('open', async () => {
             if (isTestServer) {
                 logger.debug(`Skipped uploading file ${uploadKey}`, {
-                    service: 's3-uploads'
+                    service: 's3-uploads',
                 });
                 return resolve();
             } else {
@@ -102,18 +102,18 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
                         ContentLength: fileMetadata.fileData.size,
                         ContentType: fileMetadata.fileData.type,
                         ServerSideEncryption: 'aws:kms',
-                        SSEKMSKeyId: S3_KMS_KEY_ID
+                        SSEKMSKeyId: S3_KMS_KEY_ID,
                     },
                     (uploadErr, data) => {
                         if (uploadErr) {
                             return reject({
                                 error: uploadErr,
-                                fieldName: fileMetadata.fieldName
+                                fieldName: fileMetadata.fieldName,
                             });
                         } else {
                             return resolve({
                                 data: data,
-                                key: uploadKey
+                                key: uploadKey,
                             });
                         }
                     }
@@ -125,7 +125,7 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
 
 function scanAndUpload({ formId, applicationId, fileMetadata }) {
     if (isTestServer === false) {
-        return scanFile(fileMetadata.fileData.path).then(function(status) {
+        return scanFile(fileMetadata.fileData.path).then(function (status) {
             if (status.is_infected) {
                 throw new Error('Infected file found');
             } else {
@@ -141,7 +141,7 @@ function getObject({ formId, applicationId, filename }) {
     const keyName = [formId, applicationId, filename].join('/');
     return s3.getObject({
         Bucket: S3_UPLOAD_BUCKET,
-        Key: keyName
+        Key: keyName,
     });
 }
 
@@ -150,7 +150,7 @@ function headObject({ formId, applicationId, filename }) {
     return s3
         .headObject({
             Bucket: S3_UPLOAD_BUCKET,
-            Key: keyName
+            Key: keyName,
         })
         .promise();
 }
@@ -159,14 +159,14 @@ function headObject({ formId, applicationId, filename }) {
  * Build object needed for multipart form uploads
  */
 function buildMultipartData(pathConfig) {
-    return headObject(pathConfig).then(function(headers) {
+    return headObject(pathConfig).then(function (headers) {
         return {
             value: getObject(pathConfig).createReadStream(),
             options: {
                 filename: pathConfig.filename,
                 contentType: headers.ContentType,
-                knownLength: headers.ContentLength
-            }
+                knownLength: headers.ContentLength,
+            },
         };
     });
 }
@@ -175,5 +175,5 @@ module.exports = {
     prepareFilesForUpload,
     getObject,
     buildMultipartData,
-    scanAndUpload
+    scanAndUpload,
 };

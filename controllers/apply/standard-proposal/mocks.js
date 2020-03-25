@@ -20,21 +20,21 @@ function mockResponse(overrides = {}) {
             line1: '1234 example street',
             townCity: 'Birmingham',
             county: 'West Midlands',
-            postcode: 'B15 1TR'
+            postcode: 'B15 1TR',
         },
         organisationType: 'not-for-profit-company',
         contactName: {
             firstName: 'Björk',
-            lastName: 'Guðmundsdóttir'
+            lastName: 'Guðmundsdóttir',
         },
         contactEmail: 'general.enquiries@tnlcommunityfund.org.uk',
         contactPhone: '028 9568 0143',
-        contactCommunicationNeeds: 'Large print'
+        contactCommunicationNeeds: 'Large print',
     };
 
     return Object.assign(defaults, overrides);
 }
 
 module.exports = {
-    mockResponse
+    mockResponse,
 };

@@ -16,17 +16,17 @@ const uniqBy = require('lodash/fp/uniqBy');
  *    Allows us to show a generic message for any unmatched error type e.g. "Please enter your name"
  */
 function messagesForError(messages, detail) {
-    const filterKeyAndType = filter(function(message) {
+    const filterKeyAndType = filter(function (message) {
         return (
             message.key === detail.context.key && message.type === detail.type
         );
     });
 
-    const filterTypeOnly = filter(function(message) {
+    const filterTypeOnly = filter(function (message) {
         return !has(message, 'key') && message.type === detail.type;
     });
 
-    const filterBase = filter(function(message) {
+    const filterBase = filter(function (message) {
         return !has(message, 'key') && message.type === 'base';
     });
 
@@ -52,26 +52,26 @@ function messagesForError(messages, detail) {
 module.exports = function normaliseErrors({
     validationError,
     errorMessages,
-    formFields
+    formFields,
 }) {
     const errorDetails = getOr([], 'details')(validationError);
-    const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
+    const uniqueErrorsDetails = uniqBy((detail) => head(detail.path))(
         errorDetails
     );
 
-    return flatMap(uniqueErrorsDetails, detail => {
+    return flatMap(uniqueErrorsDetails, (detail) => {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
         const matchingMessages = messagesForError(fieldMessages, detail);
         const fieldLabel = get(`${name}.label`)(formFields);
 
-        return matchingMessages.map(match => {
+        return matchingMessages.map((match) => {
             return {
                 param: name,
                 msg: match.message,
                 label: fieldLabel,
                 type: match.type,
-                joiType: detail.type
+                joiType: detail.type,
             };
         });
     });

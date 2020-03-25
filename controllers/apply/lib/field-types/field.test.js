@@ -3,12 +3,12 @@
 const Field = require('./field');
 const Joi = require('../joi-extensions');
 
-test('field base type', function() {
+test('field base type', function () {
     const field = new Field({
         locale: 'en',
         name: 'example',
         label: 'Example field',
-        messages: [{ type: 'base', message: 'Enter a value' }]
+        messages: [{ type: 'base', message: 'Enter a value' }],
     });
 
     expect(field.locale).toBe('en');
@@ -31,11 +31,11 @@ test('field base type', function() {
     expect(field.validate().error).toBeNull();
 });
 
-test('required properties', function() {
+test('required properties', function () {
     expect(() => {
         new Field({
             label: 'Example field',
-            messages: [{ type: 'base', message: 'Enter a value' }]
+            messages: [{ type: 'base', message: 'Enter a value' }],
         });
     }).toThrowError('Must provide name');
 
@@ -43,7 +43,7 @@ test('required properties', function() {
         new Field({
             name: 'example',
             label: 'Example field',
-            messages: [{ type: 'base', message: 'Enter a value' }]
+            messages: [{ type: 'base', message: 'Enter a value' }],
         });
     }).toThrowError('Must provide locale');
 
@@ -51,7 +51,7 @@ test('required properties', function() {
         new Field({
             locale: 'en',
             name: 'example',
-            messages: [{ type: 'base', message: 'Enter a value' }]
+            messages: [{ type: 'base', message: 'Enter a value' }],
         });
     }).toThrowError('Must provide label');
 
@@ -59,33 +59,33 @@ test('required properties', function() {
         new Field({
             locale: 'en',
             name: 'example',
-            label: 'Example field'
+            label: 'Example field',
         });
     }).toThrowError('Required fields must provide a base error message');
 });
 
-test('optional default field', function() {
+test('optional default field', function () {
     const optionalField = new Field({
         locale: 'en',
         name: 'example',
         label: 'Optional text field',
-        isRequired: false
+        isRequired: false,
     });
 
     expect(optionalField.isRequired).toBeFalsy();
     expect(optionalField.validate().error).toBeNull();
 });
 
-test('with errors', function() {
+test('with errors', function () {
     const field = new Field({
         locale: 'en',
         name: 'example',
         label: 'Text field',
-        messages: [{ type: 'base', message: 'Enter a value' }]
+        messages: [{ type: 'base', message: 'Enter a value' }],
     });
 
     const mockErrors = [
-        { param: 'example', msg: 'Enter a value', type: 'base' }
+        { param: 'example', msg: 'Enter a value', type: 'base' },
     ];
 
     field.withErrors(mockErrors);
@@ -94,16 +94,14 @@ test('with errors', function() {
     expect(field.featuredErrors).toEqual(mockErrors);
 });
 
-test('override schema', function() {
+test('override schema', function () {
     const field = new Field({
         locale: 'en',
         name: 'example',
         label: 'Custom label',
         type: 'base64',
-        schema: Joi.string()
-            .base64()
-            .required(),
-        messages: [{ type: 'base', message: 'Enter a value' }]
+        schema: Joi.string().base64().required(),
+        messages: [{ type: 'base', message: 'Enter a value' }],
     });
 
     expect(field.type).toBe('base64');
@@ -118,13 +116,13 @@ test('override schema', function() {
     );
 });
 
-test('localise helper', function() {
+test('localise helper', function () {
     expect(
         new Field({
             locale: 'en',
             name: 'example',
             label: 'Text field',
-            messages: [{ type: 'base', message: 'Enter a value' }]
+            messages: [{ type: 'base', message: 'Enter a value' }],
         }).localise({ en: 'english', cy: 'welsh' })
     ).toEqual('english');
 
@@ -133,12 +131,12 @@ test('localise helper', function() {
             locale: 'cy',
             name: 'example',
             label: 'Text field',
-            messages: [{ type: 'base', message: 'Enter a value' }]
+            messages: [{ type: 'base', message: 'Enter a value' }],
         }).localise({ en: 'english', cy: 'welsh' })
     ).toEqual('welsh');
 });
 
-test('field extension', function() {
+test('field extension', function () {
     class CustomField extends Field {
         getType() {
             return 'custom-type';
@@ -159,14 +157,14 @@ test('field extension', function() {
 
     const minimalField = new CustomField({
         locale: 'en',
-        name: 'example'
+        name: 'example',
     });
 
     expect(minimalField.type).toEqual('custom-type');
     expect(minimalField.defaultLabel()).toEqual('Default label');
     expect(minimalField.label).toEqual('Default label');
     expect(minimalField.messages).toEqual([
-        { type: 'base', message: 'Example message' }
+        { type: 'base', message: 'Example message' },
     ]);
 
     minimalField.withValue('something');
@@ -177,7 +175,7 @@ test('field extension', function() {
     const fieldWithProps = new CustomField({
         locale: 'en',
         name: 'example',
-        label: 'Custom label'
+        label: 'Custom label',
     });
     expect(fieldWithProps.label).toEqual('Custom label');
 });

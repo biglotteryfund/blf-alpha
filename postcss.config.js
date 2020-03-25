@@ -10,14 +10,14 @@ module.exports = {
             groups: [
                 {
                     families: ['caecilia'],
-                    classNames: ['fonts-loaded']
+                    classNames: ['fonts-loaded'],
                 },
                 {
                     families: ['caecilia-sans-text'],
-                    classNames: ['fonts-loaded']
-                }
-            ]
+                    classNames: ['fonts-loaded'],
+                },
+            ],
         }),
-        cssnano()
-    ]
+        cssnano(),
+    ],
 };

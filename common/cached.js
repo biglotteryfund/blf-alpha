@@ -6,7 +6,7 @@ const DEFAULT_MAX_AGE_SECONDS = 30;
 function defaultMaxAge(req, res, next) {
     res.cacheControl = {
         maxAge: DEFAULT_MAX_AGE_SECONDS,
-        sMaxAge: 300
+        sMaxAge: 300,
     };
     next();
 }
@@ -28,7 +28,7 @@ function sMaxAge(sMaxAgeValue) {
     return (req, res, next) => {
         res.cacheControl = {
             maxAge: DEFAULT_MAX_AGE_SECONDS,
-            sMaxAge: sMaxAgeValue
+            sMaxAge: sMaxAgeValue,
         };
         next();
     };
@@ -44,5 +44,5 @@ module.exports = {
     defaultMaxAge,
     noStore,
     sMaxAge,
-    csrfProtection
+    csrfProtection,
 };

@@ -4,7 +4,7 @@ const faker = require('faker');
 
 const TextareaField = require('./textarea');
 
-test('TextareaField', function() {
+test('TextareaField', function () {
     const minWords = 50;
     const maxWords = 150;
 
@@ -14,7 +14,7 @@ test('TextareaField', function() {
         label: 'Textarea field',
         minWords: minWords,
         maxWords: maxWords,
-        messages: [{ type: 'base', message: 'Enter a value' }]
+        messages: [{ type: 'base', message: 'Enter a value' }],
     });
 
     expect(field.type).toBe('textarea');
@@ -45,19 +45,19 @@ test('TextareaField', function() {
         label: 'Radio field',
         minWords: minWords,
         maxWords: maxWords,
-        messages: [{ type: 'base', message: 'Enter a value' }]
+        messages: [{ type: 'base', message: 'Enter a value' }],
     });
 
     expect(optionalField.validate().error).toBeNull();
 });
 
-test('required properties', function() {
+test('required properties', function () {
     expect(() => {
         new TextareaField({
             locale: 'en',
             name: 'example',
             label: 'Example field',
-            messages: [{ type: 'base', message: 'Enter a value' }]
+            messages: [{ type: 'base', message: 'Enter a value' }],
         });
     }).toThrowError('Must provide minWords and maxWords');
 });

@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const { ApplicationEmailQueue } = require('../../../db/models');
 const { JWT_SIGNING_TOKEN } = require('../../../common/secrets');
 const logger = require('../../../common/logger').child({
-    service: 'application-expiry'
+    service: 'application-expiry',
 });
 
 const router = express.Router();
@@ -31,7 +31,7 @@ function verifyUnsubscribeToken(token) {
  * Application email unsubscribe
  * Allows a user to remove any scheduled emails for them about an application
  */
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
     if (req.query.token) {
         try {
             const unsubscribeRequest = await verifyUnsubscribeToken(
@@ -48,17 +48,17 @@ router.get('/', async function(req, res) {
                 {
                     en: {
                         title: 'Unsubscription successful',
-                        message: `We will no longer email you about your application's expiration.`
+                        message: `We will no longer email you about your application's expiration.`,
                     },
                     cy: {
                         title: 'Tanysgrifiad llwyddiannus',
-                        message: `Ni fyddwn yn eich e-bostio rhagor am derfyn amser eich cais.`
-                    }
+                        message: `Ni fyddwn yn eich e-bostio rhagor am derfyn amser eich cais.`,
+                    },
                 }[req.i18n.getLocale()]
             );
         } catch (error) {
             logger.warn('Email unsubscribe token failed', {
-                token: req.query.token
+                token: req.query.token,
             });
             res.redirect(req.baseUrl);
         }

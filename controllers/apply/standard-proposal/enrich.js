@@ -12,7 +12,7 @@ function details(application, data, locale) {
     function formatYears(value) {
         return `${value} ${localise({
             en: 'years',
-            cy: 'blynedd'
+            cy: 'blynedd',
         })}`;
     }
 
@@ -20,7 +20,7 @@ function details(application, data, locale) {
         projectName: data.projectName,
         untitledName: localise({
             en: `Untitled proposal`,
-            cy: `Cynnig heb deitl`
+            cy: `Cynnig heb deitl`,
         }),
         amountRequested: formatCurrency(data.projectCosts || 0),
         overview: [
@@ -28,18 +28,18 @@ function details(application, data, locale) {
                 label: localise({ en: 'Project length', cy: 'Hyd y prosiect' }),
                 value: data.projectDurationYears
                     ? formatYears(data.projectDurationYears)
-                    : null
+                    : null,
             },
             {
                 label: localise({ en: 'Location', cy: 'Lleoliad' }),
-                value: findLocationName(data.projectLocation)
+                value: findLocationName(data.projectLocation),
             },
             {
                 label: localise({ en: 'Organisation', cy: 'Mudiad' }),
                 value:
-                    data.organisationTradingName || data.organisationLegalName
-            }
-        ]
+                    data.organisationTradingName || data.organisationLegalName,
+            },
+        ],
     };
 }
 
@@ -57,7 +57,7 @@ function enrichPending(application, locale = 'en') {
         updatedAt: application.updatedAt,
         progress: form.progress,
         editUrl: `/apply/your-funding-proposal/edit/${application.id}`,
-        deleteUrl: `/apply/your-funding-proposal/delete/${application.id}`
+        deleteUrl: `/apply/your-funding-proposal/delete/${application.id}`,
     };
 
     return Object.assign(defaults, details(application, data, locale));
@@ -70,7 +70,7 @@ function enrichSubmitted(application, locale = 'en') {
         type: 'submitted',
         id: application.id,
         formId: application.formId,
-        submittedAt: application.createdAt
+        submittedAt: application.createdAt,
     };
 
     return Object.assign(defaults, details(application, data, locale));
@@ -78,5 +78,5 @@ function enrichSubmitted(application, locale = 'en') {
 
 module.exports = {
     enrichPending,
-    enrichSubmitted
+    enrichSubmitted,
 };

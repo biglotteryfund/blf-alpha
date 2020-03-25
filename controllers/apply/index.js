@@ -4,7 +4,7 @@ const router = express.Router();
 
 const appData = require('../../common/appData');
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     if (req.user) {
         res.locals.user = req.user;
     }
@@ -16,7 +16,7 @@ router.use(function(req, res, next) {
 
 router.use('/', require('./dashboard'));
 
-router.get('/your-idea*', function(req, res) {
+router.get('/your-idea*', function (req, res) {
     return res.redirect(res.locals.sectionUrl);
 });
 

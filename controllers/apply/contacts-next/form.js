@@ -5,18 +5,18 @@ const { FormModel } = require('../lib/form-model');
 const { Step, CustomStep } = require('../lib/step-model');
 const fieldsFor = require('./fields');
 
-module.exports = function({ locale = 'en', data = {} } = {}) {
+module.exports = function ({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);
 
     const fields = fieldsFor({
         locale: locale,
-        data: data
+        data: data,
     });
 
     function stepCheckContacts() {
         return new CustomStep({
             title: 'Check your contacts',
-            render: require('./contact-check')
+            render: require('./contact-check'),
         });
     }
 
@@ -24,7 +24,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new Step({
             title: localise({
                 en: 'Senior & Main contacts',
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             introduction: localise({
                 en: `<p>
@@ -38,13 +38,13 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                             <li>living at the same address</li>
                             <li>or related by blood.</li> 
                         </ul>`,
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Senior contact',
-                        cy: '@TODO i18n'
+                        cy: '@TODO i18n',
                     }),
                     introduction: localise({
                         en: `<p>Your senior contact should be</p>
@@ -52,14 +52,17 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                                         <li>a senior leader or member of board or committee</li>
                                         <li>legally responsible for this funding and meeting any monitoring requirements</li>
                                     </ul>`,
-                        cy: '@TODO i18n'
+                        cy: '@TODO i18n',
                     }),
-                    fields: [fields.seniorContactRole, fields.seniorContactName]
+                    fields: [
+                        fields.seniorContactRole,
+                        fields.seniorContactName,
+                    ],
                 },
                 {
                     legend: localise({
                         en: 'Main contact',
-                        cy: '@TODO i18n'
+                        cy: '@TODO i18n',
                     }),
                     introduction: localise({
                         en: `<p>Your main contact should be</p>
@@ -68,11 +71,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                                     <li>from the organisation applying</li>
                                 </ul>
                                 <p>They don't have to hold any particular position.</p>`,
-                        cy: '@TODO i18n'
+                        cy: '@TODO i18n',
                     }),
-                    fields: [fields.mainContactName]
-                }
-            ]
+                    fields: [fields.mainContactName],
+                },
+            ],
         });
     }
 
@@ -80,17 +83,17 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new Step({
             title: localise({
                 en: 'Date of birth',
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: '@TODO',
-                        cy: '@TODO i18n'
+                        cy: '@TODO i18n',
                     }),
-                    fields: [fields.seniorContactDateOfBirth]
-                }
-            ]
+                    fields: [fields.seniorContactDateOfBirth],
+                },
+            ],
         });
     }
 
@@ -98,16 +101,16 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new Step({
             title: localise({
                 en: 'Home address',
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             fieldsets: [
                 {
                     fields: [
                         fields.seniorContactAddress,
-                        fields.seniorContactAddressHistory
-                    ]
-                }
-            ]
+                        fields.seniorContactAddressHistory,
+                    ],
+                },
+            ],
         });
     }
 
@@ -115,7 +118,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new Step({
             title: localise({
                 en: 'Contact details',
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             fieldsets: [
                 {
@@ -123,10 +126,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                         fields.seniorContactEmail,
                         fields.seniorContactPhone,
                         fields.seniorContactLanguagePreference,
-                        fields.seniorContactCommunicationNeeds
-                    ]
-                }
-            ]
+                        fields.seniorContactCommunicationNeeds,
+                    ],
+                },
+            ],
         });
     }
 
@@ -134,13 +137,13 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new Step({
             title: localise({
                 en: 'Date of birth',
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             fieldsets: [
                 {
-                    fields: [fields.mainContactDateOfBirth]
-                }
-            ]
+                    fields: [fields.mainContactDateOfBirth],
+                },
+            ],
         });
     }
 
@@ -148,16 +151,16 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new Step({
             title: localise({
                 en: 'Home address',
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             fieldsets: [
                 {
                     fields: [
                         fields.mainContactAddress,
-                        fields.mainContactAddressHistory
-                    ]
-                }
-            ]
+                        fields.mainContactAddressHistory,
+                    ],
+                },
+            ],
         });
     }
 
@@ -165,7 +168,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new Step({
             title: localise({
                 en: 'Contact details',
-                cy: '@TODO i18n'
+                cy: '@TODO i18n',
             }),
             fieldsets: [
                 {
@@ -173,30 +176,30 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                         fields.mainContactEmail,
                         fields.mainContactPhone,
                         fields.mainContactLanguagePreference,
-                        fields.mainContactCommunicationNeeds
-                    ]
-                }
-            ]
+                        fields.mainContactCommunicationNeeds,
+                    ],
+                },
+            ],
         });
     }
 
     const form = {
         title: localise({
             en: '[DEV] Contacts Next',
-            cy: '[DEV] Arian i Bawb y Loteri Genedlaethol'
+            cy: '[DEV] Arian i Bawb y Loteri Genedlaethol',
         }),
         startLabel: localise({
             en: 'Start your application',
-            cy: 'Dechrau ar eich cais'
+            cy: 'Dechrau ar eich cais',
         }),
         allFields: fields,
         summary: {
             title: 'Contacts prototype',
             country: null,
-            overview: []
+            overview: [],
         },
         schemaVersion: 'v1.1',
-        forSalesforce: function() {
+        forSalesforce: function () {
             return data;
         },
         sections: [
@@ -204,11 +207,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 slug: 'contacts',
                 title: localise({
                     en: 'Contacts',
-                    cy: '@TODO localise'
+                    cy: '@TODO localise',
                 }),
                 summary: localise({
                     en: `@TODO localise`,
-                    cy: `@TODO localise`
+                    cy: `@TODO localise`,
                 }),
                 steps: [
                     stepContactNames(),
@@ -219,10 +222,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     stepMainContactDoB(),
                     stepMainContactAddress(),
                     stepMainContactCommunication(),
-                    stepCheckContacts()
-                ]
-            }
-        ]
+                    stepCheckContacts(),
+                ],
+            },
+        ],
     };
 
     return new FormModel(form, data, locale);

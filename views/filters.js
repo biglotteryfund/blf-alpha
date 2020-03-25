@@ -22,7 +22,7 @@ try {
 
 const version = assets.version || 'latest';
 
-const getCachebustedPath = urlPath => `/assets/build/${version}/${urlPath}`;
+const getCachebustedPath = (urlPath) => `/assets/build/${version}/${urlPath}`;
 
 function appendUuid(str) {
     return str + uuid();
@@ -37,7 +37,7 @@ function appendUuid(str) {
  * @param {string} value
  */
 function filter(list = [], key, value) {
-    return list.filter(item => item[key] === value);
+    return list.filter((item) => item[key] === value);
 }
 
 /**
@@ -47,7 +47,7 @@ function filter(list = [], key, value) {
  * @param {string} value
  */
 function find(list = [], key, value) {
-    return list.find(item => item[key] === value);
+    return list.find((item) => item[key] === value);
 }
 
 function slugify(str) {
@@ -95,5 +95,5 @@ module.exports = {
     removeQueryParam,
     addQueryParam,
     stripTrailingSlashes,
-    removeQuery
+    removeQuery,
 };

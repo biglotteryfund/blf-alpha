@@ -10,5 +10,5 @@ function getContactFullName(contactData) {
 }
 
 module.exports = {
-    getContactFullName
+    getContactFullName,
 };

@@ -7,7 +7,7 @@ const get = require('lodash/fp/get');
 const concat = require('lodash/concat');
 
 const logger = require('../../../common/logger').child({
-    service: 'form-summary'
+    service: 'form-summary',
 });
 
 /**
@@ -22,11 +22,11 @@ function logErrorDifference(rawValidationErrors, stepValidationErrors) {
     const errorDifference = differenceBy(
         rawValidationErrors,
         stepValidationErrors,
-        item => item.param
+        (item) => item.param
     );
 
     if (errorDifference.length) {
-        errorDifference.forEach(function(item) {
+        errorDifference.forEach(function (item) {
             logger.error(
                 `${item.param} not included in step fields but failed validation`,
                 { messages: item.msg }
@@ -35,15 +35,15 @@ function logErrorDifference(rawValidationErrors, stepValidationErrors) {
     }
 }
 
-module.exports = function(formBuilder) {
+module.exports = function (formBuilder) {
     const router = express.Router();
 
-    router.get('/', function(req, res) {
+    router.get('/', function (req, res) {
         const { copy, currentApplicationData } = res.locals;
 
         const form = formBuilder({
             locale: req.i18n.getLocale(),
-            data: currentApplicationData
+            data: currentApplicationData,
         });
 
         const formShortId = res.locals.formShortId;
@@ -52,7 +52,7 @@ module.exports = function(formBuilder) {
 
         logErrorDifference(
             form.validation.messages,
-            flatMap(errorsByStep, step => step.errors)
+            flatMap(errorsByStep, (step) => step.errors)
         );
 
         const title = copy.summary.title;
@@ -60,7 +60,7 @@ module.exports = function(formBuilder) {
 
         if (showErrors) {
             res.locals.hotJarTagList = [
-                `Apply: ${formShortId}: Summary: User clicked Submit early`
+                `Apply: ${formShortId}: Summary: User clicked Submit early`,
             ];
         }
 
@@ -68,7 +68,7 @@ module.exports = function(formBuilder) {
 
         if (featuredErrors.length > 0) {
             const msg = [
-                `Apply: ${formShortId}: Summary: User shown soft warnings`
+                `Apply: ${formShortId}: Summary: User shown soft warnings`,
             ];
             if (res.locals.hotJarTagList) {
                 res.locals.hotJarTagList = concat(
@@ -82,7 +82,7 @@ module.exports = function(formBuilder) {
 
         if (form.progress.isComplete) {
             const msg = [
-                `Apply: ${formShortId}: Summary: User shown form complete`
+                `Apply: ${formShortId}: Summary: User shown form complete`,
             ];
             if (res.locals.hotJarTagList) {
                 res.locals.hotJarTagList = concat(
@@ -104,7 +104,7 @@ module.exports = function(formBuilder) {
             errorsByStep: errorsByStep,
             featuredErrors: featuredErrors,
             expandSections: form.progress.isComplete || showErrors,
-            startPathSlug: form.sections[0].slug
+            startPathSlug: form.sections[0].slug,
         });
     });
 

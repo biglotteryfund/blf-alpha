@@ -11,7 +11,7 @@ export default {
         'labelAny',
         'options',
         'clearLabel',
-        'handleActiveFilter'
+        'handleActiveFilter',
     ],
     computed: {
         isOptgroup() {
@@ -19,7 +19,7 @@ export default {
         },
         id() {
             return `field-dynamic-${this.name}`;
-        }
+        },
     },
     methods: {
         handleInput($event) {
@@ -28,10 +28,10 @@ export default {
             this.$emit('input', $event.target.value);
             this.handleActiveFilter({
                 label: selectedOption.text,
-                name: this.name
+                name: this.name,
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

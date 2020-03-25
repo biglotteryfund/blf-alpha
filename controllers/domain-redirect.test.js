@@ -11,8 +11,8 @@ describe('domain redirect', () => {
             url: '/some/example/url/',
             headers: {
                 'Host': 'apply.tnlcommunityfund.org.uk',
-                'X-Forwarded-Proto': 'https'
-            }
+                'X-Forwarded-Proto': 'https',
+            },
         });
 
         const res = httpMocks.createResponse();
@@ -27,8 +27,8 @@ describe('domain redirect', () => {
             url: '/some/example/url/',
             headers: {
                 'Host': 'www.tnlcommunityfund.org.uk',
-                'X-Forwarded-Proto': 'https'
-            }
+                'X-Forwarded-Proto': 'https',
+            },
         });
 
         const res = httpMocks.createResponse();

@@ -7,7 +7,7 @@ const {
     isArray,
     numberWithCommas,
     slugify,
-    widont
+    widont,
 } = require('./filters');
 
 describe('appendUuid', () => {

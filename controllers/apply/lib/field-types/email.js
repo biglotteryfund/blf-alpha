@@ -16,7 +16,7 @@ class EmailField extends Field {
     defaultLabel() {
         return this.localise({
             en: 'Email',
-            cy: 'E-bost'
+            cy: 'E-bost',
         });
     }
 
@@ -31,8 +31,8 @@ class EmailField extends Field {
                 type: 'base',
                 message: this.localise({
                     en: 'Enter an email address',
-                    cy: 'Rhowch gyfeiriad e-bost'
-                })
+                    cy: 'Rhowch gyfeiriad e-bost',
+                }),
             },
             {
                 type: 'string.email',
@@ -40,9 +40,9 @@ class EmailField extends Field {
                     en: oneLine`Email address must be in the correct format,
                         like name@example.com`,
                     cy: oneLine`Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir,
-                        e.e enw@example.com`
-                })
-            }
+                        e.e enw@example.com`,
+                }),
+            },
         ];
     }
 }

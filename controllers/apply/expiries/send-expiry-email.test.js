@@ -6,10 +6,10 @@ const moment = require('moment');
 const sendExpiryEmail = require('./send-expiry-email');
 
 const mockTransport = nodemailer.createTransport({
-    jsonTransport: true
+    jsonTransport: true,
 });
 
-test('expiry email for awards for all', async function() {
+test('expiry email for awards for all', async function () {
     const info = await sendExpiryEmail(
         {
             emailType: 'AFA_ONE_MONTH',
@@ -18,10 +18,10 @@ test('expiry email for awards for all', async function() {
             applicationId: 'MOCK_APPLICATION_ID',
             applicationData: {
                 projectCountry: 'england',
-                projectName: 'Example project name'
+                projectName: 'Example project name',
             },
             expiresAt: moment('2050-06-01 12:00').toISOString(),
-            sendTo: 'example@example.com'
+            sendTo: 'example@example.com',
         },
         mockTransport
     );
@@ -34,7 +34,7 @@ test('expiry email for awards for all', async function() {
     expect(infoMessage.text).toMatchSnapshot();
 });
 
-test('welsh expiry email for awards for all', async function() {
+test('welsh expiry email for awards for all', async function () {
     const info = await sendExpiryEmail(
         {
             emailType: 'AFA_ONE_MONTH',
@@ -43,10 +43,10 @@ test('welsh expiry email for awards for all', async function() {
             applicationId: 'MOCK_APPLICATION_ID',
             applicationData: {
                 projectCountry: 'wales',
-                projectName: 'Example project name'
+                projectName: 'Example project name',
             },
             expiresAt: moment('2050-06-01 12:00').toISOString(),
-            sendTo: 'example@example.com'
+            sendTo: 'example@example.com',
         },
         mockTransport
     );
@@ -59,7 +59,7 @@ test('welsh expiry email for awards for all', async function() {
     expect(infoMessage.text).toMatchSnapshot();
 });
 
-test('expiry email for standard funding proposal', async function() {
+test('expiry email for standard funding proposal', async function () {
     const info = await sendExpiryEmail(
         {
             emailType: 'STANDARD_ONE_MONTH',
@@ -68,10 +68,10 @@ test('expiry email for standard funding proposal', async function() {
             applicationId: 'MOCK_APPLICATION_ID',
             applicationData: {
                 projectCountries: ['england'],
-                projectName: 'Example project name'
+                projectName: 'Example project name',
             },
             expiresAt: moment('2050-06-01 12:00').toISOString(),
-            sendTo: 'example@example.com'
+            sendTo: 'example@example.com',
         },
         mockTransport
     );
@@ -84,7 +84,7 @@ test('expiry email for standard funding proposal', async function() {
     expect(infoMessage.text).toMatchSnapshot();
 });
 
-test('welsh expiry email for standard funding proposal', async function() {
+test('welsh expiry email for standard funding proposal', async function () {
     const info = await sendExpiryEmail(
         {
             emailType: 'STANDARD_ONE_MONTH',
@@ -93,10 +93,10 @@ test('welsh expiry email for standard funding proposal', async function() {
             applicationId: 'MOCK_APPLICATION_ID',
             applicationData: {
                 projectCountries: ['wales'],
-                projectName: 'Example project name'
+                projectName: 'Example project name',
             },
             expiresAt: moment('2050-06-01 12:00').toISOString(),
-            sendTo: 'example@example.com'
+            sendTo: 'example@example.com',
         },
         mockTransport
     );

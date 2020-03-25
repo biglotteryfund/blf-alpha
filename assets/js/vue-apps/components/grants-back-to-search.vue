@@ -7,25 +7,23 @@ export default {
     props: ['label', 'storageKey', 'prefix'],
     data() {
         return {
-            returnLink: undefined
+            returnLink: undefined,
         };
     },
     computed: {
         id() {
-            return Math.random()
-                .toString(36)
-                .substr(2, 9);
-        }
+            return Math.random().toString(36).substr(2, 9);
+        },
     },
-    mounted: function() {
+    mounted: function () {
         const searchData = getWithExpiry({
             type: 'localStorage',
-            key: this.storageKey
+            key: this.storageKey,
         });
         if (searchData) {
             this.returnLink = this.prefix + '?' + searchData;
         }
-    }
+    },
 };
 </script>
 

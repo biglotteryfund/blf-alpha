@@ -15,33 +15,33 @@ const fromDateParts = require('./from-date-parts');
 const countWords = require('./count-words');
 
 function formatRadio(field) {
-    return function(value) {
+    return function (value) {
         const choices = castArray(value);
 
-        const matches = filter(field.options, option =>
+        const matches = filter(field.options, (option) =>
             includes(choices, option.value)
         );
 
         return matches.length > 0
-            ? matches.map(match => match.label).join(',\n')
+            ? matches.map((match) => match.label).join(',\n')
             : choices.join(', ');
     };
 }
 
 function formatMultiChoice(field) {
     const options = field.optgroups
-        ? flatMap(field.optgroups, o => o.options)
+        ? flatMap(field.optgroups, (o) => o.options)
         : field.options;
 
-    return function(value) {
+    return function (value) {
         const choices = castArray(value);
 
-        const matches = filter(options, option =>
+        const matches = filter(options, (option) =>
             includes(choices, option.value)
         );
 
         return matches.length > 0
-            ? matches.map(match => match.label).join(',\n')
+            ? matches.map((match) => match.label).join(',\n')
             : choices.join(',\n');
     };
 }
@@ -52,14 +52,14 @@ function formatAddress(value) {
         value.line2,
         value.townCity,
         value.county,
-        value.postcode
+        value.postcode,
     ]).join(',\n');
 }
 
 function formatAddressHistory(locale) {
     const localise = get(locale);
 
-    return function(value) {
+    return function (value) {
         const meetsMinimum = get('currentAddressMeetsMinimum')(value);
         const previousAddress = get('previousAddress')(value);
 
@@ -72,14 +72,14 @@ function formatAddressHistory(locale) {
 }
 
 function formatDate(locale) {
-    return function(value) {
+    return function (value) {
         const dt = fromDateParts(value);
         return dt.isValid() ? dt.locale(locale).format('D MMMM, YYYY') : '';
     };
 }
 
 function formatDateRange(locale) {
-    return function(value) {
+    return function (value) {
         if (!value.startDate || !value.endDate) {
             return '';
         } else {
@@ -100,11 +100,11 @@ function formatDateRange(locale) {
 }
 
 function formatDayMonth(locale) {
-    return function(value) {
+    return function (value) {
         const dt = moment({
             year: moment().year(),
             month: value.month - 1,
-            day: value.day
+            day: value.day,
         });
 
         return dt.isValid() ? dt.locale(locale).format('Do MMMM') : '';
@@ -112,11 +112,11 @@ function formatDayMonth(locale) {
 }
 
 function formatMonthYear(locale) {
-    return function(value) {
+    return function (value) {
         const dt = moment({
             year: value.year,
             month: value.month - 1,
-            day: 1
+            day: 1,
         });
 
         return dt.isValid() ? dt.locale(locale).format('MMMM YYYY') : '';
@@ -129,22 +129,23 @@ function formatCurrency(value) {
 
 function formatBudget(locale) {
     const localise = get(locale);
-    return function(value) {
+    return function (value) {
         if (!isArray(value)) {
             return value;
         } else {
-            const total = sumBy(value, item => parseInt(item.cost, 10) || 0);
+            const total = sumBy(value, (item) => parseInt(item.cost, 10) || 0);
             return [
                 value
-                    .filter(line => line.item && line.cost)
+                    .filter((line) => line.item && line.cost)
                     .map(
-                        line => `${line.item} – £${line.cost.toLocaleString()}`
+                        (line) =>
+                            `${line.item} – £${line.cost.toLocaleString()}`
                     )
                     .join('\n'),
                 localise({
                     en: `Total: £${total.toLocaleString()}`,
-                    cy: `Cyfanswm: £${total.toLocaleString()}`
-                })
+                    cy: `Cyfanswm: £${total.toLocaleString()}`,
+                }),
             ].join('\n');
         }
     };
@@ -169,7 +170,7 @@ function formatName(value) {
 }
 
 function formatTextArea(locale) {
-    return function(value) {
+    return function (value) {
         const str = value.toString();
         const wordCount = countWords(str);
         const label = locale === 'en' ? 'words' : 'gair';
@@ -238,5 +239,5 @@ module.exports = {
     formatterFor,
     formatCurrency,
     formatBudget,
-    formatDateRange
+    formatDateRange,
 };

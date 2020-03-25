@@ -6,10 +6,10 @@ export default {
     props: ['limit', 'excludeId', 'programme', 'beneficiaryLocation'],
     data() {
         return {
-            relatedGrants: undefined
+            relatedGrants: undefined,
         };
     },
-    mounted: function() {
+    mounted: function () {
         this.getRelatedGrants();
     },
     methods: {
@@ -18,7 +18,7 @@ export default {
             if (this.beneficiaryLocation) {
                 let loc = find(
                     JSON.parse(this.beneficiaryLocation),
-                    location => location.geoCodeType === 'CMLAD'
+                    (location) => location.geoCodeType === 'CMLAD'
                 );
                 if (loc) {
                     geocode = loc.geoCode;
@@ -33,16 +33,16 @@ export default {
                     programme: this.programme,
                     exclude: this.excludeId,
                     localAuthority: geocode,
-                    related: true
+                    related: true,
                 },
-                timeout: 20000
-            }).then(response => {
+                timeout: 20000,
+            }).then((response) => {
                 if (response.meta.totalResults > 1) {
                     this.relatedGrants = response.resultsHtml;
                 }
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

@@ -11,7 +11,7 @@ describe('#makeBehaviourItem', () => {
             pathPattern: '/',
             isPostable: true,
             queryStringWhitelist: ['q'],
-            cookiesInUse: ['example']
+            cookiesInUse: ['example'],
         });
 
         expect(behaviour).toMatchSnapshot();
@@ -24,7 +24,7 @@ describe('#makeBehaviourItem', () => {
             isPostable: true,
             allowAllQueryStrings: true,
             cookiesInUse: ['example'],
-            headersToKeep: ['*']
+            headersToKeep: ['*'],
         });
 
         expect(behaviour).toMatchSnapshot();

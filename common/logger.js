@@ -22,8 +22,8 @@ function getTransports() {
                 logGroupName: `/tnlcf/${environment}/app`,
                 logStreamName: `build-${buildNumber}`,
                 jsonMessage: true,
-                retentionInDays: 30
-            })
+                retentionInDays: 30,
+            }),
         ];
     } else {
         return [
@@ -32,11 +32,11 @@ function getTransports() {
                 format: format.combine(
                     format.colorize(),
                     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                    format.printf(function(info) {
+                    format.printf(function (info) {
                         return `${info.timestamp} [${info.level}] ${info.message}`;
                     })
-                )
-            })
+                ),
+            }),
         ];
     }
 }
@@ -44,5 +44,5 @@ function getTransports() {
 module.exports = createLogger({
     level: process.env.LOG_LEVEL || config.get('logLevel'),
     format: format.combine(format.errors({ stack: true }), format.json()),
-    transports: getTransports()
+    transports: getTransports(),
 });
