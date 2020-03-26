@@ -298,42 +298,42 @@ function getPublications({
     locale,
     programme,
     slug = null,
-    requestParams = {}
+    requestParams = {},
 }) {
     const filteredRequestParams = pick(requestParams, [
         'page',
         'tag',
         'q',
-        'sort'
+        'sort',
     ]);
 
     const apiRequestParams = {
         // Override default page-limit
         ...{ 'page-limit': 10 },
-        ...filteredRequestParams
+        ...filteredRequestParams,
     };
 
     const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
     if (slug) {
         return fetch(`${baseUrl}/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...apiRequestParams })
-        }).then(response => {
+            qs: withPreviewParams(requestParams, { ...apiRequestParams }),
+        }).then((response) => {
             return {
                 meta: response.meta,
-                entry: getAttrs(response)
+                entry: getAttrs(response),
             };
         });
     } else {
         return fetch(baseUrl, {
-            qs: withPreviewParams(requestParams, { ...apiRequestParams })
-        }).then(response => {
+            qs: withPreviewParams(requestParams, { ...apiRequestParams }),
+        }).then((response) => {
             return {
                 meta: response.meta,
                 result: mapAttrs(response),
                 pagination: _buildPagination(
                     response.meta.pagination,
                     apiRequestParams
-                )
+                ),
             };
         });
     }
@@ -341,14 +341,14 @@ function getPublications({
 
 function getPublicationTags({ locale, programme }) {
     return fetch(`/v1/${locale}/funding/publications/${programme}/tags`).then(
-        response => {
+        (response) => {
             const attrs = mapAttrs(response);
             // Strip entries to just their tags
-            const allTags = flatten(attrs.map(_ => _.tags));
+            const allTags = flatten(attrs.map((_) => _.tags));
             // Count the occurrences of each tag
             const counts = countBy(allTags, 'id');
             // Merge these counts into the tag list after de-duping
-            const tags = uniqBy(allTags, 'id').map(tag => {
+            const tags = uniqBy(allTags, 'id').map((tag) => {
                 tag.count = counts[tag.id];
                 return tag;
             });

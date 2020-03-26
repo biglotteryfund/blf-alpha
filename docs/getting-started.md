@@ -24,7 +24,7 @@ Next, you'll need to download the application secrets. These are configuration s
 
 Create a directory called `/etc/blf/` and make sure it is writeable. This is where application secrets will be stored.
 
-Optional: you can override the location of this directory by setting an environment variable like so: 
+Optional: you can override the location of this directory by setting an environment variable like so:
 
 ```
 SECRET_DIR=C:/Users/Someone/FolderName
