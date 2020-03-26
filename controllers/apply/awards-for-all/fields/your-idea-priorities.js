@@ -18,9 +18,7 @@ module.exports = function (locale) {
         }),
         explanation: localise({
             en: `<p>
-                National Lottery Awards for All has three funding priorities, 
-                please tell us how your project will
-                <strong>meet at least one of these:</strong>
+                <strong>We want to fund projects that do at least one of these three things:</strong>
             </p>
             <ol>
                 <li>Bring people together and build strong
@@ -37,9 +35,7 @@ module.exports = function (locale) {
             </strong></p>`,
 
             cy: `<p>
-                Mae gan Arian i Bawb y Loteri Genedlaethol dair blaenoriaeth
-                ariannu, dywedwch wrthym sut bydd eich prosiect yn
-                <strong>bodloni o leiaf un o’r rhain</strong>:
+                @TODO i18n:
             </p>
             <ol>
                 <li>Dod â phobl ynghyd a chreu perthnasau cryf o fewn ac ar draws cymunedau</li>

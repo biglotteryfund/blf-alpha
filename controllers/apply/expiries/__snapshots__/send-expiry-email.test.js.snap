@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`expiry email for awards for all 1`] = `
+exports[`Apply for funding under £10,000 expiry email 1`] = `
 " Hello,
 
- Your National Lottery Awards for All application isn’t finished yet
+ Your application for under £10,000 isn’t finished yet
 We noticed you started applying for Example project name, but haven’t finished yet. 
 
  You have until 1 June, 2050 12:00 to finish your application 
@@ -21,40 +21,16 @@ You can tell us to stop sending you these reminder emails.
 You can call 028 9568 0143. Or email general.enquiries@tnlcommunityfund.org.uk. We’ll be happy to help you. 
 
  Best wishes,
-The National Lottery Awards for All Team"
-`;
-
-exports[`expiry email for standard funding proposal 1`] = `
-" Hello,
-
- Your funding proposal isn’t finished yet
-We noticed you started telling us about Example project name. But you haven’t finished yet. 
-
- You have until 1 June, 2050 12:00 to finish your funding proposal. 
-If you don’t complete it before that time, we’ll delete it - so that we can keep your data safe. 
-
- How to finish your funding proposal
-Log in to your account [https://www.tnlcommunityfund.org.uk/apply/your-funding-proposal/edit/MOCK_APPLICATION_ID?s=expiryEmail]and
-answer the rest of the questions. 
-
- If you don’t want more reminders from us
-You can tell us to stop sending you these reminder emails.
-[https://www.tnlcommunityfund.org.uk/apply/emails/unsubscribe?token=MOCK_TOKEN] 
-
- If you have any questions at all
-You can call 028 9568 0143. Or email general.enquiries@tnlcommunityfund.org.uk. We’ll be happy to help you. 
-
-Best wishes,
 The National Lottery Community Fund"
 `;
 
-exports[`welsh expiry email for awards for all 1`] = `
+exports[`Apply for funding under £10,000 welsh expiry email 1`] = `
 " Bilingual message – please scroll down for Welsh.
 Neges ddwyieithog – y Gymraeg i’w weld isod. 
 
 Hello,
 
- Your National Lottery Awards for All application isn’t finished yet
+ Your application for under £10,000 isn’t finished yet
 We noticed you started applying for Example project name, but haven’t finished yet. 
 
  You have until 1 June, 2050 12:00 to finish your application 
@@ -72,7 +48,7 @@ You can tell us to stop sending you these reminder emails.
 You can call 029 2168 0214. Or email wales@tnlcommunityfund.org.uk. We’ll be happy to help you. 
 
  Best wishes,
-The National Lottery Awards for All Team 
+The National Lottery Community Fund 
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -97,10 +73,34 @@ Gallwch ddweud wrthym i stopio anfon yr e-byst atgoffa hyn atoch
 Gallwch ffonio 029 2168 0214. Neu e-bostio wales@tnlcommunityfund.org.uk. Byddwn yn hapus i’ch helpu. 
 
  Cofion gorau,
-Tîm Arian i Bawb y Loteri Genedlaethol"
+Cronfa Gymunedol y Loteri Genedlaethol"
 `;
 
-exports[`welsh expiry email for standard funding proposal 1`] = `
+exports[`Your funding proposal expiry email 1`] = `
+" Hello,
+
+ Your funding proposal isn’t finished yet
+We noticed you started telling us about Example project name. But you haven’t finished yet. 
+
+ You have until 1 June, 2050 12:00 to finish your funding proposal. 
+If you don’t complete it before that time, we’ll delete it - so that we can keep your data safe. 
+
+ How to finish your funding proposal
+Log in to your account [https://www.tnlcommunityfund.org.uk/apply/your-funding-proposal/edit/MOCK_APPLICATION_ID?s=expiryEmail]and
+answer the rest of the questions. 
+
+ If you don’t want more reminders from us
+You can tell us to stop sending you these reminder emails.
+[https://www.tnlcommunityfund.org.uk/apply/emails/unsubscribe?token=MOCK_TOKEN] 
+
+ If you have any questions at all
+You can call 028 9568 0143. Or email general.enquiries@tnlcommunityfund.org.uk. We’ll be happy to help you. 
+
+Best wishes,
+The National Lottery Community Fund"
+`;
+
+exports[`Your funding proposal welsh expiry email  1`] = `
 " Bilingual message – please scroll down for Welsh.
 Neges ddwyieithog – y Gymraeg i’w weld isod. 
 

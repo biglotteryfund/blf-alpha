@@ -1363,8 +1363,8 @@ module.exports = function ({
 
     const form = {
         title: localise({
-            en: 'National Lottery Awards for All',
-            cy: 'Arian i Bawb y Loteri Genedlaethol',
+            en: 'Apply for funding under £10,000',
+            cy: '@TODO: i18n',
         }),
         startLabel: localise({
             en: 'Start your application',

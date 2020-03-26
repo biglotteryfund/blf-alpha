@@ -11,12 +11,11 @@
         {% call contentBox(skipProse = true) %}
             {{ formHeader(
                 backUrl = sectionUrl if user else localify('/funding/under10k'),
-                title = formTitle,
-                prefix = globalCopy.brand.title
+                title = copy.title,
+                prefix = formTitle
             )}}
 
             <div class="s-prose">
-                <h2>{{ copy.beforeYouStart.title }}</h2>
                 {{ copy.beforeYouStart.body | safe }}
 
                 <h2>{{ copy.whatInformation.title }}</h2>
