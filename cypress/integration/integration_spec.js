@@ -152,7 +152,7 @@ function logIn(username, password) {
     });
 }
 
-function createAccount(username, password) {
+function createAccount(username, password, passwordConfirm) {
     cy.findByLabelText('Email address')
         .clear()
         .type(username, { delay: 0 });
@@ -161,7 +161,7 @@ function createAccount(username, password) {
         .type(password, { delay: 0 });
     cy.findByLabelText('Password confirmation', { exact: false })
         .clear()
-        .type(password, { delay: 0 });
+        .type(passwordConfirm === undefined ? password : passwordConfirm, { delay: 0 });
     cy.get('.form-actions').within(() => {
         cy.findByText('Create an account').click();
     });
@@ -260,6 +260,10 @@ it('should prevent registration with invalid passwords', () => {
     createAccount(username, '5555555555');
     cy.findByTestId('form-errors').should('contain', 'Password is too weak');
 
+    cy.visit('/user/register');
+    createAccount(username, 'donot', 'match');
+    cy.findByTestId('form-errors').should('contain', 'Passwords must match');
+
     // Non-UI tests for remaining validations for speed
     cy.registerUser({
         username: username,
@@ -276,6 +280,15 @@ it('should prevent registration with invalid passwords', () => {
     }).then(res => {
         expect(res.body).to.contain('Password must be at least');
     });
+});
+
+it('should prevent registration with an invalid email address', () => {
+    const password = 'Supertester123'
+
+    cy.visit('/user/register');
+    createAccount('notavalidemail', password);
+    cy.findByTestId('form-errors').should('contain', 'Enter a valid email address');
+
 });
 
 it('should register and see activation screen', function() {
