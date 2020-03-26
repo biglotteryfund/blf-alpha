@@ -5,7 +5,7 @@ const express = require('express');
 const {
     injectCopy,
     injectHeroImage,
-    setCommonLocals
+    setCommonLocals,
 } = require('../../common/inject-content');
 const { renderFlexibleContentChild } = require('../common');
 const contentApi = require('../../common/content-api');
@@ -44,18 +44,18 @@ router.get(
     checkValidPublicationProgramme,
     injectCopy('insights.documents'),
     injectHeroImage('a-better-start-new'),
-    async function(req, res, next) {
+    async function (req, res, next) {
         try {
             const [publicationTags, publications] = await Promise.all([
                 contentApi.getPublicationTags({
                     locale: req.i18n.getLocale(),
-                    programme: req.params.programme
+                    programme: req.params.programme,
                 }),
                 contentApi.getPublications({
                     locale: req.i18n.getLocale(),
                     programme: req.params.programme,
-                    requestParams: req.query
-                })
+                    requestParams: req.query,
+                }),
             ]);
 
             if (req.params.programme === 'a-better-start') {
@@ -71,7 +71,7 @@ router.get(
                 baseUrl: req.baseUrl + req.path,
                 entriesMeta: publications.meta,
                 pagination: publications.pagination,
-                programme: req.params.programme
+                programme: req.params.programme,
             });
         } catch (error) {
             next(error);
@@ -88,20 +88,20 @@ router.get(
                 locale: req.i18n.getLocale(),
                 programme: req.params.programme,
                 slug: req.params.slug,
-                requestParams: req.query
+                requestParams: req.query,
             });
             setCommonLocals(req, res, publication.entry);
             res.locals.breadcrumbs = res.locals.breadcrumbs.concat(
                 {
                     label: 'Publications',
-                    url: req.baseUrl + '/publications'
+                    url: req.baseUrl + '/publications',
                 },
                 {
                     label: publication.meta.programme.title,
                     url:
                         req.baseUrl +
                         '/publications/' +
-                        publication.meta.programme.slug
+                        publication.meta.programme.slug,
                 }
             );
             renderFlexibleContentChild(req, res, publication.entry);
