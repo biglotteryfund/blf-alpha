@@ -95,14 +95,14 @@ module.exports = function sendExpiryEmail(
             name: 'application_expiry_afa',
             template: path.resolve(
                 __dirname,
-                './views/awards-for-all-expiry-email.njk'
+                './views/under10k-expiry-email.njk'
             ),
         },
         'standard-enquiry': {
             name: 'application_expiry_standard',
             template: path.resolve(
                 __dirname,
-                './views/standard-expiry-email.njk'
+                './views/over10k-proposal-expiry-email.njk'
             ),
         },
     }[formId];

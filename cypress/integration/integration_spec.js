@@ -399,7 +399,7 @@ it('should return forgotten password screen for invalid accounts', () => {
     );
 });
 
-it('should submit full awards for all application', () => {
+it('should submit full application for under £10,000', () => {
     function submitStep() {
         cy.findByTestId('updated-at').contains('Today');
         cy.findByText('Continue').click();
