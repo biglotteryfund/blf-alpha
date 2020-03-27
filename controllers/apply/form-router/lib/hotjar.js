@@ -4,7 +4,7 @@ function getShortId(formId) {
     let hotjarAlias;
     switch (formId) {
         case 'awards-for-all':
-            hotjarAlias = 'AFA';
+            hotjarAlias = 'U10';
             break;
         case 'standard-enquiry':
             hotjarAlias = 'YFP';

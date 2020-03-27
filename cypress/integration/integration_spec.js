@@ -1007,7 +1007,7 @@ it('should submit full application for under £10,000', () => {
 
 it('should allow editing from the summary screen', () => {
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/awards-for-all/new');
+        cy.visit('/apply/under-10k/new');
 
         cy.findByTestId('expand-all-sections').click();
 
@@ -1197,7 +1197,7 @@ it('should correctly email users with expiring applications', () => {
                 expiresAt: expiry.toDate(),
             });
 
-            cy.request('POST', '/apply/awards-for-all/seed', {
+            cy.request('POST', '/apply/under-10k/seed', {
                 userId: newUser.id,
                 expiresAt: expiry.toDate(),
             });

@@ -93,21 +93,21 @@ const CHARITY_NUMBER_TYPES = {
 
 const EXPIRY_EMAIL_REMINDERS = [
     {
-        emailType: 'AFA_ONE_MONTH',
+        emailType: 'UNDER10K_ONE_MONTH',
         sendBeforeExpiry: {
             amount: 30,
             unit: 'days',
         },
     },
     {
-        emailType: 'AFA_ONE_WEEK',
+        emailType: 'UNDER10K_ONE_WEEK',
         sendBeforeExpiry: {
             amount: 7,
             unit: 'days',
         },
     },
     {
-        emailType: 'AFA_ONE_DAY',
+        emailType: 'UNDER10K_ONE_DAY',
         sendBeforeExpiry: {
             amount: 1,
             unit: 'days',

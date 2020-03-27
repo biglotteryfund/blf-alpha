@@ -14,18 +14,21 @@ function getSubjectLine(emailType, isBilingual = false) {
     let subjectLine;
     switch (emailType) {
         case 'AFA_ONE_MONTH':
+        case 'UNDER10K_ONE_MONTH':
             subjectLine = {
                 en: 'You have one month to finish your application',
                 cy: 'Mae gennych fis i orffen eich cais',
             };
             break;
         case 'AFA_ONE_WEEK':
+        case 'UNDER10K_ONE_WEEK':
             subjectLine = {
                 en: 'You have one week to finish your application',
                 cy: 'Mae gennych wythnos i orffen eich cais',
             };
             break;
         case 'AFA_ONE_DAY':
+        case 'UNDER10K_ONE_DAY':
             subjectLine = {
                 en: 'You have one day to finish your application',
                 cy: 'Mae gennych ddiwrnod i orffen eich cais',
