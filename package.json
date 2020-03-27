@@ -97,6 +97,7 @@
     "config": "3.3.0",
     "connect-session-sequelize": "6.0.0",
     "connect-slashes": "^1.4.0",
+    "cross-env": "7.0.2",
     "csurf": "^1.11.0",
     "dompurify": "2.0.8",
     "express": "4.17.1",
