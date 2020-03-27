@@ -28,19 +28,19 @@ let customBuildNumber = argv.build;
 const codeDeployEnvs = {
     test: {
         applicationName: 'BLF_WWW',
-        deploymentGroupName: 'Test_Fleet'
+        deploymentGroupName: 'Test_Fleet',
     },
     live: {
         applicationName: 'BLF_WWW',
-        deploymentGroupName: 'Live_Fleet'
-    }
+        deploymentGroupName: 'Live_Fleet',
+    },
 };
 
 const CONFIG = {
     s3Bucket: 'blf-deployments',
     filenamePattern: /build-(\d+).zip/,
     codedeploy: argv.l ? codeDeployEnvs.live : codeDeployEnvs.test,
-    githubRepo: 'biglotteryfund/blf-alpha'
+    githubRepo: 'biglotteryfund/blf-alpha',
 };
 
 // create AWS SDK instance
@@ -62,14 +62,14 @@ if (customBuildNumber) {
             deployed: 'ignore',
             s3Bucket: CONFIG.s3Bucket,
             sortBy: 'registerTime',
-            sortOrder: 'descending'
+            sortOrder: 'descending',
         })
         .promise()
-        .then(data => {
+        .then((data) => {
             console.log('Listing the most recent revisions on TEST:\n');
             let revisions = data.revisions.slice(0, 10);
             let validDeploys = [];
-            revisions.forEach(r => {
+            revisions.forEach((r) => {
                 let id = r.s3Location.key;
                 let number = id.match(CONFIG.filenamePattern);
                 if (number && number[1]) {
@@ -84,7 +84,7 @@ if (customBuildNumber) {
                 name: 'revisionId',
                 type: 'integer',
                 message: 'Please supply a valid deploy ID',
-                required: true
+                required: true,
             };
 
             prompt.start();
@@ -102,9 +102,9 @@ if (customBuildNumber) {
                 }
             });
         })
-        .catch(err => {
+        .catch((err) => {
             console.error('Error fetching revisions', {
-                error: err
+                error: err,
             });
         });
 }
@@ -115,7 +115,7 @@ function createDeploymentConf(id) {
         applicationName: CONFIG.codedeploy.applicationName,
         autoRollbackConfiguration: {
             enabled: true,
-            events: ['DEPLOYMENT_FAILURE']
+            events: ['DEPLOYMENT_FAILURE'],
         },
         deploymentConfigName: 'CodeDeployDefault.OneAtATime',
         deploymentGroupName: CONFIG.codedeploy.deploymentGroupName,
@@ -127,10 +127,10 @@ function createDeploymentConf(id) {
             s3Location: {
                 bucket: CONFIG.s3Bucket,
                 bundleType: 'zip',
-                key: `build-${id}.zip`
-            }
+                key: `build-${id}.zip`,
+            },
         },
-        updateOutdatedInstancesOnly: false
+        updateOutdatedInstancesOnly: false,
     };
 }
 
@@ -138,9 +138,9 @@ function verifyCommitsToDeploy() {
     return new Promise((resolve, reject) => {
         return Promise.all([
             got(`${process.env.TEST_URL}/status`).json(),
-            got(`${process.env.PROD_URL}/status`).json()
+            got(`${process.env.PROD_URL}/status`).json(),
         ])
-            .then(function([test, production]) {
+            .then(function ([test, production]) {
                 console.log(stripIndents`
 
                     The following changes will be deployed:
@@ -157,7 +157,7 @@ function verifyCommitsToDeploy() {
                         type: 'string',
                         pattern: /y[es]*|n[o]?/,
                         message: 'Please answer the question properly',
-                        required: true
+                        required: true,
                     },
                     (err, result) => {
                         if (['y', 'yes'].indexOf(result.yesno) !== -1) {
@@ -168,7 +168,7 @@ function verifyCommitsToDeploy() {
                     }
                 );
             })
-            .catch(err => {
+            .catch((err) => {
                 reject(err);
             });
     });
@@ -190,10 +190,10 @@ function pushOutDeploy(env, id) {
                 'Deployment started, check Slack or the AWS console to monitor the deployment.'
             );
         })
-        .catch(err => {
+        .catch((err) => {
             console.error('Error creating deployment', {
                 buildId: id,
-                error: err
+                error: err,
             });
         });
 }
@@ -208,7 +208,7 @@ function deployRevision(id) {
             .then(() => {
                 pushOutDeploy(env, id);
             })
-            .catch(err => {
+            .catch((err) => {
                 throw err;
             });
     } else {
@@ -226,9 +226,9 @@ function getRevision(id) {
                 s3Location: {
                     bucket: CONFIG.s3Bucket,
                     bundleType: 'zip',
-                    key: `build-${id}.zip`
-                }
-            }
+                    key: `build-${id}.zip`,
+                },
+            },
         })
         .promise();
 }

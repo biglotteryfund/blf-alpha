@@ -73,7 +73,7 @@ function startServer() {
         }
     });
 
-    server.on('listening', function() {
+    server.on('listening', function () {
         const msg = `App now running on ${describeAddressBinding(
             server.address()
         )}`;
@@ -88,7 +88,7 @@ function startServer() {
                 title: 'blf-alpha',
                 message: msg,
                 sound: false,
-                wait: false
+                wait: false,
             });
         }
     });
@@ -99,11 +99,11 @@ function startServer() {
  */
 sequelize
     .sync()
-    .then(function() {
+    .then(function () {
         logger.info('Database sync complete');
         startServer();
     })
-    .catch(function(e) {
+    .catch(function (e) {
         logger.warn('Database sync failed', e);
         startServer();
     });

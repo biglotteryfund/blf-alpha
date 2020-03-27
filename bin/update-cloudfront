@@ -61,10 +61,10 @@ if (customConfig) {
     // get the current commit IDs
     got(`${environmentUrl}/status`)
         .json()
-        .then(function(status) {
+        .then(function (status) {
             // look up the file at the chosen environment's current commit
             let routesParams = {
-                ref: status.COMMIT_ID
+                ref: status.COMMIT_ID,
             };
 
             // use a custom commit, if supplied
@@ -80,11 +80,11 @@ if (customConfig) {
             got(CONFIG_URL, {
                 searchParams: routesParams,
                 headers: {
-                    'user-agent': 'BLF-Cloudfront-Tool'
-                }
+                    'user-agent': 'BLF-Cloudfront-Tool',
+                },
             })
                 .json()
-                .then(response => {
+                .then((response) => {
                     console.log(
                         `Got the file data, downloading content from ${response.download_url}...`
                     );
@@ -92,23 +92,23 @@ if (customConfig) {
                     // now fetch the file content itself
                     got(response.download_url)
                         .json()
-                        .then(fileContent => {
+                        .then((fileContent) => {
                             beginUpdate(fileContent);
                         })
-                        .catch(err => {
+                        .catch((err) => {
                             console.log(
                                 `Error getting "${configFilename}" config file content`,
                                 {
-                                    error: err
+                                    error: err,
                                 }
                             );
                         });
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(
                         `Error getting "${configFilename}" config file data`,
                         {
-                            error: err
+                            error: err,
                         }
                     );
                 });
@@ -130,7 +130,7 @@ function storeBackup(existingConfig) {
                 existingConfig.Distribution.DistributionConfig
                     .DefaultCacheBehavior,
             CacheBehaviors:
-                existingConfig.Distribution.DistributionConfig.CacheBehaviors
+                existingConfig.Distribution.DistributionConfig.CacheBehaviors,
         };
         fs.writeFileSync(confPath, JSON.stringify(backup, null, 4));
         console.log('A copy of the existing config was saved in ' + confPath);
@@ -144,7 +144,7 @@ function listChanges(pathConfigs) {
     let divider = '=================';
     for (let origin in pathsByOrigin) {
         console.log('\n', divider, origin, divider, '\n');
-        pathsByOrigin[origin].forEach(p => {
+        pathsByOrigin[origin].forEach((p) => {
             console.log(p.path);
         });
         console.log('\n');
@@ -154,7 +154,7 @@ function listChanges(pathConfigs) {
 function beginUpdate(savedConfig) {
     // create AWS SDK instance
     AWS.config.credentials = new AWS.SharedIniFileCredentials({
-        profile: 'default'
+        profile: 'default',
     });
     const cloudfront = new AWS.CloudFront();
 
@@ -166,13 +166,13 @@ function beginUpdate(savedConfig) {
     // get existing cloudfront config
     const getDistributionConfig = cloudfront
         .getDistribution({
-            Id: cloudfrontDistribution.distributionId
+            Id: cloudfrontDistribution.distributionId,
         })
         .promise();
 
     // handle response from fetching config
     getDistributionConfig
-        .then(existingConfig => {
+        .then((existingConfig) => {
             // store the existing behaviour config locally, just in case...
             storeBackup(existingConfig);
 
@@ -188,10 +188,10 @@ function beginUpdate(savedConfig) {
             );
 
             // allow for diff/comparison before deploy
-            const getUrls = item => {
+            const getUrls = (item) => {
                 return {
                     path: item.PathPattern,
-                    origin: item.TargetOriginId
+                    origin: item.TargetOriginId,
                 };
             };
 
@@ -202,16 +202,16 @@ function beginUpdate(savedConfig) {
                 ),
                 after: newConfigToWrite.Distribution.DistributionConfig.CacheBehaviors.Items.map(
                     getUrls
-                )
+                ),
             };
 
             const pathsAdded = filter(
                 paths.after,
-                obj => !find(paths.before, obj)
+                (obj) => !find(paths.before, obj)
             );
             const pathsRemoved = filter(
                 paths.before,
-                obj => !find(paths.after, obj)
+                (obj) => !find(paths.after, obj)
             );
             // warn users about changes
             console.log(
@@ -243,7 +243,7 @@ function beginUpdate(savedConfig) {
                 type: 'string',
                 pattern: /y[es]*|n[o]?/,
                 message: 'Please answer the question properly',
-                required: true
+                required: true,
             };
 
             prompt.start();
@@ -261,26 +261,26 @@ function beginUpdate(savedConfig) {
                                 newConfigToWrite.Distribution
                                     .DistributionConfig,
                             Id: cloudfrontDistribution.distributionId,
-                            IfMatch: etag
+                            IfMatch: etag,
                         })
                         .promise();
 
                     // respond to update change
                     updateDistributionConfig
-                        .then(data => {
+                        .then((data) => {
                             // the update worked
                             console.log(data);
                             console.log(
                                 'CloudFront was successfully updated with the new configuration!'
                             );
                         })
-                        .catch(updateError => {
+                        .catch((updateError) => {
                             // failed to update config
                             console.log(JSON.stringify(newConfigToWrite));
                             console.error(
                                 'There was an error uploading this config',
                                 {
-                                    error: updateError
+                                    error: updateError,
                                 }
                             );
                         });
@@ -289,7 +289,7 @@ function beginUpdate(savedConfig) {
                 }
             });
         })
-        .catch(err => {
+        .catch((err) => {
             throw err;
         });
 }
