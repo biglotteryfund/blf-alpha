@@ -765,7 +765,7 @@ user:
     - label: Newid eich cyfeiriad e-bost
       href: /welsh/user/update-email
     - label: Gweld eich ceisiadau ariannu
-      href: /welsh/apply/awards-for-all
+      href: /welsh/apply/under-10k
   login:
     title: Mewngofnodi
     introduction: >
@@ -929,7 +929,7 @@ applyNext:
         title: "Ariannu o dan £10,000: Dechrau cais"
         description: Ffordd sydyn o ymgeisio am symiau llai o arian grant rhwng £300 a £10,000.
         link:
-          url: /welsh/apply/awards-for-all/start
+          url: /welsh/apply/under-10k/start
           label: Dechrau cais newydd
       standard:
         title: "Ariannu dros £10,000: Dywedwch wrthym eich cynnig"

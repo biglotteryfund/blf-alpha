@@ -698,7 +698,7 @@ user:
     - label: Change your email address
       href: /user/update-email
     - label: View your funding applications
-      href: /apply/awards-for-all
+      href: /apply/under-10k
   login:
     title: Log in
     introduction: >
@@ -862,7 +862,7 @@ applyNext:
         title: "Funding under £10,000: Start an application"
         description: A quick way to apply for smaller amounts of funding between £300 and £10,000.
         link:
-          url: /apply/awards-for-all/start
+          url: /apply/under-10k/start
           label: Start a new application
       standard:
         title: "Funding over £10,000: Tell us your proposal"
