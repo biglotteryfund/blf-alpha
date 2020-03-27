@@ -259,12 +259,11 @@ $statuses: (
     }
 
     .status-bar__step--complete {
-        background-color: #4a9e2e;
+        background-color: map-get($statuses, 'complete');
     }
 
     .status-bar__step--incomplete {
-        // @TODO: Confirm what #757575 40% should be
-        background-color: lighten(#757575, 40%);
+        background-color: lighten(map-get($statuses, 'empty'), 40%);
     }
 }
 
