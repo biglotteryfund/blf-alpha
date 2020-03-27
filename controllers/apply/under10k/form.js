@@ -19,7 +19,7 @@ const {
     ORGANISATION_TYPES,
     COMPANY_NUMBER_TYPES,
     CHARITY_NUMBER_TYPES,
-    EDUCATION_NUMBER_TYPES,
+    EDUCATION_NUMBER_TYPES
 } = require('./constants');
 
 const fieldsFor = require('./fields');
@@ -29,18 +29,18 @@ const { getContactFullName } = require('./lib/contacts');
 const { isTestServer } = require('../../../common/appData');
 const { checkBankAccountDetails } = require('./lib/bank-api');
 
-module.exports = function ({
+module.exports = function({
     locale = 'en',
     data = {},
     showAllFields = false,
-    metadata = {},
+    metadata = {}
 } = {}) {
     const localise = get(locale);
 
     const conditionalFields = (fields, filteredFields) => {
-        const filteredFieldNames = filteredFields.map((_) => _.name);
+        const filteredFieldNames = filteredFields.map(_ => _.name);
         const allFields = compact(
-            fields.map((f) => {
+            fields.map(f => {
                 if (filteredFieldNames.indexOf(f.name) === -1) {
                     f.isConditional = true;
                 }
@@ -55,16 +55,16 @@ module.exports = function ({
 
     const fields = fieldsFor({
         locale: locale,
-        data: data,
+        data: data
     });
 
     function stepProjectName() {
         return new Step({
             title: localise({
                 en: 'Project name',
-                cy: 'Enw eich prosiect',
+                cy: 'Enw eich prosiect'
             }),
-            fieldsets: [{ fields: [fields.projectName] }],
+            fieldsets: [{ fields: [fields.projectName] }]
         });
     }
 
@@ -72,17 +72,17 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Project country',
-                cy: 'Gwlad y prosiect',
+                cy: 'Gwlad y prosiect'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Project country',
-                        cy: 'Gwlad y prosiect',
+                        cy: 'Gwlad y prosiect'
                     }),
-                    fields: [fields.projectCountry],
-                },
-            ],
+                    fields: [fields.projectCountry]
+                }
+            ]
         });
     }
 
@@ -90,13 +90,13 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Project location',
-                cy: 'Lleoliad y prosiect',
+                cy: 'Lleoliad y prosiect'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Project location',
-                        cy: 'Lleoliad y prosiect',
+                        cy: 'Lleoliad y prosiect'
                     }),
 
                     /**
@@ -108,15 +108,15 @@ module.exports = function ({
                         const allFields = [
                             fields.projectLocation,
                             fields.projectLocationDescription,
-                            fields.projectPostcode,
+                            fields.projectPostcode
                         ];
                         return conditionalFields(
                             allFields,
                             has('projectCountry')(data) ? allFields : []
                         );
-                    },
-                },
-            ],
+                    }
+                }
+            ]
         });
     }
 
@@ -124,15 +124,15 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Project length',
-                cy: 'Hyd y prosiect',
+                cy: 'Hyd y prosiect'
             }),
             fieldsets: [
                 {
                     fields: has('projectCountry')(data)
                         ? [fields.projectStartDate, fields.projectEndDate]
-                        : [],
-                },
-            ],
+                        : []
+                }
+            ]
         });
     }
 
@@ -143,15 +143,15 @@ module.exports = function ({
                 {
                     legend: localise({
                         en: 'Your idea',
-                        cy: 'Eich syniad',
+                        cy: 'Eich syniad'
                     }),
                     fields: [
                         fields.yourIdeaProject,
                         fields.yourIdeaPriorities,
-                        fields.yourIdeaCommunity,
-                    ],
-                },
-            ],
+                        fields.yourIdeaCommunity
+                    ]
+                }
+            ]
         });
     }
 
@@ -159,17 +159,17 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Project costs',
-                cy: 'Costau’r prosiect',
+                cy: 'Costau’r prosiect'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Project costs',
-                        cy: 'Costau’r prosiect',
+                        cy: 'Costau’r prosiect'
                     }),
-                    fields: [fields.projectBudget, fields.projectTotalCosts],
-                },
-            ],
+                    fields: [fields.projectBudget, fields.projectTotalCosts]
+                }
+            ]
         });
     }
 
@@ -177,13 +177,13 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: `Specific groups of people`,
-                cy: `Grwpiau penodol o bobl`,
+                cy: `Grwpiau penodol o bobl`
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: `Specific groups of people`,
-                        cy: `Grwpiau penodol o bobl`,
+                        cy: `Grwpiau penodol o bobl`
                     }),
                     introduction: localise({
                         en: `<p>
@@ -214,11 +214,11 @@ module.exports = function ({
                         <p>
                             Er hynny, <strong>nid</strong> yw’r wybodaeth rydych wedi’i ddarparu yma’n cael ei asesu 
                             a <strong>ni fydd</strong> yn cael ei ddefnyddio i benderfynu a fyddwch yn llwyddiannus yn eich cais.
-                        </p>`,
+                        </p>`
                     }),
-                    fields: [fields.beneficiariesGroupsCheck],
-                },
-            ],
+                    fields: [fields.beneficiariesGroupsCheck]
+                }
+            ]
         });
     }
 
@@ -227,18 +227,18 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Specific groups of people',
-                cy: 'Grwpiau penodol o bobl',
+                cy: 'Grwpiau penodol o bobl'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Specific groups of people',
-                        cy: 'Grwpiau penodol o bobl',
+                        cy: 'Grwpiau penodol o bobl'
                     }),
                     get fields() {
                         const allFields = [
                             fields.beneficiariesGroups,
-                            fields.beneficiariesGroupsOther,
+                            fields.beneficiariesGroupsOther
                         ];
                         return conditionalFields(
                             allFields,
@@ -246,12 +246,12 @@ module.exports = function ({
                                 groupsCheck === 'yes' &&
                                     fields.beneficiariesGroups,
                                 groupsCheck === 'yes' &&
-                                    fields.beneficiariesGroupsOther,
+                                    fields.beneficiariesGroupsOther
                             ])
                         );
-                    },
-                },
-            ],
+                    }
+                }
+            ]
         });
     }
 
@@ -271,7 +271,7 @@ module.exports = function ({
                 {
                     legend: localise({
                         en: 'Ethnic background',
-                        cy: 'Cefndir ethnig',
+                        cy: 'Cefndir ethnig'
                     }),
                     fields: conditionalFields(
                         [fields.beneficiariesEthnicBackground],
@@ -279,9 +279,9 @@ module.exports = function ({
                             BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                             [fields.beneficiariesEthnicBackground]
                         )
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -294,11 +294,11 @@ module.exports = function ({
                     fields: conditionalFields(
                         [fields.beneficiariesGroupsGender],
                         includeIfBeneficiaryType(BENEFICIARY_GROUPS.GENDER, [
-                            fields.beneficiariesGroupsGender,
+                            fields.beneficiariesGroupsGender
                         ])
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -311,11 +311,11 @@ module.exports = function ({
                     fields: conditionalFields(
                         [fields.beneficiariesGroupsAge],
                         includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
-                            fields.beneficiariesGroupsAge,
+                            fields.beneficiariesGroupsAge
                         ])
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -326,7 +326,7 @@ module.exports = function ({
                 {
                     legend: localise({
                         en: 'Disabled people',
-                        cy: 'Pobl anabl',
+                        cy: 'Pobl anabl'
                     }),
                     fields: conditionalFields(
                         [fields.beneficiariesGroupsDisabledPeople],
@@ -334,9 +334,9 @@ module.exports = function ({
                             BENEFICIARY_GROUPS.DISABLED_PEOPLE,
                             [fields.beneficiariesGroupsDisabledPeople]
                         )
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -344,18 +344,18 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Religion or belief',
-                cy: 'Crefydd neu gred',
+                cy: 'Crefydd neu gred'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Religion or belief',
-                        cy: 'Crefydd neu gred',
+                        cy: 'Crefydd neu gred'
                     }),
                     get fields() {
                         const allFields = [
                             fields.beneficiariesGroupsReligion,
-                            fields.beneficiariesGroupsReligionOther,
+                            fields.beneficiariesGroupsReligionOther
                         ];
                         return conditionalFields(
                             allFields,
@@ -364,9 +364,9 @@ module.exports = function ({
                                 allFields
                             )
                         );
-                    },
-                },
-            ],
+                    }
+                }
+            ]
         });
     }
 
@@ -386,22 +386,22 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: `People who speak Welsh`,
-                cy: `Pobl sy’n siarad Cymraeg`,
+                cy: `Pobl sy’n siarad Cymraeg`
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: `People who speak Welsh`,
-                        cy: `Pobl sy’n siarad Cymraeg`,
+                        cy: `Pobl sy’n siarad Cymraeg`
                     }),
                     fields: conditionalFields(
                         [fields.beneficiariesWelshLanguage],
                         includeIfCountry('wales', [
-                            fields.beneficiariesWelshLanguage,
+                            fields.beneficiariesWelshLanguage
                         ])
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -409,22 +409,22 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: `Northern Ireland community`,
-                cy: `Cymuned Gogledd Iwerddon`,
+                cy: `Cymuned Gogledd Iwerddon`
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: `Northern Ireland community`,
-                        cy: `Cymuned Gogledd Iwerddon`,
+                        cy: `Cymuned Gogledd Iwerddon`
                     }),
                     fields: conditionalFields(
                         [fields.beneficiariesNorthernIrelandCommunity],
                         includeIfCountry('northern-ireland', [
-                            fields.beneficiariesNorthernIrelandCommunity,
+                            fields.beneficiariesNorthernIrelandCommunity
                         ])
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -432,23 +432,23 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Organisation details',
-                cy: 'Manylion sefydliad',
+                cy: 'Manylion sefydliad'
             }),
             noValidate: false,
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Organisation details',
-                        cy: 'Manylion sefydliad',
+                        cy: 'Manylion sefydliad'
                     }),
                     fields: [
                         fields.organisationLegalName,
                         fields.organisationHasDifferentTradingName,
                         fields.organisationStartDate,
-                        fields.organisationAddress,
-                    ],
-                },
-            ],
+                        fields.organisationAddress
+                    ]
+                }
+            ]
         });
     }
 
@@ -458,24 +458,24 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Organisation trading name',
-                cy: `Enw masnachu’r mudiad`,
+                cy: `Enw masnachu’r mudiad`
             }),
             noValidate: false,
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Organisation trading name',
-                        cy: `Enw masnachu’r mudiad`,
+                        cy: `Enw masnachu’r mudiad`
                     }),
                     fields: conditionalFields(
                         [fields.organisationTradingName],
                         compact([
                             legalNameCheck === 'yes' &&
-                                fields.organisationTradingName,
+                                fields.organisationTradingName
                         ])
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -483,17 +483,17 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Organisation type',
-                cy: 'Math o sefydliad',
+                cy: 'Math o sefydliad'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Organisation type',
-                        cy: 'Math o sefydliad',
+                        cy: 'Math o sefydliad'
                     }),
-                    fields: [fields.organisationType],
-                },
-            ],
+                    fields: [fields.organisationType]
+                }
+            ]
         });
     }
 
@@ -516,13 +516,13 @@ module.exports = function ({
     function stepOrganisationSubType() {
         let title = localise({
             en: 'Organisation sub-type',
-            cy: 'Is-fath y sefydliad',
+            cy: 'Is-fath y sefydliad'
         });
 
         if (currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY) {
             title = localise({
                 en: 'Type of statutory body',
-                cy: 'Math o gorff statudol',
+                cy: 'Math o gorff statudol'
             });
         }
 
@@ -537,9 +537,9 @@ module.exports = function ({
                             ORGANISATION_TYPES.STATUTORY_BODY,
                             [fields.organisationSubTypeStatutoryBody]
                         )
-                    ),
-                },
-            ],
+                    )
+                }
+            ]
         });
     }
 
@@ -565,32 +565,31 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Registration numbers',
-                cy: 'Rhifau cofrestru',
+                cy: 'Rhifau cofrestru'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Registration numbers',
-                        cy: 'Rhifau cofrestru',
+                        cy: 'Rhifau cofrestru'
                     }),
                     get fields() {
                         const allFields = [
                             fields.companyNumber,
                             fields.charityNumber,
-                            fields.educationNumber,
+                            fields.educationNumber
                         ];
                         return conditionalFields(
                             allFields,
                             compact([
                                 includeCompanyNumber && fields.companyNumber,
                                 includeCharityNumber && fields.charityNumber,
-                                includeEducationNumber &&
-                                    fields.educationNumber,
+                                includeEducationNumber && fields.educationNumber
                             ])
                         );
-                    },
-                },
-            ],
+                    }
+                }
+            ]
         });
     }
 
@@ -606,26 +605,26 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Organisation finances',
-                cy: 'Cyllid y sefydliad',
+                cy: 'Cyllid y sefydliad'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Organisation finances',
-                        cy: 'Cyllid y sefydliad',
+                        cy: 'Cyllid y sefydliad'
                     }),
                     get fields() {
                         const allFields = [
                             fields.accountingYearDate,
-                            fields.totalIncomeYear,
+                            fields.totalIncomeYear
                         ];
                         return conditionalFields(
                             allFields,
                             includeAccountDetails ? allFields : []
                         );
-                    },
-                },
-            ],
+                    }
+                }
+            ]
         });
     }
 
@@ -648,7 +647,7 @@ module.exports = function ({
                 {
                     legend: localise({
                         en: 'Who is your senior contact?',
-                        cy: 'Pwy yw eich uwch gyswllt?',
+                        cy: 'Pwy yw eich uwch gyswllt?'
                     }),
                     introduction: localise({
                         en: `
@@ -670,7 +669,7 @@ module.exports = function ({
                             am sicrhau fod y cais hwn yn cael ei gefnogi gan y sefydliad sy’n ymgeisio, 
                             bod unrhyw arian yn cael ei ddarparu fel y gosodwyd yn y ffurflen gais, a bod y 
                             sefydliad a ariennir yn cwrdd â’n gofynion monitro.
-                        </p>`,
+                        </p>`
                     }),
                     get fields() {
                         const allFields = [
@@ -682,7 +681,7 @@ module.exports = function ({
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
                             fields.seniorContactLanguagePreference,
-                            fields.seniorContactCommunicationNeeds,
+                            fields.seniorContactCommunicationNeeds
                         ];
 
                         const filteredFields = compact([
@@ -698,12 +697,12 @@ module.exports = function ({
                             fields.seniorContactPhone,
                             isForCountry('wales') &&
                                 fields.seniorContactLanguagePreference,
-                            fields.seniorContactCommunicationNeeds,
+                            fields.seniorContactCommunicationNeeds
                         ]);
                         return conditionalFields(allFields, filteredFields);
-                    },
-                },
-            ],
+                    }
+                }
+            ]
         });
     }
 
@@ -715,7 +714,7 @@ module.exports = function ({
                 {
                     legend: localise({
                         en: 'Who is your main contact?',
-                        cy: 'Pwy yw eich prif gyswllt?',
+                        cy: 'Pwy yw eich prif gyswllt?'
                     }),
                     get introduction() {
                         const seniorName = getContactFullName(
@@ -767,7 +766,7 @@ module.exports = function ({
                                 <li>yn byw yn yr un cyfeiriad</li>
                                 <li>Neu yn perthyn drwy waed.</li>
                             </ul>
-                            `,
+                            `
                         });
                     },
                     get fields() {
@@ -779,7 +778,7 @@ module.exports = function ({
                             fields.mainContactEmail,
                             fields.mainContactPhone,
                             fields.mainContactLanguagePreference,
-                            fields.mainContactCommunicationNeeds,
+                            fields.mainContactCommunicationNeeds
                         ]);
 
                         return conditionalFields(
@@ -796,12 +795,12 @@ module.exports = function ({
                                 fields.mainContactPhone,
                                 isForCountry('wales') &&
                                     fields.mainContactLanguagePreference,
-                                fields.mainContactCommunicationNeeds,
+                                fields.mainContactCommunicationNeeds
                             ])
                         );
-                    },
-                },
-            ],
+                    }
+                }
+            ]
         });
     }
 
@@ -832,9 +831,9 @@ module.exports = function ({
                             msg: localise({
                                 en: `This sort code is not valid with this account number`,
                                 cy:
-                                    'Nid yw’r cod didoli’n ddilys â’r rhif cyfrif hwn',
+                                    'Nid yw’r cod didoli’n ddilys â’r rhif cyfrif hwn'
                             }),
-                            param: 'bankSortCode',
+                            param: 'bankSortCode'
                         },
                         {
                             param: 'bankAccountNumber',
@@ -842,9 +841,9 @@ module.exports = function ({
                             msg: localise({
                                 en: `This account number is not valid with this sort code`,
                                 cy:
-                                    'Nid yw’r rhif cyfrif yn ddilys â’r cod didoli hwn',
-                            }),
-                        },
+                                    'Nid yw’r rhif cyfrif yn ddilys â’r cod didoli hwn'
+                            })
+                        }
                     ];
                     break;
                 case 'INVALID_BACS':
@@ -856,9 +855,9 @@ module.exports = function ({
                                 en: oneLine`This bank account cannot receive BACS payments,
                                     which is a requirement for funding`,
                                 cy: oneLine`Ni all y cyfrif banc hwn dderbyn taliadau BACS, 
-                                    sy’n ofynnol i gael eich ariannu.`,
-                            }),
-                        },
+                                    sy’n ofynnol i gael eich ariannu.`
+                            })
+                        }
                     ];
                     break;
                 default:
@@ -874,7 +873,7 @@ module.exports = function ({
         } else {
             return new Promise((resolve, reject) => {
                 checkBankAccountDetails(sortCode, accountNumber)
-                    .then((bankStatus) => {
+                    .then(bankStatus => {
                         const messages = messagesForStatus(bankStatus);
                         if (messages.length > 0) {
                             return reject(messages);
@@ -882,7 +881,7 @@ module.exports = function ({
                             return resolve();
                         }
                     })
-                    .catch((err) => {
+                    .catch(err => {
                         Sentry.captureException(err);
                         return resolve();
                     });
@@ -898,7 +897,7 @@ module.exports = function ({
                 {
                     legend: localise({
                         en: 'What are your bank account details?',
-                        cy: 'Beth yw eich manylion cyfrif banc?',
+                        cy: 'Beth yw eich manylion cyfrif banc?'
                     }),
                     introduction: localise({
                         en: `<p>
@@ -913,17 +912,17 @@ module.exports = function ({
                         </p>
                         <p><strong>Ni allwn dalu i mewn i bob cyfrif banc</strong>:
                             Ni allwn drosglwyddo arian i fathau penodol o gyfrifon fel Tide, Cashplush a Paypal.
-                        </p>`,
+                        </p>`
                     }),
                     fields: [
                         fields.bankAccountName,
                         fields.bankSortCode,
                         fields.bankAccountNumber,
-                        fields.buildingSocietyNumber,
-                    ],
-                },
+                        fields.buildingSocietyNumber
+                    ]
+                }
             ],
-            preFlightCheck: bankAccountPreFlightCheck,
+            preFlightCheck: bankAccountPreFlightCheck
         });
     }
 
@@ -938,7 +937,7 @@ module.exports = function ({
             
             <div class="o-media--constrained u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
-                    <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                    <img src="/assets/images/apply/under-10k-bank-statement-example-small.png"
                          alt="An example of a bank statement we need from you"
                          class="o-media__figure o-media__figure-gutter"
                          width="300" />
@@ -990,7 +989,7 @@ module.exports = function ({
             
             <div class="o-media--constrained u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
-                    <img src="/assets/images/apply/afa-bank-statement-example-small-welsh.jpg"
+                    <img src="/assets/images/apply/afaunder-10k-bank-statement-example-small-welsh.jpg"
                          alt="Enghraifft o gyfriflen banc rydym ei angen gennych"
                          class="o-media__figure o-media__figure-gutter"
                          width="300" />
@@ -1029,7 +1028,7 @@ module.exports = function ({
                 <li>Enw’r cyfrif banc</li>
                 <li>Rhif cyfrif</li>
                 <li>Cod didoli</li>
-            </ul>`,
+            </ul>`
         });
 
         return new Step({
@@ -1039,19 +1038,19 @@ module.exports = function ({
                 {
                     legend: localise({
                         en: 'Bank statement',
-                        cy: 'Cyfriflen banc',
+                        cy: 'Cyfriflen banc'
                     }),
                     introduction: introduction,
-                    fields: [fields.bankStatement],
-                },
-            ],
+                    fields: [fields.bankStatement]
+                }
+            ]
         });
     }
 
     function stepTerms() {
         const title = localise({
             en: 'Terms and conditions of your grant',
-            cy: 'Telerau ac Amodau eich grant',
+            cy: 'Telerau ac Amodau eich grant'
         });
 
         const footer = localise({
@@ -1098,7 +1097,7 @@ module.exports = function ({
                 neu drwy ysgrifennu i Cronfa Gymunedol y Loteri Genedlaethol, 10fed Llawr,
                 Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY
             </p>
-            <p>Pan fyddwch yn clicio anfon, mae’r Telerau ac Amodau fel y cytunwyd uchod yn dod yn rhwymol.</p>`,
+            <p>Pan fyddwch yn clicio anfon, mae’r Telerau ac Amodau fel y cytunwyd uchod yn dod yn rhwymol.</p>`
         });
 
         return new Step({
@@ -1109,13 +1108,11 @@ module.exports = function ({
                     introduction: `<ol class="o-nested-numbers">
                         ${localise(terms)
                             .map(
-                                (section) => `<li>
+                                section => `<li>
                                     <p><strong>${section.title}</strong></p>
                                     <ol class="o-nested-numbers">
                                         ${section.clauses
-                                            .map(
-                                                (clause) => `<li>${clause}</li>`
-                                            )
+                                            .map(clause => `<li>${clause}</li>`)
                                             .join('')}
                                     </ol>
                                 </li>`
@@ -1129,10 +1126,10 @@ module.exports = function ({
                         fields.termsAgreement3,
                         fields.termsAgreement4,
                         fields.termsPersonName,
-                        fields.termsPersonPosition,
-                    ],
-                },
-            ],
+                        fields.termsPersonPosition
+                    ]
+                }
+            ]
         });
     }
 
@@ -1141,7 +1138,7 @@ module.exports = function ({
             slug: 'your-project',
             title: localise({
                 en: 'Your project',
-                cy: 'Eich prosiect',
+                cy: 'Eich prosiect'
             }),
             summary: localise({
                 en: oneLine`Please tell us about your project in this section.
@@ -1149,7 +1146,7 @@ module.exports = function ({
                     making a decision about whether you will receive funding.`,
                 cy: oneLine`Dywedwch wrthym am eich prosiect yn yr adran hon. 
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
-                    a ydych wedi bod yn llwyddiannus ai beidio.`,
+                    a ydych wedi bod yn llwyddiannus ai beidio.`
             }),
             steps: [
                 stepProjectName(),
@@ -1157,8 +1154,8 @@ module.exports = function ({
                 stepProjectLocation(),
                 stepProjectLength(),
                 stepYourIdea(),
-                stepProjectCosts(),
-            ],
+                stepProjectCosts()
+            ]
         };
     }
 
@@ -1167,15 +1164,15 @@ module.exports = function ({
             slug: 'beneficiaries',
             title: localise({
                 en: 'Who will benefit from your project?',
-                cy: 'Pwy fydd yn elwa o’ch prosiect?',
+                cy: 'Pwy fydd yn elwa o’ch prosiect?'
             }),
             shortTitle: localise({
                 en: 'Who will benefit',
-                cy: 'Pwy fydd yn elwa',
+                cy: 'Pwy fydd yn elwa'
             }),
             summary: localise({
                 en: `We want to hear more about the people who will benefit from your project.`,
-                cy: `Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.`,
+                cy: `Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.`
             }),
             steps: [
                 stepBeneficiariesCheck(),
@@ -1186,8 +1183,8 @@ module.exports = function ({
                 stepDisabledPeople(),
                 stepReligionOrFaith(),
                 stepWelshLanguage(),
-                stepNorthernIrelandCommunity(),
-            ],
+                stepNorthernIrelandCommunity()
+            ]
         };
     }
 
@@ -1196,7 +1193,7 @@ module.exports = function ({
             slug: 'organisation',
             title: localise({
                 en: 'Your organisation',
-                cy: 'Eich sefydliad',
+                cy: 'Eich sefydliad'
             }),
             summary: localise({
                 en: oneLine`Please tell us about your organisation,
@@ -1204,7 +1201,7 @@ module.exports = function ({
                     This helps us understand the type of organisation you are.`,
                 cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr enw cyfreithiol, 
                     cyfeiriad cofrestredig ac incwm. Mae hyn yn ein helpu 
-                    i ddeall pa fath o sefydliad ydych.`,
+                    i ddeall pa fath o sefydliad ydych.`
             }),
             steps: [
                 stepOrganisationDetails(),
@@ -1212,8 +1209,8 @@ module.exports = function ({
                 stepOrganisationType(),
                 stepOrganisationSubType(),
                 stepRegistrationNumbers(),
-                stepOrganisationFinances(),
-            ],
+                stepOrganisationFinances()
+            ]
         };
     }
 
@@ -1229,9 +1226,9 @@ module.exports = function ({
                 cy: oneLine`Darparwch fanylion ar gyfer eich uwch gyswllt. 
                     Bydd y person yma’n gyfreithiol gyfrifol am yr arian. 
                     Ni allent fod yn briod i, mewn perthynas hir dymor â, 
-                    yn byw gyda na’n perthyn drwy waed i’r prif gyswllt.`,
+                    yn byw gyda na’n perthyn drwy waed i’r prif gyswllt.`
             }),
-            steps: [stepSeniorContact()],
+            steps: [stepSeniorContact()]
         };
     }
 
@@ -1245,9 +1242,9 @@ module.exports = function ({
                     need to discuss your project.`,
                 cy: oneLine`Darparwch fanylion ar gyfer eich prif gyswllt. 
                     Dyma fydd y person cyntaf i ni gysylltu â nhw os 
-                    byddwn angen trafod eich prosiect.`,
+                    byddwn angen trafod eich prosiect.`
             }),
-            steps: [stepMainContact()],
+            steps: [stepMainContact()]
         };
     }
 
@@ -1262,9 +1259,9 @@ module.exports = function ({
                     that is less than three months old`,
                 cy: oneLine`Darparwch eich manylion banc. 
                     Cyn i chi anfon eich cais bydd angen i chi 
-                    atodi copi o’ch cyfriflen banc sy’n llai na tri mis oed.`,
+                    atodi copi o’ch cyfriflen banc sy’n llai na tri mis oed.`
             }),
-            steps: [stepBankAccount(), stepBankStatement()],
+            steps: [stepBankAccount(), stepBankStatement()]
         };
     }
 
@@ -1273,15 +1270,15 @@ module.exports = function ({
             slug: 'terms-and-conditions',
             title: localise({
                 en: 'Terms and conditions',
-                cy: 'Telerau ac Amodau',
+                cy: 'Telerau ac Amodau'
             }),
             summary: localise({
                 en: oneLine`In order to submit your application,
                     you will need to agree to our terms and conditions.`,
                 cy: oneLine`Er mwyn anfon eich cais, 
-                    bydd angen i chi gytuno â'n Telerau ac Amodau.`,
+                    bydd angen i chi gytuno â'n Telerau ac Amodau.`
             }),
-            steps: [stepTerms()],
+            steps: [stepTerms()]
         };
     }
 
@@ -1289,13 +1286,13 @@ module.exports = function ({
         const projectDateRange = get('projectDateRange')(data);
         const organisation = get('organisationLegalName')(data);
         const budget = getOr([], 'projectBudget')(data);
-        const budgetSum = sumBy(budget, (item) => parseInt(item.cost || 0));
+        const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
 
         return {
             title: getOr(
                 localise({
                     en: `Untitled application`,
-                    cy: `Cais heb deitl`,
+                    cy: `Cais heb deitl`
                 }),
                 'projectName'
             )(data),
@@ -1303,26 +1300,25 @@ module.exports = function ({
             overview: [
                 {
                     label: localise({ en: 'Organisation', cy: 'Sefydliad' }),
-                    value: organisation,
+                    value: organisation
                 },
                 {
                     label: localise({
                         en: 'Project dates',
-                        cy: 'Dyddiadau’r prosiect',
+                        cy: 'Dyddiadau’r prosiect'
                     }),
                     value:
                         projectDateRange &&
-                        formatDateRange(locale)(projectDateRange),
+                        formatDateRange(locale)(projectDateRange)
                 },
                 {
                     label: localise({
                         en: 'Requested amount',
-                        cy: 'Swm y gofynnwyd amdano',
+                        cy: 'Swm y gofynnwyd amdano'
                     }),
-                    value:
-                        budget.length > 0 && `£${budgetSum.toLocaleString()}`,
-                },
-            ],
+                    value: budget.length > 0 && `£${budgetSum.toLocaleString()}`
+                }
+            ]
         };
     }
 
@@ -1339,7 +1335,7 @@ module.exports = function ({
         // Support previous date range schema format
         enriched.projectDateRange = {
             startDate: dateFormat(enriched.projectStartDate),
-            endDate: dateFormat(enriched.projectEndDate),
+            endDate: dateFormat(enriched.projectEndDate)
         };
 
         if (has('mainContactDateOfBirth')(enriched)) {
@@ -1364,11 +1360,11 @@ module.exports = function ({
     const form = {
         title: localise({
             en: 'Apply for funding under £10,000',
-            cy: '@TODO: i18n',
+            cy: '@TODO: i18n'
         }),
         startLabel: localise({
             en: 'Start your application',
-            cy: 'Dechrau ar eich cais',
+            cy: 'Dechrau ar eich cais'
         }),
         allFields: fields,
         featuredErrorsAllowList: [
@@ -1378,7 +1374,7 @@ module.exports = function ({
             { fieldName: 'seniorContactRole', includeBase: false },
             { fieldName: 'mainContactName', includeBase: false },
             { fieldName: 'mainContactEmail', includeBase: false },
-            { fieldName: 'mainContactPhone', includeBase: false },
+            { fieldName: 'mainContactPhone', includeBase: false }
         ],
         summary: summary(),
         schemaVersion: 'v1.3',
@@ -1390,8 +1386,8 @@ module.exports = function ({
             sectionSeniorContact(),
             sectionMainContact(),
             sectionBankDetails(),
-            sectionTerms(),
-        ],
+            sectionTerms()
+        ]
     };
 
     return new FormModel(form, data, locale);
