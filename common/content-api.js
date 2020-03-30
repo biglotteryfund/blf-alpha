@@ -137,30 +137,26 @@ function getRoutes() {
     return queryContentApi('v1/list-routes').json().then(mapAttrs);
 }
 
-function getAliasForLocale({ locale, urlPath }) {
-    return fetch(`/v1/${locale}/aliases`)
+function getAliasForLocale(locale, urlPath) {
+    return queryContentApi(`v1/${locale}/aliases`)
+        .json()
         .then(mapAttrs)
         .then((matches) => {
-            const findAlias = find(
-                (alias) => alias.from.toLowerCase() === urlPath.toLowerCase()
-            );
-            return findAlias(matches);
+            return find(function (alias) {
+                return alias.from.toLowerCase() === urlPath.toLowerCase();
+            })(matches);
         });
 }
 
 function getAlias(urlPath) {
     const getOrHomepage = getOr('/', 'to');
-    return getAliasForLocale({
-        locale: 'en',
-        urlPath: urlPath,
-    }).then((enMatch) => {
+    return getAliasForLocale('en', urlPath).then((enMatch) => {
         if (enMatch) {
             return getOrHomepage(enMatch);
         } else {
-            return getAliasForLocale({
-                locale: 'cy',
-                urlPath: urlPath,
-            }).then((cyMatch) => (cyMatch ? getOrHomepage(cyMatch) : null));
+            return getAliasForLocale('cy', urlPath).then((cyMatch) =>
+                cyMatch ? getOrHomepage(cyMatch) : null
+            );
         }
     });
 }
