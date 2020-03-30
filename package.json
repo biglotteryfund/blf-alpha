@@ -152,7 +152,7 @@
     "axe-core": "3.5.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
-    "babel-jest": "25.2.3",
+    "babel-jest": "25.2.4",
     "babel-loader": "8.0.6",
     "concurrently": "5.1.0",
     "cross-env": "7.0.2",
