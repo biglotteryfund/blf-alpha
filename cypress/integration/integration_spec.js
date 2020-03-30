@@ -986,7 +986,7 @@ it('should submit full application for under £10,000', () => {
     });
 
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/awards-for-all');
+        cy.visit('/apply/under-10k');
 
         acceptCookieConsent();
         startApplication();

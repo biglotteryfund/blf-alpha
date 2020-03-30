@@ -148,7 +148,7 @@ module.exports = function sendExpiryEmail(
     };
 
     const editLinkUrlPath = `/apply/${
-        formId === 'awards-for-all' ? formId : 'your-funding-proposal'
+        formId === 'awards-for-all' ? 'under-10k' : 'your-funding-proposal'
     }/edit/${applicationId}?s=expiryEmail`;
     const editLink = {
         en: `${baseUrl}${editLinkUrlPath}`,
