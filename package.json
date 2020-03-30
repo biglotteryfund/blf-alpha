@@ -170,7 +170,7 @@
     "eslint-plugin-node": "11.0.0",
     "eslint-plugin-vue": "6.2.2",
     "fontfaceobserver": "2.1.0",
-    "jest": "25.2.3",
+    "jest": "25.2.4",
     "jest-serializer-html": "7.0.0",
     "jquery": "^3.4.1",
     "node-mocks-http": "1.8.1",
