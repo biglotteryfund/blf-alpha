@@ -35,7 +35,7 @@ module.exports = function (locale) {
             </strong></p>`,
 
             cy: `<p>
-                @TODO i18n:
+                <strong>Rydym am ariannu prosiectau sy'n gwneud o leiaf un o'r tri pheth hyn:</strong>
             </p>
             <ol>
                 <li>Dod â phobl ynghyd a chreu perthnasau cryf o fewn ac ar draws cymunedau</li>

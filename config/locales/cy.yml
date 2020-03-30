@@ -1195,7 +1195,7 @@ awardsForAll:
           - type: action
             title: Gallu ymgeisio
           - type: step
-            title: "@TODO: i18n"
+            title: Fill out an online application
             description: >
               Dywedwch wrthym am eich syniad i helpu pobl wella eu bywydau a’u cymunedau.
               Bydd gennych hyd at dair mis i orffen eich ffurflen gais ar-lein.
