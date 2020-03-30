@@ -194,27 +194,34 @@ function getUpdates({
     requestParams = {},
 }) {
     if (slug) {
-        return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: response.data.attributes,
-            };
-        });
+        return queryContentApi(`v1/${locale}/updates/${type}/${date}/${slug}`, {
+            searchParams: withPreviewParams(requestParams, { ...query }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: response.data.attributes,
+                };
+            });
     } else {
-        return fetch(`/v1/${locale}/updates/${type || ''}`, {
-            qs: withPreviewParams(requestParams, {
+        return queryContentApi(`/v1/${locale}/updates/${type || ''}`, {
+            searchParams: withPreviewParams(requestParams, {
                 ...query,
                 ...{ 'page-limit': 10 },
             }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: mapAttrs(response),
-                pagination: _buildPagination(response.meta.pagination, query),
-            };
-        });
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: mapAttrs(response),
+                    pagination: _buildPagination(
+                        response.meta.pagination,
+                        query
+                    ),
+                };
+            });
     }
 }
 
