@@ -162,9 +162,9 @@ function getAlias(urlPath) {
 }
 
 function getHeroImage({ locale, slug }) {
-    return fetch(`/v1/${locale}/hero-image/${slug}`).then(
-        (response) => response.data.attributes
-    );
+    return queryContentApi(`v1/${locale}/hero-image/${slug}`)
+        .json()
+        .then(getAttrs);
 }
 
 function getHomepage(locale, searchParams = {}) {
