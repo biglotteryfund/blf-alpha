@@ -262,23 +262,30 @@ function getResearch({
     type = null,
 }) {
     if (slug) {
-        return fetch(`/v1/${locale}/research/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then(getAttrs);
+        return queryContentApi(`/v1/${locale}/research/${slug}`, {
+            searchParams: withPreviewParams(requestParams, { ...query }),
+        })
+            .json()
+            .then(getAttrs);
     } else {
         let path = `/v1/${locale}/research`;
         if (type) {
             path += `/${type}`;
         }
-        return fetch(path, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: mapAttrs(response),
-                pagination: _buildPagination(response.meta.pagination, query),
-            };
-        });
+        return queryContentApi(path, {
+            searchParams: withPreviewParams(requestParams, { ...query }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: mapAttrs(response),
+                    pagination: _buildPagination(
+                        response.meta.pagination,
+                        query
+                    ),
+                };
+            });
     }
 }
 
