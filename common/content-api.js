@@ -402,12 +402,14 @@ function getListingPage({ locale, path, query = {}, requestParams = {} }) {
 
 function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
-    return fetch(`/v1/${locale}/flexible-content`, {
-        qs: withPreviewParams(requestParams, {
+    return queryContentApi(`v1/${locale}/flexible-content`, {
+        searchParams: withPreviewParams(requestParams, {
             ...query,
             ...{ path: sanitisedPath },
         }),
-    }).then((response) => response.data.attributes);
+    })
+        .json()
+        .then(getAttrs);
 }
 
 function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
