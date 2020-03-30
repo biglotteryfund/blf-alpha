@@ -11,7 +11,6 @@ const sortBy = require('lodash/fp/sortBy');
 const uniqBy = require('lodash/uniqBy');
 
 const got = require('got');
-const request = require('request-promise-native');
 const querystring = require('querystring');
 
 const logger = require('./logger');
@@ -32,21 +31,6 @@ const queryContentApi = got.extend({
         ],
     },
 });
-
-function fetch(urlPath, options) {
-    logger.debug(
-        `Fetching ${CONTENT_API_URL}${urlPath}${
-            options && options.qs ? '?' + querystring.stringify(options.qs) : ''
-        }`
-    );
-
-    const defaults = {
-        url: `${CONTENT_API_URL}${urlPath}`,
-        json: true,
-    };
-    const params = Object.assign({}, defaults, options);
-    return request(params);
-}
 
 /**
  * Adds the preview parameters to the request
@@ -262,13 +246,13 @@ function getResearch({
     type = null,
 }) {
     if (slug) {
-        return queryContentApi(`/v1/${locale}/research/${slug}`, {
+        return queryContentApi(`v1/${locale}/research/${slug}`, {
             searchParams: withPreviewParams(requestParams, { ...query }),
         })
             .json()
             .then(getAttrs);
     } else {
-        let path = `/v1/${locale}/research`;
+        let path = `v1/${locale}/research`;
         if (type) {
             path += `/${type}`;
         }
@@ -344,7 +328,7 @@ function getPublications({
 
 function getPublicationTags({ locale, programme }) {
     return queryContentApi(
-        `/v1/${locale}/funding/publications/${programme}/tags`
+        `v1/${locale}/funding/publications/${programme}/tags`
     )
         .json()
         .then(function (response) {
@@ -388,7 +372,7 @@ function getStrategicProgrammes({
 
 function getListingPage({ locale, path, query = {}, requestParams = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
-    return queryContentApi(`/v1/${locale}/listing`, {
+    return queryContentApi(`v1/${locale}/listing`, {
         searchParams: withPreviewParams(requestParams, {
             ...query,
             ...{ path: sanitisedPath },
@@ -421,9 +405,11 @@ function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
 }
 
 function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
-    return fetch(`/v1/${locale}/project-stories/${grantId}`, {
-        qs: withPreviewParams(requestParams, { ...query }),
-    }).then(getAttrs);
+    return queryContentApi(`v1/${locale}/project-stories/${grantId}`, {
+        searchParams: withPreviewParams(requestParams, { ...query }),
+    })
+        .json()
+        .then(getAttrs);
 }
 
 function getOurPeople(locale, searchParams = {}) {
