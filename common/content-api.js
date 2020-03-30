@@ -388,22 +388,24 @@ function getStrategicProgrammes({
 
 function getListingPage({ locale, path, query = {}, requestParams = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
-    return fetch(`/v1/${locale}/listing`, {
-        qs: withPreviewParams(requestParams, {
+    return queryContentApi(`/v1/${locale}/listing`, {
+        searchParams: withPreviewParams(requestParams, {
             ...query,
             ...{ path: sanitisedPath },
         }),
-    }).then((response) => {
-        const attributes = response.data.map((item) => item.attributes);
-        // @TODO remove the check for attr.path, which will shortly be removed the CMS
-        return attributes.find((attr) => {
-            if (get(attr, 'path')) {
-                return attr.path === sanitisedPath;
-            } else {
-                return attr.linkUrl === stripTrailingSlashes(path);
-            }
+    })
+        .json()
+        .then((response) => {
+            const attributes = response.data.map((item) => item.attributes);
+            // @TODO remove the check for attr.path, which will shortly be removed the CMS
+            return attributes.find((attr) => {
+                if (get(attr, 'path')) {
+                    return attr.path === sanitisedPath;
+                } else {
+                    return attr.linkUrl === stripTrailingSlashes(path);
+                }
+            });
         });
-    });
 }
 
 function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
