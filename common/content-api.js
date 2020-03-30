@@ -310,33 +310,44 @@ function getPublications({
 
     const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
     if (slug) {
-        return fetch(`${baseUrl}/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...apiRequestParams }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                entry: getAttrs(response),
-            };
-        });
+        return queryContentApi(`${baseUrl}/${slug}`, {
+            searchParams: withPreviewParams(requestParams, {
+                ...apiRequestParams,
+            }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    entry: getAttrs(response),
+                };
+            });
     } else {
-        return fetch(baseUrl, {
-            qs: withPreviewParams(requestParams, { ...apiRequestParams }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: mapAttrs(response),
-                pagination: _buildPagination(
-                    response.meta.pagination,
-                    apiRequestParams
-                ),
-            };
-        });
+        return queryContentApi(baseUrl, {
+            searchParams: withPreviewParams(requestParams, {
+                ...apiRequestParams,
+            }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: mapAttrs(response),
+                    pagination: _buildPagination(
+                        response.meta.pagination,
+                        apiRequestParams
+                    ),
+                };
+            });
     }
 }
 
 function getPublicationTags({ locale, programme }) {
-    return fetch(`/v1/${locale}/funding/publications/${programme}/tags`).then(
-        (response) => {
+    return queryContentApi(
+        `/v1/${locale}/funding/publications/${programme}/tags`
+    )
+        .json()
+        .then(function (response) {
             const attrs = mapAttrs(response);
             // Strip entries to just their tags
             const allTags = flatten(attrs.map((_) => _.tags));
@@ -348,8 +359,7 @@ function getPublicationTags({ locale, programme }) {
                 return tag;
             });
             return sortBy('count')(tags).reverse();
-        }
-    );
+        });
 }
 
 function getStrategicProgrammes({
