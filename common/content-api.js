@@ -11,7 +11,6 @@ const sortBy = require('lodash/fp/sortBy');
 const uniqBy = require('lodash/uniqBy');
 
 const got = require('got');
-const request = require('request-promise-native');
 const querystring = require('querystring');
 
 const logger = require('./logger');
@@ -32,36 +31,6 @@ const queryContentApi = got.extend({
         ],
     },
 });
-
-function fetch(urlPath, options) {
-    logger.debug(
-        `Fetching ${CONTENT_API_URL}${urlPath}${
-            options && options.qs ? '?' + querystring.stringify(options.qs) : ''
-        }`
-    );
-
-    const defaults = {
-        url: `${CONTENT_API_URL}${urlPath}`,
-        json: true,
-    };
-    const params = Object.assign({}, defaults, options);
-    return request(params);
-}
-
-/**
- * Fetch all locales for a given url path
- * Usage:
- * ```
- * fetchAllLocales(reqLocale => {
- *   return `/v1/${reqLocale}/funding-programmes`
- * }).then(responses => ...)
- * ```
- */
-function fetchAllLocales(toUrlPathFn, options = {}) {
-    const urlPaths = ['en', 'cy'].map(toUrlPathFn);
-    const promises = urlPaths.map((urlPath) => fetch(urlPath, options));
-    return Promise.all(promises);
-}
 
 /**
  * Adds the preview parameters to the request
@@ -137,38 +106,34 @@ function getRoutes() {
     return queryContentApi('v1/list-routes').json().then(mapAttrs);
 }
 
-function getAliasForLocale({ locale, urlPath }) {
-    return fetch(`/v1/${locale}/aliases`)
+function getAliasForLocale(locale, urlPath) {
+    return queryContentApi(`v1/${locale}/aliases`)
+        .json()
         .then(mapAttrs)
         .then((matches) => {
-            const findAlias = find(
-                (alias) => alias.from.toLowerCase() === urlPath.toLowerCase()
-            );
-            return findAlias(matches);
+            return find(function (alias) {
+                return alias.from.toLowerCase() === urlPath.toLowerCase();
+            })(matches);
         });
 }
 
 function getAlias(urlPath) {
     const getOrHomepage = getOr('/', 'to');
-    return getAliasForLocale({
-        locale: 'en',
-        urlPath: urlPath,
-    }).then((enMatch) => {
+    return getAliasForLocale('en', urlPath).then((enMatch) => {
         if (enMatch) {
             return getOrHomepage(enMatch);
         } else {
-            return getAliasForLocale({
-                locale: 'cy',
-                urlPath: urlPath,
-            }).then((cyMatch) => (cyMatch ? getOrHomepage(cyMatch) : null));
+            return getAliasForLocale('cy', urlPath).then((cyMatch) =>
+                cyMatch ? getOrHomepage(cyMatch) : null
+            );
         }
     });
 }
 
 function getHeroImage({ locale, slug }) {
-    return fetch(`/v1/${locale}/hero-image/${slug}`).then(
-        (response) => response.data.attributes
-    );
+    return queryContentApi(`v1/${locale}/hero-image/${slug}`)
+        .json()
+        .then(getAttrs);
 }
 
 function getHomepage(locale, searchParams = {}) {
@@ -198,27 +163,34 @@ function getUpdates({
     requestParams = {},
 }) {
     if (slug) {
-        return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: response.data.attributes,
-            };
-        });
+        return queryContentApi(`v1/${locale}/updates/${type}/${date}/${slug}`, {
+            searchParams: withPreviewParams(requestParams, { ...query }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: response.data.attributes,
+                };
+            });
     } else {
-        return fetch(`/v1/${locale}/updates/${type || ''}`, {
-            qs: withPreviewParams(requestParams, {
+        return queryContentApi(`/v1/${locale}/updates/${type || ''}`, {
+            searchParams: withPreviewParams(requestParams, {
                 ...query,
                 ...{ 'page-limit': 10 },
             }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: mapAttrs(response),
-                pagination: _buildPagination(response.meta.pagination, query),
-            };
-        });
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: mapAttrs(response),
+                    pagination: _buildPagination(
+                        response.meta.pagination,
+                        query
+                    ),
+                };
+            });
     }
 }
 
@@ -274,23 +246,30 @@ function getResearch({
     type = null,
 }) {
     if (slug) {
-        return fetch(`/v1/${locale}/research/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then(getAttrs);
+        return queryContentApi(`v1/${locale}/research/${slug}`, {
+            searchParams: withPreviewParams(requestParams, { ...query }),
+        })
+            .json()
+            .then(getAttrs);
     } else {
-        let path = `/v1/${locale}/research`;
+        let path = `v1/${locale}/research`;
         if (type) {
             path += `/${type}`;
         }
-        return fetch(path, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: mapAttrs(response),
-                pagination: _buildPagination(response.meta.pagination, query),
-            };
-        });
+        return queryContentApi(path, {
+            searchParams: withPreviewParams(requestParams, { ...query }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: mapAttrs(response),
+                    pagination: _buildPagination(
+                        response.meta.pagination,
+                        query
+                    ),
+                };
+            });
     }
 }
 
@@ -315,33 +294,44 @@ function getPublications({
 
     const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
     if (slug) {
-        return fetch(`${baseUrl}/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...apiRequestParams }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                entry: getAttrs(response),
-            };
-        });
+        return queryContentApi(`${baseUrl}/${slug}`, {
+            searchParams: withPreviewParams(requestParams, {
+                ...apiRequestParams,
+            }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    entry: getAttrs(response),
+                };
+            });
     } else {
-        return fetch(baseUrl, {
-            qs: withPreviewParams(requestParams, { ...apiRequestParams }),
-        }).then((response) => {
-            return {
-                meta: response.meta,
-                result: mapAttrs(response),
-                pagination: _buildPagination(
-                    response.meta.pagination,
-                    apiRequestParams
-                ),
-            };
-        });
+        return queryContentApi(baseUrl, {
+            searchParams: withPreviewParams(requestParams, {
+                ...apiRequestParams,
+            }),
+        })
+            .json()
+            .then((response) => {
+                return {
+                    meta: response.meta,
+                    result: mapAttrs(response),
+                    pagination: _buildPagination(
+                        response.meta.pagination,
+                        apiRequestParams
+                    ),
+                };
+            });
     }
 }
 
 function getPublicationTags({ locale, programme }) {
-    return fetch(`/v1/${locale}/funding/publications/${programme}/tags`).then(
-        (response) => {
+    return queryContentApi(
+        `v1/${locale}/funding/publications/${programme}/tags`
+    )
+        .json()
+        .then(function (response) {
             const attrs = mapAttrs(response);
             // Strip entries to just their tags
             const allTags = flatten(attrs.map((_) => _.tags));
@@ -353,8 +343,7 @@ function getPublicationTags({ locale, programme }) {
                 return tag;
             });
             return sortBy('count')(tags).reverse();
-        }
-    );
+        });
 }
 
 function getStrategicProgrammes({
@@ -364,13 +353,17 @@ function getStrategicProgrammes({
     requestParams = {},
 }) {
     if (slug) {
-        return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then((response) => get('data.attributes')(response));
+        return queryContentApi
+            .get(`v1/${locale}/strategic-programmes/${slug}`, {
+                searchParams: withPreviewParams(requestParams, { ...query }),
+            })
+            .json()
+            .then((response) => get('data.attributes')(response));
     } else {
-        return fetchAllLocales(
-            (reqLocale) => `/v1/${reqLocale}/strategic-programmes`
-        ).then((responses) => {
+        return Promise.all([
+            queryContentApi.get('v1/en/strategic-programmes').json(),
+            queryContentApi.get('v1/cy/strategic-programmes').json(),
+        ]).then((responses) => {
             const [enResults, cyResults] = responses.map(mapAttrs);
             return mergeWelshBy('urlPath')(locale, enResults, cyResults);
         });
@@ -379,38 +372,44 @@ function getStrategicProgrammes({
 
 function getListingPage({ locale, path, query = {}, requestParams = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
-    return fetch(`/v1/${locale}/listing`, {
-        qs: withPreviewParams(requestParams, {
+    return queryContentApi(`v1/${locale}/listing`, {
+        searchParams: withPreviewParams(requestParams, {
             ...query,
             ...{ path: sanitisedPath },
         }),
-    }).then((response) => {
-        const attributes = response.data.map((item) => item.attributes);
-        // @TODO remove the check for attr.path, which will shortly be removed the CMS
-        return attributes.find((attr) => {
-            if (get(attr, 'path')) {
-                return attr.path === sanitisedPath;
-            } else {
-                return attr.linkUrl === stripTrailingSlashes(path);
-            }
+    })
+        .json()
+        .then((response) => {
+            const attributes = response.data.map((item) => item.attributes);
+            // @TODO remove the check for attr.path, which will shortly be removed the CMS
+            return attributes.find((attr) => {
+                if (get(attr, 'path')) {
+                    return attr.path === sanitisedPath;
+                } else {
+                    return attr.linkUrl === stripTrailingSlashes(path);
+                }
+            });
         });
-    });
 }
 
 function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
-    return fetch(`/v1/${locale}/flexible-content`, {
-        qs: withPreviewParams(requestParams, {
+    return queryContentApi(`v1/${locale}/flexible-content`, {
+        searchParams: withPreviewParams(requestParams, {
             ...query,
             ...{ path: sanitisedPath },
         }),
-    }).then((response) => response.data.attributes);
+    })
+        .json()
+        .then(getAttrs);
 }
 
 function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
-    return fetch(`/v1/${locale}/project-stories/${grantId}`, {
-        qs: withPreviewParams(requestParams, { ...query }),
-    }).then(getAttrs);
+    return queryContentApi(`v1/${locale}/project-stories/${grantId}`, {
+        searchParams: withPreviewParams(requestParams, { ...query }),
+    })
+        .json()
+        .then(getAttrs);
 }
 
 function getOurPeople(locale, searchParams = {}) {
