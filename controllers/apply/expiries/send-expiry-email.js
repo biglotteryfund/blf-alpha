@@ -95,7 +95,7 @@ module.exports = function sendExpiryEmail(
 ) {
     const emailConfig = {
         'awards-for-all': {
-            name: 'application_expiry_afa',
+            name: 'application_expiry_under10k',
             template: path.resolve(
                 __dirname,
                 './views/under10k-expiry-email.njk'
