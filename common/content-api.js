@@ -49,21 +49,6 @@ function fetch(urlPath, options) {
 }
 
 /**
- * Fetch all locales for a given url path
- * Usage:
- * ```
- * fetchAllLocales(reqLocale => {
- *   return `/v1/${reqLocale}/funding-programmes`
- * }).then(responses => ...)
- * ```
- */
-function fetchAllLocales(toUrlPathFn, options = {}) {
-    const urlPaths = ['en', 'cy'].map(toUrlPathFn);
-    const promises = urlPaths.map((urlPath) => fetch(urlPath, options));
-    return Promise.all(promises);
-}
-
-/**
  * Adds the preview parameters to the request
  * (if accessed via the preview domain)
  */
@@ -367,13 +352,17 @@ function getStrategicProgrammes({
     requestParams = {},
 }) {
     if (slug) {
-        return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
-            qs: withPreviewParams(requestParams, { ...query }),
-        }).then((response) => get('data.attributes')(response));
+        return queryContentApi
+            .get(`v1/${locale}/strategic-programmes/${slug}`, {
+                searchParams: withPreviewParams(requestParams, { ...query }),
+            })
+            .json()
+            .then((response) => get('data.attributes')(response));
     } else {
-        return fetchAllLocales(
-            (reqLocale) => `/v1/${reqLocale}/strategic-programmes`
-        ).then((responses) => {
+        return Promise.all([
+            queryContentApi.get('v1/en/strategic-programmes').json(),
+            queryContentApi.get('v1/cy/strategic-programmes').json(),
+        ]).then((responses) => {
             const [enResults, cyResults] = responses.map(mapAttrs);
             return mergeWelshBy('urlPath')(locale, enResults, cyResults);
         });
