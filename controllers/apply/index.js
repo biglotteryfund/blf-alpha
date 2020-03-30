@@ -20,7 +20,7 @@ router.get('/your-idea*', function (req, res) {
     return res.redirect(res.locals.sectionUrl);
 });
 
-router.use('/awards-for-all', require('./awards-for-all'));
+router.use('/awards-for-all', require('./under10k'));
 router.use('/your-funding-proposal', require('./standard-proposal'));
 
 if (appData.isNotProduction) {

@@ -3,7 +3,7 @@ const moment = require('moment');
 const uuidv4 = require('uuid/v4');
 
 const { Users } = require('../models');
-const mockAwardsForAll = require('../../controllers/apply/awards-for-all/mocks');
+const mockAwardsForAll = require('../../controllers/apply/under10k/mocks');
 
 module.exports = {
     up: async function (queryInterface) {
