@@ -9,7 +9,7 @@ const { noStore } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
 
-const enrichAwardsForAll = require('./awards-for-all/enrich');
+const enrichAwardsForAll = require('./under10k/enrich');
 const enrichStandard = require('./standard-proposal/enrich');
 const enrichContactsNext = require('./contacts-next/enrich');
 
