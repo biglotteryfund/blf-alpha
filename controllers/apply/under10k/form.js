@@ -1364,7 +1364,7 @@ module.exports = function ({
     const form = {
         title: localise({
             en: 'Apply for funding under £10,000',
-            cy: '@TODO: i18n',
+            cy: 'Ymgeisio am arian grant dan £10,000',
         }),
         startLabel: localise({
             en: 'Start your application',

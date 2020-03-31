@@ -73,10 +73,15 @@ module.exports = function ({ locale }) {
                         between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}
                         and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
                         for a project that will be finished in about
-                        ${maxProjectDurationLabel},
-                        and it sounds like you need a different
-                        amount of funding from us.`,
-                    cy: `@TODO i81n`,
+                        ${maxProjectDurationLabel}, and it sounds like
+                        you need a different amount of funding from us.`,
+                    cy: oneLine`Mae hyn oherwydd mai dim ond rhwng
+                        £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a
+                        £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
+                        y gallwch wneud cais am arian grant ar
+                        gyfer prosiect a fydd yn cael ei orffen mewn
+                        oddeutu ${maxProjectDurationLabel} ac mae'n swnio
+                        fel eich bod angen swm gwahanol o arian gennym.`,
                 }),
                 detail: localise({
                     en: `<p>This isn't the end. Here are a couple of ideas about what you can do:</p>
