@@ -3,9 +3,7 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 
-const commitHash = execSync('git rev-parse --short=12 HEAD')
-    .toString()
-    .trim();
+const commitHash = execSync('git rev-parse --short=12 HEAD').toString().trim();
 
 execSync(`cp -r ./public/build/latest ./public/build/${commitHash}`);
 
@@ -13,13 +11,13 @@ fs.writeFile(
     './config/assets.json',
     JSON.stringify(
         {
-            version: commitHash
+            version: commitHash,
         },
         null,
         4
     ),
     'utf8',
-    function(err) {
+    function (err) {
         if (err) {
             console.error('Error hash revving asset files', err);
         } else {

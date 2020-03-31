@@ -2,7 +2,7 @@
 
 {% macro blogTrail(entry, promoted = false, showAuthor = true, updateType = 'blog') %}
     {% call promoCard({
-        "title": entry.trailText or entry.title,
+        "title": entry.title or entry.trailText,
         "subtitle": formatDate(entry.postDate.date),
         "trailText": entry.summary or entry.trailText,
         "image": {

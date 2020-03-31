@@ -17,6 +17,10 @@ module.exports = {
         'require-atomic-updates': 'off',
         'semi': ['error', 'always'],
         'strict': ['warn', 'safe'],
+        'no-warning-comments': [
+            'warn',
+            { location: 'anywhere', terms: ['todo'] },
+        ],
 
         // Plugins
         'no-only-tests/no-only-tests': 'error',

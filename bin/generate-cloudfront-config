@@ -20,7 +20,7 @@ function generateConfig(distribution, distributionName) {
         2
     );
 
-    fs.writeFile(filePath, data, 'utf8', function(err) {
+    fs.writeFile(filePath, data, 'utf8', function (err) {
         if (err) {
             console.error('Error saving config', err);
         } else {
@@ -32,9 +32,9 @@ function generateConfig(distribution, distributionName) {
     });
 }
 
-Object.entries(cloudfrontDistributions).forEach(function([
+Object.entries(cloudfrontDistributions).forEach(function ([
     distributionName,
-    distribution
+    distribution,
 ]) {
     generateConfig(distribution, distributionName);
 });
