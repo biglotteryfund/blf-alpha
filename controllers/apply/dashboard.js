@@ -9,7 +9,7 @@ const { noStore } = require('../../common/cached');
 const { requireActiveUser } = require('../../common/authed');
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
 
-const enrichAwardsForAll = require('./awards-for-all/enrich');
+const enrichAwardsForAll = require('./under10k/enrich');
 const enrichStandard = require('./standard-proposal/enrich');
 const enrichContactsNext = require('./contacts-next/enrich');
 
@@ -83,7 +83,7 @@ router.get(
     requireActiveUser,
     injectNavigationLinks,
     async function (req, res, next) {
-        const copy = req.i18n.__('applyNext.dashboardNew');
+        const copy = req.i18n.__('applyNext.dashboard');
 
         try {
             /**
@@ -127,7 +127,7 @@ router.get(
     requireActiveUser,
     injectNavigationLinks,
     async function (req, res, next) {
-        const copy = req.i18n.__('applyNext.dashboardNew');
+        const copy = req.i18n.__('applyNext.dashboard');
 
         try {
             const [
