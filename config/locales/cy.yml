@@ -1054,11 +1054,6 @@ applyNext:
     successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
     unsuccessfulTitle: Mae'n ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
     whatNow: Beth nesaf?
-  errors:
-    file:
-      errorScanInfected: Mae’r ffeil wedi ei gloi am resymau diogelwch.
-      errorScanUnknown: Mae’r ffeil hwn yn dal i gael ei sganio am risgiau diogelwch—gwiriwch eto yn fuan.
-      errorOther: Roedd yna broblem wrth adfer eich ffeil—trïwch eto’n fuan.
   feedback:
     promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
     fieldLabel: "Sut oedd eich profiad o'r broses hon?"
