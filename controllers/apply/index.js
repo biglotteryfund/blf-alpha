@@ -22,7 +22,7 @@ router.get('/your-idea*', function (req, res) {
 
 // Redirect renamed Awards For All paths to more generic under10k route
 router.get('/awards-for-all*', function (req, res) {
-    const newPath = req.originalUrl.replace('/awards-for-all/', '/under-10k/');
+    const newPath = req.originalUrl.replace('/awards-for-all', '/under-10k');
     res.redirect(newPath);
 });
 
