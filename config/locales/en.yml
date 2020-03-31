@@ -212,8 +212,6 @@ toplevel:
       href: "/funding/grants"
     - label: Help with managing your funding
       href: "/funding/managing-your-grant"
-  local:
-    title: In your area
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
@@ -373,8 +371,6 @@ ourPeople:
   introduction: >
     <p>Meet our board, Senior management team, and national committees.</p>
 funding:
-  thinkingOfApplying:
-    title: "Thinking of applying"
   pastGrants:
     search:
       title: Search all grants
@@ -824,32 +820,6 @@ applyNext:
     intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
     callToAction: Start a new application
   dashboard:
-    title: Your applications
-    introduction: >
-      <p>Here you can keep going with an application you've already started.
-      You can also <a href="%s">start a brand new application</a> and see any
-      applications you've previously submitted online. You can also see the
-      <a href="%s">questions you'll be asked</a> when you apply.</p>
-    inProgressTitle: In progress
-    submitted: Submitted
-    notYetCompleted: not yet completed
-    continueApplication: Continue with this application
-    applicationStatus: Application status
-    notSubmitted: Not submitted
-    expiryMessage: >
-      <p>You started your application on <strong>%s</strong>.</p>
-      <p>You have until <strong>%s</strong> to complete your application.</p>
-    beforeYouStart:
-      title: Before you start
-      body: >
-        You might want to look at some helpful advice and tips about <a href="/funding/under10k">applying for funding on our website</a>.
-    decisionMessage: We aim to let you know our decision in about %s weeks. If you have any questions,
-      <a href="/contact">contact a member of our advice team</a>.
-    newApplication:
-      title: New application
-      body: You can create a new funding application for %s here
-      cta: Start new application
-  dashboardNew:
     latest:
       title: Latest application
       introduction: >
@@ -1010,11 +980,6 @@ applyNext:
     successfulTitle: Great! You're eligible to apply to %s
     unsuccessfulTitle: Sorry, you're not eligible to apply at this time
     whatNow: What now?
-  errors:
-    file:
-      errorScanInfected: This file has been blocked for security reasons.
-      errorScanUnknown: This file is still being scanned for security risks - please check back shortly.
-      errorOther: There was an issue retrieving your file - please try again soon.
   feedback:
     promptLabel: "Can you spare a minute to give us some feedback?"
     fieldLabel: "How was your experience of this process?"

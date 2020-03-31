@@ -891,32 +891,6 @@ applyNext:
     intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
     callToAction: Dechrau cais newydd
   dashboard:
-    title: Eich ceisiadau
-    introduction: >
-      <p>Yma, gallwch barhau â chais rydych eisoes wedi dechrau.
-      Gallwch hefyd ddechrau <a href="%s">cais newydd</a> a gweld unrhyw
-      geisiadau rydych eisoes wedi ei gyflwyno ar-lein. Gallwch hefyd weld y
-      <a href="%s">cwestiynau bydd yn cael ei gofyn i chi</a> pan fyddwch yn ymgeisio.</p>
-    inProgressTitle: Ar ei ganol
-    submitted: Wedi’i gyflwyno
-    notYetCompleted: heb ei gwblhau eto
-    continueApplication: Parhau â’r cais hwn
-    applicationStatus: Statws y cais
-    notSubmitted: Heb ei gyflwyno
-    expiryMessage: >
-      <p>Dechreuoch eich cais ar <strong>%s</strong>.</p>
-      <p>Mae gennych tan <strong>%s</strong> i gwblhau eich cais.</p>
-    beforeYouStart:
-      title: Cyn i chi ddechrau
-      body: >
-        Efallai hoffech edrych ar gyngor ac awgrymiadau defnyddiol am <a href="/welsh/funding/under10k">ymgeisio am arian ar ein gwefan</a>.
-    decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
-      <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
-    newApplication:
-      title: Cais newydd
-      body: Gallwch greu cais ariannu newydd am %s yma
-      cta: Dechrau cais newydd
-  dashboardNew:
     latest:
       title: Cais diweddaraf
       introduction: >
@@ -1080,11 +1054,6 @@ applyNext:
     successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
     unsuccessfulTitle: Mae'n ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
     whatNow: Beth nesaf?
-  errors:
-    file:
-      errorScanInfected: Mae’r ffeil wedi ei gloi am resymau diogelwch.
-      errorScanUnknown: Mae’r ffeil hwn yn dal i gael ei sganio am risgiau diogelwch—gwiriwch eto yn fuan.
-      errorOther: Roedd yna broblem wrth adfer eich ffeil—trïwch eto’n fuan.
   feedback:
     promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
     fieldLabel: "Sut oedd eich profiad o'r broses hon?"
