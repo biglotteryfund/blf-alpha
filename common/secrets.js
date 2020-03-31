@@ -96,7 +96,7 @@ const POSTCODES_API_KEY =
 const S3_KMS_KEY_ID =
     process.env.S3_KMS_KEY_ID || getParameter('s3.kms.key.id');
 
-const DATA_STUDIO_AFA_URL = getParameter('dataStudio.url.awardsForAll');
+const DATA_STUDIO_UNDER10K_URL = getParameter('dataStudio.url.awardsForAll');
 
 /**
  * Email expiry secret
@@ -114,7 +114,7 @@ module.exports = {
     AZURE_AUTH,
     BANK_API,
     CONTENT_API_URL,
-    DATA_STUDIO_AFA_URL,
+    DATA_STUDIO_UNDER10K_URL,
     DB_CONNECTION_URI,
     EMAIL_EXPIRY_SECRET,
     EMAIL_EXPIRY_TEST_ADDRESS,

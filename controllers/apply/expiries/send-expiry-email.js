@@ -14,18 +14,21 @@ function getSubjectLine(emailType, isBilingual = false) {
     let subjectLine;
     switch (emailType) {
         case 'AFA_ONE_MONTH':
+        case 'UNDER10K_ONE_MONTH':
             subjectLine = {
                 en: 'You have one month to finish your application',
                 cy: 'Mae gennych fis i orffen eich cais',
             };
             break;
         case 'AFA_ONE_WEEK':
+        case 'UNDER10K_ONE_WEEK':
             subjectLine = {
                 en: 'You have one week to finish your application',
                 cy: 'Mae gennych wythnos i orffen eich cais',
             };
             break;
         case 'AFA_ONE_DAY':
+        case 'UNDER10K_ONE_DAY':
             subjectLine = {
                 en: 'You have one day to finish your application',
                 cy: 'Mae gennych ddiwrnod i orffen eich cais',
@@ -92,7 +95,7 @@ module.exports = function sendExpiryEmail(
 ) {
     const emailConfig = {
         'awards-for-all': {
-            name: 'application_expiry_afa',
+            name: 'application_expiry_under10k',
             template: path.resolve(
                 __dirname,
                 './views/under10k-expiry-email.njk'
@@ -145,7 +148,7 @@ module.exports = function sendExpiryEmail(
     };
 
     const editLinkUrlPath = `/apply/${
-        formId === 'awards-for-all' ? formId : 'your-funding-proposal'
+        formId === 'awards-for-all' ? 'under-10k' : 'your-funding-proposal'
     }/edit/${applicationId}?s=expiryEmail`;
     const editLink = {
         en: `${baseUrl}${editLinkUrlPath}`,

@@ -694,7 +694,7 @@ user:
     - label: Change your email address
       href: /user/update-email
     - label: View your funding applications
-      href: /apply/awards-for-all
+      href: /apply/under-10k
   login:
     title: Log in
     introduction: >
@@ -832,7 +832,7 @@ applyNext:
         title: "Funding under £10,000: Start an application"
         description: A quick way to apply for smaller amounts of funding between £300 and £10,000.
         link:
-          url: /apply/awards-for-all/start
+          url: /apply/under-10k/start
           label: Start a new application
       standard:
         title: "Funding over £10,000: Tell us your proposal"
@@ -933,7 +933,7 @@ applyNext:
               <li>Sort code</li>
               <li>Date (must be within last 3 months)</li>
           </ul>
-          <img src="/assets/images/apply/afa-bank-statement-example.png"
+          <img src="/assets/images/apply/under-10k-bank-statement-example.png"
                alt="An example of a bank statement we need from you, with the bank name, date, organisation address, account number and organisation legal name circled" />
     budget:
       item: Item or activity
@@ -1056,7 +1056,7 @@ awardsForAll:
             <li>the account code and sort number</li>
             <li>date the statement was issued.</li>
         </ul>
-        <p>Here’s <a href="/assets/images/apply/afa-bank-statement-example.png">a handy picture of the kind of bank statement we’re looking for.</a></p>
+        <p>Here’s <a href="/assets/images/apply/under-10k-bank-statement-example.png">a handy picture of the kind of bank statement we’re looking for.</a></p>
         <h3>5. We ask for information about what sort of project you’d like to do</h3>
         <p>And how your project will help and involve your community.</p>
         <h3>6. We also ask you to read and agree to our terms and conditions</h3>

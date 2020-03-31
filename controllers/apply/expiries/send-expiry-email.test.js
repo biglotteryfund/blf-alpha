@@ -12,7 +12,7 @@ const mockTransport = nodemailer.createTransport({
 test('Apply for funding under £10,000 expiry email', async function () {
     const info = await sendExpiryEmail(
         {
-            emailType: 'AFA_ONE_MONTH',
+            emailType: 'UNDER10K_ONE_MONTH',
             unsubscribeToken: 'MOCK_TOKEN',
             formId: 'awards-for-all',
             applicationId: 'MOCK_APPLICATION_ID',
@@ -37,7 +37,7 @@ test('Apply for funding under £10,000 expiry email', async function () {
 test('Apply for funding under £10,000 welsh expiry email', async function () {
     const info = await sendExpiryEmail(
         {
-            emailType: 'AFA_ONE_MONTH',
+            emailType: 'UNDER10K_ONE_MONTH',
             unsubscribeToken: 'MOCK_TOKEN',
             formId: 'awards-for-all',
             applicationId: 'MOCK_APPLICATION_ID',
