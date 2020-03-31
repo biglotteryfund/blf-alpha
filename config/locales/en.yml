@@ -212,8 +212,6 @@ toplevel:
       href: "/funding/grants"
     - label: Help with managing your funding
       href: "/funding/managing-your-grant"
-  local:
-    title: In your area
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
