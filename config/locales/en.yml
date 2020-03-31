@@ -371,8 +371,6 @@ ourPeople:
   introduction: >
     <p>Meet our board, Senior management team, and national committees.</p>
 funding:
-  thinkingOfApplying:
-    title: "Thinking of applying"
   pastGrants:
     search:
       title: Search all grants
