@@ -382,7 +382,7 @@ function getListingPage({ locale, path, query = {}, requestParams = {} }) {
         .then((response) => {
             const attributes = response.data.map((item) => item.attributes);
             return attributes.find((attr) => {
-                    return attr.linkUrl === stripTrailingSlashes(path);
+                return attr.linkUrl === stripTrailingSlashes(path);
             });
         });
 }
