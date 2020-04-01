@@ -1,5 +1,5 @@
 {% macro applicationCard(props, headingLevel = '3') %}
-    {% set cardCopy = __('applyNext.applicationCards') %}
+    {% set cardCopy = __('apply.applicationCards') %}
     <article class="application-card">
 
         <header class="application-card__header">
@@ -33,10 +33,10 @@
         </header>
 
         {% if props.isExpired %}
-            <p><strong>{{ __('applyNext.expired.title') }}</strong></p>
-            <p>{{ __('applyNext.expired.summary') }}</p>
+            <p><strong>{{ __('apply.expired.title') }}</strong></p>
+            <p>{{ __('apply.expired.summary') }}</p>
             <div class="application-card__status u-text-small u-margin-bottom">
-                {{ __('applyNext.expired.message', formatDate(props.expiresAt)) }}
+                {{ __('apply.expired.message', formatDate(props.expiresAt)) }}
             </div>
         {% else %}
 

@@ -32,7 +32,7 @@ module.exports = function (eligibilityBuilder, formId) {
     router
         .route('/:step?')
         .all(function (req, res, next) {
-            const copy = req.i18n.__('applyNext');
+            const copy = req.i18n.__('apply');
 
             const eligibility = eligibilityBuilder({
                 locale: req.i18n.getLocale(),
