@@ -381,13 +381,8 @@ function getListingPage({ locale, path, query = {}, requestParams = {} }) {
         .json()
         .then((response) => {
             const attributes = response.data.map((item) => item.attributes);
-            // @TODO remove the check for attr.path, which will shortly be removed the CMS
             return attributes.find((attr) => {
-                if (get(attr, 'path')) {
-                    return attr.path === sanitisedPath;
-                } else {
-                    return attr.linkUrl === stripTrailingSlashes(path);
-                }
+                return attr.linkUrl === stripTrailingSlashes(path);
             });
         });
 }

@@ -4,22 +4,22 @@ const express = require('express');
 const moment = require('moment');
 const isEmpty = require('lodash/isEmpty');
 
-const { localify } = require('../../common/urls');
-const { noStore } = require('../../common/cached');
-const { requireActiveUser } = require('../../common/authed');
-const { PendingApplication, SubmittedApplication } = require('../../db/models');
+const { localify } = require('../../../common/urls');
+const { noStore } = require('../../../common/cached');
+const { requireActiveUser } = require('../../../common/authed');
+const {
+    PendingApplication,
+    SubmittedApplication,
+} = require('../../../db/models');
 
-const enrichAwardsForAll = require('./under10k/enrich');
-const enrichStandard = require('./standard-proposal/enrich');
-const enrichContactsNext = require('./contacts-next/enrich');
+const enrichAwardsForAll = require('../under10k/enrich');
+const enrichStandard = require('../standard-proposal/enrich');
 
 const router = express.Router();
 
 function enrichPending(application, locale) {
     if (application.formId === 'awards-for-all') {
         return enrichAwardsForAll.enrichPending(application, locale);
-    } else if (application.formId === 'dev-contacts-next') {
-        return enrichContactsNext.enrichPending(application, locale);
     } else {
         return enrichStandard.enrichPending(application, locale);
     }
@@ -28,8 +28,6 @@ function enrichPending(application, locale) {
 function enrichSubmitted(application, locale) {
     if (application.formId === 'awards-for-all') {
         return enrichAwardsForAll.enrichSubmitted(application, locale);
-    } else if (application.formId === 'dev-contacts-next') {
-        return enrichContactsNext.enrichSubmitted(application, locale);
     } else {
         return enrichStandard.enrichSubmitted(application, locale);
     }

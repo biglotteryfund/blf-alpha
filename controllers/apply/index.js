@@ -2,8 +2,6 @@
 const express = require('express');
 const router = express.Router();
 
-const appData = require('../../common/appData');
-
 router.use(function (req, res, next) {
     if (req.user) {
         res.locals.user = req.user;
@@ -28,10 +26,6 @@ router.get('/awards-for-all*', function (req, res) {
 
 router.use('/under-10k', require('./under10k'));
 router.use('/your-funding-proposal', require('./standard-proposal'));
-
-if (appData.isNotProduction) {
-    router.use('/contacts-next', require('./contacts-next'));
-}
 
 router.use('/emails/unsubscribe', require('./expiries/unsubscribe-router'));
 router.use('/handle-expiry', require('./expiries/expiry-router'));
