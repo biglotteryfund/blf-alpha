@@ -53,7 +53,6 @@ props: {Object}
                 <p class="promo-card__subtitle">{{ props.subtitle }}</p>
             {% endif %}
             <div class="promo-card__summary s-prose">
-                {# @TODO: Use summary prop instead of trailText #}
                 {% if props.summary %}
                     {{ props.summary | safe }}
                 {% elseif props.trailText %}
