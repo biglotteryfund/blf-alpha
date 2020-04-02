@@ -62,18 +62,18 @@ module.exports = function (
                         {
                             url: res.locals.sectionUrl,
                             label: req.i18n.__(
-                                'applyNext.navigation.latestApplication'
+                                'apply.navigation.latestApplication'
                             ),
                         },
                         {
                             url: `${res.locals.sectionUrl}/all`,
                             label: req.i18n.__(
-                                'applyNext.navigation.allApplications'
+                                'apply.navigation.allApplications'
                             ),
                         },
                         {
                             url: localify(req.i18n.getLocale())('/user'),
-                            label: req.i18n.__('applyNext.navigation.account'),
+                            label: req.i18n.__('apply.navigation.account'),
                         },
                     ],
                     form: form,

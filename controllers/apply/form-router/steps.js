@@ -290,7 +290,7 @@ module.exports = function (formId, formBuilder) {
                         Sentry.captureException(rejection.error);
 
                         const uploadError = {
-                            msg: req.i18n.__('applyNext.common.errorUploading'),
+                            msg: req.i18n.__('apply.common.errorUploading'),
                             param: rejection.fieldName,
                         };
 

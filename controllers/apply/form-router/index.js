@@ -55,7 +55,7 @@ function initFormRouter({
     }
 
     function setCommonLocals(req, res, next) {
-        res.locals.copy = req.i18n.__('applyNext');
+        res.locals.copy = req.i18n.__('apply');
         res.locals.isBilingual = isBilingual;
 
         const form = formBuilder({
@@ -162,19 +162,19 @@ function initFormRouter({
         res.locals.userNavigationLinks = [
             {
                 url: `${req.baseUrl}/summary`,
-                label: req.i18n.__('applyNext.navigation.summary'),
+                label: req.i18n.__('apply.navigation.summary'),
             },
             {
                 url: res.locals.sectionUrl,
-                label: req.i18n.__('applyNext.navigation.latestApplication'),
+                label: req.i18n.__('apply.navigation.latestApplication'),
             },
             {
                 url: `${res.locals.sectionUrl}/all`,
-                label: req.i18n.__('applyNext.navigation.allApplications'),
+                label: req.i18n.__('apply.navigation.allApplications'),
             },
             {
                 url: localify(req.i18n.getLocale())('/user'),
-                label: req.i18n.__('applyNext.navigation.account'),
+                label: req.i18n.__('apply.navigation.account'),
             },
         ];
 
