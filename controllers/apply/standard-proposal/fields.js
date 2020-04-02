@@ -149,7 +149,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
              * pending proposals that used checkbox selection.
              *
              * Multiple selection disabled until UK-portfolio is enabled.
-             * @TODO: Remove and switch back to checkbox when launching UK-portfolio
+             * Remove and switch back to checkbox when launching UK-portfolio
              */
             schema: Joi.array()
                 .items(
