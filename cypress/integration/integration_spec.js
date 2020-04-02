@@ -1,6 +1,6 @@
 const faker = require('faker');
 const moment = require('moment');
-const uuid = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const includes = require('lodash/includes');
 const partition = require('lodash/partition');
 const random = require('lodash/random');
@@ -162,11 +162,11 @@ function createAccount(username, password, passwordConfirm) {
 }
 
 function generateAccountEmail() {
-    return `${uuid()}@example.com`;
+    return `${uuidv4()}@example.com`;
 }
 
 function generateAccountPassword() {
-    return `password${uuid()}`;
+    return `password${uuidv4()}`;
 }
 
 it('should be able to log in and log out', function () {

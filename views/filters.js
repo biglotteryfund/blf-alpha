@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const slug = require('slugify');
-const uuid = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const { take, clone, pickBy, identity } = require('lodash');
 const querystring = require('querystring');
 
@@ -25,7 +25,7 @@ const version = assets.version || 'latest';
 const getCachebustedPath = (urlPath) => `/assets/build/${version}/${urlPath}`;
 
 function appendUuid(str) {
-    return str + uuid();
+    return str + uuidv4();
 }
 
 /**
