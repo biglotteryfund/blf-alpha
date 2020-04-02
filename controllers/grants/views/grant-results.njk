@@ -13,7 +13,7 @@
     {% call promoCard({
         "title": grant.title,
         "subtitle": subtitle | safe,
-        "trailText": description,
+        "summary": description,
         "link": {
             "url": localify("/funding/grants/" + grant.id),
             "label": copy.viewGrantDetails

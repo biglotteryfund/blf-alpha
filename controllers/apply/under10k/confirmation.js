@@ -69,7 +69,7 @@ module.exports = function ({ locale, data = {} }) {
 
 <p>
     Good luck with your application!<br />
-    <strong>The National Lottery Awards for All team</strong>
+    <strong>The National Lottery Community Fund</strong>
 </p>
         `;
     }
@@ -102,7 +102,7 @@ module.exports = function ({ locale, data = {} }) {
 
 <p>
     Pob lwc gyda’ch cais!<br />
-    <strong>Tîm Arian i Bawb y Loteri Genedlaethol</strong>
+    <strong>Cronfa Gymunedol y Loteri Genedlaethol</strong>
 </p>`;
     }
 

@@ -4,7 +4,7 @@
     {% call promoCard({
         "title": entry.title or entry.trailText,
         "subtitle": formatDate(entry.postDate.date),
-        "trailText": entry.summary or entry.trailText,
+        "summary": entry.summary or entry.trailText,
         "image": {
             "url": entry.thumbnail.large or entry.hero.image.default,
             "alt": entry.title

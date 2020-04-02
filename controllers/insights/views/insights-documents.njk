@@ -166,7 +166,7 @@
                                     {% call promoCard({
                                         "title": entry.title,
                                         "subtitle": subtitle | safe,
-                                        "trailText": entry.summary
+                                        "summary": entry.summary
                                     }) %}
                                         {% set docTitle = (entry.documentType.title or copy.search.download)  + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
                                         <p>

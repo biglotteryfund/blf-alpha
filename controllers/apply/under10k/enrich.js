@@ -72,8 +72,8 @@ function enrichPending(application, locale = 'en') {
         isExpired: application.isExpired,
         updatedAt: application.updatedAt,
         progress: form.progress,
-        editUrl: `/apply/awards-for-all/edit/${application.id}`,
-        deleteUrl: `/apply/awards-for-all/delete/${application.id}`,
+        editUrl: `/apply/under-10k/edit/${application.id}`,
+        deleteUrl: `/apply/under-10k/delete/${application.id}`,
     };
 
     return Object.assign(defaults, details(application, data, locale));

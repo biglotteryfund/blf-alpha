@@ -18,7 +18,13 @@ router.get('/your-idea*', function (req, res) {
     return res.redirect(res.locals.sectionUrl);
 });
 
-router.use('/awards-for-all', require('./under10k'));
+// Redirect renamed Awards For All paths to more generic under10k route
+router.get('/awards-for-all*', function (req, res) {
+    const newPath = req.originalUrl.replace('/awards-for-all', '/under-10k');
+    res.redirect(newPath);
+});
+
+router.use('/under-10k', require('./under10k'));
 router.use('/your-funding-proposal', require('./standard-proposal'));
 
 router.use('/emails/unsubscribe', require('./expiries/unsubscribe-router'));

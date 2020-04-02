@@ -53,11 +53,8 @@ props: {Object}
                 <p class="promo-card__subtitle">{{ props.subtitle }}</p>
             {% endif %}
             <div class="promo-card__summary s-prose">
-                {# @TODO: Use summary prop instead of trailText #}
                 {% if props.summary %}
                     {{ props.summary | safe }}
-                {% elseif props.trailText %}
-                    {{ props.trailText | safe }}
                 {% endif %}
                 {% if props.link.url and props.link.label %}
                     <a href="{{ props.link.url }}"{% if props.link.labelAria %} aria-label="{{ props.link.labelAria }}"{% endif %}>

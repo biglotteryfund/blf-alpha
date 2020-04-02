@@ -55,7 +55,7 @@ exports[`should return confirmation text based on country 1`] = `
   Good luck with your application!
   <br>
   <strong>
-    The National Lottery Awards for All team
+    The National Lottery Community Fund
   </strong>
 </p>
 `;
@@ -115,7 +115,7 @@ exports[`should return confirmation text based on country 2`] = `
   Good luck with your application!
   <br>
   <strong>
-    The National Lottery Awards for All team
+    The National Lottery Community Fund
   </strong>
 </p>
 `;

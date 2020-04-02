@@ -416,7 +416,7 @@ it('should return forgotten password screen for invalid accounts', () => {
     );
 });
 
-it('should submit full awards for all application', () => {
+it('should submit full application for under £10,000', () => {
     function submitStep() {
         cy.findByTestId('updated-at').contains('Today');
         cy.findByText('Continue').click();
@@ -975,7 +975,7 @@ it('should submit full awards for all application', () => {
         seniorContact: {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
-            email: Cypress.env('afa_senior_contact_email'),
+            email: Cypress.env('under10k_senior_contact_email'),
             phone: '028 9568 0143',
             dateOfBirth: moment().subtract(random(18, 90), 'years'),
             address: {
@@ -987,7 +987,7 @@ it('should submit full awards for all application', () => {
         mainContact: {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
-            email: Cypress.env('afa_main_contact_email'),
+            email: Cypress.env('under10k_main_contact_email'),
             phone: '020 7211 1888',
             dateOfBirth: moment().subtract(random(18, 90), 'years'),
             address: {
@@ -1003,7 +1003,7 @@ it('should submit full awards for all application', () => {
     });
 
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/awards-for-all');
+        cy.visit('/apply/under-10k');
 
         acceptCookieConsent();
         startApplication();
@@ -1024,7 +1024,7 @@ it('should submit full awards for all application', () => {
 
 it('should allow editing from the summary screen', () => {
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/awards-for-all/new');
+        cy.visit('/apply/under-10k/new');
 
         cy.findByTestId('expand-all-sections').click();
 
@@ -1214,7 +1214,7 @@ it('should correctly email users with expiring applications', () => {
                 expiresAt: expiry.toDate(),
             });
 
-            cy.request('POST', '/apply/awards-for-all/seed', {
+            cy.request('POST', '/apply/under-10k/seed', {
                 userId: newUser.id,
                 expiresAt: expiry.toDate(),
             });

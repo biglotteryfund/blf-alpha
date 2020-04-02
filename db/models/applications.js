@@ -398,7 +398,7 @@ class ApplicationEmailQueue extends Model {
 
             /**
              * Email type
-             * e.g. AFA_ONE_MONTH, GET_ADVICE_ONE_WEEK etc
+             * e.g. UNDER10K_ONE_MONTH etc
              */
             emailType: {
                 type: DataTypes.STRING,
