@@ -765,7 +765,7 @@ user:
     - label: Newid eich cyfeiriad e-bost
       href: /welsh/user/update-email
     - label: Gweld eich ceisiadau ariannu
-      href: /welsh/apply/awards-for-all
+      href: /welsh/apply/under-10k
   login:
     title: Mewngofnodi
     introduction: >
@@ -886,10 +886,6 @@ applyNext:
     delete: Dileu
     createdAt: Wedi’i greu ar %s am %s
     expiresAt: Mae gennych nes <strong>%s</strong> i gwblhau eich cais
-  startApplication:
-    title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
-    intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
-    callToAction: Dechrau cais newydd
   dashboard:
     latest:
       title: Cais diweddaraf
@@ -905,9 +901,9 @@ applyNext:
     actions:
       simple:
         title: "Ariannu o dan £10,000: Dechrau cais"
-        description: Arian i Bawb y Loteri Genedlaethol - ffordd sydyn o ymgeisio am symiau llai o arian grant rhwng £300 a £10,000.
+        description: Ffordd sydyn o ymgeisio am symiau llai o arian grant rhwng £300 a £10,000.
         link:
-          url: /welsh/apply/awards-for-all/start
+          url: /welsh/apply/under-10k/start
           label: Dechrau cais newydd
       standard:
         title: "Ariannu dros £10,000: Dywedwch wrthym eich cynnig"
@@ -1008,7 +1004,7 @@ applyNext:
               <li>Cod didoli</li>
               <li>Dyddiad (rhaid bod o fewn y 3 mis diwethaf)</li>
           </ul>
-          <img src="/assets/images/apply/afa-bank-statement-example-welsh.jpg"
+          <img src="/assets/images/apply/under-10k-bank-statement-example-welsh.jpg"
                alt="Enghraifft o gyfriflen banc rydym ei angen gennych, gydag enw’r banc, dyddiad, cyfeiriad y sefydliad, rhif cyfrif ac enw cyfreithiol y sefydliad wedi’i gylchu" />
     budget:
       item: Eitem neu weithgaredd
@@ -1140,7 +1136,7 @@ awardsForAll:
             <li>cod y cyfrif a’r rhif didoli</li>
             <li>y dyddiad cafodd y datganiad ei gyhoeddi.</li>
         </ul>
-        <p>Dyma <a href="/assets/images/apply/afa-bank-statement-example-welsh.jpg">lun defnyddiol o'r math o gyfriflen banc rydym yn chwilio amdano.</a></p>
+        <p>Dyma <a href="/assets/images/apply/under-10k-bank-statement-example-welsh.jpg">lun defnyddiol o'r math o gyfriflen banc rydym yn chwilio amdano.</a></p>
         <h3>5. Rydym yn gofyn am wybodaeth am ba fath o brosiect hoffech ei wneud</h3>
         <p>A sut fydd eich prosiect yn helpu a chynnwys eich cymuned.</p>
         <h3>6. Rydym hefyd yn gofyn i chi ddarllen a chytuno i’n amodau a thelerau</h3>
@@ -1168,7 +1164,7 @@ awardsForAll:
           - type: action
             title: Gallu ymgeisio
           - type: step
-            title: Cais ar-lein Arian i Bawb
+            title: Llenwi cais ar-lein
             description: >
               Dywedwch wrthym am eich syniad i helpu pobl wella eu bywydau a’u cymunedau.
               Bydd gennych hyd at dair mis i orffen eich ffurflen gais ar-lein.

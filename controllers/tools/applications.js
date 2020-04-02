@@ -14,7 +14,7 @@ const {
     SubmittedApplication,
     Feedback,
 } = require('../../db/models');
-const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
+const { DATA_STUDIO_UNDER10K_URL } = require('../../common/secrets');
 
 const {
     getDateRangeWithDefault,
@@ -139,7 +139,7 @@ function getDataStudioUrlForForm(formId) {
     let url;
     switch (formId) {
         case 'awards-for-all':
-            url = DATA_STUDIO_AFA_URL;
+            url = DATA_STUDIO_UNDER10K_URL;
             break;
         default:
             url = null;

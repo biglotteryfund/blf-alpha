@@ -69,18 +69,29 @@ module.exports = function ({ locale }) {
             }),
             ineligible: {
                 reason: localise({
-                    en: `This is because you can only apply for funding between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished in about ${maxProjectDurationLabel} through National Lottery Awards for All, and it sounds like you need a different amount of funding from us.`,
-                    cy: `Y rheswm dros hyn yw gallwch dim ond ymgeisio am arian rhwng £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} am brosiect a fydd wedi gorffen o fewn oddeutu ${maxProjectDurationLabel} drwy ein rhaglen Arian i Bawb y Loteri Genedlaethol, ac mae’n swnio fel eich bod angen math gwahanol o grant gennym.`,
+                    en: oneLine`This is because you can only apply for funding
+                        between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}
+                        and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
+                        for a project that will be finished in about
+                        ${maxProjectDurationLabel}, and it sounds like
+                        you need a different amount of funding from us.`,
+                    cy: oneLine`Mae hyn oherwydd mai dim ond rhwng
+                        £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a
+                        £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
+                        y gallwch wneud cais am arian grant ar
+                        gyfer prosiect a fydd yn cael ei orffen mewn
+                        oddeutu ${maxProjectDurationLabel} ac mae'n swnio
+                        fel eich bod angen swm gwahanol o arian gennym.`,
                 }),
                 detail: localise({
                     en: `<p>This isn't the end. Here are a couple of ideas about what you can do:</p>
                 <ul>
-                    <li>Consider asking us to fund part of your project through National Lottery Awards for All, and find out if there are other sources of funding that can cover the rest of your project</li>
+                    <li>Consider asking us to fund part of your project, and find out if there are other sources of funding that can cover the rest of your project</li>
                     <li><a href="/funding/over10k">Look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}.</li>
                 </ul>`,
                     cy: `<p>Nid dyma diwedd y daith. Dyma rhai syniadau am yr hyn gallwch ei wneud:</p>
                 <ul>
-                    <li>Ystyried gofyn i ni ariannu rhan o’ch prosiect drwy Arian i Bawb y Loteri Genedlaethol, a darganfod os oes ffynonellau eraill o arian gall ariannu gweddill eich prosiect</li>
+                    <li>Ystyried gofyn i ni ariannu rhan o’ch prosiect, a darganfod os oes ffynonellau eraill o arian gall ariannu gweddill eich prosiect</li>
                     <li><a href="/welsh/funding/over10k">Edrych ar ein rhaglenni ariannu eraill</a> i weld os ydynt yn talu’r swm o arian rydych eisiau ymgeisio amdano a hyd yr amser rydych eisiau rhedeg eich prosiect, ac ystyriwch ymgeisio inni am grant sydd werth mwy na £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}.</li>
                 </ul>`,
                 }),

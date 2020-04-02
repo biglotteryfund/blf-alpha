@@ -938,7 +938,7 @@ module.exports = function ({
             
             <div class="o-media--constrained u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
-                    <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                    <img src="/assets/images/apply/under-10k-bank-statement-example-small.png"
                          alt="An example of a bank statement we need from you"
                          class="o-media__figure o-media__figure-gutter"
                          width="300" />
@@ -990,7 +990,7 @@ module.exports = function ({
             
             <div class="o-media--constrained u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
-                    <img src="/assets/images/apply/afa-bank-statement-example-small-welsh.jpg"
+                    <img src="/assets/images/apply/under-10k-bank-statement-example-small-welsh.jpg"
                          alt="Enghraifft o gyfriflen banc rydym ei angen gennych"
                          class="o-media__figure o-media__figure-gutter"
                          width="300" />
@@ -1363,8 +1363,8 @@ module.exports = function ({
 
     const form = {
         title: localise({
-            en: 'National Lottery Awards for All',
-            cy: 'Arian i Bawb y Loteri Genedlaethol',
+            en: 'Apply for funding under £10,000',
+            cy: 'Ymgeisio am arian grant dan £10,000',
         }),
         startLabel: localise({
             en: 'Start your application',

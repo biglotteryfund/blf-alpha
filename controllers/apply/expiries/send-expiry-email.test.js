@@ -9,10 +9,10 @@ const mockTransport = nodemailer.createTransport({
     jsonTransport: true,
 });
 
-test('expiry email for awards for all', async function () {
+test('Apply for funding under £10,000 expiry email', async function () {
     const info = await sendExpiryEmail(
         {
-            emailType: 'AFA_ONE_MONTH',
+            emailType: 'UNDER10K_ONE_MONTH',
             unsubscribeToken: 'MOCK_TOKEN',
             formId: 'awards-for-all',
             applicationId: 'MOCK_APPLICATION_ID',
@@ -34,10 +34,10 @@ test('expiry email for awards for all', async function () {
     expect(infoMessage.text).toMatchSnapshot();
 });
 
-test('welsh expiry email for awards for all', async function () {
+test('Apply for funding under £10,000 welsh expiry email', async function () {
     const info = await sendExpiryEmail(
         {
-            emailType: 'AFA_ONE_MONTH',
+            emailType: 'UNDER10K_ONE_MONTH',
             unsubscribeToken: 'MOCK_TOKEN',
             formId: 'awards-for-all',
             applicationId: 'MOCK_APPLICATION_ID',
@@ -59,7 +59,7 @@ test('welsh expiry email for awards for all', async function () {
     expect(infoMessage.text).toMatchSnapshot();
 });
 
-test('expiry email for standard funding proposal', async function () {
+test('Your funding proposal expiry email', async function () {
     const info = await sendExpiryEmail(
         {
             emailType: 'STANDARD_ONE_MONTH',
@@ -84,7 +84,7 @@ test('expiry email for standard funding proposal', async function () {
     expect(infoMessage.text).toMatchSnapshot();
 });
 
-test('welsh expiry email for standard funding proposal', async function () {
+test('Your funding proposal welsh expiry email ', async function () {
     const info = await sendExpiryEmail(
         {
             emailType: 'STANDARD_ONE_MONTH',

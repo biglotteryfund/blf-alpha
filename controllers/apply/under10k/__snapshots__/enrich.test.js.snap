@@ -4,8 +4,8 @@ exports[`enrich pending applications 1`] = `
 Object {
   "amountRequested": "£6,750",
   "createdAt": "2020-03-04T12:00:00.000Z",
-  "deleteUrl": "/apply/awards-for-all/delete/some-uuid",
-  "editUrl": "/apply/awards-for-all/edit/some-uuid",
+  "deleteUrl": "/apply/under-10k/delete/some-uuid",
+  "editUrl": "/apply/under-10k/edit/some-uuid",
   "expiresAt": "2020-03-04T12:00:00.000Z",
   "formId": "awards-for-all",
   "id": "some-uuid",
