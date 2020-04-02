@@ -12,9 +12,9 @@ This directory handles routing and views for the dashboard screens which show pe
 
 This directory contains common router code shared across all forms. It handles common behaviour for eligibility checkers right through to submitting applications to Salesforce but doesn't contain any product specific code.
 
-## awards-for-all
+## under10k
 
-This directory defines the structure, field definitions, and validation rules for the simple funding application form.
+This directory defines the structure, field definitions, and validation rules for the "Apply for funding under £10,000" form.
 
 ## standard-proposal
 
