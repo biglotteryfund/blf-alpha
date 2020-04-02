@@ -1,6 +1,6 @@
 # Apply for funding under £10,000: Validation and Error Messages
 
-This file documents validation rules, conditions, and error message text for all fields that make up the for for applying for funding under £10,000.
+This file documents validation rules, conditions, and error message text for all fields that make up the "Apply for funding under £10,000" form.
 
 ## Project details
 
