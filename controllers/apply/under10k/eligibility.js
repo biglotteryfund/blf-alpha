@@ -239,6 +239,10 @@ module.exports = function ({ locale }) {
             question4(),
             question5(),
         ],
+        successTitle: localise({
+            en: `Great! You're eligible to apply for funding under £10,000`,
+            cy: `Gwych! Rydych yn gymwys i ymgeisio am arian grant dan £10,000`,
+        }),
         successMessage: localise({
             en: `<p>
                 We're excited to hear more about your project and
