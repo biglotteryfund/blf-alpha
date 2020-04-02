@@ -26,6 +26,9 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true
   },
+  "applications": {
+    "expiryPeriod": [3, "months"]
+  },
   "standardFundingProposal": {
     "enableNewLocationQuestions": false,
     "allowedCountries": ["england", "northern-ireland"]

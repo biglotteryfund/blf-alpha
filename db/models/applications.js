@@ -1,6 +1,7 @@
 // @ts-nocheck
 'use strict';
 const moment = require('moment');
+const config = require('config');
 const { Model, Op } = require('sequelize');
 
 const Users = require('./user');
@@ -155,17 +156,17 @@ class PendingApplication extends Model {
         customExpiry = null,
         metadata = null,
     }) {
-        // @TODO: Should this be defined in config?
-        const expiresAt = customExpiry
-            ? customExpiry
-            : moment().add('3', 'months').toDate();
+        function expiresAt() {
+            const [amount, unit] = config.get('applications.expiryPeriod');
+            return moment().add(amount, unit).toDate();
+        }
 
         return this.create({
             userId: userId,
             formId: formId,
             applicationData: null,
             metadata: metadata,
-            expiresAt: expiresAt,
+            expiresAt: customExpiry ? customExpiry : expiresAt(),
         });
     }
 
