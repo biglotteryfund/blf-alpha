@@ -973,7 +973,7 @@ applyNext:
     conditionalNote: "<strong>Note</strong>: this field may be optional depending on your other answers"
   eligibility:
     title: Eligibility checker
-    successfulTitle: Great! You're eligible to apply to %s
+    successfulTitle: Great! You're eligible to apply for funding under £10,000
     unsuccessfulTitle: Sorry, you're not eligible to apply at this time
     whatNow: What now?
   feedback:

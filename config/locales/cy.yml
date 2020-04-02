@@ -1047,7 +1047,7 @@ applyNext:
     conditionalNote: "<strong>Nodyn</strong>: gall y maes hwn fod yn ddewisol gan ddibynnu ar eich atebion eraill"
   eligibility:
     title: Gwiriad cymhwysedd
-    successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
+    successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am arian grant dan £10,000
     unsuccessfulTitle: Mae'n ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
     whatNow: Beth nesaf?
   feedback:
