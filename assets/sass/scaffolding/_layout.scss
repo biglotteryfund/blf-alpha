@@ -66,8 +66,8 @@
 
 .nudge-up-large {
     @include mq('medium') {
-        top: -$nudgeOffset * 2;
-        margin-bottom: -$nudgeOffset * 2;
+        top: -80px;
+        margin-bottom: -80px;
         position: relative;
         z-index: 10;
     }
