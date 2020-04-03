@@ -98,10 +98,10 @@ module.exports = function (req, res, next) {
      * for the layout and the main image fails to load
      */
     res.locals.fallbackHeroImage = {
-        small: '/assets/images/hero/hero-fallback-2019-small.jpg',
-        medium: '/assets/images/hero/hero-fallback-2019-medium.jpg',
-        large: '/assets/images/hero/hero-fallback-2019-large.jpg',
-        default: '/assets/images/hero/hero-fallback-2019-medium.jpg',
+        small: '/assets/images/hero/fallback-hero-small.jpg',
+        medium: '/assets/images/hero/fallback-hero-medium.jpg',
+        large: '/assets/images/hero/fallback-hero-large.jpg',
+        default: '/assets/images/hero/fallback-hero-medium.jpg',
         caption: 'The Outdoor Partnership',
     };
 
