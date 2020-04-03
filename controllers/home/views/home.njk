@@ -2,6 +2,7 @@
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/social-bar/macro.njk" import socialBar with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
 
 {% set copy = __('toplevel.home') %}
 {% set title = copy.title %}
@@ -23,28 +24,41 @@
                     </figcaption>
                 {% endif %}
             </figure>
-            <div class="super-hero__content">
-                <div class="super-hero__header">
-                    <h1 class="super-hero__title">{{ copy.intro.title | widont | safe }}</h1>
-                    <div class="super-hero__intro">
-                        {{ __(copy.intro.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
-                    </div>
+        </section>
 
-                    <div class="o-button-group">
-                        <a class="btn btn--medium btn--reversed"
-                            href="{{ localify('/funding/under10k') }}"
-                            id="qa-button-under10k">
-                            {{ copy.under10k }}
-                        </a>
-                        <a class="btn btn--medium btn--reversed"
-                            href="{{ localify('/funding/over10k') }}"
-                            id="qa-button-over10k">
-                            {{ copy.over10k }}
-                        </a>
-                    </div>
+         <div class="nudge-up-large">
+             {% call contentBox() %}
+                <h1 class="t--underline">{{ copy.covid19Statement.title }}</h1>
+                {{ copy.covid19Statement.body | safe }}
+                <p>
+                    <a class="btn btn--medium btn--outline"
+                        href="{{ localify('/about/coronavirus-updates') }}"
+                    >{{ copy.covid19Statement.linkText }}</a>
+                </p>
+             {% endcall %}
+         </div>
+
+        <div class="homepage-banner">
+            <div class="homepage-banner__header">
+                <h1 class="homepage-banner__title">{{ copy.intro.title | widont | safe }}</h1>
+                <div class="homepage-banner__intro">
+                    {{ __(copy.intro.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
+                </div>
+
+                <div class="o-button-group">
+                    <a class="btn btn--medium btn--reversed"
+                        href="{{ localify('/funding/under10k') }}"
+                        id="qa-button-under10k">
+                        {{ copy.under10k }}
+                    </a>
+                    <a class="btn btn--medium btn--reversed"
+                        href="{{ localify('/funding/over10k') }}"
+                        id="qa-button-over10k">
+                        {{ copy.over10k }}
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
 
         {# Featured sections #}
         <section class="u-inner u-margin-bottom">

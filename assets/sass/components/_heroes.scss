@@ -69,7 +69,6 @@
 .super-hero {
     font-family: font-stack('display');
     color: white;
-    margin-bottom: $spacingUnit;
     position: relative;
 
     @include mq('xlarge') {
@@ -127,6 +126,68 @@
     }
 
     .super-hero__intro {
+        font-size: 14px;
+        line-height: 1.2;
+        font-weight: normal;
+        margin-bottom: 0.75em;
+
+        @media only screen and (min-width: 360px) {
+            font-size: 18px;
+        }
+
+        @include mq('medium') {
+            font-size: 20px;
+            max-width: 38em;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @include mq('medium-major') {
+            font-size: 21px;
+        }
+
+        p {
+            margin-bottom: 3px;
+        }
+
+        a,
+        a:link {
+            color: inherit;
+            font-weight: font-weight('body', 'semibold');
+            text-decoration: underline;
+        }
+    }
+}
+
+.homepage-banner {
+    font-family: font-stack('display');
+    color: white;
+    background-color: get-color('brand', 'primary');
+    margin-bottom: $spacingUnit * 2;
+
+    .homepage-banner__header {
+        max-width: $maxWidth;
+        margin: 0 auto;
+        padding: 20px 12px 12px;
+        text-align: center;
+    }
+
+    .homepage-banner__title {
+        font-size: 18px;
+        line-height: 1.2;
+        font-weight: font-weight('display', 'semibold');
+        margin-bottom: 3px;
+
+        @include mq('medium') {
+            font-size: 21px;
+        }
+
+        @include mq('medium-major') {
+            font-size: 23px;
+        }
+    }
+
+    .homepage-banner__intro {
         font-size: 14px;
         line-height: 1.2;
         font-weight: normal;
