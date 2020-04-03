@@ -25,6 +25,25 @@
                 {% if useContentBox %}
                     </section>
                 {% endif %}
+            {% elseif part.type === 'relatedContent' %}
+                <section class="u-inner">
+                    <h2 class="t--underline">{{ part.heading }}</h2>
+                    <ul class="flex-grid flex-grid--3up">
+                        {% for article in part.content %}
+                            <li class="flex-grid__item">
+                                {{ promoCard({
+                                    "title": article.title,
+                                    "summary": article.summary,
+                                    "image": {
+                                        "url": article.trailImage,
+                                        "alt": article.title
+                                    },
+                                    "link": { "url": article.linkUrl }
+                                }) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
             {% else %}
                 <section class="content-box u-inner-wide-only" id="{{ flexAnchor + '-' + loop.index }}">
                     {% if (breadcrumbs and loop.first) %}
@@ -44,23 +63,6 @@
                         ) }}
                     {% elseif part.type === 'factRiver' %}
                         {{ factRiver(part.content) }}
-                    {% elseif part.type === 'relatedContent' %}
-                        <h2 class="t--underline">{{ part.heading }}</h2>
-                        <ul class="flex-grid flex-grid--3up">
-                            {% for article in part.content %}
-                                <li class="flex-grid__item">
-                                    {{ promoCard({
-                                        "title": article.title,
-                                        "summary": article.summary,
-                                        "image": {
-                                            "url": article.trailImage,
-                                            "alt": article.title
-                                        },
-                                        "link": { "url": article.linkUrl }
-                                    }) }}
-                                </li>
-                            {% endfor %}
-                        </ul>
                     {% elseif part.type === 'tableOfContents' and flexibleContent %}
                         <div class="s-prose u-constrained-content-wide">
                             {{ part.content | safe }}
