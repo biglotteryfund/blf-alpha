@@ -63,3 +63,12 @@
         z-index: 10;
     }
 }
+
+.nudge-up-large {
+    @include mq('medium') {
+        top: -$nudgeOffset * 2;
+        margin-bottom: -$nudgeOffset * 2;
+        position: relative;
+        z-index: 10;
+    }
+}

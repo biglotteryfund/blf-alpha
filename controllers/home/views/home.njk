@@ -2,6 +2,7 @@
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/social-bar/macro.njk" import socialBar with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
 
 {% set copy = __('toplevel.home') %}
 {% set title = copy.title %}
@@ -23,28 +24,70 @@
                     </figcaption>
                 {% endif %}
             </figure>
-            <div class="super-hero__content">
-                <div class="super-hero__header">
-                    <h1 class="super-hero__title">{{ copy.intro.title | widont | safe }}</h1>
-                    <div class="super-hero__intro">
-                        {{ __(copy.intro.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
-                    </div>
+        </section>
 
-                    <div class="o-button-group">
-                        <a class="btn btn--medium btn--reversed"
-                            href="{{ localify('/funding/under10k') }}"
-                            id="qa-button-under10k">
-                            {{ copy.under10k }}
-                        </a>
-                        <a class="btn btn--medium btn--reversed"
-                            href="{{ localify('/funding/over10k') }}"
-                            id="qa-button-over10k">
-                            {{ copy.over10k }}
-                        </a>
-                    </div>
+         <div class="nudge-up-large">
+
+             {% call contentBox() %}
+                <h1 class="t--underline">Our funding during COVID-19</h1>
+
+                    <p><strong>What you need to know</strong><br/></p>
+                    <p>
+                        Firstly, please be reassured that we will
+                        continue to honour our current commitments
+                        and will continue to be flexible with existing grants.
+                        However, COVID-19 will be our priority.
+                    </p>
+
+                    <p><strong>What this means</strong><br/></p>
+                    <p>
+                        All funding decisions we make for the next
+                        six months will prioritise getting funding
+                        to groups best placed to support their
+                        communities at this vital time focusing
+                        initially on existing grant-holders and applicants.
+                    </p>
+
+                    <p><strong>We will prioritise:</strong><br/></p>
+                    <ul>
+                        <li>Organisations supporting people who are at high risk from COVID-19</li>
+                        <li>Organisations supporting communities most likely to face increased demand and challenges as a direct result of COVID-19</li>
+                        <li>Organisations with high potential to support communities with the direct and indirect impact of COVID-19</li>
+                    </ul>
+
+                    <p>If you would like to put in an application that is not related to COVID-19, you are still welcome to do so. However, please be aware that there is likely to be greater competition for our funding, and a delay in our ability to respond. If you have already submitted an application that is not COVID related, we will be in touch to discuss this specific application with you. Please note that we will be updating guidance on our programme specific pages on our website on Monday</p>
+
+                    <p>
+                        <a class="btn btn--medium btn--outline"
+                            href="{{ localify('/about/coronavirus-updates') }}"
+                        >Read our latest COVID-19 updates</a>
+                    </p>
+             {% endcall %}
+
+
+         </div>
+
+        <div class="homepage-banner">
+            <div class="homepage-banner__header">
+                <h1 class="homepage-banner__title">{{ copy.intro.title | widont | safe }}</h1>
+                <div class="homepage-banner__intro">
+                    {{ __(copy.intro.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
+                </div>
+
+                <div class="o-button-group">
+                    <a class="btn btn--medium btn--reversed"
+                        href="{{ localify('/funding/under10k') }}"
+                        id="qa-button-under10k">
+                        {{ copy.under10k }}
+                    </a>
+                    <a class="btn btn--medium btn--reversed"
+                        href="{{ localify('/funding/over10k') }}"
+                        id="qa-button-over10k">
+                        {{ copy.over10k }}
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
 
         {# Featured sections #}
         <section class="u-inner u-margin-bottom">
