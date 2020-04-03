@@ -8,7 +8,10 @@ const fs = require('fs');
 const path = require('path');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
-const { take, clone, pickBy, identity } = require('lodash');
+const clone = require('lodash/clone');
+const identity = require('lodash/identity');
+const pickBy = require('lodash/pickBy');
+const take = require('lodash/take');
 const querystring = require('querystring');
 
 let assets = {};
@@ -20,67 +23,46 @@ try {
 
 const version = assets.version || 'latest';
 
-const getCachebustedPath = (urlPath) => `/assets/build/${version}/${urlPath}`;
-
-function appendUuid(str) {
-    return str + uuid();
-}
-
-/**
- * Filter
- * Allow filtering of a list as nunjucks' selectattr
- * only supports boolean (eg. valueless) filtering
- * @param {array} list
- * @param {string} key
- * @param {string} value
- */
-function filter(list = [], key, value) {
-    return list.filter((item) => item[key] === value);
-}
-
-/**
- * Find
- * @param {array} list
- * @param {string} key
- * @param {string} value
- */
-function find(list = [], key, value) {
-    return list.find((item) => item[key] === value);
-}
-
-function slugify(str) {
-    return slug(str, { lower: true });
-}
-
-function numberWithCommas(str = '') {
-    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-function widont(str) {
-    return str ? str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1') : null;
-}
-
-function removeQueryParam(queryParams, param) {
-    let queryObj = pickBy(clone(queryParams), identity);
-    delete queryObj[param];
-    return querystring.stringify(queryObj);
-}
-
-function addQueryParam(queryParams, param, value) {
-    let queryObj = pickBy(clone(queryParams), identity);
-    queryObj[param] = value;
-    return querystring.stringify(queryObj);
-}
-
 module.exports = {
-    appendUuid,
-    filter,
-    find,
-    getCachebustedPath,
-    numberWithCommas,
-    slugify,
-    take,
-    widont,
-    removeQueryParam,
-    addQueryParam,
+    take: take,
+
+    filter(list = [], key, value) {
+        return list.filter((item) => item[key] === value);
+    },
+
+    find(list = [], key, value) {
+        return list.find((item) => item[key] === value);
+    },
+
+    getCachebustedPath(urlPath) {
+        return `/assets/build/${version}/${urlPath}`;
+    },
+
+    numberWithCommas(str = '') {
+        return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+
+    slugify: function (str) {
+        return slug(str, { lower: true });
+    },
+
+    widont(str) {
+        return str ? str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1') : null;
+    },
+
+    appendUuid(str) {
+        return str + uuid();
+    },
+
+    addQueryParam(queryParams, param, value) {
+        let queryObj = pickBy(clone(queryParams), identity);
+        queryObj[param] = value;
+        return querystring.stringify(queryObj);
+    },
+
+    removeQueryParam(queryParams, param) {
+        let queryObj = pickBy(clone(queryParams), identity);
+        delete queryObj[param];
+        return querystring.stringify(queryObj);
+    },
 };
