@@ -11,8 +11,6 @@ const uuid = require('uuid/v4');
 const { take, clone, pickBy, identity } = require('lodash');
 const querystring = require('querystring');
 
-const { stripTrailingSlashes } = require('../common/urls');
-
 let assets = {};
 try {
     assets = JSON.parse(
@@ -94,6 +92,5 @@ module.exports = {
     widont,
     removeQueryParam,
     addQueryParam,
-    stripTrailingSlashes,
     removeQuery,
 };
