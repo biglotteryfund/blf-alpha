@@ -14,6 +14,7 @@ router.get('/', async function (req, res, next) {
         );
 
         res.render(path.resolve(__dirname, './views/home'), {
+            showCOVID19AnnouncementBanner: false,
             featuredLinks: entry.featuredLinks,
             promotedUpdates: entry.promotedUpdates,
             heroImage: {
