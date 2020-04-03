@@ -4,7 +4,6 @@
 const {
     appendUuid,
     getCachebustedPath,
-    isArray,
     numberWithCommas,
     slugify,
     widont,
@@ -41,14 +40,6 @@ describe('numberWithCommas', () => {
 describe('slugify', () => {
     it('should slugify a string', () => {
         expect(slugify('This is a test')).toBe('this-is-a-test');
-    });
-});
-
-describe('isArray', () => {
-    it('should check for arrays', () => {
-        expect(isArray('not an array')).toBeFalsy();
-        expect(isArray(['an', 'array'])).toBeTruthy();
-        expect(isArray({ prop: 'thing' })).toBeFalsy();
     });
 });
 

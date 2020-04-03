@@ -52,10 +52,6 @@ function slugify(str) {
     return slug(str, { lower: true });
 }
 
-function isArray(xs) {
-    return Array.isArray(xs);
-}
-
 function numberWithCommas(str = '') {
     return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -76,21 +72,15 @@ function addQueryParam(queryParams, param, value) {
     return querystring.stringify(queryObj);
 }
 
-function removeQuery(str) {
-    return str.split('?')[0];
-}
-
 module.exports = {
     appendUuid,
     filter,
     find,
     getCachebustedPath,
-    isArray,
     numberWithCommas,
     slugify,
     take,
     widont,
     removeQueryParam,
     addQueryParam,
-    removeQuery,
 };
