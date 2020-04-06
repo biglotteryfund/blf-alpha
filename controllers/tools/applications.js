@@ -2,7 +2,6 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const concat = require('lodash/concat');
 const groupBy = require('lodash/groupBy');
 const get = require('lodash/get');
 const mean = require('lodash/mean');
@@ -24,6 +23,33 @@ const {
 } = require('./lib/date-helpers');
 
 const router = express.Router();
+
+function getApplicationMappings(formId) {
+    const mappings = {
+        'awards-for-all': {
+            title: 'Apply for funding under £10,000',
+            getProjectCountry(applicationData) {
+                return get(applicationData, 'projectCountry');
+            },
+            feedbackDescriptions: [
+                'National Lottery Awards for All',
+                'Apply for funding under £10,000',
+            ],
+            dataStudioUrl: DATA_STUDIO_UNDER10K_URL,
+        },
+        'standard-enquiry': {
+            title: 'Your funding proposal',
+            getProjectCountry(applicationData) {
+                const countries = get(applicationData, 'projectCountries', []);
+                return countries.length > 1 ? 'uk-wide' : countries[0];
+            },
+            feedbackDescriptions: ['Your funding proposal'],
+            dataStudioUrl: null,
+        },
+    };
+
+    return mappings[formId] || null;
+}
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -135,65 +161,14 @@ function getColourForCountry(countryName) {
     return colour;
 }
 
-function getDataStudioUrlForForm(formId) {
-    let url;
-    switch (formId) {
-        case 'awards-for-all':
-            url = DATA_STUDIO_UNDER10K_URL;
-            break;
-        default:
-            url = null;
-            break;
-    }
-    return url;
-}
-
-function getApplicationTitle(applicationId) {
-    let title;
-    switch (applicationId) {
-        case 'awards-for-all':
-            title = 'National Lottery Awards for All';
-            break;
-        case 'standard-enquiry':
-            title = 'Your funding proposal';
-            break;
-        default:
-            break;
-    }
-    return title;
-}
-
-function getProjectCountry(applicationId, applicationData) {
-    if (applicationId === 'awards-for-all') {
-        return get(applicationData, 'projectCountry');
-    } else if (applicationId === 'standard-enquiry') {
-        const countries = get(applicationData, 'projectCountries', []);
-        return countries.length > 1 ? 'uk-wide' : countries[0];
-    }
-}
-
-function getFeedbackForForm(applicationId) {
-    const descriptions =
-        {
-            'awards-for-all': [
-                'National Lottery Awards for All',
-                'Apply for funding under £10,000',
-            ],
-            'standard-enquiry': ['Your funding proposal'],
-        }[applicationId] || [];
-
-    if (descriptions && descriptions.length > 0) {
-        return Feedback.findAllForDescription(descriptions);
-    } else {
-        return Promise.resolve(null);
-    }
-}
-
 router.get('/', function (req, res) {
     res.redirect('/tools');
 });
 
 router.get('/:applicationId', async (req, res, next) => {
+    const applicationMappings = getApplicationMappings(
+        req.params.applicationId
+    );
     const dateRange = getDateRangeWithDefault(req.query.start, req.query.end);
 
     const country = req.query.country;
@@ -207,8 +182,7 @@ router.get('/:applicationId', async (req, res, next) => {
             return applications
                 .map(function (row) {
                     const data = row.get({ plain: true });
-                    data.country = getProjectCountry(
-                        req.params.applicationId,
+                    data.country = applicationMappings.getProjectCountry(
                         row.applicationData
                     );
                     return data;
@@ -237,10 +211,9 @@ router.get('/:applicationId', async (req, res, next) => {
     }
 
     try {
-        const applicationTitle = getApplicationTitle(req.params.applicationId);
-        const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
-
-        const feedback = await getFeedbackForForm(req.params.applicationId);
+        const feedback = await Feedback.findAllForDescription(
+            applicationMappings.feedbackDescriptions
+        );
 
         const appTypes = [
             {
@@ -316,49 +289,14 @@ router.get('/:applicationId', async (req, res, next) => {
             totalSubmitted: submittedApplications.length,
         };
 
-        const title = 'Applications';
-
-        let extraBreadcrumbs = [
-            {
-                label: title,
-                url: '/tools/applications',
-            },
-            {
-                label: applicationTitle,
-                url: req.baseUrl + req.path,
-            },
-        ];
-
-        if (countryTitle) {
-            if (!req.query.start) {
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
-                    {
-                        label: countryTitle,
-                    },
-                ]);
-            } else {
-                let label = moment(dateRange.start).format(DATE_FORMAT);
-                if (req.query.end) {
-                    label += ' — ' + moment(dateRange.end).format(DATE_FORMAT);
-                }
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
-                    {
-                        label: countryTitle,
-                        url: req.baseUrl + req.path + '?country=' + country,
-                    },
-                    {
-                        label: label,
-                    },
-                ]);
-            }
-        }
-
-        let breadcrumbs = concat(res.locals.breadcrumbs, extraBreadcrumbs);
-
         res.render(path.resolve(__dirname, './views/applications'), {
-            title: `${applicationTitle} | ${title}`,
-            breadcrumbs: breadcrumbs,
-            applicationTitle: applicationTitle,
+            title: applicationMappings.title,
+            breadcrumbs: res.locals.breadcrumbs.concat([
+                {
+                    label: applicationMappings.title,
+                    url: `${req.baseUrl}${req.path}`,
+                },
+            ]),
             applicationData: applicationData,
             statistics: statistics,
             dateRange: dateRange,
@@ -368,7 +306,7 @@ router.get('/:applicationId', async (req, res, next) => {
             countryColour: country
                 ? getColourForCountry(titleCase(country))
                 : null,
-            dataStudioUrl: dataStudioUrl,
+            dataStudioUrl: applicationMappings.dataStudioUrl,
             feedback: feedback,
         });
     } catch (error) {
