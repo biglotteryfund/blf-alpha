@@ -47,11 +47,11 @@ class Feedback extends Model {
         }).then(groupBy((result) => result.description.toLowerCase()));
     }
 
-    static findAllForDescription(description) {
+    static findAllForDescription(descriptions = []) {
         return this.findAll({
             where: {
                 description: {
-                    [Op.eq]: description,
+                    [Op.in]: descriptions,
                 },
             },
             order: [

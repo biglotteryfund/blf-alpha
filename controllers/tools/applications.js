@@ -172,6 +172,23 @@ function getProjectCountry(applicationId, applicationData) {
     }
 }
 
+function getFeedbackForForm(applicationId) {
+    const descriptions =
+        {
+            'awards-for-all': [
+                'National Lottery Awards for All',
+                'Apply for funding under £10,000',
+            ],
+            'standard-enquiry': ['Your funding proposal'],
+        }[applicationId] || [];
+
+    if (descriptions && descriptions.length > 0) {
+        return Feedback.findAllForDescription(descriptions);
+    } else {
+        return Promise.resolve(null);
+    }
+}
+
 router.get('/', function (req, res) {
     res.redirect('/tools');
 });
@@ -223,12 +240,7 @@ router.get('/:applicationId', async (req, res, next) => {
         const applicationTitle = getApplicationTitle(req.params.applicationId);
         const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
 
-        const feedbackDescription = getApplicationTitle(
-            req.params.applicationId
-        );
-        const feedback = feedbackDescription
-            ? await Feedback.findAllForDescription(feedbackDescription)
-            : null;
+        const feedback = await getFeedbackForForm(req.params.applicationId);
 
         const appTypes = [
             {
