@@ -174,7 +174,7 @@ function getUpdates({
                 };
             });
     } else {
-        return queryContentApi(`/v1/${locale}/updates/${type || ''}`, {
+        return queryContentApi(`v1/${locale}/updates/${type || ''}`, {
             searchParams: withPreviewParams(requestParams, {
                 ...query,
                 ...{ 'page-limit': 10 },
@@ -292,7 +292,7 @@ function getPublications({
         ...filteredRequestParams,
     };
 
-    const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
+    const baseUrl = `v1/${locale}/funding/publications/${programme}`;
     if (slug) {
         return queryContentApi(`${baseUrl}/${slug}`, {
             searchParams: withPreviewParams(requestParams, {
