@@ -42,7 +42,8 @@
                 <ul class="user-nav__links">
                     {% for link in links %}
                         <li>
-                            {% if link.url !== currentPath  %}
+                            {% set shouldLink = link.url !== currentPath %}
+                            {% if shouldLink  %}
                                 <a href="{{ link.url }}">
                             {% endif %}
                                 {{ link.label }}
