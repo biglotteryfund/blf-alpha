@@ -924,17 +924,13 @@ it('should submit full application for under £10,000', () => {
     function sectionTermsAndConditions() {
         cy.checkA11y();
 
-        cy.findAllByLabelText('I agree').each(($el) => {
-            cy.wrap($el).click();
-        });
+        cy.findAllByLabelText('I agree').click({ multiple: true });
 
-        cy.findByLabelText('Full name of person completing this form', {
-            exact: false,
-        }).type(faker.name.findName());
+        cy.findByLabelText('Full name of person completing this form').type(
+            faker.name.findName()
+        );
 
-        cy.findByLabelText('Position in organisation', {
-            exact: false,
-        }).type('CEO');
+        cy.findByLabelText('Position in organisation').type('CEO');
 
         submitStep();
     }
