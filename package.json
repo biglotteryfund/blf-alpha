@@ -138,7 +138,7 @@
     "uuid": "^3.4.0",
     "vary": "^1.1.1",
     "winston": "3.2.1",
-    "winston-cloudwatch": "2.3.0",
+    "winston-cloudwatch": "2.3.1",
     "yargs": "^15.3.1",
     "zxcvbn": "4.4.2"
   },
