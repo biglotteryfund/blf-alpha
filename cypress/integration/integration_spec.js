@@ -16,10 +16,7 @@ function acceptCookieConsent() {
 it('should test common interactions', () => {
     cy.visit('/');
 
-    // @TODO: Confirm contrast ratio issue on miniature heroes?
-    cy.checkA11y({
-        options: { rules: { 'color-contrast': { enabled: false } } },
-    });
+    cy.checkA11y();
 
     cy.viewport(375, 667);
 
@@ -734,7 +731,6 @@ it('should submit full application for under £10,000', () => {
         cy.checkA11y();
 
         if (mock.organisationType === 'Statutory body') {
-            // @TODO: Should we further randomise the sub-types?
             cy.findByLabelText('Parish Council', {
                 exact: false,
             }).click();

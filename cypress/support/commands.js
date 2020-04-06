@@ -98,11 +98,14 @@ Cypress.Commands.add('checkA11y', ({ context, options } = {}) => {
         }
     });
 
-    // @TODO: Review items in this list
-    const combinedOptions = merge(
-        { rules: { 'landmark-unique': { enabled: false } } },
-        options
-    );
+    const excludedRules = {
+        // Color contrast is better checked manually
+        'color-contrast': { enabled: false },
+        // @TODO: Remove this rule and fix resulting errors
+        'landmark-unique': { enabled: false },
+    };
+
+    const combinedOptions = merge({ rules: excludedRules }, options);
 
     cy.log(combinedOptions);
 

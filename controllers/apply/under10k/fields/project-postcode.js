@@ -8,9 +8,6 @@ const Field = require('../../lib/field-types/field');
 module.exports = function (locale) {
     const localise = get(locale);
 
-    /**
-     * @TODO: Is it worth this being a dedicated PostcodeField type?
-     */
     return new Field({
         locale: locale,
         name: 'projectPostcode',

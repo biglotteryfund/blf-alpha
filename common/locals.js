@@ -189,15 +189,12 @@ module.exports = function (req, res, next) {
      * @param dateString
      */
     res.locals.formatCalendarTime = function (dateString) {
-        return (
-            moment(dateString)
-                .tz('Europe/London')
-                // @TODO: Handle this consistently across date formatters
-                .locale(locale === 'en' ? 'en-gb' : 'cy')
-                .calendar(null, {
-                    sameElse: 'D MMMM, YYYY',
-                })
-        );
+        return moment(dateString)
+            .tz('Europe/London')
+            .locale(locale === 'en' ? 'en-gb' : 'cy')
+            .calendar(null, {
+                sameElse: 'D MMMM, YYYY',
+            });
     };
 
     /**
