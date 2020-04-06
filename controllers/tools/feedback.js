@@ -21,9 +21,9 @@ async function render(req, res) {
 }
 
 async function renderDownload(req, res, next) {
-    const feedback = await Feedback.findAllForDescription(
-        sanitise(req.query.download)
-    );
+    const feedback = await Feedback.findAllForDescription([
+        sanitise(req.query.download),
+    ]);
 
     if (feedback.length > 0) {
         const preparedResults = feedback.map((item) => {
