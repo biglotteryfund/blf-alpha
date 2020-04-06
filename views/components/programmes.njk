@@ -7,7 +7,7 @@
             <dt>{{ labels.area }}</dt>
             <dd>{{ programme.area.label }}</dd>
         {% endif %}
-        
+
         {% if programme.organisationType %}
             <dt>{{ labels.organisationTypes }}</dt>
             <dd>{{ programme.organisationType }}</dd>
@@ -35,7 +35,6 @@
 
 {% macro programmeCard(programme) %}
     {% set description %}
-        {{ programme.description | safe }}
         {{ programmeStats(programme) }}
     {% endset %}
     {{ promoCard({
