@@ -2,7 +2,6 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const concat = require('lodash/concat');
 const groupBy = require('lodash/groupBy');
 const get = require('lodash/get');
 const mean = require('lodash/mean');
@@ -316,49 +315,11 @@ router.get('/:applicationId', async (req, res, next) => {
             totalSubmitted: submittedApplications.length,
         };
 
-        const title = 'Applications';
-
-        let extraBreadcrumbs = [
-            {
-                label: title,
-                url: '/tools/applications',
-            },
-            {
-                label: applicationTitle,
-                url: req.baseUrl + req.path,
-            },
-        ];
-
-        if (countryTitle) {
-            if (!req.query.start) {
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
-                    {
-                        label: countryTitle,
-                    },
-                ]);
-            } else {
-                let label = moment(dateRange.start).format(DATE_FORMAT);
-                if (req.query.end) {
-                    label += ' — ' + moment(dateRange.end).format(DATE_FORMAT);
-                }
-                extraBreadcrumbs = concat(extraBreadcrumbs, [
-                    {
-                        label: countryTitle,
-                        url: req.baseUrl + req.path + '?country=' + country,
-                    },
-                    {
-                        label: label,
-                    },
-                ]);
-            }
-        }
-
-        let breadcrumbs = concat(res.locals.breadcrumbs, extraBreadcrumbs);
-
         res.render(path.resolve(__dirname, './views/applications'), {
-            title: `${applicationTitle} | ${title}`,
-            breadcrumbs: breadcrumbs,
-            applicationTitle: applicationTitle,
+            title: applicationTitle,
+            breadcrumbs: res.locals.breadcrumbs.concat([
+                { label: applicationTitle, url: `${req.baseUrl}${req.path}` },
+            ]),
             applicationData: applicationData,
             statistics: statistics,
             dateRange: dateRange,
