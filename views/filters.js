@@ -4,8 +4,6 @@
  * custom Nunjucks filters
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
-const fs = require('fs');
-const path = require('path');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
 const clone = require('lodash/clone');
@@ -13,15 +11,6 @@ const identity = require('lodash/identity');
 const pickBy = require('lodash/pickBy');
 const take = require('lodash/take');
 const querystring = require('querystring');
-
-let assets = {};
-try {
-    assets = JSON.parse(
-        fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8')
-    );
-} catch (e) {} // eslint-disable-line no-empty
-
-const version = assets.version || 'latest';
 
 module.exports = {
     take: take,
@@ -32,10 +21,6 @@ module.exports = {
 
     find(list = [], key, value) {
         return list.find((item) => item[key] === value);
-    },
-
-    getCachebustedPath(urlPath) {
-        return `/assets/build/${version}/${urlPath}`;
     },
 
     numberWithCommas(str = '') {

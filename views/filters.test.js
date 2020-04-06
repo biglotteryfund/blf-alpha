@@ -7,11 +7,6 @@ test('append a uuid', () => {
     expect(filters.appendUuid('hello-')).toMatch(/hello-.*/);
 });
 
-test('get cachebusted asset', () => {
-    const result = filters.getCachebustedPath('stylesheets/style.css', false);
-    expect(result).toMatch(/^\/assets\/build\/\w+\/stylesheets\/style.css$/);
-});
-
 test('should format a number with comma separators', () => {
     expect(filters.numberWithCommas(1548028)).toBe('1,548,028');
 });

@@ -1,10 +1,19 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
 const config = require('config');
 const moment = require('moment-timezone');
 const isString = require('lodash/isString');
 
 const appData = require('./appData');
 const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
+
+let assets = {};
+try {
+    assets = JSON.parse(
+        fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8')
+    );
+} catch (e) {} // eslint-disable-line no-empty
 
 /**
  * Set request locals
@@ -32,6 +41,11 @@ module.exports = function (req, res, next) {
      * Environment metadata
      */
     res.locals.appData = appData;
+
+    /**
+     * Assets version, used for cache-busting static assets
+     */
+    res.locals.ASSETS_VERSION = assets.version || 'latest';
 
     /**
      * Is this page bilingual?
