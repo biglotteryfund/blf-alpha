@@ -3,7 +3,7 @@
 {% from "components/fact-river/macro.njk" import factRiver %}
 {% from "components/media-aside/macro.njk" import mediaAside %}
 {% from "components/promo-card/macro.njk" import promoCard with context %}
-{% from "components/segment-links/macro.njk" import segmentLinks %}
+{% from "components/table-of-contents/macro.njk" import tableOfContentLinks %}
 
 {% set flexAnchor = 'item' %}
 
@@ -65,7 +65,7 @@
                         <div class="s-prose u-constrained-content-wide">
                             {{ part.content | safe }}
                         </div>
-                        {{ segmentLinks(flexibleContent, anchor = flexAnchor) }}
+                        {{ tableOfContentLinks(flexibleContent, anchor = flexAnchor) }}
                     {% else %}
                         <div class="s-prose u-constrained-content-wide">
                             {% if part.type === 'contentArea' %}

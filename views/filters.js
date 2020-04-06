@@ -63,7 +63,7 @@ function numberWithCommas(str = '') {
 }
 
 function widont(str) {
-    return str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1');
+    return str ? str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1') : null;
 }
 
 function removeQueryParam(queryParams, param) {
