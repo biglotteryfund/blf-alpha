@@ -104,11 +104,11 @@ module.exports = function ({ locale }) {
             question: localise({
                 en: oneLine`Are you applying for funding to pay for things
                     you haven’t already spent money on?`,
-                cy: oneLine`@TODO: i18n`,
+                cy: oneLine`A ydych chi'n gwneud cais am arian i dalu am bethau nad ydych chi eisoes wedi gwario arian arnyn nhw?`,
             }),
             explanation: localise({
                 en: `We can’t pay for costs or activities that have already happened.`,
-                cy: oneLine`@TODO: i18n`,
+                cy: oneLine`Ni allwn dalu am gostau neu weithgareddau sydd eisoes wedi digwydd.`,
             }),
             yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
             noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
@@ -120,7 +120,7 @@ module.exports = function ({ locale }) {
                 reason: localise({
                     en: oneLine`This is because you want funding to pay for
                         costs or activities that have already happened.`,
-                    cy: oneLine`@TODO: i18n`,
+                    cy: oneLine`Mae hyn oherwydd eich bod am gael arian i dalu am gostau neu weithgareddau sydd eisoes wedi digwydd.`,
                 }),
                 detail: localise({
                     en: `<p>
@@ -132,7 +132,12 @@ module.exports = function ({ locale }) {
                         to pay for costs or activities you haven’t
                         already spent money on. 
                     </p>`,
-                    cy: `@TODO: i18n`,
+                    cy: `<p>
+                        Nid ydym am i gymunedau golli allan ar syniad gwych a fydd yn eu helpu i ffynnu.
+                    </p>
+                    <p>
+                        Meddyliwch a gweld a allwch chi wneud cais am arian grant i dalu am gostau neu weithgareddau nad ydych chi eisoes wedi gwario arian arnyn nhw.
+                    </p>`,
                 }),
             },
         };

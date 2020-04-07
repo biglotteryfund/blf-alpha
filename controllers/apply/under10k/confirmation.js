@@ -90,33 +90,38 @@ module.exports = function ({ locale, data = {} }) {
     }
 
     function cyConfirmationBody() {
-        return `<h2>Rydym newydd anfon e-bost i’ch prif ac uwch gyswllt </h2>
-<p>Dim ond e-bost cadarnhad yw hwn, gyda chrynodeb o’ch atebion (rhag ofn eich bod eisiau edrych yn ôl arnyn nhw ar unrhyw bwynt).</p>
+        return stripIndents`
+            <h2>Rydym newydd anfon e-bost i’ch prif ac uwch gyswllt </h2>
+            <p>Dim ond e-bost cadarnhad yw hwn, gyda chrynodeb o’ch atebion (rhag ofn eich bod eisiau edrych yn ôl arnyn nhw ar unrhyw bwynt).</p>
 
-<h2>Nawr ein bod gyda’ch cais – byddwn yn dechrau ei asesu mor fuan ag y gallwn</h2>
-<p>@TODO: i18n</p>
-
-<h2>Tra rydym yn asesu eich cais – efallai byddwn mewn cysylltiad</h2>
-<p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
-
-<h2>Byddwn yn rhoi gwybod o’n penderfyniad i <span data-hj-suppress>${
-            mainContact.fullName
-        } a ${seniorContact.fullName}</span> dros e-bost</h2>
-<p>Byddwn yn e-bostio <strong data-hj-suppress>${
-            mainContact.email
-        }</strong> a <strong data-hj-suppress>${
+            <h2>Nawr bod gennym eich cais, byddwn yn dechrau ei asesu cyn gynted ag y gallwn</h2>
+            <p>@Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd  ${
+                country === 'england' ? 'hyd at chwe mis' : 'mwy o amser'
+            } i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>
+            
+            <h2>Tra rydym yn asesu eich cais – efallai byddwn mewn cysylltiad</h2>
+            <p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
+            
+            <h2>Byddwn yn rhoi gwybod o’n penderfyniad i <span data-hj-suppress>${
+                mainContact.fullName
+            } a ${seniorContact.fullName}</span> dros e-bost</h2>
+            <p>Byddwn yn e-bostio <strong data-hj-suppress>${
+                mainContact.email
+            }</strong> a <strong data-hj-suppress>${
             seniorContact.email
         }</strong>. Sicrhewch eich bod yn gwirio eich post sothach hefyd (rhag ofn).</p>
-
-<h2>Os oes gennych unrhyw gwestiynau, gallwch gysylltu â ni yn y cyfamser</h2>
-<p>Ffoniwch ${getPhoneFor(country)} neu e-bostio <a href="mailto:${getEmailFor(
+            
+            <h2>Os oes gennych unrhyw gwestiynau, gallwch gysylltu â ni yn y cyfamser</h2>
+            <p>Ffoniwch ${getPhoneFor(
+                country
+            )} neu e-bostio <a href="mailto:${getEmailFor(
             country
         )}">${getEmailFor(country)}</a> a byddwn yn hapus i’ch helpu.</p>
-
-<p>
-    Pob lwc gyda’ch cais!<br />
-    <strong>Cronfa Gymunedol y Loteri Genedlaethol</strong>
-</p>`;
+            
+            <p>
+                Pob lwc gyda’ch cais!<br />
+                <strong>Cronfa Gymunedol y Loteri Genedlaethol</strong>
+            </p>`;
     }
 
     return {

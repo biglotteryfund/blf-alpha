@@ -45,7 +45,22 @@ module.exports = function (locale) {
                 but don't worry if you use less.
             </strong></p>`,
 
-            cy: `@TODO: i18n`,
+            cy: `<p>
+                <strong>Os yw'ch prosiect yn gysylltiedig â COVID-19, byddwn yn blaenoriaethu:</strong>
+            </p>
+            <ol>
+                <li>Mudiadau sy'n cefnogi pobl sydd â risg uchel o COVID-19</li>
+                <li>Mudiadau sy'n cefnogi cymunedau sydd fwyaf tebygol o wynebu galw a heriau cynyddol o ganlyniad uniongyrchol i COVID-19</li>
+                <li>Mudiadau sydd â photensial uchel i gefnogi cymunedau ag effaith uniongyrchol ac anuniongyrchol COVID-19</li>
+            </ol>
+            <p><strong>
+                Ond ar gyfer pob prosiect arall, rydyn ni am ariannu syniadau sy'n gwneud o leiaf un o'r tri pheth hyn:
+            </strong></p>
+            <ol>
+                <li>Dod â phobl ynghyd a meithrin perthnasoedd cryf mewn ac ar draws cymunedau</li>
+                <li>Gwella'r lleoedd a'r lleoedd sydd o bwys i gymunedau</li>
+                <li>Helpu mwy o bobl i gyrraedd eu potensial, trwy eu cefnogi cyn gynted â phosibl</li>
+                </ol>`,
         }),
         minWords: minWords,
         maxWords: maxWords,

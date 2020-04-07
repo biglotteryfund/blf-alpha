@@ -1123,8 +1123,7 @@ awardsForAll:
             description: >
               Dywedwch wrthym am eich syniad i helpu pobl wella eu bywydau a’u cymunedau.
               Bydd gennych hyd at dair mis i orffen eich ffurflen gais ar-lein.
-              Unwaith y byddwch yn anfon eich cais i ni, bydd yn cymryd oddeutu
-              12 wythnos i ni ei asesu (neu 18 wythnos i brosiectau yn Lloegr).
+              Ar ôl i chi anfon eich ffurflen gais atom, byddwn yn ei hasesu. Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac efallai y bydd yn cymryd mwy o amser i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.
           - type: action
             title: Cais wedi’i asesu
           - type: step
