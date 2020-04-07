@@ -30,7 +30,7 @@
                     {% if content.flexibleContent %}
                         {{ tableOfContents(content.flexibleContent, flexAnchor) }}
                     {% else %}
-                        {{ tableOfContents(content.segments) }}
+                        {{ tableOfContents(content.segments, 'segment') }}
                     {% endif %}
                 </section>
             {% endif %}
