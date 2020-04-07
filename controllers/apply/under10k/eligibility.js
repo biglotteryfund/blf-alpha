@@ -110,11 +110,11 @@ module.exports = function ({ locale }) {
                 en: `We can’t pay for costs or activities that have already happened.`,
                 cy: oneLine`Ni allwn dalu am gostau neu weithgareddau sydd eisoes wedi digwydd.`,
             }),
-            yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
-            noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
+            yesLabel: localise({ en: 'Yes', cy: 'Ydym' }),
+            noLabel: localise({ en: 'No', cy: 'Nac ydym' }),
             errorMessage: localise({
                 en: 'Answer Yes or No',
-                cy: 'Ydi / Nac ydi',
+                cy: 'Ydym / Nac ydym',
             }),
             ineligible: {
                 reason: localise({
