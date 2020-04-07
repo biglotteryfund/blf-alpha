@@ -102,66 +102,45 @@ module.exports = function ({ locale }) {
     function question3() {
         return {
             question: localise({
-                en: oneLine`Do you want to start your project at least 12 weeks 
-                after you plan to send us your application? (If your project is 
-                in England, it can start after at least 18 weeks)`,
-                cy: oneLine`A ydych eisiau dechrau eich prosiect o leiaf 
-                12 wythnos ar ôl i chi gynllunio anfon eich cais i ni? 
-                (Os yw eich prosiect yn Lloegr, gall ddechrau ar ôl o leiaf 18 wythnos)`,
+                en: oneLine`Are you applying for funding to pay for things
+                    you haven’t already spent money on?`,
+                cy: oneLine`A ydych chi'n gwneud cais am arian i dalu am 
+                    bethau nad ydych chi eisoes wedi gwario arian arnyn nhw?`,
             }),
             explanation: localise({
-                en: oneLine`We need to know because we need to give ourselves
-                        at least 12 weeks to assess your application
-                        (or 18 weeks if your project is in England).
-                        And then make a decision on whether we'll fund your project or not.`,
-                cy: oneLine`Rydym angen gwybod gan ein bod angen rhoi o leiaf
-                        12 wythnos i’n hunain asesu eich cais (neu 18 wythnos 
-                        os yw eich prosiect yn Lloegr). Ac yna gwneud penderfyniad 
-                        ar p’un ai byddwn yn ariannu eich prosiect neu beidio.`,
+                en: `We can’t pay for costs or activities that have already happened.`,
+                cy: oneLine`Ni allwn dalu am gostau neu weithgareddau sydd eisoes wedi digwydd.`,
             }),
-            yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
-            noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
+            yesLabel: localise({ en: 'Yes', cy: 'Ydym' }),
+            noLabel: localise({ en: 'No', cy: 'Nac ydym' }),
             errorMessage: localise({
                 en: 'Answer Yes or No',
-                cy: 'Ydi / Nac ydi',
+                cy: 'Ydym / Nac ydym',
             }),
             ineligible: {
                 reason: localise({
-                    en: oneLine`This is because you want to start your
-                            project sooner than we can assess your application.`,
-                    cy: oneLine`Mae hyn oherwydd eich bod eisiau dechrau eich
-                            prosiect yn gynt nag y gallwn asesu eich cais.`,
+                    en: oneLine`This is because you want funding to pay for
+                        costs or activities that have already happened.`,
+                    cy: oneLine`Mae hyn oherwydd eich bod am gael arian i dalu 
+                        am gostau neu weithgareddau sydd eisoes wedi digwydd.`,
                 }),
                 detail: localise({
                     en: `<p>
-                            We don't want communities to miss out on a great
-                            idea that will help them thrive.
-                        </p>
-                        <p>
-                            Have a think and see if it's possible to start your
-                            project at least 12 weeks from now (or 18 weeks from
-                            now if your project is in England).
-                        </p>
-                        <p><strong>
-                            If you've now decided you can start your project
-                            a bit later than you planned
-                        </strong></p>
-                        <p>Continue your application.</p>`,
-
+                        We don't want communities to miss out on a great
+                        idea that will help them thrive.
+                    </p>
+                    <p>
+                        Have a think and see if you can apply for funding
+                        to pay for costs or activities you haven’t
+                        already spent money on. 
+                    </p>`,
                     cy: `<p>
-                            Nid ydym eisiau i gymunedau fethu allan ar syniad
-                            gwych fydd yn eu helpu i ffynnu.
-                        </p>
-                        <p>
-                            Meddyliwch a yw’n bosibl dechrau eich prosiect
-                            o leiaf 18 wythnos o nawr (neu 12 wythnos o nawr
-                            os yw eich prosiect yn yr Alban neu Ogledd Iwerddon).
-                        </p>
-                        <p><strong>
-                            Os ydych nawr wedi penderfynu y gallwch ddechrau
-                            eich prosiect ychydig yn ddiweddarach nag y cynllunioch chi
-                        </strong></p>
-                        <p>Parhewch â’ch cais.</p>`,
+                        Nid ydym am i gymunedau golli allan ar syniad gwych a fydd yn eu helpu i ffynnu.
+                    </p>
+                    <p>
+                        Meddyliwch a gweld a allwch chi wneud cais am arian grant i dalu am gostau neu 
+                        weithgareddau nad ydych chi eisoes wedi gwario arian arnyn nhw.
+                    </p>`,
                 }),
             },
         };

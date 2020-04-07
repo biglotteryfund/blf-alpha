@@ -12,9 +12,9 @@ module.exports = function () {
         <h2>What happens next?</h2>
         <p>
             Your proposal has been passed on to one of our funding officers.
-            They'll respond in around <strong>15 working days</strong>,
-            to give you some advice on how likely we are to fund it and
-            which programme you might apply to.
+            We’re now prioritising proposals for COVID-19 related projects,
+            so they can start sooner. And it might take us longer to get
+            back to you about proposals that aren’t COVID-19 related. 
         </p>
         <p>
             If it's something we can fund, you'll be asked if

@@ -24,12 +24,16 @@ module.exports = function (locale, data = {}) {
             cy: `Pryd hoffech ddechrau eich prosiect?`,
         }),
         explanation: localise({
-            en: oneLine`Don't worry, this can be an estimate.
-                But your project must start on or after
-                <strong>${minDateExample}.</strong>`,
-            cy: oneLine`Peidiwch a poeni, gall hwn fod yn amcangyfrif.
-                Ond mae angen i’ch prosiect ddechrau ar ôl
-                <strong>${minDateExample}.</strong>`,
+            en: oneLine`Don't worry, this can be an estimate. 
+                But most projects must usually start on or after
+                <strong>${minDateExample}</strong>
+                (projects about COVID-19 can start sooner than this,
+                so just enter <strong>${minDateExample}</strong> for now).`,
+            cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
+                Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar 
+                neu ar ôl <strong>${minDateExample}</strong> 
+                (gall prosiectau am COVID-19 gychwyn yn gynt na hyn, felly 
+                nodwch <strong>${minDateExample}</strong> am nawr).`,
         }),
         settings: {
             minYear: minDate.format('YYYY'),

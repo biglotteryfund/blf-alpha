@@ -5,41 +5,46 @@ exports[`should return confirmation text based on country 1`] = `
   We’ve just sent an email to your main and senior contact
 </h2>
 <p>
-  This is just a confirmation email, with a summary of your answers (in case you want to look back at them at any point).
+  This is just a confirmation email, with a summary of your answers
+(in case you want to look back at them at any point).
 </p>
 <h2>
-  Now we’ve got your application – we'll start assessing it as soon as we can
+  Now we’ve got your application – 
+we'll start assessing it as soon as we can
 </h2>
 <p>
   We’ll look at your idea and do some checks.
-  <strong>
-    It’ll take us around 18 weeks to decide to fund your project or not
-  </strong>
-  .
+We’re now prioritising decisions for COVID-19 related
+projects, so they can start sooner. And it might take us
+up to six months
+to assess applications that aren’t about COVID-19.
 </p>
 <h2>
   While we’re assessing your application – we might get in touch
 </h2>
 <p>
-  We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.
+  We don’t always do this. It’s only if we need a bit more information.
+So don’t worry if you don’t hear from us.
 </p>
 <h2>
   We’ll let
   <span data-hj-suppress>
-    null and null
+    Bob Example and
+Ann Example
   </span>
   know our decision by email
 </h2>
 <p>
   We’ll email
   <strong data-hj-suppress>
-    undefined
+    bob@example.com
   </strong>
   and
   <strong data-hj-suppress>
-    undefined
+    ann@example.com
   </strong>
-  . Make sure to check the junk mail too (just in case).
+  .
+Make sure to check the junk mail too (just in case).
 </p>
 <h2>
   If you have any questions, you can contact us in the meantime
@@ -65,41 +70,46 @@ exports[`should return confirmation text based on country 2`] = `
   We’ve just sent an email to your main and senior contact
 </h2>
 <p>
-  This is just a confirmation email, with a summary of your answers (in case you want to look back at them at any point).
+  This is just a confirmation email, with a summary of your answers
+(in case you want to look back at them at any point).
 </p>
 <h2>
-  Now we’ve got your application – we'll start assessing it as soon as we can
+  Now we’ve got your application – 
+we'll start assessing it as soon as we can
 </h2>
 <p>
   We’ll look at your idea and do some checks.
-  <strong>
-    It’ll take us around 12 weeks to decide to fund your project or not
-  </strong>
-  .
+We’re now prioritising decisions for COVID-19 related
+projects, so they can start sooner. And it might take us
+longer
+to assess applications that aren’t about COVID-19.
 </p>
 <h2>
   While we’re assessing your application – we might get in touch
 </h2>
 <p>
-  We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.
+  We don’t always do this. It’s only if we need a bit more information.
+So don’t worry if you don’t hear from us.
 </p>
 <h2>
   We’ll let
   <span data-hj-suppress>
-    null and null
+    Bob Example and
+Ann Example
   </span>
   know our decision by email
 </h2>
 <p>
   We’ll email
   <strong data-hj-suppress>
-    undefined
+    bob@example.com
   </strong>
   and
   <strong data-hj-suppress>
-    undefined
+    ann@example.com
   </strong>
-  . Make sure to check the junk mail too (just in case).
+  .
+Make sure to check the junk mail too (just in case).
 </p>
 <h2>
   If you have any questions, you can contact us in the meantime
