@@ -104,10 +104,10 @@
 }
 
 /* =========================================================================
-   Segment links (jump links for pages with multiple content segments)
+   Table of contents (jump links for pages with multiple content segments)
    ========================================================================= */
 
-.segment-links {
+.table-of-contents {
     font-size: 18px;
     border-top: 1px solid get-color('border', 'base');
     padding-top: $spacingUnit;

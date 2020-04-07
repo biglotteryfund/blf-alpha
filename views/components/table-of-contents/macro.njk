@@ -1,6 +1,6 @@
 {% macro tableOfContents(items, anchor = 'segment') %}
     {% if items.length > 1 %}
-        <div class="segment-links">
+        <div class="table-of-contents">
             <ul>
                 {% for item in items %}
                     {% set titleToUse = item.tocTitle or item.title %}
