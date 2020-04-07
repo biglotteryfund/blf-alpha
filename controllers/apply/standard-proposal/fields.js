@@ -391,11 +391,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: ``,
             }),
             explanation: localise({
-                en: `We can fund projects for one to five years`,
+                en: `We can fund projects for up to five years`,
                 cy: ``,
             }),
             options: [
-                { label: localise({ en: '1 year', cy: '' }), value: 1 },
+                { label: localise({ en: 'Up to 1 year', cy: '' }), value: 1 },
                 { label: localise({ en: '2 years', cy: '' }), value: 2 },
                 { label: localise({ en: '3 years', cy: '' }), value: 3 },
                 { label: localise({ en: '4 years', cy: '' }), value: 4 },
