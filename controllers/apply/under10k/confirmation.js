@@ -54,12 +54,10 @@ module.exports = function ({ locale, data = {} }) {
             </h2>
             <p>
                 We’ll look at your idea and do some checks.
-                <strong>
-                    We’re now prioritising decisions for COVID-19 related
-                    projects, so they can start sooner. And it might take us
-                    ${country === 'england' ? 'up to six months' : 'longer'}
-                    to assess applications that aren’t about COVID-19.
-                </strong>.
+                We’re now prioritising decisions for COVID-19 related
+                projects, so they can start sooner. And it might take us
+                ${country === 'england' ? 'up to six months' : 'longer'}
+                to assess applications that aren’t about COVID-19.
             </p>
             <h2>While we’re assessing your application – we might get in touch</h2>
             <p>
