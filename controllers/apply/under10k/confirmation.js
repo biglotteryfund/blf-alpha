@@ -92,15 +92,19 @@ module.exports = function ({ locale, data = {} }) {
     function cyConfirmationBody() {
         return stripIndents`
             <h2>Rydym newydd anfon e-bost i’ch prif ac uwch gyswllt </h2>
-            <p>Dim ond e-bost cadarnhad yw hwn, gyda chrynodeb o’ch atebion (rhag ofn eich bod eisiau edrych yn ôl arnyn nhw ar unrhyw bwynt).</p>
+            <p>Dim ond e-bost cadarnhad yw hwn, gyda chrynodeb o’ch atebion 
+            (rhag ofn eich bod eisiau edrych yn ôl arnyn nhw ar unrhyw bwynt).</p>
 
             <h2>Nawr bod gennym eich cais, byddwn yn dechrau ei asesu cyn gynted ag y gallwn</h2>
-            <p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd  ${
+            <p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. 
+            Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau 
+            cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd  ${
                 country === 'england' ? 'hyd at chwe mis' : 'mwy o amser'
             } i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>
             
             <h2>Tra rydym yn asesu eich cais – efallai byddwn mewn cysylltiad</h2>
-            <p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
+            <p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o
+             wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
             
             <h2>Byddwn yn rhoi gwybod o’n penderfyniad i <span data-hj-suppress>${
                 mainContact.fullName

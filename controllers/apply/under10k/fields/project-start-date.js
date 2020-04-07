@@ -29,7 +29,11 @@ module.exports = function (locale, data = {}) {
                 <strong>${minDateExample}</strong>
                 (projects about COVID-19 can start sooner than this,
                 so just enter <strong>${minDateExample}</strong> for now).`,
-            cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar neu ar ôl <strong>${minDateExample}</strong> (gall prosiectau am COVID-19 gychwyn yn gynt na hyn, felly nodwch <strong>${minDateExample}</strong> am nawr).`,
+            cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
+                Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar 
+                neu ar ôl <strong>${minDateExample}</strong> 
+                (gall prosiectau am COVID-19 gychwyn yn gynt na hyn, felly 
+                nodwch <strong>${minDateExample}</strong> am nawr).`,
         }),
         settings: {
             minYear: minDate.format('YYYY'),

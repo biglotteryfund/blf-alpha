@@ -104,7 +104,8 @@ module.exports = function ({ locale }) {
             question: localise({
                 en: oneLine`Are you applying for funding to pay for things
                     you haven’t already spent money on?`,
-                cy: oneLine`A ydych chi'n gwneud cais am arian i dalu am bethau nad ydych chi eisoes wedi gwario arian arnyn nhw?`,
+                cy: oneLine`A ydych chi'n gwneud cais am arian i dalu am 
+                    bethau nad ydych chi eisoes wedi gwario arian arnyn nhw?`,
             }),
             explanation: localise({
                 en: `We can’t pay for costs or activities that have already happened.`,
@@ -120,7 +121,8 @@ module.exports = function ({ locale }) {
                 reason: localise({
                     en: oneLine`This is because you want funding to pay for
                         costs or activities that have already happened.`,
-                    cy: oneLine`Mae hyn oherwydd eich bod am gael arian i dalu am gostau neu weithgareddau sydd eisoes wedi digwydd.`,
+                    cy: oneLine`Mae hyn oherwydd eich bod am gael arian i dalu 
+                        am gostau neu weithgareddau sydd eisoes wedi digwydd.`,
                 }),
                 detail: localise({
                     en: `<p>
@@ -136,7 +138,8 @@ module.exports = function ({ locale }) {
                         Nid ydym am i gymunedau golli allan ar syniad gwych a fydd yn eu helpu i ffynnu.
                     </p>
                     <p>
-                        Meddyliwch a gweld a allwch chi wneud cais am arian grant i dalu am gostau neu weithgareddau nad ydych chi eisoes wedi gwario arian arnyn nhw.
+                        Meddyliwch a gweld a allwch chi wneud cais am arian grant i dalu am gostau neu 
+                        weithgareddau nad ydych chi eisoes wedi gwario arian arnyn nhw.
                     </p>`,
                 }),
             },
