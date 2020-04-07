@@ -5,7 +5,6 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/print-button/macro.njk" import printButton %}
-{% from "components/segment-links/macro.njk" import segmentLinks %}
 
 {% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
@@ -32,10 +31,24 @@
                         <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
                     </div>
 
-                    {{ segmentLinks(
-                        prefix = entry.sectionsPrefix,
-                        segments = entry.sections
-                    ) }}
+                    {% if entry.sections.length > 1 %}
+                        <div class="table-of-contents">
+                            {% if entry.sectionsPrefix %}
+                                <p class="u-margin-bottom-s">
+                                    {{ entry.sectionsPrefix }}
+                                </p>
+                            {% endif %}
+                            <ul>
+                                {% for item in entry.sections %}
+                                    {% if item.title %}
+                                        <li><a href="#segment-{{ loop.index }}">
+                                            {{ item.title }}
+                                        </a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
 
                     <div class="content-meta">
                         <dl class="o-definition-list o-definition-list--compact">
