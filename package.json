@@ -72,7 +72,6 @@
   ],
   "eslintIgnore": [
     "public/",
-    "views/",
     "coverage/"
   ],
   "nodemonConfig": {

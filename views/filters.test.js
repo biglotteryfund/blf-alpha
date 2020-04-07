@@ -1,62 +1,64 @@
 /* eslint-env jest */
 'use strict';
 
-const {
-    appendUuid,
-    getCachebustedPath,
-    isArray,
-    numberWithCommas,
-    slugify,
-    widont,
-} = require('./filters');
+const filters = require('./filters');
 
-describe('appendUuid', () => {
-    it('should append a uuid', () => {
-        expect(appendUuid('hello-')).toMatch(/hello-.*/);
-    });
+test('filter', function () {
+    const input = [
+        { name: 'a', location: 'england' },
+        { name: 'b', location: 'england' },
+        { name: 'c', location: 'scotland' },
+        { name: 'd', location: 'wales' },
+        { name: 'e', location: 'northern-ireland' },
+    ];
+
+    const result = filters.filter(input, 'location', 'england');
+    expect(result).toStrictEqual([
+        { name: 'a', location: 'england' },
+        { name: 'b', location: 'england' },
+    ]);
 });
 
-describe('getCachebustedPath', () => {
-    it('should get local url path cachebusted asset', () => {
-        const result = getCachebustedPath('stylesheets/style.css', false);
-        expect(result).toMatch(
-            /^\/assets\/build\/\w+\/stylesheets\/style.css$/
-        );
-    });
+test('find', function () {
+    const input = [
+        { name: 'a', location: 'england' },
+        { name: 'b', location: 'england' },
+        { name: 'c', location: 'scotland' },
+        { name: 'd', location: 'wales' },
+        { name: 'e', location: 'northern-ireland' },
+    ];
 
-    it('should get external url for cachebusted asset', () => {
-        const result = getCachebustedPath('stylesheets/style.css', true);
-        expect(result).toMatch(
-            /^\/assets\/build\/\w+\/stylesheets\/style.css$/
-        );
-    });
+    const result = filters.find(input, 'name', 'a');
+    expect(result).toStrictEqual({ name: 'a', location: 'england' });
 });
 
-describe('numberWithCommas', () => {
-    it('should format a number with comma separators', () => {
-        expect(numberWithCommas(1548028)).toBe('1,548,028');
-    });
+test('numberWithCommas', () => {
+    expect(filters.numberWithCommas(1548028)).toBe('1,548,028');
 });
 
-describe('slugify', () => {
-    it('should slugify a string', () => {
-        expect(slugify('This is a test')).toBe('this-is-a-test');
-    });
+test('slugify', () => {
+    expect(filters.slugify('This is a test')).toBe('this-is-a-test');
 });
 
-describe('isArray', () => {
-    it('should check for arrays', () => {
-        expect(isArray('not an array')).toBeFalsy();
-        expect(isArray(['an', 'array'])).toBeTruthy();
-        expect(isArray({ prop: 'thing' })).toBeFalsy();
-    });
+test('widont', () => {
+    expect(filters.widont('A string')).toBe('A&nbsp;string');
+    expect(filters.widont('A slightly longer string')).toBe(
+        'A slightly longer&nbsp;string'
+    );
 });
 
-describe('widont', () => {
-    it('should add a non-breaking-space to the last word of a string to prevent typographic widows', () => {
-        expect(widont('A string')).toBe('A&nbsp;string');
-        expect(widont('A slightly longer string')).toBe(
-            'A slightly longer&nbsp;string'
-        );
-    });
+test('addQueryParam', () => {
+    const input = { a: 'a', b: 'b' };
+    const result = filters.addQueryParam(input, 'c', 'added');
+    expect(result).toBe('a=a&b=b&c=added');
+});
+
+test('removeQueryParam', () => {
+    const input = { a: 'a', b: 'b' };
+    const result = filters.removeQueryParam(input, 'b');
+    expect(result).toBe('a=a');
+});
+
+test('appendUuid', () => {
+    expect(filters.appendUuid('hello-')).toMatch(/hello-.*/);
 });
