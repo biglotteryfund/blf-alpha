@@ -1,10 +1,9 @@
-{% macro tableOfContents(flexibleContent, prefix = null, anchor = 'segment') %}
-    {% if flexibleContent.length > 1 %}
+{% macro tableOfContents(items, anchor = 'segment') %}
+    {% if items.length > 1 %}
         <div class="segment-links">
-            {% if prefix %}<p class="u-margin-bottom-s">{{ prefix }}</p>{% endif %}
             <ul>
-                {% for block in flexibleContent %}
-                    {% set titleToUse = block.tocTitle or block.title %}
+                {% for item in items %}
+                    {% set titleToUse = item.tocTitle or item.title %}
                     {% if titleToUse %}
                         <li><a href="#{{ anchor }}-{{ loop.index }}">{{ titleToUse }}</a></li>
                     {% endif %}
