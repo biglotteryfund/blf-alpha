@@ -18,8 +18,19 @@ module.exports = function (locale) {
         }),
         explanation: localise({
             en: `<p>
-                <strong>We want to fund projects that do at least one of these three things:</strong>
+                <strong>If your project is COVID-19 related, we will prioritise:</strong>
             </p>
+            <ol>
+                <li>Organisations supporting people who are at high risk from COVID-19</li>
+                <li>Organisations supporting communities most likely to face increased
+                    demand and challenges as a direct result of COVID-19</li>
+                <li>Organisations with high potential to support communities
+                    with the direct and indirect impact of COVID-19</li>
+            </ol>
+            <p><strong>
+                But for all other projects, we want to fund ideas that do
+                at least one of these three things:
+            </strong></p>
             <ol>
                 <li>Bring people together and build strong
                     relationships in and across communities</li>
@@ -34,20 +45,7 @@ module.exports = function (locale) {
                 but don't worry if you use less.
             </strong></p>`,
 
-            cy: `<p>
-                <strong>Rydym am ariannu prosiectau sy'n gwneud o leiaf un o'r tri pheth hyn:</strong>
-            </p>
-            <ol>
-                <li>Dod â phobl ynghyd a chreu perthnasau cryf o fewn ac ar draws cymunedau</li>
-                <li>Gwella’r ardaloedd a gofodau sy’n bwysig i gymunedau</li>
-                <li>Helpu mwy o bobl i gyflawni eu potensial drwy eu cefnogi ar y cam cyntaf posib.</li>
-            </ol>
-            <p>Gallwch ddweud wrthym os yw eich prosiect yn cwrdd â mwy nag un
-               flaenoriaeth, ond peidiwch â phoeni os na fydd.</p>
-            <p><strong>
-                Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon, ond
-                peidiwch â phoeni os byddwch yn defnyddio llai. 
-            </strong></p>`,
+            cy: `@TODO: i18n`,
         }),
         minWords: minWords,
         maxWords: maxWords,
