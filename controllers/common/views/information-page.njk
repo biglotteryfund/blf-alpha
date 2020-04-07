@@ -1,9 +1,9 @@
-{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/segment-links/macro.njk" import segmentLinks %}
-{% from "components/segment/macro.njk" import segment %}
 {% from "components/flexible-content/macro.njk" import flexibleContentPart %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/segment/macro.njk" import segment %}
+{% from "components/table-of-contents/macro.njk" import tableOfContents %}
 
 {% extends "layouts/main.njk" %}
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
@@ -27,9 +27,10 @@
                         {% if not pageHero.image %}<h1>{{ content.title }}</h1>{% endif %}
                         {{ content.introduction | safe }}
                     </div>
-                    {{ segmentLinks(content.segments) }}
                     {% if content.flexibleContent %}
-                        {{ segmentLinks(content.flexibleContent, anchor = flexAnchor) }}
+                        {{ tableOfContents(content.flexibleContent, flexAnchor) }}
+                    {% else %}
+                        {{ tableOfContents(content.segments) }}
                     {% endif %}
                 </section>
             {% endif %}
