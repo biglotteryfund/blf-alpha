@@ -1,9 +1,9 @@
-{% macro tableOfContents(items, anchor) %}
-    {% if items.length > 1 %}
+{% macro tableOfContents(flexibleContent, anchor) %}
+    {% if flexibleContent.length > 1 %}
         <div class="table-of-contents">
             <ul>
-                {% for item in items %}
-                    {% set titleToUse = item.tocTitle or item.title %}
+                {% for block in flexibleContent %}
+                    {% set titleToUse = block.tocTitle or block.title %}
                     {% if titleToUse %}
                         <li><a href="#{{ anchor }}-{{ loop.index }}">{{ titleToUse }}</a></li>
                     {% endif %}
