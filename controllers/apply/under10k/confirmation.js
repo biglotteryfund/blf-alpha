@@ -1,7 +1,7 @@
 'use strict';
-const { get } = require('lodash/fp');
+const get = require('lodash/fp/get');
+const { stripIndents } = require('common-tags');
 
-const getLeadTimeWeeks = require('./lib/lead-time');
 const { getContactFullName } = require('./lib/contacts');
 
 function getEmailFor(country) {
@@ -42,36 +42,53 @@ module.exports = function ({ locale, data = {} }) {
     );
 
     function enConfirmationBody() {
-        return `<h2>We’ve just sent an email to your main and senior contact</h2>
-<p>This is just a confirmation email, with a summary of your answers (in case you want to look back at them at any point).</p>
-
-<h2>Now we’ve got your application – we'll start assessing it as soon as we can</h2>
-<p>We’ll look at your idea and do some checks. <strong>It’ll take us around ${getLeadTimeWeeks(
-            country
-        )} weeks to decide to fund your project or not</strong>.</p>
-
-<h2>While we’re assessing your application – we might get in touch</h2>
-<p>We don’t always do this. It’s only if we need a bit more information. So don’t worry if you don’t hear from us.</p>
-
-<h2>We’ll let <span data-hj-suppress>${mainContact.fullName} and ${
-            seniorContact.fullName
-        }</span> know our decision by email</h2>
-<p>We’ll email <strong data-hj-suppress>${
-            mainContact.email
-        }</strong> and <strong data-hj-suppress>${
-            seniorContact.email
-        }</strong>. Make sure to check the junk mail too (just in case).</p>
-
-<h2>If you have any questions, you can contact us in the meantime</h2>
-<p>Please call ${getPhoneFor(country)} or email <a href="mailto:${getEmailFor(
-            country
-        )}">${getEmailFor(country)}</a> and we will be happy to help you.</p>
-
-<p>
-    Good luck with your application!<br />
-    <strong>The National Lottery Community Fund</strong>
-</p>
-        `;
+        return stripIndents`
+            <h2>We’ve just sent an email to your main and senior contact</h2>
+            <p>
+                This is just a confirmation email, with a summary of your answers
+                (in case you want to look back at them at any point).
+            </p>
+            <h2>
+                Now we’ve got your application – 
+                we'll start assessing it as soon as we can
+            </h2>
+            <p>
+                We’ll look at your idea and do some checks.
+                <strong>
+                    We’re now prioritising decisions for COVID-19 related
+                    projects, so they can start sooner. And it might take us
+                    ${country === 'england' ? 'up to six months' : 'longer'}
+                    to assess applications that aren’t about COVID-19.
+                </strong>.
+            </p>
+            <h2>While we’re assessing your application – we might get in touch</h2>
+            <p>
+                We don’t always do this. It’s only if we need a bit more information.
+                So don’t worry if you don’t hear from us.
+            </p>
+            <h2>
+                We’ll let
+                <span data-hj-suppress>${mainContact.fullName} and
+                ${seniorContact.fullName}</span> know our decision by email
+            </h2>
+            <p>
+                We’ll email
+                <strong data-hj-suppress>${mainContact.email}</strong> and 
+                <strong data-hj-suppress>${seniorContact.email}</strong>.
+                Make sure to check the junk mail too (just in case).
+            </p>
+            <h2>If you have any questions, you can contact us in the meantime</h2>
+            <p>
+                Please call ${getPhoneFor(country)} or email
+                <a href="mailto:${getEmailFor(country)}">
+                    ${getEmailFor(country)}
+                </a>
+                and we will be happy to help you.
+            </p>
+            <p>
+                Good luck with your application!<br />
+                <strong>The National Lottery Community Fund</strong>
+            </p>`;
     }
 
     function cyConfirmationBody() {
@@ -79,9 +96,7 @@ module.exports = function ({ locale, data = {} }) {
 <p>Dim ond e-bost cadarnhad yw hwn, gyda chrynodeb o’ch atebion (rhag ofn eich bod eisiau edrych yn ôl arnyn nhw ar unrhyw bwynt).</p>
 
 <h2>Nawr ein bod gyda’ch cais – byddwn yn dechrau ei asesu mor fuan ag y gallwn</h2>
-<p>Byddwn yn edrych ar eich syniad a gwneud rhai gwiriadau. <strong>Bydd yn cymryd oddeutu ${getLeadTimeWeeks(
-            country
-        )} wythnos i ni benderfynu ariannu eich prosiect ai beidio</strong>.</p>
+<p>@TODO: i18n</p>
 
 <h2>Tra rydym yn asesu eich cais – efallai byddwn mewn cysylltiad</h2>
 <p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
