@@ -54,7 +54,7 @@ router.get(
                 contentApi.getPublications({
                     locale: req.i18n.getLocale(),
                     programme: req.params.programme,
-                    requestParams: req.query,
+                    searchParams: req.query,
                 }),
             ]);
 
@@ -88,7 +88,7 @@ router.get(
                 locale: req.i18n.getLocale(),
                 programme: req.params.programme,
                 slug: req.params.slug,
-                requestParams: req.query,
+                searchParams: req.query,
             });
             setCommonLocals(req, res, publication.entry);
             res.locals.breadcrumbs = res.locals.breadcrumbs.concat(

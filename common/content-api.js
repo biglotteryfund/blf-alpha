@@ -174,7 +174,7 @@ function getUpdates({
                 };
             });
     } else {
-        return queryContentApi(`/v1/${locale}/updates/${type || ''}`, {
+        return queryContentApi(`v1/${locale}/updates/${type || ''}`, {
             searchParams: withPreviewParams(requestParams, {
                 ...query,
                 ...{ 'page-limit': 10 },
@@ -277,28 +277,23 @@ function getPublications({
     locale,
     programme,
     slug = null,
-    requestParams = {},
+    searchParams = {},
 }) {
-    const filteredRequestParams = pick(requestParams, [
-        'page',
-        'tag',
-        'q',
-        'sort',
-    ]);
-
-    const apiRequestParams = {
+    const customSearchParams = {
         // Override default page-limit
         ...{ 'page-limit': 10 },
-        ...filteredRequestParams,
+        ...pick(searchParams, ['page', 'tag', 'q', 'sort']),
     };
 
-    const baseUrl = `/v1/${locale}/funding/publications/${programme}`;
+    const combinedSearchParams = withPreviewParams(searchParams, {
+        ...customSearchParams,
+    });
+
     if (slug) {
-        return queryContentApi(`${baseUrl}/${slug}`, {
-            searchParams: withPreviewParams(requestParams, {
-                ...apiRequestParams,
-            }),
-        })
+        return queryContentApi(
+            `v1/${locale}/funding/publications/${programme}/${slug}`,
+            { searchParams: combinedSearchParams }
+        )
             .json()
             .then((response) => {
                 return {
@@ -307,11 +302,10 @@ function getPublications({
                 };
             });
     } else {
-        return queryContentApi(baseUrl, {
-            searchParams: withPreviewParams(requestParams, {
-                ...apiRequestParams,
-            }),
-        })
+        return queryContentApi(
+            `v1/${locale}/funding/publications/${programme}`,
+            { searchParams: combinedSearchParams }
+        )
             .json()
             .then((response) => {
                 return {
@@ -319,7 +313,7 @@ function getPublications({
                     result: mapAttrs(response),
                     pagination: _buildPagination(
                         response.meta.pagination,
-                        apiRequestParams
+                        customSearchParams
                     ),
                 };
             });
