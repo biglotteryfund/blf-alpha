@@ -1,13 +1,8 @@
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% extends "layouts/main.njk" %}
+{% from "components/blog/macro.njk" import blogTrail with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/hero.njk" import hero with context %}
-{% from "components/promo-card/macro.njk" import promoCard %}
-{% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
-{% from "components/blog/macro.njk" import blogTrail with context %}
-
-
-{% extends "layouts/main.njk" %}
 
 {% block content %}
     <main role="main" id="content">
@@ -15,24 +10,24 @@
 
         <div class="nudge-up">
             {% call contentBox() %}
-                <p>{{ copy.introductions.newsLanding }}</p>
+                <p>{{ __('news.introductions.newsLanding') }}</p>
             {% endcall %}
 
             {# Social links #}
             <section class="u-inner-wide-only u-margin-bottom-l">
                 <div class="o-button-group-flex">
                     <a class="btn btn--small btn--outline"
-                        href="{{ globalCopy.brand.instagram }}">
+                        href="{{ __('global.brand.instagram') }}">
                         <span class="btn__icon">{{ iconInstagram() }}</span>
                         {{ __('global.misc.followUsOn') }} {{ __('global.misc.instagram') }}
                     </a>
                     <a class="btn btn--small btn--outline"
-                        href="{{ globalCopy.brand.facebook }}">
+                        href="{{ __('global.brand.facebook') }}">
                         <span class="btn__icon">{{ iconFacebook() }}</span>
                         {{ __('global.misc.followUsOn') }} {{ __('global.misc.facebook') }}
                     </a>
                     <a class="btn btn--small btn--outline"
-                        href="https://www.twitter.com/{{ globalCopy.brand.twitter }}" >
+                        href="https://www.twitter.com/{{ __('global.brand.twitter') }}" >
                         <span class="btn__icon">{{ iconTwitter() }}</span>
                         {{ __('global.misc.followUsOn') }} {{ __('global.misc.twitter') }}
                     </a>
@@ -42,7 +37,7 @@
             {# Blog posts #}
             <section class="related-content u-inner u-margin-bottom">
                 <header class="related-content__header">
-                    <h2 class="t--underline">{{ copy.types.blog.plural }}</h2>
+                    <h2 class="t--underline">{{ __('news.types.blog.plural') }}</h2>
                 </header>
                 <div class="related-content__content">
                     <ul class="flex-grid flex-grid--3up">
@@ -55,7 +50,7 @@
                 </div>
                 <div class="related-content__footer">
                     <a class="related-content__more" href="{{ localify('/news/blog') }}">
-                        {{ copy.blogpost.viewAllBlogPosts }} &rarr;
+                        {{ __('news.blogpost.viewAllBlogPosts') }} &rarr;
                     </a>
                 </div>
             </section>
@@ -64,7 +59,7 @@
             {% if peopleStories.length > 0 %}
                 <section class="related-content u-inner u-margin-bottom">
                     <header class="related-content__header">
-                        <h2 class="t--underline">{{ copy.types['people-stories'].plural }}</h2>
+                        <h2 class="t--underline">{{ __('news.types.people-stories.plural') }}</h2>
                     </header>
                     <div class="related-content__content">
                         <ul class="flex-grid flex-grid--3up">
@@ -77,7 +72,7 @@
                     </div>
                     <div class="related-content__footer">
                         <a class="related-content__more" href="{{ localify('/news/people-stories') }}">
-                            {{ copy['people-stories'].viewAllPeopleStories }} &rarr;
+                            {{ __('news.people-stories.viewAllPeopleStories') }} &rarr;
                         </a>
                     </div>
                 </section>
@@ -85,11 +80,11 @@
 
             {# Press releases #}
             {% call contentBox() %}
-                <h2>{{ copy.types['press-releases'].plural }}</h2>
-                <p>{{ copy.introductions.pressReleases }}</p>
+                <h2>{{ __('news.types.press-releases.plural') }}</h2>
+                <p>{{ __('news.introductions.pressReleases') }}</p>
                 <p>
                     <a href="{{ localify('/news/press-releases') }}" class="btn btn--medium">
-                        {{ copy.pressRelease.viewLatestPressReleases }}
+                        {{ __('news.pressRelease.viewLatestPressReleases') }}
                     </a>
                 </p>
             {% endcall %}

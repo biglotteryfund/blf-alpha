@@ -1,14 +1,14 @@
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/document-list/macro.njk" import documentList %}
 {% from "components/flexible-content/macro.njk" import flexibleContent %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
-
 {% from "../view-helpers.njk" import entryRegions with context %}
 
+{% set copy = __('news') %}
 {% set bodyClass = 'has-static-header' %}
-{% extends "layouts/main.njk" %}
 
 {% macro entryMeta(entry) %}
     <dl class="o-definition-list o-definition-list--compact">
