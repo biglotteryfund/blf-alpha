@@ -729,6 +729,8 @@ user:
       href: /user/update-email
     - label: View your funding applications
       href: /apply/under-10k
+    - label: Log out
+      href: /user/logout
   login:
     title: Log in
     introduction: >
