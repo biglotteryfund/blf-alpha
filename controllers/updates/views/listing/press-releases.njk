@@ -1,12 +1,12 @@
+{% extends "layouts/main.njk" %}
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/hero.njk" import hero with context %}
-
 {% from "../view-helpers.njk" import entryRegions with context %}
 
-{% extends "layouts/main.njk" %}
+{% set copy = __('news') %}
 
 {% block content %}
     <main role="main" id="content">
@@ -14,7 +14,7 @@
 
         <section class="content-box u-inner-wide-only nudge-up">
             {{ breadcrumbTrail(breadcrumbs) }}
-        
+
             <div class="content-sidebar">
                 <div class="content-sidebar__primary">
                     {% if entries.length > 0 %}
@@ -64,7 +64,7 @@
                             {{ copy.pressRelease.noResultsFor }} "{{ entriesMeta.activeRegion.title }}",
                             <a href="{{ currentPath }}">{{ copy.pressRelease.viewAllPressReleases }}</a>
                         </p>
-                    {% endif %}        
+                    {% endif %}
                 </div>
 
                 <div class="content-sidebar__secondary">
