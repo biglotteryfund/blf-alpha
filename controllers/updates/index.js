@@ -19,20 +19,22 @@ const heroSlug = 'pawzitive-letterbox-new';
  */
 router.get('/', injectHeroImage(heroSlug), async function (req, res, next) {
     try {
-        // We make two requests here to ensure we get a distinct amount
-        // of each content type (blogposts and people stories)
-        // otherwise there may be zero entries of one kind
-        // depending on frequency of posting of the other kind.
-
-        const blogposts = await contentApi.getUpdates({
-            locale: req.i18n.getLocale(),
-            type: 'blog',
-        });
-
-        const peopleStories = await contentApi.getUpdates({
-            locale: req.i18n.getLocale(),
-            type: 'people-stories',
-        });
+        /**
+         * We make two requests here to ensure we get a distinct amount
+         * of each content type (blogposts and people stories)
+         * otherwise there may be zero entries of one kind
+         * depending on frequency of posting of the other kind.
+         */
+        const [blogposts, peopleStories] = await Promise.all([
+            await contentApi.getUpdates({
+                locale: req.i18n.getLocale(),
+                type: 'blog',
+            }),
+            await contentApi.getUpdates({
+                locale: req.i18n.getLocale(),
+                type: 'people-stories',
+            }),
+        ]);
 
         res.render(path.resolve(__dirname, `./views/landing`), {
             title: req.i18n.__('news.title'),
