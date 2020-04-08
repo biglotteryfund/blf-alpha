@@ -17,36 +17,32 @@ const heroSlug = 'pawzitive-letterbox-new';
 /**
  * News landing page handler
  */
-router.get(
-    '/',
-    injectCopy('news'),
-    injectHeroImage(heroSlug),
-    async (req, res, next) => {
-        try {
-            // We make two requests here to ensure we get a distinct amount
-            // of each content type (blogposts and people stories)
-            // otherwise there may be zero entries of one kind
-            // depending on frequency of posting of the other kind.
+router.get('/', injectHeroImage(heroSlug), async function (req, res, next) {
+    try {
+        // We make two requests here to ensure we get a distinct amount
+        // of each content type (blogposts and people stories)
+        // otherwise there may be zero entries of one kind
+        // depending on frequency of posting of the other kind.
 
-            const blogposts = await contentApi.getUpdates({
-                locale: req.i18n.getLocale(),
-                type: 'blog',
-            });
+        const blogposts = await contentApi.getUpdates({
+            locale: req.i18n.getLocale(),
+            type: 'blog',
+        });
 
-            const peopleStories = await contentApi.getUpdates({
-                locale: req.i18n.getLocale(),
-                type: 'people-stories',
-            });
+        const peopleStories = await contentApi.getUpdates({
+            locale: req.i18n.getLocale(),
+            type: 'people-stories',
+        });
 
-            res.render(path.resolve(__dirname, `./views/landing`), {
-                blogposts: blogposts.result,
-                peopleStories: peopleStories.result,
-            });
-        } catch (e) {
-            next(e);
-        }
+        res.render(path.resolve(__dirname, `./views/landing`), {
+            title: req.i18n.__('news.title'),
+            blogposts: blogposts.result,
+            peopleStories: peopleStories.result,
+        });
+    } catch (e) {
+        next(e);
     }
-);
+});
 
 function shouldRedirectLinkUrl(req, entry) {
     return (
