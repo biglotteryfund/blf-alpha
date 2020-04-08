@@ -1,11 +1,8 @@
 {% extends "layouts/main.njk" %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/blog/macro.njk" import blogTrail with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/hero.njk" import hero with context %}
-{% from "components/promo-card/macro.njk" import promoCard %}
-{% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
-{% from "components/blog/macro.njk" import blogTrail with context %}
 
 {% block content %}
     <main role="main" id="content">
