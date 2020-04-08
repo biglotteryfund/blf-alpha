@@ -722,6 +722,8 @@ user:
       href: /welsh/user/update-email
     - label: Gweld eich ceisiadau ariannu
       href: /welsh/apply/under-10k
+    - label: Allgofnodi
+      href: /welsh/user/logout
   login:
     title: Mewngofnodi
     introduction: >
