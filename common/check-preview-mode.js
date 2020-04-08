@@ -2,17 +2,11 @@
 
 module.exports = function checkPreviewMode(queryParams) {
     function isLivePreview() {
-        if (queryParams['x-craft-live-preview'] !== null && queryParams['token'] !== null)
-            return queryParams['x-craft-live-preview'] && queryParams['token'];
-        else
-            return queryParams['x-craft-live-preview'] !== null ? queryParams['x-craft-live-preview'] : queryParams['token'];
+        return queryParams['x-craft-live-preview'];
     }
 
     function isShareLink() {
-        if (queryParams['x-craft-live-preview'] !== null && queryParams['token'] !== null)
-            return queryParams['x-craft-live-preview'] && queryParams['token'];
-        else
-            return queryParams['x-craft-live-preview'] !== null ? queryParams['x-craft-live-preview'] : queryParams['token'];
+        return queryParams['x-craft-preview'] && queryParams['token'];
     }
 
     return {
