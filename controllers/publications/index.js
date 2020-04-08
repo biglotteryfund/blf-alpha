@@ -7,8 +7,10 @@ const {
     injectHeroImage,
     setCommonLocals,
 } = require('../../common/inject-content');
-const { renderFlexibleContentChild } = require('../common');
+const { localify } = require('../../common/urls');
 const contentApi = require('../../common/content-api');
+
+const { renderFlexibleContentChild } = require('../common');
 
 const router = express.Router();
 
@@ -17,8 +19,21 @@ function isValidProgramme(programme) {
     return programme && validProgrammes.includes(programme);
 }
 
+router.get('/', function (req, res) {
+    res.redirect(localify(req.i18n.getLocale())('/funding'));
+});
+
+router.use(function (req, res, next) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+        label: 'Publications',
+        url: req.baseUrl,
+    });
+
+    next();
+});
+
 router.get(
-    '/:programme?',
+    '/:programme',
     /* @TODO: Rename this to not be scoped to insights namespace */
     injectCopy('insights.documents'),
     injectHeroImage('a-better-start-new'),
@@ -74,20 +89,14 @@ router.get('/:programme/:slug', async function (req, res, next) {
             slug: req.params.slug,
             searchParams: req.query,
         });
+
         setCommonLocals(req, res, publication.entry);
-        res.locals.breadcrumbs = res.locals.breadcrumbs.concat(
-            {
-                label: 'Publications',
-                url: req.baseUrl + '/publications',
-            },
-            {
-                label: publication.meta.programme.title,
-                url:
-                    req.baseUrl +
-                    '/publications/' +
-                    publication.meta.programme.slug,
-            }
-        );
+
+        res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+            label: publication.meta.programme.title,
+            url: `${req.baseUrl}/${publication.meta.programme.slug}`,
+        });
+
         renderFlexibleContentChild(req, res, publication.entry);
     } catch (error) {
         next(error);

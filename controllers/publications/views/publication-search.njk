@@ -13,10 +13,12 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            {{ breadcrumbTrail(breadcrumbs) }}
-            {% call contentBox() %}
-                <p>{{ intro | safe }}</p>
-            {% endcall %}
+            <section class="content-box u-inner-wide-only">
+                {{ breadcrumbTrail(breadcrumbs) }}
+                <div class="s-prose">
+                    <p>{{ intro | safe }}</p>
+                </div>
+            </section>
         </div>
 
         <form class="u-inner" method="get" action="">
