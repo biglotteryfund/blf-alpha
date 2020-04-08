@@ -53,6 +53,10 @@ let funding = {
             router: require('./programmes'),
         },
         {
+            path: '/publications',
+            router: require('./publications'),
+        },
+        {
             path: '/strategic-investments',
             router: require('./strategic-investments'),
         },
