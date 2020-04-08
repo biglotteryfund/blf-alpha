@@ -2,15 +2,17 @@
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/social-bar/macro.njk" import socialBar with context %}
-{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/flexible-content-next/macro.njk" import flexibleContent %}
 
 {% set copy = __('toplevel.home') %}
 {% set title = copy.title %}
 
+{% set hasFlexContent = content.length > 0 %}
+
 {% block content %}
     <main role="main" id="content">
         {# Hero introduction #}
-        <section class="super-hero">
+        <section class="super-hero{% if hasFlexContent %} super-hero--with-content{% endif %}">
             <figure class="super-hero__image">
                 <picture>
                     <source srcset="{{ heroImage.large }}" media="(min-width: 1040px)">
@@ -26,17 +28,12 @@
             </figure>
         </section>
 
-         <div class="nudge-up-large">
-             {% call contentBox() %}
-                <h1 class="t--underline">{{ copy.covid19Statement.title }}</h1>
-                {{ copy.covid19Statement.body | safe }}
-                <p>
-                    <a class="btn btn--medium btn--outline"
-                        href="{{ localify('/about/coronavirus-updates') }}"
-                    >{{ copy.covid19Statement.linkText }}</a>
-                </p>
-             {% endcall %}
-         </div>
+        {% if hasFlexContent %}
+            {# Show custom homepage content above everything else #}
+             <div class="nudge-up-large">
+                 {{ flexibleContent(content) }}
+             </div>
+        {% endif %}
 
         <div class="homepage-banner">
             <div class="homepage-banner__header">

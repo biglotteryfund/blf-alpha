@@ -15,6 +15,7 @@ router.get('/', async function (req, res, next) {
 
         res.render(path.resolve(__dirname, './views/home'), {
             showCOVID19AnnouncementBanner: false,
+            content: entry.content,
             featuredLinks: entry.featuredLinks,
             promotedUpdates: entry.promotedUpdates,
             heroImage: {
