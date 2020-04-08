@@ -12,24 +12,21 @@ const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 
-function checkValidProgramme(req, res, next) {
+function isValidProgramme(programme) {
     const validProgrammes = ['a-better-start'];
-    if (
-        req.params.programme &&
-        validProgrammes.includes(req.params.programme)
-    ) {
-        next();
-    } else {
-        res.redirect('/funding');
-    }
+    return programme && validProgrammes.includes(programme);
 }
 
 router.get(
     '/:programme?',
-    checkValidProgramme,
+    /* @TODO: Rename this to not be scoped to insights namespace */
     injectCopy('insights.documents'),
     injectHeroImage('a-better-start-new'),
     async function (req, res, next) {
+        if (isValidProgramme(req.params.programme) === false) {
+            return next();
+        }
+
         try {
             const [publicationTags, publications] = await Promise.all([
                 contentApi.getPublicationTags({
@@ -49,7 +46,8 @@ router.get(
             }
 
             res.render(path.resolve(__dirname, './views/publication-search'), {
-                isBilingual: false, // @TODO: Should we enable Welsh language here?
+                // Enable welsh language if using for publications outside of England
+                isBilingual: false,
                 publicationEntries: publications.result,
                 publicationTags: publicationTags,
                 queryParams: req.query,
@@ -64,11 +62,11 @@ router.get(
     }
 );
 
-router.get('/:programme/:slug', checkValidProgramme, async function (
-    req,
-    res,
-    next
-) {
+router.get('/:programme/:slug', async function (req, res, next) {
+    if (isValidProgramme(req.params.programme) === false) {
+        return next();
+    }
+
     try {
         const publication = await contentApi.getPublications({
             locale: req.i18n.getLocale(),
