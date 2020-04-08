@@ -10,7 +10,7 @@
 {% block content %}
     <main role="main" id="content">
         {# Hero introduction #}
-        <section class="super-hero">
+        <section class="super-hero{% if content %} super-hero--with-content{% endif %}">
             <figure class="super-hero__image">
                 <picture>
                     <source srcset="{{ heroImage.large }}" media="(min-width: 1040px)">
@@ -26,17 +26,13 @@
             </figure>
         </section>
 
-         <div class="nudge-up-large">
-             {% call contentBox() %}
-                <h1 class="t--underline">{{ copy.covid19Statement.title }}</h1>
-                {{ copy.covid19Statement.body | safe }}
-                <p>
-                    <a class="btn btn--medium btn--outline"
-                        href="{{ localify('/about/coronavirus-updates') }}"
-                    >{{ copy.covid19Statement.linkText }}</a>
-                </p>
-             {% endcall %}
-         </div>
+        {% if content %}
+             <div class="nudge-up-large">
+                 {% call contentBox() %}
+                     {{ content | safe }}
+                 {% endcall %}
+             </div>
+        {% endif %}
 
         <div class="homepage-banner">
             <div class="homepage-banner__header">

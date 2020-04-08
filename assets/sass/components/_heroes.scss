@@ -71,8 +71,10 @@
     color: white;
     position: relative;
 
-    @include mq('xlarge') {
-        margin-bottom: $spacingUnit * 2;
+    &.super-hero--with-content {
+        @include mq('xlarge') {
+            margin-bottom: $spacingUnit * 2;
+        }
     }
 
     .super-hero__content {
