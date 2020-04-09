@@ -6,6 +6,7 @@
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/print-button/macro.njk" import printButton %}
 
+{% set copy = __('insights.detail') %}
 {% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
@@ -52,14 +53,14 @@
 
                     <div class="content-meta">
                         <dl class="o-definition-list o-definition-list--compact">
-                            <dt>{{ extraCopy.datePublished }}</dt>
+                            <dt>{{ copy.datePublished }}</dt>
                             <dd>{{ formatDate(entry.postDate.date, 'MMMM YYYY') }}</dd>
                             {% if entry.researchPartners %}
-                                <dt>{{ extraCopy.partners }}</dt>
+                                <dt>{{ copy.partners }}</dt>
                                 <dd>{{ entry.researchPartners }}</dd>
                             {% endif %}
                             {% if entry.contactEmail %}
-                                <dt>{{ extraCopy.contact }}</dt>
+                                <dt>{{ copy.contact }}</dt>
                                 <dd><a href="mailto:{{ entry.contactEmail }}">{{ entry.contactEmail }}</a></dd>
                             {% endif %}
                         </dl>
@@ -68,7 +69,7 @@
                 <div class="content-sidebar__secondary">
                     {% if entry.documents %}
                         {{ documentsCard(
-                            title = extraCopy.documents,
+                            title = copy.documents,
                             documents = entry.documents,
                             gaCategory = 'Insight Documents',
                             gaAction = 'Downloaded a document'
@@ -78,7 +79,7 @@
                     {% if entry.relatedFundingProgrammes.length > 0 %}
                         <aside class="card">
                             <header class="card__header">
-                                <h3 class="card__title">{{ extraCopy.relatedProgrammes }}</h3>
+                                <h3 class="card__title">{{ copy.relatedProgrammes }}</h3>
                                 <div class="card__body">
                                     {% for programme in entry.relatedFundingProgrammes %}
                                         <a href="{{ programme.linkUrl }}" class="related-programme">

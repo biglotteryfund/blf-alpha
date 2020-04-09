@@ -1,5 +1,4 @@
 {% extends "layouts/main.njk" %}
-
 {% from "components/hero.njk" import hero with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
@@ -7,6 +6,7 @@
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/icons.njk" import iconClose, iconDownload, iconTickPlain %}
 
+{% set copy = __('insights.documents') %}
 {% set basePageUrl = localify('/insights/documents') %}
 
 {% block content %}
