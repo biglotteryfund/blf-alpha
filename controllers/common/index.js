@@ -27,11 +27,7 @@ function renderListingPage(res, content) {
     });
 }
 
-function basicContent({
-    lang = null,
-    customTemplate = null,
-    cmsPage = false,
-} = {}) {
+function basicContent({ customTemplate = null, cmsPage = false } = {}) {
     const router = express.Router();
 
     router.get('/', injectListingContent, function (req, res, next) {
@@ -39,13 +35,6 @@ function basicContent({
 
         if (!content) {
             return next();
-        }
-
-        if (lang) {
-            const copy = req.i18n.__(lang);
-            res.locals.copy = copy;
-            res.locals.title = copy.title;
-            res.locals.description = copy.description || false;
         }
 
         const ancestors = getOr([], 'ancestors')(content);

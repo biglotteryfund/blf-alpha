@@ -75,7 +75,6 @@ let funding = {
         {
             path: `/managing-your-grant/promoting-your-project/download-our-logo`,
             router: basicContent({
-                lang: 'funding.guidance.logos',
                 customTemplate: 'static-pages/logos',
             }),
         },

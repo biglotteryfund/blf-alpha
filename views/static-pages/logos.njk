@@ -1,9 +1,10 @@
+{% extends "controllers/common/views/cms-page.njk" %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/icons.njk" import iconClose %}
 
-{% extends "controllers/common/views/cms-page.njk" %}
+{% set copy = __('funding.guidance.logos') %}
 
 {% set customSegmentLinks = [{
     "title": copy.downloadsTitle
@@ -157,7 +158,7 @@
         </div>
 
         <h3 id="region1">{{ copy.locations.monolingual }}</h3>
-        
+
         {{ howToChooseLogo() }}
 
         <ul class="flex-grid flex-grid--3up u-margin-bottom-l">
