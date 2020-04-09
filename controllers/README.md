@@ -5,4 +5,3 @@ This directory contains the bulk of the application code. Each section of the ap
 -   [API](api/README.md)
 -   [Apply](apply/README.md)
 -   [Funding](funding/README.md)
--   [Programmes](programmes/README.md)

@@ -5,8 +5,8 @@ const path = require('path');
 const {
     injectHeroImage,
     setCommonLocals,
-} = require('../../common/inject-content');
-const contentApi = require('../../common/content-api');
+} = require('../../../common/inject-content');
+const contentApi = require('../../../common/content-api');
 
 const router = express.Router();
 

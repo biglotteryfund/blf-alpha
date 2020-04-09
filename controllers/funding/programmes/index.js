@@ -8,12 +8,12 @@ const groupBy = require('lodash/groupBy');
 const {
     injectHeroImage,
     setCommonLocals,
-} = require('../../common/inject-content');
-const { buildArchiveUrl, localify } = require('../../common/urls');
-const { sMaxAge } = require('../../common/cached');
-const contentApi = require('../../common/content-api');
+} = require('../../../common/inject-content');
+const { buildArchiveUrl, localify } = require('../../../common/urls');
+const { sMaxAge } = require('../../../common/cached');
+const contentApi = require('../../../common/content-api');
 
-const { basicContent, renderFlexibleContentChild } = require('../common');
+const { basicContent, renderFlexibleContentChild } = require('../../common');
 
 const getValidLocation = require('./lib/get-valid-location');
 const programmeFilters = require('./lib/programme-filters');

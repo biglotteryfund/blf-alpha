@@ -6,11 +6,11 @@ const {
     injectCopy,
     injectHeroImage,
     setCommonLocals,
-} = require('../../common/inject-content');
-const { localify } = require('../../common/urls');
-const contentApi = require('../../common/content-api');
+} = require('../../../common/inject-content');
+const { localify } = require('../../../common/urls');
+const contentApi = require('../../../common/content-api');
 
-const { renderFlexibleContentChild } = require('../common');
+const { renderFlexibleContentChild } = require('../../common');
 
 const router = express.Router();
 

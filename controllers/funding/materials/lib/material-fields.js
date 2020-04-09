@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const Joi = require('@hapi/joi16');
 
-const validateSchema = require('../../../common/validate-schema');
+const validateSchema = require('../../../../common/validate-schema');
 
 function localeKeyFor(prop) {
     return `funding.guidance.order-free-materials.formFields.${prop}`;

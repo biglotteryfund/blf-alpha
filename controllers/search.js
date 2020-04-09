@@ -2,11 +2,11 @@
 const querystring = require('querystring');
 const express = require('express');
 
-const { noStore } = require('../../common/cached');
+const { noStore } = require('../common/cached');
 
 const router = express.Router();
 
-router.get('/', noStore, (req, res) => {
+router.get('/', noStore, function (req, res) {
     if (req.query.q) {
         const term = querystring.escape(req.query.q);
         res.redirect(

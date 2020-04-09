@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 const programmeFilters = require('./programme-filters');
-const mockProgrammes = require('../lib/mock-programmes.json');
+const mockProgrammes = require('./mock-programmes.json');
 
 test('should filter programmes by England', () => {
     const res = mockProgrammes.filter(
