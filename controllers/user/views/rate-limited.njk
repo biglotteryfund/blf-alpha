@@ -1,6 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/back-link/macro.njk" import backLink with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% set copy = __('user.rateLimited') %}
 
 {% block content %}
     <main role="main" id="content">

@@ -2,22 +2,22 @@
 const path = require('path');
 const express = require('express');
 
-const { Users } = require('../../db/models');
 const { localify } = require('../../common/urls');
 const { csrfProtection } = require('../../common/cached');
 const { requireUserAuth } = require('../../common/authed');
-const { injectCopy } = require('../../common/inject-content');
-
 const logger = require('../../common/logger').child({ service: 'user' });
+const validateSchema = require('../../common/validate-schema');
+
+const { Users } = require('../../db/models');
 
 const { emailOnly } = require('./lib/account-schemas');
-const validateSchema = require('../../common/validate-schema');
 const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
 
 function render(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/update-email'), {
+        title: req.i18n.__('user.updateEmail.title'),
         csrfToken: req.csrfToken(),
         formValues: data,
         errors: errors,
@@ -62,7 +62,7 @@ async function handleSubmission(req, res, next) {
                  * exists with the requested email address
                  */
                 render(req, res, validationResult.value, [
-                    { msg: res.locals.copy.genericError },
+                    { msg: req.i18n.__('user.updateEmail.genericError') },
                 ]);
             }
         } catch (error) {
@@ -75,7 +75,7 @@ async function handleSubmission(req, res, next) {
 
 router
     .route('/')
-    .all(requireUserAuth, csrfProtection, injectCopy('user.updateEmail'))
+    .all(requireUserAuth, csrfProtection)
     .get(render)
     .post(handleSubmission);
 

@@ -10,7 +10,7 @@
             <h1 class="t--underline">{{ title }}</h1>
 
             <div class="s-prose u-constrained-wide">
-                {{ copy.introduction | safe }}
+                {{ __('user.updateEmail.introduction') | safe }}
             </div>
 
             {% if alertMessage %}
@@ -42,7 +42,7 @@
                 }, errors = errors) }}
 
                 <div class="form-actions">
-                    <input type="submit" class="btn" value="{{ copy.title }}" />
+                    <input type="submit" class="btn" value="{{ title }}" />
                 </div>
             </form>
         </div>

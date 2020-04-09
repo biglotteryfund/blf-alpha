@@ -8,7 +8,6 @@ const { isDev } = require('../../common/appData');
 const { localify } = require('../../common/urls');
 const { noStore } = require('../../common/cached');
 const { requireNotStaffAuth } = require('../../common/authed');
-const { injectCopy } = require('../../common/inject-content');
 const logger = require('../../common/logger');
 
 const router = express.Router();
@@ -74,7 +73,7 @@ router.get('/session', function (req, res) {
  * Public user routes
  * Disallow staff from this point on
  */
-router.use(requireNotStaffAuth, injectCopy('apply'), function (req, res, next) {
+router.use(requireNotStaffAuth, function (req, res, next) {
     res.locals.bodyClass = 'has-static-header'; // No hero images on user pages
     res.locals.sectionTitle = req.i18n.__('user.common.yourAccount');
     res.locals.sectionUrl = req.baseUrl;
