@@ -87,8 +87,7 @@ function renderFlexibleContentChild(req, res, entry) {
 
     res.render(path.resolve(__dirname, './views/flexible-content'), {
         breadcrumbs: breadcrumbs,
-        flexibleContent: entry.content,
-        useFlexNext: true,
+        content: entry.content,
     });
 }
 
