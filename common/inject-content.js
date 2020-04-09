@@ -76,19 +76,6 @@ function injectHeroImage(heroSlug) {
     };
 }
 
-function injectCopy(lang) {
-    return function (req, res, next) {
-        if (lang) {
-            const copy = req.i18n.__(lang);
-            res.locals.copy = copy;
-            res.locals.title = copy.title;
-            res.locals.description = copy.description || false;
-        }
-
-        next();
-    };
-}
-
 async function injectListingContent(req, res, next) {
     try {
         const entry = await contentApi.getListingPage({
@@ -128,7 +115,6 @@ async function injectFlexibleContent(req, res, next) {
 }
 
 module.exports = {
-    injectCopy,
     injectFlexibleContent,
     injectHeroImage,
     injectListingContent,
