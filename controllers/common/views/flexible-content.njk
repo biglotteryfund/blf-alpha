@@ -1,18 +1,23 @@
 {% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/flexible-content-next/macro.njk" import flexibleContent %}
 
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
     <main role="main" id="content">
-        {{ hero(title, pageHero.image) }}
+        {% if pageHero.image %}
+            {{ hero(title, pageHero.image) }}
+        {% endif %}
 
-        <div class="nudge-up">
-            {{ flexibleContent(
-                content,
-                breadcrumbs = breadcrumbTrail(breadcrumbs)
-            ) }}
-        </div>
+        {% if pageHero.image %}<div class="nudge-up">{% endif %}
+
+        {{ flexibleContent(
+            content,
+            breadcrumbs = breadcrumbTrail(breadcrumbs)
+        ) }}
+
+        {% if pageHero.image %}</div>{% endif %}
     </main>
 {% endblock %}

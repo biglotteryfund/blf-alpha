@@ -1,19 +1,18 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/flexible-content-next/macro.njk" import flexibleContent %}
 
-{% extends "layouts/main.njk" %}
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
-{% set flexAnchor = 'item' %}
-
 {% block content %}
+    <main role="main" id="content">
+        {% if pageHero.image %}
+            {{ hero(title, pageHero.image) }}
+        {% endif %}
 
-    {% if pageHero.image %}
-        {{ hero(title, pageHero.image) }}
-    {% endif %}
+        {% if pageHero.image %}<div class="nudge-up">{% endif %}
 
-    <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %}>
         {% block contentPrimary %}
             {% if content.flexibleContent %}
                 {{ flexibleContent(
@@ -23,5 +22,7 @@
                 ) }}
             {% endif %}
         {% endblock %}
+
+        {% if pageHero.image %}</div>{% endif %}
     </main>
 {% endblock %}
