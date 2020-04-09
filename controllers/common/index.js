@@ -4,6 +4,7 @@ const express = require('express');
 const getOr = require('lodash/fp/getOr');
 
 const { injectListingContent } = require('../../common/inject-content');
+const logger = require('../../common/logger');
 
 function renderListingPage(res, content) {
     // What layout mode should we use? (eg. do all of the children have an image?)
@@ -46,6 +47,13 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
             label: content.title,
         });
 
+        function logLegacyContentType(type) {
+            logger.info(`Legacy content type: ${type}`, {
+                service: 'common-views',
+                url: req.url,
+            });
+        }
+
         /**
          * Determine template to render:
          * 1. If using a custom template defer to that
@@ -60,6 +68,7 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
                 path.resolve(__dirname, './views/flexible-content-page')
             );
         } else if (content.children) {
+            logLegacyContentType('listing-page');
             // @TODO: Deprecate these templates in favour of CMS pages (above)
             renderListingPage(res, content);
         } else if (
@@ -67,6 +76,7 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
             content.segments.length > 0 ||
             content.flexibleContent.length > 0
         ) {
+            logLegacyContentType('information-page');
             res.render(path.resolve(__dirname, './views/information-page'));
         } else {
             next();
