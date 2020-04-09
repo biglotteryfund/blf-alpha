@@ -3,26 +3,22 @@ const path = require('path');
 const express = require('express');
 const passport = require('passport');
 
-const logger = require('../../common/logger').child({
-    service: 'user',
-});
-
 const {
     rateLimiterConfigs,
     RateLimiter,
 } = require('../../common/rate-limiter');
-
-const { injectCopy } = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback,
 } = require('../../common/authed');
 const { csrfProtection } = require('../../common/cached');
+const logger = require('../../common/logger').child({ service: 'user' });
 
 const router = express.Router();
 
 function renderForm(req, res, formValues = null, errors = []) {
     res.render(path.resolve(__dirname, './views/login'), {
+        title: req.i18n.__('user.login.title'),
         csrfToken: req.csrfToken(),
         formValues: formValues,
         errors: errors,
@@ -30,17 +26,15 @@ function renderForm(req, res, formValues = null, errors = []) {
 }
 
 function renderRateLimitError(req, res, minutesLeft) {
-    const copy = req.i18n.__('user.rateLimited');
     res.status(429).render(path.resolve(__dirname, './views/rate-limited'), {
-        copy: copy,
-        title: copy.title,
+        title: req.i18n.__('user.rateLimited.title'),
         minutesLeft: minutesLeft,
     });
 }
 
 router
     .route('/')
-    .all(csrfProtection, requireNoAuth, injectCopy('user.login'))
+    .all(csrfProtection, requireNoAuth)
     .get(function (req, res) {
         if (req.query.s) {
             res.locals.alertMessage = req.i18n.__(
@@ -104,7 +98,7 @@ router
                         await LoginRateLimiter.consumeRateLimit();
                         return renderForm(req, res, req.body, [
                             {
-                                msg: res.locals.copy.credentialError,
+                                msg: req.i18n.__('user.login.credentialError'),
                             },
                         ]);
                     } catch (rateLimitRejection) {

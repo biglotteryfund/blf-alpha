@@ -8,8 +8,7 @@ const { sanitise } = require('../../common/sanitise');
 const { sendHtmlEmail } = require('../../common/mail');
 const { localify } = require('../../common/urls');
 const { requireNoAuth } = require('../../common/authed');
-const { injectCopy } = require('../../common/inject-content');
-
+const validateSchema = require('../../common/validate-schema');
 const logger = require('../../common/logger').child({
     service: 'user',
 });
@@ -17,7 +16,6 @@ const logger = require('../../common/logger').child({
 const { verifyTokenPasswordReset } = require('./lib/jwt');
 const { processResetRequest } = require('./lib/password-reset');
 const schemas = require('./lib/account-schemas');
-const validateSchema = require('../../common/validate-schema');
 
 const router = express.Router();
 
@@ -44,6 +42,7 @@ function sendPasswordResetNotification(req, email) {
 
 function renderForgotForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/forgotten-password'), {
+        title: req.i18n.__('user.forgottenPassword.title'),
         formValues: data,
         errors: errors,
     });
@@ -51,13 +50,16 @@ function renderForgotForm(req, res, data = null, errors = []) {
 
 function renderResetForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/reset-password'), {
+        title: req.i18n.__('user.resetPassword.title'),
         formValues: data,
         errors: errors,
     });
 }
 
 function renderResetFormExpired(req, res) {
-    res.render(path.resolve(__dirname, './views/reset-password-expired'));
+    res.render(path.resolve(__dirname, './views/reset-password-expired'), {
+        title: req.i18n.__('user.resetPassword.title'),
+    });
 }
 
 /**
@@ -65,7 +67,7 @@ function renderResetFormExpired(req, res) {
  */
 router
     .route('/forgot')
-    .all(requireNoAuth, injectCopy('user.forgottenPassword'))
+    .all(requireNoAuth)
     .get(renderForgotForm)
     .post(async function (req, res) {
         const validationResult = validateSchema(
@@ -113,8 +115,7 @@ router
  */
 router
     .route('/reset')
-    .all(injectCopy('user.resetPassword'))
-    .get(async (req, res) => {
+    .get(async function (req, res) {
         function token() {
             return req.query.token ? req.query.token : res.locals.token;
         }

@@ -9,7 +9,6 @@ const { localify } = require('../../common/urls');
 const { sanitise } = require('../../common/sanitise');
 const logger = require('../../common/logger').child({ service: 'user' });
 const { csrfProtection } = require('../../common/cached');
-const { injectCopy } = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback,
@@ -40,6 +39,7 @@ function logIn(req, res, next) {
 
 function renderForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/register'), {
+        title: req.i18n.__('user.register.title'),
         csrfToken: req.csrfToken(),
         formValues: data,
         errors: errors,
@@ -48,7 +48,7 @@ function renderForm(req, res, data = null, errors = []) {
 
 router
     .route('/')
-    .all(requireNoAuth, csrfProtection, injectCopy('user.register'))
+    .all(requireNoAuth, csrfProtection)
     .get(renderForm)
     .post(async function handleRegister(req, res, next) {
         const validationResult = validateSchema(
@@ -64,7 +64,7 @@ router
         const fallbackErrors = [
             {
                 msg: req.i18n.__(
-                    res.locals.copy.genericError,
+                    'user.register.genericError',
                     localify(req.i18n.getLocale())('/user/password/forgot')
                 ),
             },

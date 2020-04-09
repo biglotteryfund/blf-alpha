@@ -1,5 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
+{% set copy = __('user.activate') %}
 
 {% macro resendButton() %}
     <form action="" method="POST">

@@ -8,7 +8,6 @@ const {
     requireUnactivatedUser,
     isActivated,
 } = require('../../common/authed');
-const { injectCopy } = require('../../common/inject-content');
 const logger = require('../../common/logger').child({ service: 'user' });
 
 const { verifyTokenActivate } = require('./lib/jwt');
@@ -18,12 +17,13 @@ const router = express.Router();
 
 function renderTemplate(req, res) {
     const template = path.resolve(__dirname, './views/activate');
-    res.render(template);
+    res.render(template, {
+        title: req.i18n.__('user.activate.title'),
+    });
 }
 
 router
     .route('/')
-    .all(injectCopy('user.activate'))
     .get(async function (req, res) {
         // Prevent activated users from persisting on this page
         if (req.user && isActivated(req.user)) {
