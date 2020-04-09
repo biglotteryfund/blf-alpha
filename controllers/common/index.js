@@ -4,7 +4,6 @@ const express = require('express');
 const getOr = require('lodash/fp/getOr');
 
 const {
-    injectCopy,
     injectFlexibleContent,
     injectListingContent,
 } = require('../../common/inject-content');
@@ -35,15 +34,18 @@ function basicContent({
 } = {}) {
     const router = express.Router();
 
-    router.get('/', injectCopy(lang), injectListingContent, function (
-        req,
-        res,
-        next
-    ) {
+    router.get('/', injectListingContent, function (req, res, next) {
         const { content } = res.locals;
 
         if (!content) {
             return next();
+        }
+
+        if (lang) {
+            const copy = req.i18n.__(lang);
+            res.locals.copy = copy;
+            res.locals.title = copy.title;
+            res.locals.description = copy.description || false;
         }
 
         const ancestors = getOr([], 'ancestors')(content);
