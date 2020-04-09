@@ -4,9 +4,10 @@ const express = require('express');
 const getOr = require('lodash/fp/getOr');
 
 const {
-    injectFlexibleContent,
+    setCommonLocals,
     injectListingContent,
 } = require('../../common/inject-content');
+const contentApi = require('../../common/content-api');
 
 function renderListingPage(res, content) {
     // What layout mode should we use? (eg. do all of the children have an image?)
@@ -80,27 +81,39 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
 function flexibleContent() {
     const router = express.Router();
 
-    router.get('/', injectFlexibleContent, function (req, res, next) {
-        const { content } = res.locals;
+    router.get('/', async function (req, res, next) {
+        try {
+            const entry = await contentApi.getFlexibleContent({
+                locale: req.i18n.getLocale(),
+                path: req.baseUrl + req.path,
+                requestParams: req.query,
+            });
 
-        if (content) {
-            const ancestors = getOr([], 'ancestors')(content);
-            ancestors.forEach(function (ancestor) {
-                res.locals.breadcrumbs.push({
-                    label: ancestor.title,
-                    url: ancestor.linkUrl,
+            if (entry) {
+                res.locals.content = entry;
+                setCommonLocals(req, res, entry);
+
+                const ancestors = getOr([], 'ancestors')(entry);
+                ancestors.forEach(function (ancestor) {
+                    res.locals.breadcrumbs.push({
+                        label: ancestor.title,
+                        url: ancestor.linkUrl,
+                    });
                 });
-            });
 
-            res.locals.breadcrumbs.push({
-                label: content.title,
-            });
+                res.locals.breadcrumbs.push({
+                    label: entry.title,
+                });
 
-            res.render(path.resolve(__dirname, './views/flexible-content'), {
-                flexibleContent: content.flexibleContent,
-            });
-        } else {
-            next();
+                res.render(
+                    path.resolve(__dirname, './views/flexible-content'),
+                    { flexibleContent: entry.flexibleContent }
+                );
+            } else {
+                next();
+            }
+        } catch (error) {
+            next(error);
         }
     });
 

@@ -95,27 +95,7 @@ async function injectListingContent(req, res, next) {
     }
 }
 
-async function injectFlexibleContent(req, res, next) {
-    try {
-        const entry = await contentApi.getFlexibleContent({
-            locale: req.i18n.getLocale(),
-            path: req.baseUrl + req.path,
-            requestParams: req.query,
-        });
-
-        if (entry) {
-            res.locals.content = entry;
-            setCommonLocals(req, res, entry);
-        }
-
-        next();
-    } catch (error) {
-        next(error);
-    }
-}
-
 module.exports = {
-    injectFlexibleContent,
     injectHeroImage,
     injectListingContent,
     setCommonLocals,
