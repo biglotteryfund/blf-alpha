@@ -1,12 +1,13 @@
 'use strict';
+const has = require('lodash/has');
 
 module.exports = function checkPreviewMode(queryParams) {
     function isLivePreview() {
-        return queryParams['x-craft-live-preview'];
+        return has(queryParams, 'x-craft-live-preview');
     }
 
     function isShareLink() {
-        return queryParams['x-craft-preview'] && queryParams['token'];
+        return has(queryParams, 'x-craft-preview') && has(queryParams, 'token');
     }
 
     return {

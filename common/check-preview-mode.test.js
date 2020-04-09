@@ -11,22 +11,22 @@ test('checkPreviewMode', function () {
             'token': '456',
         })
     ).toStrictEqual({
-        isLivePreview: 'abc',
-        isPreview: 'abc',
-        isShareLink: '456',
+        isLivePreview: true,
+        isPreview: true,
+        isShareLink: true,
     });
 
     expect(checkPreviewMode({ 'x-craft-live-preview': 'abc' })).toStrictEqual({
-        isLivePreview: 'abc',
-        isPreview: 'abc',
-        isShareLink: undefined,
+        isLivePreview: true,
+        isPreview: true,
+        isShareLink: false,
     });
 
     expect(
         checkPreviewMode({ 'x-craft-preview': '123', 'token': '456' })
     ).toStrictEqual({
-        isLivePreview: undefined,
-        isPreview: '456',
-        isShareLink: '456',
+        isLivePreview: false,
+        isPreview: true,
+        isShareLink: true,
     });
 });
