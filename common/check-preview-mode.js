@@ -2,7 +2,7 @@
 
 module.exports = function checkPreviewMode(queryParams) {
     function isLivePreview() {
-        return queryParams['x-craft-live-preview'] && queryParams['token'];
+        return queryParams['x-craft-live-preview'];
     }
 
     function isShareLink() {
