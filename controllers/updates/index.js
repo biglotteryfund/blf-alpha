@@ -83,7 +83,6 @@ function renderPressDetail(req, res, entry) {
                 label: req.i18n.__('news.types.press-releases.plural'),
                 url: `${req.baseUrl}/press-releases`,
             },
-            { label: entry.title },
         ]),
     });
 }
@@ -194,15 +193,10 @@ function renderUpdatesDetail(req, res, entry) {
         socialImage: get(entry, 'thumbnail.large', false),
         entry: entry,
         entryTagList: entryTagList,
-        breadcrumbs: res.locals.breadcrumbs.concat(
-            {
-                label: req.i18n.__(
-                    `news.types.${req.params.updateType}.singular`
-                ),
-                url: `${req.baseUrl}/${req.params.updateType}`,
-            },
-            { label: entry.title }
-        ),
+        breadcrumbs: res.locals.breadcrumbs.concat({
+            label: req.i18n.__(`news.types.${req.params.updateType}.singular`),
+            url: `${req.baseUrl}/${req.params.updateType}`,
+        }),
     });
 }
 
