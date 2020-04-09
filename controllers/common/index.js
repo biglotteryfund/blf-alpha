@@ -56,7 +56,9 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
         if (customTemplate) {
             res.render(customTemplate);
         } else if (cmsPage) {
-            res.render(path.resolve(__dirname, './views/cms-page'));
+            res.render(
+                path.resolve(__dirname, './views/flexible-content-page')
+            );
         } else if (content.children) {
             // @TODO: Deprecate these templates in favour of CMS pages (above)
             renderListingPage(res, content);
@@ -75,19 +77,17 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
 }
 
 function renderFlexibleContentChild(req, res, entry) {
-    const breadcrumbs = entry.parent
-        ? res.locals.breadcrumbs.concat([
-              {
-                  label: entry.parent.title,
-                  url: entry.parent.linkUrl,
-              },
-              { label: res.locals.title },
-          ])
-        : res.locals.breadcrumbs.concat({ label: res.locals.title });
+    if (entry.parent) {
+        res.locals.breadcrumbs.push({
+            label: entry.parent.title,
+            url: entry.parent.linkUrl,
+        });
+    }
 
-    res.render(path.resolve(__dirname, './views/flexible-content'), {
-        breadcrumbs: breadcrumbs,
-        content: entry.content,
+    res.render(path.resolve(__dirname, './views/flexible-content-page'), {
+        breadcrumbs: res.locals.breadcrumbs.concat({ label: res.locals.title }),
+        // @TODO: Can we rename API responses to consistently name this flexibleContent?
+        content: { flexibleContent: entry.content },
     });
 }
 
