@@ -132,7 +132,7 @@
     "request-promise-native": "^1.0.8",
     "sequelize": "5.21.6",
     "serve-favicon": "^2.5.0",
-    "sitemap": "^4.0.2",
+    "sitemap": "^6.1.1",
     "slugify": "^1.4.0",
     "uuid": "^3.4.0",
     "vary": "^1.1.1",
