@@ -48,4 +48,27 @@ router.use('/the-big-lunch', basicContent());
 // @TODO: Can this section be migrated to Funding structure in the CMS?
 router.use('/funding-guidance/*', basicContent());
 
+/**
+ * Custom override: Free materials
+ * Allows us to customise the free materials page with an order form,
+ * whilst keeping introductory content in the CMS
+ */
+router.use(
+    '/managing-your-grant/promoting-your-project/order-free-materials',
+    require('./materials')
+);
+
+/**
+ * Custom override: Logos
+ * Allows us to customise the logos page with a download UI,
+ * whilst keeping introductory content in the CMS
+ */
+router.use(
+    '/managing-your-grant/promoting-your-project/download-our-logo',
+    basicContent({
+        lang: 'funding.guidance.logos',
+        customTemplate: 'static-pages/logos',
+    })
+);
+
 module.exports = router;

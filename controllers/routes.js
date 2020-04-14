@@ -21,14 +21,6 @@ module.exports = {
                 router: require('./funding'),
             },
             {
-                path: `/managing-your-grant/promoting-your-project/order-free-materials`,
-                router: require('./materials'),
-            },
-            {
-                path: `/managing-your-grant/promoting-your-project/download-our-logo`,
-                router: basicContent({ customTemplate: 'static-pages/logos' }),
-            },
-            {
                 path: '/*',
                 router: basicContent({ cmsPage: true }),
             },

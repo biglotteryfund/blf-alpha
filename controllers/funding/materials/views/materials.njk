@@ -1,8 +1,7 @@
+{% extends "controllers/common/views/cms-page.njk" %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/icons.njk" import iconClose %}
 {% from "./materials-fields.njk" import textInput, radios with context %}
-
-{% extends "controllers/common/views/cms-page.njk" %}
 
 {% macro textField(field) %}
     {{ textInput(

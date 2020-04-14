@@ -7,14 +7,14 @@ const pick = require('lodash/pick');
 const Sentry = require('@sentry/node');
 const { oneLine } = require('common-tags');
 
-const { Order } = require('../../db/models');
-const contentApi = require('../../common/content-api');
-const { isNotProduction } = require('../../common/appData');
-const { csrfProtection, noStore } = require('../../common/cached');
-const { generateHtmlEmail, sendEmail } = require('../../common/mail');
-const { injectListingContent } = require('../../common/inject-content');
-const { MATERIAL_SUPPLIER } = require('../../common/secrets');
-const { sanitiseRequestBody } = require('../../common/sanitise');
+const { Order } = require('../../../db/models');
+const contentApi = require('../../../common/content-api');
+const { isNotProduction } = require('../../../common/appData');
+const { csrfProtection, noStore } = require('../../../common/cached');
+const { generateHtmlEmail, sendEmail } = require('../../../common/mail');
+const { injectListingContent } = require('../../../common/inject-content');
+const { MATERIAL_SUPPLIER } = require('../../../common/secrets');
+const { sanitiseRequestBody } = require('../../../common/sanitise');
 
 const { fields, validate } = require('./lib/material-fields');
 const makeOrderText = require('./lib/make-order-text');
