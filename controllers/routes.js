@@ -9,7 +9,6 @@ module.exports = {
             { path: '/', router: require('./home') },
             { path: '/data', router: require('./data') },
             { path: '/jobs*', router: basicContent() },
-            { path: '/search', router: require('./search') },
             { path: '/user', router: require('./user') },
         ],
     },

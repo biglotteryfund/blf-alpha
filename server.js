@@ -186,6 +186,7 @@ app.use([
 app.use('/api', require('./controllers/api'));
 app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
+app.use('/search', require('./controllers/search'));
 
 /**
  * Handle archived paths first:
