@@ -231,7 +231,7 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
             next();
         }
     } catch (error) {
-        if (error.statusCode >= 500) {
+        if (error.response.statusCode >= 500) {
             next(error);
         } else {
             next();
