@@ -2,6 +2,7 @@
 const moment = require('moment');
 const Sentry = require('@sentry/node');
 const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
 
 const contentApi = require('./content-api');
 const checkPreviewMode = require('./check-preview-mode');
@@ -87,6 +88,18 @@ async function injectListingContent(req, res, next) {
         if (entry) {
             res.locals.content = entry;
             setCommonLocals(req, res, entry);
+
+            const ancestors = getOr([], 'ancestors')(entry);
+            ancestors.forEach(function (ancestor) {
+                res.locals.breadcrumbs.push({
+                    label: ancestor.title,
+                    url: ancestor.linkUrl,
+                });
+            });
+
+            res.locals.breadcrumbs.push({
+                label: entry.title,
+            });
         }
 
         next();

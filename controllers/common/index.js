@@ -35,18 +35,6 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
             return next();
         }
 
-        const ancestors = getOr([], 'ancestors')(content);
-        ancestors.forEach(function (ancestor) {
-            res.locals.breadcrumbs.push({
-                label: ancestor.title,
-                url: ancestor.linkUrl,
-            });
-        });
-
-        res.locals.breadcrumbs.push({
-            label: content.title,
-        });
-
         function logLegacyContentType(type) {
             logger.info(`Legacy content type: ${type}`, {
                 service: 'common-views',
