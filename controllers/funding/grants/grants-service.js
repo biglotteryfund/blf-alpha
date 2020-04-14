@@ -1,6 +1,6 @@
 'use strict';
 const got = require('got');
-const { PAST_GRANTS_API_URI } = require('../../common/secrets');
+const { PAST_GRANTS_API_URI } = require('../../../common/secrets');
 
 const queryPastGrants = got.extend({
     prefixUrl: PAST_GRANTS_API_URI,

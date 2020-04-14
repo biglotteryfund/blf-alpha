@@ -1,3 +1,11 @@
 # Funding landing router
 
-Router for the top-level `/funding` page. This is largely a static page with a dynamic list of the latest programmes pulled in from the CMS.
+Router for the `/funding` section of the website.
+
+- `grants/` - Past grants search
+- `materials/` - Custom router for ordering free materials
+- `programmes/` - Funding programme listings and detail pages
+- `publications/` - Publication documents search
+- `strategic-investments/` - Strategic investments in England
+
+This router also contains a wildcard handler which passes all other requests onto the CMS.
