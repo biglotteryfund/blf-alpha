@@ -33,7 +33,7 @@ module.exports = {
     },
     updates: {
         path: '/news',
-        pages: [{ path: '/', router: require('./updates') }],
+        router: require('./updates'),
     },
     user: {
         path: '/user',
