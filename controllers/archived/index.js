@@ -1,8 +1,42 @@
 'use strict';
+const path = require('path');
 const express = require('express');
+
 const router = express.Router();
 
-const { buildArchiveUrl, makeWelsh } = require('../common/urls');
+const { buildArchiveUrl, makeWelsh } = require('../../common/urls');
+
+const aliases = require('./aliases');
+
+/**
+ * Handle Aliases
+ */
+aliases.forEach((redirect) => {
+    router.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
+});
+
+/**
+ * Handle legacy programme pages as wildcards
+ * (eg. redirect them to /funding/programmes/<slug>)
+ */
+router.get('/:region?/global-content/programmes/:country/:slug', (req, res) => {
+    const locale = req.params.region === 'welsh' ? '/welsh' : '';
+    res.redirect(301, `${locale}/funding/programmes/${req.params.slug}`);
+});
+
+/**
+ * Handle migrated A Better Start child pages as wildcards
+ * (eg. redirect them to /funding/publications/a-better-start/<slug>)
+ */
+router.get(
+    '/funding/strategic-investments/a-better-start/:slug',
+    (req, res) => {
+        res.redirect(
+            301,
+            `/funding/publications/a-better-start/${req.params.slug}`
+        );
+    }
+);
 
 /**
  * Archived Routes
@@ -36,7 +70,7 @@ const { buildArchiveUrl, makeWelsh } = require('../common/urls');
 ].forEach((urlPath) => {
     function renderArchived(req, res) {
         res.setHeader('X-Robots-Tag', 'noindex');
-        res.render('static-pages/archived', {
+        res.render(path.resolve(__dirname, './views/archived'), {
             title: 'Archived',
             archiveUrl: buildArchiveUrl(req.originalUrl),
         });
@@ -56,7 +90,7 @@ router.get('/-/media/files/*', (req, res) => {
     res.locals.enableSiteSurvey = false;
 
     res.setHeader('X-Robots-Tag', 'noindex');
-    res.status(404).render('static-pages/legacy-file', {
+    res.status(404).render(path.resolve(__dirname, './views/legacy-file'), {
         title: 'Document archived',
         filePath: req.originalUrl,
     });

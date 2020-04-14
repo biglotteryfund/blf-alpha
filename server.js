@@ -23,7 +23,6 @@ const { defaultMaxAge, noStore } = require('./common/cached');
 const cspDirectives = require('./common/csp-directives');
 const logger = require('./common/logger').child({ service: 'server' });
 
-const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const { renderError, renderNotFound } = require('./controllers/errors');
 
@@ -189,36 +188,10 @@ app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
 
 /**
- * Handle Aliases
- */
-aliases.forEach((redirect) => {
-    app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
-});
-
-/**
- * Handle legacy programme pages as wildcards
- * (eg. redirect them to /funding/programmes/<slug>)
- */
-app.get('/:region?/global-content/programmes/:country/:slug', (req, res) => {
-    const locale = req.params.region === 'welsh' ? '/welsh' : '';
-    res.redirect(301, `${locale}/funding/programmes/${req.params.slug}`);
-});
-
-/**
- * Handle migrated A Better Start child pages as wildcards
- * (eg. redirect them to /funding/publications/a-better-start/<slug>)
- */
-app.get('/funding/strategic-investments/a-better-start/:slug', (req, res) => {
-    res.redirect(
-        301,
-        `/funding/publications/a-better-start/${req.params.slug}`
-    );
-});
-
-/**
- * Archived paths
- * Handles archived pages (eg. redirect to National Archives)
- * and legacy files (eg. show a message about removed documents)
+ * Handle archived paths first:
+ * - Legacy redirects and aliases
+ * - National Archives content
+ * - Archived media
  */
 app.use('/', require('./controllers/archived'));
 
