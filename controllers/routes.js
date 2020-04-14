@@ -3,13 +3,9 @@
 const { basicContent, flexibleContent } = require('./common');
 
 module.exports = {
-    toplevel: {
-        path: '',
-        pages: [
-            { path: '/', router: require('./home') },
-            { path: '/data', router: require('./data') },
-            { path: '/jobs*', router: basicContent() },
-        ],
+    home: {
+        path: '/',
+        router: require('./home'),
     },
     funding: {
         path: '/funding',
@@ -34,6 +30,16 @@ module.exports = {
     updates: {
         path: '/news',
         router: require('./updates'),
+    },
+    // @TODO: Move to about router?
+    jobs: {
+        path: '/jobs*',
+        router: basicContent(),
+    },
+    // @TODO: Move to about router?
+    data: {
+        path: '/data',
+        router: require('./data'),
     },
     user: {
         path: '/user',
