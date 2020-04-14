@@ -17,7 +17,7 @@ module.exports = {
     },
     insights: {
         path: '/insights',
-        pages: [{ path: '/', router: require('./insights') }],
+        router: require('./insights'),
     },
     talk: {
         path: '/contact',
