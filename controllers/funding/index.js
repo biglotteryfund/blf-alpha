@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 
 const {
-    injectCopy,
     injectHeroImage,
     setCommonLocals,
 } = require('../../common/inject-content');
@@ -30,7 +29,6 @@ const checkValidPublicationProgramme = (req, res, next) => {
 router.get(
     '/publications/:programme?',
     checkValidPublicationProgramme,
-    injectCopy('insights.documents'),
     injectHeroImage('a-better-start-new'),
     async function (req, res, next) {
         try {

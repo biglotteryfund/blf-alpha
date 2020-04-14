@@ -4,7 +4,6 @@ const express = require('express');
 const getOr = require('lodash/fp/getOr');
 
 const {
-    injectCopy,
     injectFlexibleContent,
     injectListingContent,
 } = require('../../common/inject-content');
@@ -28,18 +27,10 @@ function renderListingPage(res, content) {
     });
 }
 
-function basicContent({
-    lang = null,
-    customTemplate = null,
-    cmsPage = false,
-} = {}) {
+function basicContent({ customTemplate = null, cmsPage = false } = {}) {
     const router = express.Router();
 
-    router.get('/', injectCopy(lang), injectListingContent, function (
-        req,
-        res,
-        next
-    ) {
+    router.get('/', injectListingContent, function (req, res, next) {
         const { content } = res.locals;
 
         if (!content) {

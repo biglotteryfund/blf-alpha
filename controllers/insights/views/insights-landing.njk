@@ -9,7 +9,7 @@
 
         <div class="nudge-up">
             {% call contentBox() %}
-                {{ copy.intro | safe }}
+                {{ __('insights.intro') | safe }}
             {% endcall %}
 
             <section class="u-inner-wide-only u-margin-bottom">
@@ -23,8 +23,12 @@
             </section>
 
             <section class="u-align-center u-margin-bottom-l">
-                <a class="btn btn--medium" href="{{ researchArchiveUrl }}">{{ copy.moreLinkText }}</a>
-                <a class="btn btn--medium" href="{{ localify('/insights/documents') }}">{{ copy.evidenceLibrary }}</a>
+                <a class="btn btn--medium" href="{{ researchArchiveUrl }}">
+                    {{ __('insights.moreLinkText') }}
+                </a>
+                <a class="btn btn--medium" href="{{ localify('/insights/documents') }}">
+                    {{ __('insights.evidenceLibrary') }}
+                </a>
             </section>
         </div>
     </main>
