@@ -21,14 +21,6 @@ module.exports = {
                 router: require('./funding'),
             },
             {
-                path: '/the-big-lunch',
-                router: basicContent(),
-            },
-            {
-                path: '/funding-guidance/*',
-                router: basicContent(),
-            },
-            {
                 path: `/managing-your-grant/promoting-your-project/order-free-materials`,
                 router: require('./materials'),
             },
