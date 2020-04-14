@@ -1,6 +1,6 @@
 'use strict';
 
-const { basicContent, flexibleContent } = require('./common');
+const { basicContent } = require('./common');
 
 module.exports = {
     home: {
@@ -21,11 +21,7 @@ module.exports = {
     },
     about: {
         path: '/about',
-        pages: [
-            { path: '/', router: flexibleContent() },
-            { path: '/our-people', router: require('./our-people') },
-            { path: '/*', router: basicContent() },
-        ],
+        router: require('./about'),
     },
     updates: {
         path: '/news',
