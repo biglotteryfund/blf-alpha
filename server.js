@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const moment = require('moment');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const nunjucks = require('nunjucks');
@@ -23,7 +22,7 @@ const { defaultMaxAge, noStore } = require('./common/cached');
 const cspDirectives = require('./common/csp-directives');
 const logger = require('./common/logger').child({ service: 'server' });
 
-const routes = require('./controllers/routes');
+const { basicContent } = require('./controllers/common');
 const { renderError, renderNotFound } = require('./controllers/errors');
 
 /**
@@ -60,42 +59,18 @@ i18n.expressBind(app, {
 });
 
 /**
- * Old domain redirect
- * Redirect requests from apply.tnlcommunityfund.org.uk
+ * Domain redirects
+ * Redirect requests from any non-canonical domains
  */
 app.use(require('./controllers/domain-redirect'));
 
 /**
- * Status endpoint
- * Mount first
- */
-const LAUNCH_DATE = moment();
-app.get('/status', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    res.setHeader('Cache-Control', 'no-store,no-cache,max-age=0');
-
-    res.json({
-        APP_ENV: appData.environment,
-        DEPLOY_ID: appData.deployId,
-        COMMIT_ID: appData.commitId,
-        BUILD_NUMBER: appData.buildNumber,
-        START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
-        UPTIME: LAUNCH_DATE.toNow(true),
-    });
-});
-
 /**
- * Robots.txt
+ * Metadata endpoints
+ * Mount first before any common middleware
  */
+app.get('/status', require('./controllers/status'));
 app.get('/robots.txt', noStore, require('./controllers/robots'));
-
-/**
- * Site-map
- */
 app.use('/sitemap.xml', require('./controllers/sitemap'));
 
 /**
@@ -186,6 +161,7 @@ app.use([
 app.use('/api', require('./controllers/api'));
 app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
+app.use('/search', require('./controllers/search'));
 
 /**
  * Handle archived paths first:
@@ -196,13 +172,54 @@ app.use('/patterns', require('./controllers/pattern-library'));
 app.use('/', require('./controllers/archived'));
 
 /**
- * Initialise section routes
- * - Creates a new router for each section
- * - Apply shared middleware
- * - Apply section specific controller logic
- * - Add common routing (for static/fully-CMS powered pages)
+ * Initialise section routers
  */
-forEach(routes, function (section, sectionId) {
+const sections = {
+    home: {
+        path: '/',
+        router: require('./controllers/home'),
+    },
+    funding: {
+        path: '/funding',
+        router: require('./controllers/funding'),
+    },
+    insights: {
+        path: '/insights',
+        router: require('./controllers/insights'),
+    },
+    contact: {
+        path: '/contact',
+        router: basicContent(),
+    },
+    about: {
+        path: '/about',
+        router: require('./controllers/about'),
+    },
+    updates: {
+        path: '/news',
+        router: require('./controllers/updates'),
+    },
+    // @TODO: Move to about router?
+    jobs: {
+        path: '/jobs*',
+        router: basicContent(),
+    },
+    // @TODO: Move to about router?
+    data: {
+        path: '/data',
+        router: require('./controllers/data'),
+    },
+    user: {
+        path: '/user',
+        router: require('./controllers/user'),
+    },
+    apply: {
+        path: '/apply',
+        router: require('./controllers/apply'),
+    },
+};
+
+forEach(sections, function (section, sectionId) {
     /**
      * Add section locals
      * Used for determining top-level section for navigation and breadcrumbs
@@ -223,37 +240,13 @@ forEach(routes, function (section, sectionId) {
     }
 
     /**
-     * Support migrating over from pages sub-array to
-     * single per-section routers.
+     * Mount each section under both English and Welsh paths.
      */
-    if (section.router) {
-        app.use(
-            [section.path, makeWelsh(section.path)],
-            sectionLocals,
-            section.router
-        );
-    } else {
-        const router = express.Router();
-
-        /**
-         * Add section locals
-         * Used for determining top-level section for navigation and breadcrumbs
-         */
-        router.use(sectionLocals);
-
-        /**
-         * Mount page router
-         */
-        section.pages.forEach(function (page) {
-            router.use(page.path, page.router);
-        });
-
-        /**
-         * Mount section router
-         */
-        app.use(section.path, router);
-        app.use(makeWelsh(section.path), router);
-    }
+    app.use(
+        [section.path, makeWelsh(section.path)],
+        sectionLocals,
+        section.router
+    );
 });
 
 /**
