@@ -2,7 +2,7 @@
 const flatMap = require('lodash/flatMap');
 const flatten = require('lodash/flatten');
 const uniqBy = require('lodash/fp/uniqBy');
-const { makeWelsh } = require('../common/urls');
+const { makeWelsh } = require('../../common/urls');
 
 /**
  * The previous biglotteryfund.org.uk website duplicated content
