@@ -121,7 +121,7 @@ router.get(
                 }
             }
         } catch (error) {
-            if (error.statusCode >= 500) {
+            if (error.response.statusCode >= 500) {
                 next(error);
             } else {
                 next();
@@ -238,8 +238,12 @@ router.get(
                     next();
                 }
             }
-        } catch (e) {
-            next(e);
+        } catch (error) {
+            if (error.response.statusCode >= 500) {
+                next(error);
+            } else {
+                next();
+            }
         }
     }
 );

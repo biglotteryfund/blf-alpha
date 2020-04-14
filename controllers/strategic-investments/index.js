@@ -30,7 +30,7 @@ router.get('/', injectListingContent, async function (req, res, next) {
             }),
         });
     } catch (error) {
-        if (error.statusCode >= 500) {
+        if (error.response.statusCode >= 500) {
             next(error);
         } else {
             next();
@@ -65,7 +65,7 @@ router.get('/:slug/:child_slug?', async function (req, res, next) {
             next();
         }
     } catch (error) {
-        if (error.statusCode >= 500) {
+        if (error.response.statusCode >= 500) {
             next(error);
         } else {
             next();
