@@ -23,7 +23,7 @@ const { defaultMaxAge, noStore } = require('./common/cached');
 const cspDirectives = require('./common/csp-directives');
 const logger = require('./common/logger').child({ service: 'server' });
 
-const routes = require('./controllers/routes');
+const { basicContent } = require('./controllers/common');
 const { renderError, renderNotFound } = require('./controllers/errors');
 
 /**
@@ -197,13 +197,54 @@ app.use('/search', require('./controllers/search'));
 app.use('/', require('./controllers/archived'));
 
 /**
- * Initialise section routes
- * - Creates a new router for each section
- * - Apply shared middleware
- * - Apply section specific controller logic
- * - Add common routing (for static/fully-CMS powered pages)
+ * Initialise section routers
  */
-forEach(routes, function (section, sectionId) {
+const sections = {
+    home: {
+        path: '/',
+        router: require('./controllers/home'),
+    },
+    funding: {
+        path: '/funding',
+        router: require('./controllers/funding'),
+    },
+    insights: {
+        path: '/insights',
+        router: require('./controllers/insights'),
+    },
+    contact: {
+        path: '/contact',
+        router: basicContent(),
+    },
+    about: {
+        path: '/about',
+        router: require('./controllers/about'),
+    },
+    updates: {
+        path: '/news',
+        router: require('./controllers/updates'),
+    },
+    // @TODO: Move to about router?
+    jobs: {
+        path: '/jobs*',
+        router: basicContent(),
+    },
+    // @TODO: Move to about router?
+    data: {
+        path: '/data',
+        router: require('./controllers/data'),
+    },
+    user: {
+        path: '/user',
+        router: require('./controllers/user'),
+    },
+    apply: {
+        path: '/apply',
+        router: require('./controllers/apply'),
+    },
+};
+
+forEach(sections, function (section, sectionId) {
     /**
      * Add section locals
      * Used for determining top-level section for navigation and breadcrumbs
@@ -224,37 +265,13 @@ forEach(routes, function (section, sectionId) {
     }
 
     /**
-     * Support migrating over from pages sub-array to
-     * single per-section routers.
+     * Mount each section under both English and Welsh paths.
      */
-    if (section.router) {
-        app.use(
-            [section.path, makeWelsh(section.path)],
-            sectionLocals,
-            section.router
-        );
-    } else {
-        const router = express.Router();
-
-        /**
-         * Add section locals
-         * Used for determining top-level section for navigation and breadcrumbs
-         */
-        router.use(sectionLocals);
-
-        /**
-         * Mount page router
-         */
-        section.pages.forEach(function (page) {
-            router.use(page.path, page.router);
-        });
-
-        /**
-         * Mount section router
-         */
-        app.use(section.path, router);
-        app.use(makeWelsh(section.path), router);
-    }
+    app.use(
+        [section.path, makeWelsh(section.path)],
+        sectionLocals,
+        section.router
+    );
 });
 
 /**
