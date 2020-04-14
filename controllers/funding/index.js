@@ -71,4 +71,15 @@ router.use(
     })
 );
 
+/**
+ * Wildcard handler
+ * Remaining pages powered by Funding structure in the CMS
+ */
+router.use(
+    '/*',
+    basicContent({
+        cmsPage: true,
+    })
+);
+
 module.exports = router;
