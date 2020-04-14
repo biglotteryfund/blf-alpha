@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const moment = require('moment');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const nunjucks = require('nunjucks');
@@ -60,42 +59,18 @@ i18n.expressBind(app, {
 });
 
 /**
- * Old domain redirect
- * Redirect requests from apply.tnlcommunityfund.org.uk
+ * Domain redirects
+ * Redirect requests from any non-canonical domains
  */
 app.use(require('./controllers/domain-redirect'));
 
 /**
- * Status endpoint
- * Mount first
- */
-const LAUNCH_DATE = moment();
-app.get('/status', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    res.setHeader('Cache-Control', 'no-store,no-cache,max-age=0');
-
-    res.json({
-        APP_ENV: appData.environment,
-        DEPLOY_ID: appData.deployId,
-        COMMIT_ID: appData.commitId,
-        BUILD_NUMBER: appData.buildNumber,
-        START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
-        UPTIME: LAUNCH_DATE.toNow(true),
-    });
-});
-
 /**
- * Robots.txt
+ * Metadata endpoints
+ * Mount first before any common middleware
  */
+app.get('/status', require('./controllers/status'));
 app.get('/robots.txt', noStore, require('./controllers/robots'));
-
-/**
- * Site-map
- */
 app.use('/sitemap.xml', require('./controllers/sitemap'));
 
 /**
