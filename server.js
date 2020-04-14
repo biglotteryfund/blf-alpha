@@ -230,13 +230,11 @@ app.use('/', require('./controllers/archived'));
  * - Add common routing (for static/fully-CMS powered pages)
  */
 forEach(routes, function (section, sectionId) {
-    const router = express.Router();
-
     /**
      * Add section locals
      * Used for determining top-level section for navigation and breadcrumbs
      */
-    router.use(function (req, res, next) {
+    function sectionLocals(req, res, next) {
         const sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
         const sectionUrl = localify(req.i18n.getLocale())(req.baseUrl || '/');
 
@@ -249,20 +247,40 @@ forEach(routes, function (section, sectionId) {
         res.locals.breadcrumbs = [{ label: sectionTitle, url: sectionUrl }];
 
         next();
-    });
+    }
 
     /**
-     * Mount page router
+     * Support migrating over from pages sub-array to
+     * single per-section routers.
      */
-    section.pages.forEach(function (page) {
-        router.use(page.path, page.router);
-    });
+    if (section.router) {
+        app.use(
+            [section.path, makeWelsh(section.path)],
+            sectionLocals,
+            section.router
+        );
+    } else {
+        const router = express.Router();
 
-    /**
-     * Mount section router
-     */
-    app.use(section.path, router);
-    app.use(makeWelsh(section.path), router);
+        /**
+         * Add section locals
+         * Used for determining top-level section for navigation and breadcrumbs
+         */
+        router.use(sectionLocals);
+
+        /**
+         * Mount page router
+         */
+        section.pages.forEach(function (page) {
+            router.use(page.path, page.router);
+        });
+
+        /**
+         * Mount section router
+         */
+        app.use(section.path, router);
+        app.use(makeWelsh(section.path), router);
+    }
 });
 
 /**

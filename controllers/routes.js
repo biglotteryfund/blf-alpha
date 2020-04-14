@@ -15,7 +15,7 @@ module.exports = {
     },
     funding: {
         path: '/funding',
-        pages: [{ path: '/', router: require('./funding') }],
+        router: require('./funding'),
     },
     insights: {
         path: '/insights',
