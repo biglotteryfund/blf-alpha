@@ -21,10 +21,6 @@ module.exports = {
                 router: require('./funding'),
             },
             {
-                path: '/programmes',
-                router: require('./programmes'),
-            },
-            {
                 path: '/strategic-investments',
                 router: require('./strategic-investments'),
             },
