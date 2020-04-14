@@ -24,7 +24,7 @@ function renderListingPage(res, content) {
     });
 }
 
-function basicContent({ cmsPage = false } = {}) {
+function basicContent({ useFlexibleContentPage = false } = {}) {
     const router = express.Router();
 
     router.get('/', injectListingContent, function (req, res, next) {
@@ -43,11 +43,11 @@ function basicContent({ cmsPage = false } = {}) {
 
         /**
          * Determine template to render:
-         * 2. If using the new CMS page style, use that template
+         * 2. If using the new flexible content page, use that template
          * 2. If the response has child pages then render a listing page
          * 3. Otherwise, render an information page
          */
-        if (cmsPage) {
+        if (useFlexibleContentPage) {
             res.render(
                 path.resolve(__dirname, './views/flexible-content-page')
             );

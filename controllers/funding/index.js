@@ -78,11 +78,6 @@ router.get(
  * Wildcard handler
  * Remaining pages powered by Funding structure in the CMS
  */
-router.use(
-    '/*',
-    basicContent({
-        cmsPage: true,
-    })
-);
+router.use('/*', basicContent({ useFlexibleContentPage: true }));
 
 module.exports = router;
