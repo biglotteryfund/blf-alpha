@@ -41,6 +41,6 @@ module.exports = {
     },
     apply: {
         path: '/apply',
-        pages: [{ path: '/', router: require('./apply') }],
+        router: require('./apply'),
     },
 };
