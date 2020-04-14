@@ -157,7 +157,7 @@
     "cross-env": "7.0.2",
     "css-loader": "3.5.1",
     "cssnano": "4.1.10",
-    "cypress": "4.3.0",
+    "cypress": "4.4.0",
     "cypress-file-upload": "4.0.4",
     "del-cli": "3.0.0",
     "details-element-polyfill": "2.4.0",
