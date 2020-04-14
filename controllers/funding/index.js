@@ -27,6 +27,11 @@ router.get('/', injectHeroImage('funding-letterbox-new'), async function (
 router.use('/programmes', require('./programmes'));
 
 /**
+ * Strategic investments router
+ */
+router.use('/strategic-investments', require('./strategic-investments'));
+
+/**
  * Publications router
  */
 router.use('/publications', require('./publications'));
