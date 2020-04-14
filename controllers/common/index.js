@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const getOr = require('lodash/fp/getOr');
 
 const { injectListingContent } = require('../../common/inject-content');
 const logger = require('../../common/logger');
@@ -25,7 +24,7 @@ function renderListingPage(res, content) {
     });
 }
 
-function basicContent({ customTemplate = null, cmsPage = false } = {}) {
+function basicContent({ cmsPage = false } = {}) {
     const router = express.Router();
 
     router.get('/', injectListingContent, function (req, res, next) {
@@ -44,14 +43,11 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
 
         /**
          * Determine template to render:
-         * 1. If using a custom template defer to that
          * 2. If using the new CMS page style, use that template
          * 2. If the response has child pages then render a listing page
          * 3. Otherwise, render an information page
          */
-        if (customTemplate) {
-            res.render(customTemplate);
-        } else if (cmsPage) {
+        if (cmsPage) {
             res.render(
                 path.resolve(__dirname, './views/flexible-content-page')
             );
