@@ -9,7 +9,6 @@ module.exports = {
             { path: '/', router: require('./home') },
             { path: '/data', router: require('./data') },
             { path: '/jobs*', router: basicContent() },
-            { path: '/user', router: require('./user') },
         ],
     },
     funding: {
@@ -35,6 +34,10 @@ module.exports = {
     updates: {
         path: '/news',
         pages: [{ path: '/', router: require('./updates') }],
+    },
+    user: {
+        path: '/user',
+        router: require('./user'),
     },
     apply: {
         path: '/apply',
