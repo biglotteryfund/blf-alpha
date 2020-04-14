@@ -31,4 +31,9 @@ router.use('/programmes', require('./programmes'));
  */
 router.use('/publications', require('./publications'));
 
+/**
+ * Past grants router
+ */
+router.use('/grants', require('./grants'));
+
 module.exports = router;

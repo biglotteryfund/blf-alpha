@@ -13,9 +13,9 @@ const pick = require('lodash/pick');
 const {
     injectHeroImage,
     setHeroLocals,
-} = require('../../common/inject-content');
-const { sMaxAge } = require('../../common/cached');
-const contentApi = require('../../common/content-api');
+} = require('../../../common/inject-content');
+const { sMaxAge } = require('../../../common/cached');
+const contentApi = require('../../../common/content-api');
 
 const grantsService = require('./grants-service');
 

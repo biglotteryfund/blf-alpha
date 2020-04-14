@@ -29,10 +29,6 @@ module.exports = {
                 router: basicContent(),
             },
             {
-                path: '/grants',
-                router: require('./grants'),
-            },
-            {
                 path: '/funding-guidance/*',
                 router: basicContent(),
             },
