@@ -3,11 +3,7 @@ const path = require('path');
 const express = require('express');
 const getOr = require('lodash/fp/getOr');
 
-const {
-    setCommonLocals,
-    injectListingContent,
-} = require('../../common/inject-content');
-const contentApi = require('../../common/content-api');
+const { injectListingContent } = require('../../common/inject-content');
 
 function renderListingPage(res, content) {
     // What layout mode should we use? (eg. do all of the children have an image?)
@@ -78,48 +74,6 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
     return router;
 }
 
-function flexibleContent() {
-    const router = express.Router();
-
-    router.get('/', async function (req, res, next) {
-        try {
-            const entry = await contentApi.getFlexibleContent({
-                locale: req.i18n.getLocale(),
-                path: req.baseUrl + req.path,
-                requestParams: req.query,
-            });
-
-            if (entry) {
-                res.locals.content = entry;
-                setCommonLocals(req, res, entry);
-
-                const ancestors = getOr([], 'ancestors')(entry);
-                ancestors.forEach(function (ancestor) {
-                    res.locals.breadcrumbs.push({
-                        label: ancestor.title,
-                        url: ancestor.linkUrl,
-                    });
-                });
-
-                res.locals.breadcrumbs.push({
-                    label: entry.title,
-                });
-
-                res.render(
-                    path.resolve(__dirname, './views/flexible-content'),
-                    { flexibleContent: entry.flexibleContent }
-                );
-            } else {
-                next();
-            }
-        } catch (error) {
-            next(error);
-        }
-    });
-
-    return router;
-}
-
 function renderFlexibleContentChild(req, res, entry) {
     const breadcrumbs = entry.parent
         ? res.locals.breadcrumbs.concat([
@@ -140,6 +94,5 @@ function renderFlexibleContentChild(req, res, entry) {
 
 module.exports = {
     basicContent,
-    flexibleContent,
     renderFlexibleContentChild,
 };
