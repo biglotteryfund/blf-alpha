@@ -110,7 +110,6 @@ router.get('/:slug/:child_slug?', async function (req, res, next) {
             next();
         }
     } catch (error) {
-        console.log(error.response.statusCode);
         if (error.response.statusCode >= 500) {
             next(error);
         } else {
