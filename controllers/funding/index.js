@@ -6,7 +6,7 @@ const {
     injectHeroImage,
     injectListingContent,
 } = require('../../common/inject-content');
-const { basicContent } = require('../common');
+const { basicContent, flexibleContentPage } = require('../common');
 
 const router = express.Router();
 
@@ -78,6 +78,6 @@ router.get(
  * Wildcard handler
  * Remaining pages powered by Funding structure in the CMS
  */
-router.use('/*', basicContent({ useFlexibleContentPage: true }));
+router.use('/*', flexibleContentPage());
 
 module.exports = router;
