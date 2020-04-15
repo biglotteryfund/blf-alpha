@@ -11,6 +11,7 @@ const {
     setCommonLocals,
 } = require('../../common/inject-content');
 const { buildArchiveUrl, localify } = require('../../common/urls');
+const { basicContent } = require('../common');
 
 const router = express.Router();
 
@@ -76,6 +77,13 @@ router.get('/documents/:slug?', async function (req, res, next) {
         }
     }
 });
+
+router.use(
+    '/covid-19-resources/:slug/:child_slug?',
+    basicContent({
+        cmsPage: true,
+    })
+);
 
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
