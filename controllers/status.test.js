@@ -15,8 +15,7 @@ test('should render status endpoint', () => {
     statusHandler(req, res);
 
     expect(res._isJSON()).toBeTruthy();
-    const data = JSON.parse(res._getData());
-    expect(data).toMatchObject({
+    expect(res._getJSONData()).toMatchObject({
         APP_ENV: 'test',
         BUILD_NUMBER: 'DEV',
         DEPLOY_ID: 'DEV',
