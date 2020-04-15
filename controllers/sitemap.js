@@ -1,5 +1,4 @@
 'use strict';
-const express = require('express');
 const { createSitemap } = require('sitemap');
 const compose = require('lodash/fp/compose');
 const concat = require('lodash/fp/concat');
@@ -8,9 +7,6 @@ const uniqBy = require('lodash/fp/uniqBy');
 
 const contentApi = require('../common/content-api');
 const { getBaseUrl } = require('../common/urls');
-const { sMaxAge } = require('../common/cached');
-
-const router = express.Router();
 
 /**
  * Build a flat list of all canonical routes
@@ -60,11 +56,10 @@ async function getCanonicalRoutes() {
     return compose(sortBy('path'), uniqBy('path'))(filtered);
 }
 
-router.get('/', sMaxAge(1800), async (req, res, next) => {
+module.exports = async function (req, res, next) {
     try {
         const canonicalRoutes = await getCanonicalRoutes();
 
-        // @ts-ignore
         const sitemapInstance = createSitemap({
             hostname: getBaseUrl(req),
             urls: canonicalRoutes.map((route) => ({
@@ -78,6 +73,4 @@ router.get('/', sMaxAge(1800), async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-});
-
-module.exports = router;
+};

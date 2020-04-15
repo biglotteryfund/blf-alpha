@@ -18,7 +18,7 @@ module.exports = app;
 const appData = require('./common/appData');
 const { SENTRY_DSN } = require('./common/secrets');
 const { localify, makeWelsh } = require('./common/urls');
-const { defaultMaxAge, noStore } = require('./common/cached');
+const { defaultMaxAge, noStore, sMaxAge } = require('./common/cached');
 const cspDirectives = require('./common/csp-directives');
 const logger = require('./common/logger').child({ service: 'server' });
 
@@ -65,13 +65,13 @@ i18n.expressBind(app, {
 app.use(require('./controllers/domain-redirect'));
 
 /**
-/**
- * Metadata endpoints
+ * Single endpoints
  * Mount first before any common middleware
  */
-app.get('/status', require('./controllers/status'));
+app.get('/status', noStore, require('./controllers/status'));
 app.get('/robots.txt', noStore, require('./controllers/robots'));
-app.use('/sitemap.xml', require('./controllers/sitemap'));
+app.get('/sitemap.xml', sMaxAge(1800), require('./controllers/sitemap'));
+app.get('/search', noStore, require('./controllers/search'));
 
 /**
  * Static asset paths
@@ -156,12 +156,12 @@ app.use([
 ]);
 
 /**
- * Mount utility routes
+ * Non-localised routers
+ * Mount routers that don't need localising (internal use only)
  */
 app.use('/api', require('./controllers/api'));
 app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
-app.use('/search', require('./controllers/search'));
 
 /**
  * Handle archived paths first:
