@@ -28,8 +28,9 @@ module.exports = {
     entry: {
         head: './assets/js/head.js',
         app: [
-            'core-js/modules/es6.promise',
-            'core-js/modules/es6.array.iterator',
+            'core-js/features/promise',
+            'core-js/features/array/includes',
+            'core-js/features/array/iterator',
             './assets/js/main.js',
         ],
     },
