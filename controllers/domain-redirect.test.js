@@ -4,36 +4,24 @@
 const httpMocks = require('node-mocks-http');
 const domainRedirect = require('./domain-redirect');
 
-describe('domain redirect', () => {
-    it('should redirect old domain to new domain', () => {
-        const req = httpMocks.createRequest({
-            method: 'GET',
-            url: '/some/example/url/',
-            headers: {
-                'Host': 'apply.tnlcommunityfund.org.uk',
-                'X-Forwarded-Proto': 'https',
-            },
-        });
-
-        const res = httpMocks.createResponse();
-
-        domainRedirect(req, res, () => {});
-        expect(res.statusCode).toBe(301);
+function createRequestFor(host) {
+    return httpMocks.createRequest({
+        method: 'GET',
+        url: '/some/example/url/',
+        headers: { 'Host': host, 'X-Forwarded-Proto': 'https' },
     });
+}
 
-    it('should not redirect new domain', () => {
-        const req = httpMocks.createRequest({
-            method: 'GET',
-            url: '/some/example/url/',
-            headers: {
-                'Host': 'www.tnlcommunityfund.org.uk',
-                'X-Forwarded-Proto': 'https',
-            },
-        });
+test('should redirect old domain to new domain', () => {
+    const req = createRequestFor('apply.tnlcommunityfund.org.uk');
+    const res = httpMocks.createResponse();
+    domainRedirect(req, res, () => {});
+    expect(res.statusCode).toBe(301);
+});
 
-        const res = httpMocks.createResponse();
-
-        domainRedirect(req, res, () => {});
-        expect(res.statusCode).toBe(200);
-    });
+test('should not redirect new domain', () => {
+    const req = createRequestFor('www.tnlcommunityfund.org.uk');
+    const res = httpMocks.createResponse();
+    domainRedirect(req, res, () => {});
+    expect(res.statusCode).toBe(200);
 });
