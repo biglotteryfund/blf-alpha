@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+'use strict';
+const { stripIndents } = require('common-tags');
+const fs = require('fs');
+const path = require('path');
+
+function generateFormDocs(formBuilder, directory) {
+    const form = formBuilder();
+
+    const fieldSummary = Object.values(form.allFields)
+        .map(function (field) {
+            return stripIndents`
+                ## ${field.name}
+
+                | Rule           | Message              |
+                | -------------- | -------------------- |
+                ${field.messages
+                    .map((item) => `| ${item.type} | ${item.message} |`)
+                    .join('\n')}
+            `;
+        })
+        .join('\n\n');
+
+    const data = stripIndents`
+        # ${form.title} validation messages
+
+        ${fieldSummary}
+    `;
+
+    const filePath = path.join(directory, './validation-messages.md');
+    fs.writeFile(filePath, data, 'utf8', function (err) {
+        if (err) {
+            console.error('Error saving config', err);
+        } else {
+            const relativePath = path.relative(process.cwd(), filePath);
+            console.log(`Docs for ${form.title} written to ${relativePath}`);
+        }
+    });
+}
+
+generateFormDocs(
+    require('../controllers/apply/under10k/form'),
+    path.join(__dirname, '../controllers/apply/under10k/docs')
+);
+
+generateFormDocs(
+    require('../controllers/apply/standard-proposal/form'),
+    path.resolve(__dirname, '../controllers/apply/standard-proposal/docs')
+);
