@@ -1,12 +1,9 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const getOr = require('lodash/fp/getOr');
 
-const {
-    injectFlexibleContent,
-    injectListingContent,
-} = require('../../common/inject-content');
+const { injectListingContent } = require('../../common/inject-content');
+const logger = require('../../common/logger');
 
 function renderListingPage(res, content) {
     // What layout mode should we use? (eg. do all of the children have an image?)
@@ -27,7 +24,7 @@ function renderListingPage(res, content) {
     });
 }
 
-function basicContent({ customTemplate = null, cmsPage = false } = {}) {
+function basicContent() {
     const router = express.Router();
 
     router.get('/', injectListingContent, function (req, res, next) {
@@ -37,37 +34,28 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
             return next();
         }
 
-        const ancestors = getOr([], 'ancestors')(content);
-        ancestors.forEach(function (ancestor) {
-            res.locals.breadcrumbs.push({
-                label: ancestor.title,
-                url: ancestor.linkUrl,
+        function logLegacyContentType(type) {
+            logger.info(`Legacy content type: ${type}`, {
+                service: 'common-views',
+                url: req.url,
             });
-        });
-
-        res.locals.breadcrumbs.push({
-            label: content.title,
-        });
+        }
 
         /**
          * Determine template to render:
-         * 1. If using a custom template defer to that
-         * 2. If using the new CMS page style, use that template
-         * 2. If the response has child pages then render a listing page
-         * 3. Otherwise, render an information page
+         * 1. If the response has child pages then render a listing page
+         * 2. Otherwise, render an information page
+         * @TODO: Deprecate these templates
          */
-        if (customTemplate) {
-            res.render(customTemplate);
-        } else if (cmsPage) {
-            res.render(path.resolve(__dirname, './views/cms-page'));
-        } else if (content.children) {
-            // @TODO: Deprecate these templates in favour of CMS pages (above)
+        if (content && content.children) {
+            logLegacyContentType('listing-page');
             renderListingPage(res, content);
         } else if (
-            content.introduction ||
+            (content && content.introduction) ||
             content.segments.length > 0 ||
             content.flexibleContent.length > 0
         ) {
+            logLegacyContentType('information-page');
             res.render(path.resolve(__dirname, './views/information-page'));
         } else {
             next();
@@ -77,28 +65,14 @@ function basicContent({ customTemplate = null, cmsPage = false } = {}) {
     return router;
 }
 
-function flexibleContent() {
+function flexibleContentPage() {
     const router = express.Router();
 
-    router.get('/', injectFlexibleContent, function (req, res, next) {
-        const { content } = res.locals;
-
-        if (content) {
-            const ancestors = getOr([], 'ancestors')(content);
-            ancestors.forEach(function (ancestor) {
-                res.locals.breadcrumbs.push({
-                    label: ancestor.title,
-                    url: ancestor.linkUrl,
-                });
-            });
-
-            res.locals.breadcrumbs.push({
-                label: content.title,
-            });
-
-            res.render(path.resolve(__dirname, './views/flexible-content'), {
-                flexibleContent: content.flexibleContent,
-            });
+    router.get('/', injectListingContent, function (req, res, next) {
+        if (res.locals.content) {
+            res.render(
+                path.resolve(__dirname, './views/flexible-content-page')
+            );
         } else {
             next();
         }
@@ -108,25 +82,22 @@ function flexibleContent() {
 }
 
 function renderFlexibleContentChild(req, res, entry) {
-    const breadcrumbs = entry.parent
-        ? res.locals.breadcrumbs.concat([
-              {
-                  label: entry.parent.title,
-                  url: entry.parent.linkUrl,
-              },
-              { label: res.locals.title },
-          ])
-        : res.locals.breadcrumbs.concat({ label: res.locals.title });
+    if (entry.parent) {
+        res.locals.breadcrumbs.push({
+            label: entry.parent.title,
+            url: entry.parent.linkUrl,
+        });
+    }
 
-    res.render(path.resolve(__dirname, './views/flexible-content'), {
-        breadcrumbs: breadcrumbs,
-        flexibleContent: entry.content,
-        useFlexNext: true,
+    res.render(path.resolve(__dirname, './views/flexible-content-page'), {
+        breadcrumbs: res.locals.breadcrumbs.concat({ label: res.locals.title }),
+        // @TODO: Can we rename API responses to consistently name this flexibleContent?
+        content: { flexibleContent: entry.content },
     });
 }
 
 module.exports = {
     basicContent,
-    flexibleContent,
+    flexibleContentPage,
     renderFlexibleContentChild,
 };

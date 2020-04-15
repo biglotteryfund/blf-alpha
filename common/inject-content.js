@@ -2,6 +2,7 @@
 const moment = require('moment');
 const Sentry = require('@sentry/node');
 const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
 
 const contentApi = require('./content-api');
 const checkPreviewMode = require('./check-preview-mode');
@@ -87,25 +88,18 @@ async function injectListingContent(req, res, next) {
         if (entry) {
             res.locals.content = entry;
             setCommonLocals(req, res, entry);
-        }
 
-        next();
-    } catch (error) {
-        next(error);
-    }
-}
+            const ancestors = getOr([], 'ancestors')(entry);
+            ancestors.forEach(function (ancestor) {
+                res.locals.breadcrumbs.push({
+                    label: ancestor.title,
+                    url: ancestor.linkUrl,
+                });
+            });
 
-async function injectFlexibleContent(req, res, next) {
-    try {
-        const entry = await contentApi.getFlexibleContent({
-            locale: req.i18n.getLocale(),
-            path: req.baseUrl + req.path,
-            requestParams: req.query,
-        });
-
-        if (entry) {
-            res.locals.content = entry;
-            setCommonLocals(req, res, entry);
+            res.locals.breadcrumbs.push({
+                label: entry.title,
+            });
         }
 
         next();
@@ -115,7 +109,6 @@ async function injectFlexibleContent(req, res, next) {
 }
 
 module.exports = {
-    injectFlexibleContent,
     injectHeroImage,
     injectListingContent,
     setCommonLocals,

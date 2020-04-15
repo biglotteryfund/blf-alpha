@@ -2,8 +2,11 @@
 const path = require('path');
 const express = require('express');
 
-const { injectHeroImage } = require('../../common/inject-content');
-const { basicContent } = require('../common');
+const {
+    injectHeroImage,
+    injectListingContent,
+} = require('../../common/inject-content');
+const { basicContent, flexibleContentPage } = require('../common');
 
 const router = express.Router();
 
@@ -63,23 +66,18 @@ router.use(
  * Allows us to customise the logos page with a download UI,
  * whilst keeping introductory content in the CMS
  */
-router.use(
+router.get(
     '/managing-your-grant/promoting-your-project/download-our-logo',
-    basicContent({
-        lang: 'funding.guidance.logos',
-        customTemplate: 'static-pages/logos',
-    })
+    injectListingContent,
+    function (req, res) {
+        res.render(path.resolve(__dirname, './logos'));
+    }
 );
 
 /**
  * Wildcard handler
  * Remaining pages powered by Funding structure in the CMS
  */
-router.use(
-    '/*',
-    basicContent({
-        cmsPage: true,
-    })
-);
+router.use('/*', flexibleContentPage());
 
 module.exports = router;
