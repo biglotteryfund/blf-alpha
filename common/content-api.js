@@ -381,18 +381,6 @@ function getListingPage({ locale, path, query = {}, requestParams = {} }) {
         });
 }
 
-function getFlexibleContent({ locale, path, query = {}, requestParams = {} }) {
-    const sanitisedPath = sanitiseUrlPath(path);
-    return queryContentApi(`v1/${locale}/flexible-content`, {
-        searchParams: withPreviewParams(requestParams, {
-            ...query,
-            ...{ path: sanitisedPath },
-        }),
-    })
-        .json()
-        .then(getAttrs);
-}
-
 function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
     return queryContentApi(`v1/${locale}/project-stories/${grantId}`, {
         searchParams: withPreviewParams(requestParams, { ...query }),
@@ -437,7 +425,6 @@ module.exports = {
     getAlias,
     getProjectStory,
     getDataStats,
-    getFlexibleContent,
     getFundingProgramme,
     getFundingProgrammes,
     getRecentFundingProgrammes,
