@@ -1,12 +1,7 @@
 'use strict';
 const querystring = require('querystring');
-const express = require('express');
 
-const { noStore } = require('../common/cached');
-
-const router = express.Router();
-
-router.get('/', noStore, (req, res) => {
+module.exports = function (req, res) {
     if (req.query.q) {
         const term = querystring.escape(req.query.q);
         res.redirect(
@@ -15,6 +10,4 @@ router.get('/', noStore, (req, res) => {
     } else {
         res.redirect('/');
     }
-});
-
-module.exports = router;
+};

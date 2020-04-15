@@ -70,17 +70,6 @@ it('should 404 unknown routes', () => {
     check404('/not/a/page');
 });
 
-it('should redirect search queries to a google site search', () => {
-    cy.request({
-        url: '/search?q=This is my search query',
-        followRedirects: false,
-    }).then((response) => {
-        const expected = `https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query`;
-        expect(response.status).to.eq(302);
-        expect(response.redirectedToUrl).to.eq(expected);
-    });
-});
-
 it('should redirect archived pages to the national archives', () => {
     const urlPath = `/funding/funding-guidance/applying-for-funding/aims-and-outcomes`;
     cy.request(urlPath).then((response) => {

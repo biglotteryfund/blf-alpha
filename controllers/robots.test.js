@@ -16,12 +16,19 @@ test('should allow indexing on live domain', () => {
     const req = createRequestFor('www.tnlcommunityfund.org.uk');
     const res = httpMocks.createResponse();
     robotsHandler(req, res);
-    expect(res._getData()).toMatchSnapshot();
+    expect(res._getData()).toMatchInlineSnapshot(`
+        "user-agent: *
+        sitemap: https://www.tnlcommunityfund.org.uk/sitemap.xml"
+    `);
 });
 
 test('should block indexing on other domains', () => {
     const req = createRequestFor('apply.tnlcommunityfund.org.uk');
     const res = httpMocks.createResponse();
     robotsHandler(req, res);
-    expect(res._getData()).toMatchSnapshot();
+    expect(res._getData()).toMatchInlineSnapshot(`
+        "user-agent: *
+        sitemap: https://apply.tnlcommunityfund.org.uk/sitemap.xml
+        disallow: /"
+    `);
 });
