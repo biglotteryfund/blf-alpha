@@ -2,14 +2,16 @@
 
 This document provides a high-level overview of each question that is asked on the "Apply for funding under £10,000" form.
 
+People can answer the questions in any order they like. Some questions depend on others (e.g. the country determines how long we need to asses your application) but for the most part you can answer in any order.
+
 ## Project details
 
 We ask for the following project details:
 
 -   **Project name:** Required field. No more than 80 characters (Salesforce limit)
 -   **Project country:** e.g. England, Scotland, Northern Ireland, Wales
--   **Project location:** The options provided are dependent on the project country.
--   **Project location description:** Free text description of the location
+-   **Project location:** Asks where the project mainly takes place e.g. West Midlands. The options provided are dependent on the project country.
+-   **Project location description:** Allows the customer to also describe the location of the project in their own words.
 -   **Project postcode:** Must be a valid postcode
 
 ## Project dates
@@ -122,7 +124,7 @@ We ask for the following bank account details:
 ## Bank statement
 
 -   Required field
--   Must be either a **PNG**, **JPEG**, or **PDF**
+-   Must be either a **PNG** image, **JPEG** image, or **PDF** file
 -   File-size must be under **12 MB**
 
 ## Terms and conditions
