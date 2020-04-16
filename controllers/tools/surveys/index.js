@@ -6,7 +6,6 @@ const concat = require('lodash/concat');
 const groupBy = require('lodash/groupBy');
 const maxBy = require('lodash/maxBy');
 const minBy = require('lodash/minBy');
-const partition = require('lodash/partition');
 const times = require('lodash/times');
 
 const { SurveyAnswer } = require('../../../db/models');
@@ -14,6 +13,7 @@ const { sanitise } = require('../../../common/sanitise');
 
 const csvSummary = require('./lib/csv-summary');
 const pageCountsFor = require('./lib/page-counts');
+const percentagesFor = require('./lib/percentages');
 
 const router = express.Router();
 
@@ -57,23 +57,6 @@ function voteDataFor(responses) {
     });
 }
 
-function recentStatsFor(responses) {
-    const recentResponses = responses.filter((response) => {
-        const startDt = moment().subtract('30', 'days');
-        return moment(response.createdAt).isSameOrAfter(startDt, 'day');
-    });
-
-    const [monthYes, monthNo] = partition(recentResponses, ['choice', 'yes']);
-
-    return {
-        yesCount: monthYes.length,
-        noCount: monthNo.length,
-        percentage: Math.round(
-            (monthYes.length / recentResponses.length) * 100
-        ),
-    };
-}
-
 router.get('/', async function (req, res, next) {
     try {
         const responses = await SurveyAnswer.findAllByPath(
@@ -83,10 +66,15 @@ router.get('/', async function (req, res, next) {
         if (req.query.download && req.query.path && responses.length > 0) {
             res.attachment(`surveyResponses.csv`).send(csvSummary(responses));
         } else {
+            const recentResponses = responses.filter(function (response) {
+                const startDt = moment().subtract('30', 'days');
+                return moment(response.createdAt).isSameOrAfter(startDt, 'day');
+            });
+
             const survey = {
                 totalResponses: responses.length,
                 voteData: voteDataFor(responses),
-                recentStats: recentStatsFor(responses),
+                recentStats: percentagesFor(recentResponses),
                 pageCounts: pageCountsFor(responses),
                 pageCountsWithResponses: pageCountsFor(
                     responses.filter((response) => response.message)
