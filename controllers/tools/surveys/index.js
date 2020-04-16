@@ -4,7 +4,6 @@ const express = require('express');
 const moment = require('moment');
 const concat = require('lodash/concat');
 const countBy = require('lodash/countBy');
-const filter = require('lodash/filter');
 const groupBy = require('lodash/groupBy');
 const map = require('lodash/map');
 const maxBy = require('lodash/maxBy');
@@ -36,7 +35,7 @@ function voteDataFor(responses) {
         .startOf('day')
         .diff(oldestResponseDate.startOf('day'), 'days');
 
-    const voteData = times(daysInRange, function (n) {
+    return times(daysInRange, function (n) {
         const key = oldestResponseDate
             .clone()
             .add(n, 'days')
@@ -57,8 +56,6 @@ function voteDataFor(responses) {
             y: yesPercentageForDay,
         };
     });
-
-    return voteData;
 }
 
 function recentStatsFor(responses) {
@@ -90,38 +87,25 @@ function pageCountsFor(responses) {
 }
 
 router.get('/', async function (req, res, next) {
-    if (req.query.download && req.query.path) {
-        try {
-            const responses = await SurveyAnswer.findAllByPath(
-                sanitise(req.query.path)
-            );
-            if (responses.length > 0) {
-                res.attachment(`surveyResponses.csv`).send(
-                    csvSummary(responses)
-                );
-            } else {
-                next();
-            }
-        } catch (error) {
-            next(error);
-        }
-    } else {
-        try {
-            const responses = await SurveyAnswer.findAllByPath(
-                sanitise(req.query.path)
-            );
+    try {
+        const responses = await SurveyAnswer.findAllByPath(
+            sanitise(req.query.path)
+        );
 
+        if (req.query.download && req.query.path && responses.length > 0) {
+            res.attachment(`surveyResponses.csv`).send(csvSummary(responses));
+        } else {
             const survey = {
                 totalResponses: responses.length,
                 voteData: voteDataFor(responses),
                 recentStats: recentStatsFor(responses),
                 pageCounts: pageCountsFor(responses),
                 pageCountsWithResponses: pageCountsFor(
-                    responses.filter((response) => {
-                        return response.message;
-                    })
+                    responses.filter((response) => response.message)
                 ),
-                noResponses: filter(responses, ['choice', 'no']),
+                noResponses: responses.filter(
+                    (response) => response.choice === 'no'
+                ),
             };
 
             const title = 'Surveys';
@@ -135,9 +119,9 @@ router.get('/', async function (req, res, next) {
                 survey: survey,
                 pathQuery: req.query.path,
             });
-        } catch (error) {
-            next(error);
         }
+    } catch (error) {
+        next(error);
     }
 });
 
