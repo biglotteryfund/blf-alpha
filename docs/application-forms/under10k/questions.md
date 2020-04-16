@@ -126,6 +126,7 @@ We ask for the following bank account details:
 -   Required field
 -   Must be either a **PNG** image, **JPEG** image, or **PDF** file
 -   File-size must be under **12 MB**
+-   Scanned for viruses at the point of upload
 
 ## Terms and conditions
 
