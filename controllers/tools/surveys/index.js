@@ -3,10 +3,6 @@ const path = require('path');
 const express = require('express');
 const moment = require('moment');
 const concat = require('lodash/concat');
-const groupBy = require('lodash/groupBy');
-const maxBy = require('lodash/maxBy');
-const minBy = require('lodash/minBy');
-const times = require('lodash/times');
 
 const { SurveyAnswer } = require('../../../db/models');
 const { sanitise } = require('../../../common/sanitise');
@@ -14,48 +10,9 @@ const { sanitise } = require('../../../common/sanitise');
 const csvSummary = require('./lib/csv-summary');
 const pageCountsFor = require('./lib/page-counts');
 const percentagesFor = require('./lib/percentages');
+const voteDataFor = require('./lib/vote-data');
 
 const router = express.Router();
-
-function voteDataFor(responses) {
-    if (responses.length === 0) {
-        return [];
-    }
-
-    const grouped = groupBy(responses, function (response) {
-        return moment(response.createdAt).format('YYYY-MM-DD');
-    });
-
-    const newestResponse = maxBy(responses, (response) => response.createdAt);
-    const oldestResponse = minBy(responses, (response) => response.createdAt);
-    const oldestResponseDate = moment(oldestResponse.createdAt);
-
-    const daysInRange = moment(newestResponse.createdAt)
-        .startOf('day')
-        .diff(oldestResponseDate.startOf('day'), 'days');
-
-    return times(daysInRange, function (n) {
-        const key = oldestResponseDate
-            .clone()
-            .add(n, 'days')
-            .format('YYYY-MM-DD');
-
-        const responsesForDay = grouped[key] || [];
-
-        const yesResponsesForDay = responsesForDay.filter(function (response) {
-            return response.choice === 'yes';
-        });
-
-        const yesPercentageForDay = Math.round(
-            (yesResponsesForDay.length / responsesForDay.length) * 100
-        );
-
-        return {
-            x: key,
-            y: yesPercentageForDay,
-        };
-    });
-}
 
 router.get('/', async function (req, res, next) {
     try {
