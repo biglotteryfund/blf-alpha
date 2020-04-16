@@ -29,7 +29,6 @@ module.exports = {
         head: './assets/js/head.js',
         app: [
             'core-js/features/promise',
-            'core-js/features/array/includes',
             'core-js/features/array/iterator',
             './assets/js/main.js',
         ],
