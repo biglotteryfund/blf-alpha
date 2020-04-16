@@ -12,36 +12,12 @@ const minBy = require('lodash/minBy');
 const orderBy = require('lodash/orderBy');
 const partition = require('lodash/partition');
 const times = require('lodash/times');
-const { sanitise } = require('../../../common/sanitise');
-const { parse } = require('json2csv');
 
 const { SurveyAnswer } = require('../../../db/models');
+const { sanitise } = require('../../../common/sanitise');
+const csvSummary = require('./lib/csv-summary');
 
 const router = express.Router();
-
-async function renderDownload(req, res, next) {
-    const responses = await SurveyAnswer.findAllByPath(
-        sanitise(req.query.path)
-    );
-
-    if (responses.length > 0) {
-        const preparedResults = responses
-            .filter((item) => item.message)
-            .map((item) => {
-                return {
-                    'Date': item.createdAt.toISOString(),
-                    'Date description': moment(item.createdAt)
-                        .tz('Europe/London')
-                        .format('D MMMM, YYYY h:ma'),
-                    'Message': item.message,
-                };
-            });
-
-        res.attachment(`surveyResponses.csv`).send(parse(preparedResults));
-    } else {
-        next();
-    }
-}
 
 function voteDataFor(responses) {
     if (responses.length === 0) {
@@ -113,16 +89,27 @@ function pageCountsFor(responses) {
     );
 }
 
-router.get('/', async (req, res, next) => {
-    if (req.query.download) {
+router.get('/', async function (req, res, next) {
+    if (req.query.download && req.query.path) {
         try {
-            await renderDownload(req, res, next);
+            const responses = await SurveyAnswer.findAllByPath(
+                sanitise(req.query.path)
+            );
+            if (responses.length > 0) {
+                res.attachment(`surveyResponses.csv`).send(
+                    csvSummary(responses)
+                );
+            } else {
+                next();
+            }
         } catch (error) {
             next(error);
         }
     } else {
         try {
-            const responses = await SurveyAnswer.findAllByPath(req.query.path);
+            const responses = await SurveyAnswer.findAllByPath(
+                sanitise(req.query.path)
+            );
 
             const survey = {
                 totalResponses: responses.length,
