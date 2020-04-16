@@ -12,10 +12,10 @@ const minBy = require('lodash/minBy');
 const orderBy = require('lodash/orderBy');
 const partition = require('lodash/partition');
 const times = require('lodash/times');
-const { sanitise } = require('../../common/sanitise');
+const { sanitise } = require('../../../common/sanitise');
 const { parse } = require('json2csv');
 
-const { SurveyAnswer } = require('../../db/models');
+const { SurveyAnswer } = require('../../../db/models');
 
 const router = express.Router();
 
