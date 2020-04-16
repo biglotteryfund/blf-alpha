@@ -3,7 +3,8 @@
 ## How applications work
 
 -   Applications require an account on our website.
--   A pending application must be completed within **3 months**. We send a reminder email **30 days**, **7 days** and **1 day** before the application expires after which the pending application is deleted. People can unsubscribe from these emails on a per-application basis.
+-   A pending application must be completed within **3 months**. We send a reminder email **30 days**, **7 days** and **1 day** before the application expires after which we delete the pending application. People can unsubscribe from these emails on a per-application basis.
+-   People have **two hours** to complete each page before being logged out. From the time they first load a page the have two hours before we automatically log them out for security reasons. Each time they take an action on the page, eg. typing or clicking something, we reset the timer, but there is no activicty for two hours they’ll be logged out.
 -   We don't limit the number of pending applications in progress at any one time.
 
 ## Apply for funding under £10,000
