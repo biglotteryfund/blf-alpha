@@ -3,18 +3,17 @@ const path = require('path');
 const express = require('express');
 const moment = require('moment');
 const concat = require('lodash/concat');
-const countBy = require('lodash/countBy');
 const groupBy = require('lodash/groupBy');
-const map = require('lodash/map');
 const maxBy = require('lodash/maxBy');
 const minBy = require('lodash/minBy');
-const orderBy = require('lodash/orderBy');
 const partition = require('lodash/partition');
 const times = require('lodash/times');
 
 const { SurveyAnswer } = require('../../../db/models');
 const { sanitise } = require('../../../common/sanitise');
+
 const csvSummary = require('./lib/csv-summary');
+const pageCountsFor = require('./lib/page-counts');
 
 const router = express.Router();
 
@@ -73,17 +72,6 @@ function recentStatsFor(responses) {
             (monthYes.length / recentResponses.length) * 100
         ),
     };
-}
-
-function pageCountsFor(responses) {
-    return orderBy(
-        map(countBy(responses, 'path'), (val, key) => ({
-            path: key,
-            count: val,
-        })),
-        'count',
-        'desc'
-    );
 }
 
 router.get('/', async function (req, res, next) {
