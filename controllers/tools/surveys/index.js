@@ -2,7 +2,6 @@
 const path = require('path');
 const express = require('express');
 const moment = require('moment');
-const concat = require('lodash/concat');
 
 const { SurveyAnswer } = require('../../../db/models');
 const { sanitise } = require('../../../common/sanitise');
@@ -28,28 +27,22 @@ router.get('/', async function (req, res, next) {
                 return moment(response.createdAt).isSameOrAfter(startDt, 'day');
             });
 
-            const survey = {
-                totalResponses: responses.length,
-                voteData: voteDataFor(responses),
-                recentStats: percentagesFor(recentResponses),
-                pageCounts: pageCountsFor(responses),
-                pageCountsWithResponses: pageCountsFor(
-                    responses.filter((response) => response.message)
-                ),
-                noResponses: responses.filter(
-                    (response) => response.choice === 'no'
-                ),
-            };
-
             const title = 'Surveys';
-            const breadcrumbs = concat(res.locals.breadcrumbs, [
-                { label: title },
-            ]);
-
             res.render(path.resolve(__dirname, './views/survey'), {
                 title: title,
-                breadcrumbs: breadcrumbs,
-                survey: survey,
+                breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
+                survey: {
+                    totalResponses: responses.length,
+                    voteData: voteDataFor(responses),
+                    recentStats: percentagesFor(recentResponses),
+                    pageCounts: pageCountsFor(responses),
+                    pageCountsWithResponses: pageCountsFor(
+                        responses.filter((response) => response.message)
+                    ),
+                    noResponses: responses.filter(
+                        (response) => response.choice === 'no'
+                    ),
+                },
                 pathQuery: req.query.path,
             });
         }
