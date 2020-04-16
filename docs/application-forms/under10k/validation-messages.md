@@ -32,7 +32,7 @@
 | -------------- | -------------------- |
 | any.invalid | Enter a real date |
 | base | Enter a project start date |
-| dateParts.minDate | Date you start the project must be on or after 19 08 2020 |
+| dateParts.minDate | Date you start the project must be on or after 20 08 2020 |
 
 ## projectEndDate
 

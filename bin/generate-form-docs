@@ -40,10 +40,10 @@ function generateFormDocs(formBuilder, directory) {
 
 generateFormDocs(
     require('../controllers/apply/under10k/form'),
-    path.join(__dirname, '../controllers/apply/under10k/docs')
+    path.join(__dirname, '../docs/application-forms/under10k')
 );
 
 generateFormDocs(
     require('../controllers/apply/standard-proposal/form'),
-    path.resolve(__dirname, '../controllers/apply/standard-proposal/docs')
+    path.resolve(__dirname, '../docs/application-forms/standard-proposal')
 );
