@@ -339,8 +339,6 @@ function initFormRouter({
                     );
 
                     res.locals.currentApplication = currentApplication;
-                    res.locals.currentApplicationData = currentApplicationData;
-
                     res.locals.currentApplicationData = transformFunction
                         ? transformFunction(currentApplicationData)
                         : currentApplicationData;
