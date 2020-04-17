@@ -242,11 +242,8 @@ forEach(sections, function (section, sectionId) {
     /**
      * Mount each section under both English and Welsh paths.
      */
-    app.use(
-        [section.path, makeWelsh(section.path)],
-        sectionLocals,
-        section.router
-    );
+    app.use(section.path, sectionLocals, section.router);
+    app.use(makeWelsh(section.path), sectionLocals, section.router);
 });
 
 /**
