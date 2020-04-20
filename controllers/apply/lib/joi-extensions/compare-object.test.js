@@ -26,5 +26,12 @@ test('compare equality of two objects by reference', () => {
             exampleA: { a: 'these', b: 'match' },
             exampleB: { a: 'these', b: 'match' },
         }).error.message
-    ).toContain('Objects must not match');
+    ).toContain('Object values must not match');
+
+    expect(
+        schema.validate({
+            exampleA: { a: ' cAsE ', b: ' INSensiTive' },
+            exampleB: { a: ' caSE   ', b: ' inSeNsiTIVE' },
+        }).error.message
+    ).toContain('Object values must not match');
 });

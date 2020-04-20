@@ -6,7 +6,7 @@ module.exports = function (joi) {
         base: joi.object(),
         name: 'object',
         language: {
-            isEqual: 'Objects must not match',
+            isEqual: 'Object values must not match',
         },
         rules: [
             {
@@ -15,12 +15,27 @@ module.exports = function (joi) {
                     ref: joi.func().ref(),
                 },
                 validate(params, value, state, options) {
-                    const refVal = params.ref(
+                    const referenceValue = params.ref(
                         state.reference || state.parent,
                         options
                     );
 
-                    if (isEqual(refVal, value) === true) {
+                    /**
+                     * Convert object values to an array of normalised strings
+                     * Assumes a constraint that object only contains strings.
+                     * @param value
+                     * @returns {string}
+                     */
+                    function normalise(value) {
+                        return value.toString().toLowerCase().trim();
+                    }
+
+                    if (
+                        isEqual(
+                            Object.values(value).map(normalise),
+                            Object.values(referenceValue).map(normalise)
+                        ) === true
+                    ) {
                         return this.createError(
                             'object.isEqual',
                             { v: value },
