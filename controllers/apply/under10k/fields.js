@@ -12,8 +12,8 @@ const DateField = require('../lib/field-types/date');
 const PhoneField = require('../lib/field-types/phone');
 const NameField = require('../lib/field-types/name');
 const RadioField = require('../lib/field-types/radio');
+const AddressField = require('../lib/field-types/address');
 
-const fieldAddress = require('./fields/address');
 const fieldBankAccountName = require('./fields/bank-account-name');
 const fieldBankAccountNumber = require('./fields/bank-account-number');
 const fieldBankSortCode = require('./fields/bank-sort-code');
@@ -1192,7 +1192,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ],
         }),
         organisationStartDate: fieldOrganisationStartDate(locale),
-        organisationAddress: fieldAddress(locale, {
+        organisationAddress: new AddressField({
+            locale: locale,
             name: 'organisationAddress',
             label: localise({
                 en: `What is the main or registered address of your organisation?`,
@@ -1368,26 +1369,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             'mainContactDateOfBirth',
             MIN_AGE_MAIN_CONTACT
         ),
-        mainContactAddress: fieldAddress(
-            locale,
-            {
-                name: 'mainContactAddress',
-                label: localise({
-                    en: 'Home address',
-                    cy: 'Cyfeiriad cartref',
-                }),
-                explanation: localise({
-                    en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                    cy:
-                        'Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.',
-                }),
-                schema: stripIfExcludedOrgType(
-                    Joi.ukAddress()
-                        .required()
-                        .compare(Joi.ref('seniorContactAddress'))
-                ),
-            },
-            [
+        mainContactAddress: new AddressField({
+            locale: locale,
+            name: 'mainContactAddress',
+            label: localise({
+                en: 'Home address',
+                cy: 'Cyfeiriad cartref',
+            }),
+            explanation: localise({
+                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                cy: `Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
+            }),
+            schema: stripIfExcludedOrgType(
+                Joi.ukAddress()
+                    .required()
+                    .compare(Joi.ref('seniorContactAddress'))
+            ),
+            messages: [
                 {
                     type: 'object.isEqual',
                     message: localise({
@@ -1395,8 +1393,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: `Rhaid i gyfeiriad y prif gyswllt fod yn wahanol i gyfeiriad yr uwch gyswllt`,
                     }),
                 },
-            ]
-        ),
+            ],
+        }),
         mainContactAddressHistory: addressHistoryField({
             name: 'mainContactAddressHistory',
             label: localise({
@@ -1485,25 +1483,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             'seniorContactDateOfBirth',
             MIN_AGE_SENIOR_CONTACT
         ),
-        seniorContactAddress: fieldAddress(
-            locale,
-            {
-                name: 'seniorContactAddress',
-                label: localise({
-                    en: 'Home address',
-                    cy: 'Cyfeiriad cartref',
-                }),
-                explanation: localise({
-                    en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                    cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
-                }),
-                schema: stripIfExcludedOrgType(
-                    Joi.ukAddress()
-                        .required()
-                        .compare(Joi.ref('mainContactAddress'))
-                ),
-            },
-            [
+        seniorContactAddress: new AddressField({
+            locale: locale,
+            name: 'seniorContactAddress',
+            label: localise({
+                en: 'Home address',
+                cy: 'Cyfeiriad cartref',
+            }),
+            explanation: localise({
+                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
+            }),
+            schema: stripIfExcludedOrgType(
+                Joi.ukAddress()
+                    .required()
+                    .compare(Joi.ref('mainContactAddress'))
+            ),
+            messages: [
                 {
                     type: 'object.isEqual',
                     message: localise({
@@ -1511,8 +1507,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: `Rhaid i gyfeiriad e-bost yr uwch gyswllt fod yn wahanol i gyfeiriad e-bost y prif gyswllt.`,
                     }),
                 },
-            ]
-        ),
+            ],
+        }),
         seniorContactAddressHistory: addressHistoryField({
             name: 'seniorContactAddressHistory',
             label: localise({

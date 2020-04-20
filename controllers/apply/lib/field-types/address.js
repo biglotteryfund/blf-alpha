@@ -19,13 +19,7 @@ class AddressField extends Field {
     }
 
     defaultSchema() {
-        return Joi.object({
-            line1: Joi.string().max(255).required(),
-            line2: Joi.string().allow('').max(255).optional(),
-            townCity: Joi.string().max(40).required(),
-            county: Joi.string().allow('').max(80).optional(),
-            postcode: Joi.string().postcode().required(),
-        }).required();
+        return Joi.ukAddress().required();
     }
 
     defaultMessages() {
