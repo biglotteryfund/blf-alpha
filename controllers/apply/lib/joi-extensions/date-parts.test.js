@@ -1,8 +1,7 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./date-parts'));
+const Joi = require('./index');
 
 test('valid date', function () {
     [

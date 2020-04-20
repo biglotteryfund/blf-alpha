@@ -1,7 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./compare-object'));
+const Joi = require('./index');
 
 const objectSchema = Joi.object({
     a: Joi.string().required(),

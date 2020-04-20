@@ -1,8 +1,7 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./day-month'));
+const Joi = require('./index');
 
 test('valid day-month', () => {
     const schema = Joi.dayMonth();

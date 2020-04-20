@@ -1,8 +1,6 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./postcode'));
+const Joi = require('./index');
 
 test('valid postcodes', () => {
     const schema = Joi.string().postcode();
