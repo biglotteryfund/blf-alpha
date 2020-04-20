@@ -6,10 +6,8 @@ const Field = require('./field');
 class CurrencyField extends Field {
     constructor(props) {
         super(props);
-
         this.minAmount = props.minAmount;
-
-        this.schema = props.schema ? props.schema : this.defaultSchema();
+        this.schema = this.withCustomSchema(props.schema);
     }
 
     getType() {

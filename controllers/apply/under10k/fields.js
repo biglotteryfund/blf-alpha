@@ -1351,9 +1351,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
                 return result;
             },
-            schema: Joi.fullName()
-                .compare(Joi.ref('seniorContactName'))
-                .required(),
+            schema(originalSchema) {
+                return originalSchema.compare(Joi.ref('seniorContactName'));
+            },
             messages: [
                 {
                     type: 'object.isEqual',
@@ -1468,9 +1468,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'This person has to live in the UK.',
                 cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
             }),
-            schema: Joi.fullName()
-                .compare(Joi.ref('mainContactName'))
-                .required(),
+            schema(originalSchema) {
+                return originalSchema.compare(Joi.ref('mainContactName'));
+            },
             messages: [
                 {
                     type: 'object.isEqual',

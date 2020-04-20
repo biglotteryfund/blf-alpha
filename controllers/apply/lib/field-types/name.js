@@ -10,8 +10,8 @@ class NameField extends Field {
 
     defaultSchema() {
         return Joi.object({
-            firstName: Joi.string().max(40).required(),
-            lastName: Joi.string().max(80).required(),
+            firstName: Joi.string().trim().max(40).required(),
+            lastName: Joi.string().trim().max(80).required(),
         }).required();
     }
 

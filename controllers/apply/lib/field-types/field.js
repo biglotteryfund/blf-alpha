@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const isFunction = require('lodash/isFunction');
 const Joi = require('../joi-extensions');
 
 class Field {
@@ -43,7 +44,8 @@ class Field {
         this.isRequired = props.isRequired !== false;
 
         this._maxLength = props.maxLength || 255;
-        this.schema = props.schema ? props.schema : this.defaultSchema();
+
+        this.schema = this.withCustomSchema(props.schema);
 
         // @TODO Should this merge based on key rather than a plain concat?
         this.messages = this.defaultMessages().concat(props.messages || []);
@@ -73,6 +75,16 @@ class Field {
      */
     defaultLabel() {
         return null;
+    }
+
+    withCustomSchema(customSchema) {
+        if (customSchema) {
+            return isFunction(customSchema)
+                ? customSchema(this.defaultSchema())
+                : customSchema;
+        } else {
+            return this.defaultSchema();
+        }
     }
 
     /**
