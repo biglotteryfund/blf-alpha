@@ -34,10 +34,14 @@ const fieldProjectPostcode = require('./fields/project-postcode');
 const fieldProjectStartDate = require('./fields/project-start-date');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
-const fieldTotalIncomeYear = require('./fields/total-income-year');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
+
+const {
+    fieldAccountingYearDate,
+    fieldTotalIncomeYear,
+} = require('./fields/organisation-finances');
 
 const {
     BENEFICIARY_GROUPS,
@@ -1281,40 +1285,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         companyNumber: fieldCompanyNumber(locale),
         charityNumber: fieldCharityNumber(locale, data),
         educationNumber: fieldEducationNumber(locale),
-        accountingYearDate: {
-            name: 'accountingYearDate',
-            label: localise({
-                en: 'What is your accounting year end date?',
-                cy: 'Beth yw eich dyddiad gorffen blwyddyn ariannol?',
-            }),
-            explanation: localise({
-                en: `<p><strong>For example: 31 03</strong></p>`,
-                cy: '<p><strong>Er enghraifft: 31 03</strong></p>',
-            }),
-            type: 'day-month',
-            isRequired: true,
-            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
-                is: true,
-                then: Joi.dayMonth().required(),
-                otherwise: Joi.any().strip(),
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a day and month',
-                        cy: 'Rhowch ddiwrnod a mis',
-                    }),
-                },
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: 'Enter a real day and month',
-                        cy: 'Rhowch ddiwrnod a mis go iawn',
-                    }),
-                },
-            ],
-        },
+        accountingYearDate: fieldAccountingYearDate(locale),
         totalIncomeYear: fieldTotalIncomeYear(locale),
         mainContactName: new NameField({
             locale: locale,
