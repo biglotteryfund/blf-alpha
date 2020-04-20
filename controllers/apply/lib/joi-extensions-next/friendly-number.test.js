@@ -1,9 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const baseJoi = require('@hapi/joiNext');
-const Joi = baseJoi.extend(require('./friendly-number'));
-
-const schema = Joi.friendlyNumber().required();
+const Joi = require('./index');
 
 test('allow comma separated values for numbers', () => {
     const valid = [
@@ -13,7 +10,7 @@ test('allow comma separated values for numbers', () => {
         ['21,500.50', 21500.5],
     ];
     valid.forEach(function ([input, expected]) {
-        const result = schema.validate(input);
+        const result = Joi.friendlyNumber().required().validate(input);
         expect(result.value).toEqual(expected);
         expect(result.error).toBeUndefined();
     });
