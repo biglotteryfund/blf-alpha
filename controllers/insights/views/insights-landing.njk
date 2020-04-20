@@ -10,6 +10,14 @@
         <div class="nudge-up">
             {% call contentBox() %}
                 {{ __('insights.intro') | safe }}
+                <div class="o-button-group-flex">
+                    <a class="btn btn--medium" href="{{ localify('/insights/documents') }}">
+                        {{ __('insights.evidenceLibrary') }}
+                    </a>
+                    <a class="btn btn--medium" href="{{ localify('/insights/covid-19-resources/responding-to-covid-19') }}">
+                        {{  __('insights.covidInsights') }}
+                    </a>
+                </div>
             {% endcall %}
 
             <section class="u-inner-wide-only u-margin-bottom">
@@ -23,11 +31,8 @@
             </section>
 
             <section class="u-align-center u-margin-bottom-l">
-                <a class="btn btn--medium" href="{{ researchArchiveUrl }}">
+                <a class="btn btn--medium btn--outline" href="{{ researchArchiveUrl }}">
                     {{ __('insights.moreLinkText') }}
-                </a>
-                <a class="btn btn--medium" href="{{ localify('/insights/documents') }}">
-                    {{ __('insights.evidenceLibrary') }}
                 </a>
             </section>
         </div>
