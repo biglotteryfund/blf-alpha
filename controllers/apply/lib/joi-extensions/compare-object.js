@@ -3,6 +3,18 @@ const isEqual = require('lodash/isEqual');
 const isObject = require('lodash/isObject');
 const sortBy = require('lodash/sortBy');
 
+/**
+ * Convert object values to an array of normalised strings
+ * Assumes a constraint that object only contains strings.
+ */
+function normaliseValues(sourceObject) {
+    return sortBy(
+        Object.values(sourceObject).map(function (value) {
+            return value.toString().toLowerCase().trim();
+        })
+    );
+}
+
 module.exports = function (joi) {
     return {
         base: joi.object(),
@@ -22,34 +34,20 @@ module.exports = function (joi) {
                         options
                     );
 
-                    /**
-                     * Convert object values to an array of normalised strings
-                     * Assumes a constraint that object only contains strings.
-                     * @param value
-                     * @returns {string}
-                     */
-                    function normalise(value) {
-                        return value.toString().toLowerCase().trim();
-                    }
-
-                    if (isObject(value) && isObject(referenceValue)) {
-                        if (
-                            isEqual(
-                                sortBy(Object.values(value).map(normalise)),
-                                sortBy(
-                                    Object.values(referenceValue).map(normalise)
-                                )
-                            ) === true
-                        ) {
-                            return this.createError(
-                                'object.isEqual',
-                                { v: value },
-                                state,
-                                options
-                            );
-                        } else {
-                            return value;
-                        }
+                    if (
+                        isObject(value) &&
+                        isObject(referenceValue) &&
+                        isEqual(
+                            normaliseValues(value),
+                            normaliseValues(referenceValue)
+                        ) === true
+                    ) {
+                        return this.createError(
+                            'object.isEqual',
+                            { v: value },
+                            state,
+                            options
+                        );
                     } else {
                         return value;
                     }
