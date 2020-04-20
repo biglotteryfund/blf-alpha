@@ -20,7 +20,6 @@ module.exports = function wordCount(joi) {
                 args: [
                     {
                         name: 'max',
-                        ref: true,
                         assert: joi.number().integer().min(0).required(),
                         message: 'must be a number',
                     },
@@ -45,7 +44,6 @@ module.exports = function wordCount(joi) {
                 args: [
                     {
                         name: 'min',
-                        ref: true,
                         assert: joi.number().integer().min(0).required(),
                         message: 'must be a number',
                     },
