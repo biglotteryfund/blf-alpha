@@ -11,7 +11,7 @@ module.exports = baseJoi.extend(
     // require('./full-name'),
     // require('./month-year'),
     require('./phone-number'),
-    require('./postcode')
+    require('./postcode'),
     // require('./uk-address'),
-    // require('./word-count'),
+    require('./word-count')
 );
