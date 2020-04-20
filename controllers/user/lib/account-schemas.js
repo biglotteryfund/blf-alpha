@@ -1,5 +1,5 @@
 'use strict';
-const baseJoi = require('@hapi/joi16');
+const baseJoi = require('@hapi/joiNext');
 const Joi = baseJoi.extend(require('./password-strength'));
 
 const MIN_PASSWORD_LENGTH = 10;
