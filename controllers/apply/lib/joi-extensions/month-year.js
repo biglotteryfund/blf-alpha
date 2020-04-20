@@ -2,13 +2,13 @@
 const toInteger = require('lodash/toInteger');
 const moment = require('moment');
 
-const valueToDate = (value) => {
+function valueToDate(value) {
     return moment({
         year: toInteger(value.year),
         month: toInteger(value.month) - 1,
         day: 1,
     });
-};
+}
 
 module.exports = function (joi) {
     return {
@@ -49,25 +49,6 @@ module.exports = function (joi) {
                             options
                         );
                     }
-                },
-            },
-            {
-                name: 'minTimeAgo',
-                params: {
-                    amount: joi.number().required(),
-                    units: joi.string().required(),
-                },
-                /* eslint-disable-next-line no-unused-vars */
-                validate(params, value, state, options) {
-                    const minDate = moment().subtract(
-                        params.amount,
-                        params.units
-                    );
-                    const isBeforeMin = valueToDate(value).isSameOrBefore(
-                        minDate
-                    );
-                    value.isBeforeMin = isBeforeMin;
-                    return value;
                 },
             },
         ],

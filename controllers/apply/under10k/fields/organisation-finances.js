@@ -4,9 +4,10 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
 const { CurrencyField } = require('../../lib/field-types');
+const isNewOrganisation = require('../lib/new-organisation');
 
 module.exports = {
-    fieldAccountingYearDate(locale) {
+    fieldAccountingYearDate(locale, data) {
         const localise = get(locale);
 
         return {
@@ -21,11 +22,9 @@ module.exports = {
             }),
             type: 'day-month',
             isRequired: true,
-            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
-                is: true,
-                then: Joi.dayMonth().required(),
-                otherwise: Joi.any().strip(),
-            }),
+            schema: isNewOrganisation(data.organisationStartDate)
+                ? Joi.any().strip()
+                : Joi.dayMonth().required(),
             messages: [
                 {
                     type: 'base',
@@ -44,7 +43,7 @@ module.exports = {
             ],
         };
     },
-    fieldTotalIncomeYear(locale) {
+    fieldTotalIncomeYear(locale, data) {
         const localise = get(locale);
 
         return new CurrencyField({
@@ -58,11 +57,9 @@ module.exports = {
                 en: 'Use whole numbers only, eg. 12000',
                 cy: 'Defnyddiwch rifau cyflawn yn unig, e.e. 12000',
             }),
-            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
-                is: true,
-                then: Joi.friendlyNumber().integer().required(),
-                otherwise: Joi.any().strip(),
-            }),
+            schema: isNewOrganisation(data.organisationStartDate)
+                ? Joi.any().strip()
+                : Joi.friendlyNumber().integer().required(),
             messages: [
                 {
                     type: 'base',

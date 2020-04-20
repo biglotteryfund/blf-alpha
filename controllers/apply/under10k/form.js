@@ -9,10 +9,17 @@ const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const { safeHtml, oneLine } = require('common-tags');
 
+const { isTestServer } = require('../../../common/appData');
+
+const fromDateParts = require('../lib/from-date-parts');
 const { FormModel } = require('../lib/form-model');
 const { Step } = require('../lib/step-model');
-const fromDateParts = require('../lib/from-date-parts');
 const { formatDateRange } = require('../lib/formatters');
+
+const { getContactFullName } = require('./lib/contacts');
+const { checkBankAccountDetails } = require('./lib/bank-api');
+const isNewOrganisation = require('./lib/new-organisation');
+
 const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
@@ -24,10 +31,6 @@ const {
 
 const fieldsFor = require('./fields');
 const terms = require('./terms');
-const { getContactFullName } = require('./lib/contacts');
-
-const { isTestServer } = require('../../../common/appData');
-const { checkBankAccountDetails } = require('./lib/bank-api');
 
 module.exports = function ({
     locale = 'en',
@@ -600,9 +603,6 @@ module.exports = function ({
      * produced annual accounts yet so will not have this information.
      */
     function stepOrganisationFinances() {
-        const includeAccountDetails =
-            get('organisationStartDate.isBeforeMin')(data) === true;
-
         return new Step({
             title: localise({
                 en: 'Organisation finances',
@@ -621,7 +621,9 @@ module.exports = function ({
                         ];
                         return conditionalFields(
                             allFields,
-                            includeAccountDetails ? allFields : []
+                            isNewOrganisation(data.organisationStartDate)
+                                ? []
+                                : allFields
                         );
                     },
                 },

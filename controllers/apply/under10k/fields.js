@@ -1285,8 +1285,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         companyNumber: fieldCompanyNumber(locale),
         charityNumber: fieldCharityNumber(locale, data),
         educationNumber: fieldEducationNumber(locale),
-        accountingYearDate: fieldAccountingYearDate(locale),
-        totalIncomeYear: fieldTotalIncomeYear(locale),
+        accountingYearDate: fieldAccountingYearDate(locale, data),
+        totalIncomeYear: fieldTotalIncomeYear(locale, data),
         mainContactName: new NameField({
             locale: locale,
             name: 'mainContactName',
