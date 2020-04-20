@@ -25,23 +25,9 @@ function transformProjectDateRange(applicationData) {
     return applicationData;
 }
 
-function transformOrgHasDifferentTradingName(applicationData) {
-    if (
-        get('organisationTradingName')(applicationData) &&
-        !get('organisationHasDifferentTradingName')(applicationData)
-    ) {
-        logger.info('Transforming organisationHasDifferentTradingName');
-        applicationData.organisationHasDifferentTradingName = 'yes';
-    }
-    return applicationData;
-}
-
 function transform(applicationData) {
     // Add any default transforms here
-    const transformsToRun = [
-        transformOrgHasDifferentTradingName,
-        transformProjectDateRange,
-    ];
+    const transformsToRun = [transformProjectDateRange];
 
     if (transformsToRun.length === 0) {
         return applicationData;
@@ -57,5 +43,4 @@ module.exports = {
     transform,
     // Export for tests
     transformProjectDateRange,
-    transformOrgHasDifferentTradingName,
 };
