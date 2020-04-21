@@ -26,7 +26,7 @@ class SelectField extends Field {
             throw new Error('Options must contain unique values');
         }
 
-        this.schema = props.schema ? props.schema : this.defaultSchema();
+        this.schema = this.withCustomSchema(props.schema);
     }
 
     getType() {

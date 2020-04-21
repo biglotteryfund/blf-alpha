@@ -21,8 +21,7 @@ class RadioField extends Field {
         }
 
         this.options = options;
-
-        this.schema = props.schema ? props.schema : this.defaultSchema();
+        this.schema = this.withCustomSchema(props.schema);
     }
 
     getType() {

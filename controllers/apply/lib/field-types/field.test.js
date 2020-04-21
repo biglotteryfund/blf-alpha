@@ -116,6 +116,30 @@ test('override schema', function () {
     );
 });
 
+test('extend schema with a function', function () {
+    const field = new Field({
+        locale: 'en',
+        name: 'example',
+        label: 'Custom label',
+        type: 'base64',
+        schema(originalSchema) {
+            return originalSchema.base64();
+        },
+        messages: [{ type: 'base', message: 'Enter a value' }],
+    });
+
+    expect(field.type).toBe('base64');
+
+    field.withValue('VE9PTUFOWVNFQ1JFVFM=');
+    expect(field.displayValue).toBe('VE9PTUFOWVNFQ1JFVFM=');
+    expect(field.validate().error).toBeNull();
+
+    field.withValue('VE9PTUFOWVNFQ1JFVFM');
+    expect(field.validate().error.message).toContain(
+        'must be a valid base64 string'
+    );
+});
+
 test('localise helper', function () {
     expect(
         new Field({
