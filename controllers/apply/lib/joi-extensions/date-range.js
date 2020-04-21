@@ -16,103 +16,93 @@ module.exports = function dateParts(joi) {
     }
 
     return {
-        name: 'dateRange',
+        type: 'dateRange',
         base: joi.object({
             startDate: datePartsConfig,
             endDate: datePartsConfig,
         }),
-        language: {
-            both: {
-                invalid: 'Both startDate and endDate are invalid',
-            },
-            startDate: {
-                invalid: 'Invalid startDate',
-            },
-            endDate: {
-                invalid: 'Invalid endDate',
-                outsideLimit: 'Date is outside limit',
-                beforeStartDate: 'endDate must not be before startDate',
-            },
-            minDate: {
-                invalid: 'Date must be at least {{min}}',
-            },
-            maxDate: {
-                invalid: 'Date is outside limit',
-            },
+        messages: {
+            'dateRange.both.invalid': 'Both startDate and endDate are invalid',
+            'dateRange.startDate.invalid': 'Invalid startDate',
+            'dateRange.endDate.invalid': 'Invalid endDate',
+            'dateRange.endDate.outsideLimit': 'Date is outside limit',
+            'dateRange.endDate.beforeStartDate':
+                'endDate must not be before startDate',
+            'dateRange.minDate.invalid': 'Date must be at least {{#min}}',
+            'dateRange.maxDate.invalid': 'Date is outside limit',
         },
-        pre(value, state, options) {
+        validate(value, helpers) {
             const dates = toRange(value);
 
             if (!dates.startDate.isValid() && !dates.endDate.isValid()) {
-                return this.createError(
-                    'dateRange.both.invalid',
-                    { v: value },
-                    state,
-                    options
-                );
+                return { errors: helpers.error('dateRange.both.invalid') };
             } else if (!dates.startDate.isValid()) {
-                return this.createError(
-                    'dateRange.startDate.invalid',
-                    { v: value },
-                    state,
-                    options
-                );
+                return { errors: helpers.error('dateRange.startDate.invalid') };
             } else if (!dates.endDate.isValid()) {
-                return this.createError(
-                    'dateRange.endDate.invalid',
-                    { v: value },
-                    state,
-                    options
-                );
+                return { errors: helpers.error('dateRange.endDate.invalid') };
             } else if (dates.endDate.isSameOrAfter(dates.startDate) === false) {
-                return this.createError(
-                    'dateRange.endDate.beforeStartDate',
-                    { v: value },
-                    state,
-                    options
-                );
+                return {
+                    errors: helpers.error('dateRange.endDate.beforeStartDate'),
+                };
             } else {
-                return value;
+                return { value };
             }
         },
-        rules: [
-            {
-                name: 'minDate',
-                params: {
-                    min: joi.string().required(),
+        rules: {
+            minDate: {
+                method(min) {
+                    return this.$_addRule({
+                        name: 'minDate',
+                        args: { min },
+                    });
                 },
-                validate(params, value, state, options) {
+                args: [
+                    {
+                        name: 'min',
+                        assert: joi.string().required(),
+                        message: 'must be a date string',
+                    },
+                ],
+                validate(value, helpers, args) {
                     const dates = toRange(value);
 
                     if (
                         dates.startDate.isValid() &&
                         dates.endDate.isValid() &&
-                        dates.startDate.isSameOrAfter(params.min) &&
-                        dates.endDate.isSameOrAfter(params.min)
+                        dates.startDate.isSameOrAfter(args.min) &&
+                        dates.endDate.isSameOrAfter(args.min)
                     ) {
                         return value;
                     } else {
-                        return this.createError(
-                            'dateRange.minDate.invalid',
-                            { v: value, min: params.min },
-                            state,
-                            options
-                        );
+                        return helpers.error('dateRange.minDate.invalid', {
+                            min: args.min,
+                        });
                     }
                 },
             },
-            {
-                name: 'endDateLimit',
-                params: {
-                    amount: joi.number().required(),
-                    unit: joi.string().required(),
+            endDateLimit: {
+                method(amount, unit) {
+                    return this.$_addRule({
+                        name: 'endDateLimit',
+                        args: { amount, unit },
+                    });
                 },
-                validate(params, value, state, options) {
+                args: [
+                    {
+                        name: 'amount',
+                        assert: joi.number().required(),
+                    },
+                    {
+                        name: 'unit',
+                        assert: joi.string().required(),
+                    },
+                ],
+                validate(value, helpers, args) {
                     const dates = toRange(value);
 
                     const maximumEndDate = dates.startDate
                         .clone()
-                        .add(params.amount, params.unit);
+                        .add(args.amount, args.unit);
 
                     if (
                         dates.startDate.isValid() &&
@@ -121,15 +111,10 @@ module.exports = function dateParts(joi) {
                     ) {
                         return value;
                     } else {
-                        return this.createError(
-                            'dateRange.endDate.outsideLimit',
-                            { v: value },
-                            state,
-                            options
-                        );
+                        return helpers.error('dateRange.endDate.outsideLimit');
                     }
                 },
             },
-        ],
+        },
     };
 };

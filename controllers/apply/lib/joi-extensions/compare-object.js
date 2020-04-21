@@ -17,42 +17,42 @@ function normaliseValues(sourceObject) {
 
 module.exports = function (joi) {
     return {
+        type: 'object',
         base: joi.object(),
-        name: 'object',
-        language: {
-            isEqual: 'Object values must not match',
+        messages: {
+            'object.isEqual': 'Object values must not match',
         },
-        rules: [
-            {
-                name: 'compare',
-                params: {
-                    ref: joi.func().ref(),
+        rules: {
+            compare: {
+                method(referenceValue) {
+                    return this.$_addRule({
+                        name: 'compare',
+                        args: { referenceValue },
+                    });
                 },
-                validate(params, value, state, options) {
-                    const referenceValue = params.ref(
-                        state.reference || state.parent,
-                        options
-                    );
-
+                args: [
+                    {
+                        name: 'referenceValue',
+                        ref: true, // Expand references
+                        assert: joi.object(),
+                        message: 'must be a referenced object',
+                    },
+                ],
+                validate(value, helpers, args) {
                     if (
                         isObject(value) &&
-                        isObject(referenceValue) &&
+                        isObject(args.referenceValue) &&
                         isEqual(
                             normaliseValues(value),
-                            normaliseValues(referenceValue)
+                            normaliseValues(args.referenceValue)
                         ) === true
                     ) {
-                        return this.createError(
-                            'object.isEqual',
-                            { v: value },
-                            state,
-                            options
-                        );
+                        return helpers.error('object.isEqual');
                     } else {
                         return value;
                     }
                 },
             },
-        ],
+        },
     };
 };

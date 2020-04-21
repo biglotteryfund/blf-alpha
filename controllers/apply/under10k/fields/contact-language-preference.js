@@ -32,7 +32,7 @@ module.exports = function (locale, props) {
             return Joi.when('projectCountry', {
                 is: 'wales',
                 then: Joi.string()
-                    .valid(this.options.map((option) => option.value))
+                    .valid(...this.options.map((option) => option.value))
                     .required(),
                 otherwise: Joi.any().strip(),
             });

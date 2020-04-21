@@ -6,27 +6,24 @@ const postcode = require('postcode');
  */
 module.exports = function postcodeString(joi) {
     return {
+        type: 'string',
         base: joi.string().trim(),
-        name: 'string',
-        language: {
-            postcode: 'did not seem to be a valid postcode',
+        messages: {
+            'string.postcode': 'did not seem to be a valid postcode',
         },
-        rules: [
-            {
-                name: 'postcode',
-                validate(_params, value, state, options) {
+        rules: {
+            postcode: {
+                method() {
+                    return this.$_addRule('postcode');
+                },
+                validate(value, helpers) {
                     if (postcode.isValid(value)) {
                         return value;
                     } else {
-                        return this.createError(
-                            'string.postcode',
-                            { value },
-                            state,
-                            options
-                        );
+                        return helpers.error('string.postcode');
                     }
                 },
             },
-        ],
+        },
     };
 };

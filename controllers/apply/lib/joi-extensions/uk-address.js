@@ -2,7 +2,7 @@
 
 module.exports = function ukAddress(joi) {
     return {
-        name: 'ukAddress',
+        type: 'ukAddress',
         base: joi.object({
             line1: joi.string().trim().max(255).required(),
             line2: joi.string().trim().allow('').max(255).optional(),

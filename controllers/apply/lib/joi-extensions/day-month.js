@@ -4,12 +4,12 @@ const moment = require('moment');
 
 module.exports = function dayMonth(joi) {
     return {
-        name: 'dayMonth',
+        type: 'dayMonth',
         base: joi.object({
             day: joi.number().integer().required(),
             month: joi.number().integer().required(),
         }),
-        pre(value, state, options) {
+        validate(value, helpers) {
             const date = moment({
                 year: moment().year(),
                 month: toInteger(value.month) - 1,
@@ -17,14 +17,9 @@ module.exports = function dayMonth(joi) {
             });
 
             if (date.isValid()) {
-                return value;
+                return { value };
             } else {
-                return this.createError(
-                    'any.invalid',
-                    { v: value },
-                    state,
-                    options
-                );
+                return { errors: helpers.error('any.invalid') };
             }
         },
     };

@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const Joi = require('@hapi/joiNext');
+const Joi = require('@hapi/joi');
 const validateSchema = require('./validate-schema');
 
 describe('validate schemas', () => {

@@ -13,7 +13,7 @@ test('valid budget', () => {
 
     const result = schema.validate(budget);
     expect(result.value).toStrictEqual(budget);
-    expect(result.error).toBeNull();
+    expect(result.error).toBeUndefined();
 });
 
 test('under budget', () => {
@@ -23,7 +23,7 @@ test('under budget', () => {
     ];
 
     const result = schema.validate(budget);
-    expect(result.error.message).toContain(`under minimum budget`);
+    expect(result.error.message).toContain(`under minimum budget of 500`);
 });
 
 test('over budget', () => {
@@ -32,5 +32,5 @@ test('over budget', () => {
     });
 
     const result = schema.validate(budget);
-    expect(result.error.message).toContain(`over maximum budget`);
+    expect(result.error.message).toContain(`over maximum budget of 5000`);
 });

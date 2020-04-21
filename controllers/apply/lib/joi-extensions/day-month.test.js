@@ -1,14 +1,13 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
 const Joi = require('./index');
 
-test('valid day-month', () => {
+test('dayMonth', function () {
     const schema = Joi.dayMonth();
 
     const valid = schema.validate({ day: '1', month: '2' });
     expect(valid.value).toEqual({ day: 1, month: 2 });
-    expect(valid.error).toBe(null);
+    expect(valid.error).toBeUndefined();
 
     const missingDay = schema.validate({ month: 1 });
     expect(missingDay.error.message).toContain('"day" is required');

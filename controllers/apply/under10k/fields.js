@@ -56,7 +56,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function multiChoice(options) {
         return Joi.array()
-            .items(Joi.string().valid(options.map((option) => option.value)))
+            .items(Joi.string().valid(...options.map((option) => option.value)))
             .single();
     }
 
@@ -65,7 +65,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             is: 'yes',
             then: Joi.when(Joi.ref('beneficiariesGroups'), {
                 is: Joi.array()
-                    .items(Joi.string().only(match).required(), Joi.any())
+                    .items(Joi.string().valid(match).required(), Joi.any())
                     .required(),
                 then: schema,
                 otherwise: Joi.any().strip(),
@@ -76,7 +76,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function stripIfExcludedOrgType(schema) {
         return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
+            is: Joi.exist().valid(...CONTACT_EXCLUDED_TYPES),
             then: Joi.any().strip(),
             otherwise: schema,
         });
@@ -89,7 +89,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: stripIfExcludedOrgType(
                 Joi.object({
                     currentAddressMeetsMinimum: Joi.string()
-                        .valid(['yes', 'no'])
+                        .valid('yes', 'no')
                         .required(),
                     previousAddress: Joi.when(
                         Joi.ref('currentAddressMeetsMinimum'),
@@ -429,7 +429,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
             ],
             isRequired: true,
-            schema: Joi.string().valid(['yes', 'no']).required(),
+            schema: Joi.string().valid('yes', 'no').required(),
             messages: [
                 {
                     type: 'base',
@@ -1002,7 +1002,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return Joi.when('projectCountry', {
                     is: 'wales',
                     then: Joi.string()
-                        .valid(this.options.map((option) => option.value))
+                        .valid(...this.options.map((option) => option.value))
                         .max(FREE_TEXT_MAXLENGTH.large)
                         .required(),
                     otherwise: Joi.any().strip(),
@@ -1060,7 +1060,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return Joi.when('projectCountry', {
                     is: 'northern-ireland',
                     then: Joi.string()
-                        .valid(this.options.map((option) => option.value))
+                        .valid(...this.options.map((option) => option.value))
                         .required(),
                     otherwise: Joi.any().strip(),
                 });
@@ -1466,9 +1466,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'This person has to live in the UK.',
                 cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
             }),
-            schema: Joi.fullName()
-                .compare(Joi.ref('mainContactName'))
-                .required(),
+            schema: Joi.fullName().required(),
             messages: [
                 {
                     type: 'object.isEqual',
@@ -1494,11 +1492,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
                 cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
             }),
-            schema: stripIfExcludedOrgType(
-                Joi.ukAddress()
-                    .required()
-                    .compare(Joi.ref('mainContactAddress'))
-            ),
+            schema: stripIfExcludedOrgType(Joi.ukAddress().required()),
             messages: [
                 {
                     type: 'object.isEqual',

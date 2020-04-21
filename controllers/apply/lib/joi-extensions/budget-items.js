@@ -6,7 +6,7 @@ const sumBy = require('lodash/sumBy');
 
 module.exports = function budgetItems(joi) {
     return {
-        name: 'budgetItems',
+        type: 'budgetItems',
         base: joi
             .array()
             .min(1)
@@ -16,54 +16,61 @@ module.exports = function budgetItems(joi) {
                     cost: joi.friendlyNumber().min(1).integer().required(),
                 })
             ),
-        language: {
-            overBudget: 'over maximum budget',
-            underBudget: 'under minimum budget',
+        messages: {
+            'budgetItems.overBudget': 'over maximum budget of {{#limit}}',
+            'budgetItems.underBudget': 'under minimum budget of {{#limit}}',
         },
-        /* eslint-disable-next-line no-unused-vars */
-        coerce(value, state, options) {
-            if (isArray(value)) {
-                // Strip out anything that doesn't have an item name and a cost
-                // (eg. validate things that are half-supplied, but not empty)
-                return reject(
-                    value,
-                    (line) => isEmpty(line.item) && isEmpty(line.cost)
-                );
-            } else {
-                return value;
-            }
+        coerce: {
+            method(value) {
+                if (isArray(value)) {
+                    // Strip out anything that doesn't have an item name and a cost
+                    // (eg. validate things that are half-supplied, but not empty)
+                    const newValue = reject(value, function (line) {
+                        return isEmpty(line.item) && isEmpty(line.cost);
+                    });
+
+                    return { value: newValue };
+                } else {
+                    return { value };
+                }
+            },
         },
-        rules: [
-            {
-                name: 'validBudgetRange',
-                params: {
-                    minBudget: joi.number().required(),
-                    maxBudget: joi.number().required(),
+        rules: {
+            validBudgetRange: {
+                method(minBudget, maxBudget) {
+                    return this.$_addRule({
+                        name: 'validBudgetRange',
+                        args: { minBudget, maxBudget },
+                    });
                 },
-                validate(params, value, state, options) {
-                    const total = sumBy(
-                        value,
-                        (item) => parseInt(item.cost, 10) || 0
-                    );
-                    if (total > params.maxBudget) {
-                        return this.createError(
-                            'budgetItems.overBudget',
-                            { v: value, number: params.maxBudget },
-                            state,
-                            options
-                        );
-                    } else if (total < params.minBudget) {
-                        return this.createError(
-                            'budgetItems.underBudget',
-                            { v: value, number: params.maxBudget },
-                            state,
-                            options
-                        );
+                args: [
+                    {
+                        name: 'minBudget',
+                        assert: joi.number().required(),
+                    },
+                    {
+                        name: 'maxBudget',
+                        assert: joi.number().required(),
+                    },
+                ],
+                validate(value, helpers, args) {
+                    const total = sumBy(value, function (item) {
+                        return parseInt(item.cost, 10) || 0;
+                    });
+
+                    if (total > args.maxBudget) {
+                        return helpers.error('budgetItems.overBudget', {
+                            limit: args.maxBudget,
+                        });
+                    } else if (total < args.minBudget) {
+                        return helpers.error('budgetItems.underBudget', {
+                            limit: args.minBudget,
+                        });
                     } else {
                         return value;
                     }
                 },
             },
-        ],
+        },
     };
 };

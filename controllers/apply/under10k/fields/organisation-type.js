@@ -127,7 +127,7 @@ module.exports = function (locale) {
         options: options,
         isRequired: true,
         schema: Joi.string()
-            .valid(options.map((option) => option.value))
+            .valid(...options.map((option) => option.value))
             .required(),
         messages: [
             {
