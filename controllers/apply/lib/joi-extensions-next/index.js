@@ -7,7 +7,7 @@ module.exports = baseJoi.extend(
     // require('./budget-items'),
     // require('./date-parts'),
     // require('./date-range'),
-    // require('./day-month'),
+    require('./day-month'),
     require('./full-name'),
     // require('./month-year'),
     require('./phone-number'),
