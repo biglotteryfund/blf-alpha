@@ -73,3 +73,25 @@ test('maxDate', function () {
         'Date must be on or before 2020-10-01'
     );
 });
+
+test('rangeLimit', function () {
+    const schema = Joi.object({
+        dateA: Joi.dateParts(),
+        dateB: Joi.dateParts().rangeLimit(Joi.ref('dateA'), {
+            amount: 7,
+            unit: 'days',
+        }),
+    });
+
+    const valid = schema.validate({
+        dateA: { day: 2, month: 10, year: 2020 },
+        dateB: { day: 9, month: 10, year: 2020 },
+    });
+    expect(valid.error).toBeNull();
+
+    const invalid = schema.validate({
+        dateA: { day: 2, month: 10, year: 2020 },
+        dateB: { day: 10, month: 10, year: 2020 },
+    });
+    expect(invalid.error.message).toContain('Date must be within range');
+});
