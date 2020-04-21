@@ -8,10 +8,10 @@ module.exports = baseJoi.extend(
     // require('./date-parts'),
     // require('./date-range'),
     // require('./day-month'),
-    // require('./full-name'),
+    require('./full-name'),
     // require('./month-year'),
     require('./phone-number'),
     require('./postcode'),
-    // require('./uk-address'),
+    require('./uk-address'),
     require('./word-count')
 );
