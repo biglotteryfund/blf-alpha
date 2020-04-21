@@ -1,4 +1,5 @@
 /* eslint-env jest */
+'use strict';
 const Joi = require('./index');
 
 test('valid month-year', () => {
