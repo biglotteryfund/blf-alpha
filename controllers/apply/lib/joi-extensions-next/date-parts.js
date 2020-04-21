@@ -1,5 +1,5 @@
 'use strict';
-// const moment = require('moment');
+const moment = require('moment');
 const fromDateParts = require('../from-date-parts');
 
 module.exports = function dateParts(joi) {
@@ -16,7 +16,7 @@ module.exports = function dateParts(joi) {
             'dateParts.minDate': 'Date must be on or after {{#min}}',
             'dateParts.minDateRef': 'Date must be on or after referenced date',
             'dateParts.maxDate': 'Date must be on or before {{#max}}',
-            'dateParts.rangeLimit': 'Date must be within range',
+            'dateParts.rangeLimit': `Date must be within {{#limit.amount}} {{#limit.unit}} of referenced date`,
         },
         validate(value, helpers) {
             const dt = fromDateParts(value);
@@ -105,6 +105,46 @@ module.exports = function dateParts(joi) {
                         return value;
                     } else {
                         return helpers.error('dateParts.minDateRef');
+                    }
+                },
+            },
+            rangeLimit: {
+                method(referenceValue, limit) {
+                    return this.$_addRule({
+                        name: 'rangeLimit',
+                        args: { referenceValue, limit },
+                    });
+                },
+                args: [
+                    {
+                        name: 'referenceValue',
+                        ref: true, // Expand references
+                        assert: datePartsSchema,
+                    },
+                    {
+                        name: 'limit',
+                        assert: joi.object({
+                            amount: joi.number().required(),
+                            unit: joi.string().required(),
+                        }),
+                    },
+                ],
+                validate(value, helpers, args) {
+                    const date = fromDateParts(value);
+                    const refDate = args.referenceValue
+                        ? fromDateParts(args.referenceValue)
+                        : moment();
+
+                    const limitDate = refDate
+                        .clone()
+                        .add(args.limit.amount, args.limit.unit);
+
+                    if (date.isValid() && date.isSameOrBefore(limitDate)) {
+                        return value;
+                    } else {
+                        return helpers.error('dateParts.rangeLimit', {
+                            limit: args.limit,
+                        });
                     }
                 },
             },
