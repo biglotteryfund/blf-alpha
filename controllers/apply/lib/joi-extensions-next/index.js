@@ -9,7 +9,7 @@ module.exports = baseJoi.extend(
     // require('./date-range'),
     require('./day-month'),
     require('./full-name'),
-    // require('./month-year'),
+    require('./month-year'),
     require('./phone-number'),
     require('./postcode'),
     require('./uk-address'),
