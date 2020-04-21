@@ -15,8 +15,7 @@ module.exports = function dateParts(joi) {
         }),
         messages: {
             'dateParts.minDate': 'Date must be on or after {{#min}}',
-            'dateParts.minDateRef':
-                'Date from must be on or after referenced date',
+            'dateParts.minDateRef': 'Date must be on or after referenced date',
             'dateParts.maxDate': 'Date must be on or before {{#max}}',
             'dateParts.rangeLimit': 'Date must be within range',
         },

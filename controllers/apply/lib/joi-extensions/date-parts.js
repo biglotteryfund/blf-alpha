@@ -12,7 +12,7 @@ module.exports = function dateParts(joi) {
         }),
         language: {
             minDate: 'Date must be on or after {{min}}',
-            minDateRef: 'Date from must be on or after referenced date',
+            minDateRef: 'Date must be on or after referenced date',
             maxDate: 'Date must be on or before {{max}}',
             rangeLimit: 'Date must be within range',
         },
