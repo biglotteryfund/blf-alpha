@@ -51,25 +51,6 @@ module.exports = function (joi) {
                     }
                 },
             },
-            {
-                name: 'minTimeAgo',
-                params: {
-                    amount: joi.number().required(),
-                    units: joi.string().required(),
-                },
-                /* eslint-disable-next-line no-unused-vars */
-                validate(params, value, state, options) {
-                    const minDate = moment().subtract(
-                        params.amount,
-                        params.units
-                    );
-                    const isBeforeMin = valueToDate(value).isSameOrBefore(
-                        minDate
-                    );
-                    value.isBeforeMin = isBeforeMin;
-                    return value;
-                },
-            },
         ],
     };
 };

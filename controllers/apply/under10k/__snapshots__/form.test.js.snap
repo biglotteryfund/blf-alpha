@@ -20,6 +20,8 @@ Array [
   "organisationStartDate: Enter a month and year",
   "organisationAddress: Enter a full UK address",
   "organisationType: Select a type of organisation",
+  "accountingYearDate: Enter a day and month",
+  "totalIncomeYear: Enter a total income for the year (eg. a whole number with no commas or decimal points)",
   "mainContactName: Enter first and last name",
   "mainContactDateOfBirth: Enter a date of birth",
   "mainContactAddress: Enter a full UK address",
