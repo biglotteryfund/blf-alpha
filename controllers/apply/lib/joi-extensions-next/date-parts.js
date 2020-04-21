@@ -2,17 +2,16 @@
 // const moment = require('moment');
 const fromDateParts = require('../from-date-parts');
 
-/**
- * @TODO: Add minDateRef and rangeLimit rules. Need tests first.
- */
 module.exports = function dateParts(joi) {
+    const datePartsSchema = joi.object({
+        day: joi.number().integer().required(),
+        month: joi.number().integer().required(),
+        year: joi.number().integer().required(),
+    });
+
     return {
         type: 'dateParts',
-        base: joi.object({
-            day: joi.number().integer().required(),
-            month: joi.number().integer().required(),
-            year: joi.number().integer().required(),
-        }),
+        base: datePartsSchema,
         messages: {
             'dateParts.minDate': 'Date must be on or after {{#min}}',
             'dateParts.minDateRef': 'Date must be on or after referenced date',
@@ -75,6 +74,37 @@ module.exports = function dateParts(joi) {
                         return helpers.error('dateParts.maxDate', {
                             max: args.max,
                         });
+                    }
+                },
+            },
+            minDateRef: {
+                method(referenceValue) {
+                    return this.$_addRule({
+                        name: 'minDateRef',
+                        args: { referenceValue },
+                    });
+                },
+                args: [
+                    {
+                        name: 'referenceValue',
+                        ref: true, // Expand references
+                        assert: datePartsSchema,
+                    },
+                ],
+                validate(value, helpers, args) {
+                    const date = fromDateParts(value);
+                    const referenceDate = args.referenceValue
+                        ? fromDateParts(args.referenceValue)
+                        : null;
+
+                    if (
+                        referenceDate &&
+                        date.isValid() &&
+                        date.isSameOrAfter(referenceDate)
+                    ) {
+                        return value;
+                    } else {
+                        return helpers.error('dateParts.minDateRef');
                     }
                 },
             },
