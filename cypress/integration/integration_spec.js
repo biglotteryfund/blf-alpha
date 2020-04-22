@@ -17,24 +17,6 @@ it('should test common interactions', () => {
     cy.visit('/');
     cy.checkA11y();
 
-    // Switch to welsh language version of homepage
-    cy.get('.qa-lang-switcher').click();
-
-    // Check welsh language text
-    // When people are in the lead, communities thrive
-    cy.findByText('Rydym yn cefnogi pobl a chymunedau i ffynnu').should(
-        'be.visible'
-    );
-
-    // Switch back to English
-    cy.get('.qa-lang-switcher').click();
-
-    // Check welsh language text
-    // When people are in the lead, communities thrive
-    cy.findByText('When people are in the lead, communities thrive').should(
-        'be.visible'
-    );
-
     cy.viewport(375, 667);
 
     cy.get('.js-toggle-nav').as('navToggle');
@@ -56,6 +38,29 @@ it('should test common interactions', () => {
     cy.get('@navToggle').click();
     cy.get('@nav').should('be.visible');
     cy.get('@search').should('not.be.visible');
+});
+
+it('welsh language smoke tests', function () {
+    cy.visit('/');
+    cy.findByText('When people are in the lead, communities thrive').should(
+        'be.visible'
+    );
+
+    cy.visit('/welsh');
+
+    cy.findByText('Rydym yn cefnogi pobl a chymunedau i ffynnu').should(
+        'be.visible'
+    );
+    //
+    cy.visit('/funding/programmes/national-lottery-awards-for-all-wales');
+    cy.findAllByText('National Lottery Awards for All Wales').should(
+        'be.visible'
+    );
+
+    cy.visit('/welsh/funding/programmes/national-lottery-awards-for-all-wales');
+    cy.findAllByText('Arian i Bawb y Loteri Genedlaethol Cymru').should(
+        'be.visible'
+    );
 });
 
 it('should have expected cache headers', () => {
