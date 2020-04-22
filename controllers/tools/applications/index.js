@@ -12,15 +12,15 @@ const {
     PendingApplication,
     SubmittedApplication,
     Feedback,
-} = require('../../db/models');
-const { DATA_STUDIO_UNDER10K_URL } = require('../../common/secrets');
+} = require('../../../db/models');
+const { DATA_STUDIO_UNDER10K_URL } = require('../../../common/secrets');
 
 const {
     getDateRangeWithDefault,
     groupByCreatedAt,
     getDaysInRange,
     getOldestDate,
-} = require('./lib/date-helpers');
+} = require('../lib/date-helpers');
 
 const router = express.Router();
 
