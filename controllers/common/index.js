@@ -37,7 +37,7 @@ function basicContent() {
         function logLegacyContentType(type) {
             logger.info(`Legacy content type: ${type}`, {
                 service: 'common-views',
-                url: req.url,
+                url: req.originalUrl,
             });
         }
 
