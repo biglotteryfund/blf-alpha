@@ -97,7 +97,7 @@
     "connect-session-sequelize": "6.0.0",
     "connect-slashes": "^1.4.0",
     "csurf": "^1.11.0",
-    "dompurify": "2.0.8",
+    "dompurify": "2.0.9",
     "express": "4.17.1",
     "express-cache-controller": "^1.0.1",
     "express-session": "1.17.1",
