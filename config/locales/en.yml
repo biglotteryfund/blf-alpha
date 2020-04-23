@@ -160,6 +160,7 @@ global:
     day: Day
     month: Month
     year: Year
+    lastUpdated: Last updated
   programmes:
     programmeLabels:
       area: Area
