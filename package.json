@@ -175,7 +175,7 @@
     "jquery": "^3.4.1",
     "node-mocks-http": "1.8.1",
     "node-notifier": "7.0.0",
-    "node-sass": "4.13.1",
+    "node-sass": "4.14.0",
     "nodemon": "2.0.3",
     "picturefill": "3.0.3",
     "postcss-cli": "7.1.0",
