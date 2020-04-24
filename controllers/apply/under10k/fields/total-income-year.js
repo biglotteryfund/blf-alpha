@@ -3,8 +3,9 @@ const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
+const isNewOrganisation = require('../lib/new-organisation');
 
-module.exports = function (locale) {
+module.exports = function (locale, data = {}) {
     const localise = get(locale);
 
     return {
@@ -19,11 +20,9 @@ module.exports = function (locale) {
         }),
         type: 'currency',
         isRequired: true,
-        schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
-            is: true,
-            then: Joi.friendlyNumber().integer().required(),
-            otherwise: Joi.any().strip(),
-        }),
+        schema: isNewOrganisation(get('organisationStartDate')(data))
+            ? Joi.any().strip()
+            : Joi.friendlyNumber().integer().required(),
         messages: [
             {
                 type: 'base',

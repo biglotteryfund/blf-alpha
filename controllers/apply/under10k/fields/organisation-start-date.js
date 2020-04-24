@@ -4,8 +4,6 @@ const moment = require('moment');
 
 const Joi = require('../../lib/joi-extensions');
 
-const { ORG_MIN_AGE } = require('../constants');
-
 module.exports = function (locale) {
     const localise = get(locale);
 
@@ -25,10 +23,7 @@ module.exports = function (locale) {
                  <p><strong>Er enghraifft: 11 ${exampleYear}</strong></p>`,
         }),
         isRequired: true,
-        schema: Joi.monthYear()
-            .pastDate()
-            .minTimeAgo(ORG_MIN_AGE.amount, ORG_MIN_AGE.unit)
-            .required(),
+        schema: Joi.monthYear().pastDate().required(),
         messages: [
             {
                 type: 'base',
