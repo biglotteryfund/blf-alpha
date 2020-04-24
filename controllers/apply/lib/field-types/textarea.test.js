@@ -35,7 +35,7 @@ test('TextareaField', function () {
 
     field.withValue(faker.lorem.words(maxWords + 1));
     expect(field.validate().error.message).toEqual(
-        expect.stringContaining(`must have less than ${maxWords} words`)
+        expect.stringContaining(`must have no more than ${maxWords} words`)
     );
 
     const optionalField = new TextareaField({
