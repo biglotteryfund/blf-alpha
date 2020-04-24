@@ -28,7 +28,7 @@ test('field base type', function () {
 
     field.withValue('something');
     expect(field.displayValue).toBe('something');
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
 });
 
 test('required properties', function () {
@@ -73,7 +73,7 @@ test('optional default field', function () {
     });
 
     expect(optionalField.isRequired).toBeFalsy();
-    expect(optionalField.validate().error).toBeNull();
+    expect(optionalField.validate().error).toBeUndefined();
 });
 
 test('with errors', function () {
@@ -108,7 +108,7 @@ test('override schema', function () {
 
     field.withValue('VE9PTUFOWVNFQ1JFVFM=');
     expect(field.displayValue).toBe('VE9PTUFOWVNFQ1JFVFM=');
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
 
     field.withValue('VE9PTUFOWVNFQ1JFVFM');
     expect(field.validate().error.message).toContain(
@@ -132,7 +132,7 @@ test('extend schema with a function', function () {
 
     field.withValue('VE9PTUFOWVNFQ1JFVFM=');
     expect(field.displayValue).toBe('VE9PTUFOWVNFQ1JFVFM=');
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
 
     field.withValue('VE9PTUFOWVNFQ1JFVFM');
     expect(field.validate().error.message).toContain(
