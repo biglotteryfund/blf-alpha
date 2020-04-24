@@ -18,7 +18,7 @@ module.exports = function (locale, data) {
     const excludeRegex = /^[^Oo]+$/;
 
     const baseSchema = Joi.string()
-        .regex(excludeRegex)
+        .pattern(excludeRegex)
         .min(4)
         .max(FREE_TEXT_MAXLENGTH.large);
 
@@ -52,12 +52,10 @@ module.exports = function (locale, data) {
                 }),
             },
             {
-                type: 'string.regex.base',
+                type: 'string.pattern.base',
                 message: localise({
-                    en:
-                        'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
-                    cy:
-                        'Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’',
+                    en: `Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.`,
+                    cy: `Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’`,
                 }),
             },
             {
