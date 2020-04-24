@@ -9,7 +9,7 @@ module.exports = function (locale) {
 
     function stripUnlessOrgTypes(types, schema) {
         return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(types),
+            is: Joi.exist().valid(...types),
             then: schema,
             otherwise: Joi.any().strip(),
         });

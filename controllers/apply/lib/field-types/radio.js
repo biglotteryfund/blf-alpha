@@ -31,7 +31,7 @@ class RadioField extends Field {
     defaultSchema() {
         const options = this.options || [];
         const baseSchema = Joi.string().valid(
-            options.map((option) => option.value)
+            ...options.map((option) => option.value)
         );
 
         return this.isRequired ? baseSchema.required() : baseSchema.optional();

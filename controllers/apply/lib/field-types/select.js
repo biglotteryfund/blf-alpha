@@ -43,7 +43,7 @@ class SelectField extends Field {
 
     defaultSchema() {
         const baseSchema = Joi.string().valid(
-            this.normalisedOptions.map((option) => option.value)
+            ...this.normalisedOptions.map((option) => option.value)
         );
 
         if (this.isRequired) {

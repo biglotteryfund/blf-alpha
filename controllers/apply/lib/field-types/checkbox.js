@@ -29,7 +29,7 @@ class CheckboxField extends Field {
     defaultSchema() {
         const options = this.options || [];
         const baseSchema = Joi.array()
-            .items(Joi.string().valid(options.map((option) => option.value)))
+            .items(Joi.string().valid(...options.map((option) => option.value)))
             .single();
 
         if (this.isRequired) {

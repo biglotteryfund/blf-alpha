@@ -153,7 +153,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
              */
             schema: Joi.array()
                 .items(
-                    Joi.string().valid(options().map((option) => option.value))
+                    Joi.string().valid(
+                        ...options().map((option) => option.value)
+                    )
                 )
                 .single()
                 .required(),
@@ -187,13 +189,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
 
         function schema() {
             const isEnglandSelected = Joi.array().items(
-                Joi.string().only('england').required(),
+                Joi.string().valid('england').required(),
                 Joi.any()
             );
 
             const validAllEngland = Joi.array()
                 .items(
-                    Joi.string().only('all-england').required(),
+                    Joi.string().valid('all-england').required(),
                     Joi.any().strip()
                 )
                 .single()
@@ -201,7 +203,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
 
             const validRegionOptions = Joi.array()
                 .items(
-                    Joi.string().valid(options.map((option) => option.value))
+                    Joi.string().valid(...options.map((option) => option.value))
                 )
                 .single()
                 .required();
@@ -285,7 +287,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 then: Joi.any().strip(),
                 otherwise: Joi.string()
                     .valid(
-                        flatMap(optgroups(), (group) => group.options).map(
+                        ...flatMap(optgroups(), (group) => group.options).map(
                             (option) => option.value
                         )
                     )
@@ -829,7 +831,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             schema: Joi.when('organisationType', {
                 is: 'statutory-body',
                 then: Joi.string()
-                    .valid(options.map((option) => option.value))
+                    .valid(...options.map((option) => option.value))
                     .required(),
                 otherwise: Joi.any().strip(),
             }),
@@ -897,10 +899,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             options: options,
             schema: Joi.when('projectCountries', {
                 is: Joi.array()
-                    .items(Joi.string().only('wales').required(), Joi.any())
+                    .items(Joi.string().valid('wales').required(), Joi.any())
                     .required(),
                 then: Joi.string()
-                    .valid(options.map((option) => option.value))
+                    .valid(...options.map((option) => option.value))
                     .required(),
                 otherwise: Joi.any().strip(),
             }),

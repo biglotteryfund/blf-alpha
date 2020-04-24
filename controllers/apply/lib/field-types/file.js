@@ -36,7 +36,9 @@ class FileField extends Field {
         this.schema = Joi.object({
             filename: Joi.string().required(),
             size: Joi.number().max(maxFileSize.value).required(),
-            type: Joi.string().valid(supportedMimeTypes).required(),
+            type: Joi.string()
+                .valid(...supportedMimeTypes)
+                .required(),
         }).required();
 
         const typeList = supportedFileTypes

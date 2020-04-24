@@ -23,10 +23,10 @@ module.exports = function (locale, data) {
         .max(FREE_TEXT_MAXLENGTH.large);
 
     const schema = Joi.when(Joi.ref('organisationType'), {
-        is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
+        is: Joi.exist().valid(...CHARITY_NUMBER_TYPES.required),
         then: baseSchema.required(),
     }).when(Joi.ref('organisationType'), {
-        is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
+        is: Joi.exist().valid(...CHARITY_NUMBER_TYPES.optional),
         then: baseSchema.optional().allow('', null),
         otherwise: Joi.any().strip(),
     });

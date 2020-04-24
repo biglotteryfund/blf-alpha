@@ -147,7 +147,7 @@ module.exports = function (locale, data) {
                 return Joi.string().required();
             } else {
                 return Joi.string()
-                    .valid(this.options.map((option) => option.value))
+                    .valid(...this.options.map((option) => option.value))
                     .required();
             }
         },
