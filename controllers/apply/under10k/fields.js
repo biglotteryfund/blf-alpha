@@ -1465,18 +1465,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'This person has to live in the UK.',
                 cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
             }),
-            schema(originalSchema) {
-                return originalSchema.compare(Joi.ref('mainContactName'));
-            },
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Senior contact name must be different from the main contact's name`,
-                        cy: `Rhaid i enw’r uwch gyswllt fod yn wahanol i enw’r prif gyswllt`,
-                    }),
-                },
-            ],
         }),
         seniorContactDateOfBirth: dateOfBirthField(
             'seniorContactDateOfBirth',
@@ -1493,20 +1481,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
                 cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
             }),
-            schema: stripIfExcludedOrgType(
-                Joi.ukAddress()
-                    .required()
-                    .compare(Joi.ref('mainContactAddress'))
-            ),
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Senior contact address must be different from the main contact's address`,
-                        cy: `Rhaid i gyfeiriad e-bost yr uwch gyswllt fod yn wahanol i gyfeiriad e-bost y prif gyswllt.`,
-                    }),
-                },
-            ],
+            schema: stripIfExcludedOrgType(Joi.ukAddress().required()),
         }),
         seniorContactAddressHistory: addressHistoryField({
             name: 'seniorContactAddressHistory',
