@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const DateField = require('../../lib/field-types/date');
 
 const { MAX_PROJECT_DURATION } = require('../constants');

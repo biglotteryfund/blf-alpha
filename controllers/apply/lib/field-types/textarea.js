@@ -1,7 +1,7 @@
 'use strict';
 const has = require('lodash/has');
 const countWords = require('../count-words');
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 const Field = require('./field');
 

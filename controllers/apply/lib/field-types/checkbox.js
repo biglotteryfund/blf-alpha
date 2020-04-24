@@ -1,7 +1,7 @@
 'use strict';
 const castArray = require('lodash/castArray');
 const uniq = require('lodash/uniq');
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 const Field = require('./field');
 

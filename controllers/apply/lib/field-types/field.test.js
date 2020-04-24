@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 const Field = require('./field');
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 test('field base type', function () {
     const field = new Field({

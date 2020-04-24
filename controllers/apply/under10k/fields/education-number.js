@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 
 const { EDUCATION_NUMBER_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 
 module.exports = function (locale) {
     const localise = get(locale);

@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const isNewOrganisation = require('../lib/new-organisation');
 
 module.exports = function (locale, data = {}) {

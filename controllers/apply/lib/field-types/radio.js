@@ -2,7 +2,7 @@
 const find = require('lodash/fp/find');
 const uniq = require('lodash/uniq');
 const castArray = require('lodash/castArray');
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 const Field = require('./field');
 

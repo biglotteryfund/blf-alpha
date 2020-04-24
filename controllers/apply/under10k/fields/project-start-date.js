@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const DateField = require('../../lib/field-types/date');
 
 const getLeadTimeWeeks = require('../lib/lead-time');

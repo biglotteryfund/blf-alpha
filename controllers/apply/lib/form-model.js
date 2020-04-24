@@ -9,7 +9,7 @@ const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
 
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joiNext');
 
 const { formatterFor } = require('./formatters');
 const normaliseErrors = require('./normalise-errors');

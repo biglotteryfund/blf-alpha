@@ -4,7 +4,7 @@ const get = require('lodash/fp/get');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../lib/joi-extensions');
+const Joi = require('../lib/joi-extensions-next');
 
 const Field = require('../lib/field-types/field');
 const EmailField = require('../lib/field-types/email');
