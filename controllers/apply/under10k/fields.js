@@ -39,6 +39,7 @@ const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 
+const isNewOrganisation = require('./lib/new-organisation');
 const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
@@ -1294,11 +1295,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'day-month',
             isRequired: true,
-            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
-                is: true,
-                then: Joi.dayMonth().required(),
-                otherwise: Joi.any().strip(),
-            }),
+            schema: isNewOrganisation(get('organisationStartDate')(data))
+                ? Joi.any().strip()
+                : Joi.dayMonth().required(),
             messages: [
                 {
                     type: 'base',
@@ -1316,7 +1315,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
             ],
         },
-        totalIncomeYear: fieldTotalIncomeYear(locale),
+        totalIncomeYear: fieldTotalIncomeYear(locale, data),
         mainContactName: new NameField({
             locale: locale,
             name: 'mainContactName',
@@ -1352,9 +1351,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
                 return result;
             },
-            schema: Joi.fullName()
-                .compare(Joi.ref('seniorContactName'))
-                .required(),
+            schema(originalSchema) {
+                return originalSchema.compare(Joi.ref('seniorContactName'));
+            },
             messages: [
                 {
                     type: 'object.isEqual',
@@ -1466,9 +1465,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'This person has to live in the UK.',
                 cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
             }),
-            schema: Joi.fullName()
-                .compare(Joi.ref('mainContactName'))
-                .required(),
+            schema(originalSchema) {
+                return originalSchema.compare(Joi.ref('mainContactName'));
+            },
             messages: [
                 {
                     type: 'object.isEqual',

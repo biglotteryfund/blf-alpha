@@ -17,7 +17,7 @@ module.exports = app;
 
 const appData = require('./common/appData');
 const { SENTRY_DSN } = require('./common/secrets');
-const { localify, makeWelsh } = require('./common/urls');
+const { localify } = require('./common/urls');
 const { defaultMaxAge, noStore, sMaxAge } = require('./common/cached');
 const cspDirectives = require('./common/csp-directives');
 const logger = require('./common/logger').child({ service: 'server' });
@@ -164,7 +164,14 @@ app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
 
 /**
- * Handle archived paths first:
+ * Homepage handler
+ * Mount as a one-off GET route in both English and Welsh
+ */
+app.get('/', require('./controllers/home'));
+app.get('/welsh', require('./controllers/home'));
+
+/**
+ * Handle archived paths:
  * - Legacy redirects and aliases
  * - National Archives content
  * - Archived media
@@ -175,10 +182,6 @@ app.use('/', require('./controllers/archived'));
  * Initialise section routers
  */
 const sections = {
-    home: {
-        path: '/',
-        router: require('./controllers/home'),
-    },
     funding: {
         path: '/funding',
         router: require('./controllers/funding'),
@@ -243,7 +246,7 @@ forEach(sections, function (section, sectionId) {
      * Mount each section under both English and Welsh paths.
      */
     app.use(section.path, sectionLocals, section.router);
-    app.use(makeWelsh(section.path), sectionLocals, section.router);
+    app.use(`/welsh${section.path}`, sectionLocals, section.router);
 });
 
 /**
