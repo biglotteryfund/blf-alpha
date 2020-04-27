@@ -165,7 +165,6 @@
     font-family: font-stack('display');
     color: white;
     background-color: get-color('brand', 'primary');
-    margin-bottom: $spacingUnit * 2;
 
     .homepage-banner__header {
         max-width: $maxWidth;
@@ -178,7 +177,7 @@
         font-size: 18px;
         line-height: 1.2;
         font-weight: font-weight('display', 'semibold');
-        margin-bottom: 3px;
+        margin-bottom: 10px;
 
         @include mq('medium') {
             font-size: 21px;

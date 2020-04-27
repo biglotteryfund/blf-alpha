@@ -26,35 +26,35 @@
             </figure>
         </section>
 
-        {% if content %}
-             <div class="nudge-up-large">
-                 {% call contentBox() %}
-                     {{ content | safe }}
-                 {% endcall %}
-             </div>
-        {% endif %}
-
-        <div class="homepage-banner">
+        <div class="nudge-up homepage-banner">
             <div class="homepage-banner__header">
-                <h1 class="homepage-banner__title">{{ copy.intro.title | widont | safe }}</h1>
+                <p class="homepage-banner__title">{{ copy.intro.prefix | widont | safe }}</p>
+                <h1 class="homepage-banner__intro">{{ copy.intro.title | widont | safe }}</h1>
                 <div class="homepage-banner__intro">
                     {{ __(copy.intro.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
                 </div>
-
                 <div class="o-button-group">
                     <a class="btn btn--medium btn--reversed"
-                        href="{{ localify('/funding/under10k') }}"
-                        id="qa-button-under10k">
+                       href="{{ localify('/funding/under10k') }}"
+                       id="qa-button-under10k">
                         {{ copy.under10k }}
                     </a>
                     <a class="btn btn--medium btn--reversed"
-                        href="{{ localify('/funding/over10k') }}"
-                        id="qa-button-over10k">
+                       href="{{ localify('/funding/over10k') }}"
+                       id="qa-button-over10k">
                         {{ copy.over10k }}
                     </a>
                 </div>
             </div>
         </div>
+
+        {% if content %}
+             <div class="u-margin-top">
+                 {% call contentBox() %}
+                     {{ content | safe }}
+                 {% endcall %}
+             </div>
+        {% endif %}
 
         {# Featured sections #}
         <section class="u-inner u-margin-bottom">
