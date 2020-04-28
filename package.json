@@ -178,7 +178,7 @@
     "node-sass": "4.14.0",
     "nodemon": "2.0.3",
     "picturefill": "3.0.3",
-    "postcss-cli": "7.1.0",
+    "postcss-cli": "7.1.1",
     "postcss-foft-classes": "1.0.4",
     "prettier": "2.0.5",
     "prompt": "1.0.0",
