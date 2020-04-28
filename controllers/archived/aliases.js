@@ -699,4 +699,8 @@ module.exports = createAliases([
         from: '/funding/programmes/coastal-communities-fund-1',
         to: '/funding/programmes/coastal-communities-fund',
     },
+    {
+        from: '/funding/managing-your-grant/under10k',
+        to: '/funding/managing-your-grant/under-10k',
+    },
 ]);
