@@ -310,7 +310,7 @@ module.exports = function ({
         }),
         allFields,
         summary: summary(),
-        schemaVersion: flags.enableNewLocationQuestions ? 'v1.0-beta' : 'v0.2',
+        schemaVersion: flags.enableNewLocationQuestions ? 'v1.0' : 'v0.2',
         forSalesforce() {
             const enriched = clone(data);
             if (metadata && metadata.programme) {

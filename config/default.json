@@ -30,7 +30,7 @@
     "expiryPeriod": [3, "months"]
   },
   "standardFundingProposal": {
-    "enableNewLocationQuestions": false,
+    "enableNewLocationQuestions": true,
     "allowedCountries": ["england", "northern-ireland"]
   },
   "session": {
