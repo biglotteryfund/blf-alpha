@@ -1,5 +1,8 @@
 'use strict';
 const moment = require('moment');
+const times = require('lodash/times');
+const sample = require('lodash/sample');
+const random = require('lodash/random');
 const uuidv4 = require('uuid/v4');
 
 const { Users } = require('../models');
@@ -13,24 +16,26 @@ module.exports = {
             isActive: true,
         });
 
-        const applications = [
-            moment().add('30', 'days'),
-            moment().add('14', 'days'),
-            moment().add('2', 'days'),
-            moment(),
-            moment().subtract('5', 'days'),
-        ].map(function (expiryDate) {
+        const applications = times(250, function () {
+            const createdAt = moment().subtract(random(0, 30), 'days');
             return {
                 id: uuidv4(),
                 userId: user.id,
                 formId: 'awards-for-all',
                 applicationData: JSON.stringify(
-                    mockAwardsForAll.mockResponse()
+                    mockAwardsForAll.mockResponse({
+                        projectCountry: sample([
+                            'england',
+                            'scotland',
+                            'northern-ireland',
+                            'wales',
+                        ]),
+                    })
                 ),
                 submissionAttempts: 0,
-                expiresAt: expiryDate.toDate(),
-                createdAt: moment().toDate(),
-                updatedAt: moment().toDate(),
+                expiresAt: createdAt.clone().add('3', 'month').toDate(),
+                createdAt: createdAt.toDate(),
+                updatedAt: createdAt.toDate(),
             };
         });
 

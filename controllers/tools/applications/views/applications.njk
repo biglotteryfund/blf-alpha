@@ -153,6 +153,7 @@
                     <div class="u-margin-bottom">
                         <canvas id="{{ chartId }}" height="300"></canvas>
                     </div>
+
                     <script>
                         new Chart(document.getElementById('{{ chartId }}'), {
                             type: 'bar',
@@ -177,6 +178,12 @@
                                                 backgroundColor: '{{ country.colour }}'
                                             },
                                         {% endfor %}
+                                        {
+                                            label: '{{ appType.title }}',
+                                            data: {{ appType.data.appsPerDay | dump(2) | safe }},
+                                            type: 'line',
+                                            fill: false
+                                        }
                                     ]
                                 {% endif %}
                             },
