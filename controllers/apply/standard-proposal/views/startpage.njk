@@ -1,7 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/process-map/macro.njk" import processMap %}
 
 {% set copy = __('yourFundingProposal.startPage') %}
 {% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
@@ -45,7 +44,7 @@
                 </ul>
 
                 <h2>{{ copy.ready.title }}</h2>
-                <p>{{ copy.ready.intro }}</p>
+                {{ copy.ready.intro | safe }}
 
                 <ul>
                     {% for item in copy.ready.items %}
@@ -53,19 +52,6 @@
                     {% endfor %}
                 </ul>
             </div>
-
-            {% set processItems = [] %}
-            {% for item in copy.processMap.process %}
-                {% set processItems = (processItems.push({
-                    type: item.type,
-                    title: item.title,
-                    description: item.description,
-                    isCompleted: loop.index === 1,
-                    isCurrent: loop.index === 1
-                }), processItems) %}
-            {% endfor %}
-
-            {{ processMap(processItems, copy.processMap.indicatorLabel) }}
 
             <p class="form-actions u-margin-bottom-l">
                 <a href="{{ nextPageUrl }}" class="btn">{{ copy.startAction }}</a>
