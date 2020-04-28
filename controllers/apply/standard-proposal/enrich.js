@@ -1,8 +1,8 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-const { findLocationName } = require('../lib/location-options');
 const { formatCurrency } = require('../lib/formatters');
+const { findLocationName } = require('./lib/locations');
 
 const formBuilder = require('./form');
 
