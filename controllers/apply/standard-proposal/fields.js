@@ -21,14 +21,13 @@ const {
     TextareaField,
 } = require('../lib/field-types');
 
-const { locationOptions } = require('../lib/location-options');
 const {
     englandRegions,
     englandLocationOptions,
     northernIrelandLocationOptions,
-} = require('./lib/locations'); // Used for new location questions
+} = require('./lib/locations');
 
-module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
+module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
@@ -226,55 +225,24 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
 
     function fieldProjectLocation() {
         function optgroups() {
-            if (flags.enableNewLocationQuestions) {
-                if (projectCountries.length > 1) {
-                    return [];
-                } else if (projectCountries.includes('england')) {
-                    return englandLocationOptions(get('projectRegions')(data));
-                } else if (projectCountries.includes('northern-ireland')) {
-                    return northernIrelandLocationOptions();
-                } else {
-                    return [];
-                }
+            if (projectCountries.length > 1) {
+                return [];
+            } else if (projectCountries.includes('england')) {
+                return englandLocationOptions(get('projectRegions')(data));
+            } else if (projectCountries.includes('northern-ireland')) {
+                return northernIrelandLocationOptions();
             } else {
-                const locations = locationOptions(locale);
-
-                if (projectCountries.length > 1) {
-                    return [];
-                } else if (projectCountries.includes('england')) {
-                    return locations.england;
-                } else if (projectCountries.includes('northern-ireland')) {
-                    return locations.northernIreland;
-                } else if (projectCountries.includes('scotland')) {
-                    return locations.scotland;
-                } else if (projectCountries.includes('wales')) {
-                    return locations.wales;
-                } else {
-                    return [];
-                }
+                return [];
             }
         }
 
         return new SelectField({
             locale: locale,
             name: 'projectLocation',
-            label: flags.enableNewLocationQuestions
-                ? localise({
-                      en: `Where will most of your project take place?`,
-                      cy: ``,
-                  })
-                : localise({
-                      en: `Where will your project take place?`,
-                      cy: `Lle bydd eich prosiect wedi’i leoli?`,
-                  }),
-            explanation: flags.enableNewLocationQuestions
-                ? null
-                : localise({
-                      en: oneLine`If your project covers more than one area please
-                    tell us where most of it will take place`,
-                      cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
-                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`,
-                  }),
+            label: localise({
+                en: `Where will most of your project take place?`,
+                cy: ``,
+            }),
             defaultOption: localise({
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad',
@@ -943,9 +911,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
-    const allFields = {
+    return {
         projectName: fieldProjectName(),
         projectCountries: fieldProjectCountries(),
+        projectRegions: fieldProjectRegions(),
         projectLocation: fieldProjectLocation(),
         projectLocationDescription: fieldProjectLocationDescription(),
         projectCosts: fieldProjectCosts(),
@@ -964,10 +933,4 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         contactLanguagePreference: fieldContactLanguagePreference(),
         contactCommunicationNeeds: fieldContactCommunicationNeeds(),
     };
-
-    if (flags.enableNewLocationQuestions) {
-        allFields.projectRegions = fieldProjectRegions();
-    }
-
-    return allFields;
 };
