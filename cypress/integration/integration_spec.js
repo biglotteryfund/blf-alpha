@@ -1043,13 +1043,17 @@ it('should allow editing from the summary screen', () => {
     });
 });
 
-it('should complete standard your funding proposal form', () => {
-    const orgTradingName = sample([faker.company.companyName(), '']);
+function standardApplication({
+    projectCountries,
+    projectRegions = [],
+    projectLocation,
+    organisationAddress,
+}) {
     const mock = {
         projectName: faker.lorem.words(5),
-        projectCountries: ['England'],
-        projectRegions: ['North West', 'South West'],
-        projectLocation: 'Bournemouth',
+        projectCountries: projectCountries,
+        projectRegions: projectRegions,
+        projectLocation: projectLocation,
         projectLocationDescription: faker.lorem.words(5),
         projectCosts: random(10001, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
@@ -1057,12 +1061,8 @@ it('should complete standard your funding proposal form', () => {
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
-        organisationTradingName: orgTradingName,
-        organisationAddress: {
-            streetAddress: `The Bar, 2 St James' Blvd`,
-            city: 'Newcastle',
-            postcode: 'NE4 7JH',
-        },
+        organisationTradingName: sample([faker.company.companyName(), '']),
+        organisationAddress: organisationAddress,
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Not-for-profit company',
@@ -1110,7 +1110,7 @@ it('should complete standard your funding proposal form', () => {
          *
          * Project regions step
          */
-        if (mock.projectRegions) {
+        if (mock.projectRegions.length > 0) {
             // Submit step w/no answers. Confirm error message
             submitStep();
 
@@ -1209,6 +1209,32 @@ it('should complete standard your funding proposal form', () => {
         cy.findAllByText('Submit application').first().click();
 
         cy.get('h1').should('contain', 'Thanks for telling us your proposal');
+    });
+}
+
+it('should complete standard your funding proposal in england', () => {
+    standardApplication({
+        projectCountries: ['England'],
+        projectRegions: ['North West', 'South West'],
+        projectLocation: 'Bournemouth',
+        organisationAddress: {
+            streetAddress: `The Bar, 2 St James' Blvd`,
+            city: 'Newcastle',
+            postcode: 'NE4 7JH',
+        },
+    });
+});
+
+it('should complete standard your funding proposal in northern-ireland', () => {
+    standardApplication({
+        projectCountries: ['Northern Ireland'],
+        projectRegions: [],
+        projectLocation: 'Belfast',
+        organisationAddress: {
+            streetAddress: `1 Cromac Pl`,
+            city: 'Belfast',
+            postcode: 'BT7 2JD',
+        },
     });
 });
 
