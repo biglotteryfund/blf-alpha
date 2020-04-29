@@ -42,12 +42,8 @@ test('invalid form', () => {
 });
 
 test('require region when england is selected', function () {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england'],
-            projectRegions: null,
-        }),
-    });
+    const data = omit(mockResponse(), 'projectRegions');
+    const form = formBuilder({ data });
 
     expect(mapMessages(form.validation)).toEqual(
         expect.arrayContaining(['Select one or more regions'])
