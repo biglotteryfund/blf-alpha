@@ -1,0 +1,25 @@
+{% from "components/blog/macro.njk" import blogTrail with context %}
+
+<div class="u-tone-background-tint u-padded u-margin-bottom">
+    <h4>Latest blogposts</h4>
+    <ul>
+        {% for entry in blogposts | take(3) %}
+            <div class="o-media u-margin-bottom-s">
+                {% if entry.thumbnail.square %}
+                    <img src="{{ entry.thumbnail.square }}"
+                         alt="{{ entry.title }}"
+                         class="o-media__figure"
+                         width="60"/>
+                {% endif %}
+                <div class="o-media__body">
+                    <p class="u-margin-bottom-s">
+                        <a href="{{ entry.linkUrl }}">
+                            <strong>{{ entry.title }}</strong>
+                        </a>
+                    </p>
+                    <p class="u-text-small">{{ formatDate(entry.postDate.date) }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </ul>
+</div>

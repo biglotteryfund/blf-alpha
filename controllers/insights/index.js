@@ -1,5 +1,7 @@
 'use strict';
 const express = require('express');
+const nunjucks = require('nunjucks');
+const Sentry = require('@sentry/node');
 const path = require('path');
 const clone = require('lodash/clone');
 const compact = require('lodash/compact');
@@ -78,7 +80,34 @@ router.get('/documents/:slug?', async function (req, res, next) {
     }
 });
 
-router.use('/covid-19-resources/:slug/:child_slug?', flexibleContentPage());
+router.use('/covid-19-resources/:slug/:child_slug?',
+    async function (req, res, next) {
+        const blogposts = await contentApi.getUpdates({
+            locale: req.i18n.getLocale(),
+            type: 'blog',
+        });
+
+        const context = {
+            ...res.locals,
+            ...req.app.locals,
+            ...{
+               blogposts: blogposts.result
+            }
+        };
+
+        nunjucks.render(
+            path.resolve(__dirname, './views/covid-sidebar.njk'),
+            context,
+        (renderErr, html) => {
+            if (renderErr) {
+                Sentry.captureException(renderErr);
+                next();
+            } else {
+                res.locals.sidebarContent = html;
+            }
+        });
+        next();
+    }, flexibleContentPage());
 
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
