@@ -1106,11 +1106,25 @@ it('should complete standard your funding proposal form', () => {
 
         submitStep();
 
-        mock.projectRegions.forEach(function (region) {
-            cy.findByLabelText(region).click();
-        });
+        /**
+         *
+         * Project regions step
+         */
+        if (mock.projectRegions) {
+            // Submit step w/no answers. Confirm error message
+            submitStep();
 
-        submitStep();
+            cy.findByTestId('form-errors').should(
+                'contain',
+                `Select one or more regions`
+            );
+
+            mock.projectRegions.forEach(function (region) {
+                cy.findByLabelText(region).click();
+            });
+
+            submitStep();
+        }
 
         cy.findByLabelText(
             'Where will most of your project take place?'
