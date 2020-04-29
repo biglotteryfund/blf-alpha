@@ -207,7 +207,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
             return Joi.when(Joi.ref('projectCountries'), {
                 is: isEnglandSelected,
-                then: [validAllEngland, validRegionOptions],
+                then: Joi.alternatives([
+                    validAllEngland,
+                    validRegionOptions,
+                ]).required(),
                 otherwise: Joi.any().strip(),
             });
         }

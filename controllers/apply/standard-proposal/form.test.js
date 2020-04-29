@@ -42,16 +42,23 @@ test('invalid form', () => {
 });
 
 test('require region when england is selected', function () {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england'],
-            projectRegions: null,
-        }),
-    });
+    const data = omit(mockResponse(), 'projectRegions');
+    const form = formBuilder({ data });
 
     expect(mapMessages(form.validation)).toEqual(
         expect.arrayContaining(['Select one or more regions'])
     );
+});
+
+test('strip region outside of england', function () {
+    const data = mockResponse({
+        projectCountries: ['northern-ireland'],
+        projectRegions: ['midlands', 'north-west'],
+    });
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.value).not.toHaveProperty('projectRegions');
 });
 
 test('strip other region selections when all-england is selected', function () {
