@@ -1,7 +1,10 @@
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 
-{% macro grid(children) %}
-    <section class="u-inner">
+{% macro grid(children, sidebar = null) %}
+    <section class="u-inner{% if sidebar %} content-sidebar{% endif %}">
+        {% if sidebar %}
+            <div class="content-sidebar__primary content-sidebar__primary--unconstrained">
+        {% endif %}
         <ul class="flex-grid">
             {% for page in children %}
                 <li class="flex-grid__item">
@@ -13,10 +16,22 @@
                 </li>
             {% endfor %}
         </ul>
+
+        {% if sidebar %}
+            </div>
+            <div class="content-sidebar__secondary">
+                {{ sidebar | safe }}
+            </div>
+        {% endif %}
     </section>
 {% endmacro %}
 
-{% macro list(children) %}
+{% macro list(children, sidebar = null) %}
+    {% if sidebar %}
+        <div class="content-sidebar">
+            <div class="content-sidebar__primary">
+    {% endif %}
+
     <ul class="section-links">
         {% for page in children %}
             <li class="section-links__item">
@@ -26,13 +41,21 @@
             </li>
         {% endfor %}
     </ul>
+
+    {% if sidebar %}
+            </div>
+            <div class="content-sidebar__secondary">
+                {{ sidebar | safe }}
+            </div>
+        </div>
+    {% endif %}
 {% endmacro %}
 
-{% macro childPages(children, mode) %}
+{% macro childPages(children, mode, sidebar = null) %}
     {% if (mode === 'grid') %}
-        {{ grid(children) }}
+        {{ grid(children, sidebar) }}
     {% else %}
-        {{ list(children) }}
+        {{ list(children, sidebar) }}
     {% endif %}
 {% endmacro %}
 

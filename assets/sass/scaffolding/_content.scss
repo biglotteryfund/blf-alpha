@@ -87,6 +87,10 @@
         max-width: $constrained;
         margin-bottom: $spacingUnit;
 
+        &.content-sidebar__primary--unconstrained {
+            max-width: 100%;
+        }
+
         @include mq('medium-major') {
             max-width: 100%;
             flex: 1 1 0%;

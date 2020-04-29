@@ -7,7 +7,7 @@
 
 {% set flexAnchor = 'item' %}
 
-{% macro flexibleContent(flexibleContent, children = null, breadcrumbs = null) %}
+{% macro flexibleContent(flexibleContent, children = null, breadcrumbs = null, sidebar = null) %}
     {% if flexibleContent.length > 0 %}
         {% set mediaAsideCycler = cycler(true, false) %}
 
@@ -20,7 +20,7 @@
                     <section class="content-box u-inner-wide-only" id="{{ flexAnchor + '-' + loop.index }}">
                 {% endif %}
 
-                {{ childPages(children, part.displayMode) }}
+                {{ childPages(children, part.displayMode, sidebar) }}
 
                 {% if useContentBox %}
                     </section>
