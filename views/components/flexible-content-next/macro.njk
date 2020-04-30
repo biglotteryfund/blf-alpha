@@ -30,7 +30,9 @@
                 {% endif %}
             {% elseif part.type === 'relatedContent' %}
                 <section class="u-inner">
-                    <h2 class="t--underline">{{ part.title }}</h2>
+                    {% if part.title %}
+                        <h2 class="t--underline">{{ part.title }}</h2>
+                    {% endif %}
                     <ul class="flex-grid flex-grid--3up">
                         {% for article in part.content %}
                             <li class="flex-grid__item">

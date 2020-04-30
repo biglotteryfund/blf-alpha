@@ -3,10 +3,10 @@
 {% from "components/promo-card/macro.njk" import promoCard with context %}
 
 {% macro flexibleContentPart(part, cycler = null) %}
-    {% if part.title %}
-        <h2 class="t1">{{ part.title }}</h2>
-    {% endif %}
     {% if part.type === 'mediaAside' %}
+        {% if part.title %}
+            <h2 class="t--underline">{{ part.title }}</h2>
+        {% endif %}
         {{ mediaAside(
             quoteText = part.quoteText,
             link = { "label": part.linkText, "url": part.linkUrl },
@@ -14,7 +14,9 @@
             isReversed = cycler.next() if cycler else false
         ) }}
     {% elseif part.type === 'relatedContent' %}
-        <h2 class="t--underline">{{ part.heading }}</h2>
+        {% if part.title %}
+            <h2 class="t--underline">{{ part.title }}</h2>
+        {% endif %}
         <ul class="flex-grid flex-grid--3up">
             {% for article in part.content %}
                 <li class="flex-grid__item">
@@ -31,6 +33,9 @@
             {% endfor %}
         </ul>
     {% else %}
+        {% if part.title %}
+            <h2 class="t1">{{ part.title }}</h2>
+        {% endif %}
         <div class="s-prose u-constrained-content-wide">
             {% if part.type === 'contentArea' %}
                 {{ part.content | safe }}
