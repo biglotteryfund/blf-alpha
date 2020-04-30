@@ -2,6 +2,7 @@
 'use strict';
 const faker = require('faker');
 const moment = require('moment');
+const sample = require('lodash/sample');
 
 const formBuilder = require('./form');
 const validateModel = require('../lib/validate-model');
@@ -410,6 +411,25 @@ test('valid form for statutory-body', function () {
         organisationType: 'statutory-body',
         organisationSubType: 'parish-council',
         seniorContactRole: 'parish-clerk',
+        // No registration numbers required
+        companyNumber: null,
+        charityNumber: null,
+        educationNumber: null,
+    });
+
+    const form = formBuilder({ data });
+    expect(form.validation.error).toBeNull();
+});
+
+test('role can be free text for some statutory bodies', function () {
+    const data = mockResponse({
+        organisationType: 'statutory-body',
+        organisationSubType: sample([
+            'prison-service',
+            'fire-service',
+            'police-authority',
+        ]),
+        seniorContactRole: faker.lorem.words(20),
         // No registration numbers required
         companyNumber: null,
         charityNumber: null,
