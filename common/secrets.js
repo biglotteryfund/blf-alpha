@@ -110,12 +110,22 @@ const EMAIL_EXPIRY_TEST_ADDRESS =
     process.env.EMAIL_EXPIRY_TEST_ADDRESS ||
     getParameter('emailExpiry.testEmail');
 
+/**
+ * DotDigital API credentials
+ * Used to sign up to email lists
+ */
+const DOTDIGITAL_API = {
+    user: process.env.DOTDIGITAL_USER || getParameter('dotdigital.api.user'),
+    password: process.env.DOTDIGITAL_PASS || getParameter('dotdigital.api.password')
+};
+
 module.exports = {
     AZURE_AUTH,
     BANK_API,
     CONTENT_API_URL,
     DATA_STUDIO_UNDER10K_URL,
     DB_CONNECTION_URI,
+    DOTDIGITAL_API,
     EMAIL_EXPIRY_SECRET,
     EMAIL_EXPIRY_TEST_ADDRESS,
     JWT_SIGNING_TOKEN,

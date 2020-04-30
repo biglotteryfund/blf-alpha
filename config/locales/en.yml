@@ -257,6 +257,39 @@ toplevel:
             href: "https://www.tnlcommunityfund.org.uk/media/data/grants/2019_YTD.xlsx"
         outro: >
           This work is licensed under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">open government licence for public sector information</a>, which allows you to use and re-use the Information that is available under this licence freely and flexibly, with only a few conditions. If you can’t find what you’re looking for, please <a href="/contact">contact us</a>.
+  ebulletin:
+    title: e-bulletin
+    introHeading: Find out about our funding
+    intro: Sign up for our latest news relating to your country
+    location: Location
+    locations:
+      england: England
+      wales: Wales
+      scotland: Scotland
+      northernIreland: Northern Ireland
+    yourDetails: Your Details
+    fields:
+      firstName: First name
+      lastName: Surname
+      organisation: Organisation
+      emailAddress: Email Address
+    errors:
+      firstName: Please provide your first name
+      lastName: Please provide your last name
+      emailMissing: Please provide your email address
+      emailInvalid: Please provide a valid email address
+      location: Please choose a country
+    callToAction: Subscribe
+    responses:
+      success:
+        title: Thank you for subscribing to receive updates and news from The National Lottery Community Fund
+        body: Your personal data is important to us and we will not share it with
+          third parties. We are sure you will enjoy hearing from us, but you can
+          unsubscribe at any time if you wish.
+      error:
+        title: There was an error signing you up to the e-bulletin.
+        body: It looks like we're experiencing an error with our e-bulletin tool.
+          Please try again later.
 insights:
   title: Insights from our funding
   intro: >
