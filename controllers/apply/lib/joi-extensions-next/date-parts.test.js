@@ -1,5 +1,4 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
 const Joi = require('./index');
 
@@ -8,7 +7,7 @@ test('valid date', function () {
         { day: '1', month: '2', year: '2100' },
         { day: 1, month: 2, year: 2100 },
     ].forEach(function (value) {
-        expect(Joi.dateParts().validate(value).error).toBeNull();
+        expect(Joi.dateParts().validate(value).error).toBeUndefined();
     });
 });
 
@@ -36,7 +35,7 @@ test('minDate', function () {
     const schema = Joi.dateParts().minDate('2020-10-01');
 
     const valid = schema.validate({ day: 2, month: 10, year: 2020 });
-    expect(valid.error).toBeNull();
+    expect(valid.error).toBeUndefined();
 
     const invalid = schema.validate({ day: 9, month: 1, year: 2020 });
     expect(invalid.error.message).toContain(
@@ -54,7 +53,7 @@ test('minDateRef', function () {
         dateA: { day: 2, month: 10, year: 2020 },
         dateB: { day: 2, month: 10, year: 2020 },
     });
-    expect(valid.error).toBeNull();
+    expect(valid.error).toBeUndefined();
 
     const invalid = schema.validate({
         dateA: { day: 2, month: 10, year: 2020 },
@@ -87,11 +86,13 @@ test('rangeLimit', function () {
         dateA: { day: 2, month: 10, year: 2020 },
         dateB: { day: 9, month: 10, year: 2020 },
     });
-    expect(valid.error).toBeNull();
+    expect(valid.error).toBeUndefined();
 
     const invalid = schema.validate({
         dateA: { day: 2, month: 10, year: 2020 },
         dateB: { day: 10, month: 10, year: 2020 },
     });
-    expect(invalid.error.message).toContain('Date must be within range');
+    expect(invalid.error.message).toContain(
+        'Date must be within 7 days of referenced date'
+    );
 });

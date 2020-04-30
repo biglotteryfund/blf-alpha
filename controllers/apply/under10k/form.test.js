@@ -4,7 +4,6 @@ const faker = require('faker');
 const moment = require('moment');
 
 const formBuilder = require('./form');
-const validateModel = require('../lib/validate-model');
 
 const {
     mockAddress,
@@ -30,10 +29,6 @@ function fieldsForStep(form, sectionSlug, stepIndex) {
         .getCurrentFields()
         .map((field) => field.name);
 }
-
-test('validate model shape', () => {
-    validateModel(formBuilder());
-});
 
 test('empty form', () => {
     const form = formBuilder();

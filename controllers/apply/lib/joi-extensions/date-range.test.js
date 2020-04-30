@@ -2,8 +2,7 @@
 // @ts-nocheck
 'use strict';
 const moment = require('moment');
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./date-range'));
+const Joi = require('./index');
 
 describe('dateRange', () => {
     test('valid date range', () => {

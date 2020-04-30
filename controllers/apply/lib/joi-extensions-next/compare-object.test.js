@@ -9,7 +9,7 @@ const objectSchema = Joi.object({
 
 const schema = Joi.object({
     exampleA: objectSchema.compare(Joi.ref('exampleB')),
-    exampleB: objectSchema.compare(Joi.ref('exampleA')),
+    exampleB: objectSchema,
 });
 
 test('compare equality of values in two objects', () => {
@@ -42,5 +42,5 @@ test('valid when values do not match', function () {
             exampleA: { a: 'different', b: 'values' },
             exampleB: { a: 'not', b: 'the same' },
         }).error
-    ).toBe(null);
+    ).toBeUndefined();
 });

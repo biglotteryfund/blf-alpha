@@ -18,6 +18,7 @@ module.exports = function budgetItems(joi) {
             ),
         language: {
             overBudget: 'over maximum budget',
+            underBudget: 'under minimum budget',
         },
         /* eslint-disable-next-line no-unused-vars */
         coerce(value, state, options) {
