@@ -272,12 +272,11 @@ toplevel:
       lastName: Darparwch y maes cyfenw
       emailMissing: Darparwch y maes cyfeiriad e-bost
       emailInvalid: Rhowch gyfeiriad e-bost dilys
-      location: Please choose a country @TODO
+      location: Dewiswch wlad
     callToAction: Tanysgrifio
     responses:
       success:
-        title: Diolch am danysgrifio i dderbyn diweddariadau a newyddion y Gronfa
-          Loteri Fawr @TODO (old name)
+        title: Diolch am danysgrifio i dderbyn diweddariadau a newyddion Cronfa Gymunedol y Loteri Genedlaethol
         body: Mae'ch data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda
           thrydydd partïon. Rydym yn siŵr y byddwch yn mwynhau clywed oddi wrthym,
           ond gallwch dad-danysgrifio unrhyw bryd os mynnwch.
