@@ -4,8 +4,5 @@
       "formUploadBucket": "tnlcf-uploads-test"
     }
   },
-  "hotjarId": "1036292",
-  "standardFundingProposal": {
-    "enableNewLocationQuestions": true
-  }
+  "hotjarId": "1036292"
 }

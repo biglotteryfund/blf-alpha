@@ -183,6 +183,7 @@ toplevel:
   home:
     title: Hafan
     intro:
+      prefix: Rydym yma yn barod i’ch helpu drwy COVID-19.
       title: Rydym yn cefnogi pobl a chymunedau i ffynnu
       description: <p>Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ledled y Deyrnas Unedig bob blwyddyn</p>
     under10k: Ymgeisio am grant o dan £10,000
