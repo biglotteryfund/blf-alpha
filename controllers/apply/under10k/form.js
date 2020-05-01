@@ -126,7 +126,7 @@ module.exports = function ({
     }
 
     function stepCOVID19Check() {
-        function fields() {
+        function _fields() {
             return has('projectCountry')(data) &&
                 get('projectCountry')(data) !== 'england'
                 ? [fields.supportingCOVID19]
@@ -138,7 +138,7 @@ module.exports = function ({
                 en: 'COVID-19 project',
                 cy: '@TODO: i18n',
             }),
-            fieldsets: [{ fields: fields() }],
+            fieldsets: [{ fields: _fields() }],
         });
     }
 
@@ -159,17 +159,26 @@ module.exports = function ({
     }
 
     function stepProjectLength() {
+        function _fields() {
+            const projectStartDateCheck = get('projectStartDateCheck')(data);
+
+            if (flags.enableNewCOVID19Flow) {
+                return compact([
+                    projectStartDateCheck !== 'asap' && fields.projectStartDate,
+                    fields.projectEndDate,
+                ]);
+            } else {
+                return [fields.projectStartDate, fields.projectEndDate];
+            }
+        }
+
         return new Step({
             title: localise({
                 en: 'Project length',
                 cy: 'Hyd y prosiect',
             }),
             fieldsets: [
-                {
-                    fields: has('projectCountry')(data)
-                        ? [fields.projectStartDate, fields.projectEndDate]
-                        : [],
-                },
+                { fields: has('projectCountry')(data) ? _fields() : [] },
             ],
         });
     }
