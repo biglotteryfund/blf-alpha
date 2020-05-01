@@ -14,6 +14,7 @@ module.exports = {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
+        const supportingCOVID19 = get('supportingCOVID19')(data);
 
         function options() {
             const optionAsap = {
@@ -32,7 +33,7 @@ module.exports = {
                 }),
             };
 
-            if (projectCountry === 'england') {
+            if (projectCountry === 'england' || supportingCOVID19 === 'yes') {
                 optionExactDate.attributes = { disabled: 'disabled' };
             }
 
