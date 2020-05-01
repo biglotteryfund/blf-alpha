@@ -94,12 +94,13 @@ module.exports = {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
+        const supportingCOVID19 = get('supportingCOVID19')(data);
 
         const minWords = 50;
         const maxWords = 150;
 
-        function guidanceText() {
-            const fallbackText = localise({
+        function existingGuidanceText() {
+            return localise({
                 en: `<p>
                     <strong>If your project is COVID-19 related, we will prioritise:</strong>
                 </p>
@@ -147,27 +148,88 @@ module.exports = {
                     <li>Helpu mwy o bobl i gyrraedd eu potensial, trwy eu cefnogi cyn gynted â phosibl</li>
                 </ol>`,
             });
+        }
 
-            if (flags.enableNewCOVID19Flow) {
-                if (projectCountry === 'england') {
-                    return localise({
-                        en: `<p>
-                            <strong>If your project is COVID-19 related, we will prioritise:</strong>
-                        </p>
-                        <ol>
-                            <li>Organisations supporting people who are at high risk from COVID-19</li>
-                            <li>Organisations supporting communities most likely to face increased
-                                demand and challenges as a direct result of COVID-19</li>
-                            <li>Organisations with high potential to support communities
-                                with the direct and indirect impact of COVID-19</li>
-                        </ol>`,
-                        cy: `@TODO: i18n`,
-                    });
-                } else {
-                    return fallbackText;
-                }
+        function conditionalGuidanceText() {
+            const prioritiesCOVID19 = localise({
+                en: `<ol>
+                    <li>organisations supporting people who are
+                        at high risk from COVID-19
+                    </li>
+                    <li>organisation supporting people most likely to face
+                        increased demand and challenges as a result of
+                        the COVID-19 crisis
+                    </li>
+                    <li>organisations which connect communities and support
+                        communities to work together to respond to COVID-19.
+                    </li>
+                </ol>`,
+                cy: `@TODO: i18n`,
+            });
+
+            const prioritiesDefault = localise({
+                en: `<ol>
+                    <li>
+                        Bring people together and build strong
+                        relationships in and across communities
+                    </li>
+                    <li>Improve the places and spaces that matter to communities</li>
+                    <li>
+                        Help more people to reach their potential,
+                        by supporting them at the earliest possible stage
+                    </li>
+                </ol>`,
+                cy: `@TODO: i18n`,
+            });
+
+            if (projectCountry === 'england' || supportingCOVID19 === 'yes') {
+                return localise({
+                    en: `<p><strong>We will prioritise:</strong></p>
+                        ${prioritiesCOVID19}
+                        <p>
+                            You can tell us if your project meets more
+                            than one priority, but don't worry if it doesn't.
+                        </p>`,
+                    cy: `@TODO: i18n`,
+                });
+            } else if (supportingCOVID19 === 'no') {
+                return localise({
+                    en: `<p><strong>
+                            We want to fund ideas that do at least one of these three things:
+                        </strong></p>
+                        ${prioritiesDefault}
+                        <p>
+                            You can tell us if your project meets more
+                            than one priority, but don't worry if it doesn't.
+                        </p>`,
+                    cy: `@TODO: i18n`,
+                });
             } else {
-                return fallbackText;
+                return localise({
+                    en: `<p>
+                        <strong>If your project is COVID-19 related, we will prioritise:</strong>
+                    </p>
+                    ${prioritiesCOVID19}
+                    <p><strong>
+                        But for all other projects, we want to fund ideas that do
+                        at least one of these three things:
+                    </strong></p>
+                    ${prioritiesDefault}
+                    <p>
+                        You can tell us if your project meets more
+                        than one priority, but don't worry if it doesn't.
+                    </p>`,
+
+                    cy: `@TODO: i18n`,
+                });
+            }
+        }
+
+        function guidanceText() {
+            if (flags.enableNewCOVID19Flow) {
+                return conditionalGuidanceText();
+            } else {
+                return existingGuidanceText();
             }
         }
 

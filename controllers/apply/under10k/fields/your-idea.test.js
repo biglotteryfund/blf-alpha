@@ -21,12 +21,33 @@ test('show COVID-19 guidance text in England', function () {
     expect(field.explanation).toMatchSnapshot();
 });
 
-test.todo(
-    'show COVID-19 guidance text outside England when project is responding to COVID-19'
-);
+test('show COVID-19 guidance text outside England when project is responding to COVID-19', function () {
+    const data = {
+        projectCountry: 'scotland',
+        supportingCOVID19: 'yes',
+    };
+    const field = fieldYourIdeaPriorities('en', data, {
+        enableNewCOVID19Flow: true,
+    });
+    expect(field.explanation).toMatchSnapshot();
+});
 
-test.todo(
-    'show regular guidance text outside England when project is not responding to COVID-19'
-);
+test('show regular guidance text outside England when project is not responding to COVID-19', function () {
+    const data = {
+        projectCountry: 'scotland',
+        supportingCOVID19: 'no',
+    };
+    const field = fieldYourIdeaPriorities('en', data, {
+        enableNewCOVID19Flow: true,
+    });
+    expect(field.explanation).toMatchSnapshot();
+});
 
-test.todo('show combined guidance text as a fallback');
+test('show combined guidance text as a fallback', function () {
+    const field = fieldYourIdeaPriorities(
+        'en',
+        {},
+        { enableNewCOVID19Flow: true }
+    );
+    expect(field.explanation).toMatchSnapshot();
+});
