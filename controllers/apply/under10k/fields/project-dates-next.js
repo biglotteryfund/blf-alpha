@@ -73,20 +73,16 @@ module.exports = {
             locale: locale,
             name: 'projectStartDate',
             label: localise({
-                en: `When would you like to start your project?`,
-                cy: `Pryd hoffech ddechrau eich prosiect?`,
+                en: `Tell us when you'd like to get the money if you're awarded funding?`,
+                cy: `@TODO: i18n`,
             }),
             explanation: localise({
                 en: oneLine`Don't worry, this can be an estimate. 
                 But most projects must usually start on or after
-                <strong>${minDateExample}</strong>
-                (projects about COVID-19 can start sooner than this,
-                so just enter <strong>${minDateExample}</strong> for now).`,
+                <strong>${minDateExample}</strong>.`,
                 cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
                 Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar 
-                neu ar ôl <strong>${minDateExample}</strong> 
-                (gall prosiectau am COVID-19 gychwyn yn gynt na hyn, felly 
-                nodwch <strong>${minDateExample}</strong> am nawr).`,
+                neu ar ôl <strong>${minDateExample}</strong>.`,
             }),
             settings: {
                 minYear: minDate.format('YYYY'),
