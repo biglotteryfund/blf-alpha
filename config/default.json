@@ -29,6 +29,9 @@
   "applications": {
     "expiryPeriod": [3, "months"]
   },
+  "fundingUnder10k": {
+    "enableNewCOVID19Flow": false
+  },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]
   },

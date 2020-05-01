@@ -55,7 +55,7 @@ const {
     FREE_TEXT_MAXLENGTH,
 } = require('./constants');
 
-module.exports = function fieldsFor({ locale, data = {} }) {
+module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     function multiChoice(options) {
@@ -265,7 +265,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectEndDate: fieldProjectEndDate(locale),
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
-        yourIdeaPriorities: fieldYourIdeaPriorities(locale),
+        yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),
         yourIdeaCommunity: fieldYourIdeaCommunity(locale),
         projectBudget: {
             name: 'projectBudget',

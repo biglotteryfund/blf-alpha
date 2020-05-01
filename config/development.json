@@ -2,5 +2,8 @@
   "logLevel": "debug",
   "features": {
     "enableSalesforceConnector": false
+  },
+  "fundingUnder10k": {
+    "enableNewCOVID19Flow": true
   }
 }

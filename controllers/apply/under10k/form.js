@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -36,6 +37,11 @@ module.exports = function ({
     data = {},
     showAllFields = false,
     metadata = {},
+    flags = {
+        enableNewCOVID19Flow: config.get(
+            'fundingUnder10k.enableNewCOVID19Flow'
+        ),
+    },
 } = {}) {
     const localise = get(locale);
 
@@ -55,10 +61,7 @@ module.exports = function ({
 
     const currentOrganisationType = get('organisationType')(data);
 
-    const fields = fieldsFor({
-        locale: locale,
-        data: data,
-    });
+    const fields = fieldsFor({ locale, data, flags });
 
     function stepProjectName() {
         return new Step({
