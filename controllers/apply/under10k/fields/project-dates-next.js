@@ -110,33 +110,49 @@ module.exports = {
             ],
         });
     },
-    fieldProjectEndDate(locale) {
+    fieldProjectEndDate(locale, data = {}) {
         const localise = get(locale);
 
-        const MAX_PROJECT_DURATION = {
-            amount: 15,
-            unit: 'months',
-            label: { en: '15 months', cy: '15 mis' },
-        };
+        const projectCountry = get('projectCountry')(data);
+
+        function getMaxDurationMonths() {
+            if (projectCountry === 'england') {
+                return 6;
+            } else {
+                return 12;
+            }
+        }
+
+        function explanation() {
+            if (projectCountry === 'england') {
+                return localise({
+                    en: oneLine`Given the COVID-19 emergency, you can have up to
+                        6 months after award to spend the money. The project can
+                        even be as short as just one day.`,
+                    cy: `@TODO: i18n`,
+                });
+            } else {
+                return localise({
+                    en: oneLine`You have up to 12 months after award to
+                        spend the money. It can even be as short as just one day`,
+                    cy: `@TODO: i18n`,
+                });
+            }
+        }
 
         return new DateField({
             locale: locale,
             name: 'projectEndDate',
             label: localise({
-                en: `When would you like to finish your project?`,
-                cy: `Pryd hoffech orffen eich prosiect?`,
+                en: `When would you have spent the money?`,
+                cy: `@TODO: i18n`,
             }),
-            explanation: localise({
-                en: oneLine`Your project can finish up to 12 months after it starts.
-                It can even be as short as just one day`,
-                cy: oneLine`Gall eich prosiect orffen hyd at 12 mis wedi iddo gychwyn.
-                Gall fod mor fyr ag un diwrnod yn unig.`,
-            }),
+            explanation: explanation(),
             schema: Joi.dateParts()
                 .minDateRef(Joi.ref('projectStartDate'))
                 .rangeLimit(Joi.ref('projectStartDate'), {
-                    amount: MAX_PROJECT_DURATION.amount,
-                    unit: MAX_PROJECT_DURATION.unit,
+                    amount: getMaxDurationMonths(),
+                    unit: 'months',
                 })
                 .required(),
             messages: [
@@ -158,11 +174,9 @@ module.exports = {
                     type: 'dateParts.rangeLimit',
                     message: localise({
                         en: oneLine`Date you end the project must be within
-                        ${localise(MAX_PROJECT_DURATION.label)}
-                        of the start date.`,
+                        ${getMaxDurationMonths()} months of the start date.`,
                         cy: oneLine`Rhaid i ddyddiad gorffen y prosiect fod o fewn
-                        ${localise(MAX_PROJECT_DURATION.label)}
-                        o ddyddiad dechrau’r prosiect.`,
+                        ${getMaxDurationMonths()} mis o ddyddiad dechrau’r prosiect.`,
                     }),
                 },
             ],

@@ -1748,7 +1748,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             data
         );
         allFields.projectStartDate = fieldProjectStartDateNext(locale, data);
-        allFields.projectEndDate = fieldProjectEndDateNext(locale);
+        allFields.projectEndDate = fieldProjectEndDateNext(locale, data);
     } else {
         allFields.projectStartDate = fieldProjectStartDate(locale, data);
         allFields.projectEndDate = fieldProjectEndDate(locale);
