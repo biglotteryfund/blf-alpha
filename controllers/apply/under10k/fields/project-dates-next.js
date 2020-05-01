@@ -41,7 +41,7 @@ module.exports = {
 
         return new RadioField({
             locale: locale,
-            name: 'fieldProjectStartDateCheck',
+            name: 'projectStartDateCheck',
             label: localise({
                 en: `When would you like to get the money if you are awarded?`,
                 cy: `@TODO: i18n`,

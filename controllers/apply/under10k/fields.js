@@ -34,6 +34,8 @@ const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
 
+const { fieldSupportingCOVID19 } = require('./fields/covid-19');
+
 const {
     fieldProjectStartDate,
     fieldProjectEndDate,
@@ -259,7 +261,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
-    return {
+    const allFields = {
         projectName: fieldProjectName(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
@@ -1734,4 +1736,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             isRequired: true,
         },
     };
+
+    if (flags.enableNewCOVID19Flow) {
+        allFields.supportingCOVID19 = fieldSupportingCOVID19(locale);
+    }
+
+    return allFields;
 };

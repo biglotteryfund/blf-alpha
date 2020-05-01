@@ -125,6 +125,23 @@ module.exports = function ({
         });
     }
 
+    function stepCOVID19Check() {
+        return new Step({
+            title: localise({
+                en: 'COVID-19 project',
+                cy: '@TODO: i18n',
+            }),
+            fieldsets: [
+                {
+                    fields:
+                        get('projectCountry')(data) !== 'england'
+                            ? [fields.supportingCOVID19]
+                            : [],
+                },
+            ],
+        });
+    }
+
     function stepProjectLength() {
         return new Step({
             title: localise({
@@ -1158,14 +1175,15 @@ module.exports = function ({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`,
             }),
-            steps: [
+            steps: compact([
                 stepProjectName(),
                 stepProjectCountry(),
                 stepProjectLocation(),
+                flags.enableNewCOVID19Flow && stepCOVID19Check(),
                 stepProjectLength(),
                 stepYourIdea(),
                 stepProjectCosts(),
-            ],
+            ]),
         };
     }
 
