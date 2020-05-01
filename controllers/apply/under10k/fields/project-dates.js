@@ -7,7 +7,6 @@ const Joi = require('../../lib/joi-extensions');
 const DateField = require('../../lib/field-types/date');
 
 const getLeadTimeWeeks = require('../lib/lead-time');
-const { MAX_PROJECT_DURATION } = require('../constants');
 
 module.exports = {
     fieldProjectStartDate(locale, data) {
@@ -68,6 +67,12 @@ module.exports = {
     },
     fieldProjectEndDate(locale) {
         const localise = get(locale);
+
+        const MAX_PROJECT_DURATION = {
+            amount: 15,
+            unit: 'months',
+            label: { en: '15 months', cy: '15 mis' },
+        };
 
         return new DateField({
             locale: locale,

@@ -22,12 +22,6 @@ const SUGGESTED_PROJECT_DURATION = {
     cy: '12 mis',
 };
 
-const MAX_PROJECT_DURATION = {
-    amount: 15,
-    unit: 'months',
-    label: { en: '15 months', cy: '15 mis' },
-};
-
 const ORGANISATION_TYPES = {
     UNREGISTERED_VCO: 'unregistered-vco',
     UNINCORPORATED_REGISTERED_CHARITY: 'unincorporated-registered-charity',
@@ -121,7 +115,6 @@ module.exports = {
     CONTACT_EXCLUDED_TYPES,
     MAX_BUDGET_TOTAL_GBP,
     SUGGESTED_PROJECT_DURATION,
-    MAX_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     MIN_BUDGET_TOTAL_GBP,
