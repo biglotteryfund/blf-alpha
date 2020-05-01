@@ -114,6 +114,7 @@ module.exports = {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
+        const projectStartDateCheck = get('projectStartDateCheck')(data);
 
         function getMaxDurationMonths() {
             if (projectCountry === 'england') {
@@ -140,6 +141,23 @@ module.exports = {
             }
         }
 
+        function schema() {
+            if (projectStartDateCheck === 'asap') {
+                const minDate = moment().add(getMaxDurationMonths(), 'months');
+                return Joi.dateParts()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .required();
+            } else {
+                return Joi.dateParts()
+                    .minDateRef(Joi.ref('projectStartDate'))
+                    .rangeLimit(Joi.ref('projectStartDate'), {
+                        amount: getMaxDurationMonths(),
+                        unit: 'months',
+                    })
+                    .required();
+            }
+        }
+
         return new DateField({
             locale: locale,
             name: 'projectEndDate',
@@ -148,13 +166,7 @@ module.exports = {
                 cy: `@TODO: i18n`,
             }),
             explanation: explanation(),
-            schema: Joi.dateParts()
-                .minDateRef(Joi.ref('projectStartDate'))
-                .rangeLimit(Joi.ref('projectStartDate'), {
-                    amount: getMaxDurationMonths(),
-                    unit: 'months',
-                })
-                .required(),
+            schema: schema(),
             messages: [
                 {
                     type: 'base',
