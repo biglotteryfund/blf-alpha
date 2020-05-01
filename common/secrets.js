@@ -116,7 +116,8 @@ const EMAIL_EXPIRY_TEST_ADDRESS =
  */
 const DOTDIGITAL_API = {
     user: process.env.DOTDIGITAL_USER || getParameter('dotdigital.api.user'),
-    password: process.env.DOTDIGITAL_PASS || getParameter('dotdigital.api.password')
+    password:
+        process.env.DOTDIGITAL_PASS || getParameter('dotdigital.api.password'),
 };
 
 module.exports = {

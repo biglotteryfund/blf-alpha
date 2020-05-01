@@ -5,7 +5,6 @@ const validateSchema = require('../../../common/validate-schema');
 
 describe('ebulletin contact schema', () => {
     test('new contact', () => {
-
         expect(
             validateSchema(newContact(), {
                 email: 'just@email.com',
@@ -47,7 +46,7 @@ describe('ebulletin contact schema', () => {
                 email: 'john@apple.com',
                 firstName: 'John',
                 lastName: 'Lennon',
-                location: 'Liverpool'
+                location: 'Liverpool',
             }).messages
         ).toEqual([
             {
@@ -55,6 +54,5 @@ describe('ebulletin contact schema', () => {
                 type: 'base',
             },
         ]);
-
     });
 });

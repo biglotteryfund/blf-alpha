@@ -4,7 +4,6 @@ const express = require('express');
 const { basicContent, flexibleContentPage } = require('../common');
 const { isNotProduction } = require('../../common/appData');
 
-
 const router = express.Router();
 
 router.get('/', flexibleContentPage());

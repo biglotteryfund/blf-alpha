@@ -29,7 +29,6 @@ router
     .all(noStore, csrfProtection)
     .get(renderForm)
     .post(async function handleEbulletinSignup(req, res) {
-
         const sanitisedBody = sanitiseRequestBody(omit(req.body, ['_csrf']));
 
         const validationResult = validateSchema(
@@ -41,7 +40,7 @@ router
             try {
                 await ebulletinService.subscribe({
                     addressBookId: '148374',
-                    subscriptionData: validationResult.value
+                    subscriptionData: validationResult.value,
                 });
                 res.locals.status = 'SUCCESS';
                 renderForm(req, res);
@@ -52,7 +51,12 @@ router
                 renderForm(req, res);
             }
         } else {
-            renderForm(req, res, validationResult.value, validationResult.messages);
+            renderForm(
+                req,
+                res,
+                validationResult.value,
+                validationResult.messages
+            );
         }
     });
 
