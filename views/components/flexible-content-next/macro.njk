@@ -1,7 +1,10 @@
+{% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/blog/macro.njk" import blogTrail with context %}
 {% from "components/callout/macro.njk" import callout %}
 {% from "components/child-pages/macro.njk" import childPages %}
 {% from "components/fact-river/macro.njk" import factRiver %}
 {% from "components/media-aside/macro.njk" import mediaAside %}
+{% from "components/programmes.njk" import programmeCard with context %}
 {% from "components/promo-card/macro.njk" import promoCard with context %}
 {% from "components/table-of-contents/macro.njk" import tableOfContents %}
 
@@ -42,6 +45,41 @@
                                 }) }}
                             </li>
                         {% endfor %}
+                    </ul>
+                </section>
+            {% elseif part.type === 'automaticContentList' %}
+                <section class="u-inner">
+                    {% if part.title %}
+                        <h2 class="t--underline">{{ part.title }}</h2>
+                    {% endif %}
+                    <ul class="flex-grid flex-grid--3up">
+                        {% if part.sectionType === 'blogposts' %}
+                            {% for entry in part.items %}
+                                <li class="flex-grid__item">
+                                    {{ blogTrail(
+                                        entry = entry,
+                                        updateType = 'blog'
+                                    ) }}
+                                </li>
+                            {% endfor %}
+                        {% elseif part.sectionType === 'pressReleases' %}
+                            {% for entry in part.items %}
+                                <li class="flex-grid__item">
+                                    {{ articleTeaser({
+                                        'title': entry.trailText or entry.title,
+                                        'subtitle': formatDate(entry.postDate.date),
+                                        'summary': entry.summary,
+                                        'linkUrl': entry.linkUrl
+                                    }) }}
+                                </li>
+                            {% endfor %}
+                        {% elseif part.sectionType === 'fundingProgrammes' %}
+                            {% for entry in part.items %}
+                                <li class="flex-grid__item">
+                                    {{ programmeCard(entry) }}
+                                </li>
+                            {% endfor %}
+                        {% endif %}
                     </ul>
                 </section>
             {% else %}
