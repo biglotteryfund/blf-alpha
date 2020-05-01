@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const { Field, RadioField } = require('../../lib/field-types');
 const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');
 const rolesFor = require('../lib/roles');
 
@@ -19,18 +19,6 @@ module.exports = function (locale, data) {
     const isRegisteredCharity = [
         ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
     ].includes(currentOrganisationType);
-
-    /**
-     * Statutory bodies require a sub-type,
-     * some of which allow free text input for roles.
-     */
-    const isFreeText =
-        currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
-        [
-            STATUTORY_BODY_TYPES.PRISON_SERVICE,
-            STATUTORY_BODY_TYPES.FIRE_SERVICE,
-            STATUTORY_BODY_TYPES.POLICE_AUTHORITY,
-        ].includes(currentOrganisationSubType);
 
     function warnings() {
         let result = [];
@@ -106,65 +94,88 @@ module.exports = function (locale, data) {
         return result;
     }
 
-    return {
-        name: 'seniorContactRole',
-        label: localise({ en: 'Role', cy: 'Rôl' }),
-        explanation: localise({
-            en: `<p>
-                You told us what sort of organisation you are earlier.
-                ${
-                    isFreeText
-                        ? oneLine`So the senior contact role should be someone
-                          in a position of authority in your organisation.`
-                        : oneLine`So the senior contact role options we're
-                          giving you now are based on your organisation type.
-                          The options given to you for selection are based on this.`
-                }
-            </p>`,
-            cy: `<p>
-                Fe ddywedoch wrthym ba fath o sefydliad ydych yn gynharach.
-                ${
-                    isFreeText
-                        ? oneLine`Felly dylai rôl yr uwch gyswllt fod yn rhywun
-                          mewn safle o awdurdod yn eich sefydliad`
-                        : oneLine`Felly mae’r opsiynau rôl uwch gyswllt rydym
-                          yn ei roi ichi wedi’i seilio ar fath eich sefydliad.
-                          Mae’r opsiynau sydd wedi ei ddarparu i chi ddewis
-                          ohonynt wedi’i seilio ar hyn`
-                }
-            </p>`,
-        }),
-        warnings: warnings(),
-        type: isFreeText ? 'text' : 'radio',
-        options: rolesFor({
+    /**
+     * Statutory bodies require a sub-type,
+     * some of which allow free text input for roles.
+     */
+    const isFreeText =
+        currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
+        [
+            STATUTORY_BODY_TYPES.PRISON_SERVICE,
+            STATUTORY_BODY_TYPES.FIRE_SERVICE,
+            STATUTORY_BODY_TYPES.POLICE_AUTHORITY,
+        ].includes(currentOrganisationSubType);
+
+    if (isFreeText) {
+        return new Field({
             locale: locale,
-            organisationType: currentOrganisationType,
-            organisationSubType: currentOrganisationSubType,
-        }),
-        isRequired: true,
-        get schema() {
-            if (isFreeText) {
-                return Joi.string().required();
-            } else {
-                return Joi.string()
-                    .valid(this.options.map((option) => option.value))
-                    .required();
-            }
-        },
-        messages: [
-            {
-                type: 'base',
-                message: isFreeText
-                    ? localise({ en: 'Enter a role', cy: 'Rhowch rôl ' })
-                    : localise({ en: 'Choose a role', cy: 'Dewiswch rôl ' }),
-            },
-            {
-                type: 'any.allowOnly',
-                message: localise({
-                    en: 'Senior contact role is not valid',
-                    cy: 'Nid yw’r rôl uwch gyswllt yn ddilys',
-                }),
-            },
-        ],
-    };
+            name: 'seniorContactRole',
+            label: localise({ en: 'Role', cy: 'Rôl' }),
+            explanation: localise({
+                en: `<p>
+                    You told us what sort of organisation you are earlier.
+                    So the senior contact role should be someone
+                    in a position of authority in your organisation.
+                </p>`,
+                cy: `<p>
+                    Fe ddywedoch wrthym ba fath o sefydliad ydych yn gynharach.
+                    Felly dylai rôl yr uwch gyswllt fod yn rhywun
+                    mewn safle o awdurdod yn eich sefydliad.
+                </p>`,
+            }),
+            warnings: warnings(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a role',
+                        cy: 'Rhowch rôl ',
+                    }),
+                },
+            ],
+        });
+    } else {
+        return new RadioField({
+            locale: locale,
+            name: 'seniorContactRole',
+            label: localise({ en: 'Role', cy: 'Rôl' }),
+            explanation: localise({
+                en: `<p>
+                    You told us what sort of organisation you are earlier.
+                    So the senior contact role options we're
+                    giving you now are based on your organisation type.
+                    The options given to you for selection are based on this.
+                </p>`,
+                cy: `<p>
+                    Fe ddywedoch wrthym ba fath o sefydliad ydych yn gynharach.
+                    Felly mae’r opsiynau rôl uwch gyswllt rydym
+                    yn ei roi ichi wedi’i seilio ar fath eich sefydliad.
+                    Mae’r opsiynau sydd wedi ei ddarparu i chi ddewis
+                    ohonynt wedi’i seilio ar hyn
+                </p>`,
+            }),
+            warnings: warnings(),
+            options: rolesFor({
+                locale: locale,
+                organisationType: currentOrganisationType,
+                organisationSubType: currentOrganisationSubType,
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose a role',
+                        cy: 'Dewiswch rôl ',
+                    }),
+                },
+                {
+                    type: 'any.allowOnly',
+                    message: localise({
+                        en: 'Senior contact role is not valid',
+                        cy: 'Nid yw’r rôl uwch gyswllt yn ddilys',
+                    }),
+                },
+            ],
+        });
+    }
 };
