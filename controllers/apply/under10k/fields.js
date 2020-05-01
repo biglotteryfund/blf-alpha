@@ -26,15 +26,18 @@ const fieldEducationNumber = require('./fields/education-number');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectCountry = require('./fields/project-country');
-const fieldProjectEndDate = require('./fields/project-end-date');
 const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectLocationDescription = require('./fields/project-location-description');
 const fieldProjectName = require('./fields/project-name');
 const fieldProjectPostcode = require('./fields/project-postcode');
-const fieldProjectStartDate = require('./fields/project-start-date');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
+
+const {
+    fieldProjectStartDate,
+    fieldProjectEndDate,
+} = require('./fields/project-dates');
 
 const {
     fieldYourIdeaProject,
