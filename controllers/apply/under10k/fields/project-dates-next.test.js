@@ -10,6 +10,8 @@ test('fieldProjectStartDateCheck both options enabled by default', function () {
     ]);
 });
 
-test.skip('fieldProjectStartDateCheck exact date disabled in England', function () {});
+test.todo('fieldProjectStartDateCheck exact date disabled in England');
 
-test.skip('fieldProjectStartDateCheck exact date disabled outside England when project is responding to COVID-19', function () {});
+test.todo(
+    'fieldProjectStartDateCheck exact date disabled outside England when project is responding to COVID-19'
+);
