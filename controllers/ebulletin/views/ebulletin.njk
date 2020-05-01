@@ -1,0 +1,93 @@
+{% extends "layouts/main.njk" %}
+
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
+
+{% set bodyClass = 'has-static-header' %}
+{% set copy = __('toplevel.ebulletin') %}
+
+{% block content %}
+
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {% if status === 'SUCCESS' %}
+                <div class="s-prose">
+                    <h3>{{ copy.responses.success.title }}</h3>
+                    <p>{{ copy.responses.success.body | safe }}</p>
+                </div>
+            {% elseif status === 'ERROR' %}
+                <h3>{{ copy.responses.error.title }}</h3>
+                <p>{{ copy.responses.error.body | safe }}</p>
+            {% else %}
+                <form class="form-ebulletin form-theme-slim" method="post" action="{{ localify('/about/ebulletin') }}" novalidate>
+
+                    {% if csrfToken %}
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                    {% endif %}
+
+                    <h2 class="t1 t--underline">{{ copy.introHeading }}</h2>
+
+                    <p>{{ copy.intro }}</p>
+
+                    {{ formErrors(
+                        errors = errors,
+                        title = copy.responses.error.title
+                    ) }}
+
+                    {{ formField({
+                        name: 'location',
+                        type: 'radio',
+                        label: copy.location,
+                        value: formValues.location,
+                        options: validLocations
+                    }, errors = errors) }}
+
+                    <fieldset class="form-fieldset form-fieldset--details">
+                        <legend class="form-fieldset__legend u-visually-hidden">
+                            {{ copy.yourDetails }}
+                        </legend>
+                        <div class="form-fieldset__fields">
+                            {{ formField({
+                                type: 'text',
+                                name: 'firstName',
+                                autocompleteName: 'given-name',
+                                label: copy.fields.firstName,
+                                value: formValues.firstName,
+                                isRequired: true
+                            }, errors = errors) }}
+
+                            {{ formField({
+                                type: 'text',
+                                name: 'lastName',
+                                autocompleteName: 'family-name',
+                                label: copy.fields.lastName,
+                                value: formValues.lastName,
+                                isRequired: true
+                            }, errors = errors) }}
+
+                            {{ formField({
+                                type: 'text',
+                                name: 'organisation',
+                                autocompleteName: 'organization',
+                                label: copy.fields.organisation,
+                                value: formValues.organisation,
+                                isRequired: false
+                            }, errors = errors) }}
+
+                            {{ formField({
+                                type: 'email',
+                                name: 'email',
+                                autocompleteName: 'email',
+                                label: copy.fields.emailAddress,
+                                value: formValues.email,
+                                placeholder: 'yourname@example.com',
+                                isRequired: true
+                            }, errors = errors) }}
+                        </div>
+                    </fieldset>
+
+                    <input type="submit" value="{{ copy.callToAction }}" class="btn btn--small u-block-full"/>
+                </form>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

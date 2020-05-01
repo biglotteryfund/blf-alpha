@@ -252,6 +252,39 @@ toplevel:
             href: "https://www.tnlcommunityfund.org.uk/media/data/grants/2019_YTD.xlsx"
         outro: >
           Trwyddedir y gwaith hwn o dan y <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">drwydded llywodraeth agored ar gyfer gwybodaeth sector cyhoeddus</a>, gan alluogi chi i ddefnyddio ac ailddefnyddio'r Wybodaeth sydd ar gael o dan y drwydded hon yn rhydd ac yn hyblyg, gyda dim ond ychydig o amodau. Os na allwch ddod o hyd i'r hyn rydych yn chwilio amdano, <a href="/contact">cysylltwch â ni</a>.
+  ebulletin:
+    title: e-fwletin
+    introHeading: Mwy o wybodaeth am ein grantiau
+    intro: Cofrestrwch am y newyddion diweddaraf yn eich gwlad
+    location: Lleoliad
+    locations:
+      england: Lloegr
+      wales: Cymru
+      scotland: Yr Alban
+      northernIreland: Gogledd Iwerddon
+    yourDetails: Eich Manylion
+    fields:
+      firstName: Enw cyntaf
+      lastName: Cyfenw
+      organisation: Mudiad
+      emailAddress: Cyfeiriad e-bost
+    errors:
+      firstName: Darparwch y maes enw cyntaf
+      lastName: Darparwch y maes cyfenw
+      emailMissing: Darparwch y maes cyfeiriad e-bost
+      emailInvalid: Rhowch gyfeiriad e-bost dilys
+      location: Dewiswch wlad
+    callToAction: Tanysgrifio
+    responses:
+      success:
+        title: Diolch am danysgrifio i dderbyn diweddariadau a newyddion Cronfa Gymunedol y Loteri Genedlaethol
+        body: Mae'ch data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda
+          thrydydd partïon. Rydym yn siŵr y byddwch yn mwynhau clywed oddi wrthym,
+          ond gallwch dad-danysgrifio unrhyw bryd os mynnwch.
+      error:
+        title: Cafwyd gwall wrth gofrestru chi i'r e-fwletin.
+        body: Mae'n edrych fel ein bod yn cael trafferth gyda'n teclyn e-fwletin.
+          Rhowch gynnig arall arni'n nes ymlaen.
 insights:
   title: Mewnwelediad o’n hariannu
   intro: >
