@@ -42,6 +42,12 @@ const {
 } = require('./fields/project-dates');
 
 const {
+    fieldProjectStartDateCheck,
+    fieldProjectStartDate: fieldProjectStartDateNext,
+    fieldProjectEndDate: fieldProjectEndDateNext,
+} = require('./fields/project-dates-next');
+
+const {
     fieldYourIdeaProject,
     fieldYourIdeaPriorities,
     fieldYourIdeaCommunity,
@@ -266,8 +272,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: fieldProjectLocationDescription(locale),
-        projectStartDate: fieldProjectStartDate(locale, data),
-        projectEndDate: fieldProjectEndDate(locale),
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),
@@ -1739,6 +1743,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
 
     if (flags.enableNewCOVID19Flow) {
         allFields.supportingCOVID19 = fieldSupportingCOVID19(locale);
+        allFields.projectStartDateCheck = fieldProjectStartDateCheck(
+            locale,
+            data
+        );
+        allFields.projectStartDate = fieldProjectStartDateNext(locale, data);
+        allFields.projectEndDate = fieldProjectEndDateNext(locale);
+    } else {
+        allFields.projectStartDate = fieldProjectStartDate(locale, data);
+        allFields.projectEndDate = fieldProjectEndDate(locale);
     }
 
     return allFields;
