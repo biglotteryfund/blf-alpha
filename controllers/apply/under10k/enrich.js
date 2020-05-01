@@ -3,8 +3,8 @@ const get = require('lodash/fp/get');
 const sumBy = require('lodash/sumBy');
 const toInteger = require('lodash/toInteger');
 
-const { findLocationName } = require('../lib/location-options');
 const { formatDateRange } = require('../lib/formatters');
+const { findLocationName } = require('./lib/location-options');
 
 const formBuilder = require('./form');
 const { transform } = require('./transforms');

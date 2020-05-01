@@ -1,7 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./friendly-number'));
+const Joi = require('./index');
 
 const schema = Joi.friendlyNumber().required();
 

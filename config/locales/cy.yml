@@ -158,6 +158,7 @@ global:
     day: Diwrnod
     month: Mis
     year: Blwyddyn
+    lastUpdated: Wedi’i ddiweddaru diwethaf
   programmes:
     programmeLabels:
       area: Ardal

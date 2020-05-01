@@ -1,9 +1,9 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./word-count'));
 const faker = require('faker');
+
+const Joi = require('./index');
 
 test('should validate that string is within word count limit', () => {
     const min = 10;

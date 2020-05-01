@@ -1,7 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/flexible-content-next/macro.njk" import flexibleContent %}
+{% from "components/flexible-content-next/macro.njk" import flexibleContent with context %}
 
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 

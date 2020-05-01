@@ -6090,5 +6090,13 @@ Array [
     "from": "/welsh/funding/programmes/coastal-communities-fund-1",
     "to": "/welsh/funding/programmes/coastal-communities-fund",
   },
+  Object {
+    "from": "/funding/managing-your-grant/under10k",
+    "to": "/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/welsh/funding/managing-your-grant/under10k",
+    "to": "/welsh/funding/managing-your-grant/under-10k",
+  },
 ]
 `;

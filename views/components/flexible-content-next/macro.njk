@@ -63,10 +63,18 @@
                         ) }}
                     {% elseif part.type === 'factRiver' %}
                         {{ factRiver(part.content) }}
-                    {% elseif part.type === 'tableOfContents' and flexibleContent %}
+                    {% elseif part.type === 'tableOfContents' %}
                         <div class="s-prose u-constrained-content-wide">
                             {{ part.content | safe }}
                         </div>
+
+                        {% if part.lastUpdated %}
+                            <div class="message message--minor">
+                                <strong>{{ __('global.misc.lastUpdated') }}</strong>:
+                                {{ formatDate(part.lastUpdated.date, "dddd D MMMM, YYYY") }}
+                            </div>
+                        {% endif %}
+
                         {{ tableOfContents(flexibleContent, anchor = flexAnchor) }}
                     {% else %}
                         <div class="s-prose u-constrained-content-wide">

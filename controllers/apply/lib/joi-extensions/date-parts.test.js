@@ -1,8 +1,7 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
-const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('./date-parts'));
+const Joi = require('./index');
 
 test('valid date', function () {
     [
@@ -45,6 +44,27 @@ test('minDate', function () {
     );
 });
 
+test('minDateRef', function () {
+    const schema = Joi.object({
+        dateA: Joi.dateParts(),
+        dateB: Joi.dateParts().minDateRef(Joi.ref('dateA')),
+    });
+
+    const valid = schema.validate({
+        dateA: { day: 2, month: 10, year: 2020 },
+        dateB: { day: 2, month: 10, year: 2020 },
+    });
+    expect(valid.error).toBeNull();
+
+    const invalid = schema.validate({
+        dateA: { day: 2, month: 10, year: 2020 },
+        dateB: { day: 1, month: 10, year: 2020 },
+    });
+    expect(invalid.error.message).toContain(
+        'Date must be on or after referenced date'
+    );
+});
+
 test('maxDate', function () {
     const schema = Joi.dateParts().maxDate('2020-10-01');
 
@@ -52,4 +72,26 @@ test('maxDate', function () {
     expect(invalid.error.message).toContain(
         'Date must be on or before 2020-10-01'
     );
+});
+
+test('rangeLimit', function () {
+    const schema = Joi.object({
+        dateA: Joi.dateParts(),
+        dateB: Joi.dateParts().rangeLimit(Joi.ref('dateA'), {
+            amount: 7,
+            unit: 'days',
+        }),
+    });
+
+    const valid = schema.validate({
+        dateA: { day: 2, month: 10, year: 2020 },
+        dateB: { day: 9, month: 10, year: 2020 },
+    });
+    expect(valid.error).toBeNull();
+
+    const invalid = schema.validate({
+        dateA: { day: 2, month: 10, year: 2020 },
+        dateB: { day: 10, month: 10, year: 2020 },
+    });
+    expect(invalid.error.message).toContain('Date must be within range');
 });

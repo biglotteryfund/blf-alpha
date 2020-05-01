@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
 const SelectField = require('../../lib/field-types/select');
-const { locationOptions } = require('../../lib/location-options');
+const { locationOptions } = require('../lib/location-options');
 
 module.exports = function (locale, data) {
     const localise = get(locale);

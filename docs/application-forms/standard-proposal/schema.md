@@ -4,7 +4,7 @@ The following documents the data schema for the standard product funding proposa
 
 ## Changelog
 
-### v1.0-beta
+### v1.0
 
 -   Add new conditional `projectRegions` value for applications in england. Used to determine new queue mapping rules.
 

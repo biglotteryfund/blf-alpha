@@ -41,6 +41,37 @@ test('invalid form', () => {
     expect(mapMessages(result)).toMatchSnapshot();
 });
 
+test('require region when england is selected', function () {
+    const data = omit(mockResponse(), 'projectRegions');
+    const form = formBuilder({ data });
+
+    expect(mapMessages(form.validation)).toEqual(
+        expect.arrayContaining(['Select one or more regions'])
+    );
+});
+
+test('strip region outside of england', function () {
+    const data = mockResponse({
+        projectCountries: ['northern-ireland'],
+        projectRegions: ['midlands', 'north-west'],
+    });
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.value).not.toHaveProperty('projectRegions');
+});
+
+test('strip other region selections when all-england is selected', function () {
+    const form = formBuilder({
+        data: mockResponse({
+            projectCountries: ['england'],
+            projectRegions: ['all-england', 'midlands', 'north-west'],
+        }),
+    });
+
+    expect(form.validation.value.projectRegions).toEqual(['all-england']);
+});
+
 test('strip projectLocation when applying for more than one country', () => {
     const form = formBuilder({
         data: mockResponse({
@@ -122,36 +153,4 @@ test.each([
     const expected = omit(data, fieldName);
     const result = form.validate(expected);
     expect(result.error).toBeNull();
-});
-
-describe('new location questions', function () {
-    test('require region when england is selected', function () {
-        const form = formBuilder({
-            data: mockResponse({
-                projectCountries: ['england'],
-                projectRegions: null,
-            }),
-            flags: {
-                enableNewLocationQuestions: true,
-            },
-        });
-
-        expect(mapMessages(form.validation)).toEqual(
-            expect.arrayContaining(['Select one or more regions'])
-        );
-    });
-
-    test('strip other region selections when all-england is selected', function () {
-        const form = formBuilder({
-            data: mockResponse({
-                projectCountries: ['england'],
-                projectRegions: ['all-england', 'midlands', 'north-west'],
-            }),
-            flags: {
-                enableNewLocationQuestions: true,
-            },
-        });
-
-        expect(form.validation.value.projectRegions).toEqual(['all-england']);
-    });
 });

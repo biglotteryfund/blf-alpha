@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const { oneLine } = require('common-tags');
 const clone = require('lodash/clone');
 const compact = require('lodash/compact');
@@ -12,23 +11,10 @@ const { Step } = require('../lib/step-model');
 
 const fieldsFor = require('./fields');
 
-module.exports = function ({
-    locale = 'en',
-    data = {},
-    flags = {
-        enableNewLocationQuestions: config.get(
-            'standardFundingProposal.enableNewLocationQuestions'
-        ),
-    },
-    metadata = {},
-} = {}) {
+module.exports = function ({ locale = 'en', data = {}, metadata = {} } = {}) {
     const localise = get(locale);
 
-    const allFields = fieldsFor({
-        locale,
-        data,
-        flags,
-    });
+    const allFields = fieldsFor({ locale, data });
 
     const projectCountries = getOr([], 'projectCountries')(data);
 
@@ -251,7 +237,7 @@ module.exports = function ({
             steps: compact([
                 stepProjectName(),
                 stepProjectCountries(),
-                flags.enableNewLocationQuestions && stepProjectRegions(),
+                stepProjectRegions(),
                 stepProjectLocation(),
                 stepProjectCosts(),
                 stepProjectDuration(),
@@ -310,7 +296,7 @@ module.exports = function ({
         }),
         allFields,
         summary: summary(),
-        schemaVersion: flags.enableNewLocationQuestions ? 'v1.0-beta' : 'v0.2',
+        schemaVersion: 'v1.0',
         forSalesforce() {
             const enriched = clone(data);
             if (metadata && metadata.programme) {
