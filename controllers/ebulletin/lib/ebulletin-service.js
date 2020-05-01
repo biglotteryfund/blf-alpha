@@ -19,22 +19,27 @@ function subscribe({ addressBookId, subscriptionData }) {
         dataFields: [
             { key: 'FirstName', value: subscriptionData.firstName },
             { key: 'LastName', value: subscriptionData.lastName },
-        ]
+        ],
     };
 
     // Node bug: URL encoding with an @ sign breaks auth
     // so we construct our own header here
     // @Source: https://github.com/sindresorhus/got/issues/1169#issuecomment-617605562
     const headers = {
-        "Authorization": "Basic " + Buffer.from(`${DOTDIGITAL_API.user}:${DOTDIGITAL_API.password}`).toString("base64")
+        Authorization:
+            'Basic ' +
+            Buffer.from(
+                `${DOTDIGITAL_API.user}:${DOTDIGITAL_API.password}`
+            ).toString('base64'),
     };
-    return got.post(ENDPOINT, {
-        json: data,
-        headers: headers
-    }).json();
+    return got
+        .post(ENDPOINT, {
+            json: data,
+            headers: headers,
+        })
+        .json();
 }
 
-
 module.exports = {
-    subscribe
+    subscribe,
 };

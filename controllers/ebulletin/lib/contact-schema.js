@@ -7,7 +7,7 @@ function getTranslations(i18n) {
     };
 }
 
-function buildValidLocations (i18n) {
+function buildValidLocations(i18n) {
     const labelForLocale = getTranslations(i18n);
     return [
         {
@@ -38,7 +38,9 @@ module.exports = {
         const email = Joi.string().email().required();
         const firstName = Joi.string().required();
         const lastName = Joi.string().required();
-        const location = Joi.string().valid(...locations.map(_ => _.value)).required();
+        const location = Joi.string()
+            .valid(...locations.map((_) => _.value))
+            .required();
         const organisation = Joi.string().allow('').optional();
 
         return {
@@ -47,7 +49,7 @@ module.exports = {
                 firstName,
                 lastName,
                 location,
-                organisation
+                organisation,
             }),
             messages: {
                 email: [
@@ -80,5 +82,5 @@ module.exports = {
                 ],
             },
         };
-    }
+    },
 };
