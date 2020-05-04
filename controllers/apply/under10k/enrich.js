@@ -7,7 +7,6 @@ const { formatDateRange } = require('../lib/formatters');
 const { findLocationName } = require('./lib/location-options');
 
 const formBuilder = require('./form');
-const { transform } = require('./transforms');
 
 function details(application, data, locale) {
     const localise = get(locale);
@@ -58,8 +57,7 @@ function details(application, data, locale) {
 }
 
 function enrichPending(application, locale = 'en') {
-    const originalData = application.applicationData || {};
-    const data = transform(originalData);
+    const data = application.applicationData || {};
 
     const form = formBuilder({ locale, data });
 
