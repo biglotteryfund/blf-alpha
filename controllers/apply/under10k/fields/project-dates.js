@@ -6,9 +6,19 @@ const { oneLine } = require('common-tags');
 const Joi = require('../../lib/joi-extensions');
 const DateField = require('../../lib/field-types/date');
 
-const getLeadTimeWeeks = require('../lib/lead-time');
+function getLeadTimeWeeks(country) {
+    const countryLeadTimes = {
+        'england': 18,
+        'northern-ireland': 12,
+        'scotland': 12,
+        'wales': 12,
+    };
+
+    return countryLeadTimes[country] || 18;
+}
 
 module.exports = {
+    _getLeadTimeWeeks: getLeadTimeWeeks, // Exported for tests
     fieldProjectStartDate(locale, data) {
         const localise = get(locale);
 

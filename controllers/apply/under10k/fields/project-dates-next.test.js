@@ -1,9 +1,18 @@
 /* eslint-env jest */
 'use strict';
 const {
+    _getLeadTimeWeeks,
     fieldProjectStartDateCheck,
     fieldProjectEndDate,
 } = require('./project-dates-next');
+
+test('lead time conditional on country', () => {
+    expect(_getLeadTimeWeeks('england')).toBe(18);
+
+    expect(_getLeadTimeWeeks('wales')).toBe(12);
+    expect(_getLeadTimeWeeks('scotland')).toBe(12);
+    expect(_getLeadTimeWeeks('northern-ireland')).toBe(12);
+});
 
 describe('fieldProjectStartDateCheck', function () {
     test('both options enabled by default', function () {
