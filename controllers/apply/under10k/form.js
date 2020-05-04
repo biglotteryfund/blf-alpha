@@ -8,6 +8,7 @@ const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
+const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
 
 const { isTestServer } = require('../../../common/appData');
@@ -1380,12 +1381,28 @@ module.exports = function ({
 
         const enriched = clone(data);
 
-        enriched.projectStartDate = dateFormat(enriched.projectStartDate);
+        function normaliseProjectStartDate() {
+            /**
+             * If projectStartDateCheck is `asap` then pre-fill
+             * the projectStartDate to today
+             */
+            if (
+                flags.enableNewCOVID19Flow &&
+                get('projectStartDateCheck')(data) === 'asap'
+            ) {
+                return moment().format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectStartDate);
+            }
+        }
+
+        const projectStartDate = normaliseProjectStartDate();
+        enriched.projectStartDate = projectStartDate;
         enriched.projectEndDate = dateFormat(enriched.projectEndDate);
 
         // Support previous date range schema format
         enriched.projectDateRange = {
-            startDate: dateFormat(enriched.projectStartDate),
+            startDate: projectStartDate,
             endDate: dateFormat(enriched.projectEndDate),
         };
 
