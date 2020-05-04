@@ -35,9 +35,12 @@ const fieldProjectStartDate = require('./fields/project-start-date');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
-const fieldYourIdeaCommunity = require('./fields/your-idea-community');
-const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
-const fieldYourIdeaProject = require('./fields/your-idea-project');
+
+const {
+    fieldYourIdeaProject,
+    fieldYourIdeaPriorities,
+    fieldYourIdeaCommunity,
+} = require('./fields/your-idea');
 
 const isNewOrganisation = require('./lib/new-organisation');
 const {
