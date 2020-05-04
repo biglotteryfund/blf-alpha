@@ -632,65 +632,69 @@ function under10KApplication(mock) {
     function sectionBeneficiaries(mock) {
         cy.checkA11y();
 
-        cy.findByLabelText(
-            'My project is aimed at a specific group of people'
-        ).click();
-
-        submitStep();
-
-        const randomBeneficiaryGroups = sampleSize(
-            [
-                'People from a particular ethnic background',
-                'People of a particular gender',
-                'People of a particular age',
-                'Disabled people',
-                'Lesbian, gay, or bisexual people',
-            ],
-            2
-        );
-
-        cy.log(`Beneficiary groups: ${randomBeneficiaryGroups.join(', ')}`);
-
-        cy.checkA11y();
-
-        randomBeneficiaryGroups.forEach((label) => {
-            cy.findByLabelText(label).click();
-        });
-
-        submitStep();
-
-        if (
-            includes(
-                randomBeneficiaryGroups,
-                'People from a particular ethnic background'
-            )
-        ) {
-            cy.checkA11y();
-            cy.findByLabelText('Caribbean').click();
-            cy.findByLabelText('African').click();
-            submitStep();
-        }
-
-        if (
-            includes(randomBeneficiaryGroups, 'People of a particular gender')
-        ) {
-            cy.checkA11y();
-            cy.findByLabelText('Non-binary').click();
-            submitStep();
-        }
-
-        if (includes(randomBeneficiaryGroups, 'People of a particular age')) {
-            cy.checkA11y();
-            cy.findByLabelText('25-64').click();
-            submitStep();
-        }
-
-        if (includes(randomBeneficiaryGroups, 'Disabled people')) {
-            cy.checkA11y();
+        if (mock.beneficiariesGroups.length > 0) {
             cy.findByLabelText(
-                'Disabled people with learning or mental difficulties',
-                { exact: false }
+                'My project is aimed at a specific group of people'
             ).click();
+
+            submitStep();
+
+            cy.log(
+                `Beneficiary groups: ${mock.beneficiariesGroups.join(', ')}`
+            );
+
+            cy.checkA11y();
+
+            mock.beneficiariesGroups.forEach((label) => {
+                cy.findByLabelText(label).click();
+            });
+
+            submitStep();
+
+            if (
+                includes(
+                    mock.beneficiariesGroups,
+                    'People from a particular ethnic background'
+                )
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('Caribbean').click();
+                cy.findByLabelText('African').click();
+                submitStep();
+            }
+
+            if (
+                includes(
+                    mock.beneficiariesGroups,
+                    'People of a particular gender'
+                )
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('Non-binary').click();
+                submitStep();
+            }
+
+            if (
+                includes(mock.beneficiariesGroups, 'People of a particular age')
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('25-64').click();
+                submitStep();
+            }
+
+            if (includes(mock.beneficiariesGroups, 'Disabled people')) {
+                cy.checkA11y();
+                cy.findByLabelText(
+                    'Disabled people with learning or mental difficulties',
+                    { exact: false }
+                ).click();
+                submitStep();
+            }
+        } else {
+            cy.findByLabelText(
+                'My project is open to everyone and isn’t aimed at a specific group of people'
+            ).click();
+
             submitStep();
         }
 
@@ -746,8 +750,6 @@ function under10KApplication(mock) {
 
         submitStep();
 
-        cy.checkA11y();
-
         if (
             mock.organisationTradingName &&
             mock.organisationHasDifferentTradingName
@@ -755,10 +757,10 @@ function under10KApplication(mock) {
             cy.findByLabelText('Organisation trading name', {
                 exact: false,
             }).type(mock.organisationTradingName);
+            submitStep();
         }
 
-        submitStep();
-
+        cy.checkA11y();
         cy.findByLabelText(mock.organisationType, { exact: false }).click();
 
         submitStep();
@@ -1011,6 +1013,7 @@ it('should submit full application for under £10,000 in England', () => {
             endDate: moment().add(random(1, 6), 'months'),
         },
         country: 'England',
+        beneficiariesGroups: [],
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Registered charity (unincorporated)',
@@ -1058,6 +1061,16 @@ it('should submit full application for under £10,000 outside England', () => {
             endDate: moment().add(random(18, 52), 'weeks'),
         },
         country: sample(['Northern Ireland', 'Scotland', 'Wales']),
+        beneficiariesGroups: sampleSize(
+            [
+                'People from a particular ethnic background',
+                'People of a particular gender',
+                'People of a particular age',
+                'Disabled people',
+                'Lesbian, gay, or bisexual people',
+            ],
+            2
+        ),
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Registered charity (unincorporated)',
