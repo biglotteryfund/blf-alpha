@@ -29,7 +29,7 @@
                             {% for entry in entries %}
                                 <li class="article-listing__item">
                                     {% set subtitle %}
-                                        <time class="article-teaser__pubdate" datetime="{{ props.postDate.date }}">
+                                        <time class="article-teaser__pubdate" datetime="{{ entry.postDate.date }}">
                                             {{ formatDate(entry.postDate.date) }}
                                         </time>
 
