@@ -73,12 +73,33 @@ module.exports = {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
+        const projectStartDateCheck = get('projectStartDateCheck')(data);
+
         const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
         const minDateExample = minDate
             .clone()
             .locale(locale)
             .format('DD MM YYYY');
+
+        function schema() {
+            /**
+             * If indicating start date should be as-soon-as-possible
+             * then we default the projectStartDate to today
+             */
+            if (projectStartDateCheck === 'asap') {
+                const now = moment();
+                return Joi.dateParts().default({
+                    day: now.date(),
+                    month: now.month() + 1,
+                    year: now.year(),
+                });
+            } else {
+                return Joi.dateParts()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .required();
+            }
+        }
 
         return new DateField({
             locale: locale,
@@ -98,9 +119,7 @@ module.exports = {
             settings: {
                 minYear: minDate.format('YYYY'),
             },
-            schema: Joi.dateParts()
-                .minDate(minDate.format('YYYY-MM-DD'))
-                .required(),
+            schema: schema(),
             messages: [
                 {
                     type: 'base',
@@ -154,9 +173,13 @@ module.exports = {
 
         function schema() {
             if (projectStartDateCheck === 'asap') {
-                const minDate = moment().add(getMaxDurationMonths(), 'months');
                 return Joi.dateParts()
-                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .minDate(moment().format('YYYY-MM-DD'))
+                    .maxDate(
+                        moment()
+                            .add(getMaxDurationMonths(), 'months')
+                            .format('YYYY-MM-DD')
+                    )
                     .required();
             } else {
                 return Joi.dateParts()
@@ -187,16 +210,30 @@ module.exports = {
                     }),
                 },
                 {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: `Date must not be in the past`,
+                        cy: `@TODO: i18n`,
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: `Date must be no more than ${getMaxDurationMonths()} months away`,
+                        cy: `@TODO: i18n`,
+                    }),
+                },
+                {
                     type: 'dateParts.minDateRef',
                     message: localise({
-                        en: `Date you end the project must be after the start date`,
-                        cy: `Rhaid i ddyddiad gorffen y prosiect fod ar ôl y dyddiad dechrau`,
+                        en: `Date must be after the start date`,
+                        cy: `@TODO: i18n`,
                     }),
                 },
                 {
                     type: 'dateParts.rangeLimit',
                     message: localise({
-                        en: oneLine`Date you end the project must be within
+                        en: oneLine`Date must be within
                         ${getMaxDurationMonths()} months of the start date.`,
                         cy: oneLine`Rhaid i ddyddiad gorffen y prosiect fod o fewn
                         ${getMaxDurationMonths()} mis o ddyddiad dechrau’r prosiect.`,

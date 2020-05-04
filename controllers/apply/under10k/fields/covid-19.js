@@ -2,6 +2,7 @@
 const get = require('lodash/fp/get');
 const { oneLine, stripIndents } = require('common-tags');
 
+const Joi = require('../../lib/joi-extensions');
 const { RadioField } = require('../../lib/field-types');
 
 module.exports = {
@@ -49,6 +50,13 @@ module.exports = {
                     label: localise({ en: `No`, cy: `Nac ydi` }),
                 },
             ],
+            schema(originalSchema) {
+                return Joi.when('projectCountry', {
+                    is: 'england',
+                    then: Joi.any().strip(),
+                    otherwise: originalSchema,
+                });
+            },
             messages: [
                 {
                     type: 'base',
