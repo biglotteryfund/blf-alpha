@@ -37,11 +37,7 @@ module.exports = function ({
     data = {},
     showAllFields = false,
     metadata = {},
-    flags = {
-        enableNewCOVID19Flow: config.get(
-            'fundingUnder10k.enableNewCOVID19Flow'
-        ),
-    },
+    flags = config.get('fundingUnder10k'),
 } = {}) {
     const localise = get(locale);
 
