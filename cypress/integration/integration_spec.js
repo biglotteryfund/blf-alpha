@@ -424,7 +424,7 @@ it('should return forgotten password screen for invalid accounts', () => {
     );
 });
 
-it('should submit full application for under £10,000', () => {
+function under10KApplication(mock) {
     function submitStep() {
         cy.findByTestId('updated-at').contains('Today');
         cy.findByText('Continue').click();
@@ -442,24 +442,6 @@ it('should submit full application for under £10,000', () => {
         }
 
         cy.findByLabelText('Postcode').type(postcode);
-    }
-
-    function startApplication() {
-        // Dashboard
-        cy.findByText('Start a new application').click();
-
-        // Start page
-        cy.findByText('Start your application').click();
-
-        // Eligibility checker
-        times(5, function () {
-            cy.findByLabelText('Yes').click();
-            cy.findByText('Continue').click();
-        });
-        cy.findByText('Start your application').click();
-
-        // Summary page
-        cy.findAllByText('Start your application').first().click();
     }
 
     function stepProjectName(mock) {
@@ -524,6 +506,23 @@ it('should submit full application for under £10,000', () => {
         submitStep();
     }
 
+    function stepCOVID9Check(mock) {
+        if (mock.country !== 'England') {
+            cy.checkA11y();
+
+            cy.findByText(
+                'Is your project supporting people affected by the COVID-19 crisis?',
+                { exact: false }
+            )
+                .parent()
+                .within(() => {
+                    cy.findByLabelText('No').click();
+                });
+
+            submitStep();
+        }
+    }
+
     function stepProjectDates(mock) {
         cy.checkA11y();
 
@@ -533,13 +532,37 @@ it('should submit full application for under £10,000', () => {
             cy.findByLabelText('Year').type(momentInstance.year());
         }
 
-        cy.findByText('When would you like to start your project?')
-            .parent()
-            .within(() => {
-                fillDateParts(mock.projectDateRange.startDate);
-            });
+        if (mock.country === 'England') {
+            cy.findByText(
+                'When would you like to get the money if you are awarded?'
+            )
+                .parent()
+                .within(() => {
+                    cy.findByLabelText('As soon as possible').click();
+                });
 
-        cy.findByText('When would you like to finish your project?')
+            submitStep();
+        } else {
+            cy.findByText(
+                'When would you like to get the money if you are awarded?'
+            )
+                .parent()
+                .within(() => {
+                    cy.findByLabelText('Enter an exact date').click();
+                });
+
+            submitStep();
+
+            cy.findByText(
+                `Tell us when you'd like to get the money if you're awarded funding?`
+            )
+                .parent()
+                .within(() => {
+                    fillDateParts(mock.projectDateRange.startDate);
+                });
+        }
+
+        cy.findByText('When would you have spent the money?')
             .parent()
             .within(() => {
                 fillDateParts(mock.projectDateRange.endDate);
@@ -600,6 +623,7 @@ it('should submit full application for under £10,000', () => {
         stepProjectName(mock);
         stepProjectCountry(mock);
         stepProjectLocation(mock);
+        stepCOVID9Check(mock);
         stepProjectDates(mock);
         stepYourIdea(mock);
         stepProjectCosts(mock);
@@ -954,15 +978,39 @@ it('should submit full application for under £10,000', () => {
         );
     }
 
-    const startDate = moment().add(random(18, 20), 'weeks');
+    Object.entries(mock).forEach(([key, value]) => {
+        cy.log(key, JSON.stringify(value, null, 2));
+    });
 
-    const mock = {
+    cy.seedAndLogin().then(() => {
+        cy.visit('/apply/under-10k/new');
+
+        acceptCookieConsent();
+
+        // Summary page
+        cy.findAllByText('Start your application').first().click();
+
+        sectionYourProject(mock);
+        sectionBeneficiaries(mock);
+        sectionOrganisation(mock);
+
+        sectionSeniorContact(mock);
+        sectionMainContact(mock);
+
+        sectionBankDetails(mock);
+        sectionTermsAndConditions(mock);
+
+        submitApplication();
+    });
+}
+
+it('should submit full application for under £10,000 in England', () => {
+    under10KApplication({
         projectName: 'Test application',
         projectDateRange: {
-            startDate: startDate,
-            endDate: startDate.clone().add(random(0, 52), 'weeks'),
+            endDate: moment().add(random(1, 6), 'months'),
         },
-        country: sample(['England', 'Northern Ireland', 'Scotland', 'Wales']),
+        country: 'England',
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Registered charity (unincorporated)',
@@ -999,29 +1047,53 @@ it('should submit full application for under £10,000', () => {
                 postcode: 'G2 6UA',
             },
         },
-    };
-
-    Object.entries(mock).forEach(([key, value]) => {
-        cy.log(key, JSON.stringify(value, null, 2));
     });
+});
 
-    cy.seedAndLogin().then(() => {
-        cy.visit('/apply/under-10k');
-
-        acceptCookieConsent();
-        startApplication();
-
-        sectionYourProject(mock);
-        sectionBeneficiaries(mock);
-        sectionOrganisation(mock);
-
-        sectionSeniorContact(mock);
-        sectionMainContact(mock);
-
-        sectionBankDetails(mock);
-        sectionTermsAndConditions(mock);
-
-        submitApplication();
+it('should submit full application for under £10,000 outside England', () => {
+    under10KApplication({
+        projectName: 'Test application',
+        projectDateRange: {
+            startDate: moment().add(18, 'weeks'),
+            endDate: moment().add(random(18, 52), 'weeks'),
+        },
+        country: sample(['Northern Ireland', 'Scotland', 'Wales']),
+        organisationType: sample([
+            'Unregistered voluntary or community organisation',
+            'Registered charity (unincorporated)',
+            'Charitable Incorporated Organisation (CIO or SCIO)',
+            'Not-for-profit company',
+            'School',
+            'College or University',
+            'Statutory body',
+            'Faith-based group',
+        ]),
+        organisationHasDifferentTradingName: 'no',
+        organisationName: faker.company.companyName(),
+        seniorContact: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            email: Cypress.env('under10k_senior_contact_email'),
+            phone: '028 9568 0143',
+            dateOfBirth: moment().subtract(random(18, 90), 'years'),
+            address: {
+                streetAddress: `The Bar, 2 St James' Blvd`,
+                city: 'Newcastle',
+                postcode: 'NE4 7JH',
+            },
+        },
+        mainContact: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            email: Cypress.env('under10k_main_contact_email'),
+            phone: '020 7211 1888',
+            dateOfBirth: moment().subtract(random(18, 90), 'years'),
+            address: {
+                streetAddress: 'Pacific House, 70 Wellington St',
+                city: 'Glasgow',
+                postcode: 'G2 6UA',
+            },
+        },
     });
 });
 
@@ -1107,7 +1179,6 @@ function standardApplication({
         submitStep();
 
         /**
-         *
          * Project regions step
          */
         if (mock.projectRegions.length > 0) {
