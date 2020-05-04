@@ -1428,7 +1428,7 @@ module.exports = function ({
             { fieldName: 'mainContactPhone', includeBase: false },
         ],
         summary: summary(),
-        schemaVersion: 'v1.3',
+        schemaVersion: flags.enableNewCOVID19Flow ? 'v1.4' : 'v1.3',
         forSalesforce: forSalesforce,
         sections: [
             sectionYourProject(),
