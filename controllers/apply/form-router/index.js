@@ -31,7 +31,6 @@ function initFormRouter({
     startTemplate = null,
     eligibilityBuilder = null,
     confirmationBuilder,
-    transformFunction = null,
     expiryEmailPeriods = null,
     isBilingual = true,
     allowedProgrammes = {},
@@ -339,9 +338,7 @@ function initFormRouter({
                     );
 
                     res.locals.currentApplication = currentApplication;
-                    res.locals.currentApplicationData = transformFunction
-                        ? transformFunction(currentApplicationData)
-                        : currentApplicationData;
+                    res.locals.currentApplicationData = currentApplicationData;
 
                     res.locals.currentApplicationStatus = get(
                         currentApplication,
