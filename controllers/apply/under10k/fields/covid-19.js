@@ -27,7 +27,7 @@ module.exports = {
                         at high risk from COVID-19
                     </li>
                     <li>
-                        organisation supporting people most likely
+                        organisations supporting people most likely
                         to face increased demand and challenges as
                         a result of the COVID-19 crisis
                     </li>

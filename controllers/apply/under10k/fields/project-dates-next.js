@@ -153,15 +153,13 @@ module.exports = {
             if (projectCountry === 'england') {
                 return localise({
                     en: oneLine`Given the COVID-19 emergency, you can have up to
-                        ${getMaxDurationMonths()} months after award to spend the money.
-                        It can even be as short as just one day.`,
+                        ${getMaxDurationMonths()} months after award to spend the money.`,
                     cy: `@TODO: i18n`,
                 });
             } else {
                 return localise({
                     en: oneLine`You have up to ${getMaxDurationMonths()} months
-                        after award to spend the money. It can even be as short
-                        as just one day`,
+                        after award to spend the money.`,
                     cy: `@TODO: i18n`,
                 });
             }
