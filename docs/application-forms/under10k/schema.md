@@ -4,9 +4,15 @@ The following documents the data schema for applications for funding under £10,
 
 ## Changelog
 
+### v1.4
+
+-   Added new `projectStartDateCheck` field. This can be either `asap` or `exact-date`. If `asap` then we pre-fill the `projectStartDate` to be the date of submission.
+-   Added new `supportingCOVID19` field for non-England applications
+
 ### v1.3
 
--   Document new `projectStartDate` and `projectEndDate` fields and add deprecated note to `projectDateRange` field
+-   Added new `projectStartDate` and `projectEndDate` fields
+-   Added deprecated note to `projectDateRange` field
 
 ### v1.2
 
@@ -43,6 +49,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
     "application": {
         "projectName": "My project name",
         "projectCountry": "england",
+        "projectStartDateCheck": "asap",
         "projectStartDate": "2020-12-12",
         "projectEndDate": "2020-12-12",
         "projectDateRange": {
@@ -51,6 +58,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "projectLocation": "west-midlands",
         "projectLocationDescription": "Additional description of location",
+        "supportingCOVID19": "yes",
         "projectPostcode": "B15 1TR",
         "yourIdeaProject": "Free text…",
         "yourIdeaPriorities": "Free text…",
@@ -205,11 +213,17 @@ type: `string`
 
 Allowed values: `england`, `northern-ireland`, `scotland`, `wales`
 
+### projectStartDateCheck
+
+Allowed values: `asap`, `exact-data`
+
 ### projectStartDate
 
 type: `string`
 
 Date string in the format `YYYY-MM-DD`
+
+**Note**: If `projectStartDateCheck` is `asap` then we pre-fill the `projectStartDate` to be the date of submission.
 
 ### projectEndDate
 
@@ -276,6 +290,14 @@ type: `string`
 ### projectPostcode
 
 type: `string`
+
+### supportingCOVID19
+
+type: optional `string`
+
+allowed values: `yes` or `no`
+
+**Note**: Only requested outside of England.
 
 ### yourIdeaProject
 
