@@ -11,10 +11,10 @@ module.exports = {
         return queryPastGrants('', { searchParams: searchParams }).json();
     },
     getGrantById({ id, locale }) {
-        return queryPastGrants(`/${id}`, { searchParams: { locale } }).json();
+        return queryPastGrants(id, { searchParams: { locale } }).json();
     },
     getRecipientById({ id, locale, page = 1 }) {
-        return queryPastGrants(`/recipient/${encodeURIComponent(id)}`, {
+        return queryPastGrants(`recipient/${encodeURIComponent(id)}`, {
             searchParams: { locale, page },
         }).json();
     },
