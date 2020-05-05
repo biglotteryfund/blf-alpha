@@ -157,11 +157,10 @@ module.exports = function ({
 
     function stepProjectLength() {
         function _fields() {
-            const projectStartDateCheck = get('projectStartDateCheck')(data);
-
             if (flags.enableNewCOVID19Flow) {
                 return compact([
-                    projectStartDateCheck !== 'asap' && fields.projectStartDate,
+                    get('projectStartDateCheck')(data) !== 'asap' &&
+                        fields.projectStartDate,
                     fields.projectEndDate,
                 ]);
             } else {
