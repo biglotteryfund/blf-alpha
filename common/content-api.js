@@ -4,7 +4,6 @@ const find = require('lodash/fp/find');
 const flatten = require('lodash/flatten');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
-const head = require('lodash/fp/head');
 const map = require('lodash/fp/map');
 const pick = require('lodash/pick');
 const sortBy = require('lodash/fp/sortBy');
