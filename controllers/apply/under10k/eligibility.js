@@ -65,7 +65,11 @@ module.exports = function ({ locale }) {
                     £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
                     that you’ll spend in around in around 12 months?
                     (or in 6 months for projects in England)`,
-                  cy: `@TODO: i18n`,
+                  cy: oneLine`A ydych chi'n gwneud cais am swm rhwng
+                    £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a
+                    £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} y
+                    byddwch chi'n ei wario mewn tua 12 mis?
+                    (neu mewn 6 mis ar gyfer prosiectau yn Lloegr) `,
               })
             : localise({
                   en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} that you’ll spend in around ${maxProjectDurationLabel}?`,
@@ -80,7 +84,13 @@ module.exports = function ({ locale }) {
                       But groups in England need to spend the funding in 6 months.
                       We will also consider applications for one-off events
                       such as a festival, gala day or conference`,
-                  cy: `@TODO: i18n`,
+                  cy: oneLine`Rydym yn gwybod nad yw bob amser yn bosibl
+                      cwblhau prosiect mewn 12 mis am lawer o resymau.
+                      Felly gallwn ystyried prosiectau sydd ychydig yn
+                      hirach na hyn. Ond mae angen i grwpiau yn Lloegr
+                      wario'r arian mewn 6 mis. Byddwn hefyd yn ystyried
+                      ceisiadau am ddigwyddiadau unwaith yn unig fel gŵyl,
+                      diwrnod gala neu gynhadledd.`,
               })
             : localise({
                   en: `We know it's not always possible to complete a project in ${maxProjectDurationLabel} for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
