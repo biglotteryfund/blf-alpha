@@ -4,7 +4,6 @@ const find = require('lodash/fp/find');
 const flatten = require('lodash/flatten');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
-const head = require('lodash/fp/head');
 const map = require('lodash/fp/map');
 const pick = require('lodash/pick');
 const sortBy = require('lodash/fp/sortBy');
@@ -212,10 +211,14 @@ function getFundingProgrammes({
         queryContentApi.get('v2/en/funding-programmes', requestOptions).json(),
         queryContentApi.get('v2/cy/funding-programmes', requestOptions).json(),
     ]).then((responses) => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
+        const [enResponse, cyResponse] = responses;
         return {
-            meta: head(responses).meta,
-            result: mergeWelshBy('slug')(locale, enResults, cyResults),
+            meta: locale === 'en' ? enResponse.meta : cyResponse.meta,
+            result: mergeWelshBy('slug')(
+                locale,
+                mapAttrs(enResponse),
+                mapAttrs(cyResponse)
+            ),
         };
     });
 }
