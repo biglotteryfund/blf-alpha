@@ -48,6 +48,21 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function (
             req.query.location
         );
 
+        const covidStatuses = get(response.meta, 'covid19Statuses');
+        if (covidStatuses) {
+            let countryCovidStatus;
+            countryCovidStatus = covidStatuses.find(
+                (status) => status.country === locationParam
+            );
+            // Fall back to the UK-wide statement
+            if (!countryCovidStatus) {
+                countryCovidStatus = covidStatuses.find(
+                    (status) => status.country === 'ukWide'
+                );
+            }
+            res.locals.countryCovidStatus = countryCovidStatus;
+        }
+
         const programmesFilteredByAmount = allFundingProgrammes
             .filter(programmeFilters.filterByMinAmount(req.query.min))
             .filter(programmeFilters.filterByMaxAmount(req.query.max));

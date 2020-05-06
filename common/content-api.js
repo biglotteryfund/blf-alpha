@@ -214,7 +214,7 @@ function getFundingProgrammes({
     ]).then((responses) => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         return {
-            meta: head(responses).meta,
+            meta: locale === 'en' ? head(responses).meta : responses[1].meta,
             result: mergeWelshBy('slug')(locale, enResults, cyResults),
         };
     });
