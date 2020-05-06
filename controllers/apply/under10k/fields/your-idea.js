@@ -164,7 +164,16 @@ module.exports = {
                         communities to work together to respond to COVID-19.
                     </li>
                 </ol>`,
-                cy: `@TODO: i18n`,
+                cy: `<ol>
+                    <li>sefydliadau sy'n cefnogi pobl sydd â risg uchel o COVID-19
+                    </li>
+                    <li>sefydliadau sy'n cefnogi pobl sydd fwyaf tebygol o wynebu
+                        galw a heriau cynyddol o ganlyniad i argyfwng COVID-19
+                    </li>
+                    <li>sefydliadau sy'n cysylltu cymunedau ac yn cefnogi cymunedau 
+                        i weithio gyda'i gilydd i ymateb i COVID-19.
+                    </li>
+                </ol>`,
             });
 
             const prioritiesDefault = localise({
@@ -179,7 +188,17 @@ module.exports = {
                         by supporting them at the earliest possible stage
                     </li>
                 </ol>`,
-                cy: `@TODO: i18n`,
+                cy: `<ol>
+                    <li>
+                        Dod â phobl ynghyd a meithrin perthnasoedd 
+                        cryf mewn ac ar draws cymunedau
+                    </li>
+                    <li>Gwella'r lleoedd sy'n bwysig i gymunedau</li>
+                    <li>
+                        Helpwch fwy o bobl i gyrraedd eu potensial, 
+                        trwy eu cefnogi cyn gynted â phosibl
+                    </li>
+                </ol>`,
             });
 
             if (projectCountry === 'england' || supportingCOVID19 === 'yes') {
@@ -190,7 +209,12 @@ module.exports = {
                             You can tell us if your project meets more
                             than one priority, but don't worry if it doesn't.
                         </p>`,
-                    cy: `@TODO: i18n`,
+                    cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
+                        ${prioritiesCOVID19}
+                        <p>
+                            Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
+                            nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
+                        </p>`,
                 });
             } else if (supportingCOVID19 === 'no') {
                 return localise({
@@ -202,7 +226,14 @@ module.exports = {
                             You can tell us if your project meets more
                             than one priority, but don't worry if it doesn't.
                         </p>`,
-                    cy: `@TODO: i18n`,
+                    cy: `<p><strong>
+                            Rydym am ariannu syniadau sy'n gwneud o leiaf un o'r tri pheth hyn:
+                        </strong></p>
+                        ${prioritiesDefault}
+                        <p>
+                            Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
+                            nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
+                        </p>`,
                 });
             } else {
                 return localise({
@@ -220,7 +251,19 @@ module.exports = {
                         than one priority, but don't worry if it doesn't.
                     </p>`,
 
-                    cy: `@TODO: i18n`,
+                    cy: `<p>
+                        <strong>Os yw'ch prosiect yn gysylltiedig â COVID-19, byddwn yn blaenoriaethu:</strong>
+                    </p>
+                    ${prioritiesCOVID19}
+                    <p><strong>
+                        Ond ar gyfer pob prosiect arall, rydyn ni am ariannu syniadau 
+                        sy'n gwneud o leiaf un o'r tri pheth hyn:
+                    </strong></p>
+                    ${prioritiesDefault}
+                    <p>
+                        Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
+                        nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
+                    </p>`,
                 });
             }
         }

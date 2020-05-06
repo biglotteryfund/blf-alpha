@@ -15,7 +15,8 @@ module.exports = {
             label: localise({
                 en: oneLine`Is your project supporting people
                     affected by the COVID-19 crisis?`,
-                cy: `@TODO: i18n`,
+                cy: oneLine`A yw'ch prosiect yn cefnogi pobl 
+                    y mae argyfwng COVID-19 yn effeithio arnynt?`,
             }),
             explanation: localise({
                 en: stripIndents`<p>
@@ -38,7 +39,22 @@ module.exports = {
                     </li>
                 </ul>`,
 
-                cy: stripIndents`@TODO: i18n`,
+                cy: stripIndents`<p>
+                    Byddwn yn blaenoriaethu:
+                </p>
+                <ul>
+                    <li>
+                        sefydliadau sy'n cefnogi pobl sydd â risg uchel o COVID-19
+                    </li>
+                    <li>
+                        sefydliadau sy'n cefnogi pobl sydd fwyaf tebygol o wynebu 
+                        galw a heriau cynyddol o ganlyniad i argyfwng COVID-19
+                    </li>
+                    <li>
+                        sefydliadau sy'n cysylltu cymunedau ac yn cefnogi cymunedau 
+                        i weithio gyda'i gilydd i ymateb i COVID-19.
+                    </li>
+                </ul>`,
             }),
             options: [
                 {

@@ -31,7 +31,7 @@ module.exports = {
                 value: 'asap',
                 label: localise({
                     en: `As soon as possible`,
-                    cy: `@TODO: i18n`,
+                    cy: `Dyddiad cychwyn y prosiect`,
                 }),
             };
 
@@ -39,7 +39,7 @@ module.exports = {
                 value: 'exact-date',
                 label: localise({
                     en: `Enter an exact date`,
-                    cy: `@TODO: i18n`,
+                    cy: `Rhowch union ddyddiad`,
                 }),
             };
 
@@ -55,7 +55,7 @@ module.exports = {
             name: 'projectStartDateCheck',
             label: localise({
                 en: `When would you like to get the money if you are awarded?`,
-                cy: `@TODO: i18n`,
+                cy: `Pryd hoffech chi gael yr arian os ydych chi'n cael eich dyfarnu?`,
             }),
             options: options(),
             messages: [
@@ -102,7 +102,7 @@ module.exports = {
             name: 'projectStartDate',
             label: localise({
                 en: `Tell us when you'd like to get the money if you're awarded funding?`,
-                cy: `@TODO: i18n`,
+                cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
             }),
             explanation: localise({
                 en: oneLine`Don't worry, this can be an estimate. 
@@ -154,13 +154,15 @@ module.exports = {
                 return localise({
                     en: oneLine`Given the COVID-19 emergency, you can have up to
                         ${getMaxDurationMonths()} months after award to spend the money.`,
-                    cy: `@TODO: i18n`,
+                    cy: oneLine`O ystyried yr argyfwng COVID-19, gallwch gael 
+                        hyd at 6 mis ar ôl dyfarnu i wario'r arian.`,
                 });
             } else {
                 return localise({
                     en: oneLine`You have up to ${getMaxDurationMonths()} months
                         after award to spend the money.`,
-                    cy: `@TODO: i18n`,
+                    cy: oneLine`Mae gennych hyd at 12 mis ar 
+                        ôl dyfarnu i wario'r arian.`,
                 });
             }
         }
@@ -198,8 +200,8 @@ module.exports = {
             locale: locale,
             name: 'projectEndDate',
             label: localise({
-                en: `When would you have spent the money?`,
-                cy: `@TODO: i18n`,
+                en: `When will you spend the money by?`,
+                cy: `Erbyn pryd fyddwch chi'n gwario'r arian?`,
             }),
             explanation: explanation(),
             schema: schema(),
@@ -215,14 +217,14 @@ module.exports = {
                     type: 'dateParts.minDate',
                     message: localise({
                         en: `Date must not be in the past`,
-                        cy: `@TODO: i18n`,
+                        cy: `Rhaid i'r dyddiad beidio â bod yn y gorffennol`,
                     }),
                 },
                 {
                     type: 'dateParts.maxDate',
                     message: localise({
                         en: `Date must be no more than ${getMaxDurationMonths()} months away`,
-                        cy: `@TODO: i18n`,
+                        cy: `Rhaid i'r dyddiad fod ddim mwy na 6 mis i ffwrdd`,
                     }),
                 },
                 {

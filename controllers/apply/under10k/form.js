@@ -133,7 +133,7 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'COVID-19 project',
-                cy: '@TODO: i18n',
+                cy: 'Prosiect COVID-19',
             }),
             fieldsets: [{ fields: _fields() }],
         });
@@ -143,7 +143,7 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Project start date',
-                cy: '@TODO: i18n',
+                cy: 'Dyddiad cychwyn y prosiect',
             }),
             fieldsets: [
                 {
