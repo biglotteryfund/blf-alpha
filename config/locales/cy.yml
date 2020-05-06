@@ -1124,7 +1124,12 @@ awardsForAll:
               Dywedwch wrthym am eich syniad i helpu pobl wella eu bywydau a’u cymunedau.
               Bydd gennych hyd at dair mis i orffen eich ffurflen gais ar-lein.
               Ar ôl i chi anfon eich ffurflen gais atom, byddwn yn ei hasesu.
-              @TODO: i18n
+              O ystyried yr argyfwng, rydym nawr yn blaenoriaethu penderfyniadau ar gyfer
+              prosiectau cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Yn
+              Lloegr, rydym yn canolbwyntio ar ein prosiectau ariannu sy'n cefnogi
+              cymunedau trwy'r pandemig COVID-19. Felly gofynnwn i sefydliadau yn Lloegr
+              nad ydynt yn chwilio am arian grant cysylltiedig â COVID-19 beidio â
+              chyflwyno ceisiadau ar hyn o bryd.
           - type: action
             title: Cais wedi’i asesu
           - type: step

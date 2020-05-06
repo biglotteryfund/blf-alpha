@@ -562,7 +562,7 @@ function under10KApplication(mock) {
                 });
         }
 
-        cy.findByText('When would you have spent the money?')
+        cy.findByText('When will you spend the money by?')
             .parent()
             .within(() => {
                 fillDateParts(mock.projectDateRange.endDate);

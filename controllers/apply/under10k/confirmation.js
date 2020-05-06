@@ -118,7 +118,11 @@ module.exports = function ({ locale, data = {} }) {
         function leadTimeText() {
             if (enableNewCOVID19Flow) {
                 if (country === 'england') {
-                    return `@TODO: i18n`;
+                    return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau.
+                    O ystyried yr argyfwng a'r galw enfawr am arian grant, rydym nawr yn
+                    canolbwyntio ar ariannu prosiectau a sefydliadau sy'n helpu cymunedau
+                    trwy'r pandemig COVID-19, fel y gallant ddechrau cyn gynted â phosibl
+                    </p>`;
                 } else {
                     return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. 
                     Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau 
