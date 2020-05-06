@@ -1103,6 +1103,37 @@ awardsForAll:
       title: Ready to apply?
       processMap:
         indicatorLabel: You are here
+        processNew:
+          - type: step
+            title: Check you can apply
+            description: >
+              Before you spend time filling out an application form,
+              we’ll ask a few questions to make sure you can apply first
+              (using our ‘eligibility checker’).
+              If you can’t apply, we’ll let you know why.
+              This feedback should help, if you want to try again in future.
+          - type: action
+            title: Able to apply
+          - type: step
+            title: Fill out an online application
+            description: >
+              Tell us about your idea to help people improve their lives and communities.
+              You’ll have up to three months to finish your online application form.
+              Once you send us your application form,  we’ll assess it.
+              Given the emergency, we're now prioritising decisions for COVID-19
+              related projects, so they can start sooner. In England, we’re focusing
+              our funding on projects supporting communities through the COVID-19 pandemic.
+              So we ask organisations in England who aren’t looking for COVID-19
+              related funding to not submit applications at this time.
+          - type: action
+            title: Application assessed
+          - type: step
+            title: We’ll decide to fund your project or not
+            description: >
+              We might get in touch to talk to you, and ask questions about your application.
+              Then we’ll make a final decision to fund your project or not. If successful, you can
+              <a href="/funding/managing-your-grant/promoting-your-project">promote your project</a>
+              and start <a href="/funding/managing-your-grant/under10k">managing your grant</a>.
         process:
           - type: step
             title: Check you can apply
