@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const has = require('lodash/fp/has');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 
@@ -58,6 +59,9 @@ module.exports = {
                 cy: `Pryd hoffech chi gael yr arian os ydych chi'n cael eich dyfarnu?`,
             }),
             options: options(),
+            schema:  Joi.string().valid(
+                options().filter((option) => !has('disabled')(option.attributes)).map((option) => option.value)
+            ).required(),
             messages: [
                 {
                     type: 'base',

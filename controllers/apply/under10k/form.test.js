@@ -492,7 +492,9 @@ test('valid form for different trading names', function () {
 test('maintain backwards compatibility for date schema', function () {
     const form = formBuilder({
         data: mockResponse({
-            projectCountry: 'england',
+            projectCountry: 'scotland',
+            projectLocation: 'fife',
+            supportingCOVID19: 'no',
             projectStartDateCheck: 'exact-date',
             projectStartDate: { day: 3, month: 3, year: 2021 },
             projectEndDate: { day: 3, month: 4, year: 2021 },
@@ -513,7 +515,7 @@ test('maintain backwards compatibility for date schema', function () {
 
 test('require project dates', function () {
     const mock = mockResponse({
-        projectCountry: 'england',
+        projectCountry: 'scotland',
         projectStartDateCheck: 'exact-date',
     });
 
