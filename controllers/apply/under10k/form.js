@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const concat = require('lodash/concat');
@@ -7,6 +8,7 @@ const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
+const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
 
 const { isTestServer } = require('../../../common/appData');
@@ -36,6 +38,7 @@ module.exports = function ({
     data = {},
     showAllFields = false,
     metadata = {},
+    flags = config.get('fundingUnder10k'),
 } = {}) {
     const localise = get(locale);
 
@@ -55,10 +58,7 @@ module.exports = function ({
 
     const currentOrganisationType = get('organisationType')(data);
 
-    const fields = fieldsFor({
-        locale: locale,
-        data: data,
-    });
+    const fields = fieldsFor({ locale, data, flags });
 
     function stepProjectName() {
         return new Step({
@@ -122,18 +122,59 @@ module.exports = function ({
         });
     }
 
+    function stepCOVID19Check() {
+        function _fields() {
+            return has('projectCountry')(data) &&
+                get('projectCountry')(data) !== 'england'
+                ? [fields.supportingCOVID19]
+                : [];
+        }
+
+        return new Step({
+            title: localise({
+                en: 'COVID-19 project',
+                cy: '@TODO: i18n',
+            }),
+            fieldsets: [{ fields: _fields() }],
+        });
+    }
+
+    function stepProjectLengthCheck() {
+        return new Step({
+            title: localise({
+                en: 'Project start date',
+                cy: '@TODO: i18n',
+            }),
+            fieldsets: [
+                {
+                    fields: has('projectCountry')(data)
+                        ? [fields.projectStartDateCheck]
+                        : [],
+                },
+            ],
+        });
+    }
+
     function stepProjectLength() {
+        function _fields() {
+            if (flags.enableNewCOVID19Flow) {
+                return compact([
+                    get('projectStartDateCheck')(data) !== 'asap' &&
+                        fields.projectStartDate,
+                    fields.projectEndDate,
+                ]);
+            } else {
+                return [fields.projectStartDate, fields.projectEndDate];
+            }
+        }
+
         return new Step({
             title: localise({
                 en: 'Project length',
                 cy: 'Hyd y prosiect',
             }),
             fieldsets: [
-                {
-                    fields: has('projectCountry')(data)
-                        ? [fields.projectStartDate, fields.projectEndDate]
-                        : [],
-                },
+                { fields: has('projectCountry')(data) ? _fields() : [] },
             ],
         });
     }
@@ -1155,14 +1196,16 @@ module.exports = function ({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`,
             }),
-            steps: [
+            steps: compact([
                 stepProjectName(),
                 stepProjectCountry(),
                 stepProjectLocation(),
+                flags.enableNewCOVID19Flow && stepCOVID19Check(),
+                flags.enableNewCOVID19Flow && stepProjectLengthCheck(),
                 stepProjectLength(),
                 stepYourIdea(),
                 stepProjectCosts(),
-            ],
+            ]),
         };
     }
 
@@ -1337,12 +1380,28 @@ module.exports = function ({
 
         const enriched = clone(data);
 
-        enriched.projectStartDate = dateFormat(enriched.projectStartDate);
+        function normaliseProjectStartDate() {
+            /**
+             * If projectStartDateCheck is `asap` then pre-fill
+             * the projectStartDate to today
+             */
+            if (
+                flags.enableNewCOVID19Flow &&
+                get('projectStartDateCheck')(data) === 'asap'
+            ) {
+                return moment().format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectStartDate);
+            }
+        }
+
+        const projectStartDate = normaliseProjectStartDate();
+        enriched.projectStartDate = projectStartDate;
         enriched.projectEndDate = dateFormat(enriched.projectEndDate);
 
         // Support previous date range schema format
         enriched.projectDateRange = {
-            startDate: dateFormat(enriched.projectStartDate),
+            startDate: projectStartDate,
             endDate: dateFormat(enriched.projectEndDate),
         };
 
@@ -1385,7 +1444,7 @@ module.exports = function ({
             { fieldName: 'mainContactPhone', includeBase: false },
         ],
         summary: summary(),
-        schemaVersion: 'v1.3',
+        schemaVersion: flags.enableNewCOVID19Flow ? 'v1.4' : 'v1.3',
         forSalesforce: forSalesforce,
         sections: [
             sectionYourProject(),

@@ -26,15 +26,26 @@ const fieldEducationNumber = require('./fields/education-number');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectCountry = require('./fields/project-country');
-const fieldProjectEndDate = require('./fields/project-end-date');
 const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectLocationDescription = require('./fields/project-location-description');
 const fieldProjectName = require('./fields/project-name');
 const fieldProjectPostcode = require('./fields/project-postcode');
-const fieldProjectStartDate = require('./fields/project-start-date');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
+
+const { fieldSupportingCOVID19 } = require('./fields/covid-19');
+
+const {
+    fieldProjectStartDate,
+    fieldProjectEndDate,
+} = require('./fields/project-dates');
+
+const {
+    fieldProjectStartDateCheck,
+    fieldProjectStartDate: fieldProjectStartDateNext,
+    fieldProjectEndDate: fieldProjectEndDateNext,
+} = require('./fields/project-dates-next');
 
 const {
     fieldYourIdeaProject,
@@ -55,7 +66,7 @@ const {
     FREE_TEXT_MAXLENGTH,
 } = require('./constants');
 
-module.exports = function fieldsFor({ locale, data = {} }) {
+module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     function multiChoice(options) {
@@ -256,16 +267,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    return {
+    const allFields = {
         projectName: fieldProjectName(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: fieldProjectLocationDescription(locale),
-        projectStartDate: fieldProjectStartDate(locale, data),
-        projectEndDate: fieldProjectEndDate(locale),
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
-        yourIdeaPriorities: fieldYourIdeaPriorities(locale),
+        yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),
         yourIdeaCommunity: fieldYourIdeaCommunity(locale),
         projectBudget: {
             name: 'projectBudget',
@@ -1731,4 +1740,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
         },
     };
+
+    if (flags.enableNewCOVID19Flow) {
+        allFields.supportingCOVID19 = fieldSupportingCOVID19(locale);
+        allFields.projectStartDateCheck = fieldProjectStartDateCheck(
+            locale,
+            data
+        );
+        allFields.projectStartDate = fieldProjectStartDateNext(locale, data);
+        allFields.projectEndDate = fieldProjectEndDateNext(locale, data);
+    } else {
+        allFields.projectStartDate = fieldProjectStartDate(locale, data);
+        allFields.projectEndDate = fieldProjectEndDate(locale);
+    }
+
+    return allFields;
 };

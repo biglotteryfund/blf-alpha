@@ -6,8 +6,6 @@ Array [
   "projectCountry: Select a country",
   "projectLocation: Select a location",
   "projectLocationDescription: Tell us the towns, villages or wards your beneficiaries live in",
-  "projectStartDate: Enter a project start date",
-  "projectEndDate: Enter a project end date",
   "projectPostcode: Enter a real postcode",
   "yourIdeaProject: Tell us about your project",
   "yourIdeaPriorities: Tell us how your project meets at least one of our funding priorities",
@@ -45,6 +43,10 @@ Array [
   "termsAgreement4: You must confirm that you understand your application is subject to our Freedom of Information policy",
   "termsPersonName: Enter the full name of the person completing this form",
   "termsPersonPosition: Enter the position of the person completing this form",
+  "supportingCOVID19: Select an option",
+  "projectStartDateCheck: Select an option",
+  "projectStartDate: Enter a project start date",
+  "projectEndDate: Enter a project end date",
 ]
 `;
 

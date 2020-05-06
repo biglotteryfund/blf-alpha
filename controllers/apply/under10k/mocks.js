@@ -50,8 +50,9 @@ function mockResponse(overrides = {}) {
     const defaults = {
         projectName: faker.lorem.words(5),
         projectCountry: 'england',
+        projectStartDateCheck: 'asap',
         projectStartDate: toDateParts(moment().add(18, 'weeks')),
-        projectEndDate: toDateParts(moment().add(30, 'weeks')),
+        projectEndDate: toDateParts(moment().add(5, 'months')),
         projectLocation: 'derbyshire',
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',

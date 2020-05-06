@@ -2,6 +2,7 @@
 'use strict';
 const faker = require('faker');
 const moment = require('moment');
+const omit = require('lodash/omit');
 const sample = require('lodash/sample');
 
 const formBuilder = require('./form');
@@ -103,38 +104,6 @@ test('invalid form', () => {
     expect(featuredMessages).toMatchSnapshot();
 });
 
-test('contact email addresses must not match', function () {
-    const emails = {
-        lowercase: 'example@example.com',
-        uppercase: 'Example@example.com',
-    };
-    // Test each combination of cases to ensure the order of completion has no effect
-    const forms = [
-        formBuilder({
-            data: mockResponse({
-                mainContactEmail: emails.lowercase,
-                seniorContactEmail: emails.uppercase,
-            }),
-        }),
-        formBuilder({
-            data: mockResponse({
-                mainContactEmail: emails.uppercase,
-                seniorContactEmail: emails.lowercase,
-            }),
-        }),
-    ];
-
-    forms.forEach((form) => {
-        expect(mapMessages(form.validation)).toEqual(
-            expect.arrayContaining([
-                expect.stringContaining(
-                    'Main contact email address must be different'
-                ),
-            ])
-        );
-    });
-});
-
 test('valid form for england', () => {
     const data = mockResponse({
         projectCountry: 'england',
@@ -149,6 +118,7 @@ test('valid form for scotland', () => {
     const data = mockResponse({
         projectCountry: 'scotland',
         projectLocation: 'east-lothian',
+        supportingCOVID19: 'yes',
     });
 
     const form = formBuilder({ data });
@@ -159,6 +129,7 @@ test('valid form for wales', () => {
     const data = mockResponse({
         projectCountry: 'wales',
         projectLocation: 'caerphilly',
+        supportingCOVID19: 'no',
         // Additional questions required in Wales
         beneficiariesWelshLanguage: 'all',
         mainContactLanguagePreference: 'welsh',
@@ -182,6 +153,7 @@ test('valid form for northern-ireland', () => {
     const data = mockResponse({
         projectCountry: 'northern-ireland',
         projectLocation: 'mid-ulster',
+        supportingCOVID19: 'no',
         // Additional questions required in Northern-Ireland
         beneficiariesNorthernIrelandCommunity: 'mainly-catholic',
     });
@@ -520,6 +492,8 @@ test('valid form for different trading names', function () {
 test('maintain backwards compatibility for date schema', function () {
     const form = formBuilder({
         data: mockResponse({
+            projectCountry: 'england',
+            projectStartDateCheck: 'exact-date',
             projectStartDate: { day: 3, month: 3, year: 2021 },
             projectEndDate: { day: 3, month: 4, year: 2021 },
         }),
@@ -538,12 +512,14 @@ test('maintain backwards compatibility for date schema', function () {
 });
 
 test('require project dates', function () {
-    const form = formBuilder({
-        data: mockResponse({
-            projectStartDate: null,
-            projectEndDate: null,
-        }),
+    const mock = mockResponse({
+        projectCountry: 'england',
+        projectStartDateCheck: 'exact-date',
     });
+
+    const data = omit(mock, ['projectStartDate', 'projectEndDate']);
+
+    const form = formBuilder({ data });
 
     expect(mapMessages(form.validation)).toEqual(
         expect.arrayContaining([
@@ -553,66 +529,49 @@ test('require project dates', function () {
     );
 });
 
-test('start date must be at least 18 weeks away in England', function () {
-    const invalidDate = toDateParts(moment().add('17', 'weeks'));
-    const invalidForm = formBuilder({
-        data: mockResponse({
-            projectCountry: 'england',
-            projectLocation: 'derbyshire',
-            projectStartDate: invalidDate,
-            projectEndDate: invalidDate,
-        }),
+test('start date defaults to current date if specifying as soon as possible', function () {
+    const projectStartDate = moment();
+    const projectEndDate = moment().add('3', 'days');
+
+    const mock = mockResponse({
+        projectCountry: 'england',
+        projectStartDateCheck: 'asap',
+        projectEndDate: toDateParts(projectEndDate),
     });
 
-    expect(mapMessages(invalidForm.validation)).toEqual(
-        expect.arrayContaining([
-            expect.stringMatching(
-                /Date you start the project must be on or after/
-            ),
-        ])
-    );
+    const data = omit(mock, ['projectStartDate']);
 
-    const validDate = toDateParts(moment().add('18', 'weeks'));
-    const validForm = formBuilder({
-        data: mockResponse({
-            projectCountry: 'england',
-            projectLocation: 'derbyshire',
-            projectStartDate: validDate,
-            projectEndDate: validDate,
-        }),
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    const salesforceResult = form.forSalesforce();
+
+    const expectedProjectStartDate = projectStartDate.format('YYYY-MM-DD');
+    const expectedProjectEndDate = projectEndDate.format('YYYY-MM-DD');
+
+    expect(salesforceResult.projectStartDate).toBe(expectedProjectStartDate);
+    expect(salesforceResult.projectEndDate).toBe(expectedProjectEndDate);
+    expect(salesforceResult.projectDateRange).toEqual({
+        startDate: expectedProjectStartDate,
+        endDate: expectedProjectEndDate,
     });
-
-    expect(validForm.validation.error).toBeNull();
 });
 
-test('start date must be at least 12 weeks away in all other countries', function () {
-    [
-        {
-            projectCountry: 'northern-ireland',
-            projectLocation: 'derry-and-strabane',
-            beneficiariesNorthernIrelandCommunity: 'mainly-catholic',
-        },
-        {
-            projectCountry: 'scotland',
-            projectLocation: 'fife',
-        },
-        {
-            projectCountry: 'wales',
-            projectLocation: 'monmouthshire',
-            beneficiariesWelshLanguage: 'all',
-            mainContactLanguagePreference: 'welsh',
-            seniorContactLanguagePreference: 'welsh',
-        },
-    ].forEach(function (countryData) {
-        const invalidDate = toDateParts(moment().add('11', 'weeks'));
+test('start date must be at least 12 weeks away outside England when exact-date is specified', function () {
+    function expectStartDateForCountry(countryData) {
+        const invalidData = mockResponse({
+            ...countryData,
+            ...{
+                supportingCOVID19: 'no',
+                projectStartDateCheck: 'exact-date',
+                projectStartDate: toDateParts(moment().add('11', 'weeks')),
+                projectEndDate: toDateParts(moment().add('11', 'weeks')),
+            },
+        });
+
         const invalidForm = formBuilder({
-            data: mockResponse({
-                ...countryData,
-                ...{
-                    projectStartDate: invalidDate,
-                    projectEndDate: invalidDate,
-                },
-            }),
+            data: invalidData,
         });
 
         expect(mapMessages(invalidForm.validation)).toEqual(
@@ -623,18 +582,135 @@ test('start date must be at least 12 weeks away in all other countries', functio
             ])
         );
 
-        const validDate = toDateParts(moment().add('12', 'weeks'));
+        const validData = mockResponse({
+            ...countryData,
+            ...{
+                supportingCOVID19: 'no',
+                projectStartDateCheck: 'exact-date',
+                projectStartDate: toDateParts(moment().add('12', 'weeks')),
+                projectEndDate: toDateParts(moment().add('12', 'weeks')),
+            },
+        });
+
         const validForm = formBuilder({
-            data: mockResponse({
-                ...countryData,
-                ...{
-                    projectStartDate: validDate,
-                    projectEndDate: validDate,
-                },
-            }),
+            data: validData,
         });
 
         expect(validForm.validation.error).toBeNull();
+    }
+
+    expectStartDateForCountry({
+        projectCountry: 'northern-ireland',
+        projectLocation: 'derry-and-strabane',
+        beneficiariesNorthernIrelandCommunity: 'mainly-catholic',
+    });
+
+    expectStartDateForCountry({
+        projectCountry: 'scotland',
+        projectLocation: 'fife',
+    });
+
+    expectStartDateForCountry({
+        projectCountry: 'wales',
+        projectLocation: 'monmouthshire',
+        beneficiariesWelshLanguage: 'all',
+        mainContactLanguagePreference: 'welsh',
+        seniorContactLanguagePreference: 'welsh',
+    });
+});
+
+describe('existing date rules where enableNewCOVID19Flow is false', function () {
+    test('start date must be at least 18 weeks away in England', function () {
+        const invalidData = mockResponse({
+            projectCountry: 'england',
+            projectLocation: 'derbyshire',
+            projectStartDate: toDateParts(moment().add('17', 'weeks')),
+            projectEndDate: toDateParts(moment().add('17', 'weeks')),
+        });
+
+        const invalidForm = formBuilder({
+            data: invalidData,
+            flags: { enableNewCOVID19Flow: false },
+        });
+
+        expect(mapMessages(invalidForm.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringMatching(
+                    /Date you start the project must be on or after/
+                ),
+            ])
+        );
+
+        const validData = mockResponse({
+            projectCountry: 'england',
+            projectLocation: 'derbyshire',
+            projectStartDate: toDateParts(moment().add('18', 'weeks')),
+            projectEndDate: toDateParts(moment().add('18', 'weeks')),
+        });
+
+        const validForm = formBuilder({
+            data: validData,
+            flags: { enableNewCOVID19Flow: false },
+        });
+
+        expect(validForm.validation.error).toBeNull();
+    });
+
+    test('start date must be at least 12 weeks away in all other countries', function () {
+        [
+            {
+                projectCountry: 'northern-ireland',
+                projectLocation: 'derry-and-strabane',
+                beneficiariesNorthernIrelandCommunity: 'mainly-catholic',
+            },
+            {
+                projectCountry: 'scotland',
+                projectLocation: 'fife',
+            },
+            {
+                projectCountry: 'wales',
+                projectLocation: 'monmouthshire',
+                beneficiariesWelshLanguage: 'all',
+                mainContactLanguagePreference: 'welsh',
+                seniorContactLanguagePreference: 'welsh',
+            },
+        ].forEach(function (countryData) {
+            const invalidData = mockResponse({
+                ...countryData,
+                ...{
+                    projectStartDate: toDateParts(moment().add('11', 'weeks')),
+                    projectEndDate: toDateParts(moment().add('11', 'weeks')),
+                },
+            });
+
+            const invalidForm = formBuilder({
+                data: invalidData,
+                flags: { enableNewCOVID19Flow: false },
+            });
+
+            expect(mapMessages(invalidForm.validation)).toEqual(
+                expect.arrayContaining([
+                    expect.stringMatching(
+                        /Date you start the project must be on or after/
+                    ),
+                ])
+            );
+
+            const validData = mockResponse({
+                ...countryData,
+                ...{
+                    projectStartDate: toDateParts(moment().add('12', 'weeks')),
+                    projectEndDate: toDateParts(moment().add('12', 'weeks')),
+                },
+            });
+
+            const validForm = formBuilder({
+                data: validData,
+                flags: { enableNewCOVID19Flow: false },
+            });
+
+            expect(validForm.validation.error).toBeNull();
+        });
     });
 });
 
@@ -793,3 +869,35 @@ test.each(['school', 'college-or-university', 'statutory-body'])(
         ]);
     }
 );
+
+test('contact email addresses must not match', function () {
+    const emails = {
+        lowercase: 'example@example.com',
+        uppercase: 'Example@example.com',
+    };
+    // Test each combination of cases to ensure the order of completion has no effect
+    const forms = [
+        formBuilder({
+            data: mockResponse({
+                mainContactEmail: emails.lowercase,
+                seniorContactEmail: emails.uppercase,
+            }),
+        }),
+        formBuilder({
+            data: mockResponse({
+                mainContactEmail: emails.uppercase,
+                seniorContactEmail: emails.lowercase,
+            }),
+        }),
+    ];
+
+    forms.forEach((form) => {
+        expect(mapMessages(form.validation)).toEqual(
+            expect.arrayContaining([
+                expect.stringContaining(
+                    'Main contact email address must be different'
+                ),
+            ])
+        );
+    });
+});
