@@ -35,6 +35,9 @@
 
 {% macro programmeCard(programme) %}
     {% set description %}
+        {% if programme.trailText %}
+            <p>{{ programme.trailText }}</p>
+        {% endif %}
         {{ programmeStats(programme) }}
     {% endset %}
     {{ promoCard({
