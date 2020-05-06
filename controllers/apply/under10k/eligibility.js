@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
@@ -8,6 +9,8 @@ const {
     SUGGESTED_PROJECT_DURATION,
     ORG_MIN_AGE,
 } = require('./constants');
+
+const enableNewCOVID19Flow = config.get('fundingUnder10k.enableNewCOVID19Flow');
 
 module.exports = function ({ locale }) {
     const localise = get(locale);
@@ -52,15 +55,38 @@ module.exports = function ({ locale }) {
     }
 
     function question2() {
+        const question = enableNewCOVID19Flow
+            ? localise({
+                  en: oneLine`Are you applying for an amount between
+                    £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and
+                    £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
+                    that you’ll spend in around in around 12 months?
+                    (or in 6 months for projects in England)`,
+                  cy: `@TODO: i18n`,
+              })
+            : localise({
+                  en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} that you’ll spend in around ${maxProjectDurationLabel}?`,
+                  cy: `A ydych yn ymgeisio am swm rhwng £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} byddwch yn ei wario o fewn oddeutu ${maxProjectDurationLabel}?`,
+              });
+
+        const explanation = enableNewCOVID19Flow
+            ? localise({
+                  en: oneLine`We know it's not always possible to complete a
+                      project in 12 months for lots of reasons. So we can
+                      consider projects which are slightly longer than this.
+                      But groups in England need to spend the funding in 6 months.
+                      We will also consider applications for one-off events
+                      such as a festival, gala day or conference`,
+                  cy: `@TODO: i18n`,
+              })
+            : localise({
+                  en: `We know it's not always possible to complete a project in ${maxProjectDurationLabel} for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
+                  cy: `Rydym yn gwybod nad yw bob tro’n bosib i gwblhau prosiect o fewn ${maxProjectDurationLabel} am nifer o resymau. Felly mi allwn ystyried prosiectau sydd ychydig yn hirach na hyn. Byddwn hefyd yn ystyried ceisiadau am ddigwyddiadau a fydd yn digwydd unwaith yn unig, megis gwyliau, diwrnod gala neu gynhadledd.`,
+              });
+
         return {
-            question: localise({
-                en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} that you’ll spend in around ${maxProjectDurationLabel}?`,
-                cy: `A ydych yn ymgeisio am swm rhwng £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} byddwch yn ei wario o fewn oddeutu ${maxProjectDurationLabel}?`,
-            }),
-            explanation: localise({
-                en: `We know it's not always possible to complete a project in ${maxProjectDurationLabel} for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
-                cy: `Rydym yn gwybod nad yw bob tro’n bosib i gwblhau prosiect o fewn ${maxProjectDurationLabel} am nifer o resymau. Felly mi allwn ystyried prosiectau sydd ychydig yn hirach na hyn. Byddwn hefyd yn ystyried ceisiadau am ddigwyddiadau a fydd yn digwydd unwaith yn unig, megis gwyliau, diwrnod gala neu gynhadledd.`,
-            }),
+            question: question,
+            explanation: explanation,
             yesLabel: localise({ en: 'Yes', cy: 'Ydw' }),
             noLabel: localise({ en: 'No', cy: 'Nac ydw' }),
             errorMessage: localise({
