@@ -1107,6 +1107,34 @@ awardsForAll:
       title: Barod i ymgeisio?
       processMap:
         indicatorLabel: Rydych yma
+        processNew:
+          - type: step
+            title: Gwirio os gallwch ymgeisio
+            description: >
+              Cyn i chi dreulio amser yn llenwi ffurflen gais,
+              byddwn yn gofyn rhai cwestiynau i sicrhau y gallwch
+              ymgeisio yn gyntaf (gan ddefnyddio ein ‘gwiriad cymhwysedd’).
+              Os na allwch ymgeisio, byddwn yn rhoi gwybod pam i chi.
+              Dylai’r adborth hwn helpu os byddwch eisiau ymgeisio eto yn y dyfodol.
+          - type: action
+            title: Gallu ymgeisio
+          - type: step
+            title: Llenwi cais ar-lein
+            description: >
+              Dywedwch wrthym am eich syniad i helpu pobl wella eu bywydau a’u cymunedau.
+              Bydd gennych hyd at dair mis i orffen eich ffurflen gais ar-lein.
+              Ar ôl i chi anfon eich ffurflen gais atom, byddwn yn ei hasesu.
+              @TODO: i18n
+          - type: action
+            title: Cais wedi’i asesu
+          - type: step
+            title: Byddwn yn penderfynu i ariannu eich prosiect neu beidio
+            description: >
+              Efallai byddwn yn cysylltu â chi i siarad a gofyn cwestiynau am eich cais.
+              Yna, byddwn yn gwneud penderfyniad terfynol p’un a byddwn yn ariannu eich prosiect neu ddim.
+              Os byddwch yn llwyddiannus, gallwch
+              <a href="/welsh/funding/managing-your-grant/promoting-your-project">hyrwyddo eich prosiect</a>
+              a dechrau <a href="/welsh/funding/managing-your-grant/under10k">rheoli eich grant</a>.
         process:
           - type: step
             title: Gwirio os gallwch ymgeisio

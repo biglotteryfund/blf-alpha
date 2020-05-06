@@ -65,6 +65,7 @@ module.exports = function (req, res, next) {
      * Default to true, allow overriding on specific pages
      */
     res.locals.showCOVID19AnnouncementBanner = true;
+    res.locals.enableNewCOVID19Flow = config.get('fundingUnder10k.enableNewCOVID19Flow');
 
     /**
      * Global copy

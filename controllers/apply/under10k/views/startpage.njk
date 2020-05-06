@@ -24,8 +24,14 @@
                 <h2>{{ copy.readyToApply.title }}</h2>
             </div>
 
+            {% if enableNewCOVID19Flow %}
+                {% set processItemsSource = copy.readyToApply.processMap.processNew %}
+            {% else %}
+                {% set processItemsSource = copy.readyToApply.processMap.process %}
+            {% endif %}
+
             {% set processItems = [] %}
-            {% for item in copy.readyToApply.processMap.process %}
+            {% for item in processItemsSource %}
                 {% set processItems = (processItems.push({
                     type: item.type,
                     title: item.title,
@@ -34,7 +40,6 @@
                     isCurrent: loop.index === 1
                 }), processItems) %}
             {% endfor %}
-
             {{ processMap(processItems, copy.readyToApply.processMap.indicatorLabel) }}
 
             <p class="form-actions u-margin-bottom-l">
