@@ -1,8 +1,10 @@
 'use strict';
+const config = require('config');
 const get = require('lodash/fp/get');
 const { stripIndents } = require('common-tags');
 
 const { getContactFullName } = require('./lib/contacts');
+const enableNewCOVID19Flow = config.get('fundingUnder10k.enableNewCOVID19Flow');
 
 function getEmailFor(country) {
     const countryEmail = {
@@ -42,6 +44,35 @@ module.exports = function ({ locale, data = {} }) {
     );
 
     function enConfirmationBody() {
+        function leadTimeText() {
+            if (enableNewCOVID19Flow) {
+                if (country === 'england') {
+                    return `<p>
+                        We’ll look at your idea and do some checks.
+                        Given the emergency and huge demand for funding,
+                        we’re now focusing on funding projects and organisations
+                        helping communities through the COVID-19 pandemic,
+                        so they can start as soon as possible
+                    </p>`;
+                } else {
+                    return `<p>
+                        We’ll look at your idea and do some checks.
+                        We’re now prioritising decisions for COVID-19 related
+                        projects, so they can start sooner. And it might take us longer
+                        to assess applications that aren’t about COVID-19.
+                    </p>`;
+                }
+            } else {
+                return `<p>
+                    We’ll look at your idea and do some checks.
+                    We’re now prioritising decisions for COVID-19 related
+                    projects, so they can start sooner. And it might take us
+                    ${country === 'england' ? 'up to six months' : 'longer'}
+                    to assess applications that aren’t about COVID-19.
+                </p>`;
+            }
+        }
+
         return stripIndents`
             <h2>We’ve just sent an email to your main and senior contact</h2>
             <p>
@@ -52,13 +83,7 @@ module.exports = function ({ locale, data = {} }) {
                 Now we’ve got your application – 
                 we'll start assessing it as soon as we can
             </h2>
-            <p>
-                We’ll look at your idea and do some checks.
-                We’re now prioritising decisions for COVID-19 related
-                projects, so they can start sooner. And it might take us
-                ${country === 'england' ? 'up to six months' : 'longer'}
-                to assess applications that aren’t about COVID-19.
-            </p>
+            ${leadTimeText()}
             <h2>While we’re assessing your application – we might get in touch</h2>
             <p>
                 We don’t always do this. It’s only if we need a bit more information.
@@ -90,18 +115,33 @@ module.exports = function ({ locale, data = {} }) {
     }
 
     function cyConfirmationBody() {
+        function leadTimeText() {
+            if (enableNewCOVID19Flow) {
+                if (country === 'england') {
+                    return `@TODO: i18n`;
+                } else {
+                    return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. 
+                    Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau 
+                    cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd 
+                    mwy o amser i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>`;
+                }
+            } else {
+                return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. 
+                Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau 
+                cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd 
+                ${country === 'england' ? 'hyd at chwe mis' : 'mwy o amser'}
+                i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>`;
+            }
+        }
+
         return stripIndents`
             <h2>Rydym newydd anfon e-bost i’ch prif ac uwch gyswllt </h2>
             <p>Dim ond e-bost cadarnhad yw hwn, gyda chrynodeb o’ch atebion 
             (rhag ofn eich bod eisiau edrych yn ôl arnyn nhw ar unrhyw bwynt).</p>
 
             <h2>Nawr bod gennym eich cais, byddwn yn dechrau ei asesu cyn gynted ag y gallwn</h2>
-            <p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. 
-            Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau 
-            cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd  ${
-                country === 'england' ? 'hyd at chwe mis' : 'mwy o amser'
-            } i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>
-            
+            ${leadTimeText()}
+        
             <h2>Tra rydym yn asesu eich cais – efallai byddwn mewn cysylltiad</h2>
             <p>Nid ydym yn gwneud hyn o hyd. Dim ond os ydym angen ychydig mwy o
              wybodaeth. Felly peidiwch â phoeni os nad ydych yn clywed gennym.</p>
