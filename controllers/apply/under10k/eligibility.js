@@ -6,7 +6,6 @@ const { oneLine } = require('common-tags');
 const {
     MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
-    SUGGESTED_PROJECT_DURATION,
     ORG_MIN_AGE,
 } = require('./constants');
 
@@ -15,7 +14,11 @@ const enableNewCOVID19Flow = config.get('fundingUnder10k.enableNewCOVID19Flow');
 module.exports = function ({ locale }) {
     const localise = get(locale);
 
-    const maxProjectDurationLabel = localise(SUGGESTED_PROJECT_DURATION);
+    const maxProjectDurationLabel = localise({
+        en: '12 months',
+        cy: '12 mis',
+    });
+
     const orgMinAgeLabel = localise(ORG_MIN_AGE.label);
 
     function question1() {

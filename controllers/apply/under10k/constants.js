@@ -17,11 +17,6 @@ const ORG_MIN_AGE = {
     label: { en: '15 months', cy: '15 mis' },
 };
 
-const SUGGESTED_PROJECT_DURATION = {
-    en: '12 months',
-    cy: '12 mis',
-};
-
 const ORGANISATION_TYPES = {
     UNREGISTERED_VCO: 'unregistered-vco',
     UNINCORPORATED_REGISTERED_CHARITY: 'unincorporated-registered-charity',
@@ -114,7 +109,6 @@ module.exports = {
     COMPANY_NUMBER_TYPES,
     CONTACT_EXCLUDED_TYPES,
     MAX_BUDGET_TOTAL_GBP,
-    SUGGESTED_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     MIN_BUDGET_TOTAL_GBP,
