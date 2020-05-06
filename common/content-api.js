@@ -212,10 +212,14 @@ function getFundingProgrammes({
         queryContentApi.get('v2/en/funding-programmes', requestOptions).json(),
         queryContentApi.get('v2/cy/funding-programmes', requestOptions).json(),
     ]).then((responses) => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
+        const [enResponse, cyResponse] = responses;
         return {
-            meta: locale === 'en' ? head(responses).meta : responses[1].meta,
-            result: mergeWelshBy('slug')(locale, enResults, cyResults),
+            meta: locale === 'en' ? enResponse.meta : cyResponse.meta,
+            result: mergeWelshBy('slug')(
+                locale,
+                mapAttrs(enResponse),
+                mapAttrs(cyResponse)
+            ),
         };
     });
 }

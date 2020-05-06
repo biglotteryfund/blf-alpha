@@ -50,17 +50,14 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function (
 
         const covidStatuses = get(response.meta, 'covid19Statuses');
         if (covidStatuses) {
-            let countryCovidStatus;
-            countryCovidStatus = covidStatuses.find(
-                (status) => status.country === locationParam
-            );
-            // Fall back to the UK-wide statement
-            if (!countryCovidStatus) {
-                countryCovidStatus = covidStatuses.find(
-                    (status) => status.country === 'ukWide'
+            res.locals.countryCovidStatus = covidStatuses.find(function (
+                status
+            ) {
+                return (
+                    status.country === locationParam ||
+                    status.country === 'ukWide'
                 );
-            }
-            res.locals.countryCovidStatus = countryCovidStatus;
+            });
         }
 
         const programmesFilteredByAmount = allFundingProgrammes
