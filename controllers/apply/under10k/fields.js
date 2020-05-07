@@ -24,7 +24,6 @@ const fieldCompanyNumber = require('./fields/company-number');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldEducationNumber = require('./fields/education-number');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
-const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectCountry = require('./fields/project-country');
 const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectLocationDescription = require('./fields/project-location-description');
@@ -53,6 +52,11 @@ const {
     fieldYourIdeaCommunity,
 } = require('./fields/your-idea');
 
+const {
+    fieldOrganisationType,
+    fieldOrganisationSubTypeStatutoryBody,
+} = require('./fields/organisation-type');
+
 const isNewOrganisation = require('./lib/new-organisation');
 const {
     BENEFICIARY_GROUPS,
@@ -61,8 +65,6 @@ const {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     MIN_BUDGET_TOTAL_GBP,
-    ORGANISATION_TYPES,
-    STATUTORY_BODY_TYPES,
     FREE_TEXT_MAXLENGTH,
 } = require('./constants');
 
@@ -1218,80 +1220,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             }),
         }),
         organisationType: fieldOrganisationType(locale),
-        organisationSubTypeStatutoryBody: {
-            name: 'organisationSubType',
-            label: localise({
-                en: 'Tell us what type of statutory body you are',
-                cy: 'Dywedwch wrthym pa fath o gorff statudol ydych',
-            }),
-            type: 'radio',
-            options: [
-                {
-                    value: STATUTORY_BODY_TYPES.PARISH_COUNCIL,
-                    label: localise({
-                        en: 'Parish Council',
-                        cy: 'Cyngor plwyf',
-                    }),
-                },
-                {
-                    value: STATUTORY_BODY_TYPES.TOWN_COUNCIL,
-                    label: localise({
-                        en: 'Town Council',
-                        cy: 'Cyngor tref',
-                    }),
-                },
-                {
-                    value: STATUTORY_BODY_TYPES.LOCAL_AUTHORITY,
-                    label: localise({
-                        en: 'Local Authority',
-                        cy: 'Awdurdod lleol',
-                    }),
-                },
-                {
-                    value: STATUTORY_BODY_TYPES.NHS_TRUST,
-                    label: localise({
-                        en: 'NHS Trust/Health Authority',
-                        cy: 'Ymddiriedaeth GIG/Awdurdod Iechyd',
-                    }),
-                },
-                {
-                    value: STATUTORY_BODY_TYPES.PRISON_SERVICE,
-                    label: localise({
-                        en: 'Prison Service',
-                        cy: 'Gwasanaeth carchar',
-                    }),
-                },
-                {
-                    value: STATUTORY_BODY_TYPES.FIRE_SERVICE,
-                    label: localise({
-                        en: 'Fire Service',
-                        cy: 'Gwasanaeth tân',
-                    }),
-                },
-                {
-                    value: STATUTORY_BODY_TYPES.POLICE_AUTHORITY,
-                    label: localise({
-                        en: 'Police Authority',
-                        cy: 'Awdurdod heddlu',
-                    }),
-                },
-            ],
-            isRequired: true,
-            schema: Joi.when('organisationType', {
-                is: ORGANISATION_TYPES.STATUTORY_BODY,
-                then: Joi.string().required(),
-                otherwise: Joi.any().strip(),
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Tell us what type of statutory body you are',
-                        cy: 'Dywedwch wrthym pa fath o gorff statudol ydych',
-                    }),
-                },
-            ],
-        },
+        organisationSubTypeStatutoryBody: fieldOrganisationSubTypeStatutoryBody(
+            locale
+        ),
         companyNumber: fieldCompanyNumber(locale),
         charityNumber: fieldCharityNumber(locale, data),
         educationNumber: fieldEducationNumber(locale),
