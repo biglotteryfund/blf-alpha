@@ -3,9 +3,9 @@ const config = require('config');
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-module.exports = function getNotice(locale, pendingSimple = []) {
+module.exports = function getNotice(locale, pendingApplications = []) {
     const localise = get(locale);
-    const hasPendingEngland = pendingSimple.some(function (application) {
+    const hasPendingEngland = pendingApplications.some(function (application) {
         return (
             application.formId === 'awards-for-all' &&
             get('applicationData.projectCountry')(application) === 'england'
