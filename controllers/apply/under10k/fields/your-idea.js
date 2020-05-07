@@ -195,7 +195,7 @@ module.exports = {
                     </li>
                     <li>Gwella'r lleoedd sy'n bwysig i gymunedau</li>
                     <li>
-                        Helpwch fwy o bobl i gyrraedd eu potensial, 
+                        Helpu mwy o bobl i gyrraedd eu potensial, 
                         trwy eu cefnogi cyn gynted â phosibl
                     </li>
                 </ol>`,
