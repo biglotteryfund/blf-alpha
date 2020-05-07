@@ -59,9 +59,13 @@ module.exports = {
                 cy: `Pryd hoffech chi gael yr arian os ydych chi'n cael eich dyfarnu?`,
             }),
             options: options(),
-            schema:  Joi.string().valid(
-                options().filter((option) => !has('disabled')(option.attributes)).map((option) => option.value)
-            ).required(),
+            schema: Joi.string()
+                .valid(
+                    options()
+                        .filter((option) => !has('disabled')(option.attributes))
+                        .map((option) => option.value)
+                )
+                .required(),
             messages: [
                 {
                     type: 'base',
