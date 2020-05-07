@@ -11,9 +11,11 @@ const {
     PendingApplication,
     SubmittedApplication,
 } = require('../../../db/models');
+const logger = require('../../../common/logger').child({ service: 'apply' });
 
 const enrichAwardsForAll = require('../under10k/enrich');
 const enrichStandard = require('../standard-proposal/enrich');
+const getNotice = require('./lib/get-notice');
 
 const router = express.Router();
 
@@ -106,9 +108,15 @@ router.get(
                 }),
             ]);
 
+            const notice = getNotice(req.i18n.getLocale(), pendingSimple);
+            if (notice) {
+                logger.info('Notice shown on dashboard');
+            }
+
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 copy: copy,
                 title: copy.latest.title,
+                notice: notice,
                 latestApplication: latestApplication,
                 hasPendingSimpleApplication: !isEmpty(pendingSimple),
                 hasPendingStandardApplication: !isEmpty(pendingStandard),
@@ -141,9 +149,15 @@ router.get(
                 res.locals.hotJarTagList = ['User deleted an application'];
             }
 
+            const notice = getNotice(req.i18n.getLocale(), pendingApplications);
+            if (notice) {
+                logger.info('Notice shown on all applications dashboard');
+            }
+
             res.render(path.resolve(__dirname, './views/dashboard-all'), {
                 copy: copy,
                 title: copy.all.title,
+                notice: notice,
                 pendingApplications: pendingApplications.map((application) =>
                     enrichPending(application, req.i18n.getLocale())
                 ),
