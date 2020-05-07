@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const compact = require('lodash/compact');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
@@ -8,10 +9,18 @@ const { RadioField } = require('../../lib/field-types');
 const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');
 
 module.exports = {
-    fieldOrganisationType(locale) {
+    fieldOrganisationType(locale, data = {}, flags = {}) {
         const localise = get(locale);
 
-        const options = [
+        function includeStatutoryGroups() {
+            if (flags.enableEnableGovCOVIDUpdates) {
+                return get('projectCountry')(data) !== 'england';
+            } else {
+                return true;
+            }
+        }
+
+        const options = compact([
             {
                 value: ORGANISATION_TYPES.UNREGISTERED_VCO,
                 label: localise({
@@ -76,21 +85,21 @@ module.exports = {
                     cy: oneLine`Cwmni cofrestredig â Thŷ’r Cwmnïau. A’r Rheolydd Cwmni Budd Cymunedol.`,
                 }),
             },
-            {
+            includeStatutoryGroups() && {
                 value: ORGANISATION_TYPES.SCHOOL,
                 label: localise({
                     en: 'School',
                     cy: 'Ysgol',
                 }),
             },
-            {
+            includeStatutoryGroups() && {
                 value: ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
                 label: localise({
                     en: 'College or University',
                     cy: 'Coleg neu brifysgol',
                 }),
             },
-            {
+            includeStatutoryGroups() && {
                 value: ORGANISATION_TYPES.STATUTORY_BODY,
                 label: localise({
                     en: 'Statutory body',
@@ -114,7 +123,7 @@ module.exports = {
                     cy: `Fel eglwys, mosg, teml neu synagog.`,
                 }),
             },
-        ];
+        ]);
 
         return new RadioField({
             locale: locale,
