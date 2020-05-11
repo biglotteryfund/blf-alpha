@@ -19,42 +19,7 @@ module.exports = {
             );
         });
 
-        const hasPendingEnglandStatutory = pendingApplications.some(function (
-            application
-        ) {
-            const currentOrganisationType = get(
-                'applicationData.organisationType'
-            )(application);
-
-            return (
-                application.formId === 'awards-for-all' &&
-                get('applicationData.projectCountry')(application) ===
-                    'england' &&
-                ['school', 'college-or-university', 'statutory-body'].includes(
-                    currentOrganisationType
-                ) === true
-            );
-        });
-
         const notices = [];
-
-        if (enableGovCOVIDUpdates && hasPendingEnglandStatutory) {
-            notices.push({
-                title: localise({
-                    en: oneLine`We're sorry, but the application you've already
-                    started is now not eligible for funding`,
-                    cy: oneLine`@TODO: i18n`,
-                }),
-                body: localise({
-                    en: oneLine`We've changed our eligibility criteria
-                    (for the time being) to help communities through
-                    the pandemic. So for funding under £10,000, we're
-                    only funding voluntary and community organisations
-                    with COVID-19 related projects.`,
-                    cy: oneLine`@TODO: i18n`,
-                }),
-            });
-        }
 
         if (enableGovCOVIDUpdates && hasPendingEngland) {
             notices.push({
@@ -84,18 +49,11 @@ module.exports = {
     getNoticesSingle(locale, application = []) {
         const localise = get(locale);
 
-        const currentProjectCountry = get('applicationData.projectCountry')(
-            application
-        );
-        const currentOrganisationType = get('applicationData.organisationType')(
-            application
-        );
-
         const isEnglandStatutory =
             application.formId === 'awards-for-all' &&
-            currentProjectCountry === 'england' &&
+            get('applicationData.projectCountry')(application) === 'england' &&
             ['school', 'college-or-university', 'statutory-body'].includes(
-                currentOrganisationType
+                get('applicationData.organisationType')(application)
             ) === true;
 
         const notices = [];

@@ -22,19 +22,6 @@ exports[`get notices for under £10,000 application in England for "college-or-u
 Array [
   Object {
     "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
-    "title": "We're sorry, but the application you've already started is now not eligible for funding",
-  },
-  Object {
-    "body": "If you've started an application already, and it's not related to supporting your community or organisation through the pandemic, we won't be able to accept it. But you could decide to start a new one that focuses on COVID-19 instead.",
-    "title": "For funding under £10,000 in England, we're now only accepting COVID-19 related applications",
-  },
-]
-`;
-
-exports[`get notices for under £10,000 application in England for "college-or-university" 2`] = `
-Array [
-  Object {
-    "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
     "title": "We're sorry, but your application is now not eligible for funding",
   },
 ]
@@ -44,38 +31,12 @@ exports[`get notices for under £10,000 application in England for "school" 1`] 
 Array [
   Object {
     "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
-    "title": "We're sorry, but the application you've already started is now not eligible for funding",
-  },
-  Object {
-    "body": "If you've started an application already, and it's not related to supporting your community or organisation through the pandemic, we won't be able to accept it. But you could decide to start a new one that focuses on COVID-19 instead.",
-    "title": "For funding under £10,000 in England, we're now only accepting COVID-19 related applications",
-  },
-]
-`;
-
-exports[`get notices for under £10,000 application in England for "school" 2`] = `
-Array [
-  Object {
-    "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
     "title": "We're sorry, but your application is now not eligible for funding",
   },
 ]
 `;
 
 exports[`get notices for under £10,000 application in England for "statutory-body" 1`] = `
-Array [
-  Object {
-    "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
-    "title": "We're sorry, but the application you've already started is now not eligible for funding",
-  },
-  Object {
-    "body": "If you've started an application already, and it's not related to supporting your community or organisation through the pandemic, we won't be able to accept it. But you could decide to start a new one that focuses on COVID-19 instead.",
-    "title": "For funding under £10,000 in England, we're now only accepting COVID-19 related applications",
-  },
-]
-`;
-
-exports[`get notices for under £10,000 application in England for "statutory-body" 2`] = `
 Array [
   Object {
     "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",

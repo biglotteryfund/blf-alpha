@@ -41,20 +41,13 @@ test('get notices for pending under £10,000 application in England', function (
 test.each(['school', 'college-or-university', 'statutory-body'])(
     'get notices for under £10,000 application in England for %p',
     function (orgType) {
-        const mock = {
+        const resultSingle = getNoticesSingle('en', {
             formId: 'awards-for-all',
             applicationData: {
                 projectCountry: 'england',
                 organisationType: orgType,
             },
-        };
-
-        const resultAll = getNoticesAll('en', [mock]);
-
-        expect(resultAll).toMatchSnapshot();
-        expect(resultAll).toHaveLength(2);
-
-        const resultSingle = getNoticesSingle('en', mock);
+        });
         expect(resultSingle).toMatchSnapshot();
         expect(resultSingle).toHaveLength(1);
     }
