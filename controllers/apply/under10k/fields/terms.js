@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 
 const Joi = require('../../lib/joi-extensions');
-const { CheckboxField } = require('../../lib/field-types');
+const { Field, CheckboxField } = require('../../lib/field-types');
 const { FREE_TEXT_MAXLENGTH } = require('../constants');
 
 module.exports = {
@@ -141,15 +141,15 @@ module.exports = {
     fieldTermsPersonName(locale) {
         const localise = get(locale);
 
-        return {
+        return new Field({
+            locale: locale,
             name: 'termsPersonName',
             label: localise({
                 en: 'Full name of person completing this form',
                 cy: 'Enw llawn y person sy’n cwblhau’r ffurflen',
             }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
+            attributes: { autocomplete: 'name' },
+            maxLength: FREE_TEXT_MAXLENGTH.large,
             messages: [
                 {
                     type: 'base',
@@ -167,20 +167,19 @@ module.exports = {
                     }),
                 },
             ],
-            attributes: { autocomplete: 'name' },
-        };
+        });
     },
     fieldTermsPersonPosition(locale) {
         const localise = get(locale);
 
-        return {
+        return new Field({
+            locale: locale,
             name: 'termsPersonPosition',
             label: localise({
                 en: 'Position in organisation',
                 cy: 'Safle o fewn y sefydliad',
             }),
-            type: 'text',
-            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
+            maxLength: FREE_TEXT_MAXLENGTH.large,
             messages: [
                 {
                     type: 'base',
@@ -197,7 +196,6 @@ module.exports = {
                     }),
                 },
             ],
-            isRequired: true,
-        };
+        });
     },
 };
