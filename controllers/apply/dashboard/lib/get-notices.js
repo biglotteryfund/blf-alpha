@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
@@ -13,10 +12,7 @@ module.exports = function getNotices(locale, pendingApplications = []) {
     });
 
     const notices = [];
-    if (
-        config.get('fundingUnder10k.enableEnableGovCOVIDUpdates') &&
-        hasPendingEngland
-    ) {
+    if (hasPendingEngland) {
         notices.push({
             title: localise({
                 en: oneLine`For funding under £10,000 in England, we're now only

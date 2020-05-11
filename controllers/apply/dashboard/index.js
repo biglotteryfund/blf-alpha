@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+const config = require('config');
 const moment = require('moment');
 const isEmpty = require('lodash/isEmpty');
 
@@ -16,6 +17,10 @@ const logger = require('../../../common/logger').child({ service: 'apply' });
 const enrichAwardsForAll = require('../under10k/enrich');
 const enrichStandard = require('../standard-proposal/enrich');
 const getNotices = require('./lib/get-notices');
+
+const enableEnableGovCOVIDUpdates = config.get(
+    'fundingUnder10k.enableEnableGovCOVIDUpdates'
+);
 
 const router = express.Router();
 
@@ -116,7 +121,7 @@ router.get(
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 copy: copy,
                 title: copy.latest.title,
-                notices: notices,
+                notices: enableEnableGovCOVIDUpdates ? notices : [],
                 latestApplication: latestApplication,
                 hasPendingSimpleApplication: !isEmpty(pendingSimple),
                 hasPendingStandardApplication: !isEmpty(pendingStandard),
@@ -153,6 +158,7 @@ router.get(
                 req.i18n.getLocale(),
                 pendingApplications
             );
+
             if (notices.length > 0) {
                 logger.info('Notice shown on all applications dashboard');
             }
@@ -160,7 +166,7 @@ router.get(
             res.render(path.resolve(__dirname, './views/dashboard-all'), {
                 copy: copy,
                 title: copy.all.title,
-                notices: notices,
+                notices: enableEnableGovCOVIDUpdates ? notices : [],
                 pendingApplications: pendingApplications.map((application) =>
                     enrichPending(application, req.i18n.getLocale())
                 ),
