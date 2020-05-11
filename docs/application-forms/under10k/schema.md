@@ -182,6 +182,9 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "termsAgreement2": "yes",
         "termsAgreement3": "yes",
         "termsAgreement4": "yes",
+        "termsAgreementCovid1": "yes",
+        "termsAgreementCovid2": "yes",
+        "termsAgreementCovid3": "yes",
         "termsPersonName": "Guybrush Threepwood",
         "termsPersonPosition": "Mighty Pirate"
     }
@@ -675,9 +678,16 @@ File object with the following fields:
 
 ### termsAgreement4
 
+### termsAgreementCovid1
+
+### termsAgreementCovid2
+
+### termsAgreementCovid3
+
 type: `string`
 
-Will always be "yes" (required fields)
+Will always be "yes" (required fields) with the exception of the three Covid fields, 
+which are only required for England-based applications
 
 ### termsPersonName
 
