@@ -16,7 +16,7 @@ const logger = require('../../../common/logger').child({ service: 'apply' });
 
 const enrichAwardsForAll = require('../under10k/enrich');
 const enrichStandard = require('../standard-proposal/enrich');
-const getNotices = require('./lib/get-notices');
+const getNotices = require('../lib/get-notices');
 
 const enableEnableGovCOVIDUpdates = config.get(
     'fundingUnder10k.enableEnableGovCOVIDUpdates'
