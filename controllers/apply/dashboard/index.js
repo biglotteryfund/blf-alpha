@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const config = require('config');
 const moment = require('moment');
 const isEmpty = require('lodash/isEmpty');
 
@@ -16,11 +15,7 @@ const logger = require('../../../common/logger').child({ service: 'apply' });
 
 const enrichAwardsForAll = require('../under10k/enrich');
 const enrichStandard = require('../standard-proposal/enrich');
-const getNotices = require('../lib/get-notices');
-
-const enableEnableGovCOVIDUpdates = config.get(
-    'fundingUnder10k.enableEnableGovCOVIDUpdates'
-);
+const { getNoticesAll } = require('../lib/notices');
 
 const router = express.Router();
 
@@ -113,7 +108,7 @@ router.get(
                 }),
             ]);
 
-            const notices = getNotices(req.i18n.getLocale(), pendingSimple);
+            const notices = getNoticesAll(req.i18n.getLocale(), pendingSimple);
             if (notices.length > 0) {
                 logger.info('Notice shown on dashboard');
             }
@@ -121,7 +116,7 @@ router.get(
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 copy: copy,
                 title: copy.latest.title,
-                notices: enableEnableGovCOVIDUpdates ? notices : [],
+                notices: notices,
                 latestApplication: latestApplication,
                 hasPendingSimpleApplication: !isEmpty(pendingSimple),
                 hasPendingStandardApplication: !isEmpty(pendingStandard),
@@ -154,7 +149,7 @@ router.get(
                 res.locals.hotJarTagList = ['User deleted an application'];
             }
 
-            const notices = getNotices(
+            const notices = getNoticesAll(
                 req.i18n.getLocale(),
                 pendingApplications
             );
@@ -166,7 +161,7 @@ router.get(
             res.render(path.resolve(__dirname, './views/dashboard-all'), {
                 copy: copy,
                 title: copy.all.title,
-                notices: enableEnableGovCOVIDUpdates ? notices : [],
+                notices: notices,
                 pendingApplications: pendingApplications.map((application) =>
                     enrichPending(application, req.i18n.getLocale())
                 ),

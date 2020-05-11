@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const getNotices = require('./get-notices');
+const { getNoticesAll, getNoticesSingle } = require('./notices');
 
 test('get notices for pending under £10,000 application in England', function () {
     const mockUnder10kEngland = {
@@ -18,7 +18,7 @@ test('get notices for pending under £10,000 application in England', function (
         applicationData: { projectCountries: ['england'] },
     };
 
-    const resultEn = getNotices('en', [
+    const resultEn = getNoticesAll('en', [
         mockUnder10kEngland,
         mockUnder10kEmpty,
         mockOver10k,
@@ -26,7 +26,7 @@ test('get notices for pending under £10,000 application in England', function (
 
     expect(resultEn).toMatchSnapshot();
 
-    const resultCy = getNotices('cy', [
+    const resultCy = getNoticesAll('cy', [
         mockUnder10kEngland,
         mockUnder10kEmpty,
         mockOver10k,
@@ -34,12 +34,12 @@ test('get notices for pending under £10,000 application in England', function (
 
     expect(resultCy).toMatchSnapshot();
 
-    const noResult = getNotices('en', [mockUnder10kEmpty, mockOver10k]);
+    const noResult = getNoticesAll('en', [mockUnder10kEmpty, mockOver10k]);
     expect(noResult).toHaveLength(0);
 });
 
 test.each(['school', 'college-or-university', 'statutory-body'])(
-    'get notices for pending under £10,000 application in England for %p',
+    'get notices for under £10,000 application in England for %p',
     function (orgType) {
         const mock = {
             formId: 'awards-for-all',
@@ -49,9 +49,13 @@ test.each(['school', 'college-or-university', 'statutory-body'])(
             },
         };
 
-        const result = getNotices('en', [mock]);
+        const resultAll = getNoticesAll('en', [mock]);
 
-        expect(result).toMatchSnapshot();
-        expect(result).toHaveLength(2);
+        expect(resultAll).toMatchSnapshot();
+        expect(resultAll).toHaveLength(2);
+
+        const resultSingle = getNoticesSingle('en', mock);
+        expect(resultSingle).toMatchSnapshot();
+        expect(resultSingle).toHaveLength(1);
     }
 );
