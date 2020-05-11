@@ -42,7 +42,6 @@ router
         let addressBookId = 148374;
 
         if (req.params.contactType === 'stakeholder') {
-            console.log('using this');
             contactToUse = newStakeholder(req.i18n);
             addressBookId = 249380;
         }
