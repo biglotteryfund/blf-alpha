@@ -43,10 +43,12 @@
                 {% if pendingApplications.length > 0 %}
                     <h2 class="t--underline">{{ copy.all.inProgress }}</h2>
 
-                    {% if notice %}
+                    {% if notices.length > 0 %}
                         <div class="message message--info message--minor" role="alert">
-                            <h2 class="t4 u-margin-bottom-s">{{ notice.title }}</h2>
-                            <p>{{ notice.body }}</p>
+                            {% for notice in notices  %}
+                                <h2 class="t4 u-margin-bottom-s">{{ notice.title }}</h2>
+                                <p>{{ notice.body }}</p>
+                            {% endfor %}
                         </div>
                     {% endif %}
 
