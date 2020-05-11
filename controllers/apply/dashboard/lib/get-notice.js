@@ -13,7 +13,7 @@ module.exports = function getNotice(locale, pendingApplications = []) {
     });
 
     if (
-        config.get('fundingUnder10k.enableNewCOVID19Flow') &&
+        config.get('fundingUnder10k.enableEnableGovCOVIDUpdates') &&
         hasPendingEngland
     ) {
         return {
