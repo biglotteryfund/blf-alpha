@@ -1219,7 +1219,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`,
             }),
         }),
-        organisationType: fieldOrganisationType(locale, data),
+        organisationType: fieldOrganisationType(locale, data, flags),
         organisationSubTypeStatutoryBody: fieldOrganisationSubTypeStatutoryBody(
             locale
         ),

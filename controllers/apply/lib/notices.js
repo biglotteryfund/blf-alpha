@@ -3,8 +3,8 @@ const config = require('config');
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-const enableEnableGovCOVIDUpdates = config.get(
-    'fundingUnder10k.enableEnableGovCOVIDUpdates'
+const enableGovCOVIDUpdates = config.get(
+    'fundingUnder10k.enableGovCOVIDUpdates'
 );
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
 
         const notices = [];
 
-        if (enableEnableGovCOVIDUpdates && hasPendingEnglandStatutory) {
+        if (enableGovCOVIDUpdates && hasPendingEnglandStatutory) {
             notices.push({
                 title: localise({
                     en: oneLine`We're sorry, but the application you've already
@@ -56,7 +56,7 @@ module.exports = {
             });
         }
 
-        if (enableEnableGovCOVIDUpdates && hasPendingEngland) {
+        if (enableGovCOVIDUpdates && hasPendingEngland) {
             notices.push({
                 title: localise({
                     en: oneLine`For funding under £10,000 in England, we're now only
@@ -100,7 +100,7 @@ module.exports = {
 
         const notices = [];
 
-        if (enableEnableGovCOVIDUpdates && isEnglandStatutory) {
+        if (enableGovCOVIDUpdates && isEnglandStatutory) {
             notices.push({
                 title: localise({
                     en: `We're sorry, but your application is now not eligible for funding`,

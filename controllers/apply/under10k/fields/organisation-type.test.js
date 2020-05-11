@@ -2,7 +2,7 @@
 'use strict';
 const { fieldOrganisationType } = require('./organisation-type');
 
-test('exclude statutory groups in england with enableEnableGovCOVIDUpdates flow', function () {
+test('exclude statutory groups in england with enableGovCOVIDUpdates flow', function () {
     const mapLabels = (options) => options.map((option) => option.label);
 
     const dataEngland = {
@@ -35,19 +35,19 @@ test('exclude statutory groups in england with enableEnableGovCOVIDUpdates flow'
     ];
 
     const resultFlagOff = fieldOrganisationType('en', dataEngland, {
-        enableEnableGovCOVIDUpdates: false,
+        enableGovCOVIDUpdates: false,
     });
 
     expect(mapLabels(resultFlagOff.options)).toEqual(resultAll);
 
     const resultFlagOn = fieldOrganisationType('en', dataEngland, {
-        enableEnableGovCOVIDUpdates: true,
+        enableGovCOVIDUpdates: true,
     });
 
     expect(mapLabels(resultFlagOn.options)).toEqual(resultReduced);
 
     const resultFlagOnScotland = fieldOrganisationType('en', dataScotland, {
-        enableEnableGovCOVIDUpdates: true,
+        enableGovCOVIDUpdates: true,
     });
 
     expect(mapLabels(resultFlagOnScotland.options)).toEqual(resultAll);

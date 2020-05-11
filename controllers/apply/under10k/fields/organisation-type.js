@@ -13,7 +13,7 @@ module.exports = {
         const localise = get(locale);
 
         function includeStatutoryGroups() {
-            if (flags.enableEnableGovCOVIDUpdates) {
+            if (flags.enableGovCOVIDUpdates) {
                 return get('projectCountry')(data) !== 'england';
             } else {
                 return true;
