@@ -1168,14 +1168,22 @@ module.exports = function ({
                             .join('')}
                     </ol>`,
                     footer: footer,
-                    fields: [
-                        fields.termsAgreement1,
-                        fields.termsAgreement2,
-                        fields.termsAgreement3,
-                        fields.termsAgreement4,
-                        fields.termsPersonName,
-                        fields.termsPersonPosition,
-                    ],
+                    get fields() {
+                        return compact([
+                            fields.termsAgreement1,
+                            fields.termsAgreement2,
+                            fields.termsAgreement3,
+                            fields.termsAgreement4,
+                            isForCountry('england') &&
+                                fields.termsAgreementCovid1,
+                            isForCountry('england') &&
+                                fields.termsAgreementCovid2,
+                            isForCountry('england') &&
+                                fields.termsAgreementCovid3,
+                            fields.termsPersonName,
+                            fields.termsPersonPosition,
+                        ]);
+                    },
                 },
             ],
         });

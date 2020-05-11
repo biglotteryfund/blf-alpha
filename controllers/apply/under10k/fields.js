@@ -1685,6 +1685,84 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 },
             ],
         },
+        termsAgreementCovid1: {
+            name: 'termsAgreementCovid1',
+            type: 'checkbox',
+            label: `You understand that in applying for our Covid-19 funding, you agree that the Fund and The Office for Civil Society, part of the Department for Digital, Culture, Media and Sport (DCMS) may use your personal data in accordance with the <a href="#">Privacy Notice for our Covid-19 funding</a>.`,
+            options: [
+                {
+                    value: 'yes',
+                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }),
+                },
+            ],
+            settings: { stackedSummary: true },
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'england',
+                    then: Joi.string().required(),
+                    otherwise: Joi.any().strip(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: `You must confirm that you understand that the Department for Digital, Culture, Media and Sport (DCMS) may use your personal data`,
+                },
+            ],
+        },
+        termsAgreementCovid2: {
+            name: 'termsAgreementCovid2',
+            type: 'checkbox',
+            label: `You confirm that you have considered the State Aid compliance requirements set out in our application guidance`,
+            options: [
+                {
+                    value: 'yes',
+                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }),
+                },
+            ],
+            settings: { stackedSummary: true },
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'england',
+                    then: Joi.string().required(),
+                    otherwise: Joi.any().strip(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: `You must confirm that you have considered the State Aid compliance requirements`,
+                },
+            ],
+        },
+        termsAgreementCovid3: {
+            name: 'termsAgreementCovid3',
+            type: 'checkbox',
+            label: `You confirm that your organisation satisfies the relevant requirements at 3.1 of the UK's Covid-19 Temporary Framework Scheme (SA. SA.56841) as explained in <a href="#">our application guidance</a>.`,
+            options: [
+                {
+                    value: 'yes',
+                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }),
+                },
+            ],
+            settings: { stackedSummary: true },
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'england',
+                    then: Joi.string().required(),
+                    otherwise: Joi.any().strip(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: `You must confirm that your organisation satisfies the relevant requirements at 3.1 of the UK's Covid-19 Temporary Framework Scheme`,
+                },
+            ],
+        },
         termsPersonName: {
             name: 'termsPersonName',
             label: localise({
