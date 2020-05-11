@@ -42,6 +42,15 @@
 
                 {% if pendingApplications.length > 0 %}
                     <h2 class="t--underline">{{ copy.all.inProgress }}</h2>
+
+                    {% if notice %}
+                        <div class="message message--info message--minor" role="alert">
+                            <h2 class="t4 u-margin-bottom-s">{{ notice.title }}</h2>
+                            <p>{{ notice.body }}</p>
+                        </div>
+                    {% endif %}
+
+
                     <div class="flex-grid u-margin-bottom-l">
                         {% for application in pendingApplications %}
                             <div class="flex-grid__item">

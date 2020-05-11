@@ -10,7 +10,15 @@
 
             {% if latestApplication %}
                 <div class="s-prose">{{ copy.latest.introduction | safe }}</div>
+
                 <h1 class="t--underline">{{ title }}</h1>
+
+                {% if notice %}
+                    <div class="message message--info message--minor" role="alert">
+                        <h2 class="t4 u-margin-bottom-s">{{ notice.title }}</h2>
+                        <p>{{ notice.body }}</p>
+                    </div>
+                {% endif %}
 
                 <div class="flex-grid">
                     <div class="flex-grid__item">
