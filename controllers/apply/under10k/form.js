@@ -1169,17 +1169,18 @@ module.exports = function ({
                     </ol>`,
                     footer: footer,
                     get fields() {
+                        const showCovidFields =
+                            flags.enableNewCOVID19Flow &&
+                            isForCountry('england');
+
                         return compact([
                             fields.termsAgreement1,
                             fields.termsAgreement2,
                             fields.termsAgreement3,
                             fields.termsAgreement4,
-                            isForCountry('england') &&
-                                fields.termsAgreementCovid1,
-                            isForCountry('england') &&
-                                fields.termsAgreementCovid2,
-                            isForCountry('england') &&
-                                fields.termsAgreementCovid3,
+                            showCovidFields && fields.termsAgreementCovid1,
+                            showCovidFields && fields.termsAgreementCovid2,
+                            showCovidFields && fields.termsAgreementCovid3,
                             fields.termsPersonName,
                             fields.termsPersonPosition,
                         ]);
