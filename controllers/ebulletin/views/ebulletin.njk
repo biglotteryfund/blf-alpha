@@ -19,7 +19,7 @@
                 <p>{{ copy.responses.error.body | safe }}</p>
             {% else %}
 
-                <form class="form-ebulletin form-theme-slim" method="post" action="{{ localify('/about/ebulletin/' + contactType) }}" novalidate>
+                <form class="form-ebulletin form-theme-slim" method="post" novalidate>
 
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
