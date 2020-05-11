@@ -6,6 +6,7 @@
   },
   "hotjarId": "1036292",
   "fundingUnder10k": {
+    "enableEnableGovCOVIDUpdates": true,
     "enableNewCOVID19Flow": true
   }
 }
