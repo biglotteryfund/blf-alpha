@@ -2,13 +2,15 @@
 const get = require('lodash/fp/get');
 
 const Joi = require('../../lib/joi-extensions');
+const { CheckboxField } = require('../../lib/field-types');
 const { FREE_TEXT_MAXLENGTH } = require('../constants');
 
 module.exports = {
     fieldTermsAgreement1(locale) {
         const localise = get(locale);
 
-        return {
+        return new CheckboxField({
+            locale: locale,
             name: 'termsAgreement1',
             type: 'checkbox',
             label: localise({
@@ -35,12 +37,13 @@ module.exports = {
                     }),
                 },
             ],
-        };
+        });
     },
     fieldTermsAgreement2(locale) {
         const localise = get(locale);
 
-        return {
+        return new CheckboxField({
+            locale: locale,
             name: 'termsAgreement2',
             type: 'checkbox',
             label: localise({
@@ -67,12 +70,13 @@ module.exports = {
                     }),
                 },
             ],
-        };
+        });
     },
     fieldTermsAgreement3(locale) {
         const localise = get(locale);
 
-        return {
+        return new CheckboxField({
+            locale: locale,
             name: 'termsAgreement3',
             type: 'checkbox',
             label: localise({
@@ -99,12 +103,13 @@ module.exports = {
                     }),
                 },
             ],
-        };
+        });
     },
     fieldTermsAgreement4(locale) {
         const localise = get(locale);
 
-        return {
+        return new CheckboxField({
+            locale: locale,
             name: 'termsAgreement4',
             type: 'checkbox',
             label: localise({
@@ -131,7 +136,7 @@ module.exports = {
                     }),
                 },
             ],
-        };
+        });
     },
     fieldTermsPersonName(locale) {
         const localise = get(locale);
