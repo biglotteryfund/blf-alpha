@@ -268,18 +268,34 @@ toplevel:
       wales: Wales
       scotland: Scotland
       northernIreland: Northern Ireland
+    sectors:
+      armsLengthBody: Arm's length body
+      fundingBody: Funding body
+      civilService: Civil Service
+      localGovernment: Local Government
+      charity: Charity
+      communityGroup: Community group
+      socialEnterprise: Social enterprise
+      nhs: NHS
+      privateSector: Private Sector
+      other: Other
     yourDetails: Your Details
     fields:
       firstName: First name
       lastName: Surname
-      organisation: Organisation
       emailAddress: Email Address
+      location: Location
+      organisation: Organisation
+      jobTitle: Job title
+      sector: Sector
     errors:
       firstName: Please provide your first name
       lastName: Please provide your last name
       emailMissing: Please provide your email address
       emailInvalid: Please provide a valid email address
       location: Please choose a country
+      jobTitleMissing: Please provide a job title
+      sectorMissing: Please provide a sector
     callToAction: Subscribe
     responses:
       success:

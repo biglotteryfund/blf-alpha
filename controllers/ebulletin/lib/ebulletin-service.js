@@ -10,7 +10,11 @@ const { DOTDIGITAL_API } = require('../../../common/secrets');
  * @see https://developer.dotmailer.com/docs
  * @see https://developer.dotmailer.com/docs/error-response-types
  */
-function subscribe({ addressBookId, subscriptionData }) {
+function subscribe({
+    addressBookId,
+    subscriptionData,
+    contactType = 'contact',
+}) {
     const ENDPOINT = `https://r1-api.dotmailer.com/v2/address-books/${addressBookId}/contacts`;
 
     const data = {
@@ -21,6 +25,23 @@ function subscribe({ addressBookId, subscriptionData }) {
             { key: 'LastName', value: subscriptionData.lastName },
         ],
     };
+
+    if (contactType === 'stakeholder') {
+        data.dataFields.push(
+            {
+                key: 'COUNTRY',
+                value: subscriptionData.location,
+            },
+            {
+                key: 'JOBTITLE',
+                value: subscriptionData.jobTitle,
+            },
+            {
+                key: 'SECTOR',
+                value: subscriptionData.sector,
+            }
+        );
+    }
 
     // Node bug: URL encoding with an @ sign breaks auth
     // so we construct our own header here

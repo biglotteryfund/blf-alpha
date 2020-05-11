@@ -18,7 +18,8 @@
                 <h3>{{ copy.responses.error.title }}</h3>
                 <p>{{ copy.responses.error.body | safe }}</p>
             {% else %}
-                <form class="form-ebulletin form-theme-slim" method="post" action="{{ localify('/about/ebulletin') }}" novalidate>
+
+                <form class="form-ebulletin form-theme-slim" method="post" action="{{ localify('/about/ebulletin/' + contactType) }}" novalidate>
 
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -32,14 +33,6 @@
                         errors = errors,
                         title = copy.responses.error.title
                     ) }}
-
-                    {{ formField({
-                        name: 'location',
-                        type: 'radio',
-                        label: copy.location,
-                        value: formValues.location,
-                        options: validLocations
-                    }, errors = errors) }}
 
                     <fieldset class="form-fieldset form-fieldset--details">
                         <legend class="form-fieldset__legend u-visually-hidden">
@@ -65,15 +58,6 @@
                             }, errors = errors) }}
 
                             {{ formField({
-                                type: 'text',
-                                name: 'organisation',
-                                autocompleteName: 'organization',
-                                label: copy.fields.organisation,
-                                value: formValues.organisation,
-                                isRequired: false
-                            }, errors = errors) }}
-
-                            {{ formField({
                                 type: 'email',
                                 name: 'email',
                                 autocompleteName: 'email',
@@ -82,6 +66,36 @@
                                 placeholder: 'yourname@example.com',
                                 isRequired: true
                             }, errors = errors) }}
+
+                            {{ formField({
+                                name: 'location',
+                                type: 'radio',
+                                label: copy.fields.location,
+                                value: formValues.location,
+                                options: validLocations
+                            }, errors = errors) }}
+
+                            {% if contactType === 'stakeholder' %}
+
+                                {{ formField({
+                                    type: 'text',
+                                    name: 'jobTitle',
+                                    autocompleteName: 'job-title',
+                                    label: copy.fields.jobTitle,
+                                    value: formValues.jobTitle,
+                                    isRequired: true
+                                }, errors = errors) }}
+
+                                {{ formField({
+                                    name: 'sector',
+                                    type: 'select',
+                                    label: copy.fields.sector,
+                                    value: formValues.sector,
+                                    options: validSectors
+                                }, errors = errors) }}
+
+                            {% endif %}
+
                         </div>
                     </fieldset>
 
