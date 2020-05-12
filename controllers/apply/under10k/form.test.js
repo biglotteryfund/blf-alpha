@@ -130,6 +130,7 @@ test('valid form for wales', () => {
         projectCountry: 'wales',
         projectLocation: 'caerphilly',
         supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         // Additional questions required in Wales
         beneficiariesWelshLanguage: 'all',
         mainContactLanguagePreference: 'welsh',
@@ -154,6 +155,7 @@ test('valid form for northern-ireland', () => {
         projectCountry: 'northern-ireland',
         projectLocation: 'mid-ulster',
         supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         // Additional questions required in Northern-Ireland
         beneficiariesNorthernIrelandCommunity: 'mainly-catholic',
     });
