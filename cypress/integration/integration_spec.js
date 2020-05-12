@@ -40,7 +40,7 @@ it('should test common interactions', () => {
     cy.get('@search').should('not.be.visible');
 });
 
-it('welsh language smoke tests', function () {
+it('should serve welsh language versions of pages', function () {
     cy.visit('/');
     cy.findByText('When people are in the lead, communities thrive').should(
         'be.visible'
@@ -543,16 +543,6 @@ function under10KApplication(mock) {
 
             submitStep();
         } else {
-            cy.findByText(
-                'When would you like to get the money if you are awarded?'
-            )
-                .parent()
-                .within(() => {
-                    cy.findByLabelText('Enter an exact date').click();
-                });
-
-            submitStep();
-
             cy.findByText(
                 `Tell us when you'd like to get the money if you're awarded funding?`
             )
