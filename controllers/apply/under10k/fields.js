@@ -39,7 +39,7 @@ const {
     fieldProjectStartDateCheck,
     fieldProjectStartDate: fieldProjectStartDateNext,
     fieldProjectEndDate: fieldProjectEndDateNext,
-} = require('./fields/project-dates-next');
+} = require('./fields/project-dates');
 
 const {
     fieldYourIdeaProject,

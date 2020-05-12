@@ -1,10 +1,11 @@
 'use strict';
 const get = require('lodash/fp/get');
+const has = require('lodash/fp/has');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
-const DateField = require('../../lib/field-types/date');
+const { DateField, RadioField } = require('../../lib/field-types');
 
 function getLeadTimeWeeks(country) {
     const countryLeadTimes = {
@@ -19,10 +20,82 @@ function getLeadTimeWeeks(country) {
 
 module.exports = {
     _getLeadTimeWeeks: getLeadTimeWeeks, // Exported for tests
+
+    fieldProjectStartDateCheck(locale, data = {}) {
+        const localise = get(locale);
+
+        const projectCountry = get('projectCountry')(data);
+        const supportingCOVID19 = get('supportingCOVID19')(data);
+
+        function options() {
+            const optionAsap = {
+                value: 'asap',
+                label: localise({
+                    en: `As soon as possible`,
+                    cy: `Dyddiad cychwyn y prosiect`,
+                }),
+            };
+
+            if (projectCountry !== 'england' && supportingCOVID19 === 'no') {
+                optionAsap.attributes = { disabled: 'disabled' };
+            }
+
+            const optionExactDate = {
+                value: 'exact-date',
+                label: localise({
+                    en: `Enter an exact date`,
+                    cy: `Rhowch union ddyddiad`,
+                }),
+            };
+
+            if (projectCountry === 'england' || supportingCOVID19 === 'yes') {
+                optionExactDate.attributes = { disabled: 'disabled' };
+            }
+
+            return [optionAsap, optionExactDate];
+        }
+
+        return new RadioField({
+            locale: locale,
+            name: 'projectStartDateCheck',
+            label: localise({
+                en: `When would you like to get the money if you are awarded?`,
+                cy: `Pryd hoffech chi gael yr arian os ydych chi'n cael eich dyfarnu?`,
+            }),
+            options: options(),
+            schema() {
+                if (
+                    get('projectCountry')(data) === 'england' ||
+                    get('supportingCOVID19')(data) === 'yes'
+                ) {
+                    const excludeDisabled = (option) =>
+                        !has('disabled')(option.attributes);
+
+                    const mapValues = (option) => option.value;
+
+                    return Joi.string()
+                        .valid(options().filter(excludeDisabled).map(mapValues))
+                        .required();
+                } else {
+                    return Joi.any().strip();
+                }
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Select an option',
+                        cy: 'Dewis opsiwn',
+                    }),
+                },
+            ],
+        });
+    },
     fieldProjectStartDate(locale, data) {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
+
         const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
         const minDateExample = minDate
@@ -30,31 +103,41 @@ module.exports = {
             .locale(locale)
             .format('DD MM YYYY');
 
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+            return Joi.when('projectStartDateCheck', {
+                is: 'asap',
+                then: Joi.any().strip(),
+                otherwise: Joi.dateParts()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .required(),
+            });
+        }
+
         return new DateField({
             locale: locale,
             name: 'projectStartDate',
             label: localise({
-                en: `When would you like to start your project?`,
-                cy: `Pryd hoffech ddechrau eich prosiect?`,
+                en: `Tell us when you'd like to get the money if you're awarded funding?`,
+                cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
             }),
             explanation: localise({
                 en: oneLine`Don't worry, this can be an estimate. 
                 But most projects must usually start on or after
-                <strong>${minDateExample}</strong>
-                (projects about COVID-19 can start sooner than this,
-                so just enter <strong>${minDateExample}</strong> for now).`,
+                <strong>${minDateExample}</strong>.`,
                 cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
                 Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar 
-                neu ar ôl <strong>${minDateExample}</strong> 
-                (gall prosiectau am COVID-19 gychwyn yn gynt na hyn, felly 
-                nodwch <strong>${minDateExample}</strong> am nawr).`,
+                neu ar ôl <strong>${minDateExample}</strong>.`,
             }),
             settings: {
                 minYear: minDate.format('YYYY'),
             },
-            schema: Joi.dateParts()
-                .minDate(minDate.format('YYYY-MM-DD'))
-                .required(),
+            schema: schema(),
             messages: [
                 {
                     type: 'base',
@@ -66,50 +149,104 @@ module.exports = {
                 {
                     type: 'dateParts.minDate',
                     message: localise({
-                        en: oneLine`Date you start the project must be on or after
-                        ${minDateExample}`,
-                        cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich prosiect
-                        fod ar neu ar ôl ${minDateExample}`,
+                        en: oneLine`Date you start the project must be on
+                            or after ${minDateExample}`,
+                        cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich
+                            prosiect fod ar neu ar ôl ${minDateExample}`,
                     }),
                 },
             ],
         });
     },
-    fieldProjectEndDate(locale) {
+    fieldProjectEndDate(locale, data = {}) {
         const localise = get(locale);
 
-        const MAX_PROJECT_DURATION = {
-            amount: 15,
-            unit: 'months',
-            label: { en: '15 months', cy: '15 mis' },
-        };
+        const projectCountry = get('projectCountry')(data);
+
+        function getMaxDurationMonths() {
+            if (projectCountry === 'england') {
+                return 6;
+            } else {
+                return 12;
+            }
+        }
+
+        function explanation() {
+            if (projectCountry === 'england') {
+                return localise({
+                    en: oneLine`Given the COVID-19 emergency, you can have up to
+                        ${getMaxDurationMonths()} months after award to spend the money.`,
+                    cy: oneLine`O ystyried yr argyfwng COVID-19, gallwch gael 
+                        hyd at 6 mis ar ôl dyfarnu i wario'r arian.`,
+                });
+            } else {
+                return localise({
+                    en: oneLine`You have up to ${getMaxDurationMonths()} months
+                        after award to spend the money.`,
+                    cy: oneLine`Mae gennych hyd at 12 mis ar 
+                        ôl dyfarnu i wario'r arian.`,
+                });
+            }
+        }
+
+        function schema() {
+            const maxDate = moment().add(getMaxDurationMonths(), 'months');
+
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * so we allow the end date to be any future date
+             * within the max duration for the country.
+             *
+             * Otherwise we fallback to the default rules where
+             * the end date must be within X months of the
+             * start date.
+             */
+            return Joi.when('projectStartDateCheck', {
+                is: 'asap',
+                then: Joi.dateParts()
+                    .minDate(moment().format('YYYY-MM-DD'))
+                    .maxDate(maxDate.format('YYYY-MM-DD'))
+                    .required(),
+                otherwise: Joi.dateParts()
+                    .minDateRef(Joi.ref('projectStartDate'))
+                    .rangeLimit(Joi.ref('projectStartDate'), {
+                        amount: getMaxDurationMonths(),
+                        unit: 'months',
+                    })
+                    .required(),
+            });
+        }
 
         return new DateField({
             locale: locale,
             name: 'projectEndDate',
             label: localise({
-                en: `When would you like to finish your project?`,
-                cy: `Pryd hoffech orffen eich prosiect?`,
+                en: `When will you spend the money by?`,
+                cy: `Erbyn pryd fyddwch chi'n gwario'r arian?`,
             }),
-            explanation: localise({
-                en: oneLine`Your project can finish up to 12 months after it starts.
-                It can even be as short as just one day`,
-                cy: oneLine`Gall eich prosiect orffen hyd at 12 mis wedi iddo gychwyn.
-                Gall fod mor fyr ag un diwrnod yn unig.`,
-            }),
-            schema: Joi.dateParts()
-                .minDateRef(Joi.ref('projectStartDate'))
-                .rangeLimit(Joi.ref('projectStartDate'), {
-                    amount: MAX_PROJECT_DURATION.amount,
-                    unit: MAX_PROJECT_DURATION.unit,
-                })
-                .required(),
+            explanation: explanation(),
+            schema: schema(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Enter a project end date`,
                         cy: `Cofnodwch ddyddiad gorffen i’ch prosiect`,
+                    }),
+                },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: `Date must not be in the past`,
+                        cy: `Rhaid i'r dyddiad beidio â bod yn y gorffennol`,
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: `Date must be no more than ${getMaxDurationMonths()} months away`,
+                        cy: `Rhaid i'r dyddiad fod ddim mwy na 6 mis i ffwrdd`,
                     }),
                 },
                 {
@@ -122,12 +259,10 @@ module.exports = {
                 {
                     type: 'dateParts.rangeLimit',
                     message: localise({
-                        en: oneLine`Date you end the project must be within
-                        ${localise(MAX_PROJECT_DURATION.label)}
-                        of the start date.`,
+                        en: oneLine`Date must be within
+                        ${getMaxDurationMonths()} months of the start date.`,
                         cy: oneLine`Rhaid i ddyddiad gorffen y prosiect fod o fewn
-                        ${localise(MAX_PROJECT_DURATION.label)}
-                        o ddyddiad dechrau’r prosiect.`,
+                        ${getMaxDurationMonths()} mis o ddyddiad dechrau’r prosiect.`,
                     }),
                 },
             ],
