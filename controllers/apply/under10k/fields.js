@@ -1520,15 +1520,12 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     };
 
     allFields.supportingCOVID19 = fieldSupportingCOVID19(locale);
-    allFields.projectStartDateCheck = fieldProjectStartDateCheck(
-        locale,
-        data
-    );
+    allFields.projectStartDateCheck = fieldProjectStartDateCheck(locale, data);
     allFields.projectStartDate = fieldProjectStartDateNext(locale, data);
     allFields.projectEndDate = fieldProjectEndDateNext(locale, data);
 
     // Add Covid-19-specific T&C fields if switched on
-    if (flags.enableEnableGovCOVIDUpdates) {
+    if (flags.enableGovCOVIDUpdates) {
         allFields.termsAgreementCovid1 = fieldTermsAgreementCovid1(locale);
         allFields.termsAgreementCovid2 = fieldTermsAgreementCovid2(locale);
         allFields.termsAgreementCovid3 = fieldTermsAgreementCovid3(locale);

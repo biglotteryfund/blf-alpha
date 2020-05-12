@@ -1166,7 +1166,7 @@ module.exports = function ({
                     footer: footer,
                     get fields() {
                         const showCovidFields =
-                            flags.enableEnableGovCOVIDUpdates &&
+                            flags.enableGovCOVIDUpdates &&
                             isForCountry('england');
 
                         return compact([
@@ -1390,9 +1390,7 @@ module.exports = function ({
              * If projectStartDateCheck is `asap` then pre-fill
              * the projectStartDate to today
              */
-            if (
-                get('projectStartDateCheck')(data) === 'asap'
-            ) {
+            if (get('projectStartDateCheck')(data) === 'asap') {
                 return moment().format('YYYY-MM-DD');
             } else {
                 return dateFormat(enriched.projectStartDate);
