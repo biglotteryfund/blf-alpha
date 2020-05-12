@@ -14,7 +14,7 @@ module.exports = function getNotices(locale, pendingApplications = []) {
 
     const notices = [];
     if (
-        config.get('fundingUnder10k.enableEnableGovCOVIDUpdates') &&
+        config.get('fundingUnder10k.enableGovCOVIDUpdates') &&
         hasPendingEngland
     ) {
         notices.push({
