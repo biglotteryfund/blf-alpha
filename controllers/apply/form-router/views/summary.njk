@@ -190,6 +190,15 @@
 
             <h1 class="t2 u-tone-brand-primary" data-testid="summary-title">{{ copy.summary.title }}</h1>
 
+            {% if notices.length > 0 %}
+                <div class="message message--info message--minor" role="alert">
+                    {% for notice in notices  %}
+                        <h2 class="t4 u-margin-bottom-s">{{ notice.title }}</h2>
+                        <p>{{ notice.body }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             {{ summariseErrors() }}
 
             {% if form.progress.isComplete %}

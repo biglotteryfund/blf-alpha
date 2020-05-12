@@ -1429,15 +1429,19 @@ module.exports = function ({
             cy: 'Dechrau ar eich cais',
         }),
         allFields: fields,
-        featuredErrorsAllowList: [
+        featuredErrorsAllowList: compact([
             { fieldName: 'projectDateRange', includeBase: false },
             { fieldName: 'projectStartDate', includeBase: false },
             { fieldName: 'projectEndDate', includeBase: false },
+            flags.enableGovCOVIDUpdates && {
+                fieldName: 'organisationType',
+                includeBase: true,
+            },
             { fieldName: 'seniorContactRole', includeBase: false },
             { fieldName: 'mainContactName', includeBase: false },
             { fieldName: 'mainContactEmail', includeBase: false },
             { fieldName: 'mainContactPhone', includeBase: false },
-        ],
+        ]),
         summary: summary(),
         schemaVersion: 'v1.4',
         forSalesforce: forSalesforce,

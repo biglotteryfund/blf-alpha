@@ -22,12 +22,8 @@ describe('FacetGroup', () => {
         });
 
         const div = wrapper.find('.facet-group');
-
-        expect(wrapper.isVueInstance()).toBeTruthy();
         expect(div.exists()).toBeTruthy();
-
         wrapper.setData({ isOpen: true });
-
         expect(div.classes()).toContain('is-open');
     });
 });

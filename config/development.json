@@ -4,6 +4,6 @@
     "enableSalesforceConnector": false
   },
   "fundingUnder10k": {
-    "enableEnableGovCOVIDUpdates": true
+    "enableGovCOVIDUpdates": true
   }
 }

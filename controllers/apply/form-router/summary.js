@@ -11,6 +11,11 @@ const logger = require('../../../common/logger').child({
 });
 
 /**
+ * @TODO: Should we pass this in via the form model as they can be form specific?
+ */
+const { getNoticesSingle } = require('../lib/notices');
+
+/**
  * Compare the raw list of messages with the messages based on current steps\
  * If this list is different then it suggests an error with the validation
  * logic so we should log a warning for investigation.
@@ -39,7 +44,7 @@ module.exports = function (formBuilder) {
     const router = express.Router();
 
     router.get('/', function (req, res) {
-        const { copy, currentApplicationData } = res.locals;
+        const { copy, currentApplication, currentApplicationData } = res.locals;
 
         const form = formBuilder({
             locale: req.i18n.getLocale(),
@@ -94,10 +99,20 @@ module.exports = function (formBuilder) {
             }
         }
 
+        const notices = getNoticesSingle(
+            req.i18n.getLocale(),
+            currentApplication
+        );
+
+        if (notices.length > 0) {
+            logger.info('Notice shown on summary');
+        }
+
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
             csrfToken: req.csrfToken(),
             title: title,
+            notices: notices,
             currentProjectName: get('projectName')(currentApplicationData),
             showErrors: showErrors,
             errors: form.validation.messages,
