@@ -1,8 +1,8 @@
 /* eslint-env jest */
 'use strict';
-const getNotice = require('./get-notice');
+const getNotices = require('./get-notices');
 
-test('get notice if pending under £10,000 application in England', function () {
+test('get notices for pending under £10,000 application in England', function () {
     const mockUnder10kEngland = {
         formId: 'awards-for-all',
         applicationData: { projectCountry: 'england' },
@@ -18,7 +18,7 @@ test('get notice if pending under £10,000 application in England', function () 
         applicationData: { projectCountries: ['england'] },
     };
 
-    const resultEn = getNotice('en', [
+    const resultEn = getNotices('en', [
         mockUnder10kEngland,
         mockUnder10kEmpty,
         mockOver10k,
@@ -26,7 +26,7 @@ test('get notice if pending under £10,000 application in England', function () 
 
     expect(resultEn).toMatchSnapshot();
 
-    const resultCy = getNotice('cy', [
+    const resultCy = getNotices('cy', [
         mockUnder10kEngland,
         mockUnder10kEmpty,
         mockOver10k,
@@ -34,6 +34,6 @@ test('get notice if pending under £10,000 application in England', function () 
 
     expect(resultCy).toMatchSnapshot();
 
-    const noResult = getNotice('en', [mockUnder10kEmpty, mockOver10k]);
-    expect(noResult).toBeUndefined();
+    const noResult = getNotices('en', [mockUnder10kEmpty, mockOver10k]);
+    expect(noResult).toHaveLength(0);
 });

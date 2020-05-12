@@ -3,7 +3,7 @@ const config = require('config');
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-module.exports = function getNotice(locale, pendingApplications = []) {
+module.exports = function getNotices(locale, pendingApplications = []) {
     const localise = get(locale);
     const hasPendingEngland = pendingApplications.some(function (application) {
         return (
@@ -12,11 +12,12 @@ module.exports = function getNotice(locale, pendingApplications = []) {
         );
     });
 
+    const notices = [];
     if (
-        config.get('fundingUnder10k.enableEnableGovCOVIDUpdates') &&
+        config.get('fundingUnder10k.enableGovCOVIDUpdates') &&
         hasPendingEngland
     ) {
-        return {
+        notices.push({
             title: localise({
                 en: oneLine`For funding under £10,000 in England, we're now only
                     accepting COVID-19 related applications`,
@@ -35,6 +36,8 @@ module.exports = function getNotice(locale, pendingApplications = []) {
                     ei dderbyn. Ond fe allech chi benderfynu cychwyn
                     un newydd sy'n canolbwyntio ar COVID-19 yn lle.`,
             }),
-        };
+        });
     }
+
+    return notices;
 };
