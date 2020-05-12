@@ -6,14 +6,20 @@ const { toDateParts } = require('./mocks');
 const { enrichPending, enrichSubmitted } = require('./enrich');
 
 test('enrich pending applications', function () {
-    const resultAsap = enrichPending({
-        id: 'some-uuid',
-        formId: 'awards-for-all',
-        createdAt: '2020-03-04T12:00:00.000Z',
-        expiresAt: '2020-03-04T12:00:00.000Z',
-        isExpired: false,
-        updatedAt: '2020-03-04T12:00:00.000Z',
-        applicationData: {
+    function mock(applicationData) {
+        return {
+            id: 'some-uuid',
+            formId: 'awards-for-all',
+            createdAt: '2020-03-04T12:00:00.000Z',
+            expiresAt: '2020-03-04T12:00:00.000Z',
+            isExpired: false,
+            updatedAt: '2020-03-04T12:00:00.000Z',
+            applicationData: applicationData,
+        };
+    }
+
+    const resultAsap = enrichPending(
+        mock({
             projectName: 'Example project',
             projectCountry: 'england',
             projectLocation: 'derbyshire',
@@ -29,21 +35,18 @@ test('enrich pending applications', function () {
                 { item: 'item 1', cost: 350 },
                 { item: 'item 1', cost: 5400 },
             ],
-        },
-    });
+        })
+    );
 
-    expect(resultAsap).toMatchSnapshot({
-        progress: expect.any(Object),
-    });
+    expect(resultAsap.amountRequested).toBe('£6,750');
+    expect(resultAsap.overview).toStrictEqual([
+        { label: 'Project dates', value: 'As soon as possible' },
+        { label: 'Location', value: 'Derbyshire' },
+        { label: 'Organisation', value: 'Example organisation trading name' },
+    ]);
 
-    const resultExactDate = enrichPending({
-        id: 'some-uuid',
-        formId: 'awards-for-all',
-        createdAt: '2020-03-04T12:00:00.000Z',
-        expiresAt: '2020-03-04T12:00:00.000Z',
-        isExpired: false,
-        updatedAt: '2020-03-04T12:00:00.000Z',
-        applicationData: {
+    const resultExactDate = enrichPending(
+        mock({
             projectName: 'Example project',
             projectCountry: 'scotland',
             projectLocation: 'fife',
@@ -62,66 +65,80 @@ test('enrich pending applications', function () {
                 { item: 'item 1', cost: 350 },
                 { item: 'item 1', cost: 5400 },
             ],
-        },
-    });
+        })
+    );
 
-    expect(resultExactDate).toMatchSnapshot({
-        progress: expect.any(Object),
-    });
+    expect(resultExactDate.amountRequested).toBe('£6,750');
+    expect(resultExactDate.overview).toStrictEqual([
+        { label: 'Project dates', value: '4 June, 2021–10 September, 2021' },
+        { label: 'Location', value: 'Fife' },
+        { label: 'Organisation', value: 'Example organisation trading name' },
+    ]);
 });
 
 test('enrich submitted applications', function () {
-    const projectDate = moment('2020-06-04T12:00:00.000Z').tz('Europe/London');
-
-    const resultAsap = enrichSubmitted({
-        id: 'some-uuid',
-        formId: 'awards-for-all',
-        createdAt: '2020-03-04T12:00:00.000Z',
-        salesforceSubmission: {
-            application: {
-                projectName: 'Example project',
-                projectStartDateCheck: 'asap',
-                projectEndDate: projectDate.toISOString(),
-                projectLocation: 'derbyshire',
-                organisationLegalName: 'Example organisation',
-                organisationTradingName: 'Example organisation trading name',
-                projectBudget: [
-                    { item: 'item 1', cost: 1000 },
-                    { item: 'item 1', cost: 350 },
-                    { item: 'item 1', cost: 5400 },
-                ],
+    function mock(applicationData) {
+        return {
+            id: 'some-uuid',
+            formId: 'awards-for-all',
+            createdAt: '2020-03-04T12:00:00.000Z',
+            salesforceSubmission: {
+                application: applicationData,
             },
-        },
-    });
+        };
+    }
 
-    expect(resultAsap).toMatchSnapshot();
+    const resultAsap = enrichSubmitted(
+        mock({
+            projectName: 'Example project',
+            projectStartDateCheck: 'asap',
+            projectEndDate: moment('2020-06-04T12:00:00.000Z')
+                .tz('Europe/London')
+                .toISOString(),
+            projectLocation: 'derbyshire',
+            organisationLegalName: 'Example organisation',
+            organisationTradingName: 'Example organisation trading name',
+            projectBudget: [
+                { item: 'item 1', cost: 1000 },
+                { item: 'item 1', cost: 350 },
+                { item: 'item 1', cost: 5400 },
+            ],
+        })
+    );
 
-    const resultExactDate = enrichSubmitted({
-        id: 'some-uuid',
-        formId: 'awards-for-all',
-        createdAt: '2020-03-04T12:00:00.000Z',
-        salesforceSubmission: {
-            application: {
-                projectName: 'Example project',
-                projectCountry: 'scotland',
-                projectLocation: 'fife',
-                projectStartDateCheck: 'exact-date',
-                projectStartDate: moment('2021-06-04T12:00:00.000Z')
-                    .tz('Europe/London')
-                    .toISOString(),
-                projectEndDate: moment('2021-09-10T12:00:00.000Z')
-                    .tz('Europe/London')
-                    .toISOString(),
-                organisationLegalName: 'Example organisation',
-                organisationTradingName: 'Example organisation trading name',
-                projectBudget: [
-                    { item: 'item 1', cost: 1000 },
-                    { item: 'item 1', cost: 350 },
-                    { item: 'item 1', cost: 5400 },
-                ],
-            },
-        },
-    });
+    expect(resultAsap.amountRequested).toBe('£6,750');
+    expect(resultAsap.overview).toStrictEqual([
+        { label: 'Project dates', value: 'As soon as possible' },
+        { label: 'Location', value: 'Derbyshire' },
+        { label: 'Organisation', value: 'Example organisation trading name' },
+    ]);
 
-    expect(resultExactDate).toMatchSnapshot();
+    const resultExactDate = enrichSubmitted(
+        mock({
+            projectName: 'Example project',
+            projectCountry: 'scotland',
+            projectLocation: 'fife',
+            projectStartDateCheck: 'exact-date',
+            projectStartDate: moment('2021-06-04T12:00:00.000Z')
+                .tz('Europe/London')
+                .toISOString(),
+            projectEndDate: moment('2021-09-10T12:00:00.000Z')
+                .tz('Europe/London')
+                .toISOString(),
+            organisationLegalName: 'Example organisation',
+            organisationTradingName: 'Example organisation trading name',
+            projectBudget: [
+                { item: 'item 1', cost: 1000 },
+                { item: 'item 1', cost: 350 },
+                { item: 'item 1', cost: 5400 },
+            ],
+        })
+    );
+
+    expect(resultExactDate.amountRequested).toBe('£6,750');
+    expect(resultExactDate.overview).toStrictEqual([
+        { label: 'Project dates', value: '4 June, 2021–10 September, 2021' },
+        { label: 'Location', value: 'Fife' },
+        { label: 'Organisation', value: 'Example organisation trading name' },
+    ]);
 });
