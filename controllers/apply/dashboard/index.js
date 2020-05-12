@@ -15,7 +15,7 @@ const logger = require('../../../common/logger').child({ service: 'apply' });
 
 const enrichAwardsForAll = require('../under10k/enrich');
 const enrichStandard = require('../standard-proposal/enrich');
-const getNotices = require('./lib/get-notices');
+const { getNoticesAll } = require('../lib/notices');
 
 const router = express.Router();
 
@@ -108,7 +108,7 @@ router.get(
                 }),
             ]);
 
-            const notices = getNotices(req.i18n.getLocale(), pendingSimple);
+            const notices = getNoticesAll(req.i18n.getLocale(), pendingSimple);
             if (notices.length > 0) {
                 logger.info('Notice shown on dashboard');
             }
@@ -149,10 +149,11 @@ router.get(
                 res.locals.hotJarTagList = ['User deleted an application'];
             }
 
-            const notices = getNotices(
+            const notices = getNoticesAll(
                 req.i18n.getLocale(),
                 pendingApplications
             );
+
             if (notices.length > 0) {
                 logger.info('Notice shown on all applications dashboard');
             }

@@ -319,7 +319,11 @@ test('valid form for community-interest-company', function () {
 
 test('valid form for school', function () {
     const data = mockResponse({
+        projectCountry: 'scotland',
+        projectLocation: 'fife',
+        supportingCOVID19: 'no',
         organisationType: 'school',
+        projectStartDateCheck: 'exact-date',
         educationNumber: '345678',
         seniorContactRole: 'head-teacher',
     });
@@ -348,6 +352,10 @@ test('valid form for school', function () {
 
 test('valid form for college-or-university', function () {
     const data = mockResponse({
+        projectCountry: 'scotland',
+        projectLocation: 'fife',
+        supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         organisationType: 'college-or-university',
         educationNumber: '345678',
         seniorContactRole: 'chancellor',
@@ -377,6 +385,10 @@ test('valid form for college-or-university', function () {
 
 test('valid form for statutory-body', function () {
     const data = mockResponse({
+        projectCountry: 'scotland',
+        projectLocation: 'fife',
+        supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         organisationType: 'statutory-body',
         organisationSubType: 'parish-council',
         seniorContactRole: 'parish-clerk',
@@ -390,8 +402,33 @@ test('valid form for statutory-body', function () {
     expect(form.validation.error).toBeNull();
 });
 
+test.each(['school', 'college-or-university', 'statutory-body'])(
+    '%p not allowed in England',
+    function (orgType) {
+        const data = mockResponse({
+            projectCountry: 'england',
+            organisationType: orgType,
+        });
+
+        const result = formBuilder({
+            data,
+            flags: { enableGovCOVIDUpdates: true },
+        }).validation;
+
+        expect(mapMessages(result)).toEqual(
+            expect.arrayContaining([
+                expect.stringContaining('Select a type of organisation'),
+            ])
+        );
+    }
+);
+
 test('role can be free text for some statutory bodies', function () {
     const data = mockResponse({
+        projectCountry: 'scotland',
+        projectLocation: 'fife',
+        supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         organisationType: 'statutory-body',
         organisationSubType: sample([
             'prison-service',

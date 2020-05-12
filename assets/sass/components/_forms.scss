@@ -1060,14 +1060,16 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
     font-size: 18px;
 
     .form-field {
-        margin-bottom: 0.5em;
+        margin-bottom: 1em;
     }
 
-    .ff-text {
+    .ff-text,
+    .ff-select {
         display: block;
         width: 100%;
         padding: 0.35em;
         font-size: 16px;
         border: 1px solid rgba(0, 0, 0, 0.2);
     }
+
 }
