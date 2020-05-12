@@ -686,7 +686,7 @@ File object with the following fields:
 
 type: `string`
 
-Will always be "yes" (required fields) with the exception of the three Covid fields, 
+Will always be "yes" (required fields) with the exception of the three Covid fields,
 which are only required for England-based applications
 
 ### termsPersonName
