@@ -157,15 +157,11 @@ module.exports = function ({
 
     function stepProjectLength() {
         function _fields() {
-            if (flags.enableNewCOVID19Flow) {
-                return compact([
-                    get('projectStartDateCheck')(data) !== 'asap' &&
-                        fields.projectStartDate,
-                    fields.projectEndDate,
-                ]);
-            } else {
-                return [fields.projectStartDate, fields.projectEndDate];
-            }
+            return compact([
+                get('projectStartDateCheck')(data) !== 'asap' &&
+                    fields.projectStartDate,
+                fields.projectEndDate,
+            ]);
         }
 
         return new Step({
@@ -1209,8 +1205,8 @@ module.exports = function ({
                 stepProjectName(),
                 stepProjectCountry(),
                 stepProjectLocation(),
-                flags.enableNewCOVID19Flow && stepCOVID19Check(),
-                flags.enableNewCOVID19Flow && stepProjectLengthCheck(),
+                stepCOVID19Check(),
+                stepProjectLengthCheck(),
                 stepProjectLength(),
                 stepYourIdea(),
                 stepProjectCosts(),
@@ -1395,7 +1391,6 @@ module.exports = function ({
              * the projectStartDate to today
              */
             if (
-                flags.enableNewCOVID19Flow &&
                 get('projectStartDateCheck')(data) === 'asap'
             ) {
                 return moment().format('YYYY-MM-DD');
@@ -1443,17 +1438,21 @@ module.exports = function ({
             cy: 'Dechrau ar eich cais',
         }),
         allFields: fields,
-        featuredErrorsAllowList: [
+        featuredErrorsAllowList: compact([
             { fieldName: 'projectDateRange', includeBase: false },
             { fieldName: 'projectStartDate', includeBase: false },
             { fieldName: 'projectEndDate', includeBase: false },
+            flags.enableGovCOVIDUpdates && {
+                fieldName: 'organisationType',
+                includeBase: true,
+            },
             { fieldName: 'seniorContactRole', includeBase: false },
             { fieldName: 'mainContactName', includeBase: false },
             { fieldName: 'mainContactEmail', includeBase: false },
             { fieldName: 'mainContactPhone', includeBase: false },
-        ],
+        ]),
         summary: summary(),
-        schemaVersion: flags.enableNewCOVID19Flow ? 'v1.4' : 'v1.3',
+        schemaVersion: 'v1.4',
         forSalesforce: forSalesforce,
         sections: [
             sectionYourProject(),

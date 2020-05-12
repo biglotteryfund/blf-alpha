@@ -118,56 +118,6 @@ but don't worry if you use less.
 </p>
 `;
 
-exports[`show existing guidance text if enableNewCOVID19Flow is disabled 1`] = `
-<p>
-  <strong>
-    If your project is COVID-19 related, we will prioritise:
-  </strong>
-</p>
-<ol>
-  <li>
-    Organisations supporting people who are at high risk from COVID-19
-  </li>
-  <li>
-    Organisations supporting communities most likely to face increased
-demand and challenges as a direct result of COVID-19
-  </li>
-  <li>
-    Organisations with high potential to support communities
-with the direct and indirect impact of COVID-19
-  </li>
-</ol>
-<p>
-  <strong>
-    But for all other projects, we want to fund ideas that do
-at least one of these three things:
-  </strong>
-</p>
-<ol>
-  <li>
-    Bring people together and build strong
-relationships in and across communities
-  </li>
-  <li>
-    Improve the places and spaces that matter to communities
-  </li>
-  <li>
-    Help more people to reach their potential,
-by supporting them at the earliest possible stage
-  </li>
-</ol>
-<p>
-  You can tell us if your project meets more than one priority,
-but don't worry if it doesn't.
-</p>
-<p>
-  <strong>
-    You can write up to 150 words for this section,
-but don't worry if you use less.
-  </strong>
-</p>
-`;
-
 exports[`show regular guidance text outside England when project is not responding to COVID-19 1`] = `
 <p>
   <strong>

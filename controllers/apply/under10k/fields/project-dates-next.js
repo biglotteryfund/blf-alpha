@@ -36,6 +36,10 @@ module.exports = {
                 }),
             };
 
+            if (projectCountry !== 'england' && supportingCOVID19 === 'no') {
+                optionAsap.attributes = { disabled: 'disabled' };
+            }
+
             const optionExactDate = {
                 value: 'exact-date',
                 label: localise({

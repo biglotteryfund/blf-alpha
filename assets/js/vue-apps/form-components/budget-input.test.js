@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 /* eslint-env jest */
-import { mount, createLocalVue } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import { setupI18n } from '../vue-helpers';
 import BudgetInput from './budget-input.vue';
 import times from 'lodash/times';
@@ -19,8 +19,7 @@ test('should be able to add items up to max limit', async function () {
     const maxItems = 10;
     const maxBudget = 10000;
     const minBudget = 300;
-    const wrapper = mount(BudgetInput, {
-        attachToDocument: true,
+    const wrapper = shallowMount(BudgetInput, {
         localVue,
         i18n,
         propsData: {
@@ -88,8 +87,7 @@ test('should not add new rows when loading a completed budget', () => {
         cost: 123,
     }));
 
-    const wrapper = mount(BudgetInput, {
-        attachToDocument: true,
+    const wrapper = shallowMount(BudgetInput, {
         localVue,
         i18n,
         propsData: {
