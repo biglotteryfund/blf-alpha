@@ -1170,7 +1170,7 @@ module.exports = function ({
                     footer: footer,
                     get fields() {
                         const showCovidFields =
-                            flags.enableEnableGovCOVIDUpdates &&
+                            flags.enableGovCOVIDUpdates &&
                             isForCountry('england');
 
                         return compact([
