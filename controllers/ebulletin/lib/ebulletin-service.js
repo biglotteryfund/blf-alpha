@@ -26,7 +26,7 @@ function subscribe({
         ],
     };
 
-    if (contactType === 'stakeholder') {
+    if (contactType === 'policy') {
         data.dataFields.push(
             {
                 key: 'COUNTRY',

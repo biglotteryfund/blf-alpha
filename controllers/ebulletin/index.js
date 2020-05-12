@@ -32,7 +32,7 @@ function renderForm(req, res, data = null, errors = []) {
 }
 
 router
-    .route('/:contactType(stakeholder)?')
+    .route('/:contactType(policy)?')
     .all(noStore, csrfProtection)
     .get(renderForm)
     .post(async function handleEbulletinSignup(req, res) {
@@ -41,7 +41,7 @@ router
         let contactToUse = newContact(req.i18n);
         let addressBookId = 148374;
 
-        if (req.params.contactType === 'stakeholder') {
+        if (req.params.contactType === 'policy') {
             contactToUse = newStakeholder(req.i18n);
             addressBookId = 249380;
         }

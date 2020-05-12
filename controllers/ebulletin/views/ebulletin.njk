@@ -25,7 +25,7 @@
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}
 
-                    {% set introCopy = copy.stakeholder if contactType === 'stakeholder' else copy.standard  %}
+                    {% set introCopy = copy.stakeholder if contactType === 'policy' else copy.standard  %}
 
                     <h2 class="t1 t--underline">{{ introCopy.heading }}</h2>
                     {{ introCopy.intro | safe }}
@@ -74,7 +74,7 @@
                                 isRequired: true
                             }, errors = errors) }}
 
-                            {% if contactType === 'stakeholder' %}
+                            {% if contactType === 'policy' %}
                                 <div class="flex-grid flex-grid--2up">
                                     <div class="flex-grid__item u-no-margin">
                                         {{ formField({
