@@ -130,7 +130,6 @@ test('valid form for wales', () => {
         projectCountry: 'wales',
         projectLocation: 'caerphilly',
         supportingCOVID19: 'no',
-        projectStartDateCheck: 'exact-date',
         // Additional questions required in Wales
         beneficiariesWelshLanguage: 'all',
         mainContactLanguagePreference: 'welsh',
@@ -155,7 +154,6 @@ test('valid form for northern-ireland', () => {
         projectCountry: 'northern-ireland',
         projectLocation: 'mid-ulster',
         supportingCOVID19: 'no',
-        projectStartDateCheck: 'exact-date',
         // Additional questions required in Northern-Ireland
         beneficiariesNorthernIrelandCommunity: 'mainly-catholic',
     });
@@ -323,7 +321,6 @@ test('valid form for school', function () {
         projectLocation: 'fife',
         supportingCOVID19: 'no',
         organisationType: 'school',
-        projectStartDateCheck: 'exact-date',
         educationNumber: '345678',
         seniorContactRole: 'head-teacher',
     });
@@ -355,7 +352,6 @@ test('valid form for college-or-university', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
-        projectStartDateCheck: 'exact-date',
         organisationType: 'college-or-university',
         educationNumber: '345678',
         seniorContactRole: 'chancellor',
@@ -388,7 +384,6 @@ test('valid form for statutory-body', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
-        projectStartDateCheck: 'exact-date',
         organisationType: 'statutory-body',
         organisationSubType: 'parish-council',
         seniorContactRole: 'parish-clerk',
@@ -428,7 +423,6 @@ test('role can be free text for some statutory bodies', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
-        projectStartDateCheck: 'exact-date',
         organisationType: 'statutory-body',
         organisationSubType: sample([
             'prison-service',
@@ -529,15 +523,16 @@ test('valid form for different trading names', function () {
 });
 
 test('maintain backwards compatibility for date schema', function () {
+    const mock = mockResponse({
+        projectCountry: 'scotland',
+        projectLocation: 'fife',
+        supportingCOVID19: 'no',
+        projectStartDate: { day: 3, month: 3, year: 2021 },
+        projectEndDate: { day: 3, month: 4, year: 2021 },
+    });
+
     const form = formBuilder({
-        data: mockResponse({
-            projectCountry: 'scotland',
-            projectLocation: 'fife',
-            supportingCOVID19: 'no',
-            projectStartDateCheck: 'exact-date',
-            projectStartDate: { day: 3, month: 3, year: 2021 },
-            projectEndDate: { day: 3, month: 4, year: 2021 },
-        }),
+        data: omit(mock, 'projectStartDateCheck'),
     });
 
     expect(form.validation.error).toBeNull();
@@ -553,14 +548,12 @@ test('maintain backwards compatibility for date schema', function () {
 });
 
 test('require project dates', function () {
-    const mock = mockResponse({
-        projectCountry: 'scotland',
-        projectStartDateCheck: 'exact-date',
+    const form = formBuilder({
+        data: {
+            projectCountry: 'scotland',
+            supportingCOVID19: 'no',
+        },
     });
-
-    const data = omit(mock, ['projectStartDate', 'projectEndDate']);
-
-    const form = formBuilder({ data });
 
     expect(mapMessages(form.validation)).toEqual(
         expect.arrayContaining([
@@ -599,20 +592,19 @@ test('start date defaults to current date if specifying as soon as possible', fu
     });
 });
 
-test('start date must be at least 12 weeks away outside England when exact-date is specified', function () {
+test('start date must be at least 12 weeks away outside England when not supporting COVID-19', function () {
     function expectStartDateForCountry(countryData) {
         const invalidData = mockResponse({
             ...countryData,
             ...{
                 supportingCOVID19: 'no',
-                projectStartDateCheck: 'exact-date',
                 projectStartDate: toDateParts(moment().add('11', 'weeks')),
                 projectEndDate: toDateParts(moment().add('11', 'weeks')),
             },
         });
 
         const invalidForm = formBuilder({
-            data: invalidData,
+            data: omit(invalidData, 'projectStartDateCheck'),
         });
 
         expect(mapMessages(invalidForm.validation)).toEqual(
@@ -627,14 +619,13 @@ test('start date must be at least 12 weeks away outside England when exact-date 
             ...countryData,
             ...{
                 supportingCOVID19: 'no',
-                projectStartDateCheck: 'exact-date',
                 projectStartDate: toDateParts(moment().add('12', 'weeks')),
                 projectEndDate: toDateParts(moment().add('12', 'weeks')),
             },
         });
 
         const validForm = formBuilder({
-            data: validData,
+            data: omit(validData, 'projectStartDateCheck'),
         });
 
         expect(validForm.validation.error).toBeNull();
