@@ -25,9 +25,10 @@
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}
 
-                    <h2 class="t1 t--underline">{{ copy.introHeading }}</h2>
+                    {% set introCopy = copy.stakeholder if contactType === 'stakeholder' else copy.standard  %}
 
-                    <p>{{ copy.intro }}</p>
+                    <h2 class="t1 t--underline">{{ introCopy.heading }}</h2>
+                    {{ introCopy.intro | safe }}
 
                     {{ formErrors(
                         errors = errors,
@@ -39,23 +40,29 @@
                             {{ copy.yourDetails }}
                         </legend>
                         <div class="form-fieldset__fields">
-                            {{ formField({
-                                type: 'text',
-                                name: 'firstName',
-                                autocompleteName: 'given-name',
-                                label: copy.fields.firstName,
-                                value: formValues.firstName,
-                                isRequired: true
-                            }, errors = errors) }}
 
-                            {{ formField({
-                                type: 'text',
-                                name: 'lastName',
-                                autocompleteName: 'family-name',
-                                label: copy.fields.lastName,
-                                value: formValues.lastName,
-                                isRequired: true
-                            }, errors = errors) }}
+                            <div class="flex-grid flex-grid--2up">
+                                <div class="flex-grid__item u-no-margin">
+                                    {{ formField({
+                                        type: 'text',
+                                        name: 'firstName',
+                                        autocompleteName: 'given-name',
+                                        label: copy.fields.firstName,
+                                        value: formValues.firstName,
+                                        isRequired: true
+                                    }, errors = errors) }}
+                                </div>
+                                <div class="flex-grid__item u-no-margin">
+                                    {{ formField({
+                                        type: 'text',
+                                        name: 'lastName',
+                                        autocompleteName: 'family-name',
+                                        label: copy.fields.lastName,
+                                        value: formValues.lastName,
+                                        isRequired: true
+                                    }, errors = errors) }}
+                                </div>
+                            </div>
 
                             {{ formField({
                                 type: 'email',
@@ -67,6 +74,30 @@
                                 isRequired: true
                             }, errors = errors) }}
 
+                            {% if contactType === 'stakeholder' %}
+                                <div class="flex-grid flex-grid--2up">
+                                    <div class="flex-grid__item u-no-margin">
+                                        {{ formField({
+                                            type: 'text',
+                                            name: 'jobTitle',
+                                            autocompleteName: 'job-title',
+                                            label: copy.fields.jobTitle,
+                                            value: formValues.jobTitle,
+                                            isRequired: true
+                                        }, errors = errors) }}
+                                    </div>
+                                    <div class="flex-grid__item u-no-margin">
+                                        {{ formField({
+                                            name: 'sector',
+                                            type: 'select',
+                                            label: copy.fields.sector,
+                                            value: formValues.sector,
+                                            options: validSectors
+                                        }, errors = errors) }}
+                                    </div>
+                                </div>
+                            {% endif %}
+
                             {{ formField({
                                 name: 'location',
                                 type: 'radio',
@@ -75,31 +106,12 @@
                                 options: validLocations
                             }, errors = errors) }}
 
-                            {% if contactType === 'stakeholder' %}
-
-                                {{ formField({
-                                    type: 'text',
-                                    name: 'jobTitle',
-                                    autocompleteName: 'job-title',
-                                    label: copy.fields.jobTitle,
-                                    value: formValues.jobTitle,
-                                    isRequired: true
-                                }, errors = errors) }}
-
-                                {{ formField({
-                                    name: 'sector',
-                                    type: 'select',
-                                    label: copy.fields.sector,
-                                    value: formValues.sector,
-                                    options: validSectors
-                                }, errors = errors) }}
-
-                            {% endif %}
-
                         </div>
                     </fieldset>
 
-                    <input type="submit" value="{{ copy.callToAction }}" class="btn btn--small u-block-full"/>
+                    <input type="submit"
+                           value="{{ copy.callToAction }}"
+                           class="btn btn--small"/>
                 </form>
             {% endif %}
         </div>

@@ -260,9 +260,16 @@ toplevel:
           This work is licensed under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">open government licence for public sector information</a>, which allows you to use and re-use the Information that is available under this licence freely and flexibly, with only a few conditions. If you can’t find what you’re looking for, please <a href="/contact">contact us</a>.
   ebulletin:
     title: e-bulletin
-    introHeading: Find out about our funding
-    intro: Sign up for our latest news relating to your country
-    location: Location
+    standard:
+      heading: Find out about our funding
+      intro: >
+        <p>Sign up for our latest news relating to your country</p>
+    stakeholder:
+      heading: Policy and insights newsletter
+      intro: >
+        <p>Our policy and insights newsletter will share the valuable evidence, learning and data we collect from the people, projects and communities we support.</p>
+        <p>We'll look at the achievements, successes and challenges of the sector and also share news about our funding and activity across the UK. Sign up today to get it sent direct to your inbox.</p>
+        <p>We will be launching the newsletter over the summer.</p>
     locations:
       england: England
       wales: Wales
