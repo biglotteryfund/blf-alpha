@@ -130,6 +130,7 @@ test('valid form for wales', () => {
         projectCountry: 'wales',
         projectLocation: 'caerphilly',
         supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         // Additional questions required in Wales
         beneficiariesWelshLanguage: 'all',
         mainContactLanguagePreference: 'welsh',
@@ -154,6 +155,7 @@ test('valid form for northern-ireland', () => {
         projectCountry: 'northern-ireland',
         projectLocation: 'mid-ulster',
         supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         // Additional questions required in Northern-Ireland
         beneficiariesNorthernIrelandCommunity: 'mainly-catholic',
     });
@@ -321,6 +323,7 @@ test('valid form for school', function () {
         projectLocation: 'fife',
         supportingCOVID19: 'no',
         organisationType: 'school',
+        projectStartDateCheck: 'exact-date',
         educationNumber: '345678',
         seniorContactRole: 'head-teacher',
     });
@@ -352,6 +355,7 @@ test('valid form for college-or-university', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         organisationType: 'college-or-university',
         educationNumber: '345678',
         seniorContactRole: 'chancellor',
@@ -384,6 +388,7 @@ test('valid form for statutory-body', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         organisationType: 'statutory-body',
         organisationSubType: 'parish-council',
         seniorContactRole: 'parish-clerk',
@@ -423,6 +428,7 @@ test('role can be free text for some statutory bodies', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
+        projectStartDateCheck: 'exact-date',
         organisationType: 'statutory-body',
         organisationSubType: sample([
             'prison-service',

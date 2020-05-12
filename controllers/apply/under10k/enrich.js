@@ -19,12 +19,19 @@ function details(application, data, locale) {
     }
 
     function formatProjectDates() {
-        return data.projectStartDate && data.projectEndDate
-            ? formatDateRange(locale)({
-                  startDate: data.projectStartDate,
-                  endDate: data.projectEndDate,
-              })
-            : null;
+        if (get('projectStartDateCheck')(data) === 'asap') {
+            return localise({
+                en: `As soon as possible`,
+                cy: `Dyddiad cychwyn y prosiect`,
+            });
+        } else if (data.projectStartDate && data.projectEndDate) {
+            return formatDateRange(locale)({
+                startDate: data.projectStartDate,
+                endDate: data.projectEndDate,
+            });
+        } else {
+            return null;
+        }
     }
 
     return {

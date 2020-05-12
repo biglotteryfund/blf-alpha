@@ -57,6 +57,25 @@ describe('fieldProjectStartDateCheck', function () {
             },
         ]);
     });
+
+    test('asap disabled outside England when project is not responding to COVID-19', function () {
+        const field = fieldProjectStartDateCheck('en', {
+            projectCountry: 'scotland',
+            supportingCOVID19: 'no',
+        });
+
+        expect(field.options).toStrictEqual([
+            {
+                value: 'asap',
+                label: expect.any(String),
+                attributes: { disabled: 'disabled' },
+            },
+            {
+                value: 'exact-date',
+                label: expect.any(String),
+            },
+        ]);
+    });
 });
 
 describe('fieldProjectEndDate', function () {
