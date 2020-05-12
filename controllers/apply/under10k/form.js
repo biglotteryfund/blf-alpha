@@ -147,9 +147,11 @@ module.exports = function ({
             }),
             fieldsets: [
                 {
-                    fields: has('projectCountry')(data)
-                        ? [fields.projectStartDateCheck]
-                        : [],
+                    fields:
+                        get('projectCountry')(data) === 'england' ||
+                        get('supportingCOVID19')(data) === 'yes'
+                            ? [fields.projectStartDateCheck]
+                            : [],
                 },
             ],
         });

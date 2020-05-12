@@ -50,7 +50,6 @@ test('enrich pending applications', function () {
             projectName: 'Example project',
             projectCountry: 'scotland',
             projectLocation: 'fife',
-            projectStartDateCheck: 'exact-date',
             projectStartDate: toDateParts(
                 moment('2021-06-04T12:00:00.000Z').tz('Europe/London')
             ),
@@ -118,7 +117,6 @@ test('enrich submitted applications', function () {
             projectName: 'Example project',
             projectCountry: 'scotland',
             projectLocation: 'fife',
-            projectStartDateCheck: 'exact-date',
             projectStartDate: moment('2021-06-04T12:00:00.000Z')
                 .tz('Europe/London')
                 .toISOString(),

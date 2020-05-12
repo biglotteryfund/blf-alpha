@@ -44,7 +44,6 @@ Array [
   "termsPersonName: Enter the full name of the person completing this form",
   "termsPersonPosition: Enter the position of the person completing this form",
   "supportingCOVID19: Select an option",
-  "projectStartDateCheck: Select an option",
   "projectStartDate: Enter a project start date",
   "projectEndDate: Enter a project end date",
 ]

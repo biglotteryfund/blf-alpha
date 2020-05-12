@@ -29,9 +29,6 @@ test('show regular guidance text outside England when project is not responding 
 });
 
 test('show combined guidance text as a fallback', function () {
-    const field = fieldYourIdeaPriorities(
-        'en',
-        {}
-    );
+    const field = fieldYourIdeaPriorities('en', {});
     expect(field.explanation).toMatchSnapshot();
 });

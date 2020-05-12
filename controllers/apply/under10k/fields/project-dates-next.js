@@ -63,13 +63,23 @@ module.exports = {
                 cy: `Pryd hoffech chi gael yr arian os ydych chi'n cael eich dyfarnu?`,
             }),
             options: options(),
-            schema: Joi.string()
-                .valid(
-                    options()
-                        .filter((option) => !has('disabled')(option.attributes))
-                        .map((option) => option.value)
-                )
-                .required(),
+            schema() {
+                if (
+                    get('projectCountry')(data) === 'england' ||
+                    get('supportingCOVID19')(data) === 'yes'
+                ) {
+                    const excludeDisabled = (option) =>
+                        !has('disabled')(option.attributes);
+
+                    const mapValues = (option) => option.value;
+
+                    return Joi.string()
+                        .valid(options().filter(excludeDisabled).map(mapValues))
+                        .required();
+                } else {
+                    return Joi.any().strip();
+                }
+            },
             messages: [
                 {
                     type: 'base',
