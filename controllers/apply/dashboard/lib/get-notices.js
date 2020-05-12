@@ -1,22 +1,26 @@
 'use strict';
-const config = require('config');
-const get = require('lodash/fp/get');
+const moment = require('moment');
 const { oneLine } = require('common-tags');
+const get = require('lodash/fp/get');
 
 module.exports = function getNotices(locale, pendingApplications = []) {
     const localise = get(locale);
-    const hasPendingEngland = pendingApplications.some(function (application) {
-        return (
-            application.formId === 'awards-for-all' &&
-            get('applicationData.projectCountry')(application) === 'england'
-        );
-    });
+
+    function showEnglandPrioritiesNotice() {
+        // Only show notice for applications created before this date
+        const cutoffDate = '2020-05-12';
+        return pendingApplications.some(function (application) {
+            return (
+                application.formId === 'awards-for-all' &&
+                get('applicationData.projectCountry')(application) ===
+                    'england' &&
+                moment(application.createdAt).isBefore(cutoffDate)
+            );
+        });
+    }
 
     const notices = [];
-    if (
-        config.get('fundingUnder10k.enableGovCOVIDUpdates') &&
-        hasPendingEngland
-    ) {
+    if (showEnglandPrioritiesNotice()) {
         notices.push({
             title: localise({
                 en: oneLine`For funding under £10,000 in England, we're now only
