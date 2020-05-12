@@ -37,8 +37,8 @@ const { fieldSupportingCOVID19 } = require('./fields/covid-19');
 
 const {
     fieldProjectStartDateCheck,
-    fieldProjectStartDate: fieldProjectStartDateNext,
-    fieldProjectEndDate: fieldProjectEndDateNext,
+    fieldProjectStartDate,
+    fieldProjectEndDate,
 } = require('./fields/project-dates');
 
 const {
@@ -283,8 +283,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectLocationDescription: fieldProjectLocationDescription(locale),
         supportingCOVID19: fieldSupportingCOVID19(locale),
         projectStartDateCheck: fieldProjectStartDateCheck(locale, data),
-        projectStartDate: fieldProjectStartDateNext(locale, data),
-        projectEndDate: fieldProjectEndDateNext(locale, data),
+        projectStartDate: fieldProjectStartDate(locale, data),
+        projectEndDate: fieldProjectEndDate(locale, data),
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),
