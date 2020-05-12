@@ -33,8 +33,8 @@ script:
   - shellcheck deploy/*.sh
   - npm audit --production --audit-level=moderate
   - npm run lint
-  - npm run test-unit
   - npm run build-production
+  - npm run test-unit
   - npm run test-integration
 
 # Prepare artefact for deployment
