@@ -1164,14 +1164,23 @@ module.exports = function ({
                             .join('')}
                     </ol>`,
                     footer: footer,
-                    fields: [
-                        fields.termsAgreement1,
-                        fields.termsAgreement2,
-                        fields.termsAgreement3,
-                        fields.termsAgreement4,
-                        fields.termsPersonName,
-                        fields.termsPersonPosition,
-                    ],
+                    get fields() {
+                        const showCovidFields =
+                            flags.enableGovCOVIDUpdates &&
+                            isForCountry('england');
+
+                        return compact([
+                            fields.termsAgreement1,
+                            fields.termsAgreement2,
+                            fields.termsAgreement3,
+                            fields.termsAgreement4,
+                            showCovidFields && fields.termsAgreementCovid1,
+                            showCovidFields && fields.termsAgreementCovid2,
+                            showCovidFields && fields.termsAgreementCovid3,
+                            fields.termsPersonName,
+                            fields.termsPersonPosition,
+                        ]);
+                    },
                 },
             ],
         });
@@ -1381,9 +1390,7 @@ module.exports = function ({
              * If projectStartDateCheck is `asap` then pre-fill
              * the projectStartDate to today
              */
-            if (
-                get('projectStartDateCheck')(data) === 'asap'
-            ) {
+            if (get('projectStartDateCheck')(data) === 'asap') {
                 return moment().format('YYYY-MM-DD');
             } else {
                 return dateFormat(enriched.projectStartDate);

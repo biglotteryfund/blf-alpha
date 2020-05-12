@@ -135,6 +135,9 @@ function mockResponse(overrides = {}) {
         termsAgreement2: 'yes',
         termsAgreement3: 'yes',
         termsAgreement4: 'yes',
+        termsAgreementCovid1: 'yes',
+        termsAgreementCovid2: 'yes',
+        termsAgreementCovid3: 'yes',
         termsPersonName: `${faker.name.firstName()} ${faker.name.lastName()}`,
         termsPersonPosition: faker.name.jobTitle(),
     };
