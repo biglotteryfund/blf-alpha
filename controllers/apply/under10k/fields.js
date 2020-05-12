@@ -37,11 +37,6 @@ const fieldTotalIncomeYear = require('./fields/total-income-year');
 const { fieldSupportingCOVID19 } = require('./fields/covid-19');
 
 const {
-    fieldProjectStartDate,
-    fieldProjectEndDate,
-} = require('./fields/project-dates');
-
-const {
     fieldProjectStartDateCheck,
     fieldProjectStartDate: fieldProjectStartDateNext,
     fieldProjectEndDate: fieldProjectEndDateNext,
@@ -1741,18 +1736,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         },
     };
 
-    if (flags.enableNewCOVID19Flow) {
-        allFields.supportingCOVID19 = fieldSupportingCOVID19(locale);
-        allFields.projectStartDateCheck = fieldProjectStartDateCheck(
-            locale,
-            data
-        );
-        allFields.projectStartDate = fieldProjectStartDateNext(locale, data);
-        allFields.projectEndDate = fieldProjectEndDateNext(locale, data);
-    } else {
-        allFields.projectStartDate = fieldProjectStartDate(locale, data);
-        allFields.projectEndDate = fieldProjectEndDate(locale);
-    }
+    allFields.supportingCOVID19 = fieldSupportingCOVID19(locale);
+    allFields.projectStartDateCheck = fieldProjectStartDateCheck(
+        locale,
+        data
+    );
+    allFields.projectStartDate = fieldProjectStartDateNext(locale, data);
+    allFields.projectEndDate = fieldProjectEndDateNext(locale, data);
 
     return allFields;
 };
