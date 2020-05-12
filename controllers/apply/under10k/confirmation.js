@@ -1,10 +1,8 @@
 'use strict';
-const config = require('config');
 const get = require('lodash/fp/get');
 const { stripIndents } = require('common-tags');
 
 const { getContactFullName } = require('./lib/contacts');
-const enableNewCOVID19Flow = config.get('fundingUnder10k.enableNewCOVID19Flow');
 
 function getEmailFor(country) {
     const countryEmail = {
@@ -45,29 +43,19 @@ module.exports = function ({ locale, data = {} }) {
 
     function enConfirmationBody() {
         function leadTimeText() {
-            if (enableNewCOVID19Flow) {
-                if (country === 'england') {
-                    return `<p>
-                        We’ll look at your idea and do some checks.
-                        Given the emergency and huge demand for funding,
-                        we’re now focusing on funding projects and organisations
-                        helping communities through the COVID-19 pandemic,
-                        so they can start as soon as possible
-                    </p>`;
-                } else {
-                    return `<p>
-                        We’ll look at your idea and do some checks.
-                        We’re now prioritising decisions for COVID-19 related
-                        projects, so they can start sooner. And it might take us longer
-                        to assess applications that aren’t about COVID-19.
-                    </p>`;
-                }
+            if (country === 'england') {
+                return `<p>
+                    We’ll look at your idea and do some checks.
+                    Given the emergency and huge demand for funding,
+                    we’re now focusing on funding projects and organisations
+                    helping communities through the COVID-19 pandemic,
+                    so they can start as soon as possible
+                </p>`;
             } else {
                 return `<p>
                     We’ll look at your idea and do some checks.
                     We’re now prioritising decisions for COVID-19 related
-                    projects, so they can start sooner. And it might take us
-                    ${country === 'england' ? 'up to six months' : 'longer'}
+                    projects, so they can start sooner. And it might take us longer
                     to assess applications that aren’t about COVID-19.
                 </p>`;
             }
@@ -116,25 +104,17 @@ module.exports = function ({ locale, data = {} }) {
 
     function cyConfirmationBody() {
         function leadTimeText() {
-            if (enableNewCOVID19Flow) {
-                if (country === 'england') {
-                    return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau.
-                    O ystyried yr argyfwng a'r galw enfawr am arian grant, rydym nawr yn
-                    canolbwyntio ar ariannu prosiectau a sefydliadau sy'n helpu cymunedau
-                    trwy'r pandemig COVID-19, fel y gallant ddechrau cyn gynted â phosibl
-                    </p>`;
-                } else {
-                    return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. 
-                    Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau 
-                    cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd 
-                    mwy o amser i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>`;
-                }
+            if (country === 'england') {
+                return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau.
+                O ystyried yr argyfwng a'r galw enfawr am arian grant, rydym nawr yn
+                canolbwyntio ar ariannu prosiectau a sefydliadau sy'n helpu cymunedau
+                trwy'r pandemig COVID-19, fel y gallant ddechrau cyn gynted â phosibl
+                </p>`;
             } else {
                 return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau. 
                 Rydym nawr yn blaenoriaethu penderfyniadau ar gyfer prosiectau 
                 cysylltiedig â COVID-19, fel y gallant gychwyn yn gynt. Ac fe allai gymryd 
-                ${country === 'england' ? 'hyd at chwe mis' : 'mwy o amser'}
-                i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>`;
+                mwy o amser i ni asesu ceisiadau nad ydyn nhw'n ymwneud â COVID-19.</p>`;
             }
         }
 
