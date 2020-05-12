@@ -18,60 +18,51 @@
                 <h3>{{ copy.responses.error.title }}</h3>
                 <p>{{ copy.responses.error.body | safe }}</p>
             {% else %}
-                <form class="form-ebulletin form-theme-slim" method="post" action="{{ localify('/about/ebulletin') }}" novalidate>
+
+                <form class="form-ebulletin form-theme-slim" method="post" novalidate>
 
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}
 
-                    <h2 class="t1 t--underline">{{ copy.introHeading }}</h2>
+                    {% set introCopy = copy.stakeholder if contactType === 'policy' else copy.standard  %}
 
-                    <p>{{ copy.intro }}</p>
+                    <h2 class="t1 t--underline">{{ introCopy.heading }}</h2>
+                    {{ introCopy.intro | safe }}
 
                     {{ formErrors(
                         errors = errors,
                         title = copy.responses.error.title
                     ) }}
 
-                    {{ formField({
-                        name: 'location',
-                        type: 'radio',
-                        label: copy.location,
-                        value: formValues.location,
-                        options: validLocations
-                    }, errors = errors) }}
-
                     <fieldset class="form-fieldset form-fieldset--details">
                         <legend class="form-fieldset__legend u-visually-hidden">
                             {{ copy.yourDetails }}
                         </legend>
                         <div class="form-fieldset__fields">
-                            {{ formField({
-                                type: 'text',
-                                name: 'firstName',
-                                autocompleteName: 'given-name',
-                                label: copy.fields.firstName,
-                                value: formValues.firstName,
-                                isRequired: true
-                            }, errors = errors) }}
 
-                            {{ formField({
-                                type: 'text',
-                                name: 'lastName',
-                                autocompleteName: 'family-name',
-                                label: copy.fields.lastName,
-                                value: formValues.lastName,
-                                isRequired: true
-                            }, errors = errors) }}
-
-                            {{ formField({
-                                type: 'text',
-                                name: 'organisation',
-                                autocompleteName: 'organization',
-                                label: copy.fields.organisation,
-                                value: formValues.organisation,
-                                isRequired: false
-                            }, errors = errors) }}
+                            <div class="flex-grid flex-grid--2up">
+                                <div class="flex-grid__item u-no-margin">
+                                    {{ formField({
+                                        type: 'text',
+                                        name: 'firstName',
+                                        autocompleteName: 'given-name',
+                                        label: copy.fields.firstName,
+                                        value: formValues.firstName,
+                                        isRequired: true
+                                    }, errors = errors) }}
+                                </div>
+                                <div class="flex-grid__item u-no-margin">
+                                    {{ formField({
+                                        type: 'text',
+                                        name: 'lastName',
+                                        autocompleteName: 'family-name',
+                                        label: copy.fields.lastName,
+                                        value: formValues.lastName,
+                                        isRequired: true
+                                    }, errors = errors) }}
+                                </div>
+                            </div>
 
                             {{ formField({
                                 type: 'email',
@@ -82,10 +73,45 @@
                                 placeholder: 'yourname@example.com',
                                 isRequired: true
                             }, errors = errors) }}
+
+                            {% if contactType === 'policy' %}
+                                <div class="flex-grid flex-grid--2up">
+                                    <div class="flex-grid__item u-no-margin">
+                                        {{ formField({
+                                            type: 'text',
+                                            name: 'jobTitle',
+                                            autocompleteName: 'job-title',
+                                            label: copy.fields.jobTitle,
+                                            value: formValues.jobTitle,
+                                            isRequired: true
+                                        }, errors = errors) }}
+                                    </div>
+                                    <div class="flex-grid__item u-no-margin">
+                                        {{ formField({
+                                            name: 'sector',
+                                            type: 'select',
+                                            label: copy.fields.sector,
+                                            value: formValues.sector,
+                                            options: validSectors
+                                        }, errors = errors) }}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {{ formField({
+                                name: 'location',
+                                type: 'radio',
+                                label: copy.fields.location,
+                                value: formValues.location,
+                                options: validLocations
+                            }, errors = errors) }}
+
                         </div>
                     </fieldset>
 
-                    <input type="submit" value="{{ copy.callToAction }}" class="btn btn--small u-block-full"/>
+                    <input type="submit"
+                           value="{{ copy.callToAction }}"
+                           class="btn btn--small"/>
                 </form>
             {% endif %}
         </div>
