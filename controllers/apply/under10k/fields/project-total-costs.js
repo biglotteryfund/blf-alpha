@@ -2,10 +2,9 @@
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const sumBy = require('lodash/sumBy');
-
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const { CurrencyField } = require('../../lib/field-types');
 
 module.exports = function (locale, data) {
     const localise = get(locale);
@@ -15,7 +14,8 @@ module.exports = function (locale, data) {
         (item) => parseInt(item.cost, 10) || 0
     );
 
-    return {
+    return new CurrencyField({
+        locale: locale,
         name: 'projectTotalCosts',
         label: localise({
             en: 'Tell us the total cost of your project',
@@ -45,13 +45,7 @@ module.exports = function (locale, data) {
                     eich prosiect yw £8,000.
                 </p>`,
         }),
-        type: 'currency',
-        isRequired: true,
-        schema: Joi.friendlyNumber()
-            .integer()
-            .required()
-            .min(budgetTotal)
-            .required(),
+        minAmount: budgetTotal,
         messages: [
             {
                 type: 'base',
@@ -77,5 +71,5 @@ module.exports = function (locale, data) {
                 }),
             },
         ],
-    };
+    });
 };
