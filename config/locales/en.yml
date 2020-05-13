@@ -102,7 +102,7 @@ global:
       This site uses cookies. For an explanation of their purpose and how to manage them see our
       <a href="/about/customer-service/cookies">cookies policy</a>.
     action: Accept cookies
-  covidMessage: Read the latest updates on our COVID-19 page
+  covidMessage: Our funding during COVID-19
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address
