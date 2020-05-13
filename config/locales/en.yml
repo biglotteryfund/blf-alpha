@@ -270,7 +270,7 @@ toplevel:
       heading: Policy and insights newsletter
       intro: >
         <p>Our policy and insights newsletter will share the valuable evidence, learning and data we collect from the people, projects and communities we support.</p>
-        <p>We'll look at the achievements, successes and challenges of the sector and also share news about our funding and activity across the UK. Sign up today to get it sent direct to your inbox.</p>
+        <p>We'll look at the achievements, successes and challenges of the sector and also share news about our funding and activity across the UK. Sign up today to get the newsletter sent direct to your inbox.</p>
         <p>We will be launching the newsletter over the summer.</p>
     locations:
       england: England
@@ -292,7 +292,7 @@ toplevel:
     fields:
       firstName: First name
       lastName: Surname
-      emailAddress: Email Address
+      emailAddress: Email address
       location: Location
       organisation: Organisation
       jobTitle: Job title
