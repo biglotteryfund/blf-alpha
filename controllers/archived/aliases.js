@@ -703,4 +703,8 @@ module.exports = createAliases([
         from: '/funding/managing-your-grant/under10k',
         to: '/funding/managing-your-grant/under-10k',
     },
+    {
+        from: '/about/coronavirus-updates',
+        to: '/funding/our-funding-during-covid-19',
+    },
 ]);
