@@ -37,9 +37,9 @@ const { fieldSupportingCOVID19 } = require('./fields/covid-19');
 
 const {
     fieldProjectStartDateCheck,
-    fieldProjectStartDate: fieldProjectStartDateNext,
-    fieldProjectEndDate: fieldProjectEndDateNext,
-} = require('./fields/project-dates-next');
+    fieldProjectStartDate,
+    fieldProjectEndDate,
+} = require('./fields/project-dates');
 
 const {
     fieldYourIdeaProject,
@@ -281,6 +281,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: fieldProjectLocationDescription(locale),
+        supportingCOVID19: fieldSupportingCOVID19(locale),
+        projectStartDateCheck: fieldProjectStartDateCheck(locale, data),
+        projectStartDate: fieldProjectStartDate(locale, data),
+        projectEndDate: fieldProjectEndDate(locale, data),
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),
@@ -1518,11 +1522,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         termsPersonName: fieldTermsPersonName(locale),
         termsPersonPosition: fieldTermsPersonPosition(locale),
     };
-
-    allFields.supportingCOVID19 = fieldSupportingCOVID19(locale);
-    allFields.projectStartDateCheck = fieldProjectStartDateCheck(locale, data);
-    allFields.projectStartDate = fieldProjectStartDateNext(locale, data);
-    allFields.projectEndDate = fieldProjectEndDateNext(locale, data);
 
     // Add Covid-19-specific T&C fields if switched on
     if (flags.enableGovCOVIDUpdates) {
