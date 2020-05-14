@@ -30,7 +30,7 @@
     "expiryPeriod": [3, "months"]
   },
   "fundingUnder10k": {
-    "enableGovCOVIDUpdates": false
+    "enableGovCOVIDUpdates": true
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"]
