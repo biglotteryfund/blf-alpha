@@ -38,7 +38,7 @@ module.exports = {
                     en: oneLine`If you've started an application already,
                     and it's not related to supporting your community
                     or organisation through the pandemic, we won't be
-                    able to accept it. But you could decide to start
+                    able to fund it. But you could decide to start
                     a new one that focuses on COVID-19 instead.`,
                     cy: oneLine`Os ydych chi wedi cychwyn cais yn barod,
                     ac nad yw'n gysylltiedig â chefnogi'ch cymuned
@@ -47,6 +47,15 @@ module.exports = {
                     un newydd sy'n canolbwyntio ar COVID-19 yn lle.`,
                 }),
             });
+
+            if (enableGovCOVIDUpdates) {
+                notices.push({
+                    title: oneLine`We've also changed our eligibility
+                        criteria to help communities through the pandemic`,
+                    body: oneLine`So in England we're only funding voluntary
+                        and community organisations for the time being.`,
+                });
+            }
         }
 
         return notices;
