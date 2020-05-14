@@ -8,6 +8,11 @@ test('show COVID-19 guidance text in England', function () {
     };
     const field = fieldYourIdeaPriorities('en', data);
     expect(field.explanation).toMatchSnapshot();
+
+    const fieldFlag = fieldYourIdeaPriorities('en', data, {
+        enableGovCOVIDUpdates: true,
+    });
+    expect(fieldFlag.explanation).toMatchSnapshot();
 });
 
 test('show COVID-19 guidance text outside England when project is responding to COVID-19', function () {

@@ -33,6 +33,40 @@ but don't worry if you use less.
 </p>
 `;
 
+exports[`show COVID-19 guidance text in England 2`] = `
+<p>
+  <strong>
+    We will prioritise:
+  </strong>
+</p>
+<ol>
+  <li>
+    organisations supporting people and communities
+who experience disproportionate challenge and
+difficulty as a result of the COVID-19 crisis
+  </li>
+  <li>
+    organisations providing services and support
+for vulnerable people, for which there will be
+increased demand as a result of the COVID-19 crisis
+  </li>
+  <li>
+    organisations which connect communities and support
+communities to work together to respond to COVID-19.
+  </li>
+</ol>
+<p>
+  You can tell us if your project meets more
+than one priority, but don't worry if it doesn't.
+</p>
+<p>
+  <strong>
+    You can write up to 150 words for this section,
+but don't worry if you use less.
+  </strong>
+</p>
+`;
+
 exports[`show COVID-19 guidance text outside England when project is responding to COVID-19 1`] = `
 <p>
   <strong>
