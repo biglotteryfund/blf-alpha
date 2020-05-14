@@ -268,7 +268,10 @@ module.exports = {
             name: 'termsAgreementCovid2',
             type: 'checkbox',
             label: oneLine`You confirm that you have considered the State Aid
-                compliance requirements set out in our application guidance`,
+                compliance requirements set out
+                <a href="/funding/thinking-of-applying-for-funding/who-can-apply/covid-19-state-aid-compliance-guidance">
+                    in our application guidance
+                </a>`,
             options: [
                 {
                     value: 'yes',
@@ -299,7 +302,10 @@ module.exports = {
             type: 'checkbox',
             label: oneLine`You confirm that your organisation satisfies the relevant
                 requirements at 3.1 of the UK's Covid-19 Temporary Framework Scheme (SA. SA.56841)
-                as explained in our application guidance.`,
+                as explained in our
+                <a href="/funding/thinking-of-applying-for-funding/who-can-apply/covid-19-state-aid-compliance-guidance">
+                    in our application guidance
+                </a>`,
             options: [
                 {
                     value: 'yes',
