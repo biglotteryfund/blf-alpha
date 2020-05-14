@@ -176,7 +176,7 @@
     "node-mocks-http": "1.8.1",
     "node-notifier": "7.0.0",
     "node-sass": "4.14.1",
-    "nodemon": "2.0.3",
+    "nodemon": "2.0.4",
     "picturefill": "3.0.3",
     "postcss-cli": "7.1.1",
     "postcss-foft-classes": "1.0.4",
