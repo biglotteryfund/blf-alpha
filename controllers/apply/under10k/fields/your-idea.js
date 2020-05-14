@@ -90,7 +90,7 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaPriorities(locale, data) {
+    fieldYourIdeaPriorities(locale, data = {}, flags = {}) {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
@@ -99,9 +99,39 @@ module.exports = {
         const minWords = 50;
         const maxWords = 150;
 
-        function guidanceText() {
-            const prioritiesCOVID19 = localise({
-                en: `<ol>
+        function prioritiesCOVID19() {
+            if (flags.enableGovCOVIDUpdates) {
+                return localise({
+                    en: `<ol>
+                        <li>organisations supporting people and communities
+                            who experience disproportionate challenge and
+                            difficulty as a result of the COVID-19 crisis
+                        </li>
+                        <li>organisations providing services and support
+                            for vulnerable people, for which there will be
+                            increased demand as a result of the COVID-19 crisis 
+                        </li>
+                        <li>organisations which connect communities and support
+                            communities to work together to respond to COVID-19.
+                        </li>
+                    </ol>`,
+                    cy: `<ol>
+                        <li>sefydliadau sy'n cefnogi pobl a chymunedau sy'n
+                            profi her ac anhawster anghymesur o ganlyniad
+                            i argyfwng Covid-19
+                        </li>
+                        <li>sefydliadau sy'n darparu gwasanaethau a chefnogaeth
+                            i bobl agored i niwed, y bydd galw cynyddol amdanynt
+                            o ganlyniad i argyfwng COVID-19
+                        </li>
+                        <li>sefydliadau sy'n cysylltu cymunedau ac yn cefnogi
+                            cymunedau i weithio gyda'i gilydd i ymateb i Covid-19
+                        </li>
+                    </ol>`,
+                });
+            } else {
+                return localise({
+                    en: `<ol>
                     <li>organisations supporting people who are
                         at high risk from COVID-19
                     </li>
@@ -113,7 +143,7 @@ module.exports = {
                         communities to work together to respond to COVID-19.
                     </li>
                 </ol>`,
-                cy: `<ol>
+                    cy: `<ol>
                     <li>sefydliadau sy'n cefnogi pobl sydd â risg uchel o COVID-19
                     </li>
                     <li>sefydliadau sy'n cefnogi pobl sydd fwyaf tebygol o wynebu
@@ -123,9 +153,12 @@ module.exports = {
                         i weithio gyda'i gilydd i ymateb i COVID-19.
                     </li>
                 </ol>`,
-            });
+                });
+            }
+        }
 
-            const prioritiesDefault = localise({
+        function prioritiesDefault() {
+            return localise({
                 en: `<ol>
                     <li>
                         Bring people together and build strong
@@ -149,17 +182,19 @@ module.exports = {
                     </li>
                 </ol>`,
             });
+        }
 
+        function guidanceText() {
             if (projectCountry === 'england' || supportingCOVID19 === 'yes') {
                 return localise({
                     en: `<p><strong>We will prioritise:</strong></p>
-                        ${prioritiesCOVID19}
+                        ${prioritiesCOVID19()}
                         <p>
                             You can tell us if your project meets more
                             than one priority, but don't worry if it doesn't.
                         </p>`,
                     cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
-                        ${prioritiesCOVID19}
+                        ${prioritiesCOVID19()}
                         <p>
                             Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
                             nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
@@ -170,7 +205,7 @@ module.exports = {
                     en: `<p><strong>
                             We want to fund ideas that do at least one of these three things:
                         </strong></p>
-                        ${prioritiesDefault}
+                        ${prioritiesDefault()}
                         <p>
                             You can tell us if your project meets more
                             than one priority, but don't worry if it doesn't.
@@ -178,7 +213,7 @@ module.exports = {
                     cy: `<p><strong>
                             Rydym am ariannu syniadau sy'n gwneud o leiaf un o'r tri pheth hyn:
                         </strong></p>
-                        ${prioritiesDefault}
+                        ${prioritiesDefault()}
                         <p>
                             Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
                             nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
@@ -189,12 +224,12 @@ module.exports = {
                     en: `<p>
                         <strong>If your project is COVID-19 related, we will prioritise:</strong>
                     </p>
-                    ${prioritiesCOVID19}
+                    ${prioritiesCOVID19()}
                     <p><strong>
                         But for all other projects, we want to fund ideas that do
                         at least one of these three things:
                     </strong></p>
-                    ${prioritiesDefault}
+                    ${prioritiesDefault()}
                     <p>
                         You can tell us if your project meets more
                         than one priority, but don't worry if it doesn't.
@@ -203,12 +238,12 @@ module.exports = {
                     cy: `<p>
                         <strong>Os yw'ch prosiect yn gysylltiedig â COVID-19, byddwn yn blaenoriaethu:</strong>
                     </p>
-                    ${prioritiesCOVID19}
+                    ${prioritiesCOVID19()}
                     <p><strong>
                         Ond ar gyfer pob prosiect arall, rydyn ni am ariannu syniadau 
                         sy'n gwneud o leiaf un o'r tri pheth hyn:
                     </strong></p>
-                    ${prioritiesDefault}
+                    ${prioritiesDefault()}
                     <p>
                         Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
                         nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
