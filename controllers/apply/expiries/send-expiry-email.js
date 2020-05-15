@@ -5,11 +5,6 @@ const get = require('lodash/get');
 
 const { sendHtmlEmail } = require('../../../common/mail');
 
-/**
- * Determine the subject line text for each email type
- * @TODO: Can we vary this on form type and assume the
- *        same cadence for email types, this seems messy?
- */
 function getSubjectLine(emailType, isBilingual = false) {
     let subjectLine;
     switch (emailType) {

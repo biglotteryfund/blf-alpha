@@ -6,7 +6,6 @@ const Joi = require('../joi-extensions');
 class Field {
     constructor(props) {
         // Used to switch on non-class type fields
-        // @TODO: Remove this after fully migrating to field types
         this._isClass = true;
 
         if (props.name) {
@@ -47,7 +46,6 @@ class Field {
 
         this.schema = this.withCustomSchema(props.schema);
 
-        // @TODO Should this merge based on key rather than a plain concat?
         this.messages = this.defaultMessages().concat(props.messages || []);
 
         if (

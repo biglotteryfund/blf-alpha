@@ -120,7 +120,6 @@ function addTabBehaviour($tabs) {
 
 /**
  * Add ARIA states to active tabs
- * @TODO: Should this be triggered on dynamic tab changes?
  */
 function addAriaStates($tabs) {
     $(SELECTORS.tabpane).not(`.${ACTIVE_CLASS}`).attr('aria-hidden', 'true');

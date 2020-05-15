@@ -45,7 +45,6 @@ function basicContent() {
          * Determine template to render:
          * 1. If the response has child pages then render a listing page
          * 2. Otherwise, render an information page
-         * @TODO: Deprecate these templates
          */
         if (content && content.children) {
             logLegacyContentType('listing-page');
@@ -91,7 +90,6 @@ function renderFlexibleContentChild(req, res, entry) {
 
     res.render(path.resolve(__dirname, './views/flexible-content-page'), {
         breadcrumbs: res.locals.breadcrumbs.concat({ label: res.locals.title }),
-        // @TODO: Can we rename API responses to consistently name this flexibleContent?
         content: { flexibleContent: entry.content },
     });
 }

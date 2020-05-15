@@ -45,7 +45,7 @@ router.get(
             }
 
             res.render(path.resolve(__dirname, './views/publication-search'), {
-                isBilingual: false, // @TODO: Should we enable Welsh language here?
+                isBilingual: false, // Enable this if supporting additional programmes
                 publicationEntries: publications.result,
                 publicationTags: publicationTags,
                 queryParams: req.query,

@@ -101,7 +101,6 @@ Cypress.Commands.add('checkA11y', ({ context, options } = {}) => {
     const excludedRules = {
         // Color contrast is better checked manually
         'color-contrast': { enabled: false },
-        // @TODO: Remove this rule and fix resulting errors
         'landmark-unique': { enabled: false },
     };
 

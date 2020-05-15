@@ -202,12 +202,10 @@ const sections = {
         path: '/news',
         router: require('./controllers/updates'),
     },
-    // @TODO: Move to about router?
     jobs: {
         path: '/jobs*',
         router: basicContent(),
     },
-    // @TODO: Move to about router?
     data: {
         path: '/data',
         router: require('./controllers/data'),
