@@ -61,8 +61,6 @@ module.exports = {
         return notices;
     },
     getNoticesSingle(locale, application = []) {
-        const localise = get(locale);
-
         const isEnglandStatutory =
             application.formId === 'awards-for-all' &&
             get('applicationData.projectCountry')(application) === 'england' &&
@@ -74,18 +72,12 @@ module.exports = {
 
         if (enableGovCOVIDUpdates && isEnglandStatutory) {
             notices.push({
-                title: localise({
-                    en: `We're sorry, but your application is now not eligible for funding`,
-                    cy: oneLine`@TODO: i18n`,
-                }),
-                body: localise({
-                    en: oneLine`We've changed our eligibility criteria
-                        (for the time being) to help communities through
-                        the pandemic. So for funding under £10,000,
-                        we're only funding voluntary and community
-                        organisations with COVID-19 related projects.`,
-                    cy: oneLine`@TODO: i18n`,
-                }),
+                title: `We're sorry, but your application is now not eligible for funding`,
+                body: oneLine`We've changed our eligibility criteria
+                    (for the time being) to help communities through
+                    the pandemic. So for funding under £10,000,
+                    we're only funding voluntary and community
+                    organisations with COVID-19 related projects.`,
             });
         }
 
