@@ -57,7 +57,6 @@
         name="{{ field.name }}"
         {% if field.value %}value="{{ field.value | escape }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        {# @TODO: Remove in favour of always setting explicit size #}
         {% if not field.attributes.size %}size="{{ field.size | default(40, true) }}"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
