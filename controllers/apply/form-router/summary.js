@@ -10,9 +10,6 @@ const logger = require('../../../common/logger').child({
     service: 'form-summary',
 });
 
-/**
- * @TODO: Should we pass this in via the form model as they can be form specific?
- */
 const { getNoticesSingle } = require('../lib/notices');
 
 /**

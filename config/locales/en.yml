@@ -1059,7 +1059,6 @@ apply:
       actions:
         logInAgain: Log in again
         visitHomepage: Visit our homepage
-  #  @TODO: Move other common text to common:
   common:
     delete: Delete
     exit: Exit
