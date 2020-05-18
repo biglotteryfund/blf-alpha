@@ -68,7 +68,6 @@ const {
     fieldTermsPersonPosition,
 } = require('./fields/terms');
 
-const isNewOrganisation = require('./lib/new-organisation');
 const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
