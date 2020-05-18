@@ -270,7 +270,7 @@ module.exports = {
             label: oneLine`You confirm that you have considered the State Aid
                 compliance requirements set out
                 <a href="/funding/thinking-of-applying-for-funding/who-can-apply/covid-19-state-aid-compliance-guidance">
-                    in our application guidance
+                    in this guidance
                 </a>`,
             options: [
                 {
@@ -304,7 +304,7 @@ module.exports = {
                 requirements at 3.1 of the UK's Covid-19 Temporary Framework Scheme (SA. SA.56841)
                 as explained in our
                 <a href="/funding/thinking-of-applying-for-funding/who-can-apply/covid-19-state-aid-compliance-guidance">
-                    in our application guidance
+                    in this guidance
                 </a>`,
             options: [
                 {
