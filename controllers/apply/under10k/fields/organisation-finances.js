@@ -3,14 +3,15 @@ const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
-const { CurrencyField } = require('../../lib/field-types');
+const { CurrencyField, DayMonthField } = require('../../lib/field-types');
 const isNewOrganisation = require('../lib/new-organisation');
 
 module.exports = {
     fieldAccountingYearDate(locale, data = {}) {
         const localise = get(locale);
 
-        return {
+        return new DayMonthField({
+            locale: locale,
             name: 'accountingYearDate',
             label: localise({
                 en: 'What is your accounting year end date?',
@@ -20,28 +21,12 @@ module.exports = {
                 en: `<p><strong>For example: 31 03</strong></p>`,
                 cy: '<p><strong>Er enghraifft: 31 03</strong></p>',
             }),
-            type: 'day-month',
-            isRequired: true,
-            schema: isNewOrganisation(get('organisationStartDate')(data))
-                ? Joi.any().strip()
-                : Joi.dayMonth().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a day and month',
-                        cy: 'Rhowch ddiwrnod a mis',
-                    }),
-                },
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: 'Enter a real day and month',
-                        cy: 'Rhowch ddiwrnod a mis go iawn',
-                    }),
-                },
-            ],
-        };
+            schema(originalSchema) {
+                return isNewOrganisation(get('organisationStartDate')(data))
+                    ? Joi.any().strip()
+                    : originalSchema;
+            },
+        });
     },
     fieldTotalIncomeYear(locale, data = {}) {
         const localise = get(locale);
