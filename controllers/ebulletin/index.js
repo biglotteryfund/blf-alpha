@@ -33,7 +33,13 @@ function renderForm(req, res, data = null, errors = []) {
 
 router
     .route('/:contactType(policy)?')
-    .all(noStore, csrfProtection)
+    .all(noStore, csrfProtection, (req, res, next) => {
+        // Temporarily disable non-policy signup form which will launch later
+        if (!req.params.contactType || req.params.contactType !== 'policy') {
+            return res.redirect('/');
+        }
+        next();
+    })
     .get(renderForm)
     .post(async function handleEbulletinSignup(req, res) {
         const sanitisedBody = sanitiseRequestBody(omit(req.body, ['_csrf']));
@@ -55,8 +61,7 @@ router
                     subscriptionData: validationResult.value,
                     contactType: req.params.contactType,
                 });
-                res.locals.status = 'SUCCESS';
-                renderForm(req, res);
+                return res.redirect(`${req.baseUrl}/success`);
             } catch (error) {
                 res.locals.status = 'ERROR';
                 logger.warn('Subscription failed: ', error);
@@ -72,5 +77,11 @@ router
             );
         }
     });
+
+router.get('/success', function (req, res) {
+    res.render(path.resolve(__dirname, './views/success'), {
+        title: req.i18n.__('toplevel.ebulletin.title'),
+    });
+});
 
 module.exports = router;
