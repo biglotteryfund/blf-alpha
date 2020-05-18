@@ -302,10 +302,15 @@ toplevel:
     callToAction: Tanysgrifio
     responses:
       success:
-        title: Diolch am danysgrifio i dderbyn diweddariadau a newyddion Cronfa Gymunedol y Loteri Genedlaethol
-        body: Mae'ch data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda
-          thrydydd partïon. Rydym yn siŵr y byddwch yn mwynhau clywed oddi wrthym,
-          ond gallwch dad-danysgrifio unrhyw bryd os mynnwch.
+        title: Diolch am gadarnhau eich tanysgrifiad i’n cylchlythyr. Byddwn mewn cysylltiad yn fuan
+        body: Mae eich data personol yn bwysig i ni ac ni fyddwn yn ei rannu gyda thrydydd partïon. Rydym yn siŵr y gwnewch fwynhau clywed gennym, ond gallwch ddad-danysgrifio ar unrhyw bryd.
+        whereNext:
+          title: Lle nesaf?
+          body: >
+            <ul>
+              <li><a href="/welsh/news/blog">Darllenwch y diweddaraf o'n blog</a></li>
+              <li><a href="/welsh/insights">Mynd i'r mewnwelediadau diweddaraf o'n hariannu</a></li>
+            </ul>
       error:
         title: Cafwyd gwall wrth gofrestru chi i'r e-fwletin.
         body: Mae'n edrych fel ein bod yn cael trafferth gyda'n teclyn e-fwletin.
