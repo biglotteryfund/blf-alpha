@@ -10,6 +10,7 @@ module.exports = {
     CheckboxField: require('./checkbox'),
     SelectField: require('./select'),
     DateField: require('./date'),
+    DayMonthField: require('./day-month'),
     AddressField: require('./address'),
     NameField: require('./name'),
 };
