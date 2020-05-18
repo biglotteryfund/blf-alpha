@@ -31,7 +31,6 @@ const fieldProjectName = require('./fields/project-name');
 const fieldProjectPostcode = require('./fields/project-postcode');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
-const fieldTotalIncomeYear = require('./fields/total-income-year');
 
 const { fieldSupportingCOVID19 } = require('./fields/covid-19');
 
@@ -51,6 +50,11 @@ const {
     fieldOrganisationType,
     fieldOrganisationSubTypeStatutoryBody,
 } = require('./fields/organisation-type');
+
+const {
+    fieldAccountingYearDate,
+    fieldTotalIncomeYear,
+} = require('./fields/organisation-finances');
 
 const {
     fieldTermsAgreement1,
@@ -1237,38 +1241,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         companyNumber: fieldCompanyNumber(locale),
         charityNumber: fieldCharityNumber(locale, data),
         educationNumber: fieldEducationNumber(locale),
-        accountingYearDate: {
-            name: 'accountingYearDate',
-            label: localise({
-                en: 'What is your accounting year end date?',
-                cy: 'Beth yw eich dyddiad gorffen blwyddyn ariannol?',
-            }),
-            explanation: localise({
-                en: `<p><strong>For example: 31 03</strong></p>`,
-                cy: '<p><strong>Er enghraifft: 31 03</strong></p>',
-            }),
-            type: 'day-month',
-            isRequired: true,
-            schema: isNewOrganisation(get('organisationStartDate')(data))
-                ? Joi.any().strip()
-                : Joi.dayMonth().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a day and month',
-                        cy: 'Rhowch ddiwrnod a mis',
-                    }),
-                },
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: 'Enter a real day and month',
-                        cy: 'Rhowch ddiwrnod a mis go iawn',
-                    }),
-                },
-            ],
-        },
+        accountingYearDate: fieldAccountingYearDate(locale, data),
         totalIncomeYear: fieldTotalIncomeYear(locale, data),
         mainContactName: new NameField({
             locale: locale,
