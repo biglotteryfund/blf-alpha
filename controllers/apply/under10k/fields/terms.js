@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
 const { Field, CheckboxField } = require('../../lib/field-types');
@@ -14,9 +15,14 @@ module.exports = {
             name: 'termsAgreement1',
             type: 'checkbox',
             label: localise({
-                en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
-                cy:
-                    'Rydych wedi cael eich awdurdodi gan gorff lywodraethol eich sefydliad (y bwrdd neu bwyllgor sy’n rhedeg eich sefydliad) i anfon y cais hwn ac i gytuno â’r Telerau ac Amodau wedi ei osod uchod ar eu rhan.',
+                en: oneLine`You have been authorised by the governing body of your
+                    organisation (the board or committee that runs your organisation)
+                    to submit this application and to accept the Terms and Conditions
+                    set out above on their behalf.`,
+                cy: oneLine`Rydych wedi cael eich awdurdodi gan gorff lywodraethol
+                    eich sefydliad (y bwrdd neu bwyllgor sy’n rhedeg eich sefydliad)
+                    i anfon y cais hwn ac i gytuno â’r Telerau ac Amodau wedi
+                    ei osod uchod ar eu rhan.`,
             }),
             options: [
                 {
@@ -32,8 +38,7 @@ module.exports = {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that you're authorised to submit this application`,
-                        cy:
-                            'Rhaid ichi gadarnhau eich bod wedi cael eich awdurdodi i anfon y cais hwn',
+                        cy: `Rhaid ichi gadarnhau eich bod wedi cael eich awdurdodi i anfon y cais hwn`,
                     }),
                 },
             ],
@@ -47,9 +52,12 @@ module.exports = {
             name: 'termsAgreement2',
             type: 'checkbox',
             label: localise({
-                en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
-                cy:
-                    'Mae pob darn o wybodaeth rydych wedi ei ddarparu yn eich cais yn gywir ac yn gyflawn; a byddwch yn ein hysbysu am unrhyw newidiadau.',
+                en: oneLine`All the information you have provided in your
+                    application is accurate and complete; and you will
+                    notify us of any changes.`,
+                cy: oneLine`Mae pob darn o wybodaeth rydych wedi ei ddarparu
+                    yn eich cais yn gywir ac yn gyflawn; a byddwch yn ein
+                    hysbysu am unrhyw newidiadau.`,
             }),
             options: [
                 {
@@ -64,9 +72,10 @@ module.exports = {
                 {
                     type: 'base',
                     message: localise({
-                        en: `You must confirm that the information you've provided in this application is accurate`,
-                        cy:
-                            'Rhaid ichi gadarnhau bod y wybodaeth rydych wedi ei ddarparu yn y cais hwn yn gywir',
+                        en: oneLine`You must confirm that the information you've
+                            provided in this application is accurate`,
+                        cy: oneLine`Rhaid ichi gadarnhau bod y wybodaeth rydych
+                            wedi ei ddarparu yn y cais hwn yn gywir`,
                     }),
                 },
             ],
@@ -80,9 +89,17 @@ module.exports = {
             name: 'termsAgreement3',
             type: 'checkbox',
             label: localise({
-                en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
-                cy:
-                    'Rydych yn deall y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu ar gyfer dibenion wedi’i ddisgrifio dan y <a href="/welsh/about/customer-service/data-protection">Datganiad Diogelu Data</a>.',
+                en: oneLine`You understand that we will use any personal information
+                    you have provided for the purposes described under the
+                    <a href="/about/customer-service/data-protection">
+                        Data Protection Statement
+                    </a>.`,
+                cy: oneLine`Rydych yn deall y byddwn yn defnyddio unrhyw
+                    wybodaeth bersonol rydych wedi ei ddarparu ar gyfer
+                    dibenion wedi’i ddisgrifio dan y 
+                    <a href="/welsh/about/customer-service/data-protection">
+                        Datganiad Diogelu Data
+                    </a>.`,
             }),
             options: [
                 {
@@ -97,9 +114,11 @@ module.exports = {
                 {
                     type: 'base',
                     message: localise({
-                        en: `You must confirm that you understand how we'll use any personal information you've provided`,
-                        cy:
-                            'Rhaid ichi gadarnhau eich bod yn deall sut y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu',
+                        en: oneLine`You must confirm that you understand how
+                            we'll use any personal information you've provided`,
+                        cy: oneLine`Rhaid ichi gadarnhau eich bod yn deall sut y
+                            byddwn yn defnyddio unrhyw wybodaeth bersonol
+                            rydych wedi ei ddarparu`,
                     }),
                 },
             ],
@@ -113,9 +132,17 @@ module.exports = {
             name: 'termsAgreement4',
             type: 'checkbox',
             label: localise({
-                en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
-                cy:
-                    'Os gofynnir am wybodaeth o’r cais hwn o dan y Ddeddf Rhyddid Gwybodaeth, byddwn yn ei ryddhau yn unol â’n <a href="/welsh/about/customer-service/freedom-of-information">Polisi Rhyddid Gwybodaeth.</a>',
+                en: oneLine`If information about this application is requested
+                    under the Freedom of Information Act, we will release it
+                    in line with our
+                    <a href="/about/customer-service/freedom-of-information">
+                        Freedom of Information policy.
+                    </a>`,
+                cy: oneLine`Os gofynnir am wybodaeth o’r cais hwn o dan y
+                    Ddeddf Rhyddid Gwybodaeth, byddwn yn ei ryddhau yn unol â’n
+                    <a href="/welsh/about/customer-service/freedom-of-information">
+                        Polisi Rhyddid Gwybodaeth.
+                    </a>`,
             }),
             options: [
                 {
@@ -130,9 +157,10 @@ module.exports = {
                 {
                     type: 'base',
                     message: localise({
-                        en: `You must confirm that you understand your application is subject to our Freedom of Information policy`,
-                        cy:
-                            'Rhaid ichi gadarnhau eich bod yn deall bod eich cais yn ddarostyngedig i’n polisi Rhyddid Gwybodaeth',
+                        en: oneLine`You must confirm that you understand your
+                            application is subject to our Freedom of Information policy`,
+                        cy: oneLine`Rhaid ichi gadarnhau eich bod yn deall bod
+                            eich cais yn ddarostyngedig i’n polisi Rhyddid Gwybodaeth`,
                     }),
                 },
             ],
@@ -155,8 +183,7 @@ module.exports = {
                     type: 'base',
                     message: localise({
                         en: `Enter the full name of the person completing this form`,
-                        cy:
-                            'Rhowch enw llawn y person sy’n cwblhau’r ffurflen hwn',
+                        cy: `Rhowch enw llawn y person sy’n cwblhau’r ffurflen hwn`,
                     }),
                 },
                 {
@@ -205,7 +232,11 @@ module.exports = {
             locale: locale,
             name: 'termsAgreementCovid1',
             type: 'checkbox',
-            label: `You understand that in applying for our Covid-19 funding, you agree that the Fund and The Office for Civil Society, part of the Department for Digital, Culture, Media and Sport (DCMS) may use your personal data in accordance with the <a href="#">Privacy Notice for our Covid-19 funding</a>.`,
+            label: oneLine`You understand that in applying for our Covid-19 funding,
+                you agree that the Fund and The Office for Civil Society, part of
+                the Department for Digital, Culture, Media and Sport (DCMS) may
+                use your personal data in accordance with the 
+                <a href="#">Privacy Notice for our Covid-19 funding</a>.`,
             options: [
                 {
                     value: 'yes',
@@ -214,17 +245,17 @@ module.exports = {
             ],
             settings: { stackedSummary: true },
             isRequired: true,
-            get schema() {
-                return Joi.when('projectCountry', {
-                    is: 'england',
-                    then: Joi.string().required(),
-                    otherwise: Joi.any().strip(),
-                });
-            },
+            schema: Joi.when('projectCountry', {
+                is: 'england',
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip(),
+            }),
             messages: [
                 {
                     type: 'base',
-                    message: `You must confirm that you understand that the Department for Digital, Culture, Media and Sport (DCMS) may use your personal data`,
+                    message: oneLine`You must confirm that you understand that the
+                        Department for Digital, Culture, Media and Sport (DCMS)
+                        may use your personal data`,
                 },
             ],
         });
@@ -236,7 +267,11 @@ module.exports = {
             locale: locale,
             name: 'termsAgreementCovid2',
             type: 'checkbox',
-            label: `You confirm that you have considered the State Aid compliance requirements set out in our application guidance`,
+            label: oneLine`You confirm that you have considered the State Aid
+                compliance requirements set out
+                <a href="/funding/thinking-of-applying-for-funding/who-can-apply/covid-19-state-aid-compliance-guidance">
+                    in this guidance
+                </a>`,
             options: [
                 {
                     value: 'yes',
@@ -245,13 +280,11 @@ module.exports = {
             ],
             settings: { stackedSummary: true },
             isRequired: true,
-            get schema() {
-                return Joi.when('projectCountry', {
-                    is: 'england',
-                    then: Joi.string().required(),
-                    otherwise: Joi.any().strip(),
-                });
-            },
+            schema: Joi.when('projectCountry', {
+                is: 'england',
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip(),
+            }),
             messages: [
                 {
                     type: 'base',
@@ -267,7 +300,12 @@ module.exports = {
             locale: locale,
             name: 'termsAgreementCovid3',
             type: 'checkbox',
-            label: `You confirm that your organisation satisfies the relevant requirements at 3.1 of the UK's Covid-19 Temporary Framework Scheme (SA. SA.56841) as explained in <a href="#">our application guidance</a>.`,
+            label: oneLine`You confirm that your organisation satisfies the relevant
+                requirements at 3.1 of the UK's Covid-19 Temporary Framework Scheme (SA. SA.56841)
+                as explained in our
+                <a href="/funding/thinking-of-applying-for-funding/who-can-apply/covid-19-state-aid-compliance-guidance">
+                    in this guidance
+                </a>`,
             options: [
                 {
                     value: 'yes',
@@ -276,17 +314,17 @@ module.exports = {
             ],
             settings: { stackedSummary: true },
             isRequired: true,
-            get schema() {
-                return Joi.when('projectCountry', {
-                    is: 'england',
-                    then: Joi.string().required(),
-                    otherwise: Joi.any().strip(),
-                });
-            },
+            schema: Joi.when('projectCountry', {
+                is: 'england',
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip(),
+            }),
             messages: [
                 {
                     type: 'base',
-                    message: `You must confirm that your organisation satisfies the relevant requirements at 3.1 of the UK's Covid-19 Temporary Framework Scheme`,
+                    message: oneLine`You must confirm that your organisation satisfies
+                        the relevant requirements at 3.1 of the UK's Covid-19
+                        Temporary Framework Scheme`,
                 },
             ],
         });
