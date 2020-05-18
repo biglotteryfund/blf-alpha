@@ -36,9 +36,10 @@ router
     .all(noStore, csrfProtection, (req, res, next) => {
         // Temporarily disable non-policy signup form which will launch later
         if (!req.params.contactType || req.params.contactType !== 'policy') {
-            return res.redirect('/');
+            res.redirect('/');
+        } else {
+            next();
         }
-        next();
     })
     .get(renderForm)
     .post(async function handleEbulletinSignup(req, res) {
