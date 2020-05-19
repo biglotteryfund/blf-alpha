@@ -550,13 +550,13 @@ function under10KApplication(mock) {
                 .within(() => {
                     fillDateParts(mock.projectDateRange.startDate);
                 });
-        }
 
-        cy.findByText('When will you spend the money by?')
-            .parent()
-            .within(() => {
-                fillDateParts(mock.projectDateRange.endDate);
-            });
+            cy.findByText('When will you spend the money by?')
+                .parent()
+                .within(() => {
+                    fillDateParts(mock.projectDateRange.endDate);
+                });
+        }
 
         submitStep();
     }
