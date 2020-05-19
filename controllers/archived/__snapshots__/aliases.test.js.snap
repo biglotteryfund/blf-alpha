@@ -692,83 +692,83 @@ Array [
   },
   Object {
     "from": "/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/england/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/england/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/scotland/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/scotland/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/northernireland/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/northernireland/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/wales/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/wales/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/england/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/england/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/scotland/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/scotland/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/northernireland/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/northernireland/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/wales/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/wales/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/about-big/helping-millions-change-their-lives",
