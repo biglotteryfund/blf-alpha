@@ -51,7 +51,7 @@ router
         injectHeroImage('the-bike-project-2-new-letterbox')
     )
     .get(renderForm)
-    .post(async function handleEbulletinSignup(req, res) {
+    .post(async function handleNewsletterSignup(req, res) {
         const sanitisedBody = sanitiseRequestBody(omit(req.body, ['_csrf']));
 
         let contactToUse = newContact(req.i18n);
