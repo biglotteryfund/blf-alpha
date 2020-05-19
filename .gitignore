@@ -4,6 +4,7 @@
 .env
 .idea
 .map
+.vs/
 .vscode/
 always_restart.txt
 assets.json
