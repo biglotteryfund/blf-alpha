@@ -30,6 +30,7 @@
     "expiryPeriod": [3, "months"]
   },
   "fundingUnder10k": {
+    "enableEnglandAutoEndDate": false,
     "enableGovCOVIDUpdates": false
   },
   "standardFundingProposal": {
