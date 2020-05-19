@@ -158,6 +158,11 @@ module.exports = function ({
     }
 
     function stepProjectLength() {
+        /**
+         * 1. If in England and asap then don't ask any day questions (when flag turned on)
+         * 2. If outside England and asap then only ask start date question
+         * 3. Otherwise, show both date fields
+         */
         function _fields() {
             return compact([
                 get('projectStartDateCheck')(data) !== 'asap' &&
