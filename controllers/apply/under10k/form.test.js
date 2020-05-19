@@ -575,7 +575,10 @@ test('start date defaults to current date if specifying as soon as possible', fu
 
     const data = omit(mock, ['projectStartDate']);
 
-    const form = formBuilder({ data });
+    const form = formBuilder({
+        data,
+        flags: { enableEnglandAutoEndDate: false },
+    });
 
     expect(form.validation.error).toBeNull();
 
