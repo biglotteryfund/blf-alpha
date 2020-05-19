@@ -160,20 +160,18 @@ module.exports = function ({
     function stepProjectLength() {
         /**
          * 1. If in England and asap then don't ask any day questions (when flag turned on)
-         * 2. If outside England and asap then only ask start date question
+         * 2. If outside England and asap then only ask the end date question
          * 3. Otherwise, show both date fields
          */
-
         function _fields() {
-            if (get('projectStartDateCheck')(data) === 'asap') {
-                if (
-                    get('projectCountry')(data) === 'england' &&
-                    flags.enableEnglandAutoEndDate
-                ) {
-                    return [];
-                } else {
-                    return [fields.projectStartDate];
-                }
+            if (
+                get('projectCountry')(data) === 'england' &&
+                get('projectStartDateCheck')(data) === 'asap' &&
+                flags.enableEnglandAutoEndDate
+            ) {
+                return [];
+            } else if (get('projectStartDateCheck')(data) === 'asap') {
+                return [fields.projectEndDate];
             } else {
                 return [fields.projectStartDate, fields.projectEndDate];
             }
