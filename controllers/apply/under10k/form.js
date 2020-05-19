@@ -163,12 +163,20 @@ module.exports = function ({
          * 2. If outside England and asap then only ask start date question
          * 3. Otherwise, show both date fields
          */
+
         function _fields() {
-            return compact([
-                get('projectStartDateCheck')(data) !== 'asap' &&
-                    fields.projectStartDate,
-                fields.projectEndDate,
-            ]);
+            if (get('projectStartDateCheck')(data) === 'asap') {
+                if (
+                    get('projectCountry')(data) === 'england' &&
+                    flags.enableEnglandAutoEndDate
+                ) {
+                    return [];
+                } else {
+                    return [fields.projectStartDate];
+                }
+            } else {
+                return [fields.projectStartDate, fields.projectEndDate];
+            }
         }
 
         return new Step({
