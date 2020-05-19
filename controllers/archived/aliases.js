@@ -113,11 +113,11 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/about-big/ebulletin-subscription`,
-        to: `/about/ebulletin`,
+        to: `/about/newsletter`,
     }),
     withRegionPrefixes({
         from: `/about-big/ebulletin`,
-        to: `/about/ebulletin`,
+        to: `/about/newsletter`,
     }),
     withRegionPrefixes({
         from: `/about-big/helping-millions-change-their-lives`,
