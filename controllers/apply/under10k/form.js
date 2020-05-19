@@ -1399,14 +1399,32 @@ module.exports = function ({
             }
         }
 
+        function normaliseProjectEndDate() {
+            /**
+             * If projectCountry is England and date check is ASAP
+             * then pre-fill the projectEndDate to 6 months time
+             */
+            if (
+                get('projectCountry')(data) === 'england' &&
+                get('projectStartDateCheck')(data) === 'asap' &&
+                flags.enableEnglandAutoEndDate === true
+            ) {
+                return moment().add('6', 'months').format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectEndDate);
+            }
+        }
+
         const projectStartDate = normaliseProjectStartDate();
+        const projectEndDate = normaliseProjectEndDate();
+
         enriched.projectStartDate = projectStartDate;
-        enriched.projectEndDate = dateFormat(enriched.projectEndDate);
+        enriched.projectEndDate = projectEndDate;
 
         // Support previous date range schema format
         enriched.projectDateRange = {
             startDate: projectStartDate,
-            endDate: dateFormat(enriched.projectEndDate),
+            endDate: projectEndDate,
         };
 
         if (has('mainContactDateOfBirth')(enriched)) {
