@@ -592,6 +592,34 @@ test('start date defaults to current date if specifying as soon as possible', fu
     });
 });
 
+test('end date pre-filled to 6 months from now if specifying asap in England', function () {
+    const mock = mockResponse({
+        projectCountry: 'england',
+        projectStartDateCheck: 'asap',
+    });
+
+    const data = omit(mock, ['projectStartDate', 'projectEndDate']);
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    const salesforceResult = form.forSalesforce();
+
+    const expectedProjectStartDate = moment().format('YYYY-MM-DD');
+    const expectedProjectEndDate = moment()
+        .add('6', 'months')
+        .format('YYYY-MM-DD');
+
+    expect(salesforceResult.projectStartDate).toBe(expectedProjectStartDate);
+    expect(salesforceResult.projectEndDate).toBe(expectedProjectEndDate);
+
+    expect(salesforceResult.projectDateRange).toEqual({
+        startDate: expectedProjectStartDate,
+        endDate: expectedProjectEndDate,
+    });
+});
+
 test('start date must be at least 12 weeks away outside England when not supporting COVID-19', function () {
     function expectStartDateForCountry(countryData) {
         const invalidData = mockResponse({
