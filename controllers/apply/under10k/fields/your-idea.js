@@ -99,7 +99,7 @@ module.exports = {
         const maxWords = 150;
 
         function prioritiesCOVID19() {
-            if (flags.enableGovCOVIDUpdates) {
+            if (flags.enableGovCOVIDUpdates && projectCountry === 'england') {
                 return localise({
                     en: `<ol>
                         <li>organisations supporting people and communities

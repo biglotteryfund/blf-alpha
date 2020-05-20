@@ -20,9 +20,7 @@ test('show COVID-19 guidance text outside England when project is responding to 
         projectCountry: 'scotland',
         supportingCOVID19: 'yes',
     };
-    const field = fieldYourIdeaPriorities('en', data, {
-        enableGovCOVIDUpdates: true,
-    });
+    const field = fieldYourIdeaPriorities('en', data);
     expect(field.explanation).toMatchSnapshot();
 });
 
