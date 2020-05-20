@@ -3,7 +3,7 @@
 const { newContact } = require('./contact-schema');
 const validateSchema = require('../../../common/validate-schema');
 
-describe('ebulletin contact schema', () => {
+describe('newsletter contact schema', () => {
     test('new contact', () => {
         expect(
             validateSchema(newContact(), {

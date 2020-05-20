@@ -1,14 +1,17 @@
 {% extends "layouts/main.njk" %}
 
+{% from "components/hero.njk" import hero with context %}
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 
-{% set bodyClass = 'has-static-header' %}
-{% set copy = __('toplevel.ebulletin') %}
+{% set copy = __('toplevel.newsletter') %}
 
 {% block content %}
 
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only">
+
+        {{ hero(title, pageHero.image) }}
+
+        <div class="content-box u-inner-wide-only nudge-up">
             {% if status === 'SUCCESS' %}
                 <div class="s-prose">
                     <h3>{{ copy.responses.success.title }}</h3>
@@ -19,13 +22,13 @@
                 <p>{{ copy.responses.error.body | safe }}</p>
             {% else %}
 
-                <form class="form-ebulletin form-theme-slim" method="post" novalidate>
+                <form class="form-theme-slim" method="post" novalidate>
 
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}
 
-                    {% set introCopy = copy.stakeholder if contactType === 'policy' else copy.standard  %}
+                    {% set introCopy = copy.stakeholder if contactType === 'insights' else copy.standard  %}
 
                     <h2 class="t1 t--underline">{{ introCopy.heading }}</h2>
                     {{ introCopy.intro | safe }}
@@ -74,7 +77,7 @@
                                 isRequired: true
                             }, errors = errors) }}
 
-                            {% if contactType === 'policy' %}
+                            {% if contactType === 'insights' %}
                                 <div class="flex-grid flex-grid--2up">
                                     <div class="flex-grid__item u-no-margin">
                                         {{ formField({

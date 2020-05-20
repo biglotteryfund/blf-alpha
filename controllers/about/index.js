@@ -11,7 +11,7 @@ router.get('/', flexibleContentPage());
 router.use('/our-people', require('./our-people'));
 
 if (isNotProduction) {
-    router.use('/ebulletin', require('../ebulletin'));
+    router.use('/newsletter', require('../newsletter'));
 }
 
 router.use('/*', basicContent());
