@@ -353,9 +353,9 @@ function englandTerms() {
     ];
 }
 
-module.exports = function (locale, data = {}) {
+module.exports = function (locale, data = {}, flags = {}) {
     const termsParts =
-        get('projectCountry')(data) === 'england'
+        get('projectCountry')(data) === 'england' && flags.enableGovCOVIDUpdates
             ? englandTerms()
             : defaultTerms(locale);
 

@@ -1149,7 +1149,7 @@ module.exports = function ({
             fieldsets: [
                 {
                     legend: title,
-                    introduction: terms(locale, data),
+                    introduction: terms(locale, data, flags),
                     footer: footer,
                     get fields() {
                         const showCovidFields =
