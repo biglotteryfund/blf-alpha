@@ -120,10 +120,10 @@ exports[`england specific terms 1`] = `
         act lawfully in carrying out your project in accordance with best practice and guidance from your regulators, and follow any guidelines issued by us about the project or use of the grant and let us know promptly about any fraud, other impropriety, mismanagement or misuse in relation to the grant;
       </li>
       <li>
-        acknowledge the funding using the relevant brand guidelines in your award email
+        acknowledge the funding using the relevant brand guidelines in your award email;
       </li>
       <li>
-        hold the grant in a UK based bank or building society account which satisfies our requirements as set out in guidelines and requires at least two unconnected people to approve all transactions and withdrawals
+        hold the grant in a UK based bank or building society account which satisfies our requirements as set out in guidelines and requires at least two unconnected people to approve all transactions and withdrawals;
       </li>
       <li>
         immediately return any part of the grant that is not used for your project or which constitutes unlawful state aid;
@@ -146,16 +146,19 @@ exports[`england specific terms 1`] = `
           <li>
             a smaller sample of grant holders will be invited to take part in more in-depth, qualitative research
           </li>
+          <li>
+            sharing learning and insight for other charities
+          </li>
         </ul>
       </li>
       <li>
-        acknowledge that DCMS may carry out post-grant assurance checks to ensure that grants funded under our Covid-19 funding have been spent in accordance with these terms and conditions and they may contact you about this after the grant has been made or spent
+        acknowledge that DCMS may carry out post-grant assurance checks to ensure that grants funded under our Covid-19 funding have been spent in accordance with these terms and conditions and they may contact you about this after the grant has been made or spent;
       </li>
       <li>
         comply with data protection laws
       </li>
       <li>
-        keep accurate and comprehensive records about your project both during the project and for seven years afterwards and provide us on request with copies of those records and evidence of expenditure of the grant, such as original receipts and bank statements
+        keep accurate and comprehensive records about your project both during the project and for seven years afterwards and provide us on request with copies of those records and evidence of expenditure of the grant, such as original receipts and bank statements;
       </li>
       <li>
         allow us and/or the Comptroller and Auditor General reasonable access to your premises and systems to inspect project and grant records;
@@ -171,7 +174,7 @@ exports[`england specific terms 1`] = `
   <li>
     <p>
       <strong>
-        You acknowledge that we are entitled to suspend or terminate the grant and/or require you to repay all or any of the grant in any of the following situations. You must let us know if any of these situations have occurred or are likely to occur.
+        You acknowledge that we are entitled to suspend or terminate the grant and/or require you to repay all or any of the grant in any of the following situations. You must let us know if any of these situations have occurred or are likely to occur:
       </strong>
     </p>
     <ol class="o-nested-numbers">
@@ -179,7 +182,7 @@ exports[`england specific terms 1`] = `
         You use the grant in any way other than as approved by us or fail to comply with any of these Terms and Conditions.
       </li>
       <li>
-        2.2	You fail to make good progress with your project or are unlikely in our view to complete the project or achieve the objectives agreed with us.
+        You fail to make good progress with your project or are unlikely in our view to complete the project or achieve the objectives agreed with us.
       </li>
       <li>
         You have match funding for the project withdrawn or receive or fail to declare any duplicate funding for the same project costs as funded by the grant.

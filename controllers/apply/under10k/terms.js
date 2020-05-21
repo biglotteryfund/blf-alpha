@@ -205,12 +205,12 @@ function englandTerms() {
                 mismanagement or misuse in relation to the grant;`,
 
                 oneLine`acknowledge the funding using the relevant brand
-                guidelines in your award email`,
+                guidelines in your award email;`,
 
                 oneLine`hold the grant in a UK based bank or building society
                 account which satisfies our requirements as set out in guidelines
                 and requires at least two unconnected people to approve all
-                transactions and withdrawals`,
+                transactions and withdrawals;`,
 
                 oneLine`immediately return any part of the grant that is not
                 used for your project or which constitutes unlawful state aid;`,
@@ -220,7 +220,7 @@ function englandTerms() {
                 appropriate written safeguarding policy, obtain written
                 consent from legal carers or guardians and carry out background
                 checks for all employees, volunteers, trustees or contractors
-                as required by law or our guidelines;  `,
+                as required by law or our guidelines;`,
 
                 oneLine`work with the evaluators appointed for our Covid-19
                 funding in order to share evidence, data and learning.
@@ -257,7 +257,7 @@ function englandTerms() {
                 oneLine`acknowledge that DCMS may carry out post-grant assurance
                 checks to ensure that grants funded under our Covid-19 funding
                 have been spent in accordance with these terms and conditions and
-                they may contact you about this after the grant has been made or spent`,
+                they may contact you about this after the grant has been made or spent;`,
 
                 oneLine`comply with data protection laws`,
 
@@ -265,7 +265,7 @@ function englandTerms() {
                 project both during the project and for seven years afterwards
                 and provide us on request with copies of those records and
                 evidence of expenditure of the grant, such as original
-                receipts and bank statements`,
+                receipts and bank statements;`,
 
                 oneLine`allow us and/or the Comptroller and Auditor General
                 reasonable access to your premises and systems to inspect
