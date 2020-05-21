@@ -705,6 +705,6 @@ module.exports = createAliases([
     },
     {
         from: '/about/coronavirus-updates',
-        to: '/funding/our-funding-during-covid-19',
+        to: '/funding/covid-19',
     },
 ]);

@@ -6100,11 +6100,11 @@ Array [
   },
   Object {
     "from": "/about/coronavirus-updates",
-    "to": "/funding/our-funding-during-covid-19",
+    "to": "/funding/covid-19",
   },
   Object {
     "from": "/welsh/about/coronavirus-updates",
-    "to": "/welsh/funding/our-funding-during-covid-19",
+    "to": "/welsh/funding/covid-19",
   },
 ]
 `;
