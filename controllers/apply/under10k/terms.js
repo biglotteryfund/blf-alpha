@@ -248,6 +248,9 @@ function englandTerms() {
                         a smaller sample of grant holders will be invited to
                         take part in more in-depth, qualitative research
                     </li>
+                    <li>
+                    sharing learning and insight for other charities
+                    </li>
                 </ul>                
                 `,
 
@@ -287,12 +290,12 @@ function englandTerms() {
             title: oneLine`You acknowledge that we are entitled to suspend or
             terminate the grant and/or require you to repay all or any of the
             grant in any of the following situations. You must let us know if
-            any of these situations have occurred or are likely to occur.`,
+            any of these situations have occurred or are likely to occur:`,
             clauses: [
                 oneLine`You use the grant in any way other than as approved by
                 us or fail to comply with any of these Terms and Conditions.`,
 
-                oneLine`2.2	You fail to make good progress with your project
+                oneLine`You fail to make good progress with your project
                 or are unlikely in our view to complete the project or achieve
                 the objectives agreed with us.`,
 
