@@ -236,7 +236,7 @@ module.exports = {
                 you agree that the Fund and The Office for Civil Society, part of
                 the Department for Digital, Culture, Media and Sport (DCMS) may
                 use your personal data in accordance with the 
-                <a href="#">Privacy Notice for our Covid-19 funding</a>.`,
+                <a href="/funding/covid-19/privacy-notice">Privacy Notice for our Covid-19 funding</a>.`,
             options: [
                 {
                     value: 'yes',
