@@ -16,10 +16,7 @@
         {% if programme.fundingSize.description %}
             <dt>{{ labels.fundingSize }}</dt>
             <dd>{{ programme.fundingSize.description }}</dd>
-        {% elseif programme.fundingSize.minimum and programme.fundingSize.maximum %}
-            <dt>{{ labels.fundingSize }}</dt>
-            <dd>£{{ programme.fundingSize.minimum | numberWithCommas}}{% if programme.fundingSize.maximum %} {{ __('global.misc.to') }} £{{ programme.fundingSize.maximum | numberWithCommas }}{% endif %}</dd>
-        {% endif %}
+       {% endif %}
 
         {% if programme.fundingSize.totalAvailable %}
             <dt>{{ labels.totalAvailable }}</dt>
