@@ -205,12 +205,12 @@ function englandTerms() {
                 mismanagement or misuse in relation to the grant;`,
 
                 oneLine`acknowledge the funding using the relevant brand
-                guidelines in your award email`,
+                guidelines in your award email;`,
 
                 oneLine`hold the grant in a UK based bank or building society
                 account which satisfies our requirements as set out in guidelines
                 and requires at least two unconnected people to approve all
-                transactions and withdrawals`,
+                transactions and withdrawals;`,
 
                 oneLine`immediately return any part of the grant that is not
                 used for your project or which constitutes unlawful state aid;`,
@@ -220,7 +220,7 @@ function englandTerms() {
                 appropriate written safeguarding policy, obtain written
                 consent from legal carers or guardians and carry out background
                 checks for all employees, volunteers, trustees or contractors
-                as required by law or our guidelines;  `,
+                as required by law or our guidelines;`,
 
                 oneLine`work with the evaluators appointed for our Covid-19
                 funding in order to share evidence, data and learning.
@@ -248,13 +248,16 @@ function englandTerms() {
                         a smaller sample of grant holders will be invited to
                         take part in more in-depth, qualitative research
                     </li>
+                    <li>
+                    sharing learning and insight for other charities
+                    </li>
                 </ul>                
                 `,
 
                 oneLine`acknowledge that DCMS may carry out post-grant assurance
                 checks to ensure that grants funded under our Covid-19 funding
                 have been spent in accordance with these terms and conditions and
-                they may contact you about this after the grant has been made or spent`,
+                they may contact you about this after the grant has been made or spent;`,
 
                 oneLine`comply with data protection laws`,
 
@@ -262,7 +265,7 @@ function englandTerms() {
                 project both during the project and for seven years afterwards
                 and provide us on request with copies of those records and
                 evidence of expenditure of the grant, such as original
-                receipts and bank statements`,
+                receipts and bank statements;`,
 
                 oneLine`allow us and/or the Comptroller and Auditor General
                 reasonable access to your premises and systems to inspect
@@ -287,12 +290,12 @@ function englandTerms() {
             title: oneLine`You acknowledge that we are entitled to suspend or
             terminate the grant and/or require you to repay all or any of the
             grant in any of the following situations. You must let us know if
-            any of these situations have occurred or are likely to occur.`,
+            any of these situations have occurred or are likely to occur:`,
             clauses: [
                 oneLine`You use the grant in any way other than as approved by
                 us or fail to comply with any of these Terms and Conditions.`,
 
-                oneLine`2.2	You fail to make good progress with your project
+                oneLine`You fail to make good progress with your project
                 or are unlikely in our view to complete the project or achieve
                 the objectives agreed with us.`,
 
