@@ -1149,22 +1149,7 @@ module.exports = function ({
             fieldsets: [
                 {
                     legend: title,
-                    introduction: `<ol class="o-nested-numbers">
-                        ${localise(terms)
-                            .map(
-                                (section) => `<li>
-                                    <p><strong>${section.title}</strong></p>
-                                    <ol class="o-nested-numbers">
-                                        ${section.clauses
-                                            .map(
-                                                (clause) => `<li>${clause}</li>`
-                                            )
-                                            .join('')}
-                                    </ol>
-                                </li>`
-                            )
-                            .join('')}
-                    </ol>`,
+                    introduction: terms(locale, data),
                     footer: footer,
                     get fields() {
                         const showCovidFields =
