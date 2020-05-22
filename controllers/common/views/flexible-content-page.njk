@@ -1,7 +1,8 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/flexible-content-next/macro.njk" import flexibleContent with context %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
@@ -12,6 +13,10 @@
         {% endif %}
 
         {% if pageHero.image %}<div class="nudge-up">{% endif %}
+
+        {% if not pageHero %}
+            {{ pageTitle(title) }}
+        {% endif %}
 
         {% block contentPrimary %}
             {% if content.flexibleContent %}
