@@ -186,7 +186,7 @@
     "sane": "4.1.0",
     "sequelize-cli": "5.5.1",
     "sqlite3": "4.2.0",
-    "stylelint": "13.4.0",
+    "stylelint": "13.5.0",
     "stylelint-config-recommended": "3.0.0",
     "stylelint-scss": "3.17.2",
     "vue": "2.6.11",
