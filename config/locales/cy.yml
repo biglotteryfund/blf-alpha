@@ -101,7 +101,7 @@ global:
       Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
       <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
-  covidMessage: Darllenwch y diweddariadau diwethaf ar ein tudalen COVID-19
+  covidMessage: Ein hariannu yn ystod COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
@@ -193,8 +193,8 @@ toplevel:
     title: Ariannu
     latestTitle: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
-    - label: "Meddwl am ymgeisio am arian grant?"
-      href: "/welsh/funding/thinking-of-applying-for-funding"
+    - label: Ein hariannu yn ystod COVID-19
+      href: "/welsh/funding/covid-19"
     - label: Ymgeisio am grantiau o dan £10,000
       href: "/welsh/funding/under10k"
     - label: Ymgeisio am grantiau dros £10,000
@@ -207,6 +207,8 @@ toplevel:
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
       href: "/welsh/funding/managing-your-grant"
+    - label: "Meddwl am ymgeisio am arian grant?"
+      href: "/welsh/funding/thinking-of-applying-for-funding"
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau

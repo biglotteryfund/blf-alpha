@@ -6098,5 +6098,13 @@ Array [
     "from": "/welsh/funding/managing-your-grant/under10k",
     "to": "/welsh/funding/managing-your-grant/under-10k",
   },
+  Object {
+    "from": "/about/coronavirus-updates",
+    "to": "/funding/covid-19",
+  },
+  Object {
+    "from": "/welsh/about/coronavirus-updates",
+    "to": "/welsh/funding/covid-19",
+  },
 ]
 `;
