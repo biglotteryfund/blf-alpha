@@ -32,7 +32,7 @@
                 {% endfor %}
             {% elseif programmes.length > 0 %}
                 {% if countryCovidStatus %}
-                    <p>{{ countryCovidStatus.status }}</p>
+                    <p>{{ countryCovidStatus.status | nl2br | safe }}</p>
                 {% endif %}
                 <ol class="flex-grid flex-grid--3up">
                     {% for programme in programmes %}
