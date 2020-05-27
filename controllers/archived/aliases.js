@@ -707,4 +707,9 @@ module.exports = createAliases([
         from: '/about/coronavirus-updates',
         to: '/funding/covid-19',
     },
+    {
+        from:
+            '/about/covid-19-how-we-are-supporting-our-grant-holders-at-this-difficult-time',
+        to: '/funding/covid-19/support-for-our-grantholders-during-covid-19',
+    },
 ]);
