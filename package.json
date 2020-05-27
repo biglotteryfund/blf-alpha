@@ -174,7 +174,7 @@
     "jest-serializer-html": "7.0.0",
     "jquery": "^3.5.1",
     "node-mocks-http": "1.8.1",
-    "node-notifier": "7.0.0",
+    "node-notifier": "7.0.1",
     "node-sass": "4.14.1",
     "nodemon": "2.0.4",
     "picturefill": "3.0.3",
