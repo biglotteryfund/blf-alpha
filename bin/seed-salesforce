@@ -42,8 +42,9 @@ const submitMockApplication = async (applicationId) => {
 
 
 times(200, async function(i) {
-    submitMockApplication('DEV-APP-' + i).then(() => {
-        console.log(`applicationId submitted successfully`);
+    const applicationId = `DEV-APP-${i}`;
+    submitMockApplication(applicationId).then(() => {
+        console.log(`${applicationId} submitted successfully`);
     }).catch(err => {
         console.log('Error submitting dummy app');
         console.log(err);
