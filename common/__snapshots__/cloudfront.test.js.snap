@@ -294,6 +294,73 @@ Object {
               "x-craft-live-preview",
               "x-craft-preview",
               "page",
+              "page-limit",
+              "tag",
+              "q",
+              "sort",
+            ],
+            "Quantity": 9,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/funding/publications*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "blf-alpha-session",
+              ],
+              "Quantity": 1,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
+              "page",
               "programme",
               "tag",
               "doctype",
@@ -742,6 +809,73 @@ Object {
               "x-craft-live-preview",
               "x-craft-preview",
               "page",
+              "page-limit",
+              "tag",
+              "q",
+              "sort",
+            ],
+            "Quantity": 9,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/welsh/funding/publications*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "blf-alpha-session",
+              ],
+              "Quantity": 1,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
+              "page",
               "programme",
               "tag",
               "doctype",
@@ -999,7 +1133,7 @@ Object {
         "ViewerProtocolPolicy": "redirect-to-https",
       },
     ],
-    "Quantity": 16,
+    "Quantity": 18,
   },
   "DefaultCacheBehavior": Object {
     "AllowedMethods": Object {
