@@ -188,6 +188,11 @@ function generateBehaviours(origins) {
             ],
             isBilingual: true,
         },
+        {
+            path: '/funding/publications*',
+            queryStrings: ['page', 'page-limit', 'tag', 'q', 'sort'],
+            isBilingual: true,
+        },
         { path: '/search', allowAllQueryStrings: true, isBilingual: true },
         {
             path: '/user/*',
