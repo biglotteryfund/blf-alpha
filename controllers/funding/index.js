@@ -72,6 +72,11 @@ router.get(
     }
 );
 
+router.get('/covid-19', (req, res, next) => {
+    res.locals.showCOVID19AnnouncementBanner = false;
+    next();
+});
+
 /**
  * Wildcard handler
  * Remaining pages powered by Funding structure in the CMS
