@@ -3,7 +3,7 @@ const Joi = require('@hapi/joiNext');
 
 function getTranslations(i18n) {
     return function (path, ...params) {
-        return i18n && i18n.__(`toplevel.ebulletin.${path}`, ...params);
+        return i18n && i18n.__(`toplevel.newsletter.${path}`, ...params);
     };
 }
 

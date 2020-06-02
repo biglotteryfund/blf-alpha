@@ -28,7 +28,7 @@ router.use(
     '/standard-enquiry',
     initApplicationStatsRouter({
         applicationId: 'standard-enquiry',
-        title: 'Apply for funding under £10,000',
+        title: 'Apply for funding over £10,000',
         getProjectCountry(applicationData) {
             const countries = get(applicationData, 'projectCountries', []);
             return countries.length > 1 ? 'uk-wide' : countries[0];

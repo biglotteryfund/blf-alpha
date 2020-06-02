@@ -101,7 +101,7 @@ global:
       Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
       <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
-  covidMessage: Darllenwch y diweddariadau diwethaf ar ein tudalen COVID-19
+  covidMessage: Ein hariannu yn ystod COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
@@ -193,8 +193,8 @@ toplevel:
     title: Ariannu
     latestTitle: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
-    - label: "Meddwl am ymgeisio am arian grant?"
-      href: "/welsh/funding/thinking-of-applying-for-funding"
+    - label: Ein hariannu yn ystod COVID-19
+      href: "/welsh/funding/covid-19"
     - label: Ymgeisio am grantiau o dan £10,000
       href: "/welsh/funding/under10k"
     - label: Ymgeisio am grantiau dros £10,000
@@ -207,6 +207,8 @@ toplevel:
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
       href: "/welsh/funding/managing-your-grant"
+    - label: "Meddwl am ymgeisio am arian grant?"
+      href: "/welsh/funding/thinking-of-applying-for-funding"
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
@@ -249,19 +251,17 @@ toplevel:
           - label: "2018 - 2019 (XLSX, 4.9MB)"
             href: "https://www.tnlcommunityfund.org.uk/media/data/grants/2018_19.xlsx"
           - label: "2019 - 2020 (XLSX, 3MB)"
-            href: "https://www.tnlcommunityfund.org.uk/media/data/grants/2019_2020.xlsx"
-          - label: "2020– (XLSX, 713KB)"
-            href: "https://www.tnlcommunityfund.org.uk/media/data/grants/2020_YTD.xlsx"
+            href: "https://www.tnlcommunityfund.org.uk/media/data/grants/2019_2020_v3.xlsx"
         outro: >
           Trwyddedir y gwaith hwn o dan y <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">drwydded llywodraeth agored ar gyfer gwybodaeth sector cyhoeddus</a>, gan alluogi chi i ddefnyddio ac ailddefnyddio'r Wybodaeth sydd ar gael o dan y drwydded hon yn rhydd ac yn hyblyg, gyda dim ond ychydig o amodau. Os na allwch ddod o hyd i'r hyn rydych yn chwilio amdano, <a href="/contact">cysylltwch â ni</a>.
-  ebulletin:
+  newsletter:
     title: e-fwletin
     standard:
       heading: Mwy o wybodaeth am ein grantiau
       intro: >
         <p>Cofrestrwch am y newyddion diweddaraf yn eich gwlad</p>
     stakeholder:
-      heading: Cylchlythyr Polisi a Mewnwelediadau
+      heading: Cylchlythyr Mewnwelediadau
       intro: >
         <p>Bydd ein cylchlythyr polisi a mewnwelediadau yn rhannu'r dystiolaeth, y dysgu a'r data gwerthfawr a gasglwn gan y bobl, y prosiectau a'r cymunedau yr ydym yn eu cefnogi.</p>
         <p>Byddwn yn edrych ar gyflawniadau, llwyddiannau a heriau'r sector a hefyd yn rhannu newyddion am ein hariannu a'n gweithgaredd ledled y DU. Cofrestrwch heddiw i'w anfon yn uniongyrchol i'ch mewnflwch.<p>
@@ -1124,14 +1124,7 @@ awardsForAll:
         <p>Dyma <a href="/assets/images/apply/under-10k-bank-statement-example-welsh.jpg">lun defnyddiol o'r math o gyfriflen banc rydym yn chwilio amdano.</a></p>
         <h3>5. Rydym yn gofyn am wybodaeth am ba fath o brosiect hoffech ei wneud</h3>
         <p>A sut fydd eich prosiect yn helpu a chynnwys eich cymuned.</p>
-        <h3>6. Rydym hefyd yn gofyn i chi ddarllen a chytuno i’n amodau a thelerau</h3>
-        <p>
-          Gallwch gymryd
-          <a href="/media/documents/awards-for-all/terms%20and%20conditions/TF19_043_Awards-for-All_Terms-and-Conditions_WALES-WELSH-0.1-1.pdf">
-            golwg ar yr amodau a thelerau yma
-          </a>.
-        </p>
-        <h3>7. Os nad ydych yn siŵr am y mathau o bethau rydym yn gofyn amdano wrth i chi ymgeisio</h3>
+        <h3>6. Os nad ydych yn siŵr am y mathau o bethau rydym yn gofyn amdano wrth i chi ymgeisio</h3>
         <p><a href="/welsh/contact">Cysylltwch â ni</a></p>
     readyToApply:
       title: Barod i ymgeisio?

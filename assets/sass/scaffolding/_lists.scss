@@ -53,18 +53,18 @@
     list-style-type: none;
     counter-reset: item;
 
-    li {
+    > li {
         display: table;
         counter-increment: item;
     }
 
-    li:before {
+    > li:before {
         content: counters(item, '.') '. ';
         display: table-cell;
         padding-right: 0.6em;
     }
 
-    li li:before {
+    > li > ol > li:before {
         content: counters(item, '.') ' ';
     }
 }

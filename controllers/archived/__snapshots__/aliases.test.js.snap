@@ -692,83 +692,83 @@ Array [
   },
   Object {
     "from": "/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/england/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/england/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/scotland/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/scotland/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/northernireland/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/northernireland/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/wales/about-big/ebulletin-subscription",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/wales/about-big/ebulletin-subscription",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/england/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/england/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/scotland/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/scotland/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/northernireland/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/northernireland/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/wales/about-big/ebulletin",
-    "to": "/about/ebulletin",
+    "to": "/about/newsletter",
   },
   Object {
     "from": "/welsh/wales/about-big/ebulletin",
-    "to": "/welsh/about/ebulletin",
+    "to": "/welsh/about/newsletter",
   },
   Object {
     "from": "/about-big/helping-millions-change-their-lives",
@@ -6097,6 +6097,22 @@ Array [
   Object {
     "from": "/welsh/funding/managing-your-grant/under10k",
     "to": "/welsh/funding/managing-your-grant/under-10k",
+  },
+  Object {
+    "from": "/about/coronavirus-updates",
+    "to": "/funding/covid-19",
+  },
+  Object {
+    "from": "/welsh/about/coronavirus-updates",
+    "to": "/welsh/funding/covid-19",
+  },
+  Object {
+    "from": "/about/covid-19-how-we-are-supporting-our-grant-holders-at-this-difficult-time",
+    "to": "/funding/covid-19/support-for-our-grantholders-during-covid-19",
+  },
+  Object {
+    "from": "/welsh/about/covid-19-how-we-are-supporting-our-grant-holders-at-this-difficult-time",
+    "to": "/welsh/funding/covid-19/support-for-our-grantholders-during-covid-19",
   },
 ]
 `;
