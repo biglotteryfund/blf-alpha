@@ -31,6 +31,8 @@ describe('fieldProjectStartDateCheck', function () {
             {
                 value: 'asap',
                 label: expect.any(String),
+                explanation:
+                    'We expect you will start spending emergency funding straight away',
             },
             {
                 value: 'exact-date',
