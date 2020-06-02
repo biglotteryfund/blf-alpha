@@ -45,8 +45,6 @@ router.use('/publications', require('./publications'));
  */
 router.use('/grants', require('./grants'));
 
-router.use('/the-big-lunch', basicContent());
-
 router.use('/funding-guidance/*', basicContent());
 
 /**

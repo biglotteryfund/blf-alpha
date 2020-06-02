@@ -202,10 +202,6 @@ const sections = {
         path: '/news',
         router: require('./controllers/updates'),
     },
-    jobs: {
-        path: '/jobs*',
-        router: basicContent(),
-    },
     data: {
         path: '/data',
         router: require('./controllers/data'),

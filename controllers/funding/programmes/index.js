@@ -13,7 +13,10 @@ const { buildArchiveUrl, localify } = require('../../../common/urls');
 const { sMaxAge } = require('../../../common/cached');
 const contentApi = require('../../../common/content-api');
 
-const { basicContent, renderFlexibleContentChild } = require('../../common');
+const {
+    renderFlexibleContentChild,
+    flexibleContentPage,
+} = require('../../common');
 
 const getValidLocation = require('./lib/get-valid-location');
 const programmeFilters = require('./lib/programme-filters');
@@ -262,7 +265,7 @@ router.use(
         });
         next();
     },
-    basicContent()
+    flexibleContentPage()
 );
 
 module.exports = router;
