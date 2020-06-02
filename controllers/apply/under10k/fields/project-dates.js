@@ -38,6 +38,13 @@ module.exports = {
 
             if (projectCountry !== 'england' && supportingCOVID19 === 'no') {
                 optionAsap.attributes = { disabled: 'disabled' };
+            } else if (projectCountry === 'england') {
+                optionAsap.explanation = localise({
+                    en:
+                        'We expect you will start spending emergency funding straight away',
+                    cy:
+                        'Rydym yn disgwyl y byddwch yn dechrau gwario’r arian brys yn syth',
+                });
             }
 
             const optionExactDate = {
@@ -62,6 +69,14 @@ module.exports = {
                 en: `When would you like to get the money if you are awarded?`,
                 cy: `Pryd hoffech chi gael yr arian os ydych chi'n cael eich dyfarnu?`,
             }),
+            explanation:
+                get('projectCountry')(data) === 'england'
+                    ? localise({
+                          en: `You need to spend the money in six months or less, once we've awarded funding to you.`,
+                          cy:
+                              'Mae angen i chi wario’r arian mewn chwe mis neu lai, unwaith rydym wedi dyfarnu’r arian i chi.',
+                      })
+                    : null,
             options: options(),
             schema() {
                 if (
@@ -194,12 +209,13 @@ module.exports = {
             const maxDate = moment().add(getMaxDurationMonths(), 'months');
 
             /**
-             * For projects in England when asap we skip the project dates
-             * questions entirely and pre-fill both the start and end date.
+             * For projects in England when projectStartDateCheck is asap
+             * we skip the project dates questions entirely and pre-fill
+             * both the start and end date.
              *
-             * In other countries when asap we don't show the start date
-             * question  but allow the end date to be any future date
-             * within the max duration for the country.
+             * In other countries when projectStartDateCheck is asap
+             * we don't show the start date question but allow the end date
+             * to be any future date within the max duration for the country.
              *
              * Otherwise we fallback to the default rules where
              * the end date must be within X months of the start date.
