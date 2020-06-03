@@ -6,6 +6,7 @@
   },
   "hotjarId": "1036292",
   "fundingUnder10k": {
+    "enableEnglandAutoEndDate": true,
     "enableGovCOVIDUpdates": true
   }
 }

@@ -158,12 +158,23 @@ module.exports = function ({
     }
 
     function stepProjectLength() {
+        /**
+         * 1. If in England and asap then don't ask any day questions (when flag turned on)
+         * 2. If outside England and asap then only ask the end date question
+         * 3. Otherwise, show both date fields
+         */
         function _fields() {
-            return compact([
-                get('projectStartDateCheck')(data) !== 'asap' &&
-                    fields.projectStartDate,
-                fields.projectEndDate,
-            ]);
+            if (
+                get('projectCountry')(data) === 'england' &&
+                get('projectStartDateCheck')(data) === 'asap' &&
+                flags.enableEnglandAutoEndDate
+            ) {
+                return [];
+            } else if (get('projectStartDateCheck')(data) === 'asap') {
+                return [fields.projectEndDate];
+            } else {
+                return [fields.projectStartDate, fields.projectEndDate];
+            }
         }
 
         return new Step({
@@ -1384,14 +1395,32 @@ module.exports = function ({
             }
         }
 
+        function normaliseProjectEndDate() {
+            /**
+             * If projectCountry is England and date check is ASAP
+             * then pre-fill the projectEndDate to 6 months time
+             */
+            if (
+                get('projectCountry')(data) === 'england' &&
+                get('projectStartDateCheck')(data) === 'asap' &&
+                flags.enableEnglandAutoEndDate === true
+            ) {
+                return moment().add('6', 'months').format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectEndDate);
+            }
+        }
+
         const projectStartDate = normaliseProjectStartDate();
+        const projectEndDate = normaliseProjectEndDate();
+
         enriched.projectStartDate = projectStartDate;
-        enriched.projectEndDate = dateFormat(enriched.projectEndDate);
+        enriched.projectEndDate = projectEndDate;
 
         // Support previous date range schema format
         enriched.projectDateRange = {
             startDate: projectStartDate,
-            endDate: dateFormat(enriched.projectEndDate),
+            endDate: projectEndDate,
         };
 
         if (has('mainContactDateOfBirth')(enriched)) {

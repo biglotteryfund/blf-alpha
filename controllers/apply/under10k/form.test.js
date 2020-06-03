@@ -575,7 +575,10 @@ test('start date defaults to current date if specifying as soon as possible', fu
 
     const data = omit(mock, ['projectStartDate']);
 
-    const form = formBuilder({ data });
+    const form = formBuilder({
+        data,
+        flags: { enableEnglandAutoEndDate: false },
+    });
 
     expect(form.validation.error).toBeNull();
 
@@ -586,6 +589,34 @@ test('start date defaults to current date if specifying as soon as possible', fu
 
     expect(salesforceResult.projectStartDate).toBe(expectedProjectStartDate);
     expect(salesforceResult.projectEndDate).toBe(expectedProjectEndDate);
+    expect(salesforceResult.projectDateRange).toEqual({
+        startDate: expectedProjectStartDate,
+        endDate: expectedProjectEndDate,
+    });
+});
+
+test('end date pre-filled to 6 months from now if specifying asap in England', function () {
+    const mock = mockResponse({
+        projectCountry: 'england',
+        projectStartDateCheck: 'asap',
+    });
+
+    const data = omit(mock, ['projectStartDate', 'projectEndDate']);
+
+    const form = formBuilder({ data });
+
+    expect(form.validation.error).toBeNull();
+
+    const salesforceResult = form.forSalesforce();
+
+    const expectedProjectStartDate = moment().format('YYYY-MM-DD');
+    const expectedProjectEndDate = moment()
+        .add('6', 'months')
+        .format('YYYY-MM-DD');
+
+    expect(salesforceResult.projectStartDate).toBe(expectedProjectStartDate);
+    expect(salesforceResult.projectEndDate).toBe(expectedProjectEndDate);
+
     expect(salesforceResult.projectDateRange).toEqual({
         startDate: expectedProjectStartDate,
         endDate: expectedProjectEndDate,
