@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+'use strict';
+require('dotenv').config();
+
+const moment = require('moment');
+const times = require('lodash/times');
+
+const mockAwardsForAll = require('../controllers/apply/under10k/mocks');
+const formBuilder = require('../controllers/apply/under10k/form');
+const salesforceService = require('../controllers/apply/form-router/lib/salesforce');
+
+const submitMockApplication = async (applicationId) => {
+
+    const dummyData = mockAwardsForAll.mockResponse({
+        projectLocation: 'bournemouth'
+    });
+
+    const form = formBuilder({
+        locale: 'en',
+        data: dummyData,
+        metadata: {},
+    });
+
+    const salesforceFormData = {
+        application: form.forSalesforce(),
+        meta: {
+            form: 'awards-for-all',
+            schemaVersion: form.schemaVersion,
+            environment: 'dev',
+            commitId: 'dev',
+            locale: 'en',
+            clientIp: '127.0.0.1',
+            username: 'dev@localhost',
+            applicationId: applicationId,
+            startedAt: moment().toISOString(),
+        },
+    };
+
+    const salesforce = await salesforceService.authorise();
+    return salesforce.submitFormData(salesforceFormData);
+};
+
+
+times(200, async function(i) {
+    const applicationId = `DEV-APP-${i}`;
+    submitMockApplication(applicationId).then(() => {
+        console.log(`${applicationId} submitted successfully`);
+    }).catch(err => {
+        console.log('Error submitting dummy app');
+        console.log(err);
+    });
+});
