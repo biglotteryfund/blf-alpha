@@ -6114,5 +6114,21 @@ Array [
     "from": "/welsh/about/covid-19-how-we-are-supporting-our-grant-holders-at-this-difficult-time",
     "to": "/welsh/funding/covid-19/support-for-our-grantholders-during-covid-19",
   },
+  Object {
+    "from": "/jobs",
+    "to": "/about/jobs",
+  },
+  Object {
+    "from": "/welsh/jobs",
+    "to": "/welsh/about/jobs",
+  },
+  Object {
+    "from": "/jobs/benefits",
+    "to": "/about/jobs/benefits",
+  },
+  Object {
+    "from": "/welsh/jobs/benefits",
+    "to": "/welsh/about/jobs/benefits",
+  },
 ]
 `;
