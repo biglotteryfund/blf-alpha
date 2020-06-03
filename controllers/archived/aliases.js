@@ -712,4 +712,12 @@ module.exports = createAliases([
             '/about/covid-19-how-we-are-supporting-our-grant-holders-at-this-difficult-time',
         to: '/funding/covid-19/support-for-our-grantholders-during-covid-19',
     },
+    {
+        from: '/jobs',
+        to: '/about/jobs',
+    },
+    {
+        from: '/jobs/benefits',
+        to: '/about/jobs/benefits',
+    },
 ]);
