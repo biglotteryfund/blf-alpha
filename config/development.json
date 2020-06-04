@@ -6,5 +6,8 @@
   "fundingUnder10k": {
     "enableEnglandAutoEndDate": true,
     "enableGovCOVIDUpdates": true
+  },
+  "standardFundingProposal": {
+    "enableEnglandAutoProjectDuration": true
   }
 }
