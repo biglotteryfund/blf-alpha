@@ -3,9 +3,14 @@ const config = require('config');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
 
 const enableGovCOVIDUpdates = config.get(
     'fundingUnder10k.enableGovCOVIDUpdates'
+);
+
+const enableStandardEnglandAutoProjectDuration = config.get(
+    'standardFundingProposal.enableEnglandAutoProjectDuration'
 );
 
 module.exports = {
@@ -13,6 +18,8 @@ module.exports = {
         const localise = get(locale);
         function showEnglandPrioritiesNotice() {
             // Only show notice for applications created before this date
+            // @TODO this can be removed after 2020-08-12 as any applications
+            // which were created before this will have expired
             const cutoffDate = '2020-05-12';
             return pendingApplications.some(function (application) {
                 return (
@@ -68,6 +75,21 @@ module.exports = {
                 get('applicationData.organisationType')(application)
             ) === true;
 
+        /*
+         * Only show notice for applications created before this date
+         * when the projectDurationYears field was removed for England apps
+         * @TODO this can be removed after 2020-09-04 as any applications
+         * which were created before this will have expired
+         */
+        const projectDurationCutoffDate = '2020-06-04';
+        const isEnglandStandard =
+            application.formId === 'standard-enquiry' &&
+            getOr(
+                [],
+                'applicationData.projectCountries'
+            )(application).includes('england') &&
+            moment(application.createdAt).isBefore(projectDurationCutoffDate);
+
         const notices = [];
 
         if (enableGovCOVIDUpdates && isEnglandStatutory) {
@@ -79,6 +101,28 @@ module.exports = {
                     we're only funding voluntary and community
                     organisations with COVID-19 related projects.`,
             });
+        }
+
+        if (enableStandardEnglandAutoProjectDuration && isEnglandStandard) {
+            notices.push(
+                {
+                    title: oneLine`For funding over £10,000 in England, we're 
+                        now only accepting COVID-19 related applications`,
+                    body: oneLine`If you've started an application already, and 
+                        it's not related to supporting your community or 
+                        organisation through the pandemic, we won't be able to 
+                        fund it. But you could decide to start a new one that 
+                        focuses on COVID-19 instead.`,
+                },
+                {
+                    title: oneLine`We've also changed our eligibility criteria 
+                        to help communities through the pandemic`,
+                    body: oneLine`So in England we're only funding voluntary and 
+                        community organisations for the time being. And we can 
+                        generally only award a maximum of £100,000 for up to 
+                        six months.`,
+                }
+            );
         }
 
         return notices;
