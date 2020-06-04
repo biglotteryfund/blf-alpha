@@ -27,7 +27,7 @@ const {
     northernIrelandLocationOptions,
 } = require('./lib/locations');
 
-module.exports = function fieldsFor({ locale, data = {} }) {
+module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
@@ -318,10 +318,26 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `How much money do you want from us?`,
                 cy: ``,
             }),
-            explanation: localise({
-                en: `This can be an estimate`,
-                cy: ``,
-            }),
+            get explanation() {
+                if (
+                    projectCountries.includes('england') &&
+                    flags.enableEnglandAutoProjectDuration
+                ) {
+                    return localise({
+                        en: `Given the COVID-19 emergency, you can ask us for a 
+                             maximum of £100,000 for up to six months. In some 
+                             cases we might award more funding to projects over 
+                             a longer period of time. For example, if your 
+                             organisation works across more than one area of England.`,
+                        cy: ``,
+                    });
+                } else {
+                    return localise({
+                        en: `This can be an estimate`,
+                        cy: ``,
+                    });
+                }
+            },
             minAmount: 10001,
             messages: [
                 {
@@ -372,11 +388,26 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 { label: localise({ en: '4 years', cy: '' }), value: 4 },
                 { label: localise({ en: '5 years', cy: '' }), value: 5 },
             ],
-            schema: Joi.when('projectCountries', {
-                is: Joi.array().min(2),
-                then: Joi.any().strip(),
-                otherwise: Joi.number().integer().required().min(1).max(5),
-            }),
+            get schema() {
+                if (
+                    projectCountries.includes('england') &&
+                    flags.enableEnglandAutoProjectDuration
+                ) {
+                    // Clear out any pre-existing answers for England applications
+                    // as we now set this value directly upon submission for them
+                    return Joi.any().strip();
+                } else {
+                    return Joi.when('projectCountries', {
+                        is: Joi.array().min(2),
+                        then: Joi.any().strip(),
+                        otherwise: Joi.number()
+                            .integer()
+                            .required()
+                            .min(1)
+                            .max(5),
+                    });
+                }
+            },
             messages: [
                 {
                     type: 'base',

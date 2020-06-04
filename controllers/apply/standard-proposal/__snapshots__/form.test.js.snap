@@ -59,7 +59,6 @@ Object {
   "projectCountries": Array [
     "england",
   ],
-  "projectDurationYears": 3,
   "projectLocation": "derbyshire",
   "projectLocationDescription": "description",
   "projectName": "My project",
