@@ -102,7 +102,7 @@ global:
       This site uses cookies. For an explanation of their purpose and how to manage them see our
       <a href="/about/customer-service/cookies">cookies policy</a>.
     action: Accept cookies
-  covidMessage: Our funding during COVID-19
+  covidMessage: Funding during COVID-19
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address
@@ -197,7 +197,7 @@ toplevel:
     title: Funding
     latestTitle: Latest Programmes & Partnerships
     sectionLinks:
-    - label: Our funding during COVID-19
+    - label: Funding during COVID-19
       href: "/funding/covid-19"
     - label: Apply for funding under £10,000
       href: "/funding/under10k"

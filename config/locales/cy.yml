@@ -101,7 +101,7 @@ global:
       Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
       <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
-  covidMessage: Ein hariannu yn ystod COVID-19
+  covidMessage: Ariannu yn ystod COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
@@ -193,7 +193,7 @@ toplevel:
     title: Ariannu
     latestTitle: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
-    - label: Ein hariannu yn ystod COVID-19
+    - label: Ariannu yn ystod COVID-19
       href: "/welsh/funding/covid-19"
     - label: Ymgeisio am grantiau o dan £10,000
       href: "/welsh/funding/under10k"
