@@ -20,7 +20,7 @@ module.exports = function ({
 } = {}) {
     const localise = get(locale);
 
-    const allFields = fieldsFor({ locale, data });
+    const allFields = fieldsFor({ locale, data, flags });
 
     const projectCountries = getOr([], 'projectCountries')(data);
 
