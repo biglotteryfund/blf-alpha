@@ -45,8 +45,6 @@ router.use('/publications', require('./publications'));
  */
 router.use('/grants', require('./grants'));
 
-router.use('/funding-guidance/*', basicContent());
-
 /**
  * Custom override: Free materials
  * Allows us to customise the free materials page with an order form,
