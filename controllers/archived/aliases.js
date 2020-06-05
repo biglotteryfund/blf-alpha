@@ -336,10 +336,6 @@ module.exports = createAliases([
         to: `/funding/managing-your-grant/under-10k`,
     }),
     withRegionPrefixes({
-        from: `/funding/funding-guidance`,
-        to: `/funding`,
-    }),
-    withRegionPrefixes({
         from: `/funding/funding-guidance/applying-for-funding`,
         to: `/funding`,
     }),
@@ -349,7 +345,7 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms`,
-        to: `/funding-guidance/help-using-our-application-forms`,
+        to: `/funding/funding-guidance/help-using-our-application-forms`,
     }),
     withRegionPrefixes({
         from: `/funding/funding-guidance/applying-for-funding/information-checks`,
@@ -385,7 +381,7 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/funding/funding-guidance/managing-your-funding/self-evaluation`,
-        to: `/funding/funding-guidance/evaluation`,
+        to: `/funding/managing-your-grant/gathering-evidence-and-learning`,
     }),
     withRegionPrefixes({
         from: `/funding/past-grants`,

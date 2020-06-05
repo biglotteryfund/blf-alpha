@@ -6,7 +6,7 @@ const {
     injectHeroImage,
     injectListingContent,
 } = require('../../common/inject-content');
-const { basicContent, flexibleContentPage } = require('../common');
+const { flexibleContentPage } = require('../common');
 
 const router = express.Router();
 
@@ -44,8 +44,6 @@ router.use('/publications', require('./publications'));
  * Past grants router
  */
 router.use('/grants', require('./grants'));
-
-router.use('/funding-guidance/*', basicContent());
 
 /**
  * Custom override: Free materials
