@@ -6,7 +6,7 @@ const {
     injectHeroImage,
     injectListingContent,
 } = require('../../common/inject-content');
-const { basicContent, flexibleContentPage } = require('../common');
+const { flexibleContentPage } = require('../common');
 
 const router = express.Router();
 
