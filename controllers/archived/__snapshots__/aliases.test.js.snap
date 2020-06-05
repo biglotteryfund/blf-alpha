@@ -2611,46 +2611,6 @@ Array [
     "to": "/welsh/funding/managing-your-grant/under-10k",
   },
   Object {
-    "from": "/funding/funding-guidance",
-    "to": "/funding",
-  },
-  Object {
-    "from": "/welsh/funding/funding-guidance",
-    "to": "/welsh/funding",
-  },
-  Object {
-    "from": "/england/funding/funding-guidance",
-    "to": "/funding",
-  },
-  Object {
-    "from": "/welsh/england/funding/funding-guidance",
-    "to": "/welsh/funding",
-  },
-  Object {
-    "from": "/scotland/funding/funding-guidance",
-    "to": "/funding",
-  },
-  Object {
-    "from": "/welsh/scotland/funding/funding-guidance",
-    "to": "/welsh/funding",
-  },
-  Object {
-    "from": "/northernireland/funding/funding-guidance",
-    "to": "/funding",
-  },
-  Object {
-    "from": "/welsh/northernireland/funding/funding-guidance",
-    "to": "/welsh/funding",
-  },
-  Object {
-    "from": "/wales/funding/funding-guidance",
-    "to": "/funding",
-  },
-  Object {
-    "from": "/welsh/wales/funding/funding-guidance",
-    "to": "/welsh/funding",
-  },
-  Object {
     "from": "/funding/funding-guidance/applying-for-funding",
     "to": "/funding",
   },
@@ -2732,43 +2692,43 @@ Array [
   },
   Object {
     "from": "/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/funding-guidance/help-using-our-application-forms",
+    "to": "/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/welsh/funding-guidance/help-using-our-application-forms",
+    "to": "/welsh/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/england/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/funding-guidance/help-using-our-application-forms",
+    "to": "/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/welsh/funding-guidance/help-using-our-application-forms",
+    "to": "/welsh/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/funding-guidance/help-using-our-application-forms",
+    "to": "/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/welsh/funding-guidance/help-using-our-application-forms",
+    "to": "/welsh/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/funding-guidance/help-using-our-application-forms",
+    "to": "/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/welsh/funding-guidance/help-using-our-application-forms",
+    "to": "/welsh/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/wales/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/funding-guidance/help-using-our-application-forms",
+    "to": "/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms",
-    "to": "/welsh/funding-guidance/help-using-our-application-forms",
+    "to": "/welsh/funding/funding-guidance/help-using-our-application-forms",
   },
   Object {
     "from": "/funding/funding-guidance/applying-for-funding/information-checks",
@@ -3092,43 +3052,43 @@ Array [
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/evaluation",
+    "to": "/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/evaluation",
+    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
   },
   Object {
     "from": "/funding/past-grants",
