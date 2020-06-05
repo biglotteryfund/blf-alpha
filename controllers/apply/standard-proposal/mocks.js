@@ -10,7 +10,7 @@ function mockResponse(overrides = {}) {
         projectLocation: 'derbyshire',
         projectLocationDescription: 'description',
         projectCosts: '250,000',
-        projectDurationYears: 3,
+        projectDurationYears: 1,
         yourIdeaProject: faker.lorem.words(random(50, 500)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),

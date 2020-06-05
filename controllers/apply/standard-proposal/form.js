@@ -1,4 +1,5 @@
 'use strict';
+const config = require('config');
 const { oneLine } = require('common-tags');
 const clone = require('lodash/clone');
 const compact = require('lodash/compact');
@@ -11,10 +12,15 @@ const { Step } = require('../lib/step-model');
 
 const fieldsFor = require('./fields');
 
-module.exports = function ({ locale = 'en', data = {}, metadata = {} } = {}) {
+module.exports = function ({
+    locale = 'en',
+    data = {},
+    metadata = {},
+    flags = config.get('standardFundingProposal'),
+} = {}) {
     const localise = get(locale);
 
-    const allFields = fieldsFor({ locale, data });
+    const allFields = fieldsFor({ locale, data, flags });
 
     const projectCountries = getOr([], 'projectCountries')(data);
 
@@ -89,7 +95,12 @@ module.exports = function ({ locale = 'en', data = {}, metadata = {} } = {}) {
 
     function stepProjectDuration() {
         function fields() {
-            if (projectCountries.length < 2) {
+            if (
+                projectCountries.includes('england') &&
+                flags.enableEnglandAutoProjectDuration
+            ) {
+                return [];
+            } else if (projectCountries.length < 2) {
                 return [allFields.projectDurationYears];
             } else {
                 return [];
@@ -301,6 +312,18 @@ module.exports = function ({ locale = 'en', data = {}, metadata = {} } = {}) {
             const enriched = clone(data);
             if (metadata && metadata.programme) {
                 enriched.projectName = `${metadata.programme.title}: ${enriched.projectName}`;
+            }
+
+            /**
+             * If projectCountries contains England
+             * then pre-fill the projectDurationYears to 1 year
+             * as this question is hidden from them
+             */
+            if (
+                enriched.projectCountries.includes('england') &&
+                flags.enableEnglandAutoProjectDuration
+            ) {
+                enriched.projectDurationYears = 1;
             }
             return enriched;
         },

@@ -1212,8 +1212,11 @@ function standardApplication({
         );
         submitStep();
 
-        cy.findByLabelText(mock.projectDurationYears).click();
-        submitStep();
+        // This field only exists for non-England forms
+        if (!mock.projectCountries.includes('England')) {
+            cy.findByLabelText(mock.projectDurationYears).click();
+            submitStep();
+        }
 
         cy.findByLabelText('What would you like to do?')
             .invoke('val', mock.yourIdeaProject)

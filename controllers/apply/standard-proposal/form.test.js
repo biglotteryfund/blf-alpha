@@ -94,6 +94,17 @@ test('strip projectDurationYears when applying for more than one country', () =>
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
 });
 
+test('set projectDurationYears to 1 when applying for England', () => {
+    const form = formBuilder({
+        data: mockResponse({
+            projectCountries: ['england'],
+            projectDurationYears: 5,
+        }),
+    });
+    const salesforceResult = form.forSalesforce();
+    expect(salesforceResult.projectDurationYears).toBe(1);
+});
+
 test('organisation sub-type required for statutory-body', function () {
     const requiredData = mockResponse({ organisationType: 'statutory-body' });
     const requiredResult = formBuilder({ data: requiredData }).validation;
