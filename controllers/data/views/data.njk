@@ -1,4 +1,5 @@
-{% extends "layouts/main.njk" %}
+{% extends "controllers/common/views/flexible-content-page.njk" %}
+
 {% from "components/data.njk" import statsGrid %}
 {% from "components/hero.njk" import hero with context %}
 
@@ -18,64 +19,53 @@
     </section>
 {% endmacro %}
 
-{% block content %}
-    <main role="main" id="content">
-        {{ hero(title, pageHero.image) }}
+{% block contentPrimary %}
 
-        <div class="nudge-up">
-            <div class="content-box content-box--borderless u-inner-wide-only">
-                <h2 class="t2 t--underline">{{ copy.keyStats }}</h2>
-                {{ statsGrid(dataStats.stats) }}
+    <div class="content-box content-box--borderless u-inner-wide-only">
+        <h2 class="t2 t--underline">{{ copy.keyStats }}</h2>
+        {{ statsGrid(content.stats) }}
 
-                <p class="u-text-x-small u-margin-top">{{ copy.disclaimer }}</p>
+        <p class="u-text-x-small u-margin-top">{{ copy.disclaimer }}</p>
+    </div>
+
+    <aside class="map-holder u-border-top-brand-primary u-margin-bottom">
+        <div class="map-holder__inner u-inner-wide-only u-padded">
+            <h2 class="t2 t--underline">{{ copy.mapTitle }}</h2>
+
+            <div class="map-wrapper" role="tablist">
+                {% include "includes/uk-countries.njk" %}
             </div>
 
-            <aside class="map-holder u-border-top-brand-primary u-margin-bottom">
-                <div class="map-holder__inner u-inner-wide-only u-padded">
-                    <h2 class="t2 t--underline">{{ copy.mapTitle }}</h2>
+            <div id="js-map-panes" class="map-panes js-paneset">
+                {% set regionTitles = __('global.regions') %}
+                {{ mapPane(
+                    id = 'england',
+                    title = regionTitles.england,
+                    stats = content.regions.england,
+                    isActive = true
+                ) }}
+                {{ mapPane(
+                    id = 'northern-ireland',
+                    title = regionTitles.northernIreland,
+                    stats = content.regions.northernIreland
+                ) }}
+                {{ mapPane(
+                    id = 'scotland',
+                    title = regionTitles.scotland,
+                    stats = content.regions.scotland
+                ) }}
+                {{ mapPane(
+                    id = 'wales',
+                    title = regionTitles.wales,
+                    stats = content.regions.wales
+                ) }}
+            </div>
 
-                    <div class="map-wrapper" role="tablist">
-                        {% include "includes/uk-countries.njk" %}
-                    </div>
-
-                    <div id="js-map-panes" class="map-panes js-paneset">
-                        {% set regionTitles = __('global.regions') %}
-                        {{ mapPane(
-                            id = 'england',
-                            title = regionTitles.england,
-                            stats = dataStats.regions.england,
-                            isActive = true
-                        ) }}
-                        {{ mapPane(
-                            id = 'northern-ireland',
-                            title = regionTitles.northernIreland,
-                            stats = dataStats.regions.northernIreland
-                        ) }}
-                        {{ mapPane(
-                            id = 'scotland',
-                            title = regionTitles.scotland,
-                            stats = dataStats.regions.scotland
-                        ) }}
-                        {{ mapPane(
-                            id = 'wales',
-                            title = regionTitles.wales,
-                            stats = dataStats.regions.wales
-                        ) }}
-                    </div>
-
-                </div>
-            </aside>
-
-            <section class="s-prose u-padded u-inner" id="open-data">
-                <h2>{{ copy.openData.title}}</h2>
-                <p>{{ copy.openData.content.intro | safe }}</p>
-                <ul>
-                    {% for link in copy.openData.content.links %}
-                        <li><a href="{{ link.href }}">{{ copy.openData.linkPrefix }} {{ link.label }}</a></li>
-                    {% endfor %}
-                </ul>
-                <p>{{ copy.openData.content.outro | safe }}</p>
-            </section>
         </div>
-    </main>
+    </aside>
+
+    <section id="open-data">
+        {# CMS content #}
+        {{ super() }}
+    </section>
 {% endblock %}
