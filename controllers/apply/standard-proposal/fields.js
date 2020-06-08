@@ -131,7 +131,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             locale: locale,
             name: 'projectCountries',
             label: localise({
-                en: `What country (or countries) will your project take place in?`,
+                en: `Which country will your project take place in?`,
                 cy: ``,
             }),
             explanation: localise({
@@ -149,6 +149,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
              *
              * Multiple selection disabled until UK-portfolio is enabled.
              * Remove and switch back to checkbox when launching UK-portfolio
+             * and change reference to "Which country" above
              */
             schema: Joi.array()
                 .items(
@@ -358,10 +359,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     type: 'number.min',
                     message: localise({
                         en: oneLine`The amount you ask for must be more than £10,000.
-                            If you need less than £10,000, apply today through
-                            <a href="/funding/under10k">
-                                National Lottery Awards for All
-                            </a>`,
+                            If you need less than this, 
+                            <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
                         cy: ``,
                     }),
                 },
