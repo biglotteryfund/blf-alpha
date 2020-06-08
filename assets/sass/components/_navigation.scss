@@ -152,11 +152,14 @@
         }
     }
     .split-nav__prev {
+        margin-right: $spacingUnit;
         &::before {
             content: '← ';
         }
     }
     .split-nav__next {
+        margin-left: $spacingUnit;
+        text-align: right;
         &::after {
             content: ' →';
         }
