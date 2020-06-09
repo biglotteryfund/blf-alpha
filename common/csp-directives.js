@@ -25,6 +25,7 @@ module.exports = function cspDirectives() {
         'use.typekit.net',
         '*.bootstrapcdn.com',
         '*.soundcloud.com',
+        'emails-tnlcommunityfund.org.uk',
         new URL(CONTENT_API_URL).host,
     ];
 
