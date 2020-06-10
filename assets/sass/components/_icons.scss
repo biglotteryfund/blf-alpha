@@ -84,7 +84,7 @@ $spinnerColour: get-color('brand', 'primary');
 // to avoid confusion
 
 
-p[class^="cms-icon-"]::before {
+p[class*="cms-icon-"]::before {
     content: '';
     width: 15px;
     height: 15px;
