@@ -247,3 +247,21 @@
     padding: $spacingUnit 0;
     border-top: 1px solid get-color('border', 'base');
 }
+
+
+/* =========================================================================
+   Flexible Content blocks
+   ========================================================================= */
+
+.grid-block {
+    // Allows fitting in longer strings like email addresses
+    // into nested flexible content blocks
+    p {
+        font-size: 18px;
+    }
+}
+
+// Populated via the CMS to indicate text with a small font size
+p.cms-type-small {
+    font-size: 16px;
+}
