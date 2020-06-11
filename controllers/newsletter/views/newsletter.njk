@@ -12,111 +12,131 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="content-box u-inner-wide-only nudge-up">
-            {% if status === 'SUCCESS' %}
-                <div class="s-prose">
-                    <h3>{{ copy.responses.success.title }}</h3>
-                    <p>{{ copy.responses.success.body | safe }}</p>
-                </div>
-            {% elseif status === 'ERROR' %}
-                <h3>{{ copy.responses.error.title }}</h3>
-                <p>{{ copy.responses.error.body | safe }}</p>
-            {% else %}
 
-                <form class="form-theme-slim" method="post" novalidate>
+            <div class="content-sidebar">
 
-                    {% if csrfToken %}
-                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                    {% endif %}
+                <div class="content-sidebar__primary">
+                    {% if status === 'SUCCESS' %}
+                        <div class="s-prose">
+                            <h3>{{ copy.responses.success.title }}</h3>
+                            <p>{{ copy.responses.success.body | safe }}</p>
+                        </div>
+                    {% elseif status === 'ERROR' %}
+                        <h3>{{ copy.responses.error.title }}</h3>
+                        <p>{{ copy.responses.error.body | safe }}</p>
+                    {% else %}
 
-                    {% set introCopy = copy.stakeholder if contactType === 'insights' else copy.standard  %}
+                        <form class="form-theme-slim" method="post" novalidate>
 
-                    <h2 class="t1 t--underline">{{ introCopy.heading }}</h2>
-                    {{ introCopy.intro | safe }}
-
-                    {{ formErrors(
-                        errors = errors,
-                        title = copy.responses.error.title
-                    ) }}
-
-                    <fieldset class="form-fieldset form-fieldset--details">
-                        <legend class="form-fieldset__legend u-visually-hidden">
-                            {{ copy.yourDetails }}
-                        </legend>
-                        <div class="form-fieldset__fields">
-
-                            <div class="flex-grid flex-grid--2up">
-                                <div class="flex-grid__item u-no-margin">
-                                    {{ formField({
-                                        type: 'text',
-                                        name: 'firstName',
-                                        autocompleteName: 'given-name',
-                                        label: copy.fields.firstName,
-                                        value: formValues.firstName,
-                                        isRequired: true
-                                    }, errors = errors) }}
-                                </div>
-                                <div class="flex-grid__item u-no-margin">
-                                    {{ formField({
-                                        type: 'text',
-                                        name: 'lastName',
-                                        autocompleteName: 'family-name',
-                                        label: copy.fields.lastName,
-                                        value: formValues.lastName,
-                                        isRequired: true
-                                    }, errors = errors) }}
-                                </div>
-                            </div>
-
-                            {{ formField({
-                                type: 'email',
-                                name: 'email',
-                                autocompleteName: 'email',
-                                label: copy.fields.emailAddress,
-                                value: formValues.email,
-                                placeholder: 'yourname@example.com',
-                                isRequired: true
-                            }, errors = errors) }}
-
-                            {% if contactType === 'insights' %}
-                                <div class="flex-grid flex-grid--2up">
-                                    <div class="flex-grid__item u-no-margin">
-                                        {{ formField({
-                                            type: 'text',
-                                            name: 'jobTitle',
-                                            autocompleteName: 'job-title',
-                                            label: copy.fields.jobTitle,
-                                            value: formValues.jobTitle,
-                                            isRequired: true
-                                        }, errors = errors) }}
-                                    </div>
-                                    <div class="flex-grid__item u-no-margin">
-                                        {{ formField({
-                                            name: 'sector',
-                                            type: 'select',
-                                            label: copy.fields.sector,
-                                            value: formValues.sector,
-                                            options: validSectors
-                                        }, errors = errors) }}
-                                    </div>
-                                </div>
+                            {% if csrfToken %}
+                                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                             {% endif %}
 
-                            {{ formField({
-                                name: 'location',
-                                type: 'radio',
-                                label: copy.fields.location,
-                                value: formValues.location,
-                                options: validLocations
-                            }, errors = errors) }}
+                            {% set introCopy = copy.stakeholder if contactType === 'insights' else copy.standard  %}
 
-                        </div>
-                    </fieldset>
+                            <h2 class="t1 t--underline">{{ introCopy.heading }}</h2>
+                            {{ introCopy.intro | safe }}
 
-                    <input type="submit"
-                           value="{{ copy.callToAction }}"
-                           class="btn btn--small"/>
-                </form>
-            {% endif %}
+                            {{ formErrors(
+                                errors = errors,
+                                title = copy.responses.error.title
+                            ) }}
+
+                            <fieldset class="form-fieldset form-fieldset--details">
+                                <legend class="form-fieldset__legend u-visually-hidden">
+                                    {{ copy.yourDetails }}
+                                </legend>
+                                <div class="form-fieldset__fields">
+
+                                    <div class="flex-grid flex-grid--2up">
+                                        <div class="flex-grid__item u-no-margin">
+                                            {{ formField({
+                                                type: 'text',
+                                                name: 'firstName',
+                                                autocompleteName: 'given-name',
+                                                label: copy.fields.firstName,
+                                                value: formValues.firstName,
+                                                isRequired: true
+                                            }, errors = errors) }}
+                                        </div>
+                                        <div class="flex-grid__item u-no-margin">
+                                            {{ formField({
+                                                type: 'text',
+                                                name: 'lastName',
+                                                autocompleteName: 'family-name',
+                                                label: copy.fields.lastName,
+                                                value: formValues.lastName,
+                                                isRequired: true
+                                            }, errors = errors) }}
+                                        </div>
+                                    </div>
+
+                                    {{ formField({
+                                        type: 'email',
+                                        name: 'email',
+                                        autocompleteName: 'email',
+                                        label: copy.fields.emailAddress,
+                                        value: formValues.email,
+                                        placeholder: 'yourname@example.com',
+                                        isRequired: true
+                                    }, errors = errors) }}
+
+                                    {% if contactType === 'insights' %}
+                                        <div class="flex-grid flex-grid--2up">
+                                            <div class="flex-grid__item u-no-margin">
+                                                {{ formField({
+                                                    type: 'text',
+                                                    name: 'jobTitle',
+                                                    autocompleteName: 'job-title',
+                                                    label: copy.fields.jobTitle,
+                                                    value: formValues.jobTitle,
+                                                    isRequired: true
+                                                }, errors = errors) }}
+                                            </div>
+                                            <div class="flex-grid__item u-no-margin">
+                                                {{ formField({
+                                                    name: 'sector',
+                                                    type: 'select',
+                                                    label: copy.fields.sector,
+                                                    value: formValues.sector,
+                                                    options: validSectors
+                                                }, errors = errors) }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    {{ formField({
+                                        name: 'location',
+                                        type: 'radio',
+                                        label: copy.fields.location,
+                                        value: formValues.location,
+                                        options: validLocations
+                                    }, errors = errors) }}
+
+                                </div>
+                            </fieldset>
+
+                            <input type="submit"
+                                   value="{{ copy.callToAction }}"
+                                   class="btn btn--small"/>
+                        </form>
+
+                    {% endif %}
+                </div>
+
+                <div class="content-sidebar__secondary">
+                    <div class="js-newsletter-preview u-hidden u-tone-background-tint u-padded s-prose"
+                         data-dd-uid="5P0C"
+                         data-dd-cid="A5KMIFI43"
+                         data-dd-tagname=""
+                         data-dd-count="10"
+                         data-dd-showdate="true">
+                        <h3>Latest newsletters</h3>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </main>
 {% endblock %}
