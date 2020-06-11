@@ -18,7 +18,7 @@ router.get('/', injectHeroImage('fsn-new'), async function (req, res, next) {
         res.render(path.resolve(__dirname, './views/data'), {
             title: dataStats.title,
             openGraph: get(dataStats, 'openGraph', false),
-            dataStats: dataStats,
+            content: dataStats,
         });
     } catch (error) {
         next(error);

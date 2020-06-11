@@ -319,6 +319,42 @@ function preventDoubleSubmits() {
     );
 }
 
+function showNewsletterPreviews() {
+    const newsletterPreviews = $('.js-newsletter-preview');
+    newsletterPreviews.each(function () {
+        const $previewElm = $(this);
+        const apiConfig = {
+            output: 2,
+            uid: $previewElm.data('dd-uid'),
+            cid: $previewElm.data('dd-cid'),
+            tagname: $previewElm.data('dd-tagname'),
+            count: $previewElm.data('dd-count'),
+            showdate: $previewElm.data('dd-showdate'),
+            wid: false,
+            fid: false,
+        };
+        $.ajax({
+            url: 'https://emails-tnlcommunityfund.org.uk/RssCampaignFeed',
+            jsonp: 'callback',
+            dataType: 'jsonp',
+            data: apiConfig,
+            success: function (response) {
+                if (response.items) {
+                    let html = '<ul>';
+                    response.items.forEach((item) => {
+                        html += `<li>
+                            <a href="${item.CantReadUrl}">${item.Name}</a><br />
+                            (${item.DateSent})
+                        </li>`;
+                    });
+                    html += '</ul>';
+                    $previewElm.append(html).removeClass('u-hidden');
+                }
+            },
+        });
+    });
+}
+
 function init() {
     handleConditionalRadios();
     handleExpandingDetails();
@@ -326,6 +362,7 @@ function init() {
     updateSecondaryNav();
     showLocalSaveWarning();
     preventDoubleSubmits();
+    showNewsletterPreviews();
 
     // Hotjar tagging
     initHotjarTracking();
