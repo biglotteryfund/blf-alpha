@@ -26,7 +26,7 @@
                         <p>{{ copy.responses.error.body | safe }}</p>
                     {% else %}
 
-                        <form class="form-theme-slim" method="post" novalidate>
+                        <form method="post" novalidate>
 
                             {% if csrfToken %}
                                 <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -48,28 +48,23 @@
                                 </legend>
                                 <div class="form-fieldset__fields">
 
-                                    <div class="flex-grid flex-grid--2up">
-                                        <div class="flex-grid__item u-no-margin">
-                                            {{ formField({
-                                                type: 'text',
-                                                name: 'firstName',
-                                                autocompleteName: 'given-name',
-                                                label: copy.fields.firstName,
-                                                value: formValues.firstName,
-                                                isRequired: true
-                                            }, errors = errors) }}
-                                        </div>
-                                        <div class="flex-grid__item u-no-margin">
-                                            {{ formField({
-                                                type: 'text',
-                                                name: 'lastName',
-                                                autocompleteName: 'family-name',
-                                                label: copy.fields.lastName,
-                                                value: formValues.lastName,
-                                                isRequired: true
-                                            }, errors = errors) }}
-                                        </div>
-                                    </div>
+                                        {{ formField({
+                                            type: 'text',
+                                            name: 'firstName',
+                                            autocompleteName: 'given-name',
+                                            label: copy.fields.firstName,
+                                            value: formValues.firstName,
+                                            isRequired: true
+                                        }, errors = errors) }}
+
+                                        {{ formField({
+                                            type: 'text',
+                                            name: 'lastName',
+                                            autocompleteName: 'family-name',
+                                            label: copy.fields.lastName,
+                                            value: formValues.lastName,
+                                            isRequired: true
+                                        }, errors = errors) }}
 
                                     {{ formField({
                                         type: 'email',
