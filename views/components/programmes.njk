@@ -64,7 +64,7 @@
                     {% endif %}
                     <div class="o-media__body">
                         <h4 class="u-tone-brand-primary">{{ programme.title }}</h4>
-                        {{ programme.intro | safe }}
+                        {{ programme.trailText | safe }}
                         <p class="u-no-margin"><a href="{{ programme.linkUrl }}">{{ __('news.readMoreAboutProgramme') }}</a></p>
                     </div>
                 </div>
