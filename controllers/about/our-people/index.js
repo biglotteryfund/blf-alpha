@@ -2,9 +2,7 @@
 const express = require('express');
 const path = require('path');
 
-const {
-    injectHeroImage,
-} = require('../../../common/inject-content');
+const { injectHeroImage } = require('../../../common/inject-content');
 const contentApi = require('../../../common/content-api');
 
 const { flexibleContentPage } = require('../../common');
@@ -49,6 +47,13 @@ router.get('/', injectHeroImage('mental-health-foundation-new'), function (
     res.render(path.resolve(__dirname, './views/our-people'));
 });
 
-router.use('/:slug', flexibleContentPage());
+router.use(
+    '/:slug',
+    (req, res, next) => {
+        res.locals.showSiblings = true;
+        next();
+    },
+    flexibleContentPage()
+);
 
 module.exports = router;

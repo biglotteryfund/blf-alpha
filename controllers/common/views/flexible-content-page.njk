@@ -7,6 +7,26 @@
 
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
+{% macro listSiblingPages(siblings) %}
+    <nav class="nested-menu">
+        <h2 class="nested-menu__section t4">
+            <a class="nested-menu__section-link" href="./">
+                {{ sectionTitle }}
+            </a>
+        </h2>
+        <ul class="nested-menu__children">
+            {% for link in siblings %}
+                <li class="nested-menu__item">
+                    <a class="nested-menu__link{% if link.title === title %} is-active{% endif %}"
+                       href="{{ link.linkUrl }}">
+                        {{ link.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endmacro %}
+
 {% block content %}
     <main role="main" id="content">
         {% if pageHero.image %}
@@ -19,14 +39,36 @@
             {{ pageTitle(title) }}
         {% endif %}
 
-        {% block contentPrimary %}
-            {% if content.flexibleContent %}
-                {{ flexibleContent(
+        {% set shouldShowSiblings = showSiblings and content.siblings.length > 0 %}
+
+        {% if content.flexibleContent %}
+            {% set allContentBlocks =
+                flexibleContent(
                     content.flexibleContent,
                     children = content.children,
                     breadcrumbs = breadcrumbTrail(breadcrumbs)
-                ) }}
+                )
+            %}
+        {% endif %}
+
+        {% block contentPrimary %}
+
+            {# Some CMS pages should show a sidebar with their sibling pages #}
+            {% if shouldShowSiblings %}
+                <div class="page-section u-inner-wide-only">
+                    <div class="page-section__content">
+                        {{ allContentBlocks }}
+                    </div>
+                    <div class="page-section__supplementary">
+                        <aside class="content-box">
+                            {{ listSiblingPages(content.siblings) }}
+                        </aside>
+                    </div>
+                </div>
+            {% else %}
+                {{ allContentBlocks }}
             {% endif %}
+
         {% endblock %}
 
         {% if pageHero.image %}</div>{% endif %}
