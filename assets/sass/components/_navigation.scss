@@ -113,6 +113,11 @@
     padding-top: $spacingUnit;
     margin-bottom: $spacingUnit;
 
+    &.table-of-contents--no-divider {
+        border-top: none;
+        padding-top: 0;
+    }
+
     li {
         list-style: none;
         margin-left: 0.5em;
