@@ -76,19 +76,20 @@ router.get('/:programme/:slug', checkProgramme, async function (
         res.locals.breadcrumbs = res.locals.breadcrumbs.concat(
             {
                 label: 'Publications',
-                url: req.baseUrl + '/publications',
+                url: req.baseUrl,
             },
             {
                 label: publication.meta.programme.title,
-                url:
-                    req.baseUrl +
-                    '/publications/' +
-                    publication.meta.programme.slug,
+                url: `${req.baseUrl}/${publication.meta.programme.slug}`,
             }
         );
         renderFlexibleContentChild(req, res, publication.entry);
     } catch (error) {
-        next(error);
+        if (error.response.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 });
 
