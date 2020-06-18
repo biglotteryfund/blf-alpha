@@ -8,7 +8,11 @@ const router = express.Router();
 
 router.get('/', flexibleContentPage());
 
-router.use('/our-people', require('./our-people'));
+// Show the Siblings sidebar for Our People section
+router.get('/our-people/*', (req, res, next) => {
+    res.locals.showSiblings = true;
+    next();
+});
 
 if (isNotProduction) {
     router.use('/newsletter', require('../newsletter'));

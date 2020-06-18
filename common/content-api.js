@@ -392,14 +392,6 @@ function getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
         .then(getAttrs);
 }
 
-function getOurPeople(locale, searchParams = {}) {
-    return queryContentApi(`v1/${locale}/our-people`, {
-        searchParams: withPreviewParams(searchParams),
-    })
-        .json()
-        .then(mapAttrs);
-}
-
 function getDataStats(locale, searchParams = {}) {
     return queryContentApi(`v1/${locale}/data`, {
         searchParams: withPreviewParams(searchParams),
@@ -435,7 +427,6 @@ module.exports = {
     getHomepage,
     getListingPage,
     getMerchandise,
-    getOurPeople,
     getPublications,
     getPublicationTags,
     getResearch,
