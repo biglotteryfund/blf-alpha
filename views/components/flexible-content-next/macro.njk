@@ -16,17 +16,19 @@
 
         {% for part in flexibleContent %}
 
-            {% if part.type === 'childPageList' and children.length > 0 %}
-                {% set useContentBox = part.displayMode !== 'grid' %}
+            {% if part.type === 'childPageList' %}
+                {% if children.length > 0 %}
+                    {% set useContentBox = part.displayMode !== 'grid' %}
 
-                {% if useContentBox %}
-                    <section class="content-box u-inner-wide-only" id="{{ flexAnchor + '-' + loop.index }}">
-                {% endif %}
+                    {% if useContentBox %}
+                        <section class="content-box u-inner-wide-only" id="{{ flexAnchor + '-' + loop.index }}">
+                    {% endif %}
 
-                {{ childPages(children, part.displayMode) }}
+                    {{ childPages(children, part.displayMode) }}
 
-                {% if useContentBox %}
-                    </section>
+                    {% if useContentBox %}
+                        </section>
+                    {% endif %}
                 {% endif %}
             {% elseif part.type === 'relatedContent' %}
                 <section class="u-inner">
@@ -127,9 +129,11 @@
 
                         </article>
                     {% elseif part.type === 'tableOfContents' %}
-                        <div class="s-prose u-constrained-content-wide">
-                            {{ part.content | safe }}
-                        </div>
+                        {% if part.content %}
+                            <div class="s-prose u-constrained-content-wide">
+                                {{ part.content | safe }}
+                            </div>
+                        {% endif %}
 
                         {% if part.lastUpdated %}
                             <div class="message message--minor">
@@ -138,7 +142,7 @@
                             </div>
                         {% endif %}
 
-                        {{ tableOfContents(flexibleContent, anchor = flexAnchor) }}
+                        {{ tableOfContents(flexibleContent, anchor = flexAnchor, hideDivider = not part.content) }}
                     {% else %}
                         <div class="s-prose u-constrained-content-wide">
                             {% if part.type === 'contentArea' %}

@@ -1,6 +1,6 @@
-{% macro tableOfContents(flexibleContent, anchor) %}
+{% macro tableOfContents(flexibleContent, anchor, hideDivider = false) %}
     {% if flexibleContent.length > 1 %}
-        <div class="table-of-contents">
+        <div class="table-of-contents{% if hideDivider %} table-of-contents--no-divider{% endif %}">
             <ul>
                 {% for block in flexibleContent %}
                     {% set titleToUse = block.tocTitle or block.title %}
