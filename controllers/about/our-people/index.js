@@ -2,11 +2,10 @@
 const express = require('express');
 const path = require('path');
 
-const {
-    injectHeroImage,
-    setCommonLocals,
-} = require('../../../common/inject-content');
+const { injectHeroImage } = require('../../../common/inject-content');
 const contentApi = require('../../../common/content-api');
+
+const { flexibleContentPage } = require('../../common');
 
 const router = express.Router();
 
@@ -33,6 +32,14 @@ router.use(async function (req, res, next) {
     }
 });
 
+router.use(function (req, res, next) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
+        label: req.i18n.__('ourPeople.title'),
+        url: req.baseUrl,
+    });
+    next();
+});
+
 router.get('/', injectHeroImage('mental-health-foundation-new'), function (
     req,
     res
@@ -40,20 +47,13 @@ router.get('/', injectHeroImage('mental-health-foundation-new'), function (
     res.render(path.resolve(__dirname, './views/our-people'));
 });
 
-router.get('/:slug', async function (req, res, next) {
-    const entry = res.locals.people.find(function (item) {
-        return item.slug === req.params.slug;
-    });
-
-    if (entry) {
-        setCommonLocals(req, res, entry);
-
-        res.render(path.resolve(__dirname, './views/profiles'), {
-            entry: entry,
-        });
-    } else {
+router.use(
+    '/:slug',
+    (req, res, next) => {
+        res.locals.showSiblings = true;
         next();
-    }
-});
+    },
+    flexibleContentPage()
+);
 
 module.exports = router;

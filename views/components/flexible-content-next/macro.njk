@@ -103,6 +103,29 @@
                         ) }}
                     {% elseif part.type === 'factRiver' %}
                         {{ factRiver(part.content) }}
+                    {% elseif part.type === 'person' %}
+                        <article id="profile-{{ part.name | slugify }}">
+
+                            {% if part.image and part.image.type === 'large' %}
+                                <figure>
+                                    <img src="{{ part.image.url }}" alt="{{ part.name }}">
+                                </figure>
+                            {% endif %}
+
+                            <div class="s-prose">
+                                {% if part.role %}
+                                    <h3>{{ part.role }}</h3>
+                                {% endif %}
+
+                                {% if part.image and part.image.type === 'small' %}
+                                    <img src="{{ part.image.url }}" alt="{{ part.name }}" width="100"
+                                         style="float: left; margin-right: 20px; margin-bottom: 10px;" />
+                                {% endif %}
+
+                                {{ part.bio | safe }}
+                            </div>
+
+                        </article>
                     {% elseif part.type === 'tableOfContents' %}
                         <div class="s-prose u-constrained-content-wide">
                             {{ part.content | safe }}
