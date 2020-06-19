@@ -39,7 +39,7 @@
                     {% if entry.body %}
                         {{ entry.body | safe }}
                     {% else %}
-                        {{ flexibleContent(entry.content) }}
+                        {{ flexibleContent(entry.flexibleContent) }}
                     {% endif %}
 
                     {% if entry.documentGroups.length > 0 %}

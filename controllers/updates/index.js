@@ -114,7 +114,7 @@ router.get(
                     res.redirect(entry.linkUrl);
                 } else if (entry.articleLink) {
                     res.redirect(entry.articleLink);
-                } else if (entry.content.length > 0) {
+                } else if (entry.flexibleContent.length > 0) {
                     renderPressDetail(req, res, entry);
                 } else {
                     next();
@@ -232,7 +232,7 @@ router.get(
                 const entry = updatesResponse.result;
                 if (shouldRedirectLinkUrl(req, entry)) {
                     res.redirect(entry.linkUrl);
-                } else if (entry.content.length > 0) {
+                } else if (entry.flexibleContent.length > 0) {
                     renderUpdatesDetail(req, res, entry);
                 } else {
                     next();
