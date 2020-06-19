@@ -1,8 +1,12 @@
-{% extends "controllers/common/views/information-page.njk" %}
-{% from "components/hero.njk" import hero with context %}
+{% extends "controllers/common/views/flexible-content-page.njk" %}
+
 {% from "components/promo-card/macro.njk" import promoCard %}
 
-{% block customContent %}
+{% block contentPrimary %}
+
+    {# CMS content #}
+    {{ super() }}
+
     {% if strategicProgrammes.length > 0 %}
         <section class="u-inner-wide-only u-margin-bottom">
             <h2 class="t2 t--underline">Our strategic programmes</h2>

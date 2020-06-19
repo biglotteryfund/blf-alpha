@@ -1,50 +1,44 @@
-{% extends "layouts/main.njk" %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% extends "controllers/common/views/flexible-content-page.njk" %}
+
 {% from "components/card/macro.njk" import card %}
 {% from "components/document-list/macro.njk" import documentList %}
-{% from "components/flexible-content/macro.njk" import flexibleContent %}
-{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
 {% from "../view-helpers.njk" import entryRegions with context %}
 
 {% set copy = __('news') %}
 {% set bodyClass = 'has-static-header' %}
 
-{% macro entryMeta(entry) %}
+{% macro entryMeta(content) %}
     <dl class="o-definition-list o-definition-list--compact">
-        {% if entry.postDate %}
+        {% if content.postDate %}
             <dt>{{ copy.datePublished }}</dt>
             <dd>
-                <time datetime="{{ entry.postDate.date }}">
-                    {{ formatDate(entry.postDate.date) }}
+                <time datetime="{{ content.postDate.date }}">
+                    {{ formatDate(content.postDate.date) }}
                 </time>
             </dd>
         {% endif %}
-        {% if entry.regions.length > 0 %}
+        {% if content.regions.length > 0 %}
             <dt>{{ copy.pressRelease.region }}</dt>
-            <dd>{{ entryRegions(entry.regions, '../') }}</dd>
+            <dd>{{ entryRegions(content.regions, '../') }}</dd>
         {% endif %}
     </dl>
 {% endmacro %}
 
-{% block content %}
-    <main role="main" id="content">
-        {{ pageTitle(title) }}
+{% block contentPrimary %}
 
-        <section class="content-box u-inner-wide-only">
-            {{ breadcrumbTrail(breadcrumbs) }}
+    <div class="u-inner-wide-only">
 
-            <div class="content-sidebar">
-                <div class="content-sidebar__primary s-prose">
-                    {% if entry.body %}
-                        {{ entry.body | safe }}
-                    {% else %}
-                        {{ flexibleContent(entry.flexibleContent) }}
-                    {% endif %}
+        <div class="content-sidebar">
+            <div class="content-sidebar__primary">
+                {# CMS content #}
+                {{ super() }}
 
-                    {% if entry.documentGroups.length > 0 %}
+                <div class="content-box content-box--frameless">
+
+                    {% if content.documentGroups.length > 0 %}
                         <section class="content-box">
-                            {% for group in entry.documentGroups  %}
+                            {% for group in content.documentGroups  %}
                                 <h3 class="t2 t--underline">{{ group.title }}</h3>
                                 {{ documentList(group.files) }}
                                 <div class="s-prose">
@@ -55,38 +49,40 @@
                     {% endif %}
 
                     <div class="content-meta">
-                        {{ entryMeta(entry) }}
+                        {{ entryMeta(content) }}
                     </div>
 
-                    {% if entry.notesToEditors %}
+                    {% if content.notesToEditors %}
                         <aside class="u-tone-background-tint u-padded u-text-medium" id="notes">
                             <h3 class="u-tone-brand-primary">{{ copy.pressRelease.notesToEditors }}</h3>
-                            {{ entry.notesToEditors | safe }}
+                            {{ content.notesToEditors | safe }}
                         </aside>
                     {% endif %}
 
-                    {{ relatedProgrammes(entry.relatedFundingProgrammes) }}
+                    {{ relatedProgrammes(content.relatedFundingProgrammes) }}
                 </div>
 
-                <div class="content-sidebar__secondary">
-                    {% call card(copy.pressRelease.aboutThisPressRelease) %}
+            </div>
+
+            <div class="content-sidebar__secondary">
+                {% call card(copy.pressRelease.aboutThisPressRelease) %}
+                    <div class="s-prose u-text-small u-wrap-links">
+                        {{ entryMeta(content) }}
+                        {% if content.notesToEditors %}
+                            <p><a href="#notes">{{ copy.pressRelease.notesToEditors }}</a></p>
+                        {% endif %}
+                    </div>
+                {% endcall %}
+
+                {% if content.contacts %}
+                    {% call card(copy.pressRelease.contacts) %}
                         <div class="s-prose u-text-small u-wrap-links">
-                            {{ entryMeta(entry) }}
-                            {% if entry.notesToEditors %}
-                                <p><a href="#notes">{{ copy.pressRelease.notesToEditors }}</a></p>
-                            {% endif %}
+                            {{ content.contacts | safe }}
                         </div>
                     {% endcall %}
-
-                    {% if entry.contacts %}
-                        {% call card(copy.pressRelease.contacts) %}
-                            <div class="s-prose u-text-small u-wrap-links">
-                                {{ entry.contacts | safe }}
-                            </div>
-                        {% endcall %}
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
-        </section>
-    </main>
+        </div>
+
+    </div>
 {% endblock %}

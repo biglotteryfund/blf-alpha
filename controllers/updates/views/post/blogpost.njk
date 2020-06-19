@@ -1,40 +1,42 @@
-{% extends "layouts/main.njk" %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% extends "controllers/common/views/flexible-content-page.njk" %}
+
 {% from "components/card/macro.njk" import card %}
-{% from "components/flexible-content/macro.njk" import flexibleContent %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
-{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set copy = __('news') %}
-{% set bodyClass = 'has-static-header' %}
 
-{% macro articleMeta(entry) %}
+{% macro articleMeta(content) %}
     {% call card(copy.aboutThisContent[updateType]) %}
+        {% if content.thumbnail %}
+            <img src="{{ content.thumbnail.medium }}"
+                 alt="{{ content.title }}"
+                 class="u-margin-bottom" />
+        {% endif %}
         <div class="s-prose">
-            {% if entry.postDate %}
+            {% if content.postDate %}
                 <p>
                     <strong>{{ copy.datePublished }}</strong>:<br/>
-                    <time datetime="{{ entry.postDate.date }}">
-                        {{ formatDate(entry.postDate.date) }}
+                    <time datetime="{{ content.postDate.date }}">
+                        {{ formatDate(content.postDate.date) }}
                     </time>
 
-                    {% if entry.category %}
+                    {% if content.category %}
                         {{ __('global.misc.in') }}
-                        <a href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
-                            {{ entry.category.title }}
+                        <a href="{{ localify('/news/' + updateType + '?category=' + content.category.slug) }}">
+                            {{ content.category.title }}
                         </a>
                     {% endif %}
                 </p>
             {% endif %}
 
             <p><strong>
-                {{ copy.author.plural if entry.authors.length > 1  else copy.author.singular }}
+                {{ copy.author.plural if content.authors.length > 1  else copy.author.singular }}
             </strong></p>
 
-            {% for author in entry.authors -%}
+            {% for author in content.authors -%}
                 <div class="o-media u-margin-bottom-s">
                     {% if author.photo %}
                         <img src="{{ author.photo }}"
@@ -59,82 +61,66 @@
     {% endcall %}
 {% endmacro %}
 
-{% block content %}
-    <main role="main" id="content">
-        {{ pageTitle(title) }}
+{% block contentPrimary %}
 
-        <section class="content-box u-inner-wide-only">
-            {{ breadcrumbTrail(breadcrumbs) }}
+    <div class="u-inner-wide-only">
 
-            <div class="content-sidebar">
-                <div class="content-sidebar__primary">
-
-                    {% if entry.thumbnail %}
-                        <img src="{{ entry.thumbnail.medium }}"
-                             alt="{{ entry.title }}"
-                             class="u-margin-bottom" />
-                    {% endif %}
-
-                    {% if entry.body %}
-                        <div class="s-prose">
-                            {{ entry.body | safe }}
-                        </div>
-                    {% else %}
-                        {{ flexibleContent(entry.flexibleContent) }}
-                    {% endif %}
-                </div>
-
-                <div class="content-sidebar__secondary">
-                    {{ articleMeta(entry) }}
-                </div>
+        <div class="content-sidebar">
+            <div class="content-sidebar__primary">
+                {# CMS content #}
+                {{ super() }}
             </div>
 
-            {% if entryTagList.length > 0 %}
-                {{ inlineLinks(
-                    prefix = __('global.misc.topics') | title,
-                    links = entryTagList
+            <div class="content-sidebar__secondary">
+                {{ articleMeta(content) }}
+            </div>
+        </div>
+
+        {% if entryTagList.length > 0 %}
+            {{ inlineLinks(
+                prefix = __('global.misc.topics') | title,
+                links = entryTagList
+            ) }}
+        {% endif %}
+
+        <div class="o-button-group-flex u-gutter-half u-margin-top">
+            <a class="btn btn--small btn--outline"
+                href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
+                data-ga-on="click"
+                data-ga-event-category="Facebook"
+                data-ga-event-action="Share {{ updateType }}">
+                <span class="btn__icon">{{ iconFacebook() }}</span>
+                {{ __('global.misc.share.facebook') }}
+            </a>
+            <a class="btn btn--small btn--outline"
+                href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ content.title }}&via={{ globalCopy.brand.twitter }}"
+                data-ga-on="click"
+                data-ga-event-category="Twitter"
+                data-ga-event-action="Share {{ updateType }}">
+                <span class="btn__icon">{{ iconTwitter() }}</span>
+                {{ __('global.misc.share.twitter')  }}
+            </a>
+        </div>
+
+        {{ relatedProgrammes(content.relatedFundingProgrammes) }}
+
+        {% if content.siblings.next or content.siblings.prev %}
+            {% set prevLink = {
+                "label": content.siblings.prev.title,
+                "url": content.siblings.prev.linkUrl
+            } if content.siblings.prev else false %}
+            {% set nextLink = {
+                "label": content.siblings.next.title,
+                "url": content.siblings.next.linkUrl
+            } if content.siblings.next else false %}
+
+            <div class="u-margin-top-l">
+                {{ splitNav(
+                    prevLink = prevLink,
+                    nextLink = nextLink
                 ) }}
-            {% endif %}
-
-            <div class="o-button-group-flex u-gutter-half u-margin-top">
-                <a class="btn btn--small btn--outline"
-                    href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
-                    data-ga-on="click"
-                    data-ga-event-category="Facebook"
-                    data-ga-event-action="Share {{ updateType }}">
-                    <span class="btn__icon">{{ iconFacebook() }}</span>
-                    {{ __('global.misc.share.facebook') }}
-                </a>
-                <a class="btn btn--small btn--outline"
-                    href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ entry.title }}&via={{ globalCopy.brand.twitter }}"
-                    data-ga-on="click"
-                    data-ga-event-category="Twitter"
-                    data-ga-event-action="Share {{ updateType }}">
-                    <span class="btn__icon">{{ iconTwitter() }}</span>
-                    {{ __('global.misc.share.twitter')  }}
-                </a>
             </div>
+        {% endif %}
 
-            {{ relatedProgrammes(entry.relatedFundingProgrammes) }}
-
-            {% if entry.siblings.next or entry.siblings.prev %}
-                {% set prevLink = {
-                    "label": entry.siblings.prev.title,
-                    "url": entry.siblings.prev.linkUrl
-                } if entry.siblings.prev else false %}
-                {% set nextLink = {
-                    "label": entry.siblings.next.title,
-                    "url": entry.siblings.next.linkUrl
-                } if entry.siblings.next else false %}
-
-                <div class="u-margin-top-l">
-                    {{ splitNav(
-                        prevLink = prevLink,
-                        nextLink = nextLink
-                    ) }}
-                </div>
-            {% endif %}
-
-        </section>
-    </main>
+    </div>
 {% endblock %}

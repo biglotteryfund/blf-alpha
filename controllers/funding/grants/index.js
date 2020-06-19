@@ -309,7 +309,7 @@ router.get('/:id', async function (req, res, next) {
             res.render(path.resolve(__dirname, './views/grant-detail'), {
                 title: data.result.title,
                 grant: grant,
-                projectStory: projectStory,
+                content: projectStory,
                 fundingProgramme: fundingProgramme,
                 breadcrumbs: res.locals.breadcrumbs.concat({
                     label: data.result.title,
