@@ -1,12 +1,16 @@
-{% extends "controllers/common/views/flexible-content-page.njk" %}
+{% extends "layouts/main.njk" %}
 
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/flexible-content-next/macro.njk" import flexibleContent with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% set copy = __('news') %}
+{% set bodyClass = 'has-static-header' %}
 
 {% macro articleMeta(content) %}
     {% call card(copy.aboutThisContent[updateType]) %}
@@ -61,66 +65,74 @@
     {% endcall %}
 {% endmacro %}
 
-{% block contentPrimary %}
+{% block content %}
+    <main role="main" id="content">
+        {{ pageTitle(title) }}
+        <section class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-    <div class="u-inner-wide-only">
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    {# CMS content #}
+                    {{
+                        flexibleContent(
+                            flexibleContent = content.flexibleContent,
+                            distinguishBlocks = false
+                        )
+                    }}
+                </div>
 
-        <div class="content-sidebar">
-            <div class="content-sidebar__primary">
-                {# CMS content #}
-                {{ super() }}
+                <div class="content-sidebar__secondary">
+                    {{ articleMeta(content) }}
+                </div>
             </div>
 
-            <div class="content-sidebar__secondary">
-                {{ articleMeta(content) }}
-            </div>
-        </div>
-
-        {% if entryTagList.length > 0 %}
-            {{ inlineLinks(
-                prefix = __('global.misc.topics') | title,
-                links = entryTagList
-            ) }}
-        {% endif %}
-
-        <div class="o-button-group-flex u-gutter-half u-margin-top">
-            <a class="btn btn--small btn--outline"
-                href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
-                data-ga-on="click"
-                data-ga-event-category="Facebook"
-                data-ga-event-action="Share {{ updateType }}">
-                <span class="btn__icon">{{ iconFacebook() }}</span>
-                {{ __('global.misc.share.facebook') }}
-            </a>
-            <a class="btn btn--small btn--outline"
-                href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ content.title }}&via={{ globalCopy.brand.twitter }}"
-                data-ga-on="click"
-                data-ga-event-category="Twitter"
-                data-ga-event-action="Share {{ updateType }}">
-                <span class="btn__icon">{{ iconTwitter() }}</span>
-                {{ __('global.misc.share.twitter')  }}
-            </a>
-        </div>
-
-        {{ relatedProgrammes(content.relatedFundingProgrammes) }}
-
-        {% if content.siblings.next or content.siblings.prev %}
-            {% set prevLink = {
-                "label": content.siblings.prev.title,
-                "url": content.siblings.prev.linkUrl
-            } if content.siblings.prev else false %}
-            {% set nextLink = {
-                "label": content.siblings.next.title,
-                "url": content.siblings.next.linkUrl
-            } if content.siblings.next else false %}
-
-            <div class="u-margin-top-l">
-                {{ splitNav(
-                    prevLink = prevLink,
-                    nextLink = nextLink
+            {% if entryTagList.length > 0 %}
+                {{ inlineLinks(
+                    prefix = __('global.misc.topics') | title,
+                    links = entryTagList
                 ) }}
-            </div>
-        {% endif %}
+            {% endif %}
 
-    </div>
+            <div class="o-button-group-flex u-gutter-half u-margin-top">
+                <a class="btn btn--small btn--outline"
+                    href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
+                    data-ga-on="click"
+                    data-ga-event-category="Facebook"
+                    data-ga-event-action="Share {{ updateType }}">
+                    <span class="btn__icon">{{ iconFacebook() }}</span>
+                    {{ __('global.misc.share.facebook') }}
+                </a>
+                <a class="btn btn--small btn--outline"
+                    href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ content.title }}&via={{ globalCopy.brand.twitter }}"
+                    data-ga-on="click"
+                    data-ga-event-category="Twitter"
+                    data-ga-event-action="Share {{ updateType }}">
+                    <span class="btn__icon">{{ iconTwitter() }}</span>
+                    {{ __('global.misc.share.twitter')  }}
+                </a>
+            </div>
+
+            {{ relatedProgrammes(content.relatedFundingProgrammes) }}
+
+            {% if content.siblings.next or content.siblings.prev %}
+                {% set prevLink = {
+                    "label": content.siblings.prev.title,
+                    "url": content.siblings.prev.linkUrl
+                } if content.siblings.prev else false %}
+                {% set nextLink = {
+                    "label": content.siblings.next.title,
+                    "url": content.siblings.next.linkUrl
+                } if content.siblings.next else false %}
+
+                <div class="u-margin-top-l">
+                    {{ splitNav(
+                        prevLink = prevLink,
+                        nextLink = nextLink
+                    ) }}
+                </div>
+            {% endif %}
+
+        </section>
+    </main>
 {% endblock %}

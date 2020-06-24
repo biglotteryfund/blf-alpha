@@ -1,9 +1,12 @@
-{% extends "controllers/common/views/flexible-content-page.njk" %}
+{% extends "layouts/main.njk" %}
 
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/document-list/macro.njk" import documentList %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
 {% from "../view-helpers.njk" import entryRegions with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
+{% from "components/flexible-content-next/macro.njk" import flexibleContent with context %}
 
 {% set copy = __('news') %}
 {% set bodyClass = 'has-static-header' %}
@@ -25,16 +28,23 @@
     </dl>
 {% endmacro %}
 
-{% block contentPrimary %}
+{% block content %}
+    <main role="main" id="content">
+        {{ pageTitle(title) }}
 
-    <div class="u-inner-wide-only">
+        <section class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-        <div class="content-sidebar">
-            <div class="content-sidebar__primary">
-                {# CMS content #}
-                {{ super() }}
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    {# CMS content #}
+                    {{
+                        flexibleContent(
+                            flexibleContent = content.flexibleContent,
+                            distinguishBlocks = false
+                        )
+                    }}
 
-                <div class="content-box content-box--frameless">
 
                     {% if content.documentGroups.length > 0 %}
                         <section class="content-box">
@@ -60,29 +70,29 @@
                     {% endif %}
 
                     {{ relatedProgrammes(content.relatedFundingProgrammes) }}
+
                 </div>
 
-            </div>
-
-            <div class="content-sidebar__secondary">
-                {% call card(copy.pressRelease.aboutThisPressRelease) %}
-                    <div class="s-prose u-text-small u-wrap-links">
-                        {{ entryMeta(content) }}
-                        {% if content.notesToEditors %}
-                            <p><a href="#notes">{{ copy.pressRelease.notesToEditors }}</a></p>
-                        {% endif %}
-                    </div>
-                {% endcall %}
-
-                {% if content.contacts %}
-                    {% call card(copy.pressRelease.contacts) %}
+                <div class="content-sidebar__secondary">
+                    {% call card(copy.pressRelease.aboutThisPressRelease) %}
                         <div class="s-prose u-text-small u-wrap-links">
-                            {{ content.contacts | safe }}
+                            {{ entryMeta(content) }}
+                            {% if content.notesToEditors %}
+                                <p><a href="#notes">{{ copy.pressRelease.notesToEditors }}</a></p>
+                            {% endif %}
                         </div>
                     {% endcall %}
-                {% endif %}
-            </div>
-        </div>
 
-    </div>
+                    {% if content.contacts %}
+                        {% call card(copy.pressRelease.contacts) %}
+                            <div class="s-prose u-text-small u-wrap-links">
+                                {{ content.contacts | safe }}
+                            </div>
+                        {% endcall %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </section>
+    </main>
 {% endblock %}

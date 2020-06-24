@@ -1,174 +1,189 @@
-{% extends "controllers/common/views/flexible-content-page.njk" %}
-
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/flexible-content/macro.njk" import flexibleContent %}
+{% from "components/flexible-content-next/macro.njk" import flexibleContent with context %}
 
 {% from './helpers.njk' import badgeActiveProject, badgeProjectStory, buildLocationList, buildOrgTypeList, pgLink with context %}
 
+{% if not pageHero %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
-{% block contentPrimary %}
-
+{% block content %}
     {% set mainProgramme = grant.grantProgramme[0] %}
 
-    <div class="u-inner-wide-only js-past-grants-detail">
+    <main role="main" id="content" class="js-past-grants-detail">
+        {% if pageHero %}
+            {{ hero(title, pageHero.image) }}
+        {% endif %}
 
-        <div class="content-sidebar">
-            <div class="content-sidebar__primary">
-                {% if content %}
-                    {# CMS content #}
-                    {{ super() }}
+        <div class="content-box u-inner-wide-only{% if pageHero %} nudge-up{% endif %}">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-                    {% if content.outro %}
-                        <div class="content-box content-box--frameless">
-                            <aside class="u-tone-background-tint u-padded u-text-medium">
-                                <h2 class="t3 u-tone-brand-primary">{{ __('global.misc.moreInformation') }}</h2>
-                                <div class="s-prose">
-                                    {{ content.outro | safe }}
-                                </div>
-                            </aside>
-                        </div>
-                    {% endif %}
-                {% elseif grant.description !== grant.title %}
-                    <div class="content-box">
-                        {{ breadcrumbTrail(breadcrumbs) }}
-                        <h2 class="t3 t--underline">{{ copy.grantDetail.projectOverview }}</h2>
-                        <p class="u-wrap-words">{{ grant.description }}</p>
-                    </div>
-                {% endif %}
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    <div class="u-constrained-wide">
+                        <h1>{{ title }}</h1>
 
-                <grants-back-to-search
-                    label="{{ copy.backToSearch }}"
-                    :storage-key="STORAGE_KEY"
-                    prefix="./" />
-            </div>
+                        {% if content %}
+                            <div class="s-prose">
+                                {# CMS content #}
+                                {{
+                                    flexibleContent(
+                                        flexibleContent = content.flexibleContent,
+                                        distinguishBlocks = false
+                                    )
+                                }}
+                            </div>
 
-            <div class="content-sidebar__secondary">
-                {% call card(aboutTitle) %}
-                    <aside class="grant-summary">
-                        <p class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</p>
-                        <p class="grant-summary__title">{{ grant.title }}</p>
-                        <p class="grant-summary__date">{{ formatDate(grant.awardDate) }}</p>
-                    </aside>
-
-                    <dl class="o-definition-list o-definition-list--compact u-text-small">
-                        {% if grant.plannedDates %}
-                            <dt>{{ copy.grantDetail.fields.duration }}</dt>
-                            {% for dates in grant.plannedDates %}
-                                <dd>
-                                    {{ fields.area.label }}
-                                    {{ formatDate(dates.startDate) }}{% if dates.endDate -%}
-                                        &ndash;{{ formatDate(dates.endDate) }}
-                                    {%- endif %}
-                                </dd>
-                            {% endfor %}
+                            {% if content.outro %}
+                                <aside class="u-tone-background-tint u-padded u-text-medium">
+                                    <h2 class="t3 u-tone-brand-primary">{{ __('global.misc.moreInformation') }}</h2>
+                                    <div class="s-prose">
+                                        {{ content.outro | safe }}
+                                    </div>
+                                </aside>
+                            {% endif %}
+                        {% elseif grant.description !== grant.title %}
+                            <h2 class="t3 t--underline">{{ copy.grantDetail.projectOverview }}</h2>
+                            <p class="u-wrap-words">{{ grant.description }}</p>
                         {% endif %}
-                    </dl>
 
-                    {% if grant.isActive %}
-                        {{ badgeActiveProject()}}
-                    {% endif %}
+                        <grants-back-to-search
+                            label="{{ copy.backToSearch }}"
+                            :storage-key="STORAGE_KEY"
+                            prefix="./" />
+                    </div>
+                </div>
 
-                    {% if content %}
-                        {{ badgeProjectStory()}}
-                    {% endif %}
-                {% endcall %}
+                <div class="content-sidebar__secondary">
+                    {% call card(aboutTitle) %}
+                        <aside class="grant-summary">
+                            <p class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</p>
+                            <p class="grant-summary__title">{{ grant.title }}</p>
+                            <p class="grant-summary__date">{{ formatDate(grant.awardDate) }}</p>
+                        </aside>
 
-            </div>
-        </div>
-    </div>
-
-    <div class="u-inner-wide-only{% if content%} u-padded{% endif %}">
-        <div class="flex-grid">
-            <div class="flex-grid__item">
-                {% call contentBox(isConstrained = false) %}
-                    <h2>{{ copy.grantDetail.fields.recipientOrg }}</h2>
-                    {% for org in grant.recipientOrganization %}
                         <dl class="o-definition-list o-definition-list--compact u-text-small">
-                            <dt>{{ copy.grantDetail.fields.orgName }}</dt>
-                            <dd><a href="./recipients/{{ org.id }}">{{ org.name }}</a></dd>
-
-                            {% if org.organisationType %}
-                                <dt>{{ copy.grantDetail.fields.type }}</dt>
-                                <dd>{{ buildOrgTypeList(org) }}</dd>
-                            {% endif %}
-
-                            {% if org.charityNumber %}
-                                <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
-                                <dd>{{ org.charityNumber }}</dd>
-                            {% endif %}
-
-                            {% if org.companyNumber %}
-                                <dt>{{ copy.grantDetail.fields.companyNumber }}</dt>
-                                <dd>{{ org.companyNumber }}</dd>
-                            {% endif %}
-
-                            {% if grant.beneficiaryLocation %}
-                                <dt>{{ copy.grantDetail.fields.location }}</dt>
-                                <dd>{{ buildLocationList(grant.beneficiaryLocation) }}</dd>
+                            {% if grant.plannedDates %}
+                                <dt>{{ copy.grantDetail.fields.duration }}</dt>
+                                {% for dates in grant.plannedDates %}
+                                    <dd>
+                                        {{ fields.area.label }}
+                                        {{ formatDate(dates.startDate) }}{% if dates.endDate -%}
+                                            &ndash;{{ formatDate(dates.endDate) }}
+                                        {%- endif %}
+                                    </dd>
+                                {% endfor %}
                             {% endif %}
                         </dl>
 
-                        <p>
-                            <a class="btn btn--small btn--outline" href="./recipients/{{ org.id }}">
-                                {{ copy.grantDetail.viewAllForRecipient }}
-                            </a>
-                        </p>
-                    {% endfor %}
-                {% endcall %}
+                        {% if grant.isActive %}
+                            {{ badgeActiveProject()}}
+                        {% endif %}
+
+                        {% if content %}
+                            {{ badgeProjectStory()}}
+                        {% endif %}
+                    {% endcall %}
+
+                </div>
+
             </div>
-            <div class="flex-grid__item">
-                {% if fundingProgramme %}
-                    {% set link = localify(fundingProgramme.linkUrl) %}
-                {% elseif mainProgramme.url %}
-                    {% set link = localify(mainProgramme.url) %}
-                {% else %}
-                    {% set link = localify('/funding/programmes') %}
-                {% endif %}
+        </div>
 
-                {% set image = {
-                    "url": fallbackHeroImage.large,
-                    "alt": mainProgramme.title
-                } %}
+        <div class="u-inner-wide-only">
+            <div class="flex-grid">
+                <div class="flex-grid__item">
+                    {% call contentBox(isConstrained = false) %}
+                        <h2>{{ copy.grantDetail.fields.recipientOrg }}</h2>
+                        {% for org in grant.recipientOrganization %}
+                            <dl class="o-definition-list o-definition-list--compact u-text-small">
+                                <dt>{{ copy.grantDetail.fields.orgName }}</dt>
+                                <dd><a href="./recipients/{{ org.id }}">{{ org.name }}</a></dd>
 
-                {% if fundingProgramme and fundingProgramme.hero %}
+                                {% if org.organisationType %}
+                                    <dt>{{ copy.grantDetail.fields.type }}</dt>
+                                    <dd>{{ buildOrgTypeList(org) }}</dd>
+                                {% endif %}
+
+                                {% if org.charityNumber %}
+                                    <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
+                                    <dd>{{ org.charityNumber }}</dd>
+                                {% endif %}
+
+                                {% if org.companyNumber %}
+                                    <dt>{{ copy.grantDetail.fields.companyNumber }}</dt>
+                                    <dd>{{ org.companyNumber }}</dd>
+                                {% endif %}
+
+                                {% if grant.beneficiaryLocation %}
+                                    <dt>{{ copy.grantDetail.fields.location }}</dt>
+                                    <dd>{{ buildLocationList(grant.beneficiaryLocation) }}</dd>
+                                {% endif %}
+                            </dl>
+
+                            <p>
+                                <a class="btn btn--small btn--outline" href="./recipients/{{ org.id }}">
+                                    {{ copy.grantDetail.viewAllForRecipient }}
+                                </a>
+                            </p>
+                        {% endfor %}
+                    {% endcall %}
+                </div>
+                <div class="flex-grid__item">
+                    {% if fundingProgramme %}
+                        {% set link = localify(fundingProgramme.linkUrl) %}
+                    {% elseif mainProgramme.url %}
+                        {% set link = localify(mainProgramme.url) %}
+                    {% else %}
+                        {% set link = localify('/funding/programmes') %}
+                    {% endif %}
+
                     {% set image = {
-                        "url": fundingProgramme.hero.image.large,
+                        "url": fallbackHeroImage.large,
                         "alt": mainProgramme.title
                     } %}
-                {% endif %}
 
-                {% call promoCard({
-                    "title": copy.grantDetail.fundedBy + ' ' + mainProgramme.title,
-                    "summary": fundingProgramme.trailText,
-                    "image": image,
-                    "link": {
-                        "label": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
-                        "labelAria": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
-                        "url": link
-                    }
-                }) %}
-                    {% if fundingProgramme.hero.caption %}
-                        <p class="project-caption">{{ copy.grantDetail.photoCaption }}: {{ fundingProgramme.hero.caption }}</p>
+                    {% if fundingProgramme and fundingProgramme.hero %}
+                        {% set image = {
+                            "url": fundingProgramme.hero.image.large,
+                            "alt": mainProgramme.title
+                        } %}
                     {% endif %}
-                {% endcall %}
+
+                    {% call promoCard({
+                        "title": copy.grantDetail.fundedBy + ' ' + mainProgramme.title,
+                        "summary": fundingProgramme.trailText,
+                        "image": image,
+                        "link": {
+                            "label": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
+                            "labelAria": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
+                            "url": link
+                        }
+                    }) %}
+                        {% if fundingProgramme.hero.caption %}
+                            <p class="project-caption">{{ copy.grantDetail.photoCaption }}: {{ fundingProgramme.hero.caption }}</p>
+                        {% endif %}
+                    {% endcall %}
+                </div>
             </div>
         </div>
-    </div>
 
-    {# Related projects widget #}
-    {% if appData.config.get('features.enableRelatedGrants') %}
-        {# This wrapper div must exist or the related component swallows the following component #}
-        <div>
-            <grants-related
-                limit="3"
-                exclude-id="{{ grant.id }}"
-                programme="{{ mainProgramme.title }}"
-                beneficiary-location="{{ grant.beneficiaryLocation | dump }}"
-            />
-        </div>
-    {% endif %}
+        {# Related projects widget #}
+        {% if appData.config.get('features.enableRelatedGrants') %}
+            {# This wrapper div must exist or the related component swallows the following component #}
+            <div>
+                <grants-related
+                    limit="3"
+                    exclude-id="{{ grant.id }}"
+                    programme="{{ mainProgramme.title }}"
+                    beneficiary-location="{{ grant.beneficiaryLocation | dump }}"
+                />
+            </div>
+        {% endif %}
+    </main>
 {% endblock %}
