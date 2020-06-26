@@ -73,11 +73,14 @@ function renderPressDetail(req, res, entry) {
     res.locals.isBilingual = entry.availableLanguages.length === 2;
     res.locals.openGraph = get(entry, 'openGraph', false);
 
+    // Disable hero images for press releases
+    res.locals.pageHero = null;
+
     return res.render(path.resolve(__dirname, './views/post/press-release'), {
         title: entry.title,
         description: entry.summary,
         socialImage: get(entry, 'thumbnail.large', false),
-        entry: entry,
+        content: entry,
         breadcrumbs: res.locals.breadcrumbs.concat([
             {
                 label: req.i18n.__('news.types.press-releases.plural'),
@@ -114,7 +117,7 @@ router.get(
                     res.redirect(entry.linkUrl);
                 } else if (entry.articleLink) {
                     res.redirect(entry.articleLink);
-                } else if (entry.content.length > 0) {
+                } else if (entry.flexibleContent.length > 0) {
                     renderPressDetail(req, res, entry);
                 } else {
                     next();
@@ -184,6 +187,9 @@ function renderUpdatesDetail(req, res, entry) {
         };
     });
 
+    // Disable hero images for blogposts/people stories
+    res.locals.pageHero = null;
+
     res.render(path.resolve(__dirname, './views/post/blogpost'), {
         updateType: req.params.updateType,
         title: entry.title,
@@ -191,7 +197,7 @@ function renderUpdatesDetail(req, res, entry) {
         description: entry.summary,
         openGraph: get(entry, 'openGraph', false),
         socialImage: get(entry, 'thumbnail.large', false),
-        entry: entry,
+        content: entry,
         entryTagList: entryTagList,
         breadcrumbs: res.locals.breadcrumbs.concat({
             label: req.i18n.__(`news.types.${req.params.updateType}.singular`),
@@ -232,7 +238,7 @@ router.get(
                 const entry = updatesResponse.result;
                 if (shouldRedirectLinkUrl(req, entry)) {
                     res.redirect(entry.linkUrl);
-                } else if (entry.content.length > 0) {
+                } else if (entry.flexibleContent.length > 0) {
                     renderUpdatesDetail(req, res, entry);
                 } else {
                     next();

@@ -1,3 +1,5 @@
+{% extends "layouts/main.njk" %}
+
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/flexible-content/macro.njk" import flexibleContentPart %}
@@ -5,7 +7,6 @@
 {% from "components/segment/macro.njk" import segment %}
 {% from "components/table-of-contents/macro.njk" import tableOfContents %}
 
-{% extends "layouts/main.njk" %}
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% set flexAnchor = 'item' %}

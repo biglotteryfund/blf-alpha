@@ -4,7 +4,7 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/flexible-content/macro.njk" import flexibleContent %}
+{% from "components/flexible-content-next/macro.njk" import flexibleContent with context %}
 
 {% from './helpers.njk' import badgeActiveProject, badgeProjectStory, buildLocationList, buildOrgTypeList, pgLink with context %}
 
@@ -28,16 +28,22 @@
                     <div class="u-constrained-wide">
                         <h1>{{ title }}</h1>
 
-                        {% if projectStory %}
+                        {% if content %}
                             <div class="s-prose">
-                                {{ flexibleContent(projectStory.content) }}
+                                {# CMS content #}
+                                {{
+                                    flexibleContent(
+                                        flexibleContent = content.flexibleContent,
+                                        distinguishBlocks = false
+                                    )
+                                }}
                             </div>
 
-                            {% if projectStory.outro %}
+                            {% if content.outro %}
                                 <aside class="u-tone-background-tint u-padded u-text-medium">
                                     <h2 class="t3 u-tone-brand-primary">{{ __('global.misc.moreInformation') }}</h2>
                                     <div class="s-prose">
-                                        {{ projectStory.outro | safe }}
+                                        {{ content.outro | safe }}
                                     </div>
                                 </aside>
                             {% endif %}
@@ -79,7 +85,7 @@
                             {{ badgeActiveProject()}}
                         {% endif %}
 
-                        {% if projectStory %}
+                        {% if content %}
                             {{ badgeProjectStory()}}
                         {% endif %}
                     {% endcall %}

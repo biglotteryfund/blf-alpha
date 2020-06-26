@@ -90,7 +90,9 @@ function renderFlexibleContentChild(req, res, entry) {
 
     res.render(path.resolve(__dirname, './views/flexible-content-page'), {
         breadcrumbs: res.locals.breadcrumbs.concat({ label: res.locals.title }),
-        content: { flexibleContent: entry.content },
+        content: {
+            flexibleContent: entry.flexibleContent,
+        },
     });
 }
 
