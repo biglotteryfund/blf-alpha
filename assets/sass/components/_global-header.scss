@@ -431,7 +431,7 @@ $breakpointLarge: 840px;
      * are we explicitly showing the welsh logo?
      */
     .locale--cy &,
-    .has-welsh-logo & {
+    &.brand-logo--bilingual {
         background-image: url(../../../images/site-logo-bilingual.svg);
         height: 69px;
         width: 130px;

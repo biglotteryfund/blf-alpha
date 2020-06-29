@@ -73,6 +73,11 @@ router.get('/covid-19', (req, res, next) => {
     next();
 });
 
+router.get('/wales', (req, res, next) => {
+    res.locals.showBilingualLogo = true;
+    next();
+});
+
 /**
  * Wildcard handler
  * Remaining pages powered by Funding structure in the CMS

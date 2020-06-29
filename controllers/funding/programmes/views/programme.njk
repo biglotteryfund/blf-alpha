@@ -6,7 +6,6 @@
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import programmeStats with context %}
 
-{% if entry.area.value === 'wales' %}{% set bodyClass = "has-welsh-logo" %}{% endif %}
 {% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}

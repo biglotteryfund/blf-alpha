@@ -225,6 +225,11 @@ router.get('/:slug/:child_slug?', async (req, res, next) => {
             /**
              * Programme Detail page
              */
+
+            if (get(entry, 'area.value') === 'wales') {
+                res.locals.showBilingualLogo = true;
+            }
+
             res.render(path.resolve(__dirname, './views/programme'), {
                 entry: entry,
                 breadcrumbs: res.locals.breadcrumbs.concat({

@@ -64,7 +64,8 @@
 
         <div class="global-header__content">
             <div class="global-header__content-primary">
-                <a href="{{ localify('/') }}" class="global-header__logo brand-logo">
+                <a href="{{ localify('/') }}"
+                   class="global-header__logo brand-logo{% if showBilingualLogo %} brand-logo--bilingual{% endif %}">
                     <span class="u-visually-hidden">
                         {{ globalCopy.brand.title }}
                     </span>
