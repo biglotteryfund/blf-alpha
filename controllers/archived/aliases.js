@@ -81,7 +81,7 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/about-big/customer-service/fraud`,
-        to: `/contact#segment-6`,
+        to: `/about/contact-us#fraud`,
     }),
     withRegionPrefixes({
         from: `/about-big/customer-service/freedom-of-information`,
@@ -89,7 +89,7 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/about-big/customer-service/making-a-complaint`,
-        to: `/contact#segment-5`,
+        to: `/about/contact-us#complaint`,
     }),
     withRegionPrefixes({
         from: `/about-big/customer-service/privacy-policy`,
@@ -233,7 +233,7 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/news-and-events/contact-press-team`,
-        to: `/contact#segment-4`,
+        to: `/about/contact-us#press`,
     }),
     {
         from: `/blog/2018-10-26/our-new-digital-fund`,
@@ -664,8 +664,12 @@ module.exports = createAliases([
         to: `/funding/programmes/rural-programme`,
     }),
     withRegionPrefixes({
+        from: `/contact`,
+        to: `/about/contact-us`,
+    }),
+    withRegionPrefixes({
         from: `/contact-us`,
-        to: `/contact`,
+        to: `/about/contact-us`,
     }),
     withRegionPrefixes({
         from: `/news-and-events`,
