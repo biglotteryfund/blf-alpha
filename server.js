@@ -22,7 +22,6 @@ const { defaultMaxAge, noStore, sMaxAge } = require('./common/cached');
 const cspDirectives = require('./common/csp-directives');
 const logger = require('./common/logger').child({ service: 'server' });
 
-const { basicContent } = require('./controllers/common');
 const { renderError, renderNotFound } = require('./controllers/errors');
 
 /**
@@ -189,10 +188,6 @@ const sections = {
     insights: {
         path: '/insights',
         router: require('./controllers/insights'),
-    },
-    contact: {
-        path: '/contact',
-        router: basicContent(),
     },
     about: {
         path: '/about',

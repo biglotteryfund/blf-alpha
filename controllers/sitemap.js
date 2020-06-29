@@ -17,32 +17,23 @@ async function getCanonicalRoutes() {
      * Static routes
      *
      * Used for pages that are outside of the CMS, either:
-     * - Hard-coded pages (like homepage and 10k pages)
+     * - Hard-coded pages (like the homepage)
      * - Landing pages (where child pages are powered by the CMS, but landing is custom)
      */
     const staticRoutes = [
         '/',
         '/about',
-        '/about/our-people',
         '/apply',
-        '/contact',
         '/data',
         '/funding',
-        '/funding/over10k',
         '/funding/programmes',
         '/funding/programmes/all',
         '/funding/strategic-investments',
-        '/funding/the-big-lunch',
-        '/funding/under10k',
         '/grants',
         '/insights',
-        '/jobs',
-        '/jobs/benefits',
         '/news',
         '/news/blog',
         '/news/press-releases',
-        '/northern-ireland',
-        '/wales',
     ].map((path) => {
         return {
             path: path,
