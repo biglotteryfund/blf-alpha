@@ -372,43 +372,43 @@ Array [
   },
   Object {
     "from": "/about-big/customer-service/fraud",
-    "to": "/contact#segment-6",
+    "to": "/about/contact-us#fraud",
   },
   Object {
     "from": "/welsh/about-big/customer-service/fraud",
-    "to": "/welsh/contact#segment-6",
+    "to": "/welsh/about/contact-us#fraud",
   },
   Object {
     "from": "/england/about-big/customer-service/fraud",
-    "to": "/contact#segment-6",
+    "to": "/about/contact-us#fraud",
   },
   Object {
     "from": "/welsh/england/about-big/customer-service/fraud",
-    "to": "/welsh/contact#segment-6",
+    "to": "/welsh/about/contact-us#fraud",
   },
   Object {
     "from": "/scotland/about-big/customer-service/fraud",
-    "to": "/contact#segment-6",
+    "to": "/about/contact-us#fraud",
   },
   Object {
     "from": "/welsh/scotland/about-big/customer-service/fraud",
-    "to": "/welsh/contact#segment-6",
+    "to": "/welsh/about/contact-us#fraud",
   },
   Object {
     "from": "/northernireland/about-big/customer-service/fraud",
-    "to": "/contact#segment-6",
+    "to": "/about/contact-us#fraud",
   },
   Object {
     "from": "/welsh/northernireland/about-big/customer-service/fraud",
-    "to": "/welsh/contact#segment-6",
+    "to": "/welsh/about/contact-us#fraud",
   },
   Object {
     "from": "/wales/about-big/customer-service/fraud",
-    "to": "/contact#segment-6",
+    "to": "/about/contact-us#fraud",
   },
   Object {
     "from": "/welsh/wales/about-big/customer-service/fraud",
-    "to": "/welsh/contact#segment-6",
+    "to": "/welsh/about/contact-us#fraud",
   },
   Object {
     "from": "/about-big/customer-service/freedom-of-information",
@@ -452,43 +452,43 @@ Array [
   },
   Object {
     "from": "/about-big/customer-service/making-a-complaint",
-    "to": "/contact#segment-5",
+    "to": "/about/contact-us#complaint",
   },
   Object {
     "from": "/welsh/about-big/customer-service/making-a-complaint",
-    "to": "/welsh/contact#segment-5",
+    "to": "/welsh/about/contact-us#complaint",
   },
   Object {
     "from": "/england/about-big/customer-service/making-a-complaint",
-    "to": "/contact#segment-5",
+    "to": "/about/contact-us#complaint",
   },
   Object {
     "from": "/welsh/england/about-big/customer-service/making-a-complaint",
-    "to": "/welsh/contact#segment-5",
+    "to": "/welsh/about/contact-us#complaint",
   },
   Object {
     "from": "/scotland/about-big/customer-service/making-a-complaint",
-    "to": "/contact#segment-5",
+    "to": "/about/contact-us#complaint",
   },
   Object {
     "from": "/welsh/scotland/about-big/customer-service/making-a-complaint",
-    "to": "/welsh/contact#segment-5",
+    "to": "/welsh/about/contact-us#complaint",
   },
   Object {
     "from": "/northernireland/about-big/customer-service/making-a-complaint",
-    "to": "/contact#segment-5",
+    "to": "/about/contact-us#complaint",
   },
   Object {
     "from": "/welsh/northernireland/about-big/customer-service/making-a-complaint",
-    "to": "/welsh/contact#segment-5",
+    "to": "/welsh/about/contact-us#complaint",
   },
   Object {
     "from": "/wales/about-big/customer-service/making-a-complaint",
-    "to": "/contact#segment-5",
+    "to": "/about/contact-us#complaint",
   },
   Object {
     "from": "/welsh/wales/about-big/customer-service/making-a-complaint",
-    "to": "/welsh/contact#segment-5",
+    "to": "/welsh/about/contact-us#complaint",
   },
   Object {
     "from": "/about-big/customer-service/privacy-policy",
@@ -1892,43 +1892,43 @@ Array [
   },
   Object {
     "from": "/news-and-events/contact-press-team",
-    "to": "/contact#segment-4",
+    "to": "/about/contact-us#press",
   },
   Object {
     "from": "/welsh/news-and-events/contact-press-team",
-    "to": "/welsh/contact#segment-4",
+    "to": "/welsh/about/contact-us#press",
   },
   Object {
     "from": "/england/news-and-events/contact-press-team",
-    "to": "/contact#segment-4",
+    "to": "/about/contact-us#press",
   },
   Object {
     "from": "/welsh/england/news-and-events/contact-press-team",
-    "to": "/welsh/contact#segment-4",
+    "to": "/welsh/about/contact-us#press",
   },
   Object {
     "from": "/scotland/news-and-events/contact-press-team",
-    "to": "/contact#segment-4",
+    "to": "/about/contact-us#press",
   },
   Object {
     "from": "/welsh/scotland/news-and-events/contact-press-team",
-    "to": "/welsh/contact#segment-4",
+    "to": "/welsh/about/contact-us#press",
   },
   Object {
     "from": "/northernireland/news-and-events/contact-press-team",
-    "to": "/contact#segment-4",
+    "to": "/about/contact-us#press",
   },
   Object {
     "from": "/welsh/northernireland/news-and-events/contact-press-team",
-    "to": "/welsh/contact#segment-4",
+    "to": "/welsh/about/contact-us#press",
   },
   Object {
     "from": "/wales/news-and-events/contact-press-team",
-    "to": "/contact#segment-4",
+    "to": "/about/contact-us#press",
   },
   Object {
     "from": "/welsh/wales/news-and-events/contact-press-team",
-    "to": "/welsh/contact#segment-4",
+    "to": "/welsh/about/contact-us#press",
   },
   Object {
     "from": "/blog/2018-10-26/our-new-digital-fund",
@@ -5891,44 +5891,84 @@ Array [
     "to": "/welsh/funding/programmes/rural-programme",
   },
   Object {
+    "from": "/contact",
+    "to": "/about/contact-us",
+  },
+  Object {
+    "from": "/welsh/contact",
+    "to": "/welsh/about/contact-us",
+  },
+  Object {
+    "from": "/england/contact",
+    "to": "/about/contact-us",
+  },
+  Object {
+    "from": "/welsh/england/contact",
+    "to": "/welsh/about/contact-us",
+  },
+  Object {
+    "from": "/scotland/contact",
+    "to": "/about/contact-us",
+  },
+  Object {
+    "from": "/welsh/scotland/contact",
+    "to": "/welsh/about/contact-us",
+  },
+  Object {
+    "from": "/northernireland/contact",
+    "to": "/about/contact-us",
+  },
+  Object {
+    "from": "/welsh/northernireland/contact",
+    "to": "/welsh/about/contact-us",
+  },
+  Object {
+    "from": "/wales/contact",
+    "to": "/about/contact-us",
+  },
+  Object {
+    "from": "/welsh/wales/contact",
+    "to": "/welsh/about/contact-us",
+  },
+  Object {
     "from": "/contact-us",
-    "to": "/contact",
+    "to": "/about/contact-us",
   },
   Object {
     "from": "/welsh/contact-us",
-    "to": "/welsh/contact",
+    "to": "/welsh/about/contact-us",
   },
   Object {
     "from": "/england/contact-us",
-    "to": "/contact",
+    "to": "/about/contact-us",
   },
   Object {
     "from": "/welsh/england/contact-us",
-    "to": "/welsh/contact",
+    "to": "/welsh/about/contact-us",
   },
   Object {
     "from": "/scotland/contact-us",
-    "to": "/contact",
+    "to": "/about/contact-us",
   },
   Object {
     "from": "/welsh/scotland/contact-us",
-    "to": "/welsh/contact",
+    "to": "/welsh/about/contact-us",
   },
   Object {
     "from": "/northernireland/contact-us",
-    "to": "/contact",
+    "to": "/about/contact-us",
   },
   Object {
     "from": "/welsh/northernireland/contact-us",
-    "to": "/welsh/contact",
+    "to": "/welsh/about/contact-us",
   },
   Object {
     "from": "/wales/contact-us",
-    "to": "/contact",
+    "to": "/about/contact-us",
   },
   Object {
     "from": "/welsh/wales/contact-us",
-    "to": "/welsh/contact",
+    "to": "/welsh/about/contact-us",
   },
   Object {
     "from": "/news-and-events",
