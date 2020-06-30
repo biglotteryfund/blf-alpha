@@ -6,7 +6,13 @@ const moment = require('moment-timezone');
 const isString = require('lodash/isString');
 
 const appData = require('./appData');
-const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
+const {
+    getAbsoluteUrl,
+    getCurrentUrl,
+    isWelsh,
+    localify,
+    isSandboxUrl,
+} = require('./urls');
 
 let assets = {};
 try {
@@ -239,6 +245,14 @@ module.exports = function (req, res, next) {
     res.locals.clearAuthCookie = function () {
         res.clearCookie(config.get('session.cookieLogin'), authCookieOptions);
     };
+
+    /**
+     * Mark the request as a sandbox domain if accessed via that host
+     * (eg. to use the Sandbox CMS for staff training)
+     */
+    if (isSandboxUrl(req.hostname)) {
+        res.locals.sandboxMode = true;
+    }
 
     next();
 };

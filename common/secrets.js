@@ -25,6 +25,17 @@ const CONTENT_API_URL =
     process.env.CONTENT_API_URL || getParameter('content-api.url', true);
 
 /**
+ * Sandbox domains
+ * When the site is accessed via this domain (pointing to the Test instance)
+ * we use the Test instance of the CMS (eg. for staff training) as defined below
+ */
+const SANDBOX_DOMAIN =
+    process.env.SANDBOX_DOMAIN || getParameter('sandbox.domain');
+const CONTENT_API_SANDBOX_URL =
+    process.env.CONTENT_API_SANDBOX_URL ||
+    getParameter('content-api.sandbox.url');
+
+/**
  * Past grants API
  * We allow overriding through an environment variable for CI and to allow
  * switching to a local instance of the API in development
@@ -76,7 +87,7 @@ const SALESFORCE_AUTH = {
         getParameter('salesforce.instanceId'),
 };
 
-// These expire in July 2020
+// These expire in July 2021
 const BANK_API = {
     KEY: process.env.BANK_API_TOKEN || getParameter('bank.api.key'),
     PASSWORD:
@@ -124,6 +135,7 @@ module.exports = {
     AZURE_AUTH,
     BANK_API,
     CONTENT_API_URL,
+    CONTENT_API_SANDBOX_URL,
     DATA_STUDIO_UNDER10K_URL,
     DB_CONNECTION_URI,
     DOTDIGITAL_API,
@@ -133,6 +145,7 @@ module.exports = {
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
     POSTCODES_API_KEY,
+    SANDBOX_DOMAIN,
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
     SENTRY_DSN,
