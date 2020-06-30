@@ -3,7 +3,7 @@ const moment = require('moment');
 const times = require('lodash/times');
 const sample = require('lodash/sample');
 const random = require('lodash/random');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const { Users } = require('../models');
 const mockAwardsForAll = require('../../controllers/apply/under10k/mocks');

@@ -5,7 +5,7 @@
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
 const slug = require('slugify');
-const uuid = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const clone = require('lodash/clone');
 const identity = require('lodash/identity');
 const pickBy = require('lodash/pickBy');
@@ -36,7 +36,7 @@ module.exports = {
     },
 
     appendUuid(str) {
-        return str + uuid();
+        return str + uuidv4();
     },
 
     addQueryParam(queryParams, param, value) {
