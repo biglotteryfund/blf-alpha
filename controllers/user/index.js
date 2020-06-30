@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const moment = require('moment-timezone');
 
 const { Users } = require('../../db/models');
