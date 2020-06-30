@@ -28,11 +28,11 @@ router.get(
     async function (req, res, next) {
         try {
             const [publicationTags, publications] = await Promise.all([
-                contentApi.getPublicationTags({
+                contentApi({ flags: res.locals }).getPublicationTags({
                     locale: req.i18n.getLocale(),
                     programme: req.params.programme,
                 }),
-                contentApi.getPublications({
+                contentApi({ flags: res.locals }).getPublications({
                     locale: req.i18n.getLocale(),
                     programme: req.params.programme,
                     searchParams: req.query,
@@ -66,7 +66,9 @@ router.get('/:programme/:slug', checkProgramme, async function (
     next
 ) {
     try {
-        const publication = await contentApi.getPublications({
+        const publication = await contentApi({
+            flags: res.locals,
+        }).getPublications({
             locale: req.i18n.getLocale(),
             programme: req.params.programme,
             slug: req.params.slug,

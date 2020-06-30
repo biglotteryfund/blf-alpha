@@ -59,7 +59,9 @@ function injectHeroImage(heroSlug) {
             res.locals.socialImage = fallbackHeroImage;
 
             try {
-                const image = await contentApi.getHeroImage({
+                const image = await contentApi({
+                    flags: res.locals,
+                }).getHeroImage({
                     locale: req.i18n.getLocale(),
                     slug: heroSlug,
                 });
@@ -79,7 +81,7 @@ function injectHeroImage(heroSlug) {
 
 async function injectListingContent(req, res, next) {
     try {
-        const entry = await contentApi.getListingPage({
+        const entry = await contentApi({ flags: res.locals }).getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
             requestParams: req.query,

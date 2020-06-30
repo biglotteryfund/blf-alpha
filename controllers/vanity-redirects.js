@@ -8,7 +8,9 @@ const contentApi = require('../common/content-api');
 module.exports = async function (req, res, next) {
     if (pathCouldBeAlias(req.path)) {
         try {
-            const urlMatch = await contentApi.getAlias(req.path);
+            const urlMatch = await contentApi({ flags: res.locals }).getAlias(
+                req.path
+            );
             if (urlMatch) {
                 res.redirect(301, urlMatch);
             } else {

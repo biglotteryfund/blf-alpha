@@ -103,7 +103,10 @@ router.get('/', async function (req, res, next) {
         );
 
         const [materials, oldestOrder, orderData] = await Promise.all([
-            contentApi.getMerchandise({ locale: 'en', showAll: true }),
+            contentApi({ flags: res.locals }).getMerchandise({
+                locale: 'en',
+                showAll: true,
+            }),
             Order.getOldestOrder(),
             Order.getAllOrders(dateRange).then(summariseOrders),
         ]);

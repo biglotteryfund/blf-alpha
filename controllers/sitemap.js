@@ -13,7 +13,7 @@ const { getBaseUrl } = require('../common/urls');
  * Build a flat list of all canonical routes
  * Combines application routes and routes defined by the CMS
  */
-async function getCanonicalRoutes() {
+async function getCanonicalRoutes(res) {
     /**
      * Static routes
      *
@@ -42,7 +42,9 @@ async function getCanonicalRoutes() {
         };
     });
 
-    const cmsCanonicalUrls = await contentApi.getRoutes();
+    const cmsCanonicalUrls = await contentApi({
+        flags: res.locals,
+    }).getRoutes();
     const combined = concat(staticRoutes, cmsCanonicalUrls);
     const filtered = combined.filter((route) => route.live);
     return compose(sortBy('path'), uniqBy('path'))(filtered);
@@ -50,7 +52,7 @@ async function getCanonicalRoutes() {
 
 module.exports = async function (req, res, next) {
     try {
-        const canonicalRoutes = await getCanonicalRoutes();
+        const canonicalRoutes = await getCanonicalRoutes(res);
 
         const smStream = new SitemapStream({
             hostname: getBaseUrl(req),

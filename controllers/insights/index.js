@@ -19,7 +19,7 @@ router.use(injectHeroImage('insights-letterbox-new'));
 
 router.get('/', async (req, res, next) => {
     try {
-        const research = await contentApi.getResearch({
+        const research = await contentApi({ flags: res.locals }).getResearch({
             locale: req.i18n.getLocale(),
             requestParams: req.query,
         });
@@ -55,7 +55,7 @@ router.get('/documents/:slug?', async function (req, res, next) {
     }
 
     try {
-        const research = await contentApi.getResearch({
+        const research = await contentApi({ flags: res.locals }).getResearch({
             locale: req.i18n.getLocale(),
             type: 'documents',
             query: query,
@@ -82,7 +82,7 @@ router.use('/covid-19-resources/:slug/:child_slug?', flexibleContentPage());
 
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
-        const entry = await contentApi.getResearch({
+        const entry = await contentApi({ flags: res.locals }).getResearch({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
             requestParams: req.query,

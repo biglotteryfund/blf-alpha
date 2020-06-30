@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/', injectHeroImage('fsn-new'), async function (req, res, next) {
     try {
-        const dataStats = await contentApi.getDataStats(
+        const dataStats = await contentApi({ flags: res.locals }).getDataStats(
             req.i18n.getLocale(),
             req.query
         );

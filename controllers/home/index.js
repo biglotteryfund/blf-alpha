@@ -5,7 +5,7 @@ const contentApi = require('../../common/content-api');
 
 module.exports = async function (req, res, next) {
     try {
-        const entry = await contentApi.getHomepage(
+        const entry = await contentApi({ flags: res.locals }).getHomepage(
             req.i18n.getLocale(),
             req.query
         );

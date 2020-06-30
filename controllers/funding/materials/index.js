@@ -151,7 +151,9 @@ router
     .route('/')
     .all(csrfProtection, injectListingContent, async function (req, res, next) {
         try {
-            res.locals.availableItems = await contentApi.getMerchandise({
+            res.locals.availableItems = await contentApi({
+                flags: res.locals,
+            }).getMerchandise({
                 locale: req.i18n.getLocale(),
             });
             next();

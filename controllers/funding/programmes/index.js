@@ -40,7 +40,9 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function (
     next
 ) {
     try {
-        const response = await contentApi.getFundingProgrammes({
+        const response = await contentApi({
+            flags: res.locals,
+        }).getFundingProgrammes({
             locale: req.i18n.getLocale(),
         });
 
@@ -136,7 +138,9 @@ router.get(
     injectHeroImage('cbsa-2-letterbox-new'),
     async function (req, res, next) {
         try {
-            const response = await contentApi.getFundingProgrammes({
+            const response = await contentApi({
+                flags: res.locals,
+            }).getFundingProgrammes({
                 locale: req.i18n.getLocale(),
                 showAll: true,
                 page: req.query.page || 1,
@@ -211,7 +215,9 @@ router.get(
  */
 router.get('/:slug/:child_slug?', async (req, res, next) => {
     try {
-        const entry = await contentApi.getFundingProgramme({
+        const entry = await contentApi({
+            flags: res.locals,
+        }).getFundingProgramme({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
             searchParams: req.query,
