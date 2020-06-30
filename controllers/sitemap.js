@@ -1,5 +1,6 @@
 'use strict';
-const { createSitemap } = require('sitemap');
+const { SitemapStream } = require('sitemap');
+
 const compose = require('lodash/fp/compose');
 const concat = require('lodash/fp/concat');
 const sortBy = require('lodash/fp/sortBy');
@@ -51,16 +52,20 @@ module.exports = async function (req, res, next) {
     try {
         const canonicalRoutes = await getCanonicalRoutes();
 
-        const sitemapInstance = createSitemap({
+        const smStream = new SitemapStream({
             hostname: getBaseUrl(req),
-            urls: canonicalRoutes.map((route) => ({
-                url: route.path,
-            })),
         });
 
-        const xml = sitemapInstance.toXML();
-        res.header('Content-Type', 'application/xml');
-        res.send(xml);
+        canonicalRoutes.forEach((route) => {
+            smStream.write({
+                url: route.path,
+            });
+        });
+
+        smStream.end();
+        smStream.pipe(res).on('error', (e) => {
+            throw e;
+        });
     } catch (error) {
         next(error);
     }
