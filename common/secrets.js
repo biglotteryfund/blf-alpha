@@ -25,12 +25,10 @@ const CONTENT_API_URL =
     process.env.CONTENT_API_URL || getParameter('content-api.url', true);
 
 /**
- * Sandbox domains
- * When the site is accessed via this domain (pointing to the Test instance)
- * we use the Test instance of the CMS (eg. for staff training) as defined below
+ * Content API Sandbox url
+ * When the site is accessed by Staff using the TEST instance, they can switch on
+ * Sandbox Mode, which means we use the Test instance of the CMS (eg. for staff training)
  */
-const SANDBOX_DOMAIN =
-    process.env.SANDBOX_DOMAIN || getParameter('sandbox.domain');
 const CONTENT_API_SANDBOX_URL =
     process.env.CONTENT_API_SANDBOX_URL ||
     getParameter('content-api.sandbox.url');
@@ -145,7 +143,6 @@ module.exports = {
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
     POSTCODES_API_KEY,
-    SANDBOX_DOMAIN,
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
     SENTRY_DSN,

@@ -1,5 +1,5 @@
 'use strict';
-const { Model, Op } = require('sequelize');
+const { Model, Op, literal } = require('sequelize');
 
 class Staff extends Model {
     static init(sequelize, DataTypes) {
@@ -19,6 +19,13 @@ class Staff extends Model {
             family_name: {
                 type: DataTypes.STRING,
                 allowNull: true,
+            },
+            // Only available on TEST environment – switches the Content API endpoint
+            // to the TEST CMS to allow for staff training
+            is_sandbox: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
             },
         };
 
@@ -53,6 +60,13 @@ class Staff extends Model {
 
     get fullName() {
         return `${this.given_name} ${this.family_name}`;
+    }
+
+    static toggleSandboxStatus(id) {
+        return this.update(
+            { is_sandbox: literal('NOT is_sandbox') },
+            { where: { id: { [Op.eq]: id } } }
+        );
     }
 }
 

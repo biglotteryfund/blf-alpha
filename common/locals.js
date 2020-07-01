@@ -4,15 +4,10 @@ const path = require('path');
 const config = require('config');
 const moment = require('moment-timezone');
 const isString = require('lodash/isString');
+const { get } = require('lodash');
 
 const appData = require('./appData');
-const {
-    getAbsoluteUrl,
-    getCurrentUrl,
-    isWelsh,
-    localify,
-    isSandboxUrl,
-} = require('./urls');
+const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
 
 let assets = {};
 try {
@@ -247,10 +242,10 @@ module.exports = function (req, res, next) {
     };
 
     /**
-     * Mark the request as a sandbox domain if accessed via that host
+     * Mark the request as a sandbox user if accessed by staff with this option enabled
      * (eg. to use the Sandbox CMS for staff training)
      */
-    if (isSandboxUrl(req.hostname)) {
+    if (get(req, 'user.userData.is_sandbox')) {
         res.locals.sandboxMode = true;
     }
 

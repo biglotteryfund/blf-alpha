@@ -2,8 +2,6 @@
 const { URL } = require('url');
 const querystring = require('querystring');
 
-const { SANDBOX_DOMAIN } = require('./secrets');
-
 const WELSH_REGEX = /^\/welsh(\/|$)/;
 
 const isAbsoluteUrl = (str) => str.indexOf('://') !== -1;
@@ -159,16 +157,11 @@ function buildArchiveUrl(urlPath, crawlDate = '20171011152352') {
     return `http://webarchive.nationalarchives.gov.uk/${crawlDate}/${fullUrl}`;
 }
 
-function isSandboxUrl(hostname) {
-    return hostname === SANDBOX_DOMAIN;
-}
-
 module.exports = {
     getAbsoluteUrl,
     getBaseUrl,
     getCurrentUrl,
     hasTrailingSlash,
-    isSandboxUrl,
     isWelsh,
     localify,
     makeWelsh,
