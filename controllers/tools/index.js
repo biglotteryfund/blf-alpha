@@ -67,7 +67,7 @@ router.use('/applications', require('./applications'));
 router.use('/order-stats', require('./orders'));
 router.use('/users', require('./users'));
 
-router.get('/sandbox-mode/toggle', async (req, res, next) => {
+router.get('/sandbox-mode/toggle', async (req, res) => {
     await Staff.toggleSandboxStatus(req.user.userData.id);
     return res.redirect('/tools');
 });
