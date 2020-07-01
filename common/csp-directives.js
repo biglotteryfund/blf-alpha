@@ -65,32 +65,37 @@ module.exports = function cspDirectives() {
      * @see https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
      */
     directives.imgSrc = directives.imgSrc.concat([
-        'https://insights.hotjar.com',
-        'http://static.hotjar.com',
-        'https://static.hotjar.com',
+        'http://*.hotjar.com',
+        'https://*.hotjar.com',
+        'http://*.hotjar.io',
+        'https://*.hotjar.io',
     ]);
     directives.scriptSrc = directives.scriptSrc.concat([
-        'http://static.hotjar.com',
-        'https://static.hotjar.com',
-        'https://script.hotjar.com',
-        "'unsafe-eval'",
-        "'unsafe-inline'",
+        'http://*.hotjar.com',
+        'https://*.hotjar.com',
+        'http://*.hotjar.io',
+        'https://*.hotjar.io',
     ]);
     directives.connectSrc = directives.connectSrc.concat([
         'http://*.hotjar.com:*',
         'https://*.hotjar.com:*',
-        'https://vc.hotjar.io:*',
+        'http://*.hotjar.io',
+        'https://*.hotjar.io',
         'wss://*.hotjar.com',
     ]);
     directives.frameSrc = directives.frameSrc.concat([
-        'https://vars.hotjar.com',
+        'https://*.hotjar.com',
+        'http://*.hotjar.io',
+        'https://*.hotjar.io',
     ]);
     directives.childSrc = directives.childSrc.concat([
         'https://vars.hotjar.com',
     ]);
     directives.fontSrc = directives.fontSrc.concat([
-        'http://static.hotjar.com',
-        'https://static.hotjar.com',
+        'http://*.hotjar.com',
+        'https://*.hotjar.com',
+        'http://*.hotjar.io',
+        'https://*.hotjar.io',
     ]);
 
     return directives;
