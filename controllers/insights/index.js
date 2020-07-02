@@ -78,7 +78,7 @@ router.get('/documents/:slug?', async function (req, res, next) {
     }
 });
 
-router.use('/covid-19-resources/:slug/:child_slug?', flexibleContentPage());
+router.use('/covid-19-resources/*', flexibleContentPage());
 
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
