@@ -9,6 +9,8 @@ const uniqBy = require('lodash/fp/uniqBy');
 const { ContentApiClient } = require('../common/content-api');
 const { getBaseUrl } = require('../common/urls');
 
+const ContentApi = new ContentApiClient();
+
 /**
  * Build a flat list of all canonical routes
  * Combines application routes and routes defined by the CMS
