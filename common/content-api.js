@@ -19,29 +19,40 @@ const { CONTENT_API_URL, CONTENT_API_SANDBOX_URL } = require('./secrets');
 const getAttrs = (response) => get('data.attributes')(response);
 const mapAttrs = (response) => map('attributes')(response.data);
 
-module.exports = function ({ flags = {} }) {
-    const API_ENDPOINT =
-        get('sandboxMode')(flags) === true
-            ? CONTENT_API_SANDBOX_URL
-            : CONTENT_API_URL;
+class ContentApiClient {
+    constructor() {
+        this.API_ENDPOINT = CONTENT_API_URL;
+        this.queryContentApi = null;
+    }
 
-    const queryContentApi = got.extend({
-        prefixUrl: API_ENDPOINT,
-        headers: { 'user-agent': 'tnlcf-www' },
-        hooks: {
-            beforeRequest: [
-                function (options) {
-                    logger.debug(`Fetching ${options.url.href}`);
-                },
-            ],
-        },
-    });
+    // Configure any per-request options for this call
+    // (eg. pass through `flags.sandboxMode` boolean to call the test CMS endpoint)
+    init(options = {}) {
+        this.API_ENDPOINT =
+            get('flags.sandboxMode')(options) === true
+                ? CONTENT_API_SANDBOX_URL
+                : CONTENT_API_URL;
+
+        this.queryContentApi = got.extend({
+            prefixUrl: this.API_ENDPOINT,
+            headers: { 'user-agent': 'tnlcf-www' },
+            hooks: {
+                beforeRequest: [
+                    function (options) {
+                        logger.debug(`Fetching ${options.url.href}`);
+                    },
+                ],
+            },
+        });
+
+        return this;
+    }
 
     /**
      * Adds the preview parameters to the request
      * (if accessed via the preview domain)
      */
-    function withPreviewParams(rawSearchParams = {}, extraSearchParams = {}) {
+    withPreviewParams(rawSearchParams = {}, extraSearchParams = {}) {
         const globalParams = pick(rawSearchParams, [
             'social',
             'x-craft-live-preview',
@@ -59,7 +70,7 @@ module.exports = function ({ flags = {} }) {
      * mergeWelshBy('slug')(currentLocale, enResults, cyResults)
      * ```
      */
-    function mergeWelshBy(propName) {
+    mergeWelshBy(propName) {
         return function (currentLocale, enResults, cyResults) {
             if (currentLocale === 'en') {
                 return enResults;
@@ -78,7 +89,7 @@ module.exports = function ({ flags = {} }) {
      * Build pagination
      * Translate content API pagination into an object for use in views
      */
-    function _buildPagination(paginationMeta, currentQuery = {}) {
+    _buildPagination(paginationMeta, currentQuery = {}) {
         if (paginationMeta && paginationMeta.total_pages > 1) {
             const currentPage = paginationMeta.current_page;
             const totalPages = paginationMeta.total_pages;
@@ -107,12 +118,12 @@ module.exports = function ({ flags = {} }) {
      * API Methods
      ***********************************************/
 
-    function getRoutes() {
-        return queryContentApi('v1/list-routes').json().then(mapAttrs);
+    getRoutes() {
+        return this.queryContentApi('v1/list-routes').json().then(mapAttrs);
     }
 
-    function getAliasForLocale(locale, urlPath) {
-        return queryContentApi(`v1/${locale}/aliases`)
+    getAliasForLocale(locale, urlPath) {
+        return this.queryContentApi(`v1/${locale}/aliases`)
             .json()
             .then(mapAttrs)
             .then((matches) => {
@@ -122,28 +133,28 @@ module.exports = function ({ flags = {} }) {
             });
     }
 
-    function getAlias(urlPath) {
+    getAlias(urlPath) {
         const getOrHomepage = getOr('/', 'to');
-        return getAliasForLocale('en', urlPath).then((enMatch) => {
+        return this.getAliasForLocale('en', urlPath).then((enMatch) => {
             if (enMatch) {
                 return getOrHomepage(enMatch);
             } else {
-                return getAliasForLocale('cy', urlPath).then((cyMatch) =>
+                return this.getAliasForLocale('cy', urlPath).then((cyMatch) =>
                     cyMatch ? getOrHomepage(cyMatch) : null
                 );
             }
         });
     }
 
-    function getHeroImage({ locale, slug }) {
-        return queryContentApi(`v1/${locale}/hero-image/${slug}`)
+    getHeroImage({ locale, slug }) {
+        return this.queryContentApi(`v1/${locale}/hero-image/${slug}`)
             .json()
             .then(getAttrs);
     }
 
-    function getHomepage(locale, searchParams = {}) {
-        return queryContentApi(`v1/${locale}/homepage`, {
-            searchParams: withPreviewParams(searchParams),
+    getHomepage(locale, searchParams = {}) {
+        return this.queryContentApi(`v1/${locale}/homepage`, {
+            searchParams: this.withPreviewParams(searchParams),
         })
             .json()
             .then(getAttrs);
@@ -159,7 +170,7 @@ module.exports = function ({ flags = {} }) {
      * @property {object} [options.query]
      * @property {object} [options.requestParams]
      */
-    function getUpdates({
+    getUpdates({
         locale,
         type = null,
         date = null,
@@ -168,10 +179,10 @@ module.exports = function ({ flags = {} }) {
         requestParams = {},
     }) {
         if (slug) {
-            return queryContentApi(
+            return this.queryContentApi(
                 `v1/${locale}/updates/${type}/${date}/${slug}`,
                 {
-                    searchParams: withPreviewParams(requestParams, {
+                    searchParams: this.withPreviewParams(requestParams, {
                         ...query,
                     }),
                 }
@@ -184,8 +195,8 @@ module.exports = function ({ flags = {} }) {
                     };
                 });
         } else {
-            return queryContentApi(`v1/${locale}/updates/${type || ''}`, {
-                searchParams: withPreviewParams(requestParams, {
+            return this.queryContentApi(`v1/${locale}/updates/${type || ''}`, {
+                searchParams: this.withPreviewParams(requestParams, {
                     ...query,
                     ...{ 'page-limit': 10 },
                 }),
@@ -195,7 +206,7 @@ module.exports = function ({ flags = {} }) {
                     return {
                         meta: response.meta,
                         result: mapAttrs(response),
-                        pagination: _buildPagination(
+                        pagination: this._buildPagination(
                             response.meta.pagination,
                             query
                         ),
@@ -204,7 +215,7 @@ module.exports = function ({ flags = {} }) {
         }
     }
 
-    function getFundingProgrammes({
+    getFundingProgrammes({
         locale,
         page = 1,
         pageLimit = 100,
@@ -219,17 +230,17 @@ module.exports = function ({ flags = {} }) {
         };
 
         return Promise.all([
-            queryContentApi
+            this.queryContentApi
                 .get('v2/en/funding-programmes', requestOptions)
                 .json(),
-            queryContentApi
+            this.queryContentApi
                 .get('v2/cy/funding-programmes', requestOptions)
                 .json(),
         ]).then((responses) => {
             const [enResponse, cyResponse] = responses;
             return {
                 meta: locale === 'en' ? enResponse.meta : cyResponse.meta,
-                result: mergeWelshBy('slug')(
+                result: this.mergeWelshBy('slug')(
                     locale,
                     mapAttrs(enResponse),
                     mapAttrs(cyResponse)
@@ -238,8 +249,8 @@ module.exports = function ({ flags = {} }) {
         });
     }
 
-    function getRecentFundingProgrammes(locale) {
-        return queryContentApi
+    getRecentFundingProgrammes(locale) {
+        return this.queryContentApi
             .get(`v2/${locale}/funding-programmes`, {
                 searchParams: { 'page': 1, 'page-limit': 3, 'newest': true },
             })
@@ -247,16 +258,16 @@ module.exports = function ({ flags = {} }) {
             .then(mapAttrs);
     }
 
-    function getFundingProgramme({ locale, slug, searchParams = {} }) {
-        return queryContentApi
+    getFundingProgramme({ locale, slug, searchParams = {} }) {
+        return this.queryContentApi
             .get(`v2/${locale}/funding-programmes/${slug}`, {
-                searchParams: withPreviewParams(searchParams),
+                searchParams: this.withPreviewParams(searchParams),
             })
             .json()
             .then(getAttrs);
     }
 
-    function getResearch({
+    getResearch({
         locale,
         slug = null,
         query = {},
@@ -264,8 +275,10 @@ module.exports = function ({ flags = {} }) {
         type = null,
     }) {
         if (slug) {
-            return queryContentApi(`v1/${locale}/research/${slug}`, {
-                searchParams: withPreviewParams(requestParams, { ...query }),
+            return this.queryContentApi(`v1/${locale}/research/${slug}`, {
+                searchParams: this.withPreviewParams(requestParams, {
+                    ...query,
+                }),
             })
                 .json()
                 .then(getAttrs);
@@ -274,15 +287,17 @@ module.exports = function ({ flags = {} }) {
             if (type) {
                 path += `/${type}`;
             }
-            return queryContentApi(path, {
-                searchParams: withPreviewParams(requestParams, { ...query }),
+            return this.queryContentApi(path, {
+                searchParams: this.withPreviewParams(requestParams, {
+                    ...query,
+                }),
             })
                 .json()
                 .then((response) => {
                     return {
                         meta: response.meta,
                         result: mapAttrs(response),
-                        pagination: _buildPagination(
+                        pagination: this._buildPagination(
                             response.meta.pagination,
                             query
                         ),
@@ -291,24 +306,19 @@ module.exports = function ({ flags = {} }) {
         }
     }
 
-    function getPublications({
-        locale,
-        programme,
-        slug = null,
-        searchParams = {},
-    }) {
+    getPublications({ locale, programme, slug = null, searchParams = {} }) {
         const customSearchParams = {
             // Override default page-limit
             ...{ 'page-limit': 10 },
             ...pick(searchParams, ['page', 'tag', 'q', 'sort']),
         };
 
-        const combinedSearchParams = withPreviewParams(searchParams, {
+        const combinedSearchParams = this.withPreviewParams(searchParams, {
             ...customSearchParams,
         });
 
         if (slug) {
-            return queryContentApi(
+            return this.queryContentApi(
                 `v1/${locale}/funding/publications/${programme}/${slug}`,
                 { searchParams: combinedSearchParams }
             )
@@ -320,7 +330,7 @@ module.exports = function ({ flags = {} }) {
                     };
                 });
         } else {
-            return queryContentApi(
+            return this.queryContentApi(
                 `v1/${locale}/funding/publications/${programme}`,
                 { searchParams: combinedSearchParams }
             )
@@ -329,7 +339,7 @@ module.exports = function ({ flags = {} }) {
                     return {
                         meta: response.meta,
                         result: mapAttrs(response),
-                        pagination: _buildPagination(
+                        pagination: this._buildPagination(
                             response.meta.pagination,
                             customSearchParams
                         ),
@@ -338,8 +348,8 @@ module.exports = function ({ flags = {} }) {
         }
     }
 
-    function getPublicationTags({ locale, programme }) {
-        return queryContentApi(
+    getPublicationTags({ locale, programme }) {
+        return this.queryContentApi(
             `v1/${locale}/funding/publications/${programme}/tags`
         )
             .json()
@@ -358,16 +368,16 @@ module.exports = function ({ flags = {} }) {
             });
     }
 
-    function getStrategicProgrammes({
+    getStrategicProgrammes({
         locale,
         slug = null,
         query = {},
         requestParams = {},
     }) {
         if (slug) {
-            return queryContentApi
+            return this.queryContentApi
                 .get(`v1/${locale}/strategic-programmes/${slug}`, {
-                    searchParams: withPreviewParams(requestParams, {
+                    searchParams: this.withPreviewParams(requestParams, {
                         ...query,
                     }),
                 })
@@ -375,19 +385,23 @@ module.exports = function ({ flags = {} }) {
                 .then((response) => get('data.attributes')(response));
         } else {
             return Promise.all([
-                queryContentApi.get('v1/en/strategic-programmes').json(),
-                queryContentApi.get('v1/cy/strategic-programmes').json(),
+                this.queryContentApi.get('v1/en/strategic-programmes').json(),
+                this.queryContentApi.get('v1/cy/strategic-programmes').json(),
             ]).then((responses) => {
                 const [enResults, cyResults] = responses.map(mapAttrs);
-                return mergeWelshBy('urlPath')(locale, enResults, cyResults);
+                return this.mergeWelshBy('urlPath')(
+                    locale,
+                    enResults,
+                    cyResults
+                );
             });
         }
     }
 
-    function getListingPage({ locale, path, query = {}, requestParams = {} }) {
+    getListingPage({ locale, path, query = {}, requestParams = {} }) {
         const sanitisedPath = sanitiseUrlPath(path);
-        return queryContentApi(`v1/${locale}/listing`, {
-            searchParams: withPreviewParams(requestParams, {
+        return this.queryContentApi(`v1/${locale}/listing`, {
+            searchParams: this.withPreviewParams(requestParams, {
                 ...query,
                 ...{ path: sanitisedPath },
             }),
@@ -401,59 +415,34 @@ module.exports = function ({ flags = {} }) {
             });
     }
 
-    function getProjectStory({
-        locale,
-        grantId,
-        query = {},
-        requestParams = {},
-    }) {
-        return queryContentApi(`v1/${locale}/project-stories/${grantId}`, {
-            searchParams: withPreviewParams(requestParams, { ...query }),
+    getProjectStory({ locale, grantId, query = {}, requestParams = {} }) {
+        return this.queryContentApi(`v1/${locale}/project-stories/${grantId}`, {
+            searchParams: this.withPreviewParams(requestParams, { ...query }),
         })
             .json()
             .then(getAttrs);
     }
 
-    function getDataStats(locale, searchParams = {}) {
-        return queryContentApi(`v1/${locale}/data`, {
-            searchParams: withPreviewParams(searchParams),
+    getDataStats(locale, searchParams = {}) {
+        return this.queryContentApi(`v1/${locale}/data`, {
+            searchParams: this.withPreviewParams(searchParams),
         })
             .json()
             .then(getAttrs);
     }
 
-    function getMerchandise({ locale, showAll = false } = {}) {
+    getMerchandise({ locale, showAll = false } = {}) {
         let searchParams = {};
         if (showAll) {
             searchParams.all = 'true';
         }
 
-        return queryContentApi(`v1/${locale}/merchandise`, {
+        return this.queryContentApi(`v1/${locale}/merchandise`, {
             searchParams: searchParams,
         })
             .json()
             .then(mapAttrs);
     }
+}
 
-    return {
-        // Exported for tests
-        _buildPagination,
-        // API methods
-        getAlias,
-        getProjectStory,
-        getDataStats,
-        getFundingProgramme,
-        getFundingProgrammes,
-        getRecentFundingProgrammes,
-        getHeroImage,
-        getHomepage,
-        getListingPage,
-        getMerchandise,
-        getPublications,
-        getPublicationTags,
-        getResearch,
-        getRoutes,
-        getStrategicProgrammes,
-        getUpdates,
-    };
-};
+module.exports = { ContentApiClient };
