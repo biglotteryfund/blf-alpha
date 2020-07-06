@@ -164,7 +164,7 @@
     "details-element-polyfill": "2.4.0",
     "dotenv": "8.2.0",
     "eslint": "6.8.0",
-    "eslint-plugin-compat": "3.7.0",
+    "eslint-plugin-compat": "3.8.0",
     "eslint-plugin-lodash": "7.1.0",
     "eslint-plugin-no-only-tests": "2.4.0",
     "eslint-plugin-node": "11.1.0",
