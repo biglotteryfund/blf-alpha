@@ -1,9 +1,10 @@
 /* eslint-env jest */
 'use strict';
 
-const contentApi = require('./content-api');
+const { ContentApiClient } = require('./content-api');
+const ContentApi = new ContentApiClient();
 
-const _buildPagination = contentApi({ flags: {} })._buildPagination;
+const _buildPagination = ContentApi._buildPagination;
 
 it('should transform API pagination meta into object for views', () => {
     expect(

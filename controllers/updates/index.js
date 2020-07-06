@@ -7,10 +7,11 @@ const pick = require('lodash/pick');
 
 const { buildArchiveUrl, localify } = require('../../common/urls');
 const { injectHeroImage } = require('../../common/inject-content');
-const contentApi = require('../../common/content-api');
+const { ContentApiClient } = require('../../common/content-api');
 const checkPreviewMode = require('../../common/check-preview-mode');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 const heroSlug = 'pawzitive-letterbox-new';
 
@@ -26,11 +27,11 @@ router.get('/', injectHeroImage(heroSlug), async function (req, res, next) {
          * depending on frequency of posting of the other kind.
          */
         const [blogposts, peopleStories] = await Promise.all([
-            await contentApi({ flags: res.locals }).getUpdates({
+            await ContentApi.init({ flags: res.locals }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'blog',
             }),
-            await contentApi({ flags: res.locals }).getUpdates({
+            await ContentApi.init({ flags: res.locals }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'people-stories',
             }),
@@ -98,7 +99,7 @@ router.get(
     injectHeroImage(heroSlug),
     async function (req, res, next) {
         try {
-            const updatesResponse = await contentApi({
+            const updatesResponse = await ContentApi.init({
                 flags: res.locals,
             }).getUpdates({
                 locale: req.i18n.getLocale(),
@@ -216,7 +217,7 @@ router.get(
     injectHeroImage(heroSlug),
     async (req, res, next) => {
         try {
-            const updatesResponse = await contentApi({
+            const updatesResponse = await ContentApi.init({
                 flags: res.locals,
             }).getUpdates({
                 locale: req.i18n.getLocale(),

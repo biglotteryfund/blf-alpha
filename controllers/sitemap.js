@@ -6,7 +6,7 @@ const concat = require('lodash/fp/concat');
 const sortBy = require('lodash/fp/sortBy');
 const uniqBy = require('lodash/fp/uniqBy');
 
-const contentApi = require('../common/content-api');
+const { ContentApiClient } = require('../common/content-api');
 const { getBaseUrl } = require('../common/urls');
 
 /**
@@ -42,7 +42,7 @@ async function getCanonicalRoutes(res) {
         };
     });
 
-    const cmsCanonicalUrls = await contentApi({
+    const cmsCanonicalUrls = await ContentApi.init({
         flags: res.locals,
     }).getRoutes();
     const combined = concat(staticRoutes, cmsCanonicalUrls);

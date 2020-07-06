@@ -4,8 +4,10 @@ const Sentry = require('@sentry/node');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 
-const contentApi = require('./content-api');
+const { ContentApiClient } = require('./content-api');
 const checkPreviewMode = require('./check-preview-mode');
+
+const ContentApi = new ContentApiClient();
 
 /*
  * Populate hero image (with social image URLs too)
@@ -59,7 +61,7 @@ function injectHeroImage(heroSlug) {
             res.locals.socialImage = fallbackHeroImage;
 
             try {
-                const image = await contentApi({
+                const image = await ContentApi.init({
                     flags: res.locals,
                 }).getHeroImage({
                     locale: req.i18n.getLocale(),
@@ -81,7 +83,9 @@ function injectHeroImage(heroSlug) {
 
 async function injectListingContent(req, res, next) {
     try {
-        const entry = await contentApi({ flags: res.locals }).getListingPage({
+        const entry = await ContentApi.init({
+            flags: res.locals,
+        }).getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
             requestParams: req.query,

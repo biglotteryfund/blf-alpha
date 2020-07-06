@@ -8,7 +8,7 @@ const Sentry = require('@sentry/node');
 const { oneLine } = require('common-tags');
 
 const { Order } = require('../../../db/models');
-const contentApi = require('../../../common/content-api');
+const { ContentApiClient } = require('../../../common/content-api');
 const { isNotProduction } = require('../../../common/appData');
 const { csrfProtection, noStore } = require('../../../common/cached');
 const { generateHtmlEmail, sendEmail } = require('../../../common/mail');
@@ -21,6 +21,7 @@ const makeOrderText = require('./lib/make-order-text');
 const normaliseUserInput = require('./lib/normalise-user-input');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 const FORM_STATES = {
     NOT_SUBMITTED: 'NOT_SUBMITTED',
@@ -151,7 +152,7 @@ router
     .route('/')
     .all(csrfProtection, injectListingContent, async function (req, res, next) {
         try {
-            res.locals.availableItems = await contentApi({
+            res.locals.availableItems = await ContentApi.init({
                 flags: res.locals,
             }).getMerchandise({
                 locale: req.i18n.getLocale(),

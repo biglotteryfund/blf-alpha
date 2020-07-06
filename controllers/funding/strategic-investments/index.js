@@ -7,11 +7,12 @@ const {
     injectListingContent,
     setCommonLocals,
 } = require('../../../common/inject-content');
-const contentApi = require('../../../common/content-api');
+const { ContentApiClient } = require('../../../common/content-api');
 
 const { renderFlexibleContentChild } = require('../../common');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 router.use(function (req, res, next) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
@@ -24,7 +25,7 @@ router.use(function (req, res, next) {
 router.get('/', injectListingContent, async function (req, res, next) {
     try {
         res.render(path.resolve(__dirname, './views/strategic-investments'), {
-            strategicProgrammes: await contentApi({
+            strategicProgrammes: await ContentApi.init({
                 flags: res.locals,
             }).getStrategicProgrammes({
                 locale: req.i18n.getLocale(),
@@ -42,7 +43,7 @@ router.get('/', injectListingContent, async function (req, res, next) {
 
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
-        const entry = await contentApi({
+        const entry = await ContentApi.init({
             flags: res.locals,
         }).getStrategicProgrammes({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),

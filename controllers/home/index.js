@@ -1,11 +1,12 @@
 'use strict';
 const path = require('path');
 
-const contentApi = require('../../common/content-api');
+const { ContentApiClient } = require('../../common/content-api');
+const ContentApi = new ContentApiClient();
 
 module.exports = async function (req, res, next) {
     try {
-        const entry = await contentApi({ flags: res.locals }).getHomepage(
+        const entry = await ContentApi.init({ flags: res.locals }).getHomepage(
             req.i18n.getLocale(),
             req.query
         );

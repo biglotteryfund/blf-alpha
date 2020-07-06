@@ -12,11 +12,12 @@ const sortBy = require('lodash/sortBy');
 const take = require('lodash/take');
 
 const { Order } = require('../../db/models');
-const contentApi = require('../../common/content-api');
+const { ContentApiClient } = require('../../common/content-api');
 
 const { getDateRangeWithDefault } = require('./lib/date-helpers');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 function summariseOrders(orders) {
     const normalisedDateFormat = 'YYYY-MM-DD';
@@ -103,7 +104,7 @@ router.get('/', async function (req, res, next) {
         );
 
         const [materials, oldestOrder, orderData] = await Promise.all([
-            contentApi({ flags: res.locals }).getMerchandise({
+            ContentApi.init({ flags: res.locals }).getMerchandise({
                 locale: 'en',
                 showAll: true,
             }),
