@@ -19,8 +19,7 @@ function formatAddress(value) {
 class AddressHistoryField extends Field {
     constructor(props) {
         super(props);
-        this.orgTypesToExcludeContactDetails =
-            props.orgTypesToExcludeContactDetails;
+        this.textMaxLengths = props.textMaxLengths;
         this.schema = this.withCustomSchema(props.schema);
     }
 
@@ -29,33 +28,12 @@ class AddressHistoryField extends Field {
     }
 
     defaultSchema() {
-        const orgTypesToExcludeContactDetails =
-            this.orgTypesToExcludeContactDetails || [];
-
-        // @TODO this should be implemented on the individual field level
-        function stripIfExcludedOrgType(schema) {
-            return Joi.when(Joi.ref('organisationType'), {
-                is: Joi.exist().valid(orgTypesToExcludeContactDetails),
-                then: Joi.any().strip(),
-                otherwise: schema,
-            });
-        }
-
-        return stripIfExcludedOrgType(
-            Joi.object({
-                currentAddressMeetsMinimum: Joi.string()
-                    .valid(['yes', 'no'])
-                    .required(),
-                previousAddress: Joi.when(
-                    Joi.ref('currentAddressMeetsMinimum'),
-                    {
-                        is: 'no',
-                        then: Joi.ukAddress().required(),
-                        otherwise: Joi.any().strip(),
-                    }
-                ),
-            }).required()
-        );
+        return Joi.object({
+            currentAddressMeetsMinimum: Joi.string()
+                .valid(['yes', 'no'])
+                .required(),
+            previousAddress: Joi.ukAddress().required(),
+        }).required();
     }
 
     // @TODO the length constraints here don't seem to fire as they're hardcoded in ukAddress
@@ -87,22 +65,18 @@ class AddressHistoryField extends Field {
             {
                 type: 'string.max',
                 key: 'line1',
-                get message() {
-                    return this.localise({
-                        en: `Building and street must be ${this.textMaxLengths.large} characters or less`,
-                        cy: `Rhaid i’r adeilad a’r stryd fod yn llai na ${this.textMaxLengths.large} nod`,
-                    });
-                },
+                message: this.localise({
+                    en: `Building and street must be ${this.textMaxLengths.large} characters or less`,
+                    cy: `Rhaid i’r adeilad a’r stryd fod yn llai na ${this.textMaxLengths.large} nod`,
+                }),
             },
             {
                 type: 'string.max',
                 key: 'line2',
-                get message() {
-                    return this.localise({
-                        en: `Address line must be ${this.textMaxLengths.large} characters or less`,
-                        cy: `Rhaid i’r llinell cyfeiriad fod yn llai na ${this.textMaxLengths.large} nod`,
-                    });
-                },
+                message: this.localise({
+                    en: `Address line must be ${this.textMaxLengths.large} characters or less`,
+                    cy: `Rhaid i’r llinell cyfeiriad fod yn llai na ${this.textMaxLengths.large} nod`,
+                }),
             },
             {
                 type: 'any.empty',
@@ -123,22 +97,18 @@ class AddressHistoryField extends Field {
             {
                 type: 'string.max',
                 key: 'townCity',
-                get message() {
-                    return this.localise({
-                        en: `Town or city must be ${this.textMaxLengths.small} characters or less`,
-                        cy: `Rhaid i’r dref neu ddinas fod yn llai na ${this.textMaxLengths.small} nod`,
-                    });
-                },
+                message: this.localise({
+                    en: `Town or city must be ${this.textMaxLengths.small} characters or less`,
+                    cy: `Rhaid i’r dref neu ddinas fod yn llai na ${this.textMaxLengths.small} nod`,
+                }),
             },
             {
                 type: 'string.max',
                 key: 'county',
-                get message() {
-                    return this.localise({
-                        en: `County must be ${this.textMaxLengths.medium} characters or less`,
-                        cy: `Rhaid i’r sir fod yn llai na ${this.textMaxLengths.medium} nod`,
-                    });
-                },
+                message: this.localise({
+                    en: `County must be ${this.textMaxLengths.medium} characters or less`,
+                    cy: `Rhaid i’r sir fod yn llai na ${this.textMaxLengths.medium} nod`,
+                }),
             },
             {
                 type: 'any.empty',

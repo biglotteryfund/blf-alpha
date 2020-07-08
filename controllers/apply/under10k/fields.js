@@ -6,13 +6,21 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 
-const Field = require('../lib/field-types/field');
-const EmailField = require('../lib/field-types/email');
-const DateField = require('../lib/field-types/date');
-const PhoneField = require('../lib/field-types/phone');
-const NameField = require('../lib/field-types/name');
-const RadioField = require('../lib/field-types/radio');
-const AddressField = require('../lib/field-types/address');
+const {
+    Field,
+    AddressField,
+    AddressHistoryField,
+    BudgetField,
+    CheckboxField,
+    CurrencyField,
+    DateField,
+    EmailField,
+    NameField,
+    PhoneField,
+    RadioField,
+    SelectField,
+    TextareaField,
+} = require('../lib/field-types');
 
 const fieldBankAccountName = require('./fields/bank-account-name');
 const fieldBankAccountNumber = require('./fields/bank-account-number');
@@ -31,9 +39,13 @@ const fieldProjectName = require('./fields/project-name');
 const fieldProjectPostcode = require('./fields/project-postcode');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
-const fieldTotalIncomeYear = require('./fields/total-income-year');
 
 const { fieldSupportingCOVID19 } = require('./fields/covid-19');
+
+const {
+    fieldMainContactAddressHistory,
+    fieldSeniorContactAddressHistory,
+} = require('./fields/contact-addresses');
 
 const {
     fieldProjectStartDateCheck,
@@ -53,6 +65,11 @@ const {
 } = require('./fields/organisation-type');
 
 const {
+    fieldAccountingYearDate,
+    fieldTotalIncomeYear,
+} = require('./fields/organisation-finances');
+
+const {
     fieldTermsAgreement1,
     fieldTermsAgreement2,
     fieldTermsAgreement3,
@@ -64,7 +81,6 @@ const {
     fieldTermsPersonPosition,
 } = require('./fields/terms');
 
-const isNewOrganisation = require('./lib/new-organisation');
 const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
@@ -75,149 +91,36 @@ const {
     FREE_TEXT_MAXLENGTH,
 } = require('./constants');
 
+function multiChoice(options) {
+    return Joi.array()
+        .items(Joi.string().valid(options.map((option) => option.value)))
+        .single();
+}
+
+function conditionalBeneficiaryChoice({ match, schema }) {
+    return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
+        is: 'yes',
+        then: Joi.when(Joi.ref('beneficiariesGroups'), {
+            is: Joi.array()
+                .items(Joi.string().only(match).required(), Joi.any())
+                .required(),
+            then: schema,
+            otherwise: Joi.any().strip(),
+        }),
+        otherwise: Joi.any().strip(),
+    });
+}
+
+function stripIfExcludedOrgType(schema) {
+    return Joi.when(Joi.ref('organisationType'), {
+        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
+        then: Joi.any().strip(),
+        otherwise: schema,
+    });
+}
+
 module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
-
-    function multiChoice(options) {
-        return Joi.array()
-            .items(Joi.string().valid(options.map((option) => option.value)))
-            .single();
-    }
-
-    function conditionalBeneficiaryChoice({ match, schema }) {
-        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
-            is: 'yes',
-            then: Joi.when(Joi.ref('beneficiariesGroups'), {
-                is: Joi.array()
-                    .items(Joi.string().only(match).required(), Joi.any())
-                    .required(),
-                then: schema,
-                otherwise: Joi.any().strip(),
-            }),
-            otherwise: Joi.any().strip(),
-        });
-    }
-
-    function stripIfExcludedOrgType(schema) {
-        return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-            then: Joi.any().strip(),
-            otherwise: schema,
-        });
-    }
-
-    function addressHistoryField(props) {
-        const defaultProps = {
-            type: 'address-history',
-            isRequired: true,
-            schema: stripIfExcludedOrgType(
-                Joi.object({
-                    currentAddressMeetsMinimum: Joi.string()
-                        .valid(['yes', 'no'])
-                        .required(),
-                    previousAddress: Joi.when(
-                        Joi.ref('currentAddressMeetsMinimum'),
-                        {
-                            is: 'no',
-                            then: Joi.ukAddress().required(),
-                            otherwise: Joi.any().strip(),
-                        }
-                    ),
-                }).required()
-            ),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a full UK address',
-                        cy: 'Rhowch gyfeiriad Prydeining llawn',
-                    }),
-                },
-                {
-                    type: 'any.required',
-                    key: 'currentAddressMeetsMinimum',
-                    message: localise({
-                        en: 'Choose from one of the options provided',
-                        cy: 'Dewiswch o un o’r opsiynau a ddarperir',
-                    }),
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: 'Rhowch adeilad a stryd',
-                    }),
-                },
-                {
-                    type: 'string.max',
-                    key: 'line1',
-                    message: localise({
-                        en: `Building and street must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r adeilad a’r stryd fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`,
-                    }),
-                },
-                {
-                    type: 'string.max',
-                    key: 'line2',
-                    message: localise({
-                        en: `Address line must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r llinell cyfeiriad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`,
-                    }),
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({
-                        en: 'Enter a town or city',
-                        cy: 'Rhowch dref neu ddinas',
-                    }),
-                },
-                {
-                    type: 'any.empty',
-                    key: 'county',
-                    message: localise({
-                        en: 'Enter a county',
-                        cy: 'Rhowch sir',
-                    }),
-                },
-                {
-                    type: 'string.max',
-                    key: 'townCity',
-                    message: localise({
-                        en: `Town or city must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                        cy: `Rhaid i’r dref neu ddinas fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`,
-                    }),
-                },
-                {
-                    type: 'string.max',
-                    key: 'county',
-                    message: localise({
-                        en: `County must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: `Rhaid i’r sir fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`,
-                    }),
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a postcode',
-                        cy: 'Rhowch gôd post',
-                    }),
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn',
-                    }),
-                },
-            ],
-        };
-
-        return { ...defaultProps, ...props };
-    }
 
     function dateOfBirthField(name, minAge) {
         const minDate = moment().subtract(120, 'years').format('YYYY-MM-DD');
@@ -1237,38 +1140,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         companyNumber: fieldCompanyNumber(locale),
         charityNumber: fieldCharityNumber(locale, data),
         educationNumber: fieldEducationNumber(locale),
-        accountingYearDate: {
-            name: 'accountingYearDate',
-            label: localise({
-                en: 'What is your accounting year end date?',
-                cy: 'Beth yw eich dyddiad gorffen blwyddyn ariannol?',
-            }),
-            explanation: localise({
-                en: `<p><strong>For example: 31 03</strong></p>`,
-                cy: '<p><strong>Er enghraifft: 31 03</strong></p>',
-            }),
-            type: 'day-month',
-            isRequired: true,
-            schema: isNewOrganisation(get('organisationStartDate')(data))
-                ? Joi.any().strip()
-                : Joi.dayMonth().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a day and month',
-                        cy: 'Rhowch ddiwrnod a mis',
-                    }),
-                },
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: 'Enter a real day and month',
-                        cy: 'Rhowch ddiwrnod a mis go iawn',
-                    }),
-                },
-            ],
-        },
+        accountingYearDate: fieldAccountingYearDate(locale, data),
         totalIncomeYear: fieldTotalIncomeYear(locale, data),
         mainContactName: new NameField({
             locale: locale,
@@ -1348,14 +1220,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 },
             ],
         }),
-        mainContactAddressHistory: addressHistoryField({
-            name: 'mainContactAddressHistory',
-            label: localise({
-                en:
-                    'Have they lived at their home address for the last three years?',
-                cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`,
-            }),
-        }),
+        mainContactAddressHistory: fieldMainContactAddressHistory(locale),
         mainContactEmail: new EmailField({
             locale: locale,
             name: 'mainContactEmail',
