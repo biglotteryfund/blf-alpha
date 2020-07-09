@@ -46,16 +46,7 @@ class Field {
 
         this.schema = this.withCustomSchema(props.schema);
 
-        this.messages = this.defaultMessages().concat(props.messages || []);
-
-        if (
-            this.isRequired &&
-            this.messages.some((message) => message.type === 'base') === false
-        ) {
-            throw new Error(
-                'Required fields must provide a base error message'
-            );
-        }
+        this.suppliedMessages = props.messages;
 
         this.warnings = props.warnings || [];
 
@@ -99,10 +90,27 @@ class Field {
     }
 
     /**
-     * Allow sub-classes to provide a default messages
+     * Allow sub-classes to provide default messages
      */
     defaultMessages() {
         return [];
+    }
+
+    get messages() {
+        const allMessages = this.defaultMessages().concat(
+            this.suppliedMessages || []
+        );
+
+        if (
+            this.isRequired &&
+            allMessages.some((message) => message.type === 'base') === false
+        ) {
+            throw new Error(
+                'Required fields must provide a base error message'
+            );
+        }
+
+        return allMessages;
     }
 
     /**
