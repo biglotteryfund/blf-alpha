@@ -5,6 +5,7 @@ const Joi = require('../../lib/joi-extensions');
 const { AddressHistoryField } = require('../../lib/field-types');
 const { CONTACT_EXCLUDED_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
 
+// @TODO this is duplicated
 function stripIfExcludedOrgType(schema) {
     return Joi.when(Joi.ref('organisationType'), {
         is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
@@ -13,7 +14,7 @@ function stripIfExcludedOrgType(schema) {
     });
 }
 
-function buildFieldProps(locale, props = {}) {
+module.exports = function (locale, props) {
     const localise = get(locale);
 
     const defaultProps = {
@@ -40,20 +41,5 @@ function buildFieldProps(locale, props = {}) {
             }).required()
         ),
     };
-    return { ...defaultProps, ...props };
-}
-
-module.exports = {
-    fieldMainContactAddressHistory(locale) {
-        const props = buildFieldProps(locale, {
-            name: 'mainContactAddressHistory',
-        });
-        return new AddressHistoryField(props);
-    },
-    fieldSeniorContactAddressHistory(locale) {
-        const props = buildFieldProps(locale, {
-            name: 'seniorContactAddressHistory',
-        });
-        return new AddressHistoryField(props);
-    },
+    return new AddressHistoryField({ ...defaultProps, ...props });
 };

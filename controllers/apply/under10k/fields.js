@@ -50,10 +50,7 @@ const {
     fieldBeneficiariesWelshLanguage,
 } = require('./fields/beneficiaries');
 
-const {
-    fieldMainContactAddressHistory,
-    fieldSeniorContactAddressHistory,
-} = require('./fields/contact-addresses');
+const fieldContactAddressHistory = require('./fields/contact-address-history');
 
 const {
     fieldProjectStartDateCheck,
@@ -414,7 +411,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 },
             ],
         }),
-        mainContactAddressHistory: fieldMainContactAddressHistory(locale),
+        mainContactAddressHistory: fieldContactAddressHistory(locale, {
+            name: 'mainContactAddressHistory',
+        }),
         mainContactEmail: new EmailField({
             locale: locale,
             name: 'mainContactEmail',
@@ -521,7 +520,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 },
             ],
         }),
-        seniorContactAddressHistory: fieldSeniorContactAddressHistory(locale),
+        seniorContactAddressHistory: fieldContactAddressHistory(locale, {
+            name: 'seniorContactAddressHistory',
+        }),
         seniorContactEmail: new EmailField({
             locale: locale,
             name: 'seniorContactEmail',
