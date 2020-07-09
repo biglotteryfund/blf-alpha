@@ -3,6 +3,7 @@ const get = require('lodash/fp/get');
 
 const { COMPANY_NUMBER_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
 const Joi = require('../../lib/joi-extensions');
+const Field = require('../../lib/field-types/field');
 
 module.exports = function (locale) {
     const localise = get(locale);
@@ -15,13 +16,13 @@ module.exports = function (locale) {
         });
     }
 
-    return {
+    return new Field({
+        locale: locale,
         name: 'companyNumber',
         label: localise({
             en: 'Companies House number',
             cy: 'Rhif Tŷ’r Cwmnïau',
         }),
-        type: 'text',
         isRequired: true,
         schema: stripUnlessOrgTypes(
             COMPANY_NUMBER_TYPES,
@@ -43,5 +44,5 @@ module.exports = function (locale) {
                 }),
             },
         ],
-    };
+    });
 };

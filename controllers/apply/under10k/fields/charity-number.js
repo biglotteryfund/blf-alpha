@@ -3,6 +3,7 @@ const get = require('lodash/fp/get');
 
 const { CHARITY_NUMBER_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
 const Joi = require('../../lib/joi-extensions');
+const Field = require('../../lib/field-types/field');
 
 module.exports = function (locale, data) {
     /**
@@ -31,13 +32,13 @@ module.exports = function (locale, data) {
         otherwise: Joi.any().strip(),
     });
 
-    return {
+    return new Field({
+        locale: locale,
         name: 'charityNumber',
         label: localise({
             en: 'Charity registration number',
             cy: 'Rhif cofrestru elusen',
         }),
-        type: 'text',
         attributes: { size: 20 },
         isRequired: CHARITY_NUMBER_TYPES.required.includes(
             currentOrganisationType
@@ -68,5 +69,5 @@ module.exports = function (locale, data) {
                 }),
             },
         ],
-    };
+    });
 };

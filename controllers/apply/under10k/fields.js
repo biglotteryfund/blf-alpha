@@ -22,6 +22,8 @@ const fieldBankStatement = require('./fields/bank-statement');
 const fieldBuildingSocietyNumber = require('./fields/building-society-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldCompanyNumber = require('./fields/company-number');
+const fieldContactAddressHistory = require('./fields/contact-address-history');
+const fieldContactCommunicationNeeds = require('./fields/contact-communication-needs');
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldEducationNumber = require('./fields/education-number');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -49,8 +51,6 @@ const {
     fieldBeneficiariesNorthernIrelandCommunity,
     fieldBeneficiariesWelshLanguage,
 } = require('./fields/beneficiaries');
-
-const fieldContactAddressHistory = require('./fields/contact-address-history');
 
 const {
     fieldProjectStartDateCheck,
@@ -223,7 +223,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 },
             ],
         }),
-        organisationLegalName: {
+        organisationLegalName: new Field({
+            locale: locale,
             name: 'organisationLegalName',
             label: localise({
                 en: `What is the full legal name of your organisation?`,
@@ -246,7 +247,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     memorandwm ac erthyglau cymdeithas, neu rywbeth gwbl wahanol. 
                 </p>`,
             }),
-            type: 'text',
             isRequired: true,
             schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
             messages: [
@@ -265,7 +265,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     }),
                 },
             ],
-        },
+        }),
         organisationTradingName: new Field({
             locale: locale,
             name: 'organisationTradingName',
@@ -443,28 +443,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
             name: 'mainContactLanguagePreference',
         }),
-        mainContactCommunicationNeeds: {
+        mainContactCommunicationNeeds: fieldContactCommunicationNeeds(locale, {
             name: 'mainContactCommunicationNeeds',
-            label: localise({
-                en: `Please tell us about any particular communication needs this contact has.`,
-                cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu penodol sydd gan y cyswllt hwn.`,
-            }),
-            type: 'text',
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
-            messages: [
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r anghenion cyfathrebu penodol fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`,
-                    }),
-                },
-            ],
-        },
+        }),
         seniorContactRole: fieldSeniorContactRole(locale, data),
         seniorContactName: new NameField({
             locale: locale,
@@ -542,28 +523,12 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 name: 'seniorContactLanguagePreference',
             }
         ),
-        seniorContactCommunicationNeeds: {
-            name: 'seniorContactCommunicationNeeds',
-            label: localise({
-                en: `Please tell us about any particular communication needs this contact has.`,
-                cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu sydd gan y cyswllt hwn.`,
-            }),
-            type: 'text',
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional(),
-            messages: [
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r anghenion cyfathrebu penodol fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`,
-                    }),
-                },
-            ],
-        },
+        seniorContactCommunicationNeeds: fieldContactCommunicationNeeds(
+            locale,
+            {
+                name: 'seniorContactCommunicationNeeds',
+            }
+        ),
         bankAccountName: fieldBankAccountName(locale),
         bankSortCode: fieldBankSortCode(locale),
         bankAccountNumber: fieldBankAccountNumber(locale),
