@@ -4,14 +4,12 @@ const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
 const get = require('lodash/fp/get');
-const has = require('lodash/has');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
 
 const Joi = require('@hapi/joi');
 
-const { formatterFor } = require('./formatters');
 const normaliseErrors = require('./normalise-errors');
 
 class FormModel {

@@ -5,9 +5,6 @@ const Joi = require('../joi-extensions');
 
 class Field {
     constructor(props) {
-        // Used to switch on non-class type fields
-        this._isClass = true;
-
         if (props.name) {
             this.name = props.name;
         } else {
