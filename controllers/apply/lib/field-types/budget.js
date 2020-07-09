@@ -55,12 +55,10 @@ class BudgetField extends Field {
             {
                 type: 'string.max',
                 key: 'item',
-                get message() {
-                    return this.localise({
-                        en: `Item or activity must be ${this.maxItemNameLength} characters or less`,
-                        cy: `Rhaid i’r eitem neu weithgaredd fod yn llai na ${this.maxItemNameLength} nod`,
-                    });
-                },
+                message: this.localise({
+                    en: `Item or activity must be ${this.maxItemNameLength} characters or less`,
+                    cy: `Rhaid i’r eitem neu weithgaredd fod yn llai na ${this.maxItemNameLength} nod`,
+                }),
             },
             {
                 type: 'number.base',
@@ -94,34 +92,28 @@ class BudgetField extends Field {
             },
             {
                 type: 'array.max',
-                get message() {
-                    return this.localise({
-                        en: `Enter no more than ${this.rowLimit} items`,
-                        cy: `Rhowch dim mwy na ${this.rowLimit} eitem`,
-                    });
-                },
+                message: this.localise({
+                    en: `Enter no more than ${this.rowLimit} items`,
+                    cy: `Rhowch dim mwy na ${this.rowLimit} eitem`,
+                }),
             },
             {
                 type: 'budgetItems.overBudget',
-                get message() {
-                    return this.localise({
-                        en: oneLine`Costs you would like us to fund must be
+                message: this.localise({
+                    en: oneLine`Costs you would like us to fund must be
                                 less than £${this.max.toLocaleString()}`,
-                        cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
+                    cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
                                 fod yn llai na £${this.max.toLocaleString()}`,
-                    });
-                },
+                }),
             },
             {
                 type: 'budgetItems.underBudget',
-                get message() {
-                    return this.localise({
-                        en: oneLine`Costs you would like us to fund must be
+                message: this.localise({
+                    en: oneLine`Costs you would like us to fund must be
                                 greater than £${this.min.toLocaleString()}`,
-                        cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
+                    cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
                                 fod yn fwy na £${this.min.toLocaleString()}`,
-                    });
-                },
+                }),
             },
         ];
     }
