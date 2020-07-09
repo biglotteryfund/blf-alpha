@@ -32,11 +32,14 @@ class AddressHistoryField extends Field {
             currentAddressMeetsMinimum: Joi.string()
                 .valid(['yes', 'no'])
                 .required(),
-            previousAddress: Joi.ukAddress().required(),
+            previousAddress: Joi.when(Joi.ref('currentAddressMeetsMinimum'), {
+                is: 'no',
+                then: Joi.ukAddress().required(),
+                otherwise: Joi.any().strip(),
+            }),
         }).required();
     }
 
-    // @TODO the length constraints here don't seem to fire as they're hardcoded in ukAddress
     defaultMessages() {
         return [
             {

@@ -81,4 +81,14 @@ test('invalid field', function () {
             '"townCity" length must be less than or equal to 40 characters long'
         )
     );
+
+    field.withValue({
+        currentAddressMeetsMinimum: 'no',
+        previousAddress: {},
+    });
+    expect(field.validate().error.message).toEqual(
+        expect.stringContaining(
+            'child "previousAddress" fails because [child "line1" fails because ["line1" is required]]'
+        )
+    );
 });

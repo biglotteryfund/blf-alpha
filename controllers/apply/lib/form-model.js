@@ -28,30 +28,7 @@ class FormModel {
         const validation = this.validate(data);
         this.validation = validation;
 
-        /**
-         * Enrich field
-         * Assign current value and errors to field if present
-         */
         function enrichField(field) {
-            const fieldValue = find(data, (value, name) => name === field.name);
-            if (fieldValue) {
-                field.value = fieldValue;
-                field.displayValue = formatterFor(field, locale)(fieldValue);
-            }
-
-            function messageMatchesField(message) {
-                return message.param === field.name;
-            }
-
-            field.errors = validation.messages.filter(messageMatchesField);
-            field.featuredErrors = validation.featuredMessages.filter(
-                messageMatchesField
-            );
-
-            return field;
-        }
-
-        function enrichFieldClass(field) {
             field.withValue(find(data, (value, name) => name === field.name));
 
             field.withErrors(
@@ -74,11 +51,7 @@ class FormModel {
 
             section.steps = section.steps.map(function (step, stepIndex) {
                 step.fieldsets = step.fieldsets.map((fieldset) => {
-                    fieldset.fields = fieldset.fields.map((field) => {
-                        return has(field, '_isClass')
-                            ? enrichFieldClass(field)
-                            : enrichField(field);
-                    });
+                    fieldset.fields = fieldset.fields.map(enrichField);
                     return fieldset;
                 });
 

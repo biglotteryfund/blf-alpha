@@ -60,7 +60,7 @@ test('required properties', function () {
             locale: 'en',
             name: 'example',
             label: 'Example field',
-        });
+        }).messages;
     }).toThrowError('Required fields must provide a base error message');
 });
 
