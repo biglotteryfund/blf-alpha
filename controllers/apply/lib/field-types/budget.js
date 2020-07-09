@@ -1,5 +1,6 @@
 'use strict';
 const isArray = require('lodash/isArray');
+const has = require('lodash/has');
 const sumBy = require('lodash/sumBy');
 const { oneLine } = require('common-tags');
 
@@ -14,7 +15,14 @@ class BudgetField extends Field {
         this.rowLimit = props.rowLimit;
         this.min = props.min;
         this.max = props.max;
-        this.maxItemNameLength = props.maxItemNameLength;
+        if (
+            !has(props, 'min') ||
+            !has(props, 'max') ||
+            !has(props, 'rowLimit')
+        ) {
+            throw new Error('Must provide min, max and rowLimit');
+        }
+        this.maxItemNameLength = props.maxItemNameLength || 255;
         this.schema = this.withCustomSchema(props.schema);
     }
 
@@ -35,13 +43,6 @@ class BudgetField extends Field {
                 message: this.localise({
                     en: 'Enter a project budget',
                     cy: 'Rhowch gyllideb prosiect',
-                }),
-            },
-            {
-                type: 'any.invalid',
-                message: this.localise({
-                    en: 'Enter a real day and month',
-                    cy: 'Rhowch ddiwrnod a mis go iawn',
                 }),
             },
             {
