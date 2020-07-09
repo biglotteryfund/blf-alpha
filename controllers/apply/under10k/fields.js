@@ -1327,13 +1327,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 },
             ],
         }),
-        seniorContactAddressHistory: addressHistoryField({
-            name: 'seniorContactAddressHistory',
-            label: localise({
-                en: `Have they lived at their home address for the last three years?`,
-                cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`,
-            }),
-        }),
+        seniorContactAddressHistory: fieldSeniorContactAddressHistory(locale),
         seniorContactEmail: new EmailField({
             locale: locale,
             name: 'seniorContactEmail',
