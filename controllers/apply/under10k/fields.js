@@ -65,6 +65,7 @@ const {
 } = require('./fields/your-idea');
 
 const {
+    stripIfExcludedOrgType,
     fieldOrganisationType,
     fieldOrganisationSubTypeStatutoryBody,
 } = require('./fields/organisation-type');
@@ -92,14 +93,6 @@ const {
     MIN_AGE_SENIOR_CONTACT,
     FREE_TEXT_MAXLENGTH,
 } = require('./constants');
-
-function stripIfExcludedOrgType(schema) {
-    return Joi.when(Joi.ref('organisationType'), {
-        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-        then: Joi.any().strip(),
-        otherwise: schema,
-    });
-}
 
 module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
@@ -131,6 +124,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             }),
             attributes: { max: maxDate },
             schema: stripIfExcludedOrgType(
+                CONTACT_EXCLUDED_TYPES,
                 Joi.dateParts().minDate(minDate).maxDate(maxDate).required()
             ),
             messages: [
@@ -397,6 +391,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: `Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
             }),
             schema: stripIfExcludedOrgType(
+                CONTACT_EXCLUDED_TYPES,
                 Joi.ukAddress()
                     .required()
                     .compare(Joi.ref('seniorContactAddress'))
@@ -487,6 +482,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
             }),
             schema: stripIfExcludedOrgType(
+                CONTACT_EXCLUDED_TYPES,
                 Joi.ukAddress()
                     .required()
                     .compare(Joi.ref('mainContactAddress'))

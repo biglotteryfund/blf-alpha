@@ -5,16 +5,10 @@ const { COMPANY_NUMBER_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
 const Joi = require('../../lib/joi-extensions');
 const Field = require('../../lib/field-types/field');
 
+const { stripUnlessOrgTypes } = require('./organisation-type');
+
 module.exports = function (locale) {
     const localise = get(locale);
-
-    function stripUnlessOrgTypes(types, schema) {
-        return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(types),
-            then: schema,
-            otherwise: Joi.any().strip(),
-        });
-    }
 
     return new Field({
         locale: locale,

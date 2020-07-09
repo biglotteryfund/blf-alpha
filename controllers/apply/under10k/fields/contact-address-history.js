@@ -4,15 +4,7 @@ const get = require('lodash/fp/get');
 const Joi = require('../../lib/joi-extensions');
 const { AddressHistoryField } = require('../../lib/field-types');
 const { CONTACT_EXCLUDED_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
-
-// @TODO this is duplicated
-function stripIfExcludedOrgType(schema) {
-    return Joi.when(Joi.ref('organisationType'), {
-        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-        then: Joi.any().strip(),
-        otherwise: schema,
-    });
-}
+const { stripIfExcludedOrgType } = require('./organisation-type');
 
 module.exports = function (locale, props) {
     const localise = get(locale);
@@ -26,6 +18,7 @@ module.exports = function (locale, props) {
         }),
         textMaxLengths: FREE_TEXT_MAXLENGTH,
         schema: stripIfExcludedOrgType(
+            CONTACT_EXCLUDED_TYPES,
             Joi.object({
                 currentAddressMeetsMinimum: Joi.string()
                     .valid(['yes', 'no'])
