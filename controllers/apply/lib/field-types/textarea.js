@@ -32,8 +32,10 @@ class TextareaField extends Field {
         this.schema = this.isRequired
             ? baseSchema.required()
             : baseSchema.allow('').optional();
+    }
 
-        this.messages = [
+    defaultMessages() {
+        return [
             {
                 type: 'string.minWords',
                 message: this.localise({
@@ -48,7 +50,7 @@ class TextareaField extends Field {
                     cy: `Rhaid i’r ateb fod yn llai na ${this.maxWords} gair`,
                 }),
             },
-        ].concat(props.messages || []);
+        ];
     }
 
     getType() {
