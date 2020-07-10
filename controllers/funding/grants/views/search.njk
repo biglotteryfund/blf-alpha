@@ -63,7 +63,7 @@
     {% endmacro %}
 
     {% macro fallbackSelect(field) %}
-        <label class="facet-field-label" for="field-{{ field.name }}">
+        <label class="facet-field-label u-margin-top-s" for="field-{{ field.name }}">
             {{ field.label }}
         </label>
         <select id="field-{{ field.name }}" name="{{ field.name }}">
@@ -316,6 +316,20 @@
                                             name: 'westminsterConstituency',
                                             label: copy.filters.options.westminsterConstituency.label,
                                             value: queryParams.westminsterConstituency,
+                                            options: options
+                                        }) }}
+                                    {% endif %}
+
+                                    {# Filter: Organisation type #}
+                                    {% if facets.orgType %}
+                                        {% set options = (facets.orgType.unshift({
+                                            'label': copy.filters.options.organisationType.any,
+                                            'value': ''
+                                        }), facets.orgType) %}
+                                        {{ fallbackSelect({
+                                            name: 'orgType',
+                                            label: copy.filters.options.organisationType.label,
+                                            value: queryParams.organisationType,
                                             options: options
                                         }) }}
                                     {% endif %}
