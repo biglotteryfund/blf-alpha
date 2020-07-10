@@ -14,7 +14,7 @@ test('DayMonthField', function () {
 
     const goodInput = { day: 1, month: 3 };
     field.withValue(goodInput);
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
     expect(field.displayValue).toBe('1st March');
 
     const badInput = { day: 82, month: 3 };

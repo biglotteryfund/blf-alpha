@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../lib/joi-extensions');
+const Joi = require('../lib/joi-extensions-next');
 
 const {
     Field,
@@ -453,18 +453,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: 'This person has to live in the UK.',
                 cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
             }),
-            schema(originalSchema) {
-                return originalSchema.compare(Joi.ref('mainContactName'));
-            },
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Senior contact name must be different from the main contact's name`,
-                        cy: `Rhaid i enw’r uwch gyswllt fod yn wahanol i enw’r prif gyswllt`,
-                    }),
-                },
-            ],
         }),
         seniorContactDateOfBirth: dateOfBirthField(
             'seniorContactDateOfBirth',
@@ -483,19 +471,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             }),
             schema: stripIfExcludedOrgType(
                 CONTACT_EXCLUDED_TYPES,
-                Joi.ukAddress()
-                    .required()
-                    .compare(Joi.ref('mainContactAddress'))
+                Joi.ukAddress().required()
             ),
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Senior contact address must be different from the main contact's address`,
-                        cy: `Rhaid i gyfeiriad e-bost yr uwch gyswllt fod yn wahanol i gyfeiriad e-bost y prif gyswllt.`,
-                    }),
-                },
-            ],
         }),
         seniorContactAddressHistory: fieldContactAddressHistory(locale, {
             name: 'seniorContactAddressHistory',

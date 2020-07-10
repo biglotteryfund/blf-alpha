@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const { Field, CheckboxField } = require('../../lib/field-types');
 const { FREE_TEXT_MAXLENGTH } = require('../constants');
 

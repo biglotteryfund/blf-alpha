@@ -1,7 +1,7 @@
 'use strict';
 const castArray = require('lodash/castArray');
 const uniq = require('lodash/uniq');
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 const Field = require('./field');
 
@@ -54,7 +54,7 @@ class CheckboxField extends Field {
         const baseSchema = Joi.array()
             .items(
                 Joi.string().valid(
-                    this.normalisedOptions.map((option) => option.value)
+                    ...this.normalisedOptions.map((option) => option.value)
                 )
             )
             .single();

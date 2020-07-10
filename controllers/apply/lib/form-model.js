@@ -8,7 +8,7 @@ const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
 
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joiNext');
 
 const normaliseErrors = require('./normalise-errors');
 
@@ -107,7 +107,8 @@ class FormModel {
          */
         const formIsEmpty = isEmpty(this.validation.value);
         this.progress = {
-            isComplete: formIsEmpty === false && this.validation.error === null,
+            isComplete:
+                formIsEmpty === false && this.validation.error === undefined,
             isPristine: formIsEmpty === true,
             sectionsComplete: this.sections.filter(
                 (section) => section.progress.status === 'complete'
@@ -183,7 +184,7 @@ class FormModel {
         return {
             value: value,
             error: error,
-            isValid: error === null && messages.length === 0,
+            isValid: error === undefined && messages.length === 0,
             messages: messages,
             featuredMessages: this._getFeaturedMessages(messages),
         };

@@ -21,7 +21,7 @@ test('valid field', function () {
         currentAddressMeetsMinimum: 'yes',
         previousAddress: null,
     });
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
     expect(field.validate().value).toStrictEqual({
         currentAddressMeetsMinimum: 'yes',
     });
@@ -37,7 +37,7 @@ test('valid field', function () {
             postcode: 'B15 1TR',
         },
     });
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
     expect(field.validate().value).toStrictEqual({
         currentAddressMeetsMinimum: 'no',
         previousAddress: {
@@ -78,7 +78,7 @@ test('invalid field', function () {
     });
     expect(field.validate().error.message).toEqual(
         expect.stringContaining(
-            '"townCity" length must be less than or equal to 40 characters long'
+            '"previousAddress.townCity" length must be less than or equal to 40 characters long'
         )
     );
 
@@ -87,8 +87,6 @@ test('invalid field', function () {
         previousAddress: {},
     });
     expect(field.validate().error.message).toEqual(
-        expect.stringContaining(
-            'child "previousAddress" fails because [child "line1" fails because ["line1" is required]]'
-        )
+        expect.stringContaining('"previousAddress.line1" is required')
     );
 });
