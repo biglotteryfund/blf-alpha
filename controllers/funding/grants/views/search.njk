@@ -321,7 +321,7 @@
                                     {% endif %}
 
                                     {# Filter: Organisation type #}
-                                    {% if facets.orgType %}
+                                    {% if facets.orgType and facets.orgType.length > 1 %}
                                         {% set options = (facets.orgType.unshift({
                                             'label': copy.filters.options.organisationType.any,
                                             'value': ''
