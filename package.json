@@ -104,6 +104,7 @@
     "faker": "4.1.0",
     "filesize": "6.1.0",
     "fitvids": "^2.1.1",
+    "form-data": "3.0.0",
     "formidable": "1.2.2",
     "globby": "11.0.1",
     "google-libphonenumber": "3.2.10",
