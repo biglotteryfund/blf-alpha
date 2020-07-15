@@ -32,7 +32,7 @@
     "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker",
     "watch-tests": "jest --watch --notify",
     "watch-js": "webpack --watch",
-    "watch-css": "sane 'npm run build-css' assets/sass --glob='**/*.scss'",
+    "watch-css": "sane \"npm run build-css\" assets/sass --glob=\"**/*.scss\"",
     "watch": "concurrently --kill-others npm:watch-js npm:watch-css"
   },
   "jest": {
