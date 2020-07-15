@@ -16,7 +16,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "start-dev": "nodemon --inspect ./bin/www",
-    "start-test": "DB_CONNECTION_URI=sqlite://:memory PORT=8090 TEST_SERVER=true npm run start",
+    "start-test": "cross-env DB_CONNECTION_URI=sqlite://:memory PORT=8090 TEST_SERVER=true npm run start",
     "lint": "eslint . bin/* --ext .js,.vue && stylelint assets/sass",
     "format": "prettier --write . bin/*",
     "test-unit": "jest --maxWorkers=4",
@@ -32,7 +32,7 @@
     "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker",
     "watch-tests": "jest --watch --notify",
     "watch-js": "webpack --watch",
-    "watch-css": "sane 'npm run build-css' assets/sass --glob='**/*.scss'",
+    "watch-css": "sane \"npm run build-css\" assets/sass --glob=\"**/*.scss\"",
     "watch": "concurrently --kill-others npm:watch-js npm:watch-css"
   },
   "jest": {
