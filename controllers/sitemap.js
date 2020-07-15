@@ -45,7 +45,7 @@ async function getCanonicalRoutes(res) {
     });
 
     const cmsCanonicalUrls = await ContentApi.init({
-        flags: res.locals,
+        flags: res.locals.cmsFlags,
     }).getRoutes();
     const combined = concat(staticRoutes, cmsCanonicalUrls);
     const filtered = combined.filter((route) => route.live);

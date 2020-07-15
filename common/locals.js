@@ -245,8 +245,9 @@ module.exports = function (req, res, next) {
      * Mark the request as a sandbox user if accessed by staff with this option enabled
      * (eg. to use the Sandbox CMS for staff training)
      */
+    res.locals.cmsFlags = {};
     if (get(req, 'user.userData.is_sandbox')) {
-        res.locals.sandboxMode = true;
+        res.locals.cmsFlags.sandboxMode = true;
     }
 
     next();

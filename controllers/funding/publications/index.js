@@ -29,15 +29,19 @@ router.get(
     async function (req, res, next) {
         try {
             const [publicationTags, publications] = await Promise.all([
-                ContentApi.init({ flags: res.locals }).getPublicationTags({
+                ContentApi.init({
+                    flags: res.locals.cmsFlags,
+                }).getPublicationTags({
                     locale: req.i18n.getLocale(),
                     programme: req.params.programme,
                 }),
-                ContentApi.init({ flags: res.locals }).getPublications({
-                    locale: req.i18n.getLocale(),
-                    programme: req.params.programme,
-                    searchParams: req.query,
-                }),
+                ContentApi.init({ flags: res.locals.cmsFlags }).getPublications(
+                    {
+                        locale: req.i18n.getLocale(),
+                        programme: req.params.programme,
+                        searchParams: req.query,
+                    }
+                ),
             ]);
 
             if (req.params.programme === 'a-better-start') {
@@ -68,7 +72,7 @@ router.get('/:programme/:slug', checkProgramme, async function (
 ) {
     try {
         const publication = await ContentApi.init({
-            flags: res.locals,
+            flags: res.locals.cmsFlags,
         }).getPublications({
             locale: req.i18n.getLocale(),
             programme: req.params.programme,

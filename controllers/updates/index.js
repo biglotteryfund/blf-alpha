@@ -27,11 +27,11 @@ router.get('/', injectHeroImage(heroSlug), async function (req, res, next) {
          * depending on frequency of posting of the other kind.
          */
         const [blogposts, peopleStories] = await Promise.all([
-            await ContentApi.init({ flags: res.locals }).getUpdates({
+            await ContentApi.init({ flags: res.locals.cmsFlags }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'blog',
             }),
-            await ContentApi.init({ flags: res.locals }).getUpdates({
+            await ContentApi.init({ flags: res.locals.cmsFlags }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'people-stories',
             }),
@@ -100,7 +100,7 @@ router.get(
     async function (req, res, next) {
         try {
             const updatesResponse = await ContentApi.init({
-                flags: res.locals,
+                flags: res.locals.cmsFlags,
             }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'press-releases',
@@ -218,7 +218,7 @@ router.get(
     async (req, res, next) => {
         try {
             const updatesResponse = await ContentApi.init({
-                flags: res.locals,
+                flags: res.locals.cmsFlags,
             }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: req.params.updateType,

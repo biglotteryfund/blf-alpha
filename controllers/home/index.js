@@ -6,10 +6,9 @@ const ContentApi = new ContentApiClient();
 
 module.exports = async function (req, res, next) {
     try {
-        const entry = await ContentApi.init({ flags: res.locals }).getHomepage(
-            req.i18n.getLocale(),
-            req.query
-        );
+        const entry = await ContentApi.init({
+            flags: res.locals.cmsFlags,
+        }).getHomepage(req.i18n.getLocale(), req.query);
 
         res.render(path.resolve(__dirname, './views/home'), {
             content: entry.content,

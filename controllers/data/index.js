@@ -12,7 +12,7 @@ const ContentApi = new ContentApiClient();
 router.get('/', injectHeroImage('fsn-new'), async function (req, res, next) {
     try {
         const dataStats = await ContentApi.init({
-            flags: res.locals,
+            flags: res.locals.cmsFlags,
         }).getDataStats(req.i18n.getLocale(), req.query);
 
         res.render(path.resolve(__dirname, './views/data'), {

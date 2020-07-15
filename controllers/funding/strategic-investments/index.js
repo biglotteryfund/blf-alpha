@@ -26,7 +26,7 @@ router.get('/', injectListingContent, async function (req, res, next) {
     try {
         res.render(path.resolve(__dirname, './views/strategic-investments'), {
             strategicProgrammes: await ContentApi.init({
-                flags: res.locals,
+                flags: res.locals.cmsFlags,
             }).getStrategicProgrammes({
                 locale: req.i18n.getLocale(),
                 requestParams: req.query,
@@ -44,7 +44,7 @@ router.get('/', injectListingContent, async function (req, res, next) {
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
         const entry = await ContentApi.init({
-            flags: res.locals,
+            flags: res.locals.cmsFlags,
         }).getStrategicProgrammes({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),

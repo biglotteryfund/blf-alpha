@@ -282,7 +282,7 @@ router.get('/:id', async function (req, res, next) {
         let projectStory;
         try {
             projectStory = await ContentApi.init({
-                flags: res.locals,
+                flags: res.locals.cmsFlags,
             }).getProjectStory({
                 locale: req.i18n.getLocale(),
                 grantId: req.params.id,
@@ -303,7 +303,7 @@ router.get('/:id', async function (req, res, next) {
             ) {
                 try {
                     fundingProgramme = await ContentApi.init({
-                        flags: res.locals,
+                        flags: res.locals.cmsFlags,
                     }).getFundingProgramme({
                         slug: grantProgramme.url,
                         locale: req.i18n.getLocale(),

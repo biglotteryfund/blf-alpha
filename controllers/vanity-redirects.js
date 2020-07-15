@@ -11,7 +11,7 @@ module.exports = async function (req, res, next) {
     if (pathCouldBeAlias(req.path)) {
         try {
             const urlMatch = await ContentApi.init({
-                flags: res.locals,
+                flags: res.locals.cmsFlags,
             }).getAlias(req.path);
             if (urlMatch) {
                 res.redirect(301, urlMatch);

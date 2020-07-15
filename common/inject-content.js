@@ -62,7 +62,7 @@ function injectHeroImage(heroSlug) {
 
             try {
                 const image = await ContentApi.init({
-                    flags: res.locals,
+                    flags: res.locals.cmsFlags,
                 }).getHeroImage({
                     locale: req.i18n.getLocale(),
                     slug: heroSlug,
@@ -84,7 +84,7 @@ function injectHeroImage(heroSlug) {
 async function injectListingContent(req, res, next) {
     try {
         const entry = await ContentApi.init({
-            flags: res.locals,
+            flags: res.locals.cmsFlags,
         }).getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,

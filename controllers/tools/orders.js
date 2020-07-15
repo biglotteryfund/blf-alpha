@@ -104,7 +104,7 @@ router.get('/', async function (req, res, next) {
         );
 
         const [materials, oldestOrder, orderData] = await Promise.all([
-            ContentApi.init({ flags: res.locals }).getMerchandise({
+            ContentApi.init({ flags: res.locals.cmsFlags }).getMerchandise({
                 locale: 'en',
                 showAll: true,
             }),

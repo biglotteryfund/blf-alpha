@@ -42,7 +42,7 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function (
 ) {
     try {
         const response = await ContentApi.init({
-            flags: res.locals,
+            flags: res.locals.cmsFlags,
         }).getFundingProgrammes({
             locale: req.i18n.getLocale(),
         });
@@ -140,7 +140,7 @@ router.get(
     async function (req, res, next) {
         try {
             const response = await ContentApi.init({
-                flags: res.locals,
+                flags: res.locals.cmsFlags,
             }).getFundingProgrammes({
                 locale: req.i18n.getLocale(),
                 showAll: true,
@@ -217,7 +217,7 @@ router.get(
 router.get('/:slug/:child_slug?', async (req, res, next) => {
     try {
         const entry = await ContentApi.init({
-            flags: res.locals,
+            flags: res.locals.cmsFlags,
         }).getFundingProgramme({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
