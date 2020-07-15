@@ -65,7 +65,7 @@ global:
   footerLinks:
     title: Quick links
     links:
-    - label: Talk to us
+    - label: Contact us
       href: "/contact"
     - label: Jobs
       href: "/jobs"
