@@ -3,6 +3,9 @@
         <div class="user-status">
             <div class="user-status__current">
                 <span class="o-badge o-badge--primary u-margin-right-s">Staff</span>
+                {% if user.userData.is_sandbox %}
+                    <span class="o-badge u-margin-right-s">Sandbox mode enabled</span>
+                {% endif %}
                 {{ __('user.common.loggedInAs') }} <strong>{{ user.userData.fullName }}</strong>
             </div>
             <div class="user-status__actions">

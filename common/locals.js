@@ -4,6 +4,7 @@ const path = require('path');
 const config = require('config');
 const moment = require('moment-timezone');
 const isString = require('lodash/isString');
+const { get } = require('lodash');
 
 const appData = require('./appData');
 const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
@@ -239,6 +240,15 @@ module.exports = function (req, res, next) {
     res.locals.clearAuthCookie = function () {
         res.clearCookie(config.get('session.cookieLogin'), authCookieOptions);
     };
+
+    /**
+     * Mark the request as a sandbox user if accessed by staff with this option enabled
+     * (eg. to use the Sandbox CMS for staff training)
+     */
+    res.locals.cmsFlags = {};
+    if (get(req, 'user.userData.is_sandbox')) {
+        res.locals.cmsFlags.sandboxMode = true;
+    }
 
     next();
 };

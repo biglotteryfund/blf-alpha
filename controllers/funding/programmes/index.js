@@ -11,7 +11,7 @@ const {
 } = require('../../../common/inject-content');
 const { buildArchiveUrl, localify } = require('../../../common/urls');
 const { sMaxAge } = require('../../../common/cached');
-const contentApi = require('../../../common/content-api');
+const { ContentApiClient } = require('../../../common/content-api');
 
 const {
     renderFlexibleContentChild,
@@ -22,6 +22,7 @@ const getValidLocation = require('./lib/get-valid-location');
 const programmeFilters = require('./lib/programme-filters');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 router.use(function (req, res, next) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
@@ -40,7 +41,9 @@ router.get('/', injectHeroImage('rosemount-1-letterbox-new'), async function (
     next
 ) {
     try {
-        const response = await contentApi.getFundingProgrammes({
+        const response = await ContentApi.init({
+            flags: res.locals.cmsFlags,
+        }).getFundingProgrammes({
             locale: req.i18n.getLocale(),
         });
 
@@ -136,7 +139,9 @@ router.get(
     injectHeroImage('cbsa-2-letterbox-new'),
     async function (req, res, next) {
         try {
-            const response = await contentApi.getFundingProgrammes({
+            const response = await ContentApi.init({
+                flags: res.locals.cmsFlags,
+            }).getFundingProgrammes({
                 locale: req.i18n.getLocale(),
                 showAll: true,
                 page: req.query.page || 1,
@@ -211,7 +216,9 @@ router.get(
  */
 router.get('/:slug/:child_slug?', async (req, res, next) => {
     try {
-        const entry = await contentApi.getFundingProgramme({
+        const entry = await ContentApi.init({
+            flags: res.locals.cmsFlags,
+        }).getFundingProgramme({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
             searchParams: req.query,

@@ -25,6 +25,15 @@ const CONTENT_API_URL =
     process.env.CONTENT_API_URL || getParameter('content-api.url', true);
 
 /**
+ * Content API Sandbox url
+ * When the site is accessed by Staff using the TEST instance, they can switch on
+ * Sandbox Mode, which means we use the Test instance of the CMS (eg. for staff training)
+ */
+const CONTENT_API_SANDBOX_URL =
+    process.env.CONTENT_API_SANDBOX_URL ||
+    getParameter('content-api.sandbox.url');
+
+/**
  * Past grants API
  * We allow overriding through an environment variable for CI and to allow
  * switching to a local instance of the API in development
@@ -76,7 +85,7 @@ const SALESFORCE_AUTH = {
         getParameter('salesforce.instanceId'),
 };
 
-// These expire in July 2020
+// These expire in July 2021
 const BANK_API = {
     KEY: process.env.BANK_API_TOKEN || getParameter('bank.api.key'),
     PASSWORD:
@@ -124,6 +133,7 @@ module.exports = {
     AZURE_AUTH,
     BANK_API,
     CONTENT_API_URL,
+    CONTENT_API_SANDBOX_URL,
     DATA_STUDIO_UNDER10K_URL,
     DB_CONNECTION_URI,
     DOTDIGITAL_API,

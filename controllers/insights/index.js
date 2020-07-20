@@ -5,7 +5,7 @@ const clone = require('lodash/clone');
 const compact = require('lodash/compact');
 const pick = require('lodash/pick');
 
-const contentApi = require('../../common/content-api');
+const { ContentApiClient } = require('../../common/content-api');
 const {
     injectHeroImage,
     setCommonLocals,
@@ -14,12 +14,15 @@ const { buildArchiveUrl, localify } = require('../../common/urls');
 const { flexibleContentPage } = require('../common');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 router.use(injectHeroImage('insights-letterbox-new'));
 
 router.get('/', async (req, res, next) => {
     try {
-        const research = await contentApi.getResearch({
+        const research = await ContentApi.init({
+            flags: res.locals.cmsFlags,
+        }).getResearch({
             locale: req.i18n.getLocale(),
             requestParams: req.query,
         });
@@ -55,7 +58,9 @@ router.get('/documents/:slug?', async function (req, res, next) {
     }
 
     try {
-        const research = await contentApi.getResearch({
+        const research = await ContentApi.init({
+            flags: res.locals.cmsFlags,
+        }).getResearch({
             locale: req.i18n.getLocale(),
             type: 'documents',
             query: query,
@@ -82,7 +87,9 @@ router.use('/covid-19-resources/*', flexibleContentPage());
 
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
-        const entry = await contentApi.getResearch({
+        const entry = await ContentApi.init({
+            flags: res.locals.cmsFlags,
+        }).getResearch({
             slug: compact([req.params.slug, req.params.child_slug]).join('/'),
             locale: req.i18n.getLocale(),
             requestParams: req.query,
