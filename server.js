@@ -246,7 +246,8 @@ forEach(sections, function (section, sectionId) {
  */
 app.route('*').get(
     require('./controllers/vanity-redirects'),
-    require('./controllers/welsh-redirect')
+    require('./controllers/welsh-redirect'),
+    require('./controllers/cms-redirects')
 );
 
 /**
