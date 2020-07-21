@@ -2532,43 +2532,83 @@ Array [
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/data-and-evidence",
-    "to": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/england/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/england/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/scotland/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/northernireland/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/wales/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
+  },
+  Object {
+    "from": "/welsh/wales/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/funding/managing-your-grant/gathering-evidence-and-learning/gathering-learning",

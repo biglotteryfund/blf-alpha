@@ -329,7 +329,11 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/funding/funding-guidance/managing-your-funding/data-and-evidence`,
-        to: `/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence`,
+        to: `/funding/managing-your-grant/learn-from-your-project/data-and-evidence`,
+    }),
+    withRegionPrefixes({
+        from: `/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence`,
+        to: `/funding/managing-your-grant/learn-from-your-project/data-and-evidence`,
     }),
     withRegionPrefixes({
         from: `/funding/managing-your-grant/gathering-evidence-and-learning/gathering-learning`,
