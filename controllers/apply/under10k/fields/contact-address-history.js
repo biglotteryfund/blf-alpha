@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const { AddressHistoryField } = require('../../lib/field-types');
 const { CONTACT_EXCLUDED_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
 const { stripIfExcludedOrgType } = require('./organisation-type');
@@ -21,7 +21,7 @@ module.exports = function (locale, props) {
             CONTACT_EXCLUDED_TYPES,
             Joi.object({
                 currentAddressMeetsMinimum: Joi.string()
-                    .valid(['yes', 'no'])
+                    .valid('yes', 'no')
                     .required(),
                 previousAddress: Joi.when(
                     Joi.ref('currentAddressMeetsMinimum'),

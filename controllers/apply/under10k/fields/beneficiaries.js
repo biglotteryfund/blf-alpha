@@ -3,13 +3,13 @@ const { oneLine } = require('common-tags');
 const get = require('lodash/fp/get');
 const flatMap = require('lodash/flatMap');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const { Field, RadioField, CheckboxField } = require('../../lib/field-types');
 const { BENEFICIARY_GROUPS, FREE_TEXT_MAXLENGTH } = require('../constants');
 
 function multiChoice(options) {
     return Joi.array()
-        .items(Joi.string().valid(options.map((option) => option.value)))
+        .items(Joi.string().valid(...options.map((option) => option.value)))
         .single();
 }
 
@@ -18,7 +18,7 @@ function conditionalBeneficiaryChoice({ match, schema }) {
         is: 'yes',
         then: Joi.when(Joi.ref('beneficiariesGroups'), {
             is: Joi.array()
-                .items(Joi.string().only(match).required(), Joi.any())
+                .items(Joi.string().valid(match).required(), Joi.any())
                 .required(),
             then: schema,
             otherwise: Joi.any().strip(),
@@ -676,7 +676,7 @@ module.exports = {
                 return Joi.when('projectCountry', {
                     is: 'wales',
                     then: Joi.string()
-                        .valid(this.options.map((option) => option.value))
+                        .valid(...this.options.map((option) => option.value))
                         .max(FREE_TEXT_MAXLENGTH.large)
                         .required(),
                     otherwise: Joi.any().strip(),
@@ -737,7 +737,7 @@ module.exports = {
                 return Joi.when('projectCountry', {
                     is: 'northern-ireland',
                     then: Joi.string()
-                        .valid(this.options.map((option) => option.value))
+                        .valid(...this.options.map((option) => option.value))
                         .required(),
                     otherwise: Joi.any().strip(),
                 });

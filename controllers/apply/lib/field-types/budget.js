@@ -4,7 +4,7 @@ const has = require('lodash/has');
 const sumBy = require('lodash/sumBy');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 const Field = require('./field');
 

@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const RadioField = require('../../lib/field-types/radio');
 
 module.exports = function (locale, props) {
@@ -33,7 +33,7 @@ module.exports = function (locale, props) {
             return Joi.when('projectCountry', {
                 is: 'wales',
                 then: Joi.string()
-                    .valid(this.options.map((option) => option.value))
+                    .valid(...this.options.map((option) => option.value))
                     .required(),
                 otherwise: Joi.any().strip(),
             });

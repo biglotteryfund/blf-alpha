@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const { CurrencyField, DayMonthField } = require('../../lib/field-types');
 const isNewOrganisation = require('../lib/new-organisation');
 

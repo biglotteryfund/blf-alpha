@@ -4,7 +4,7 @@ const mime = require('mime-types');
 const fileSize = require('filesize');
 
 const Field = require('./field');
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 class FileField extends Field {
     constructor(props) {
@@ -38,7 +38,9 @@ class FileField extends Field {
         this.schema = Joi.object({
             filename: Joi.string().required(),
             size: Joi.number().max(this.maxFileSize.value).required(),
-            type: Joi.string().valid(this.supportedMimeTypes).required(),
+            type: Joi.string()
+                .valid(...this.supportedMimeTypes)
+                .required(),
         }).required();
     }
 

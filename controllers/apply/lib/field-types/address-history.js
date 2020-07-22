@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const compact = require('lodash/compact');
 
-const Joi = require('../joi-extensions');
+const Joi = require('../joi-extensions-next');
 
 const Field = require('./field');
 
@@ -30,7 +30,7 @@ class AddressHistoryField extends Field {
     defaultSchema() {
         return Joi.object({
             currentAddressMeetsMinimum: Joi.string()
-                .valid(['yes', 'no'])
+                .valid('yes', 'no')
                 .required(),
             previousAddress: Joi.when(Joi.ref('currentAddressMeetsMinimum'), {
                 is: 'no',

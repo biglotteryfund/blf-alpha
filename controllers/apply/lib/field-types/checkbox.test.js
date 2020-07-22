@@ -20,7 +20,7 @@ test('valid field', function () {
 
     field.withValue(['option-1', 'option-2']);
     expect(field.displayValue).toBe('Option 1,\nOption 2');
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
 
     field.withValue(['bad-option']);
     expect(field.validate().error.message).toEqual(
@@ -74,7 +74,7 @@ test('valid field with optgroups', function () {
 
     field.withValue(['west-midlands', 'south-london']);
     expect(field.displayValue).toBe('West Midlands,\nSouth London');
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
 
     field.withValue(['bad-option']);
     expect(field.validate().error.message).toEqual(
@@ -95,7 +95,7 @@ test('optional field', function () {
         ],
     });
 
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
 });
 
 test('must provide options', function () {

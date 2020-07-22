@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 const compact = require('lodash/compact');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions');
+const Joi = require('../../lib/joi-extensions-next');
 const { RadioField } = require('../../lib/field-types');
 
 const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');
@@ -15,14 +15,14 @@ module.exports = {
      */
     stripIfExcludedOrgType(types, schema) {
         return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(types),
+            is: Joi.exist().valid(...types),
             then: Joi.any().strip(),
             otherwise: schema,
         });
     },
     stripUnlessOrgTypes(types, schema) {
         return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(types),
+            is: Joi.exist().valid(...types),
             then: schema,
             otherwise: Joi.any().strip(),
         });

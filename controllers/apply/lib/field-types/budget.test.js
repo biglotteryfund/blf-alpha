@@ -29,7 +29,7 @@ test('valid field', function () {
     expect(field.displayValue).toBe(
         'New boiler – £400\nPosters – £20\nTotal: £420'
     );
-    expect(field.validate().error).toBeNull();
+    expect(field.validate().error).toBeUndefined();
 });
 
 test('field under budget', function () {
