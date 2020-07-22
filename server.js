@@ -139,12 +139,6 @@ app.use([
         referrerPolicy: {
             policy: 'no-referrer-when-downgrade',
         },
-        featurePolicy: {
-            features: {
-                fullscreen: ["'self'"],
-                payment: ["'none'"],
-            },
-        },
     }),
     express.json(),
     express.urlencoded({ extended: true }),

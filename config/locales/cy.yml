@@ -64,7 +64,7 @@ global:
   footerLinks:
     title: Dolenni gwib
     links:
-    - label: "Siarad â ni"
+    - label: "Cysylltwch â ni"
       href: "/welsh/contact"
     - label: Swyddi
       href: "/welsh/jobs"

@@ -65,7 +65,7 @@ global:
   footerLinks:
     title: Quick links
     links:
-    - label: Talk to us
+    - label: Contact us
       href: "/contact"
     - label: Jobs
       href: "/jobs"
@@ -1079,7 +1079,7 @@ awardsForAll:
             <li>your organisation’s legal name</li>
             <li>address the statements are sent to</li>
             <li>your bank’s name</li>
-            <li>the account code and sort number</li>
+            <li>the account number and sort code</li>
             <li>date the statement was issued.</li>
         </ul>
         <p>Here’s <a href="/assets/images/apply/under-10k-bank-statement-example.png">a handy picture of the kind of bank statement we’re looking for.</a></p>
