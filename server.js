@@ -165,7 +165,7 @@ app.get('/welsh', require('./controllers/home'));
 
 /**
  * Handle archived paths:
- * - Legacy redirects and aliases
+ * - Legacy redirects
  * - National Archives content
  * - Archived media
  */
