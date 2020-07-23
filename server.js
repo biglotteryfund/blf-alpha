@@ -235,11 +235,13 @@ forEach(sections, function (section, sectionId) {
 /**
  * Final wildcard request handler
  * - Lookup vanity URL and redirect if we have a match
- * - Otherwise, if the URL is welsh strip that from the URL and try again
+ * - Then check whether this is a redirect defined by the CMS
+ * - Otherwise, if the URL is welsh, strip that from the URL and try again
  * - If all else fails, pass through to the 404 handler.
  */
 app.route('*').get(
     require('./controllers/vanity-redirects'),
+    require('./controllers/cms-redirects'),
     require('./controllers/welsh-redirect')
 );
 

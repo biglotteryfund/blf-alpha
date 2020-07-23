@@ -2331,6 +2331,46 @@ Array [
     "to": "/welsh/funding/programmes/all",
   },
   Object {
+    "from": "/funding/funding-finder",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/funding/funding-finder",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/england/funding/funding-finder",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-finder",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/scotland/funding/funding-finder",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-finder",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-finder",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-finder",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/wales/funding/funding-finder",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-finder",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
     "from": "/funding/funding-guidance/managing-your-funding",
     "to": "/funding/managing-your-grant/promoting-your-project",
   },
@@ -2652,43 +2692,43 @@ Array [
   },
   Object {
     "from": "/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/funding/managing-your-grant/learn-from-your-project",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/welsh/funding/managing-your-grant/learn-from-your-project",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/england/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/funding/managing-your-grant/learn-from-your-project",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/england/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/welsh/funding/managing-your-grant/learn-from-your-project",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/scotland/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/funding/managing-your-grant/learn-from-your-project",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/scotland/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/welsh/funding/managing-your-grant/learn-from-your-project",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/northernireland/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/funding/managing-your-grant/learn-from-your-project",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/northernireland/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/welsh/funding/managing-your-grant/learn-from-your-project",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/wales/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/funding/managing-your-grant/learn-from-your-project",
+    "to": "/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/welsh/wales/funding/managing-your-grant/gathering-evidence-and-learning",
-    "to": "/welsh/funding/managing-your-grant/learn-from-your-project",
+    "to": "/welsh/funding/managing-your-grant/learn-from-your-project/data-and-evidence",
   },
   Object {
     "from": "/funding/under10k/managing-your-grant",

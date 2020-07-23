@@ -308,6 +308,10 @@ module.exports = createAliases([
         to: `/funding/programmes/all`,
     }),
     withRegionPrefixes({
+        from: `/funding/funding-finder`,
+        to: `/funding/programmes/all`,
+    }),
+    withRegionPrefixes({
         from: `/funding/funding-guidance/managing-your-funding`,
         to: `/funding/managing-your-grant/promoting-your-project`,
     }),
@@ -341,7 +345,11 @@ module.exports = createAliases([
     }),
     withRegionPrefixes({
         from: `/funding/managing-your-grant/gathering-evidence-and-learning`,
-        to: `/funding/managing-your-grant/learn-from-your-project`,
+        to: `/funding/managing-your-grant/learn-from-your-project/data-and-evidence`,
+    }),
+    withRegionPrefixes({
+        from: `/funding/managing-your-grant/gathering-evidence-and-learning/data-and-evidence`,
+        to: `/funding/managing-your-grant/learn-from-your-project/data-and-evidence`,
     }),
     withRegionPrefixes({
         from: `/funding/under10k/managing-your-grant`,
