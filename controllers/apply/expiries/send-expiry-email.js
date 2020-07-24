@@ -127,7 +127,7 @@ module.exports = function sendExpiryEmail(
 
     function getExpiryDates() {
         const expiresOn = moment(expiresAt);
-        const dateFormat = 'D MMMM, YYYY HH:mm';
+        const dateFormat = 'D MMMM, YYYY h:mma';
         return {
             en: expiresOn.format(dateFormat),
             cy: expiresOn.locale('cy').format(dateFormat),
