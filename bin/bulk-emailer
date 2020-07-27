@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-
 /*
 * A script to email people in bulk, to be run from local environments.
 *
@@ -69,7 +68,7 @@
 *
 * */
 
-const _ = require('lodash');
+const chunk = require('lodash/chunk');
 const htmlToText = require('html-to-text');
 const AWS = require('aws-sdk');
 const sqlite3 = require('sqlite3').verbose();
@@ -77,7 +76,7 @@ const csv = require('csvtojson');
 
 const SES = new AWS.SES({
     apiVersion: '2010-12-01',
-    region: 'eu-west-1',
+    region: 'eu-west-1'
 });
 
 const { generateHtmlEmail } = require('../common/mail');
@@ -138,24 +137,24 @@ const sendBulkEmail = (emails) => {
         Destinations: [
             {
                 Destination: {
-                    BccAddresses: emails,
-                },
-            },
+                    BccAddresses: emails
+                }
+            }
         ],
         Source: EMAIL_SOURCE,
         Template: emailTemplate,
-        DefaultTemplateData: '{}',
+        DefaultTemplateData: '{}'
     }).promise();
 };
 
 // Send a batch of emails every second
 const processEmailQueue = (emailAddresses) => {
     // Split the list into chunks matching our limit per-second
-    const emailQueue = _.chunk(emailAddresses, SENDS_PER_SECOND);
+    const emailQueue = chunk(emailAddresses, SENDS_PER_SECOND);
 
     // Send a bulk email to $SENDS_PER_SECOND people, every second
     emailQueue.forEach((queue, i) => {
-        setTimeout(function () {
+        setTimeout(function() {
             console.log('Sending batch: ' + i);
             sendBulkEmail(queue)
                 .then((data) => {
@@ -188,14 +187,14 @@ const createHtmlTemplate = async () => {
     // Make HTML version
     const emailHtml = await generateHtmlEmail({
         template: './controllers/apply/expiries/views/ccsf-closure-email.njk',
-        templateData: {},
+        templateData: {}
     });
 
     // Make plain text version from HTML
     const emailText = htmlToText.fromString(emailHtml, {
         wordwrap: 130,
         hideLinkHrefIfSameAsText: true,
-        ignoreImage: true,
+        ignoreImage: true
     });
 
     // Register the new template with SES
@@ -204,8 +203,8 @@ const createHtmlTemplate = async () => {
             TemplateName: emailTemplate,
             SubjectPart: EMAIL_SUBJECT,
             TextPart: emailText,
-            HtmlPart: emailHtml,
-        },
+            HtmlPart: emailHtml
+        }
     }).promise();
 };
 
@@ -225,7 +224,7 @@ if (mode === 'send') {
         .then((data) => {
             console.log(
                 'Template was successfully created with the name ' +
-                    emailTemplate,
+                emailTemplate,
                 data
             );
         })
