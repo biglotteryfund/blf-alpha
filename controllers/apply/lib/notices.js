@@ -16,6 +16,7 @@ const enableStandardEnglandAutoProjectDuration = config.get(
 module.exports = {
     getNoticesAll(locale, pendingApplications = []) {
         const localise = get(locale);
+
         function showEnglandPrioritiesNotice() {
             // Only show notice for applications created before this date
             // @TODO this can be removed after 2020-08-12 as any applications
@@ -31,7 +32,96 @@ module.exports = {
             });
         }
 
+        function showEnglandSimple() {
+            return pendingApplications.some(function (application) {
+                return (
+                    application.formId === 'awards-for-all' &&
+                    get('applicationData.projectCountry')(application) ===
+                        'england'
+                );
+            });
+        }
+
+        function showEnglandStandard() {
+            return pendingApplications.some(function (application) {
+                return (
+                    application.formId === 'standard-enquiry' &&
+                    getOr(
+                        [],
+                        'applicationData.projectCountries'
+                    )(application).includes('england')
+                );
+            });
+        }
+
         const notices = [];
+
+        if (showEnglandSimple() || showEnglandStandard()) {
+            if (showEnglandSimple() && showEnglandStandard()) {
+                notices.push({
+                    title: localise({
+                        en: oneLine`Emergency COVID-19 funding in England is changing`,
+                        cy: oneLine`Mae ariannu brys COVID-19 yn Lloegr yn newid`,
+                    }),
+                    body: localise({
+                        en: oneLine`If you’re planning to apply for the Government 
+                        allocation of funding to the Coronavirus Community Support 
+                        Fund, you must apply by <strong>12 noon on 17 August 2020</strong> when 
+                        this fund will close and any applications for under 10K 
+                        funding will be deleted. See 
+                        <a href="/funding/covid-19/learn-about-applying-for-emergency-funding-in-england">
+                        other funding options after this date</a>.`,
+                        cy: oneLine`Os ydych chi'n bwriadu gwneud cais am Gronfa Cymorth Cymunedol 
+                        Coronefeirws a ariennir gan y Llywodraeth, rhaid i chi wneud cais erbyn 
+                        <strong>hanner dydd ar 17 Awst 2020</strong> pan fydd y gronfa hon yn cau a bydd unrhyw 
+                        geisiadau dan gwerth £10,000 yn cael eu dileu. Gweler 
+                        <a href="/funding/covid-19/learn-about-applying-for-emergency-funding-in-england">
+                        opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.`,
+                    }),
+                });
+            } else if (showEnglandSimple()) {
+                notices.push({
+                    title: localise({
+                        en: oneLine`Emergency COVID-19 funding in England is changing`,
+                        cy: oneLine`Mae ariannu brys COVID-19 yn Lloegr yn newid`,
+                    }),
+                    body: localise({
+                        en: oneLine`If you’re planning to apply for the Government 
+                        allocation of funding to the Coronavirus Community Support Fund, 
+                        you must apply by <strong>12 noon on 17 August 2020</strong> when this fund will 
+                        close and any uncompleted applications will be deleted. See 
+                        <a href="/funding/covid-19/learn-about-applying-for-emergency-funding-in-england">
+                        other funding options after this date</a>.`,
+                        cy: oneLine`Os ydych chi'n bwriadu gwneud cais am Gronfa Cymorth Cymunedol
+                         Coronefeirws a ariennir gan y Llywodraeth, rhaid i chi wneud cais erbyn 
+                         <strong>hanner dydd ar 17 Awst 2020</strong> pan fydd y gronfa hon yn cau a bydd unrhyw 
+                         geisiadau heb eu cwblhau yn cael eu dileu. Gweler 
+                         <a href="/funding/covid-19/learn-about-applying-for-emergency-funding-in-england">
+                         opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.`,
+                    }),
+                });
+            } else if (showEnglandStandard()) {
+                notices.push({
+                    title: localise({
+                        en: oneLine`Emergency COVID-19 funding in England is changing`,
+                        cy: oneLine`Mae ariannu brys COVID-19 yn Lloegr yn newid`,
+                    }),
+                    body: localise({
+                        en: oneLine`If you’re planning to apply for the Government 
+                        allocation of funding to the Coronavirus Community Support Fund, 
+                        you must apply by <strong>12 noon on 17 August 2020</strong> when this fund will
+                         close. See <a href="/funding/covid-19/learn-about-applying-for-emergency-funding-in-england">
+                         other funding options after this date</a>.`,
+                        cy: oneLine`Os ydych chi'n bwriadu gwneud cais am Gronfa Cymorth 
+                        Cymunedol Coronefeirws a ariennir gan y Llywodraeth, rhaid i chi 
+                        wneud cais erbyn <strong>hanner dydd ar 17 Awst 2020</strong> pan fydd y gronfa 
+                        hon yn cau. Gweler 
+                        <a href="/funding/covid-19/learn-about-applying-for-emergency-funding-in-england">
+                        opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.`,
+                    }),
+                });
+            }
+        }
 
         if (showEnglandPrioritiesNotice()) {
             notices.push({
