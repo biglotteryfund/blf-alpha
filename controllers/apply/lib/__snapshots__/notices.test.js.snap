@@ -30,6 +30,10 @@ Array [
 exports[`show for pending under £10,000 application in England 1`] = `
 Array [
   Object {
+    "body": "If you’re planning to apply for the Government  allocation of funding to the Coronavirus Community Support  Fund, you must apply by <strong>12 noon on 17 August 2020</strong> when  this fund will close and any applications for under 10K  funding will be deleted. See  <a href=\\"/funding/covid-19/learn-about-applying-for-emergency-funding-in-england\\"> other funding options after this date</a>.",
+    "title": "Emergency COVID-19 funding in England is changing",
+  },
+  Object {
     "body": "If you've started an application already, and it's not related to supporting your community or organisation through the pandemic, we won't be able to fund it. But you could decide to start a new one that focuses on COVID-19 instead.",
     "title": "For funding under £10,000 in England, we're now only accepting COVID-19 related applications",
   },
@@ -42,6 +46,10 @@ Array [
 
 exports[`show for pending under £10,000 application in England 2`] = `
 Array [
+  Object {
+    "body": "Os ydych chi'n bwriadu gwneud cais am Gronfa Cymorth Cymunedol  Coronefeirws a ariennir gan y Llywodraeth, rhaid i chi wneud cais erbyn  <strong>hanner dydd ar 17 Awst 2020</strong> pan fydd y gronfa hon yn cau a bydd unrhyw  geisiadau dan gwerth £10,000 yn cael eu dileu. Gweler  <a href=\\"/funding/covid-19/learn-about-applying-for-emergency-funding-in-england\\"> opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.",
+    "title": "Mae ariannu brys COVID-19 yn Lloegr yn newid",
+  },
   Object {
     "body": "Os ydych chi wedi cychwyn cais yn barod, ac nad yw'n gysylltiedig â chefnogi'ch cymuned neu sefydliad trwy'r pandemig, ni fyddwn yn gallu ei dderbyn. Ond fe allech chi benderfynu cychwyn un newydd sy'n canolbwyntio ar COVID-19 yn lle.",
     "title": "Ar gyfer ariannu o dan £10,000 yn Lloegr, dim ond ceisiadau cysylltiedig â COVID-19 yr ydym yn eu derbyn",
