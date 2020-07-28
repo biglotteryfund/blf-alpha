@@ -129,7 +129,7 @@ if (mode !== 'template' && !dbPath) {
 const SENDS_PER_SECOND = 14; // SES limit for our account
 const EMAIL_SOURCE = 'noreply@blf.digital';
 const EMAIL_SUBJECT =
-    'Important update about your The National Lottery Community Fund application';
+    'Important update about your Coronavirus Community Support Fund application';
 
 // Send a pre-templated email to an array of senders (max 50)
 const sendBulkEmail = (emails) => {
