@@ -16,6 +16,7 @@ const enableStandardEnglandAutoProjectDuration = config.get(
 module.exports = {
     getNoticesAll(locale, pendingApplications = []) {
         const localise = get(locale);
+
         function showEnglandPrioritiesNotice() {
             // Only show notice for applications created before this date
             // @TODO this can be removed after 2020-08-12 as any applications
@@ -36,7 +37,7 @@ module.exports = {
                 return (
                     application.formId === 'awards-for-all' &&
                     get('applicationData.projectCountry')(application) ===
-                    'england'
+                        'england'
                 );
             });
         }
@@ -78,8 +79,7 @@ module.exports = {
                         opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.`,
                     }),
                 });
-            }
-            else if (showEnglandSimple()) {
+            } else if (showEnglandSimple()) {
                 notices.push({
                     title: localise({
                         en: oneLine`Emergency COVID-19 funding in England is changing`,
@@ -100,8 +100,7 @@ module.exports = {
                          opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.`,
                     }),
                 });
-            }
-            else if (showEnglandStandard()) {
+            } else if (showEnglandStandard()) {
                 notices.push({
                     title: localise({
                         en: oneLine`Emergency COVID-19 funding in England is changing`,
@@ -124,8 +123,7 @@ module.exports = {
             }
         }
 
-
-            if (showEnglandPrioritiesNotice()) {
+        if (showEnglandPrioritiesNotice()) {
             notices.push({
                 title: localise({
                     en: oneLine`For funding under £10,000 in England, we're now only
@@ -216,7 +214,6 @@ module.exports = {
                 }
             );
         }
-
 
         return notices;
     },
