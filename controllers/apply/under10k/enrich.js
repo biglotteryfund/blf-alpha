@@ -40,6 +40,7 @@ function details(application, data, locale) {
             en: `Untitled application`,
             cy: `Cais heb deitl`,
         }),
+        projectCountry: get('projectCountry')(data),
         amountRequested: formatBudgetTotal(data.projectBudget),
         overview: [
             {

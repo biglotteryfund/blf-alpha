@@ -16,12 +16,19 @@ function details(application, data, locale) {
         })}`;
     }
 
+    const countries = get('projectCountries')(data);
+
     return {
         projectName: data.projectName,
         untitledName: localise({
             en: `Untitled proposal`,
             cy: `Cynnig heb deitl`,
         }),
+        projectCountry: countries
+            ? countries.length === 1
+                ? countries[0]
+                : 'Multiple'
+            : null,
         amountRequested: formatCurrency(data.projectCosts || 0),
         overview: [
             {
