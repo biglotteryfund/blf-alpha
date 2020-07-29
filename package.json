@@ -121,7 +121,7 @@
     "moment": "^2.27.0",
     "moment-timezone": "0.5.31",
     "mysql2": "1.6.5",
-    "nodemailer": "^6.4.10",
+    "nodemailer": "^6.4.11",
     "nunjucks": "^3.2.2",
     "passport": "^0.4.1",
     "passport-azure-ad": "4.2.1",
