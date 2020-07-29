@@ -76,7 +76,16 @@ function getPhoneFor(country) {
     return countryPhone || '028 9568 0143';
 }
 
-module.exports = function sendExpiryEmail(
+function getProjectCountry(applicationData, formId) {
+    if (formId === 'awards-for-all') {
+        return get(applicationData, 'projectCountry');
+    } else if (formId === 'standard-enquiry') {
+        const countries = get(applicationData, 'projectCountries');
+        return countries && countries.length === 1 ? countries[0] : 'Multiple';
+    }
+}
+
+function sendExpiryEmail(
     {
         formId,
         emailType,
@@ -104,17 +113,6 @@ module.exports = function sendExpiryEmail(
             ),
         },
     }[formId];
-
-    function getProjectCountry() {
-        if (formId === 'awards-for-all') {
-            return get(applicationData, 'projectCountry');
-        } else if (formId === 'standard-enquiry') {
-            const countries = get(applicationData, 'projectCountries');
-            return countries && countries.length === 1
-                ? countries[0]
-                : 'Multiple';
-        }
-    }
 
     function getBilingualStatus() {
         if (formId === 'awards-for-all') {
@@ -153,8 +151,10 @@ module.exports = function sendExpiryEmail(
     const templateData = {
         isBilingual: getBilingualStatus(),
         projectName: get(applicationData, 'projectName'),
-        countryPhoneNumber: getPhoneFor(getProjectCountry()),
-        countryEmail: getEmailFor(getProjectCountry()),
+        countryPhoneNumber: getPhoneFor(
+            getProjectCountry(applicationData, formId)
+        ),
+        countryEmail: getEmailFor(getProjectCountry(applicationData, formId)),
         unsubscribeLink: unsubscribeLink,
         expiryDate: getExpiryDates(),
         editLink: editLink,
@@ -172,4 +172,9 @@ module.exports = function sendExpiryEmail(
         },
         mockMailTransport
     );
+}
+
+module.exports = {
+    getProjectCountry,
+    sendExpiryEmail,
 };
