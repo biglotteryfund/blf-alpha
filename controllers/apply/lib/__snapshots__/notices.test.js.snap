@@ -30,7 +30,7 @@ Array [
 exports[`show for pending under £10,000 application in England 1`] = `
 Array [
   Object {
-    "body": "If you’re planning to apply for the Government  allocation of funding to the Coronavirus Community Support  Fund, you must apply by <strong>12 noon on 17 August 2020</strong> when  this fund will close and any applications for under 10K  funding will be deleted. See  <a href=\\"/funding/covid-19/learn-about-applying-for-emergency-funding-in-england\\"> other funding options after this date</a>.",
+    "body": "If you’re planning to apply for the Government  allocation of funding to the Coronavirus Community Support  Fund, you must apply by <strong>12 noon on 17 August 2020</strong> when  this fund will close and any applications for under 10K  funding will be deleted. See  <a href=\\"/funding/covid-19/learn-about-applying-for-emergency-funding-in-england#item-8\\"> other funding options after this date</a>.",
     "title": "Emergency COVID-19 funding in England is changing",
   },
   Object {
@@ -47,7 +47,7 @@ Array [
 exports[`show for pending under £10,000 application in England 2`] = `
 Array [
   Object {
-    "body": "Os ydych chi'n bwriadu gwneud cais am Gronfa Cymorth Cymunedol  Coronefeirws a ariennir gan y Llywodraeth, rhaid i chi wneud cais erbyn  <strong>hanner dydd ar 17 Awst 2020</strong> pan fydd y gronfa hon yn cau a bydd unrhyw  geisiadau dan gwerth £10,000 yn cael eu dileu. Gweler  <a href=\\"/funding/covid-19/learn-about-applying-for-emergency-funding-in-england\\"> opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.",
+    "body": "Os ydych chi'n bwriadu gwneud cais am Gronfa Cymorth Cymunedol  Coronefeirws a ariennir gan y Llywodraeth, rhaid i chi wneud cais erbyn  <strong>hanner dydd ar 17 Awst 2020</strong> pan fydd y gronfa hon yn cau a bydd unrhyw  geisiadau dan gwerth £10,000 yn cael eu dileu. Gweler  <a href=\\"/funding/covid-19/learn-about-applying-for-emergency-funding-in-england#item-8\\"> opsiynau ariannu eraill ar ôl y dyddiad hwn</a>.",
     "title": "Mae ariannu brys COVID-19 yn Lloegr yn newid",
   },
   Object {
