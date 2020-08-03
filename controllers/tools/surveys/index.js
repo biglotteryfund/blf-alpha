@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const moment = require('moment');
 
 const { SurveyAnswer } = require('../../../db/models');
 const { sanitise } = require('../../../common/sanitise');
