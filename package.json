@@ -130,7 +130,7 @@
     "rate-limiter-flexible": "2.1.10",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.9",
-    "sequelize": "6.3.3",
+    "sequelize": "6.3.4",
     "serve-favicon": "^2.5.0",
     "sitemap": "^6.2.0",
     "slugify": "^1.4.5",
