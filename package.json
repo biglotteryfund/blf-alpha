@@ -127,7 +127,7 @@
     "passport-azure-ad": "4.2.1",
     "passport-local": "^1.0.0",
     "postcode": "5.0.0",
-    "rate-limiter-flexible": "2.1.9",
+    "rate-limiter-flexible": "2.1.10",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.9",
     "sequelize": "6.3.3",
