@@ -104,9 +104,7 @@
             {% if props.expiresAt %}
                 <div class="application-card__meta u-text-small">
                     {% if props.projectCountry %}
-                        {# @TODO remove this change after 17th August (eg. use props.expiresAt) #}
-                        {% set expiryDate = '2020-08-17 12:00:00' if props.projectCountry === 'england' else props.expiresAt %}
-                        {{ __(cardCopy.expiresAt, formatDate(expiryDate)) | safe }}
+                        {{ __(cardCopy.expiresAt, formatDate(props.expiresAt)) | safe }}
                     {% endif %}
                 </div>
             {% endif %}
