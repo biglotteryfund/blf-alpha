@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const moment = require('moment');
 
 const { formatCurrency } = require('../lib/formatters');
 const { findLocationName } = require('./lib/locations');
@@ -53,6 +54,7 @@ function details(application, data, locale) {
 function enrichPending(application, locale = 'en') {
     const data = application.applicationData || {};
     const form = formBuilder({ locale, data });
+    const applicationDetails = details(application, data, locale);
 
     const defaults = {
         type: 'pending',
@@ -67,7 +69,15 @@ function enrichPending(application, locale = 'en') {
         deleteUrl: `/apply/your-funding-proposal/delete/${application.id}`,
     };
 
-    return Object.assign(defaults, details(application, data, locale));
+    // @TODO remove this logic after August 17th
+    if (applicationDetails.projectCountry === 'england') {
+        const englandCcsfExpiryDate = moment('2020-08-17 12:00');
+        if (moment(defaults.expiresAt).isAfter(englandCcsfExpiryDate)) {
+            defaults.expiresAt = englandCcsfExpiryDate.toISOString();
+        }
+    }
+
+    return Object.assign(defaults, applicationDetails);
 }
 
 function enrichSubmitted(application, locale = 'en') {
