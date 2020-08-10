@@ -126,10 +126,9 @@ if (mode !== 'template' && !dbPath) {
 
 
 // Email configuration
-const SENDS_PER_SECOND = 14; // SES limit for our account
-const EMAIL_SOURCE = 'noreply@blf.digital';
-const EMAIL_SUBJECT =
-    'Important update about your Coronavirus Community Support Fund application';
+const SENDS_PER_SECOND = 10; // SES limit for our account
+const EMAIL_SOURCE = 'noreply@tnlcommunityfund.org.uk';
+const EMAIL_SUBJECT = 'Important - You have one week to finish your application';
 
 // Send a pre-templated email to an array of senders (max 50)
 const sendBulkEmail = (emails) => {
