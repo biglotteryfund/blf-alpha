@@ -31,6 +31,28 @@ module.exports = {
             });
         }
 
+        function showEnglandSimple() {
+            return pendingApplications.some(function (application) {
+                return (
+                    application.formId === 'awards-for-all' &&
+                    get('applicationData.projectCountry')(application) ===
+                    'england'
+                );
+            });
+        }
+
+        function showEnglandStandard() {
+            return pendingApplications.some(function (application) {
+                return (
+                    application.formId === 'standard-enquiry' &&
+                    getOr(
+                        [],
+                        'applicationData.projectCountries'
+                    )(application).includes('england')
+                );
+            });
+        }
+
         const notices = [];
 
         if (showEnglandPrioritiesNotice()) {
