@@ -1,4 +1,5 @@
 'use strict';
+'use strict';
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
@@ -221,41 +222,6 @@ module.exports = {
                         en: `Position in organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: `Rhaid i’r safle o fewn y sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`,
                     }),
-                },
-            ],
-        });
-    },
-    fieldTermsAgreementCovid1(locale) {
-        const localise = get(locale);
-
-        return new CheckboxField({
-            locale: locale,
-            name: 'termsAgreementCovid1',
-            type: 'checkbox',
-            label: oneLine`You understand that in applying for our Covid-19 funding,
-                you agree that the Fund and The Office for Civil Society, part of
-                the Department for Digital, Culture, Media and Sport (DCMS) may
-                use your personal data in accordance with the 
-                <a href="/funding/covid-19/privacy-notice">Privacy Notice for our Covid-19 funding</a>.`,
-            options: [
-                {
-                    value: 'yes',
-                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }),
-                },
-            ],
-            settings: { stackedSummary: true },
-            isRequired: true,
-            schema: Joi.when('projectCountry', {
-                is: 'england',
-                then: Joi.string().required(),
-                otherwise: Joi.any().strip(),
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: oneLine`You must confirm that you understand that the
-                        Department for Digital, Culture, Media and Sport (DCMS)
-                        may use your personal data`,
                 },
             ],
         });

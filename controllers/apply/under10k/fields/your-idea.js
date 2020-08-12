@@ -156,6 +156,39 @@ module.exports = {
             }
         }
 
+
+        function prioritiesDiversity()
+        {
+            return localise({
+                en: `<ol>
+                        <li>organisations supporting people and communities who experience 
+                            disproportionate challenge and difficulty as a result 
+                            of the COVID-19 crisis, specifically for user-led equality groups supporting:
+                        </li>
+                        <li>black, Asian, minority ethnic and refugee (BAMER) communities
+                        </li>
+                        <li>lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
+                        </li>
+                        <li>disabled people
+                        </li>
+                    </ol>`,
+                cy: `<ol>
+                        <li>
+                        sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster anghymesur 
+                        o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb
+                        a arweinir gan ddefnyddwyr sy'n cefnogi:
+                        </li>
+                        <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)
+                        </li>
+                        <li>cymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer + (LGBTQ +)
+                        </li>
+                        <li>pobl anabl
+                        </li>
+                    </ol>`,
+            });
+        }
+
+
         function prioritiesDefault() {
             return localise({
                 en: `<ol>
@@ -183,80 +216,33 @@ module.exports = {
             });
         }
 
+
         function guidanceText() {
-            if (projectCountry === 'england' || supportingCOVID19 === 'yes') {
+            
+            
                 return localise({
                     en: `<p><strong>We will prioritise:</strong></p>
-                        ${prioritiesCOVID19()}
+                        ${prioritiesDiversity()}
                         <p>
                             You can tell us if your project meets more
                             than one priority, but don't worry if it doesn't.
                         </p>`,
                     cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
-                        ${prioritiesCOVID19()}
+                        ${prioritiesDiversity()}
                         <p>
                             Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
                             nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
                         </p>`,
                 });
-            } else if (supportingCOVID19 === 'no') {
-                return localise({
-                    en: `<p><strong>
-                            We want to fund ideas that do at least one of these three things:
-                        </strong></p>
-                        ${prioritiesDefault()}
-                        <p>
-                            You can tell us if your project meets more
-                            than one priority, but don't worry if it doesn't.
-                        </p>`,
-                    cy: `<p><strong>
-                            Rydym am ariannu syniadau sy'n gwneud o leiaf un o'r tri pheth hyn:
-                        </strong></p>
-                        ${prioritiesDefault()}
-                        <p>
-                            Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
-                            nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
-                        </p>`,
-                });
-            } else {
-                return localise({
-                    en: `<p>
-                        <strong>If your project is COVID-19 related, we will prioritise:</strong>
-                    </p>
-                    ${prioritiesCOVID19()}
-                    <p><strong>
-                        But for all other projects, we want to fund ideas that do
-                        at least one of these three things:
-                    </strong></p>
-                    ${prioritiesDefault()}
-                    <p>
-                        You can tell us if your project meets more
-                        than one priority, but don't worry if it doesn't.
-                    </p>`,
-
-                    cy: `<p>
-                        <strong>Os yw'ch prosiect yn gysylltiedig â COVID-19, byddwn yn blaenoriaethu:</strong>
-                    </p>
-                    ${prioritiesCOVID19()}
-                    <p><strong>
-                        Ond ar gyfer pob prosiect arall, rydyn ni am ariannu syniadau 
-                        sy'n gwneud o leiaf un o'r tri pheth hyn:
-                    </strong></p>
-                    ${prioritiesDefault()}
-                    <p>
-                        Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
-                        nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
-                    </p>`,
-                });
-            }
+            
         }
 
         return new TextareaField({
             locale: locale,
             name: 'yourIdeaPriorities',
             label: localise({
-                en: `How does your project meet at least one of our funding priorities?`,
-                cy: `Sut mae eich prosiect yn bodloni o leiaf un o’n tair blaenoriaeth ariannu?`,
+                en: `How does your project meet our funding priority?`,
+                cy: `Sut mae'ch prosiect yn cwrdd â'n blaenoriaeth ariannu?`,
             }),
             explanation: stripIndents`${guidanceText()}${wordCountText(
                 locale,

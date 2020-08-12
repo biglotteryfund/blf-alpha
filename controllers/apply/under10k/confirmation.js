@@ -46,8 +46,8 @@ module.exports = function ({ locale, data = {} }) {
             if (country === 'england') {
                 return `<p>
                     We’ll look at your idea and do some checks.
-                    Given the emergency and huge demand for funding,
-                    we’re now focusing on funding projects and organisations
+                    Given the huge demand for funding,
+                    we’re focusing on funding projects and organisations
                     helping communities through the COVID-19 pandemic,
                     so they can start as soon as possible
                 </p>`;
