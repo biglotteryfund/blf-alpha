@@ -38,7 +38,7 @@ test('show for pending under £10,000 application in England', function () {
     expect(resultCy).toMatchSnapshot();
 
     const noResult = getNoticesAll('en', [mockUnder10kEmpty, mockOver10k]);
-    expect(noResult).toHaveLength(0);
+    expect(noResult).toHaveLength(1);
 });
 
 test(`don't show notice for pending under £10,000 application in England before a fixed date`, function () {
@@ -49,7 +49,7 @@ test(`don't show notice for pending under £10,000 application in England before
     };
 
     const noResult = getNoticesAll('en', [mock]);
-    expect(noResult).toHaveLength(0);
+    expect(noResult).toHaveLength(1);
 });
 
 test.each(['school', 'college-or-university', 'statutory-body'])(

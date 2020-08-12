@@ -18,7 +18,7 @@ const logger = require('../../../common/logger').child({
     service: 'application-expiry',
 });
 
-const sendExpiryEmail = require('./send-expiry-email');
+const { sendExpiryEmail, getProjectCountry } = require('./send-expiry-email');
 
 const router = express.Router();
 
@@ -55,34 +55,59 @@ async function sendExpiryEmails(req, emailQueue) {
         emailQueue.map(async (emailToSend) => {
             const { emailType, PendingApplication } = emailToSend;
 
-            const emailStatus = await sendExpiryEmail({
-                emailType: emailType,
-                unsubscribeToken: signUnsubscribeToken(PendingApplication.id),
-                formId: PendingApplication.formId,
-                applicationId: PendingApplication.id,
-                applicationData: PendingApplication.applicationData,
-                expiresAt: PendingApplication.expiresAt,
-                sendTo: appData.isNotProduction
-                    ? EMAIL_EXPIRY_TEST_ADDRESS
-                    : PendingApplication.user.username,
-            });
+            // Filter out England expiry reminder emails, which we're no
+            // longer sending until the CCSF fund closes
+            // @TODO remove this change after 17th August (eg.send emails to everyone)
+            const country = getProjectCountry(
+                PendingApplication.applicationData,
+                PendingApplication.formId
+            );
 
-            if (emailStatus.response || appData.isTestServer) {
-                const queueStatus = await ApplicationEmailQueue.updateStatusToSent(
-                    emailToSend.id
+            if (country === 'england') {
+                const queueStatus = await ApplicationEmailQueue.updateStatus(
+                    emailToSend.id,
+                    'SKIPPED'
                 );
 
                 return {
                     formId: PendingApplication.formId,
-                    emailSent: true,
+                    emailSent: false,
                     dbUpdated: queueStatus[0] === 1,
                 };
             } else {
-                return {
+                // Send this email
+                const emailStatus = await sendExpiryEmail({
+                    emailType: emailType,
+                    unsubscribeToken: signUnsubscribeToken(
+                        PendingApplication.id
+                    ),
                     formId: PendingApplication.formId,
-                    emailSent: false,
-                    dbUpdated: false,
-                };
+                    applicationId: PendingApplication.id,
+                    applicationData: PendingApplication.applicationData,
+                    expiresAt: PendingApplication.expiresAt,
+                    sendTo: appData.isNotProduction
+                        ? EMAIL_EXPIRY_TEST_ADDRESS
+                        : PendingApplication.user.username,
+                });
+
+                if (emailStatus.response || appData.isTestServer) {
+                    const queueStatus = await ApplicationEmailQueue.updateStatus(
+                        emailToSend.id,
+                        'SENT'
+                    );
+
+                    return {
+                        formId: PendingApplication.formId,
+                        emailSent: true,
+                        dbUpdated: queueStatus[0] === 1,
+                    };
+                } else {
+                    return {
+                        formId: PendingApplication.formId,
+                        emailSent: false,
+                        dbUpdated: false,
+                    };
+                }
             }
         })
     );

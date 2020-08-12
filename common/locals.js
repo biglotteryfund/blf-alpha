@@ -4,7 +4,7 @@ const path = require('path');
 const config = require('config');
 const moment = require('moment-timezone');
 const isString = require('lodash/isString');
-const { get } = require('lodash');
+const get = require('lodash/get');
 
 const appData = require('./appData');
 const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
