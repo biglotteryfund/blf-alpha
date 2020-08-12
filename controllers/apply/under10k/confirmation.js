@@ -46,7 +46,7 @@ module.exports = function ({ locale, data = {} }) {
             if (country === 'england') {
                 return `<p>
                     We’ll look at your idea and do some checks.
-                    Given the huge demand for funding,
+                        Given the huge demand for funding,
                     we’re focusing on funding projects and organisations
                     helping communities through the COVID-19 pandemic,
                     so they can start as soon as possible
@@ -106,7 +106,7 @@ module.exports = function ({ locale, data = {} }) {
         function leadTimeText() {
             if (country === 'england') {
                 return `<p>Byddwn yn edrych ar eich syniad ac yn gwneud rhai gwiriadau.
-                O ystyried yr argyfwng a'r galw enfawr am arian grant, rydym nawr yn
+                O ystyried yr'r galw enfawr am arian grant, rydym nawr yn
                 canolbwyntio ar ariannu prosiectau a sefydliadau sy'n helpu cymunedau
                 trwy'r pandemig COVID-19, fel y gallant ddechrau cyn gynted â phosibl
                 </p>`;
