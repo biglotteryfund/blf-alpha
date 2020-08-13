@@ -2,7 +2,7 @@
 'use strict';
 const { getNoticesAll, getNoticesSingle } = require('./notices');
 
-test('show for pending under £10,000 application in England', function () {
+test('show for pending under £10,000 application in England (covid turned off so expecting no notice)', function () {
     const mockUnder10kEngland = {
         formId: 'awards-for-all',
         createdAt: '2020-05-11T10:39:24.000Z',
@@ -38,10 +38,10 @@ test('show for pending under £10,000 application in England', function () {
     expect(resultCy).toMatchSnapshot();
 
     const noResult = getNoticesAll('en', [mockUnder10kEmpty, mockOver10k]);
-    expect(noResult).toHaveLength(1);
+    expect(noResult).null;
 });
 
-test(`don't show notice for pending under £10,000 application in England before a fixed date`, function () {
+test(`don't show notice for pending under £10,000 application in England before a fixed date (no longer needed)`, function () {
     const mock = {
         formId: 'awards-for-all',
         createdAt: '2020-05-13T10:39:24.000Z',
@@ -49,7 +49,7 @@ test(`don't show notice for pending under £10,000 application in England before
     };
 
     const noResult = getNoticesAll('en', [mock]);
-    expect(noResult).toHaveLength(1);
+    expect(noResult).toHaveLength(0);
 });
 
 test.each(['school', 'college-or-university', 'statutory-body'])(

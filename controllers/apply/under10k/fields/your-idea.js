@@ -99,7 +99,7 @@ module.exports = {
 
         function prioritiesDiversity() {
             return localise({
-                en: `<ol>
+                en: `<ul>
                         <li>organisations supporting people and communities who experience 
                             disproportionate challenge and difficulty as a result 
                             of the COVID-19 crisis, specifically for user-led equality groups supporting:
@@ -110,8 +110,8 @@ module.exports = {
                         </li>
                         <li>disabled people
                         </li>
-                    </ol>`,
-                cy: `<ol>
+                    </ul>`,
+                cy: `<ul>
                         <li>
                         sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster anghymesur 
                         o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb
@@ -119,42 +119,13 @@ module.exports = {
                         </li>
                         <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)
                         </li>
-                        <li>cymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer + (LGBTQ +)
+                        <li>tcymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer (LHDTQ +)
                         </li>
                         <li>pobl anabl
                         </li>
-                    </ol>`,
+                    </ul>`,
             });
         }
-        /* commenting this out for now
-        function prioritiesDefault() {
-            return localise({
-                en: `<ol>
-                    <li>
-                        Bring people together and build strong
-                        relationships in and across communities
-                    </li>
-                    <li>Improve the places and spaces that matter to communities</li>
-                    <li>
-                        Help more people to reach their potential,
-                        by supporting them at the earliest possible stage
-                    </li>
-                </ol>`,
-                cy: `<ol>
-                    <li>
-                        Dod â phobl ynghyd a meithrin perthnasoedd 
-                        cryf mewn ac ar draws cymunedau
-                    </li>
-                    <li>Gwella'r lleoedd sy'n bwysig i gymunedau</li>
-                    <li>
-                        Helpu mwy o bobl i gyrraedd eu potensial, 
-                        trwy eu cefnogi cyn gynted â phosibl
-                    </li>
-                </ol>`,
-            });
-        }
-        */
-
         function guidanceText() {
             return localise({
                 en: `<p><strong>We will prioritise:</strong></p>

@@ -1,5 +1,4 @@
 'use strict';
-'use strict';
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
