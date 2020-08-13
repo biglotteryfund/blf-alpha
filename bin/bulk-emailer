@@ -71,7 +71,6 @@ const chunk = require('lodash/chunk');
 const htmlToText = require('html-to-text');
 const AWS = require('aws-sdk');
 const sqlite3 = require('sqlite3').verbose();
-// eslint-disable-next-line node/no-missing-require
 const csv = require('csvtojson');
 
 const SES = new AWS.SES({
