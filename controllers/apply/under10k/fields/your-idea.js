@@ -99,12 +99,11 @@ module.exports = {
 
         function prioritiesDiversity() {
             return localise({
-                en: `<ol>
-                        <li>organisations supporting people and communities who experience 
-                            disproportionate challenge and difficulty as a result 
-                            of the COVID-19 crisis, specifically for user-led equality groups supporting:
-                        </li>
-                    </ol>
+                en: `<p>
+                        We will prioritise organisations supporting people and communities who 
+                        experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
+                        specifically for user-led equality groups supporting:
+                    </p>
                     <ul>
                         <li>black, Asian, minority ethnic and refugee (BAMER) communities
                         </li>
@@ -113,35 +112,29 @@ module.exports = {
                         <li>disabled people
                         </li>
                     </ul>`,
-                cy: `<ul>
-                        <li>
-                        sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster anghymesur 
-                        o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb
-                        a arweinir gan ddefnyddwyr sy'n cefnogi:
-                        </li>
-                        <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)
-                        </li>
-                        <li>tcymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer (LHDTQ +)
-                        </li>
-                        <li>pobl anabl
-                        </li>
+                cy: `<p>
+                        Byddwn yn blaenoriaethu sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster
+                        anghymesur o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb a arweinir
+                        gan ddefnyddwyr sy'n cefnogi:</p>
+                    <ul>
+                        <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)</li>
+                        <li>tcymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer (LHDTQ +)</li>
+                        <li>pobl anabl</li>
                     </ul>`,
             });
         }
         function guidanceText() {
             return localise({
-                en: `<p><strong>We will prioritise:</strong></p>
-                        ${prioritiesDiversity()}
-                        <p>
-                            You can tell us if your project meets more
-                            than one priority, but don't worry if it doesn't.
-                        </p>`,
-                cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
-                        ${prioritiesDiversity()}
-                        <p>
-                            Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
-                            nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
-                        </p>`,
+                en: `${prioritiesDiversity()}
+                    <p>
+                        You can tell us if your project meets more
+                        than one priority, but don't worry if it doesn't.
+                    </p>`,
+                cy: `${prioritiesDiversity()}
+                    <p>
+                        Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
+                        nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
+                    </p>`,
             });
         }
 
