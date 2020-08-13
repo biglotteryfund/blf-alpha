@@ -6,12 +6,14 @@ exports[`show COVID-19 guidance text in England 1`] = `
     We will prioritise:
   </strong>
 </p>
-<ul>
+<ol>
   <li>
     organisations supporting people and communities who experience 
 disproportionate challenge and difficulty as a result 
 of the COVID-19 crisis, specifically for user-led equality groups supporting:
   </li>
+</ol>
+<ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
   </li>
@@ -40,12 +42,14 @@ exports[`show COVID-19 guidance text in England 2`] = `
     We will prioritise:
   </strong>
 </p>
-<ul>
+<ol>
   <li>
     organisations supporting people and communities who experience 
 disproportionate challenge and difficulty as a result 
 of the COVID-19 crisis, specifically for user-led equality groups supporting:
   </li>
+</ol>
+<ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
   </li>
@@ -74,12 +78,14 @@ exports[`show COVID-19 guidance text outside England when project is responding 
     We will prioritise:
   </strong>
 </p>
-<ul>
+<ol>
   <li>
     organisations supporting people and communities who experience 
 disproportionate challenge and difficulty as a result 
 of the COVID-19 crisis, specifically for user-led equality groups supporting:
   </li>
+</ol>
+<ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
   </li>
@@ -108,12 +114,14 @@ exports[`show combined guidance text as a fallback 1`] = `
     We will prioritise:
   </strong>
 </p>
-<ul>
+<ol>
   <li>
     organisations supporting people and communities who experience 
 disproportionate challenge and difficulty as a result 
 of the COVID-19 crisis, specifically for user-led equality groups supporting:
   </li>
+</ol>
+<ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
   </li>
@@ -142,12 +150,14 @@ exports[`show regular guidance text outside England when project is not respondi
     We will prioritise:
   </strong>
 </p>
-<ul>
+<ol>
   <li>
     organisations supporting people and communities who experience 
 disproportionate challenge and difficulty as a result 
 of the COVID-19 crisis, specifically for user-led equality groups supporting:
   </li>
+</ol>
+<ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
   </li>

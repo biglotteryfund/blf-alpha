@@ -99,11 +99,13 @@ module.exports = {
 
         function prioritiesDiversity() {
             return localise({
-                en: `<ul>
+                en: `<ol>
                         <li>organisations supporting people and communities who experience 
                             disproportionate challenge and difficulty as a result 
                             of the COVID-19 crisis, specifically for user-led equality groups supporting:
                         </li>
+                    </ol>
+                    <ul>
                         <li>black, Asian, minority ethnic and refugee (BAMER) communities
                         </li>
                         <li>lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities

@@ -122,8 +122,9 @@ exports[`england specific terms 1`] = `
       <li>
         acknowledge National Lottery funding using our logo in accordance with the relevant  guidelines for recognising your grant, which can be found on our website
         <a href="https://www.tnlcommunityfund.org.uk/">
-          https://www.tnlcommunityfund.org.uk/;
+          https://www.tnlcommunityfund.org.uk/
         </a>
+        ;
       </li>
       <li>
         hold the grant in a UK based bank or building society account which satisfies our requirements as set out in guidelines and requires at least two unconnected people to approve all transactions and withdrawals;

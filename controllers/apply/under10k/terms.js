@@ -205,7 +205,7 @@ function englandTerms() {
                 mismanagement or misuse in relation to the grant;`,
 
                 oneLine`acknowledge National Lottery funding using our logo in accordance with the relevant 
-                guidelines for recognising your grant, which can be found on our website <a href="https://www.tnlcommunityfund.org.uk/">https://www.tnlcommunityfund.org.uk/;</a>`,
+                guidelines for recognising your grant, which can be found on our website <a href="https://www.tnlcommunityfund.org.uk/">https://www.tnlcommunityfund.org.uk/</a>;`,
 
                 oneLine`hold the grant in a UK based bank or building society
                 account which satisfies our requirements as set out in guidelines
