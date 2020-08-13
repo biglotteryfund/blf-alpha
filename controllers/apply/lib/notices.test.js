@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const { getNoticesAll, getNoticesSingle } = require('./notices');
+const {getNoticesSingle } = require('./notices');
 
 
 test.each(['school', 'college-or-university', 'statutory-body'])(
