@@ -2,81 +2,81 @@
 'use strict';
 
 /*
-* A script to email people in bulk, to be run from local environments.
-*
-* It has three "modes" – database, template, and send.
-*
-* 1. Database mode
-* ================
-*
-* This will create a SQLite database of email addresses and a "sent" column,
-* to indicate if that user has been emailed before. This allows us to re-run
-* this script (in "send" mode) multiple times and avoid re-sending the email
-* (in case one batch fails to send etc).
-*
-* To run in database mode you'll need to provide a CSV file containing a "username"
-* column, which must be an email address. Example:
-*
-* id,username,date
-* 1,foo@bar.com,2020-07-27 11:32:00
-* 2,baz@quux.xyz,2020-07-27 11:33:00
-*
-* When this CSV file exists, call this script like so:
-*
-* ./bin/bulk-emailer -m database -d <path-to-database-file> -c <path-to-csv-file>
-*
-* This will create a SQLite database from the CSV file, which can then be used
-* to send emails.
-*
-* 2. Template mode
-* ================
-*
-* When sending bulk email via AWS SES, we need to provide an HTML email template.
-* This function will use a Nunjucks template file to output HTML (with our logo
-* and branding) plus a subject line (configured below).
-*
-* To run this command:
-*
-* ./bin/bulk-emailer -m template -t <unique-template-name>
-*
-* This will create a template – keep a record of its name to later send it.
-* Note that templates can contain variables which are supplied when sending,
-* but this script doesn't make use of this.
-*
-* 3. Send mode
-* ================
-*
-* The core of this script is to send emails in bulk. Our AWS SES account has a
-* limit of emails per second (configured below) which we will be blocked from
-* if we exceed it. This function will send emails in bulk at a rate of this
-* limit per second (eg. 14/second currently).
-*
-* The function looks up users in the database (created above) who have not been
-* emailed already, looks up the template (created above) and sends it to each
-* user in a batch. If there are errors (eg. invalid email addresses in the batch),
-* the task will fail. If the batch succeeds then those email addresses are marked
-* as having been sent, so if the script is re-run they won't be emailed again.
-*
-* The script will output the addresses of each batch it sends to.
-*
-* To run this command:
-*
-* ./bin/bulk-emailer -m send -d <path-to-database-file> -t <unique-template-name>
-*
-* Watch for errors in the console, but otherwise this script will tick along and
-* send approx 14 emails/second (or around 840 per minute).
-*
-* */
+ * A script to email people in bulk, to be run from local environments.
+ *
+ * It has three "modes" – database, template, and send.
+ *
+ * 1. Database mode
+ * ================
+ *
+ * to indicate if that user has been emailed before. This allows us to re-run
+ * this script (in "send" mode) multiple times and avoid re-sending the email
+ * (in case one batch fails to send etc).
+ *
+ * To run in database mode you'll need to provide a CSV file containing a "username"
+ * column, which must be an email address. Example:
+ *
+ * id,username,date
+ * 1,foo@bar.com,2020-07-27 11:32:00
+ * 2,baz@quux.xyz,2020-07-27 11:33:00
+ *
+ * When this CSV file exists, call this script like so:
+ *
+ * ./bin/bulk-emailer -m database -d <path-to-database-file> -c <path-to-csv-file>
+ *
+ * This will create a SQLite database from the CSV file, which can then be used
+ * to send emails.
+ *
+ * 2. Template mode
+ * ================
+ *
+ * When sending bulk email via AWS SES, we need to provide an HTML email template.
+ * This function will use a Nunjucks template file to output HTML (with our logo
+ * and branding) plus a subject line (configured below).
+ *
+ * To run this command:
+ *
+ * ./bin/bulk-emailer -m template -t <unique-template-name>
+ *
+ * This will create a template – keep a record of its name to later send it.
+ * Note that templates can contain variables which are supplied when sending,
+ * but this script doesn't make use of this.
+ *
+ * 3. Send mode
+ * ================
+ *
+ * The core of this script is to send emails in bulk. Our AWS SES account has a
+ * limit of emails per second (configured below) which we will be blocked from
+ * if we exceed it. This function will send emails in bulk at a rate of this
+ * limit per second (eg. 14/second currently).
+ *
+ * The function looks up users in the database (created above) who have not been
+ * emailed already, looks up the template (created above) and sends it to each
+ * user in a batch. If there are errors (eg. invalid email addresses in the batch),
+ * the task will fail. If the batch succeeds then those email addresses are marked
+ * as having been sent, so if the script is re-run they won't be emailed again.
+ *
+ * The script will output the addresses of each batch it sends to.
+ *
+ * To run this command:
+ *
+ * ./bin/bulk-emailer -m send -d <path-to-database-file> -t <unique-template-name>
+ *
+ * Watch for errors in the console, but otherwise this script will tick along and
+ * send approx 14 emails/second (or around 840 per minute).
+ *
+ * */
 
 const chunk = require('lodash/chunk');
 const htmlToText = require('html-to-text');
 const AWS = require('aws-sdk');
 const sqlite3 = require('sqlite3').verbose();
+// eslint-disable-next-line node/no-missing-require
 const csv = require('csvtojson');
 
 const SES = new AWS.SES({
     apiVersion: '2010-12-01',
-    region: 'eu-west-1'
+    region: 'eu-west-1',
 });
 
 const { generateHtmlEmail } = require('../common/mail');
@@ -92,7 +92,10 @@ const argv = require('yargs')
     .alias('d', 'database')
     .describe('d', 'Pass the filename of a database to use')
     .alias('c', 'csv')
-    .describe('c', 'Pass the filename of a CSV file with a `username` column of email addresses')
+    .describe(
+        'c',
+        'Pass the filename of a CSV file with a `username` column of email addresses'
+    )
     .demandOption(['m'])
     .help('h')
     .alias('h', 'help').argv;
@@ -114,7 +117,9 @@ if (mode === 'send' && !emailTemplate) {
 
 let db;
 if (mode !== 'template' && !dbPath) {
-    throw new Error('You must provide the path to a database file (-d or --database)');
+    throw new Error(
+        'You must provide the path to a database file (-d or --database)'
+    );
 } else if (mode !== 'template') {
     db = new sqlite3.Database(dbPath, (err) => {
         if (err) {
@@ -124,11 +129,11 @@ if (mode !== 'template' && !dbPath) {
     });
 }
 
-
 // Email configuration
 const SENDS_PER_SECOND = 10; // SES limit for our account
 const EMAIL_SOURCE = 'noreply@tnlcommunityfund.org.uk';
-const EMAIL_SUBJECT = 'Important - You have one week to finish your application';
+const EMAIL_SUBJECT =
+    'Important - You have one week to finish your application';
 
 // Send a pre-templated email to an array of senders (max 50)
 const sendBulkEmail = (emails) => {
@@ -136,13 +141,13 @@ const sendBulkEmail = (emails) => {
         Destinations: [
             {
                 Destination: {
-                    BccAddresses: emails
-                }
-            }
+                    BccAddresses: emails,
+                },
+            },
         ],
         Source: EMAIL_SOURCE,
         Template: emailTemplate,
-        DefaultTemplateData: '{}'
+        DefaultTemplateData: '{}',
     }).promise();
 };
 
@@ -153,7 +158,7 @@ const processEmailQueue = (emailAddresses) => {
 
     // Send a bulk email to $SENDS_PER_SECOND people, every second
     emailQueue.forEach((queue, i) => {
-        setTimeout(function() {
+        setTimeout(function () {
             console.log('Sending batch: ' + i);
             sendBulkEmail(queue)
                 .then((data) => {
@@ -186,14 +191,14 @@ const createHtmlTemplate = async () => {
     // Make HTML version
     const emailHtml = await generateHtmlEmail({
         template: './controllers/apply/expiries/views/ccsf-closure-email.njk',
-        templateData: {}
+        templateData: {},
     });
 
     // Make plain text version from HTML
     const emailText = htmlToText.fromString(emailHtml, {
         wordwrap: 130,
         hideLinkHrefIfSameAsText: true,
-        ignoreImage: true
+        ignoreImage: true,
     });
 
     // Register the new template with SES
@@ -202,8 +207,8 @@ const createHtmlTemplate = async () => {
             TemplateName: emailTemplate,
             SubjectPart: EMAIL_SUBJECT,
             TextPart: emailText,
-            HtmlPart: emailHtml
-        }
+            HtmlPart: emailHtml,
+        },
     }).promise();
 };
 
@@ -223,7 +228,7 @@ if (mode === 'send') {
         .then((data) => {
             console.log(
                 'Template was successfully created with the name ' +
-                emailTemplate,
+                    emailTemplate,
                 data
             );
         })
