@@ -91,9 +91,6 @@ module.exports = {
     },
     fieldYourIdeaPriorities(locale) {
         const localise = get(locale);
-
-        // not needed currently const projectCountry = get('projectCountry')(data);
-
         const minWords = 50;
         const maxWords = 150;
 
