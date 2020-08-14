@@ -18,7 +18,7 @@ const logger = require('../../../common/logger').child({
     service: 'application-expiry',
 });
 
-const { sendExpiryEmail, getProjectCountry } = require('./send-expiry-email');
+const { sendExpiryEmail } = require('./send-expiry-email');
 
 const router = express.Router();
 
