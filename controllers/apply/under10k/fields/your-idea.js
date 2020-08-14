@@ -97,31 +97,21 @@ module.exports = {
 
         function prioritiesDiversity() {
             return localise({
-                en: `<ol>
-                        <li>organisations supporting people and communities who experience 
-                            disproportionate challenge and difficulty as a result 
-                            of the COVID-19 crisis, specifically for user-led equality groups supporting:
-                        </li>
-                    </ol>
+                en: `
                     <ul>
                         <li>black, Asian, minority ethnic and refugee (BAMER) communities
                         </li>
                         <li>lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
                         </li>
-                        <li>disabled people
+                        <li>disabled people.
                         </li>
                     </ul>`,
                 cy: `<ul>
-                        <li>
-                        sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster anghymesur 
-                        o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb
-                        a arweinir gan ddefnyddwyr sy'n cefnogi:
-                        </li>
                         <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)
                         </li>
                         <li>tcymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer (LHDTQ +)
                         </li>
-                        <li>pobl anabl
+                        <li>pobl anabl.
                         </li>
                     </ul>`,
             });
@@ -160,14 +150,20 @@ module.exports = {
         function guidanceText() {
             if (projectCountry === 'england') {
                 return localise({
-                    en: `<p><strong>We will prioritise:</strong></p>
+                    en: `<p>We'll prioritise organisations supporting people and communities who experience 
+                            disproportionate challenge and difficulty as a result 
+                            of the COVID-19 crisis, specifically for user-led equality groups supporting:
+                        </p>
                         ${prioritiesDiversity()}`,
-                    cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
+                    cy: `<p>Byddwn yn blaenoriaethu
+                        sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster anghymesur 
+                        o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb
+                        a arweinir gan ddefnyddwyr sy'n cefnogi:</p>
                         ${prioritiesDiversity()}`,
                 });
             } else {
                 return localise({
-                    en: `<p><strong>We will priotise:</strong></p>
+                    en: `<p><strong>We will prioritise:</strong></p>
                         ${prioritiesCovid19()}
                         <p>
                             You can tell us if your project meets more

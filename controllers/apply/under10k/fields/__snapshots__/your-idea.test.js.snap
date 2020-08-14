@@ -2,17 +2,10 @@
 
 exports[`show COVID-19 guidance text in England 1`] = `
 <p>
-  <strong>
-    We will prioritise:
-  </strong>
-</p>
-<ol>
-  <li>
-    organisations supporting people and communities who experience 
+  We'll prioritise organisations supporting people and communities who experience 
 disproportionate challenge and difficulty as a result 
 of the COVID-19 crisis, specifically for user-led equality groups supporting:
-  </li>
-</ol>
+</p>
 <ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
@@ -21,7 +14,7 @@ of the COVID-19 crisis, specifically for user-led equality groups supporting:
     lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
   </li>
   <li>
-    disabled people
+    disabled people.
   </li>
 </ul>
 <p>
@@ -34,17 +27,10 @@ but don't worry if you use less.
 
 exports[`show COVID-19 guidance text in England 2`] = `
 <p>
-  <strong>
-    We will prioritise:
-  </strong>
-</p>
-<ol>
-  <li>
-    organisations supporting people and communities who experience 
+  We'll prioritise organisations supporting people and communities who experience 
 disproportionate challenge and difficulty as a result 
 of the COVID-19 crisis, specifically for user-led equality groups supporting:
-  </li>
-</ol>
+</p>
 <ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
@@ -53,7 +39,7 @@ of the COVID-19 crisis, specifically for user-led equality groups supporting:
     lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
   </li>
   <li>
-    disabled people
+    disabled people.
   </li>
 </ul>
 <p>
@@ -67,7 +53,7 @@ but don't worry if you use less.
 exports[`show COVID-19 guidance text outside England when project is responding to COVID-19 1`] = `
 <p>
   <strong>
-    We will priotise:
+    We will prioritise:
   </strong>
 </p>
 <ol>
@@ -101,7 +87,7 @@ but don't worry if you use less.
 exports[`show combined guidance text as a fallback 1`] = `
 <p>
   <strong>
-    We will priotise:
+    We will prioritise:
   </strong>
 </p>
 <ol>
@@ -135,7 +121,7 @@ but don't worry if you use less.
 exports[`show regular guidance text outside England when project is not responding to COVID-19 1`] = `
 <p>
   <strong>
-    We will priotise:
+    We will prioritise:
   </strong>
 </p>
 <ol>
