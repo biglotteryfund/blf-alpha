@@ -2,17 +2,10 @@
 
 exports[`show COVID-19 guidance text in England 1`] = `
 <p>
-  <strong>
-    We will prioritise:
-  </strong>
+  We will prioritise organisations supporting people and communities who 
+experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
+specifically for user-led equality groups supporting:
 </p>
-<ol>
-  <li>
-    organisations supporting people and communities who experience 
-disproportionate challenge and difficulty as a result 
-of the COVID-19 crisis, specifically for user-led equality groups supporting:
-  </li>
-</ol>
 <ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
@@ -34,17 +27,10 @@ but don't worry if you use less.
 
 exports[`show COVID-19 guidance text in England 2`] = `
 <p>
-  <strong>
-    We will prioritise:
-  </strong>
+  We will prioritise organisations supporting people and communities who 
+experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
+specifically for user-led equality groups supporting:
 </p>
-<ol>
-  <li>
-    organisations supporting people and communities who experience 
-disproportionate challenge and difficulty as a result 
-of the COVID-19 crisis, specifically for user-led equality groups supporting:
-  </li>
-</ol>
 <ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
@@ -75,6 +61,13 @@ exports[`show COVID-19 guidance text outside England when project is responding 
     organisations supporting people and communities
 who experience disproportionate challenge and
 difficulty as a result of the COVID-19 crisis
+  We will prioritise organisations supporting people and communities who 
+experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
+specifically for user-led equality groups supporting:
+</p>
+<ul>
+  <li>
+    black, Asian, minority ethnic and refugee (BAMER) communities
   </li>
   <li>
     organisations providing services and support
@@ -109,6 +102,13 @@ exports[`show combined guidance text as a fallback 1`] = `
     organisations supporting people and communities
 who experience disproportionate challenge and
 difficulty as a result of the COVID-19 crisis
+  We will prioritise organisations supporting people and communities who 
+experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
+specifically for user-led equality groups supporting:
+</p>
+<ul>
+  <li>
+    black, Asian, minority ethnic and refugee (BAMER) communities
   </li>
   <li>
     organisations providing services and support
@@ -144,6 +144,12 @@ exports[`show regular guidance text outside England when project is not respondi
 who experience disproportionate challenge and
 difficulty as a result of the COVID-19 crisis
   </li>
+
+  We will prioritise organisations supporting people and communities who 
+experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
+specifically for user-led equality groups supporting:
+</p>
+<ul>
   <li>
     organisations providing services and support
 for vulnerable people, for which there will be
