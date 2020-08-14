@@ -89,7 +89,7 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaPriorities(locale, data={}) {
+    fieldYourIdeaPriorities(locale, data = {}) {
         const localise = get(locale);
         const projectCountry = get('projectCountry')(data);
         const minWords = 50;
@@ -158,16 +158,14 @@ module.exports = {
             });
         }
         function guidanceText() {
-            if (projectCountry === "england") {
+            if (projectCountry === 'england') {
                 return localise({
                     en: `<p><strong>We will prioritise:</strong></p>
                         ${prioritiesDiversity()}`,
                     cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
                         ${prioritiesDiversity()}`,
                 });
-            }
-            else
-            {
+            } else {
                 return localise({
                     en: `<p><strong>We will priotise:</strong></p>
                         ${prioritiesCovid19()}
@@ -183,7 +181,6 @@ module.exports = {
                         </p>`,
                 });
             }
-
         }
 
         return new TextareaField({
