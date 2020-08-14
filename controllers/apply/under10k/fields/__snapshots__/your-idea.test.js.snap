@@ -2,10 +2,17 @@
 
 exports[`show COVID-19 guidance text in England 1`] = `
 <p>
-  We will prioritise organisations supporting people and communities who 
-experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
-specifically for user-led equality groups supporting:
+  <strong>
+    We will prioritise:
+  </strong>
 </p>
+<ol>
+  <li>
+    organisations supporting people and communities who experience 
+disproportionate challenge and difficulty as a result 
+of the COVID-19 crisis, specifically for user-led equality groups supporting:
+  </li>
+</ol>
 <ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
@@ -17,10 +24,6 @@ specifically for user-led equality groups supporting:
     disabled people
   </li>
 </ul>
-<p>
-  You can tell us if your project meets more
-than one priority, but don't worry if it doesn't.
-</p>
 <p>
   <strong>
     You can write up to 150 words for this section,
@@ -31,10 +34,17 @@ but don't worry if you use less.
 
 exports[`show COVID-19 guidance text in England 2`] = `
 <p>
-  We will prioritise organisations supporting people and communities who 
-experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
-specifically for user-led equality groups supporting:
+  <strong>
+    We will prioritise:
+  </strong>
 </p>
+<ol>
+  <li>
+    organisations supporting people and communities who experience 
+disproportionate challenge and difficulty as a result 
+of the COVID-19 crisis, specifically for user-led equality groups supporting:
+  </li>
+</ol>
 <ul>
   <li>
     black, Asian, minority ethnic and refugee (BAMER) communities
@@ -46,10 +56,6 @@ specifically for user-led equality groups supporting:
     disabled people
   </li>
 </ul>
-<p>
-  You can tell us if your project meets more
-than one priority, but don't worry if it doesn't.
-</p>
 <p>
   <strong>
     You can write up to 150 words for this section,
@@ -60,21 +66,26 @@ but don't worry if you use less.
 
 exports[`show COVID-19 guidance text outside England when project is responding to COVID-19 1`] = `
 <p>
-  We will prioritise organisations supporting people and communities who 
-experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
-specifically for user-led equality groups supporting:
+  <strong>
+    We will priotise:
+  </strong>
 </p>
-<ul>
+<ol>
   <li>
-    black, Asian, minority ethnic and refugee (BAMER) communities
+    organisations supporting people and communities
+who experience disproportionate challenge and
+difficulty as a result of the COVID-19 crisis
   </li>
   <li>
-    lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
+    organisations providing services and support
+for vulnerable people, for which there will be
+increased demand as a result of the COVID-19 crisis
   </li>
   <li>
-    disabled people
+    organisations which connect communities and support
+communities to work together to respond to COVID-19.
   </li>
-</ul>
+</ol>
 <p>
   You can tell us if your project meets more
 than one priority, but don't worry if it doesn't.
@@ -89,21 +100,26 @@ but don't worry if you use less.
 
 exports[`show combined guidance text as a fallback 1`] = `
 <p>
-  We will prioritise organisations supporting people and communities who 
-experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
-specifically for user-led equality groups supporting:
+  <strong>
+    We will priotise:
+  </strong>
 </p>
-<ul>
+<ol>
   <li>
-    black, Asian, minority ethnic and refugee (BAMER) communities
+    organisations supporting people and communities
+who experience disproportionate challenge and
+difficulty as a result of the COVID-19 crisis
   </li>
   <li>
-    lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
+    organisations providing services and support
+for vulnerable people, for which there will be
+increased demand as a result of the COVID-19 crisis
   </li>
   <li>
-    disabled people
+    organisations which connect communities and support
+communities to work together to respond to COVID-19.
   </li>
-</ul>
+</ol>
 <p>
   You can tell us if your project meets more
 than one priority, but don't worry if it doesn't.
@@ -118,21 +134,26 @@ but don't worry if you use less.
 
 exports[`show regular guidance text outside England when project is not responding to COVID-19 1`] = `
 <p>
-  We will prioritise organisations supporting people and communities who 
-experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
-specifically for user-led equality groups supporting:
+  <strong>
+    We will priotise:
+  </strong>
 </p>
-<ul>
+<ol>
   <li>
-    black, Asian, minority ethnic and refugee (BAMER) communities
+    organisations supporting people and communities
+who experience disproportionate challenge and
+difficulty as a result of the COVID-19 crisis
   </li>
   <li>
-    lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
+    organisations providing services and support
+for vulnerable people, for which there will be
+increased demand as a result of the COVID-19 crisis
   </li>
   <li>
-    disabled people
+    organisations which connect communities and support
+communities to work together to respond to COVID-19.
   </li>
-</ul>
+</ol>
 <p>
   You can tell us if your project meets more
 than one priority, but don't worry if it doesn't.

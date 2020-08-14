@@ -89,18 +89,20 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaPriorities(locale) {
+    fieldYourIdeaPriorities(locale, data = {}) {
         const localise = get(locale);
+        const projectCountry = get('projectCountry')(data);
         const minWords = 50;
         const maxWords = 150;
 
         function prioritiesDiversity() {
             return localise({
-                en: `<p>
-                        We will prioritise organisations supporting people and communities who 
-                        experience disproportionate challenge and difficulty as a result of the COVID-19 crisis, 
-                        specifically for user-led equality groups supporting:
-                    </p>
+                en: `<ol>
+                        <li>organisations supporting people and communities who experience 
+                            disproportionate challenge and difficulty as a result 
+                            of the COVID-19 crisis, specifically for user-led equality groups supporting:
+                        </li>
+                    </ol>
                     <ul>
                         <li>black, Asian, minority ethnic and refugee (BAMER) communities
                         </li>
@@ -109,30 +111,76 @@ module.exports = {
                         <li>disabled people
                         </li>
                     </ul>`,
-                cy: `<p>
-                        Byddwn yn blaenoriaethu sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster
-                        anghymesur o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb a arweinir
-                        gan ddefnyddwyr sy'n cefnogi:</p>
-                    <ul>
-                        <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)</li>
-                        <li>tcymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer (LHDTQ +)</li>
-                        <li>pobl anabl</li>
+                cy: `<ul>
+                        <li>
+                        sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster anghymesur 
+                        o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb
+                        a arweinir gan ddefnyddwyr sy'n cefnogi:
+                        </li>
+                        <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)
+                        </li>
+                        <li>tcymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer (LHDTQ +)
+                        </li>
+                        <li>pobl anabl
+                        </li>
                     </ul>`,
             });
         }
-        function guidanceText() {
+
+        function prioritiesCovid19() {
             return localise({
-                en: `${prioritiesDiversity()}
-                    <p>
-                        You can tell us if your project meets more
-                        than one priority, but don't worry if it doesn't.
-                    </p>`,
-                cy: `${prioritiesDiversity()}
-                    <p>
-                        Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
-                        nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
-                    </p>`,
+                en: `<ol>
+                        <li>organisations supporting people and communities
+                            who experience disproportionate challenge and
+                            difficulty as a result of the COVID-19 crisis
+                        </li>
+                        <li>organisations providing services and support
+                            for vulnerable people, for which there will be
+                            increased demand as a result of the COVID-19 crisis
+                        </li>
+                        <li>organisations which connect communities and support
+                            communities to work together to respond to COVID-19.
+                        </li>
+                    </ol>`,
+                cy: `<ol>
+                        <li>sefydliadau sy'n cefnogi pobl a chymunedau sy'n
+                            profi her ac anhawster anghymesur o ganlyniad
+                            i argyfwng Covid-19
+                        </li>
+                        <li>sefydliadau sy'n darparu gwasanaethau a chefnogaeth
+                            i bobl agored i niwed, y bydd galw cynyddol amdanynt
+                            o ganlyniad i argyfwng COVID-19
+                        </li>
+                        <li>sefydliadau sy'n cysylltu cymunedau ac yn cefnogi
+                            cymunedau i weithio gyda'i gilydd i ymateb i Covid-19
+                        </li>
+                    </ol>`,
             });
+        }
+        function guidanceText() {
+            if (projectCountry === 'england') {
+                return localise({
+                    en: `<p><strong>We will prioritise:</strong></p>
+                        ${prioritiesDiversity()}`,
+                    cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
+                        ${prioritiesDiversity()}`,
+                });
+            } else {
+                return localise({
+                    en: `<p><strong>We will priotise:</strong></p>
+                        ${prioritiesCovid19()}
+                        <p>
+                            You can tell us if your project meets more
+                            than one priority, but don't worry if it doesn't.
+                        </p>`,
+                    cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
+                        ${prioritiesCovid19()}
+                        <p>
+                            Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
+                            nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
+                        </p>`,
+                });
+            }
         }
 
         return new TextareaField({
