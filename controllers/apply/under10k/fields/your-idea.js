@@ -99,21 +99,27 @@ module.exports = {
             return localise({
                 en: `
                     <ul>
-                        <li>black, Asian, minority ethnic and refugee (BAMER) communities
-                        </li>
-                        <li>lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
-                        </li>
-                        <li>disabled people.
-                        </li>
-                    </ul>`,
+                        <li>older people</li>
+                        <li>disabled people (including people with long-term health conditions)</li>
+                        <li>lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities</li>
+                        <li>Black, Asian and Minority Ethnic (BAME) communities.</li>
+                    </ul>
+                    <p>
+                        It also includes organisations who provide advice and support to those pushed into crisis as a 
+                        result of the pandemic, and those organisations supporting people and their families with 
+                        end-of-life care.
+                    </p>`,
                 cy: `<ul>
-                        <li>cymunedau du, Asiaidd, lleiafrifoedd ethnig a ffoaduriaid (BAMER)
-                        </li>
-                        <li>tcymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer (LHDTQ +)
-                        </li>
-                        <li>pobl anabl.
-                        </li>
-                    </ul>`,
+                        <li>pobl hŷn</li>
+                        <li>pobl anabl (gan gynnwys pobl â chyflyrau iechyd tymor hir)</li>
+                        <li>cymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer + (LHDTQ +)</li>
+                        <li>cymunedau Du, Asiaidd a Lleiafrifoedd Ethnig.</li> 
+                    </ul>
+                    <p>
+                        Mae hefyd yn cynnwys sefydliadau sy'n darparu cyngor a chefnogaeth i'r rhai sy'n cael eu
+                        gwthio i argyfwng o ganlyniad i'r pandemig, a'r sefydliadau hynny sy'n cefnogi pobl a'u
+                        teuluoedd â gofal diwedd oes
+                    </p>`,
             });
         }
 
@@ -150,15 +156,19 @@ module.exports = {
         function guidanceText() {
             if (projectCountry === 'england') {
                 return localise({
-                    en: `<p>We'll prioritise organisations supporting people and communities who experience 
-                            disproportionate challenge and difficulty as a result 
-                            of the COVID-19 crisis, specifically for user-led equality groups supporting:
+                    en: `<p>
+                            We'll prioritise organisations supporting people and communities who experience 
+                            disproportionate challenge and difficulty as a result of the COVID-19 crisis. This category
+                            includes groups which are facing specific challenges during the current crisis and includes
+                            organisations supporting:
                         </p>
                         ${prioritiesDiversity()}`,
-                    cy: `<p>Byddwn yn blaenoriaethu
-                        sefydliadau sy'n cefnogi pobl a chymunedau sy'n profi her ac anhawster anghymesur 
-                        o ganlyniad i argyfwng COVID-19, yn benodol ar gyfer grwpiau cydraddoldeb
-                        a arweinir gan ddefnyddwyr sy'n cefnogi:</p>
+                    cy: `<p>
+                            Byddwn yn blaenoriaethu sefydliadau sy’n cefnogi pobl a chymunedau sy’n profi heriau ac
+                            anawsterau anghymesur o ganlyniad o’r argyfwng COVID-19. Mae’r categori hwn yn cynnwys
+                            grwpiau sy’n wynebu heriau penodol yn ystod yr argyfwng presennol a’n cynnwys sefydliadau
+                            sy’n cefnogi:
+                        </p>
                         ${prioritiesDiversity()}`,
                 });
             } else {
