@@ -3,20 +3,29 @@
 exports[`show COVID-19 guidance text in England 1`] = `
 <p>
   We'll prioritise organisations supporting people and communities who experience 
-disproportionate challenge and difficulty as a result 
-of the COVID-19 crisis, specifically for user-led equality groups supporting:
+disproportionate challenge and difficulty as a result of the COVID-19 crisis. This category
+includes groups which are facing specific challenges during the current crisis and includes
+organisations supporting:
 </p>
 <ul>
   <li>
-    black, Asian, minority ethnic and refugee (BAMER) communities
+    older people
+  </li>
+  <li>
+    disabled people (including people with long-term health conditions)
   </li>
   <li>
     lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
   </li>
   <li>
-    disabled people.
+    Black, Asian and Minority Ethnic (BAME) communities.
   </li>
 </ul>
+<p>
+  It also includes organisations who provide advice and support to those pushed into crisis as a 
+result of the pandemic, and those organisations supporting people and their families with 
+end-of-life care.
+</p>
 <p>
   <strong>
     You can write up to 150 words for this section,
@@ -28,20 +37,29 @@ but don't worry if you use less.
 exports[`show COVID-19 guidance text in England 2`] = `
 <p>
   We'll prioritise organisations supporting people and communities who experience 
-disproportionate challenge and difficulty as a result 
-of the COVID-19 crisis, specifically for user-led equality groups supporting:
+disproportionate challenge and difficulty as a result of the COVID-19 crisis. This category
+includes groups which are facing specific challenges during the current crisis and includes
+organisations supporting:
 </p>
 <ul>
   <li>
-    black, Asian, minority ethnic and refugee (BAMER) communities
+    older people
+  </li>
+  <li>
+    disabled people (including people with long-term health conditions)
   </li>
   <li>
     lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities
   </li>
   <li>
-    disabled people.
+    Black, Asian and Minority Ethnic (BAME) communities.
   </li>
 </ul>
+<p>
+  It also includes organisations who provide advice and support to those pushed into crisis as a 
+result of the pandemic, and those organisations supporting people and their families with 
+end-of-life care.
+</p>
 <p>
   <strong>
     You can write up to 150 words for this section,
