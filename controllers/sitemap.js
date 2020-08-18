@@ -6,14 +6,16 @@ const concat = require('lodash/fp/concat');
 const sortBy = require('lodash/fp/sortBy');
 const uniqBy = require('lodash/fp/uniqBy');
 
-const contentApi = require('../common/content-api');
+const { ContentApiClient } = require('../common/content-api');
 const { getBaseUrl } = require('../common/urls');
+
+const ContentApi = new ContentApiClient();
 
 /**
  * Build a flat list of all canonical routes
  * Combines application routes and routes defined by the CMS
  */
-async function getCanonicalRoutes() {
+async function getCanonicalRoutes(res) {
     /**
      * Static routes
      *
@@ -42,7 +44,9 @@ async function getCanonicalRoutes() {
         };
     });
 
-    const cmsCanonicalUrls = await contentApi.getRoutes();
+    const cmsCanonicalUrls = await ContentApi.init({
+        flags: res.locals.cmsFlags,
+    }).getRoutes();
     const combined = concat(staticRoutes, cmsCanonicalUrls);
     const filtered = combined.filter((route) => route.live);
     return compose(sortBy('path'), uniqBy('path'))(filtered);
@@ -50,7 +54,7 @@ async function getCanonicalRoutes() {
 
 module.exports = async function (req, res, next) {
     try {
-        const canonicalRoutes = await getCanonicalRoutes();
+        const canonicalRoutes = await getCanonicalRoutes(res);
 
         const smStream = new SitemapStream({
             hostname: getBaseUrl(req),

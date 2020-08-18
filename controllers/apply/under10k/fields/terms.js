@@ -225,41 +225,6 @@ module.exports = {
             ],
         });
     },
-    fieldTermsAgreementCovid1(locale) {
-        const localise = get(locale);
-
-        return new CheckboxField({
-            locale: locale,
-            name: 'termsAgreementCovid1',
-            type: 'checkbox',
-            label: oneLine`You understand that in applying for our Covid-19 funding,
-                you agree that the Fund and The Office for Civil Society, part of
-                the Department for Digital, Culture, Media and Sport (DCMS) may
-                use your personal data in accordance with the 
-                <a href="/funding/covid-19/privacy-notice">Privacy Notice for our Covid-19 funding</a>.`,
-            options: [
-                {
-                    value: 'yes',
-                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }),
-                },
-            ],
-            settings: { stackedSummary: true },
-            isRequired: true,
-            schema: Joi.when('projectCountry', {
-                is: 'england',
-                then: Joi.string().required(),
-                otherwise: Joi.any().strip(),
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: oneLine`You must confirm that you understand that the
-                        Department for Digital, Culture, Media and Sport (DCMS)
-                        may use your personal data`,
-                },
-            ],
-        });
-    },
     fieldTermsAgreementCovid2(locale) {
         const localise = get(locale);
 

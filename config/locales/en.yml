@@ -65,7 +65,7 @@ global:
   footerLinks:
     title: Quick links
     links:
-    - label: Talk to us
+    - label: Contact us
       href: "/contact"
     - label: Jobs
       href: "/jobs"
@@ -83,6 +83,8 @@ global:
       href: "/about/customer-service/corporate-documents"
     - label: Tender and Contract Opportunities
       href: "/about/customer-service/supplier-zone"
+    - label: Safeguarding
+      href: "/about/customer-service/safeguarding"
     - label: Privacy Policy
       href: "/about/customer-service/privacy-policy"
     - label: Cookies
@@ -463,7 +465,7 @@ funding:
             - Try a different query or clear your filters
             - Try searching something less specific — sometimes using a more general search term may help
             - Double check the spelling of any keywords you are searching for
-            - 'Our database might not have the details for grants awarded under 1 month ago. Please check our <a href="/news-and-events">news section</a> if you are looking for a recently awarded grant'
+            - 'Our database might not have the details for grants awarded under 1 month ago. Please check our <a href="/news">news section</a> if you are looking for a recently awarded grant'
           otherOptions: >
             If you're looking for something specific and would like some help <a href="/contact">please contact us</a>.
         postcode: The postcode you entered was invalid – please try another one.
@@ -1079,7 +1081,7 @@ awardsForAll:
             <li>your organisation’s legal name</li>
             <li>address the statements are sent to</li>
             <li>your bank’s name</li>
-            <li>the account code and sort number</li>
+            <li>the account number and sort code</li>
             <li>date the statement was issued.</li>
         </ul>
         <p>Here’s <a href="/assets/images/apply/under-10k-bank-statement-example.png">a handy picture of the kind of bank statement we’re looking for.</a></p>
@@ -1195,7 +1197,7 @@ yourFundingProposal:
         <p>Here's what happens next:</p>
       items:
         - We'll email you to let you know we got your proposal
-        - Then we'll get in touch to talk about your proposal within 15 working days.
+        - There continues to be high demand for the COVID-19 funding, so please bear with us as our funding teams respond to this demand
     processMap:
       indicatorLabel: You are here
       process:

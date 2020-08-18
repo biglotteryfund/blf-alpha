@@ -7,10 +7,11 @@ const pick = require('lodash/pick');
 
 const { buildArchiveUrl, localify } = require('../../common/urls');
 const { injectHeroImage } = require('../../common/inject-content');
-const contentApi = require('../../common/content-api');
+const { ContentApiClient } = require('../../common/content-api');
 const checkPreviewMode = require('../../common/check-preview-mode');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 const heroSlug = 'pawzitive-letterbox-new';
 
@@ -26,11 +27,11 @@ router.get('/', injectHeroImage(heroSlug), async function (req, res, next) {
          * depending on frequency of posting of the other kind.
          */
         const [blogposts, peopleStories] = await Promise.all([
-            await contentApi.getUpdates({
+            await ContentApi.init({ flags: res.locals.cmsFlags }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'blog',
             }),
-            await contentApi.getUpdates({
+            await ContentApi.init({ flags: res.locals.cmsFlags }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'people-stories',
             }),
@@ -98,7 +99,9 @@ router.get(
     injectHeroImage(heroSlug),
     async function (req, res, next) {
         try {
-            const updatesResponse = await contentApi.getUpdates({
+            const updatesResponse = await ContentApi.init({
+                flags: res.locals.cmsFlags,
+            }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: 'press-releases',
                 date: req.params.date,
@@ -214,7 +217,9 @@ router.get(
     injectHeroImage(heroSlug),
     async (req, res, next) => {
         try {
-            const updatesResponse = await contentApi.getUpdates({
+            const updatesResponse = await ContentApi.init({
+                flags: res.locals.cmsFlags,
+            }).getUpdates({
                 locale: req.i18n.getLocale(),
                 type: req.params.updateType,
                 date: req.params.date,

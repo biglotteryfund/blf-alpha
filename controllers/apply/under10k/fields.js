@@ -80,7 +80,6 @@ const {
     fieldTermsAgreement2,
     fieldTermsAgreement3,
     fieldTermsAgreement4,
-    fieldTermsAgreementCovid1,
     fieldTermsAgreementCovid2,
     fieldTermsAgreementCovid3,
     fieldTermsPersonName,
@@ -517,7 +516,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
 
     // Add Covid-19-specific T&C fields if switched on
     if (flags.enableGovCOVIDUpdates) {
-        allFields.termsAgreementCovid1 = fieldTermsAgreementCovid1(locale);
         allFields.termsAgreementCovid2 = fieldTermsAgreementCovid2(locale);
         allFields.termsAgreementCovid3 = fieldTermsAgreementCovid3(locale);
     }

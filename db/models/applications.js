@@ -486,10 +486,10 @@ class ApplicationEmailQueue extends Model {
         });
     }
 
-    static updateStatusToSent(queueId) {
+    static updateStatus(queueId, newStatus = 'SENT') {
         return this.update(
             {
-                status: 'SENT',
+                status: newStatus,
             },
             { where: { id: { [Op.eq]: queueId } } }
         );

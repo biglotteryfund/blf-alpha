@@ -29,7 +29,7 @@ export default {
         >
             <slot></slot>
         </div>
-        <button class="btn-link" type="button" @click="toggle">
+        <button class="btn-link u-margin-bottom" type="button" @click="toggle">
             {{ isOpen ? labelOpen : labelClosed }}
         </button>
     </div>
