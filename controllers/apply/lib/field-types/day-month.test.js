@@ -1,25 +1,23 @@
 /* eslint-env jest */
 'use strict';
-const DateField = require('./date');
+const DayMonthField = require('./day-month');
 
-test('DateField', function () {
-    const field = new DateField({
+test('DayMonthField', function () {
+    const field = new DayMonthField({
         locale: 'en',
         name: 'example',
-        label: 'Date field',
-        messages: [{ type: 'base', message: 'Enter a date' }],
+        label: 'Day month field',
     });
 
-    expect(field.type).toBe('date');
+    expect(field.type).toBe('day-month');
     expect(field.displayValue).toBe('');
 
-    const goodInput = { day: 1, month: 3, year: 2100 };
-    const badInput = { day: 82, month: 3, year: 2100 };
-
+    const goodInput = { day: 1, month: 3 };
     field.withValue(goodInput);
     expect(field.validate().error).toBeUndefined();
-    expect(field.displayValue).toBe('1 March, 2100');
+    expect(field.displayValue).toBe('1st March');
 
+    const badInput = { day: 82, month: 3 };
     field.withValue(badInput);
     expect(field.displayValue).toBe('');
     expect(field.validate().error.message).toEqual(
