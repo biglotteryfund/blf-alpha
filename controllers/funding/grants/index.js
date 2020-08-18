@@ -15,11 +15,12 @@ const {
     setHeroLocals,
 } = require('../../../common/inject-content');
 const { sMaxAge } = require('../../../common/cached');
-const contentApi = require('../../../common/content-api');
+const { ContentApiClient } = require('../../../common/content-api');
 
 const grantsService = require('./grants-service');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 router.use(sMaxAge(604800 /* 7 days in seconds */), function (req, res, next) {
     res.locals.breadcrumbs = res.locals.breadcrumbs.concat({
@@ -280,7 +281,9 @@ router.get('/:id', async function (req, res, next) {
 
         let projectStory;
         try {
-            projectStory = await contentApi.getProjectStory({
+            projectStory = await ContentApi.init({
+                flags: res.locals.cmsFlags,
+            }).getProjectStory({
                 locale: req.i18n.getLocale(),
                 grantId: req.params.id,
                 requestParams: req.query,
@@ -299,7 +302,9 @@ router.get('/:id', async function (req, res, next) {
                 grantProgramme.url.indexOf('/') === -1
             ) {
                 try {
-                    fundingProgramme = await contentApi.getFundingProgramme({
+                    fundingProgramme = await ContentApi.init({
+                        flags: res.locals.cmsFlags,
+                    }).getFundingProgramme({
                         slug: grantProgramme.url,
                         locale: req.i18n.getLocale(),
                     });

@@ -7,9 +7,10 @@ const {
     setCommonLocals,
 } = require('../../../common/inject-content');
 const { renderFlexibleContentChild } = require('../../common');
-const contentApi = require('../../../common/content-api');
+const { ContentApiClient } = require('../../../common/content-api');
 
 const router = express.Router();
+const ContentApi = new ContentApiClient();
 
 function checkProgramme(req, res, next) {
     const programme = req.params.programme;
@@ -28,15 +29,19 @@ router.get(
     async function (req, res, next) {
         try {
             const [publicationTags, publications] = await Promise.all([
-                contentApi.getPublicationTags({
+                ContentApi.init({
+                    flags: res.locals.cmsFlags,
+                }).getPublicationTags({
                     locale: req.i18n.getLocale(),
                     programme: req.params.programme,
                 }),
-                contentApi.getPublications({
-                    locale: req.i18n.getLocale(),
-                    programme: req.params.programme,
-                    searchParams: req.query,
-                }),
+                ContentApi.init({ flags: res.locals.cmsFlags }).getPublications(
+                    {
+                        locale: req.i18n.getLocale(),
+                        programme: req.params.programme,
+                        searchParams: req.query,
+                    }
+                ),
             ]);
 
             if (req.params.programme === 'a-better-start') {
@@ -66,7 +71,9 @@ router.get('/:programme/:slug', checkProgramme, async function (
     next
 ) {
     try {
-        const publication = await contentApi.getPublications({
+        const publication = await ContentApi.init({
+            flags: res.locals.cmsFlags,
+        }).getPublications({
             locale: req.i18n.getLocale(),
             programme: req.params.programme,
             slug: req.params.slug,
