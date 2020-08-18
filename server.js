@@ -129,7 +129,6 @@ app.use([
     helmet({
         contentSecurityPolicy: {
             directives: cspDirectives(),
-            browserSniff: false,
         },
         dnsPrefetchControl: { allow: true },
         frameguard: { action: 'sameorigin' },
