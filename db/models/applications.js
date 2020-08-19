@@ -470,7 +470,7 @@ class ApplicationEmailQueue extends Model {
             where: {
                 status: { [Op.eq]: 'NOT_SENT' },
                 dateToSend: {
-                    [Op.lte]: moment().toDate(),
+                    [Op.lte]: moment().endOf('day').toDate(),
                 },
             },
             include: [
