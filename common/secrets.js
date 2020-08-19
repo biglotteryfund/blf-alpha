@@ -105,8 +105,6 @@ const POSTCODES_API_KEY =
 const S3_KMS_KEY_ID =
     process.env.S3_KMS_KEY_ID || getParameter('s3.kms.key.id');
 
-const DATA_STUDIO_UNDER10K_URL = getParameter('dataStudio.url.awardsForAll');
-
 /**
  * Email expiry secret
  * A shared token sent in POST requests to the email API endpoints
@@ -134,7 +132,6 @@ module.exports = {
     BANK_API,
     CONTENT_API_URL,
     CONTENT_API_SANDBOX_URL,
-    DATA_STUDIO_UNDER10K_URL,
     DB_CONNECTION_URI,
     DOTDIGITAL_API,
     EMAIL_EXPIRY_SECRET,
