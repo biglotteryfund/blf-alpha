@@ -68,16 +68,16 @@ async function authorise() {
 }
 
 async function sandboxAuthorise() {
-    const AUTH_URL = `https://${SALESFORCE_AUTH.sandboxApiUrl}/services/oauth2/token`;
+    const AUTH_URL = `https://${SALESFORCE_AUTH.apiUrl}/services/oauth2/token`;
     const resultJson = await request.post({
         url: AUTH_URL,
         json: true,
         form: {
             grant_type: 'password',
-            client_id: SALESFORCE_AUTH.consumerKey,
-            client_secret: SALESFORCE_AUTH.consumerSecret,
+            client_id: SALESFORCE_AUTH.sandboxConsumerKey,
+            client_secret: SALESFORCE_AUTH.sandboxConsumerSecret,
             username: SALESFORCE_AUTH.sandboxUsername,
-            password: `${SALESFORCE_AUTH.password}${SALESFORCE_AUTH.token}`,
+            password: `${SALESFORCE_AUTH.password}${SALESFORCE_AUTH.sandboxToken}`,
         },
     });
 

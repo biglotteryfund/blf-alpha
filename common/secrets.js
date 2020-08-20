@@ -83,12 +83,18 @@ const SALESFORCE_AUTH = {
     instanceId:
         process.env.SALESFORCE_INSTANCE_ID ||
         getParameter('salesforce.instanceId'),
-    sandboxApiUrl:
-        process.env.SANDBOX_SALESFORCE_API_URL ||
-        getParameter('sandbox.salesforce.apiUrl'),
+    sandboxConsumerKey:
+        process.env.SANDBOX_SALESFORCE_CONSUMER_KEY ||
+        getParameter('sandbox.salesforce.consumerKey'),
+    sandboxConsumerSecret:
+        process.env.SANDBOX_SALESFORCE_CONSUMER_SECRET ||
+        getParameter('sandbox.salesforce.consumerSecret'),
     sandboxUsername:
         process.env.SANDBOX_SALESFORCE_USERNAME ||
         getParameter('sandbox.salesforce.username'),
+    sandboxToken:
+        process.env.SANDBOX_SALESFORCE_TOKEN ||
+        getParameter('sandbox.salesforce.token'),
 };
 
 // These expire in July 2021
