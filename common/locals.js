@@ -254,7 +254,7 @@ module.exports = function (req, res, next) {
     /**
      * Check the domain to point to the correct Salesforce Endpint (sandbox)
      * */
-    if (get(req, 'host') === SANDBOX_DOMAIN) {
+    if (get(req, 'hostname') === SANDBOX_DOMAIN) {
         res.locals.USE_GMS_SANDBOX = true;
     }
 
