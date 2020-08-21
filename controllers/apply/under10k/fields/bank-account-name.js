@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-const Joi = require('../../lib/joi-extensions-next');
+const Joi = require('../../lib/joi-extensions');
 const { FREE_TEXT_MAXLENGTH } = require('../constants');
 const Field = require('../../lib/field-types/field');
 

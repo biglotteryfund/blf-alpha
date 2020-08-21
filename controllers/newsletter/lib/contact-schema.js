@@ -1,5 +1,5 @@
 'use strict';
-const Joi = require('@hapi/joiNext');
+const Joi = require('joi');
 
 function getTranslations(i18n) {
     return function (path, ...params) {

@@ -4,7 +4,7 @@ const mime = require('mime-types');
 const fileSize = require('filesize');
 
 const Field = require('./field');
-const Joi = require('../joi-extensions-next');
+const Joi = require('../joi-extensions');
 
 class FileField extends Field {
     constructor(props) {

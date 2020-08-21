@@ -2,55 +2,47 @@
 const toInteger = require('lodash/toInteger');
 const moment = require('moment');
 
-const valueToDate = (value) => {
+function valueToDate(value) {
     return moment({
         year: toInteger(value.year),
         month: toInteger(value.month) - 1,
         day: 1,
     });
-};
+}
 
 module.exports = function (joi) {
     return {
-        name: 'monthYear',
+        type: 'monthYear',
         base: joi.object({
             month: joi.number().integer().required(),
             year: joi.number().integer().min(1000).required(),
         }),
-        language: {
-            pastDate: 'must be in the past',
+        messages: {
+            'monthYear.pastDate': 'must be in the past',
         },
-        pre(value, state, options) {
+        validate(value, helpers) {
             const date = valueToDate(value);
             if (date.isValid()) {
-                return value;
+                return { value };
             } else {
-                return this.createError(
-                    'any.invalid',
-                    { v: value },
-                    state,
-                    options
-                );
+                return { errors: helpers.error('any.invalid') };
             }
         },
-        rules: [
-            {
-                name: 'pastDate',
-                validate(params, value, state, options) {
+        rules: {
+            pastDate: {
+                method() {
+                    return this.$_addRule('pastDate');
+                },
+                validate(value, helpers) {
                     const now = moment();
                     const date = valueToDate(value);
                     if (date.isValid() && date.isSameOrBefore(now)) {
                         return value;
                     } else {
-                        return this.createError(
-                            'monthYear.pastDate',
-                            { v: value },
-                            state,
-                            options
-                        );
+                        return helpers.error('monthYear.pastDate');
                     }
                 },
             },
-        ],
+        },
     };
 };

@@ -1,5 +1,5 @@
 'use strict';
-const Joi = require('../joi-extensions-next');
+const Joi = require('../joi-extensions');
 const fromDateParts = require('../from-date-parts');
 
 const Field = require('./field');

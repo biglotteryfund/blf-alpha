@@ -8,7 +8,7 @@ const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
 
-const Joi = require('@hapi/joiNext');
+const Joi = require('joi');
 
 const normaliseErrors = require('./normalise-errors');
 

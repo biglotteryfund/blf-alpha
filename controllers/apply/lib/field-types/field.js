@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 const isFunction = require('lodash/isFunction');
-const Joi = require('../joi-extensions-next');
+const Joi = require('../joi-extensions');
 
 class Field {
     constructor(props) {

@@ -6,7 +6,7 @@ const orderBy = require('lodash/orderBy');
 const { oneLine } = require('common-tags');
 const config = require('config');
 
-const Joi = require('../lib/joi-extensions-next');
+const Joi = require('../lib/joi-extensions');
 
 const {
     Field,
