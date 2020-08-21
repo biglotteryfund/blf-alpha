@@ -271,7 +271,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     data
                 );
                 const nameMessage = organisationLegalName
-                    ? `, <strong>${organisationLegalName}</strong>`
+                    ? `, <strong data-hj-suppress>${organisationLegalName}</strong>`
                     : '';
                 return localise({
                     en: `<p>This must be different from your organisation's legal name${nameMessage}.</p>`,
