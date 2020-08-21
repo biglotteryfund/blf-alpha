@@ -5,7 +5,7 @@ const config = require('config');
 const moment = require('moment-timezone');
 const isString = require('lodash/isString');
 const get = require('lodash/get');
-const { SANDBOX_DOMAIN } = require('../common/secrets');
+const { SALESFORCE_SANDBOX_DOMAIN } = require('../common/secrets');
 
 const appData = require('./appData');
 const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
@@ -254,7 +254,7 @@ module.exports = function (req, res, next) {
     /**
      * Check the domain to point to the correct Salesforce Endpint (sandbox)
      * */
-    if (get(req, 'hostname') === SANDBOX_DOMAIN) {
+    if (get(req, 'hostname') === SALESFORCE_SANDBOX_DOMAIN) {
         res.locals.USE_GMS_SANDBOX = true;
     }
 

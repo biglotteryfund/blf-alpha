@@ -146,8 +146,8 @@ const DOTDIGITAL_API = {
  * Used to specify the requested salesforce endpoint
  * */
 
-const SANDBOX_DOMAIN =
-    process.env.SANDBOX_DOMAIN || getParameter('sandbox.test.domain');
+const SALESFORCE_SANDBOX_DOMAIN =
+    process.env.SALESFORCE_SANDBOX_DOMAIN || getParameter('sandbox.test.domain');
 
 module.exports = {
     AZURE_AUTH,
@@ -163,7 +163,7 @@ module.exports = {
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
     POSTCODES_API_KEY,
-    SANDBOX_DOMAIN,
+    SALESFORCE_SANDBOX_DOMAIN,
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
     SENTRY_DSN,
