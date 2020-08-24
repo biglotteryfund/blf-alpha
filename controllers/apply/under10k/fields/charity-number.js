@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 
 const { CHARITY_NUMBER_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
-const Joi = require('../../lib/joi-extensions-next');
+const Joi = require('../../lib/joi-extensions');
 const Field = require('../../lib/field-types/field');
 
 module.exports = function (locale, data) {

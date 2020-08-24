@@ -1,6 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
-const Joi = require('@hapi/joiNext');
+const Joi = require('joi');
 
 const validateSchema = require('../../../../common/validate-schema');
 

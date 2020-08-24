@@ -4,7 +4,7 @@ const has = require('lodash/fp/has');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions-next');
+const Joi = require('../../lib/joi-extensions');
 const { DateField, RadioField } = require('../../lib/field-types');
 
 function getLeadTimeWeeks(country) {

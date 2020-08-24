@@ -1,7 +1,7 @@
 'use strict';
-const baseJoi = require('@hapi/joi');
+const baseJoi = require('joi');
 
-module.exports = baseJoi.extend([
+module.exports = baseJoi.extend(
     require('./compare-object'),
     require('./friendly-number'),
     require('./budget-items'),
@@ -12,5 +12,5 @@ module.exports = baseJoi.extend([
     require('./phone-number'),
     require('./postcode'),
     require('./uk-address'),
-    require('./word-count'),
-]);
+    require('./word-count')
+);

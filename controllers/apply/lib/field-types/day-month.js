@@ -1,6 +1,6 @@
 'use strict';
 const moment = require('moment');
-const Joi = require('../joi-extensions-next');
+const Joi = require('../joi-extensions');
 
 const Field = require('./field');
 

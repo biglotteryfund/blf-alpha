@@ -3,7 +3,7 @@ const { oneLine } = require('common-tags');
 const get = require('lodash/fp/get');
 const flatMap = require('lodash/flatMap');
 
-const Joi = require('../../lib/joi-extensions-next');
+const Joi = require('../../lib/joi-extensions');
 const { Field, RadioField, CheckboxField } = require('../../lib/field-types');
 const { BENEFICIARY_GROUPS, FREE_TEXT_MAXLENGTH } = require('../constants');
 

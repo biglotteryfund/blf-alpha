@@ -11,19 +11,21 @@ const phoneUtil = PhoneNumberUtil.getInstance();
  */
 module.exports = function phoneNumber(joi) {
     return {
+        type: 'string',
         base: joi.string(),
-        name: 'string',
-        language: {
-            phonenumber: 'did not seem to be a phone number',
+        messages: {
+            'string.phonenumber': 'did not seem to be a phone number',
         },
-        rules: [
-            {
-                name: 'phoneNumber',
-                validate(params, value, state, options) {
+        rules: {
+            phoneNumber: {
+                method() {
+                    return this.$_addRule('phoneNumber');
+                },
+                validate(value, helpers) {
                     try {
                         const parsedValue = phoneUtil.parse(value, 'GB');
                         if (phoneUtil.isValidNumber(parsedValue)) {
-                            if (options.convert) {
+                            if (helpers.prefs.convert) {
                                 return phoneUtil.format(
                                     parsedValue,
                                     PhoneNumberFormat.NATIONAL
@@ -32,23 +34,13 @@ module.exports = function phoneNumber(joi) {
                                 return value;
                             }
                         } else {
-                            return this.createError(
-                                'string.phonenumber',
-                                { value },
-                                state,
-                                options
-                            );
+                            return helpers.error('string.phonenumber');
                         }
                     } catch (err) {
-                        return this.createError(
-                            'string.phonenumber',
-                            { value },
-                            state,
-                            options
-                        );
+                        return helpers.error('string.phonenumber');
                     }
                 },
             },
-        ],
+        },
     };
 };

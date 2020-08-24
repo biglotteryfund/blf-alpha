@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-const Joi = require('../../lib/joi-extensions-next');
+const Joi = require('../../lib/joi-extensions');
 const { AddressHistoryField } = require('../../lib/field-types');
 const { CONTACT_EXCLUDED_TYPES, FREE_TEXT_MAXLENGTH } = require('../constants');
 const { stripIfExcludedOrgType } = require('./organisation-type');

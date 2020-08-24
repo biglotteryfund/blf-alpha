@@ -2,12 +2,10 @@
 'use strict';
 const Joi = require('./index');
 
-const schema = Joi.string().phoneNumber().required();
-
 test('return error for invalid phone numbers', () => {
     const invalidPhoneNumbers = ['1', 'aa', '4444', '07134567'];
     invalidPhoneNumbers.forEach(function (input) {
-        const result = schema.validate(input);
+        const result = Joi.string().phoneNumber().required().validate(input);
         expect(result.value).toEqual(input);
         expect(result.error.message).toContain(
             'did not seem to be a phone number'
@@ -23,8 +21,8 @@ test('format valid phone numbers', () => {
         ['02921680214', '029 2168 0214'],
     ];
     validUkPhoneNumbers.forEach(function ([input, expected]) {
-        const result = schema.validate(input);
+        const result = Joi.string().phoneNumber().required().validate(input);
         expect(result.value).toEqual(expected);
-        expect(result.error).toBe(null);
+        expect(result.error).toBeUndefined();
     });
 });

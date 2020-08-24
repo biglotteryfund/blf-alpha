@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 const compact = require('lodash/compact');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../lib/joi-extensions-next');
+const Joi = require('../../lib/joi-extensions');
 const { RadioField } = require('../../lib/field-types');
 
 const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');

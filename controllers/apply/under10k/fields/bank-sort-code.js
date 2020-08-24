@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-const Joi = require('../../lib/joi-extensions-next');
+const Joi = require('../../lib/joi-extensions');
 const Field = require('../../lib/field-types/field');
 
 module.exports = function (locale) {
