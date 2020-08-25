@@ -37,17 +37,6 @@ router
     .all(
         noStore,
         csrfProtection,
-        (req, res, next) => {
-            // Temporarily disable non-insights signup form which will launch later
-            if (
-                !req.params.contactType ||
-                req.params.contactType !== 'insights'
-            ) {
-                res.redirect('/');
-            } else {
-                next();
-            }
-        },
         injectHeroImage('the-bike-project-2-new-letterbox')
     )
     .get(renderForm)
@@ -55,7 +44,7 @@ router
         const sanitisedBody = sanitiseRequestBody(omit(req.body, ['_csrf']));
 
         let contactToUse = newContact(req.i18n);
-        let addressBookId = 148374;
+        let addressBookId = 249381;
 
         if (req.params.contactType === 'insights') {
             contactToUse = newStakeholder(req.i18n);
