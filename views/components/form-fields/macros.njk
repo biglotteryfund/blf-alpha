@@ -241,7 +241,7 @@
             <option value="">{{ field.defaultOption }}</option>
         {% endif %}
 
-        {% if field.optgroups %}
+        {% if field.optgroups.length > 0 %}
             {% for optgroup in field.optgroups %}
                 <optgroup label="{{ optgroup.label }}">
                     {% for option in optgroup.options %}
