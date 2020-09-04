@@ -86,7 +86,7 @@
     "joi": "17.1.1",
     "@ideal-postcodes/core-node": "2.1.0",
     "@sentry/browser": "5.21.1",
-    "@sentry/integrations": "5.21.1",
+    "@sentry/integrations": "5.22.3",
     "@sentry/node": "5.21.1",
     "aws-sdk": "2.745.0",
     "bcryptjs": "^2.4.3",
