@@ -124,7 +124,7 @@
     "nodemailer": "^6.4.11",
     "nunjucks": "^3.2.2",
     "passport": "^0.4.1",
-    "passport-azure-ad": "4.2.1",
+    "passport-azure-ad": "4.3.0",
     "passport-local": "^1.0.0",
     "postcode": "5.0.0",
     "rate-limiter-flexible": "2.1.10",
