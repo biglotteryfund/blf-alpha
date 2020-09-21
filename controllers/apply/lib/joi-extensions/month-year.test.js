@@ -23,7 +23,7 @@ test('four digit year', () => {
     const schema = Joi.monthYear();
     const invalidDate = schema.validate({ month: 3, year: 100 });
     expect(invalidDate.error.message).toContain(
-        '"year" must be larger than or equal to'
+        '"year" must be greater than or equal to 1000'
     );
 });
 
