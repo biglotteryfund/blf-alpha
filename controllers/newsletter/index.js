@@ -33,7 +33,8 @@ function renderForm(req, res, data = null, errors = []) {
 }
 
 router
-    .route('/:contactType(insights)?')
+    // add a ? back if you want to turn on the grantholder newsletter
+    .route('/:contactType(insights)')
     .all(
         noStore,
         csrfProtection,
