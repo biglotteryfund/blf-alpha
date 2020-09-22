@@ -18,7 +18,8 @@ test('should allow indexing on live domain', () => {
     robotsHandler(req, res);
     expect(res._getData()).toMatchInlineSnapshot(`
         "user-agent: *
-        sitemap: https://www.tnlcommunityfund.org.uk/sitemap.xml"
+        sitemap: https://www.tnlcommunityfund.org.uk/sitemap.xml
+        disallow: /about/newsletter/insights"
     `);
 });
 
@@ -29,6 +30,7 @@ test('should block indexing on other domains', () => {
     expect(res._getData()).toMatchInlineSnapshot(`
         "user-agent: *
         sitemap: https://apply.tnlcommunityfund.org.uk/sitemap.xml
+        disallow: /about/newsletter/insights
         disallow: /"
     `);
 });
