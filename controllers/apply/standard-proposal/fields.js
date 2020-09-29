@@ -587,10 +587,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     <li>Is it something new, or are you continuing
                         something that has worked well previously?
                         We want to fund both types of projects</li>
-                </ul>`,
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
             }),
             type: 'textarea',
-            minWords: 0,
+            minWords: 50,
             maxWords: 500,
             messages: [
                 {
@@ -612,40 +613,28 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: `How does your project involve your community?`,
                 cy: `Sut mae eich prosiect yn cynnwys eich cymuned?`,
             }),
-            labelDetails: {
-                summary: localise({
-                    en: `What do we mean by community?`,
-                    cy: `Beth rydym yn ei olygu drwy gymuned?`,
-                }),
-                content: localise({
-                    en: `<ol>
+            explanation: localise({
+                en: `<p>We believe that people understand what's needed in
+                     their own communities better than anyone. Tell us how your 
+                     community came up with the idea for your project. We want 
+                     to know how many people you've spoken to, and how they'll 
+                     be involved in the development and delivery of your project.
+                </p>
+                <p>What do we mean by community?</p>
+                <p>A community can be made up of:</p>
+                <ul>
                         <li>People living in the same area</li>
                         <li>People who have similar interests or life experiences,
                             but might not live in the same area</li>
                         <li>Even though schools can be at the heart of a
                             community—we'll only fund schools that also
                             benefit the communities around them.</li>
-                    </ol>`,
-                    cy: `<ol>
-                        <li>Pobl yn byw yn yr un ardal</li>
-                        <li>Pobl sydd â diddordebau neu brofiadau bywyd tebyg,
-                            ond efallai ddim yn byw yn yr un ardal</li>
-                        <li>Er gall ysgolion fod wrth wraidd cymuned—byddwn dim ond yn
-                            ariannu ysgolion sydd hefyd yn rhoi budd i gymunedau o’u cwmpas.
-                        </li>
-                    </ol>`,
-                }),
-            },
-            explanation: localise({
-                en: oneLine`We believe that people understand what's needed in their
-                    communities better than anyone. Tell us how your community came
-                    up with the idea for your project. We want to know how many
-                    people you've spoken to, and how they'll be involved in the
-                    development and delivery of your project.`,
+                    </ul>
+                    <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                 cy: ``,
             }),
             type: 'textarea',
-            minWords: 0,
+            minWords: 50,
             maxWords: 500,
             messages: [
                 {
@@ -660,6 +649,37 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     }
 
     function fieldYourIdeaActivities() {
+        function explanation() {
+            if (projectCountries.includes('england')) {
+                return localise({
+                    en: `<p>Tell us about how this project will fit in with other local activities.</p>
+                <p>You might want to to tell us about:</p>
+                <ul>
+                    <li>Any gaps in local services your work will fill.</li>
+                    <li>What other local activities your work will complement.</li>
+                    <li>What links you already have in the community that will help you deliver the project.</li>
+                    <li>If this project is being delivered in partnership, tell us the names of your partners and the background of you all working together.</li>
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ``,
+                });
+            } else {
+                return localise({
+                    en: `<p>Tell us about how this project will fit in with other local activities.</p>
+                <p>You might want to to tell us about:</p>
+                <ul>
+                    <li>What makes your organisation best placed to carry out the project</li>
+                    <li>Any gaps in local services your work will fill.</li>
+                    <li>What other local activities your work will complement.</li>
+                    <li>What links you already have in the community that will help you deliver the project.</li>
+                    <li>How you will work together with other organisations in your community.</li>
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ``,
+                });
+            }
+        }
+
         return new TextareaField({
             locale: locale,
             name: 'yourIdeaActivities',
@@ -667,26 +687,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: 'How does your idea fit in with other local activities?',
                 cy: '',
             }),
-            labelDetails: {
-                summary: localise({
-                    en: `Some ideas of what to tell us about`,
-                    cy: ``,
-                }),
-                content: localise({
-                    en: `<ul>
-                        <li>What makes your organisation best placed to carry out the project</li>
-                        <li>Any gaps in local services your work will fill</li>
-                        <li>What other local activities your work will complement</li>
-                        <li>What links you already have in the community
-                            that will help you deliver the project</li>
-                        <li>How you will work together with other organisations in your community</li>
-                    </ul>`,
-                    cy: ``,
-                }),
-            },
+            explanation: explanation(),
             type: 'textarea',
-            minWords: 0,
-            maxWords: 350,
+            minWords: 50,
+            maxWords: 500,
             messages: [
                 {
                     type: 'base',
