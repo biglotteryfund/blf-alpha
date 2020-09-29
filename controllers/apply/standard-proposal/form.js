@@ -35,12 +35,23 @@ module.exports = function ({
     }
 
     function stepProjectCountries() {
+        const footer = localise({
+            en: `<p>
+                  For projects in Scotland or Wales, or right across the UK, you'll need to <a href="">read our programme pages for funding over £10,000</a> to find out how to apply.
+            </p>`,
+            cy: `<p>
+                  For projects in Scotland or Wales, or right across the UK, you'll need to read our programme pages for funding over £10,000 to find out how to apply.
+            </p>`,
+        });
+
         return new Step({
             title: localise({
                 en: 'Project country',
                 cy: 'Gwlad y prosiect',
             }),
-            fieldsets: [{ fields: [allFields.projectCountries] }],
+            fieldsets: [
+                { fields: [allFields.projectCountries], footer: footer },
+            ],
         });
     }
 

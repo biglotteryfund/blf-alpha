@@ -78,39 +78,19 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         en: 'England',
                         cy: 'Lloegr',
                     });
-                } else if (country === 'scotland') {
-                    result = localise({
-                        en: 'Scotland',
-                        cy: 'Yr Alban',
-                    });
                 } else if (country === 'northern-ireland') {
                     result = localise({
                         en: 'Northern Ireland',
                         cy: 'Gogledd Iwerddon',
-                    });
-                } else if (country === 'wales') {
-                    result = localise({
-                        en: 'Wales',
-                        cy: 'Cymru',
-                    });
-                }
-
-                if (allowedCountries.includes(country) === false) {
-                    result += localise({
-                        en: ' (coming soon)',
-                        cy: ' (Dod yn fuan)',
                     });
                 }
 
                 return result;
             }
 
-            const options = [
-                'england',
-                'scotland',
-                'wales',
-                'northern-ireland',
-            ].map(function (country) {
+            const options = ['england', 'northern-ireland'].map(function (
+                country
+            ) {
                 const option = { value: country, label: label(country) };
 
                 if (allowedCountries.includes(country) === false) {
@@ -131,13 +111,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             locale: locale,
             name: 'projectCountries',
             label: localise({
-                en: `Which country will your project take place in?`,
+                en: `Confirm the country your project will be based in`,
                 cy: ``,
             }),
             explanation: localise({
-                en: oneLine`We work slightly differently depending on which
-                    country your project is based in, to meet local needs
-                    and the regulations that apply there.`,
+                en: oneLine`We work in different ways in each country, to meet local needs and rules.`,
                 cy: oneLine`Rydym yn gweithredu ychydig yn wahanol, yn ddibynnol
                     ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu
                     anghenion lleol a’r rheoliadau sy’n berthnasol yna.`,
