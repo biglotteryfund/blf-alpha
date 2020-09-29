@@ -5,6 +5,7 @@ const getOr = require('lodash/fp/getOr');
 const orderBy = require('lodash/orderBy');
 const { oneLine } = require('common-tags');
 const config = require('config');
+const moment = require('moment');
 
 const Joi = require('../lib/joi-extensions');
 
@@ -19,6 +20,7 @@ const {
     RadioField,
     SelectField,
     TextareaField,
+    DateField,
 } = require('../lib/field-types');
 
 const {
@@ -372,6 +374,81 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                             If you need less than this, 
                             <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
                         cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectStartDate() {
+        function getLeadTimeWeeks(country) {
+            const countryLeadTimes = {
+                'england': 18,
+                'northern-ireland': 12,
+            };
+
+            return countryLeadTimes[country] || 18;
+        }
+
+        const localise = get(locale);
+
+        const projectCountry = get('projectCountry')(data);
+
+        const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
+
+        const minDateExample = minDate
+            .clone()
+            .locale(locale)
+            .format('DD MM YYYY');
+
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+            return Joi.when('projectStartDateCheck', {
+                is: 'asap',
+                then: Joi.any().strip(),
+                otherwise: Joi.dateParts()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .required(),
+            });
+        }
+
+        return new DateField({
+            locale: locale,
+            name: 'projectStartDate',
+            label: localise({
+                en: `What date would you like to start your project?`,
+                cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
+            }),
+            explanation: localise({
+                en: oneLine`Don't worry, this can be an estimate. 
+                But please be aware we might take around 12 weeks to assess your proposal.`,
+                cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
+                Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar.`,
+            }),
+            settings: {
+                minYear: minDate.format('YYYY'),
+            },
+            schema: schema(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter a project start date`,
+                        cy: `Cofnodwch ddyddiad dechrau i’ch prosiect`,
+                    }),
+                },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: oneLine`Date you start the project must be on
+                            or after ${minDateExample}`,
+                        cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich
+                            prosiect fod ar neu ar ôl ${minDateExample}`,
                     }),
                 },
             ],
@@ -962,6 +1039,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectLocationDescription: fieldProjectLocationDescription(),
         projectLocationPostcode: fieldProjectLocationPostcode(),
         projectCosts: fieldProjectCosts(),
+        projectStartDate: fieldProjectStartDate(),
         projectDurationYears: fieldProjectDurationYears(),
         yourIdeaProject: fieldYourIdeaProject(),
         yourIdeaCommunity: fieldYourIdeaCommunity(),

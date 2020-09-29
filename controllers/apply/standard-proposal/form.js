@@ -112,12 +112,7 @@ module.exports = function ({
 
     function stepProjectDuration() {
         function fields() {
-            if (
-                projectCountries.includes('england') &&
-                flags.enableEnglandAutoProjectDuration
-            ) {
-                return [];
-            } else if (projectCountries.length < 2) {
+            if (projectCountries.length < 2) {
                 return [allFields.projectDurationYears];
             } else {
                 return [];
@@ -127,6 +122,13 @@ module.exports = function ({
         return new Step({
             title: localise({ en: 'Project duration', cy: '' }),
             fieldsets: [{ fields: fields() }],
+        });
+    }
+
+    function stepProjectDates() {
+        return new Step({
+            title: localise({ en: 'Project start date', cy: '' }),
+            fieldsets: [{ fields: [allFields.projectStartDate] }],
         });
     }
 
@@ -268,6 +270,7 @@ module.exports = function ({
                 stepProjectRegions(),
                 stepProjectLocation(),
                 stepProjectCosts(),
+                stepProjectDates(),
                 stepProjectDuration(),
                 stepYourIdea(),
             ]),
