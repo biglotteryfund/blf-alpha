@@ -101,12 +101,24 @@ module.exports = function ({
     }
 
     function stepProjectCosts() {
+        function fields() {
+            if (projectCountries.includes('england')) {
+                return [
+                    allFields.projectTotalCost,
+                    allFields.projectCosts,
+                    allFields.projectSpend,
+                ];
+            } else {
+                return [allFields.projectCosts];
+            }
+        }
+
         return new Step({
             title: localise({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect',
             }),
-            fieldsets: [{ fields: [allFields.projectCosts] }],
+            fieldsets: [{ fields: fields() }],
         });
     }
 

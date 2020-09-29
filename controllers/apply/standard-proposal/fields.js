@@ -323,33 +323,26 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
-    function fieldProjectCosts() {
+    function fieldProjectTotalCost() {
         return new CurrencyField({
             locale: locale,
-            name: 'projectCosts',
+            name: 'projectTotalCost',
             label: localise({
-                en: `How much money do you want from us?`,
+                en: `What is the total cost of your project?`,
                 cy: ``,
             }),
             get explanation() {
-                if (
-                    projectCountries.includes('england') &&
-                    flags.enableEnglandAutoProjectDuration
-                ) {
-                    return localise({
-                        en: `Given the COVID-19 emergency, you can ask us for a 
-                             maximum of £100,000 for up to six months. In some 
-                             cases we might award more funding to projects over 
-                             a longer period of time. For example, if your 
-                             organisation works across more than one area of England.`,
-                        cy: ``,
-                    });
-                } else {
-                    return localise({
-                        en: `This can be an estimate`,
-                        cy: ``,
-                    });
-                }
+                return localise({
+                    en: `<p>This is the cost of everything related to your project, even things you're not asking us to fund.</p>
+                        <p>For example:
+                            <ul>
+                                <li>If you're asking us for £280,000 and you're getting £20,000 from another funder to cover additional costs, your total project cost is £300,000.</li>
+                                <li>If you're asking us for £80,000 and there are no other costs, your total project cost is £80,000.</li>
+                            </ul>
+                        </p>
+                        <p>We do not need to know where the rest of your funding's coming from right now.</p>`,
+                    cy: ``,
+                });
             },
             minAmount: 10001,
             messages: [
@@ -373,6 +366,77 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         en: oneLine`The amount you ask for must be more than £10,000.
                             If you need less than this, 
                             <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectCosts() {
+        return new CurrencyField({
+            locale: locale,
+            name: 'projectCosts',
+            label: localise({
+                en: `How much money do you want from us?`,
+                cy: ``,
+            }),
+            get explanation() {
+                return localise({
+                    en: `This can be an estimate`,
+                    cy: ``,
+                });
+            },
+            minAmount: 10001,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a total cost for your project',
+                        cy: 'Rhowch gyfanswm cost eich prosiect',
+                    }),
+                },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: `Total cost must be a whole number (eg. no decimal point)`,
+                        cy: `Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)`,
+                    }),
+                },
+                {
+                    type: 'number.min',
+                    message: localise({
+                        en: oneLine`The amount you ask for must be more than £10,000.
+                            If you need less than this, 
+                            <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectSpend() {
+        return new TextareaField({
+            locale: locale,
+            name: 'projectSpend',
+            label: localise({
+                en: 'What will you spend the money on?',
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>Give us a list of budget headings - like salaries, running costs, training, travel, overheads and refurbishment costs so we can check if these are things we can fund. We do not need a detailed list of items or any costs attached to these yet.</p>
+                    <p>If we invite you to the next stage of the application process, we'll ask you for a more detailed project budget, including a year-by-year breakdown.</p>
+                    <p><strong>You can write up to 300 words for this section, but don't worry if you use less.</strong></p>`,
+            }),
+            type: 'textarea',
+            minWords: 0,
+            maxWords: 300,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us what you will spend the money on.`,
                         cy: ``,
                     }),
                 },
@@ -1038,7 +1102,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectLocation: fieldProjectLocation(),
         projectLocationDescription: fieldProjectLocationDescription(),
         projectLocationPostcode: fieldProjectLocationPostcode(),
+        projectTotalCost: fieldProjectTotalCost(),
         projectCosts: fieldProjectCosts(),
+        projectSpend: fieldProjectSpend(),
         projectStartDate: fieldProjectStartDate(),
         projectDurationYears: fieldProjectDurationYears(),
         yourIdeaProject: fieldYourIdeaProject(),
