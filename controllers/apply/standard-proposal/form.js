@@ -76,10 +76,16 @@ module.exports = function ({
             if (projectCountries.length > 1) {
                 return [allFields.projectLocationDescription];
             } else if (projectCountries.length > 0) {
-                return [
-                    allFields.projectLocation,
-                    allFields.projectLocationDescription,
-                ];
+                return projectCountries.includes('england')
+                    ? [
+                          allFields.projectLocation,
+                          allFields.projectLocationDescription,
+                          allFields.projectLocationPostcode,
+                      ]
+                    : [
+                          allFields.projectLocation,
+                          allFields.projectLocationDescription,
+                      ];
             } else {
                 return [];
             }

@@ -262,13 +262,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             locale: locale,
             name: 'projectLocationDescription',
             label: localise({
-                en: 'Project location',
+                en: 'Tell us all the locations the project will run in',
                 cy: 'Lleoliad y prosiect',
             }),
             explanation: localise({
                 en: oneLine`In your own words, describe all of the locations
-                    that you'll be running your project in, e.g.
-                    'Yorkshire' or 'Glasgow, Cardiff and Belfast'`,
+                            that you’ll be running your project in. For example, ‘West
+                            Yorkshire’, 'Salford' or ‘Antrim’.`,
                 cy: ``,
             }),
             maxLength: maxLength,
@@ -285,6 +285,36 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     message: localise({
                         en: `Project locations must be ${maxLength} characters or less`,
                         cy: `Rhaid i leoliadau’r prosiect fod yn llai na ${maxLength} nod`,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectLocationPostcode() {
+        return new Field({
+            locale: locale,
+            name: 'projectPostcode',
+            label: localise({
+                en: `What is the postcode of where your project will take place?`,
+                cy: `Beth yw côd post lleoliad eich prosiect?`,
+            }),
+            explanation: localise({
+                en: `<p>If your project will take place across different locations,
+                please use the postcode where most of the project will take place.</p>
+                <p>If you do not know the postcode, you can use the <a href="">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+                cy: `<p>Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
+                defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.</p>
+                <p>If you do not know the postcode, you can use the <a href="">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+            }),
+            attributes: { size: 10, autocomplete: 'postal-code' },
+            schema: Joi.string().postcode().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a real postcode',
+                        cy: 'Rhowch gôd post go iawn',
                     }),
                 },
             ],
@@ -930,6 +960,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectRegions: fieldProjectRegions(),
         projectLocation: fieldProjectLocation(),
         projectLocationDescription: fieldProjectLocationDescription(),
+        projectLocationPostcode: fieldProjectLocationPostcode(),
         projectCosts: fieldProjectCosts(),
         projectDurationYears: fieldProjectDurationYears(),
         yourIdeaProject: fieldYourIdeaProject(),
