@@ -814,6 +814,35 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
+    function fieldOrganisationDifferentName() {
+        return new RadioField({
+            locale: locale,
+            name: 'organisationDifferentName',
+            label: localise({
+                en: `Does your organisation use a different name in your day-to-day work?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `This is how you might be known if you're not just known by your legal name (the legal name is on your governing document or registration website).`,
+                cy: ``,
+            }),
+            options: [
+                { label: localise({ en: 'Yes', cy: '' }), value: 'yes' },
+                { label: localise({ en: 'No', cy: '' }), value: 'no' },
+            ],
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'Tell us if your organisation uses a different name in your day-to-day work.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
     function fieldOrganisationTradingName() {
         const maxLength = 255;
         return new Field({
@@ -828,13 +857,17 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     day-to-day work, please write it below`,
                 cy: ``,
             }),
-            isRequired: false,
             schema: Joi.string()
                 .max(maxLength)
-                .allow('')
-                .optional()
                 .invalid(Joi.ref('organisationLegalName')),
             messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Please tell us your organisation trading name.',
+                        cy: '',
+                    }),
+                },
                 {
                     type: 'any.invalid',
                     message: localise({
@@ -1209,6 +1242,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             locale
         ),
         organisationLegalName: fieldOrganisationLegalName(),
+        organisationDifferentName: fieldOrganisationDifferentName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
         organisationType: fieldOrganisationType(),

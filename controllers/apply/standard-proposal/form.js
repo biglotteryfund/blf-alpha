@@ -293,6 +293,10 @@ module.exports = function ({
         return groupChoices.includes(type) ? fields : [];
     }
 
+    function includeIfDifferentName(fields) {
+        return get('organisationDifferentName')(data) === 'yes' ? fields : [];
+    }
+
     function stepEthnicBackground() {
         return new Step({
             title: localise({ en: 'Ethnic background', cy: 'Cefndir ethnig' }),
@@ -457,7 +461,7 @@ module.exports = function ({
         });
     }
 
-    function stepOrganisationDetails() {
+    function stepOrganisationLegalName() {
         return new Step({
             title: localise({
                 en: 'Organisation details',
@@ -468,9 +472,43 @@ module.exports = function ({
                 {
                     fields: [
                         allFields.organisationLegalName,
-                        allFields.organisationTradingName,
-                        allFields.organisationAddress,
+                        allFields.organisationDifferentName,
                     ],
+                },
+            ],
+        });
+    }
+
+    function stepOrganisationTradingName() {
+        return new Step({
+            title: localise({
+                en: 'Organisation details',
+                cy: '',
+            }),
+            noValidate: false,
+            fieldsets: [
+                {
+                    fields: conditionalFields(
+                        [allFields.organisationTradingName],
+                        includeIfDifferentName([
+                            allFields.organisationTradingName,
+                        ])
+                    ),
+                },
+            ],
+        });
+    }
+
+    function stepOrganisationAddress() {
+        return new Step({
+            title: localise({
+                en: 'Organisation details',
+                cy: '',
+            }),
+            noValidate: false,
+            fieldsets: [
+                {
+                    fields: [allFields.organisationAddress],
                 },
             ],
         });
@@ -646,7 +684,9 @@ module.exports = function ({
                     Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`,
             }),
             steps: [
-                stepOrganisationDetails(),
+                stepOrganisationLegalName(),
+                stepOrganisationTradingName(),
+                stepOrganisationAddress(),
                 stepOrganisationType(),
                 stepOrganisationSubType(),
             ],
