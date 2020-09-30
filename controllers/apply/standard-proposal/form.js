@@ -162,6 +162,23 @@ module.exports = function ({
         });
     }
 
+    function stepYourOrganisation() {
+        return new Step({
+            title: localise({
+                en: 'Your organisation',
+                cy: '',
+            }),
+            fieldsets: [
+                {
+                    fields: [
+                        allFields.projectWebsite,
+                        allFields.projectOrganisation,
+                    ],
+                },
+            ],
+        });
+    }
+
     function stepOrganisationDetails() {
         return new Step({
             title: localise({
@@ -266,6 +283,32 @@ module.exports = function ({
     }
 
     function sectionYourProject() {
+        function steps() {
+            if (projectCountries.includes('england')) {
+                return compact([
+                    stepProjectName(),
+                    stepProjectCountries(),
+                    stepProjectRegions(),
+                    stepProjectLocation(),
+                    stepProjectCosts(),
+                    stepProjectDates(),
+                    stepProjectDuration(),
+                    stepYourIdea(),
+                    stepYourOrganisation(),
+                ]);
+            } else {
+                return compact([
+                    stepProjectName(),
+                    stepProjectCountries(),
+                    stepProjectRegions(),
+                    stepProjectLocation(),
+                    stepProjectCosts(),
+                    stepProjectDates(),
+                    stepProjectDuration(),
+                    stepYourIdea(),
+                ]);
+            }
+        }
         return {
             slug: 'your-project',
             title: localise({
@@ -276,16 +319,7 @@ module.exports = function ({
                 en: `Please tell us about your project in this section.`,
                 cy: ``,
             }),
-            steps: compact([
-                stepProjectName(),
-                stepProjectCountries(),
-                stepProjectRegions(),
-                stepProjectLocation(),
-                stepProjectCosts(),
-                stepProjectDates(),
-                stepProjectDuration(),
-                stepYourIdea(),
-            ]),
+            steps: steps(),
         };
     }
 

@@ -21,6 +21,7 @@ const {
     SelectField,
     TextareaField,
     DateField,
+    UrlField,
 } = require('../lib/field-types');
 
 const {
@@ -570,6 +571,64 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
+    function fieldProjectWebsite() {
+        const maxLength = 200;
+        return new UrlField({
+            locale: locale,
+            name: 'projectWebsite',
+            label: localise({
+                en: 'Organisation website',
+                cy: '',
+            }),
+            isRequired: false,
+            maxLength: maxLength,
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Organisation website must be ${maxLength} characters or less`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectOrganisation() {
+        return new TextareaField({
+            locale: locale,
+            name: 'projectOrganisation',
+            label: localise({
+                en:
+                    'Tell us why your organisation is the right one to manage this project',
+                cy: '',
+            }),
+            explanation: localise({
+                en: `
+                <ul>
+                    <li>Give us a brief description of your organisation and the work it does.</li>
+                    <li>How does your organisation’s experience and connections mean it is best placed to run this project?</li>
+                    <li>How would this project add value to the work you do?</li>
+                    <li>To what extent is your organisation led by people with 'lived experience'? By this we mean people who have lived through the challenges the organisation is trying to address.</li>
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
+                cy: ``,
+            }),
+            type: 'textarea',
+            minWords: 50,
+            maxWords: 500,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us how your idea fits in with other local activities`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
     function fieldYourIdeaProject() {
         return new TextareaField({
             locale: locale,
@@ -1111,6 +1170,8 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectSpend: fieldProjectSpend(),
         projectStartDate: fieldProjectStartDate(),
         projectDurationYears: fieldProjectDurationYears(),
+        projectWebsite: fieldProjectWebsite(),
+        projectOrganisation: fieldProjectOrganisation(),
         yourIdeaProject: fieldYourIdeaProject(),
         yourIdeaCommunity: fieldYourIdeaCommunity(),
         yourIdeaActivities: fieldYourIdeaActivities(),

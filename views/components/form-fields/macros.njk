@@ -90,6 +90,27 @@
     </fieldset>
 {% endmacro %}
 
+{% macro inputUrl(field) %}
+    {# a11y fix - type=email has a bug in Dragon which doesn't allow voice input #}
+    <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+    {{ explanationFor(field) }}
+    <div class="ff-currency ff-currency--constrained">
+        <div class="ff-currency__pre">http://</div>
+        <input
+            class="ff-text"
+            type="{{ fieldType }}"
+            id="field-{{ field.name }}"
+            name="{{ field.name }}"
+            {% if field.value %}value="{{ field.value | escape }}"{% endif %}
+            {% if field.isRequired %}required aria-required="true"{% endif %}
+            {% if not field.attributes.size %}size="{{ field.size | default(40, true) }}"{% endif %}
+            {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        />
+    </div>
+{% endmacro %}
+
 {% macro dateInputName(field, datePiece, rangePeriod = false) %}
     {%- if rangePeriod -%}
         {{ field.name }}[{{ rangePeriod }}][{{ datePiece }}]
@@ -633,6 +654,8 @@
                     {{ inputFile(field) }}
                 {% elseif field.type === 'full-name' %}
                     {{ inputNames(field) }}
+                {% elseif field.type === 'url' %}
+                    {{ inputUrl(field) }}
                 {% else %}
                     {{ inputText(field) }}
                 {% endif %}
