@@ -621,7 +621,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Tell us how your idea fits in with other local activities`,
+                        en: `Tell us why your organisation is the right one to manage this project`,
                         cy: ``,
                     }),
                 },
