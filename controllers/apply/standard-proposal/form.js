@@ -9,6 +9,14 @@ const includes = require('lodash/includes');
 
 const { FormModel } = require('../lib/form-model');
 const { Step } = require('../lib/step-model');
+const {
+    BENEFICIARY_GROUPS,
+    CONTACT_EXCLUDED_TYPES,
+    ORGANISATION_TYPES,
+    COMPANY_NUMBER_TYPES,
+    CHARITY_NUMBER_TYPES,
+    EDUCATION_NUMBER_TYPES,
+} = require('./constants');
 
 const fieldsFor = require('./fields');
 
@@ -16,6 +24,7 @@ module.exports = function ({
     locale = 'en',
     data = {},
     metadata = {},
+    showAllFields = false,
     flags = config.get('standardFundingProposal'),
 } = {}) {
     const localise = get(locale);
@@ -23,6 +32,20 @@ module.exports = function ({
     const allFields = fieldsFor({ locale, data, flags });
 
     const projectCountries = getOr([], 'projectCountries')(data);
+
+    const conditionalFields = (fields, filteredFields) => {
+        const filteredFieldNames = filteredFields.map((_) => _.name);
+        const allFields = compact(
+            fields.map((f) => {
+                if (filteredFieldNames.indexOf(f.name) === -1) {
+                    f.isConditional = true;
+                }
+                return f;
+            })
+        );
+
+        return showAllFields ? allFields : filteredFields;
+    };
 
     function stepProjectName() {
         return new Step({
@@ -179,6 +202,261 @@ module.exports = function ({
         });
     }
 
+    function stepBeneficiariesCheck() {
+        return new Step({
+            title: localise({
+                en: `Specific groups of people`,
+                cy: `Grwpiau penodol o bobl`,
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: `Specific groups of people`,
+                        cy: `Grwpiau penodol o bobl`,
+                    }),
+                    introduction: localise({
+                        en: `<p>
+                            We want to hear more about the people who will benefit from your project.
+                        </p>
+                        <p>
+                            It's important to be as accurate as possible in your answers.
+                            We'll use this information to make better decisions about how
+                            our funding supports people and communities to thrive.
+                            We'll also use it to tell people about the impact of
+                            our funding and who it is reaching.
+                        </p>
+                        <p>
+                            However, the information you provide here is <strong>not assessed</strong>
+                            and <strong>will not</strong> be used to decide whether you will be
+                            awarded funding for your project.
+                        </p>`,
+                        cy: `<p>
+                            Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.
+                        </p>
+                        <p>
+                            Mae’n bwysig bod mor gywir â phosibl gyda’ch atebion. 
+                            Byddwn yn defnyddio’r wybodaeth hyn i wneud gwell benderfyniadau am 
+                            sut mae ein hariannu yn cefnogi pobl a chymunedau i ffynnu. 
+                            Byddwn hefyd yn ei ddefnyddio i ddweud wrth bobl am effaith 
+                            ein hariannu a phwy mae’n ei gyrraedd.
+                        </p>
+                        <p>
+                            Er hynny, <strong>nid</strong> yw’r wybodaeth rydych wedi’i ddarparu yma’n cael ei asesu 
+                            a <strong>ni fydd</strong> yn cael ei ddefnyddio i benderfynu a fyddwch yn llwyddiannus yn eich cais.
+                        </p>`,
+                    }),
+                    fields: [allFields.beneficiariesGroupsCheck],
+                },
+            ],
+        });
+    }
+
+    function stepBeneficiariesGroups() {
+        const groupsCheck = get('beneficiariesGroupsCheck')(data);
+        return new Step({
+            title: localise({
+                en: 'Specific groups of people',
+                cy: 'Grwpiau penodol o bobl',
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Specific groups of people',
+                        cy: 'Grwpiau penodol o bobl',
+                    }),
+                    get fields() {
+                        const beneficiariesFields = [
+                            allFields.beneficiariesGroups,
+                            allFields.beneficiariesGroupsOther,
+                        ];
+                        return conditionalFields(
+                            beneficiariesFields,
+                            compact([
+                                groupsCheck === 'yes' &&
+                                    allFields.beneficiariesGroups,
+                                groupsCheck === 'yes' &&
+                                    allFields.beneficiariesGroupsOther,
+                            ])
+                        );
+                    },
+                },
+            ],
+        });
+    }
+
+    /**
+     * Include fields based on the beneficiary groups selected.
+     * Used to conditionally render fields for age, gender etc.
+     */
+    function includeIfBeneficiaryType(type, fields) {
+        const groupChoices = get('beneficiariesGroups')(data) || [];
+        return groupChoices.includes(type) ? fields : [];
+    }
+
+    function stepEthnicBackground() {
+        return new Step({
+            title: localise({ en: 'Ethnic background', cy: 'Cefndir ethnig' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Ethnic background',
+                        cy: 'Cefndir ethnig',
+                    }),
+                    fields: conditionalFields(
+                        [allFields.beneficiariesEthnicBackground],
+                        includeIfBeneficiaryType(
+                            BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                            [allFields.beneficiariesEthnicBackground]
+                        )
+                    ),
+                },
+            ],
+        });
+    }
+
+    function stepGender() {
+        return new Step({
+            title: localise({ en: 'Gender', cy: 'Rhyw' }),
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Gender', cy: 'Rhyw' }),
+                    fields: conditionalFields(
+                        [allFields.beneficiariesGroupsGender],
+                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.GENDER, [
+                            allFields.beneficiariesGroupsGender,
+                        ])
+                    ),
+                },
+            ],
+        });
+    }
+
+    function stepAge() {
+        return new Step({
+            title: localise({ en: 'Age', cy: 'Oedran' }),
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Age', cy: 'Oedran' }),
+                    fields: conditionalFields(
+                        [allFields.beneficiariesGroupsAge],
+                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
+                            allFields.beneficiariesGroupsAge,
+                        ])
+                    ),
+                },
+            ],
+        });
+    }
+
+    function stepDisabledPeople() {
+        return new Step({
+            title: localise({ en: 'Disabled people', cy: 'Pobl anabl' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Disabled people',
+                        cy: 'Pobl anabl',
+                    }),
+                    fields: conditionalFields(
+                        [allFields.beneficiariesGroupsDisabledPeople],
+                        includeIfBeneficiaryType(
+                            BENEFICIARY_GROUPS.DISABLED_PEOPLE,
+                            [allFields.beneficiariesGroupsDisabledPeople]
+                        )
+                    ),
+                },
+            ],
+        });
+    }
+
+    function stepReligionOrFaith() {
+        return new Step({
+            title: localise({
+                en: 'Religion or belief',
+                cy: 'Crefydd neu gred',
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Religion or belief',
+                        cy: 'Crefydd neu gred',
+                    }),
+                    get fields() {
+                        const beneficiariesFields = [
+                            allFields.beneficiariesGroupsReligion,
+                            allFields.beneficiariesGroupsReligionOther,
+                        ];
+                        return conditionalFields(
+                            beneficiariesFields,
+                            includeIfBeneficiaryType(
+                                BENEFICIARY_GROUPS.RELIGION,
+                                allFields
+                            )
+                        );
+                    },
+                },
+            ],
+        });
+    }
+
+    function isForCountry(country) {
+        const currentCountry = get('projectCountry')(data);
+        return currentCountry === country;
+    }
+
+    /**
+     * Include fields based on the current country.
+     */
+    function includeIfCountry(country, fields) {
+        return isForCountry(country) ? fields : [];
+    }
+
+    function stepWelshLanguage() {
+        return new Step({
+            title: localise({
+                en: `People who speak Welsh`,
+                cy: `Pobl sy’n siarad Cymraeg`,
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: `People who speak Welsh`,
+                        cy: `Pobl sy’n siarad Cymraeg`,
+                    }),
+                    fields: conditionalFields(
+                        [allFields.beneficiariesWelshLanguage],
+                        includeIfCountry('wales', [
+                            allFields.beneficiariesWelshLanguage,
+                        ])
+                    ),
+                },
+            ],
+        });
+    }
+
+    function stepNorthernIrelandCommunity() {
+        return new Step({
+            title: localise({
+                en: `Northern Ireland community`,
+                cy: `Cymuned Gogledd Iwerddon`,
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: `Northern Ireland community`,
+                        cy: `Cymuned Gogledd Iwerddon`,
+                    }),
+                    fields: conditionalFields(
+                        [allFields.beneficiariesNorthernIrelandCommunity],
+                        includeIfCountry('northern-ireland', [
+                            allFields.beneficiariesNorthernIrelandCommunity,
+                        ])
+                    ),
+                },
+            ],
+        });
+    }
+
     function stepOrganisationDetails() {
         return new Step({
             title: localise({
@@ -323,6 +601,35 @@ module.exports = function ({
         };
     }
 
+    function sectionBeneficiaries() {
+        return {
+            slug: 'beneficiaries',
+            title: localise({
+                en: 'Who will benefit from your project?',
+                cy: 'Pwy fydd yn elwa o’ch prosiect?',
+            }),
+            shortTitle: localise({
+                en: 'Who will benefit',
+                cy: 'Pwy fydd yn elwa',
+            }),
+            summary: localise({
+                en: `We want to hear more about the people who will benefit from your project.`,
+                cy: `Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.`,
+            }),
+            steps: [
+                stepBeneficiariesCheck(),
+                stepBeneficiariesGroups(),
+                stepEthnicBackground(),
+                stepGender(),
+                stepAge(),
+                stepDisabledPeople(),
+                stepReligionOrFaith(),
+                stepWelshLanguage(),
+                stepNorthernIrelandCommunity(),
+            ],
+        };
+    }
+
     function sectionYourOrganisation() {
         return {
             slug: 'your-organisation',
@@ -362,6 +669,23 @@ module.exports = function ({
         };
     }
 
+    function sections() {
+        if (projectCountries.includes('england')) {
+            return [
+                sectionYourProject(),
+                sectionBeneficiaries(),
+                sectionYourOrganisation(),
+                sectionYourDetails(),
+            ];
+        } else {
+            return [
+                sectionYourProject(),
+                sectionYourOrganisation(),
+                sectionYourDetails(),
+            ];
+        }
+    }
+
     const form = {
         title: localise({
             en: 'Your funding proposal',
@@ -393,11 +717,7 @@ module.exports = function ({
             }
             return enriched;
         },
-        sections: [
-            sectionYourProject(),
-            sectionYourOrganisation(),
-            sectionYourDetails(),
-        ],
+        sections: sections(),
     };
 
     return new FormModel(form, data, locale);

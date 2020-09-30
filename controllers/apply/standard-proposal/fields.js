@@ -30,6 +30,20 @@ const {
     northernIrelandLocationOptions,
 } = require('./lib/locations');
 
+const {
+    fieldBeneficiariesGroups,
+    fieldBeneficiariesGroupsAge,
+    fieldBeneficiariesGroupsCheck,
+    fieldBeneficiariesGroupsDisabledPeople,
+    fieldBeneficiariesEthnicBackground,
+    fieldBeneficiariesGroupsGender,
+    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesGroupsReligion,
+    fieldBeneficiariesGroupsReligionOther,
+    fieldBeneficiariesNorthernIrelandCommunity,
+    fieldBeneficiariesWelshLanguage,
+} = require('./fields/beneficiaries');
+
 module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
@@ -1175,6 +1189,25 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         yourIdeaProject: fieldYourIdeaProject(),
         yourIdeaCommunity: fieldYourIdeaCommunity(),
         yourIdeaActivities: fieldYourIdeaActivities(),
+        beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
+        beneficiariesGroups: fieldBeneficiariesGroups(locale),
+        beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
+        beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
+            locale
+        ),
+        beneficiariesGroupsGender: fieldBeneficiariesGroupsGender(locale),
+        beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
+        beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
+            locale
+        ),
+        beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(locale),
+        beneficiariesGroupsReligionOther: fieldBeneficiariesGroupsReligionOther(
+            locale
+        ),
+        beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(locale),
+        beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
+            locale
+        ),
         organisationLegalName: fieldOrganisationLegalName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
