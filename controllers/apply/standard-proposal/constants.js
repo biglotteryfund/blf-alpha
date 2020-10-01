@@ -34,6 +34,12 @@ const BENEFICIARY_GROUPS = {
     CARING: 'caring-responsibilities',
 };
 
+const ORG_MIN_AGE = {
+    amount: 15,
+    unit: 'months',
+    label: { en: '15 months', cy: '15 mis' },
+};
+
 const ORGANISATION_TYPES = {
     UNREGISTERED_VCO: 'unregistered-vco',
     UNINCORPORATED_REGISTERED_CHARITY: 'unincorporated-registered-charity',
@@ -88,4 +94,5 @@ module.exports = {
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES,
     FREE_TEXT_MAXLENGTH,
+    ORG_MIN_AGE,
 };
