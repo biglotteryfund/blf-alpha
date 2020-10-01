@@ -18,6 +18,14 @@ class UrlField extends Field {
             },
         ];
     }
+
+    get displayValue() {
+        if (this.value) {
+            return `http://${this.value.toLocaleString()}`;
+        } else {
+            return '';
+        }
+    }
 }
 
 module.exports = UrlField;
