@@ -22,6 +22,7 @@ const {
     TextareaField,
     DateField,
     UrlField,
+    PercentageField,
 } = require('../lib/field-types');
 
 const {
@@ -43,6 +44,34 @@ const {
     fieldBeneficiariesNorthernIrelandCommunity,
     fieldBeneficiariesWelshLanguage,
 } = require('./fields/beneficiaries');
+
+const {
+    fieldAccountingYearDate,
+    fieldTotalIncomeYear,
+} = require('./fields/organisation-finances');
+
+const {
+    fieldTermsAgreement1,
+    fieldTermsAgreement2,
+    fieldTermsAgreement3,
+    fieldTermsAgreement4,
+    fieldTermsAgreement5,
+    fieldTermsAgreement6,
+    fieldTermsPersonName,
+    fieldTermsPersonPosition,
+} = require('./fields/terms');
+
+const fieldContactAddressHistory = require('./fields/contact-address-history');
+
+const fieldSeniorContactRole = require('./fields/senior-contact-role');
+
+const { stripIfExcludedOrgType } = require('./fields/organisation-type');
+
+const {
+    CONTACT_EXCLUDED_TYPES,
+    MIN_AGE_MAIN_CONTACT,
+    MIN_AGE_SENIOR_CONTACT,
+} = require('./constants');
 
 module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
@@ -897,6 +926,174 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
+    function fieldOrganisationStartDate() {
+        const localise = get(locale);
+
+        const maxDate = moment();
+
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+            return Joi.dateParts()
+                .maxDate(maxDate.format('YYYY-MM-DD'))
+                .required();
+        }
+
+        return new DateField({
+            locale: locale,
+            name: 'organisationStartDate',
+            label: localise({
+                en: `When was your organisation set up?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: oneLine`This is the date your organisation took on its current legal status. 
+                It should be on your governing document. If you do not know the exact date or 
+                month, give us an approximate date.`,
+                cy: oneLine``,
+            }),
+            schema: schema(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter your organisation start date`,
+                        cy: ``,
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: oneLine`Date you entered must be in the past.`,
+                        cy: oneLine``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationSupport() {
+        return new Field({
+            locale: locale,
+            name: 'organisationSupport',
+            label: localise({
+                en: `How many people does your whole organisation support?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `We’re not looking for how many people your specific project will support 
+                - we’ll ask for that at the end of the grant. We need to know about how many 
+                people your whole organisation supports.`,
+                cy: ``,
+            }),
+            schema: Joi.number().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'Tell us how many people your whole organisation supports.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationVolunteers() {
+        return new Field({
+            locale: locale,
+            name: 'organisationVolunteers',
+            label: localise({
+                en: `How many volunteers do you have in your whole organisation?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `We’re not looking for the number of volunteers you’ll work with 
+                on this project specifically - we’ll ask for that at the end of the grant.`,
+                cy: ``,
+            }),
+            schema: Joi.number().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'Tell us how many volunteers you have in your whole organisation.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationFullTimeStaff() {
+        return new Field({
+            locale: locale,
+            name: 'organisationFullTimeStaff',
+            label: localise({
+                en: `How many full-time equivalent (FTE) staff work for your whole organisation?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `To help you give us an idea, full-time hours are usually around 37 hours per week.
+                 So, to find out how many full-time equivalent staff you have, you need to divide 
+                 the total number of hours worked by staff at your organisation by 37.`,
+                cy: ``,
+            }),
+            schema: Joi.number().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'Tell us how many full-time equivalent (FTE) staff work for your whole organisation.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationLeadership() {
+        return new PercentageField({
+            locale: locale,
+            name: 'organisationLeadership',
+            label: localise({
+                en: `What percentage of your leadership (for example, senior management team, board, 
+                committee) have 'lived experience' of the issues you're trying to address?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>When we say lived experience, we mean organisations led by people 
+                        who have lived through challenges the organisation is trying to tackle.</p>
+                      <p>For example:</p>
+                      <ul>
+                        <li>A charity working with care experienced people being led by people who have been in care.</li>
+                        <li>An organisation working with disabled people being led by disabled people.</li>
+                        <li>An organisation that works in or with particular Black, Asian or Minority Ethnic (BAME) communities having a leadership team that reflects those communities.</li>
+                        <li>An organisation that provides support to people affected by autism where someone from the organisation has a family member with autism.</li>
+                      </ul>`,
+                cy: ``,
+            }),
+            isRequired: false,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
     function fieldOrganisationType() {
         return new RadioField({
             locale: locale,
@@ -1205,6 +1402,64 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
+    function dateOfBirthField(name, minAge) {
+        const minDate = moment().subtract(120, 'years').format('YYYY-MM-DD');
+
+        const maxDate = moment().subtract(minAge, 'years').format('YYYY-MM-DD');
+
+        return new DateField({
+            locale: locale,
+            name: name,
+            label: localise({ en: 'Date of birth', cy: 'Dyddad geni' }),
+            explanation: localise({
+                en: `<p>
+                    We need their date of birth to help confirm who they are.
+                    And we do check their date of birth.
+                    So make sure you've entered it right.
+                    If you don't, it could delay your application.
+                </p>
+                <p><strong>For example: 30 03 1980</strong></p>`,
+                cy: `<p>
+                    Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
+                    Rydym yn gwirio eu dyddiad geni.
+                    Felly sicrhewch eich bod wedi ei roi yn gywir.
+                    Os nad ydych, gall oedi eich cais.
+                </p>
+                <p><strong>Er enghraifft: 30 03 1980</strong></p>`,
+            }),
+            attributes: { max: maxDate },
+            schema: stripIfExcludedOrgType(
+                CONTACT_EXCLUDED_TYPES,
+                Joi.dateParts().minDate(minDate).maxDate(maxDate).required()
+            ),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a date of birth',
+                        cy: 'Rhowch ddyddiad geni',
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: `Must be at least ${minAge} years old`,
+                        cy: `Rhaid bod yn o leiaf ${minAge} oed`,
+                    }),
+                },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: oneLine`Their birth date is not valid—please
+                            use four digits, eg. 1986`,
+                        cy: oneLine`Nid yw’r dyddiad geni yn ddilys—defnyddiwch
+                            bedwar digid, e.e. 1986`,
+                    }),
+                },
+            ],
+        });
+    }
+
     return {
         projectName: fieldProjectName(),
         projectCountries: fieldProjectCountries(),
@@ -1245,12 +1500,202 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         organisationDifferentName: fieldOrganisationDifferentName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
+        organisationStartDate: fieldOrganisationStartDate(),
+        organisationSupport: fieldOrganisationSupport(),
+        organisationVolunteers: fieldOrganisationVolunteers(),
+        organisationFullTimeStaff: fieldOrganisationFullTimeStaff(),
+        organisationLeadership: fieldOrganisationLeadership(),
         organisationType: fieldOrganisationType(),
         organisationSubType: fieldOrganisationSubType(),
+        accountingYearDate: fieldAccountingYearDate(locale, data),
+        totalIncomeYear: fieldTotalIncomeYear(locale, data),
+        mainContactName: new NameField({
+            locale: locale,
+            name: 'mainContactName',
+            label: localise({
+                en: 'Full name of main contact',
+                cy: 'Enw llawn y prif gyswllt',
+            }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.',
+            }),
+            get warnings() {
+                let result = [];
+
+                const seniorSurname = get('seniorContactName.lastName')(data);
+
+                const lastNamesMatch =
+                    seniorSurname &&
+                    seniorSurname === get('mainContactName.lastName')(data);
+
+                if (lastNamesMatch) {
+                    result.push(
+                        localise({
+                            en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
+                                     have the same surname. Remember we can't fund projects
+                                     where the two contacts are married or related by blood.</span>`,
+                            cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
+                                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau
+                                     lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`,
+                        })
+                    );
+                }
+
+                return result;
+            },
+            schema(originalSchema) {
+                return originalSchema.compare(Joi.ref('seniorContactName'));
+            },
+            messages: [
+                {
+                    type: 'object.isEqual',
+                    message: localise({
+                        en: `Main contact name must be different from the senior contact's name`,
+                        cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`,
+                    }),
+                },
+            ],
+        }),
+        mainContactDateOfBirth: dateOfBirthField(
+            'mainContactDateOfBirth',
+            MIN_AGE_MAIN_CONTACT
+        ),
+        mainContactAddress: new AddressField({
+            locale: locale,
+            name: 'mainContactAddress',
+            label: localise({
+                en: 'Home address',
+                cy: 'Cyfeiriad cartref',
+            }),
+            explanation: localise({
+                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                cy: `Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
+            }),
+            schema: stripIfExcludedOrgType(
+                CONTACT_EXCLUDED_TYPES,
+                Joi.ukAddress()
+                    .required()
+                    .compare(Joi.ref('seniorContactAddress'))
+            ),
+            messages: [
+                {
+                    type: 'object.isEqual',
+                    message: localise({
+                        en: `Main contact address must be different from the senior contact's address`,
+                        cy: `Rhaid i gyfeiriad y prif gyswllt fod yn wahanol i gyfeiriad yr uwch gyswllt`,
+                    }),
+                },
+            ],
+        }),
+        mainContactAddressHistory: fieldContactAddressHistory(locale, {
+            name: 'mainContactAddressHistory',
+        }),
+        mainContactEmail: new EmailField({
+            locale: locale,
+            name: 'mainContactEmail',
+            explanation: localise({
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`,
+            }),
+            schema: Joi.string()
+                .required()
+                .email()
+                .lowercase()
+                .invalid(Joi.ref('seniorContactEmail')),
+            messages: [
+                {
+                    type: 'any.invalid',
+                    message: localise({
+                        en: `Main contact email address must be different from the senior contact's email address`,
+                        cy: `Rhaid i gyfeiriad e-bost y prif gyswllt fod yn wahanol i gyfeiriad e-bost yr uwch gyswllt`,
+                    }),
+                },
+            ],
+        }),
+        mainContactPhone: new PhoneField({
+            locale: locale,
+            name: 'mainContactPhone',
+        }),
+        mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
+            name: 'mainContactLanguagePreference',
+        }),
+        mainContactCommunicationNeeds: fieldContactCommunicationNeeds(locale, {
+            name: 'mainContactCommunicationNeeds',
+        }),
+        seniorContactRole: fieldSeniorContactRole(locale, data),
+        seniorContactName: new NameField({
+            locale: locale,
+            name: 'seniorContactName',
+            label: localise({
+                en: 'Full name of senior contact',
+                cy: 'Enw llawn yr uwch gyswllt',
+            }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
+            }),
+        }),
+        seniorContactDateOfBirth: dateOfBirthField(
+            'seniorContactDateOfBirth',
+            MIN_AGE_SENIOR_CONTACT
+        ),
+        seniorContactAddress: new AddressField({
+            locale: locale,
+            name: 'seniorContactAddress',
+            label: localise({
+                en: 'Home address',
+                cy: 'Cyfeiriad cartref',
+            }),
+            explanation: localise({
+                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
+            }),
+            schema: stripIfExcludedOrgType(
+                CONTACT_EXCLUDED_TYPES,
+                Joi.ukAddress().required()
+            ),
+        }),
+        seniorContactAddressHistory: fieldContactAddressHistory(locale, {
+            name: 'seniorContactAddressHistory',
+        }),
+        seniorContactEmail: new EmailField({
+            locale: locale,
+            name: 'seniorContactEmail',
+            explanation: localise({
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`,
+            }),
+            schema: Joi.string().required().email().lowercase(),
+        }),
+        seniorContactPhone: new PhoneField({
+            locale: locale,
+            name: 'seniorContactPhone',
+        }),
+        seniorContactLanguagePreference: fieldContactLanguagePreference(
+            locale,
+            {
+                name: 'seniorContactLanguagePreference',
+            }
+        ),
+        seniorContactCommunicationNeeds: fieldContactCommunicationNeeds(
+            locale,
+            {
+                name: 'seniorContactCommunicationNeeds',
+            }
+        ),
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
         contactPhone: fieldContactPhone(),
         contactLanguagePreference: fieldContactLanguagePreference(),
         contactCommunicationNeeds: fieldContactCommunicationNeeds(),
+        termsAgreement1: fieldTermsAgreement1(locale),
+        termsAgreement2: fieldTermsAgreement2(locale),
+        termsAgreement3: fieldTermsAgreement3(locale),
+        termsAgreement4: fieldTermsAgreement4(locale),
+        termsAgreement5: fieldTermsAgreement5(locale),
+        termsAgreement6: fieldTermsAgreement6(locale),
+        termsPersonName: fieldTermsPersonName(locale),
+        termsPersonPosition: fieldTermsPersonPosition(locale),
     };
 };
