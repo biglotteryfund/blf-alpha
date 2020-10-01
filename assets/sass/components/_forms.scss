@@ -586,10 +586,31 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
         background-color: get-color('background', 'light-neutral');
     }
 
+    .ff-currency__suff,
+    .ff-currency__input {
+        padding: $inputPadding;
+        border: 2px solid get-color('border', 'dark');
+    }
+
+    .ff-currency__suff {
+        border-left: none;
+        background-color: get-color('background', 'light-neutral');
+    }
+
     .ff-currency__input {
         flex: 1 1 0%;
         max-width: 100%;
         border-left: none;
+
+        &:focus {
+            outline: $inputOutline;
+            outline-offset: 0;
+        }
+    }
+
+    .ff-currency__input--suff {
+        flex: 1 1 0%;
+        max-width: 100%;
 
         &:focus {
             outline: $inputOutline;
