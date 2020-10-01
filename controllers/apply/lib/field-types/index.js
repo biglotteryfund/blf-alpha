@@ -17,4 +17,5 @@ module.exports = {
     NameField: require('./name'),
     BudgetField: require('./budget'),
     UrlField: require('./url'),
+    PercentageField: require('./percentage'),
 };
