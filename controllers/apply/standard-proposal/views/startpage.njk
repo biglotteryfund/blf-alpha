@@ -29,12 +29,12 @@
 
                 <div>
                     {% for country in copy.ready.countries %}
-                        <details class="o-details u-margin-bottom-s js-toggleable">
+                        <details class="o-details u-margin-bottom-s details-group js-toggleable">
 
                             <summary class="o-details__summary" data-name="{{ country.title }}">
-                                <a href="/apply/under-10k/start" class="btn btn--small">
+                                <span class="btn btn--small">
                                     {{ country.title }}
-                                </a>
+                                </span>
                             </summary>
 
                             <div class="o-details__content">
@@ -75,9 +75,9 @@
 
                 <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
                     <summary>
-                            <a href="{{ copy.ready.noCountry.hyperlink }}">
+                            <span>
                                 {{ copy.ready.noCountry.title }}
-                            </a>
+                            </span>
                     </summary>
                     <div class="o-details__content">
                         <h2>{{ copy.ready.noCountry.header }}</h2>
