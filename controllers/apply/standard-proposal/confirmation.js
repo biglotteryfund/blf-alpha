@@ -7,24 +7,14 @@ module.exports = function ({ data = {} }) {
 
     function getNextSteps() {
         if (projectCountries.includes('england')) {
-            return `<p>
-                At the moment we're now focusing on funding projects and organisations
-                supporting communities through the COVID-19 pandemic, so they can start sooner.
-            </p>
-            <p>
-                We might get in touch to talk about your reserves and any other funding you might have.
-                This is just so we can work out how best to support you financially.
-                It would be great if you have these documents to hand, just in case we ask for them:
-            </p>
-            <ul>
-                <li>your cashflow forecast for the next 12 months (or whatever you use to manage your budget)</li>
-                <li>your most recent annual accounts</li>
-                <li>your most recent bank statement.</li>
-            </ul>
-            <p>
-                Once we’ve assessed your project we'll let you know
-                if we're going to give you the funding. 
-            </p>`;
+            return `<p>Thanks for sending us your project proposal form.</p>
+                <p>We appreciate you taking the time to tell us more about your project and organisation.</p>
+                <h3>What happens next?</h3>
+                <p>Your answers have been passed on to a funding officer, who will use this information 
+                to continue assessing your funding proposal.</p>
+                <p>We’ll aim to tell you our decision in the next 12 weeks.</p>
+                <p>Any questions in the meantime? <a href="https://www.tnlcommunityfund.org.uk/about/contact-us">Contact us</a></p>
+                `;
         } else {
             return `<p>
                 We’re now prioritising proposals for COVID-19 related projects,
