@@ -1,8 +1,12 @@
 'use strict';
-
+const Joi = require('../joi-extensions');
 const Field = require('./field');
 
 class UrlField extends Field {
+    constructor(props) {
+        super(props);
+    }
+
     getType() {
         return 'url';
     }
@@ -16,7 +20,24 @@ class UrlField extends Field {
                     cy: ``,
                 }),
             },
+            {
+                type: 'string.domain',
+                message: this.localise({
+                    en: `Organisation website must be in a valid URL format`,
+                    cy: ``,
+                }),
+            },
         ];
+    }
+
+    defaultSchema() {
+        const baseSchema = Joi.string().domain();
+
+        if (this.isRequired) {
+            return baseSchema.required();
+        } else {
+            return baseSchema.optional();
+        }
     }
 
     get displayValue() {
