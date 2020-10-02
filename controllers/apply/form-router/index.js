@@ -259,6 +259,20 @@ function initFormRouter({
                 userId: req.user.userData.id,
             };
 
+            if (newApplication.formId === 'standard-enquiry') {
+                if (get(req.session, `forms.standard-enquiry.country`)) {
+                    newApplication.applicationData = {
+                        projectCountries: [
+                            get(req.session, `forms.standard-enquiry.country`),
+                        ],
+                    };
+                    unset(req.session, `forms.standard-enquiry.country`);
+                } else {
+                    res.redirect('/apply/your-funding-proposal/start');
+                    return;
+                }
+            }
+
             const programme = get(req.session, formProgrammeSessionKey());
             if (programme) {
                 newApplication.metadata = {
@@ -266,18 +280,6 @@ function initFormRouter({
                 };
                 unset(req.session, formProgrammeSessionKey());
                 await req.session.save();
-            }
-
-            if (
-                newApplication.formId === 'standard-enquiry' &&
-                get(req.session, `forms.standard-enquiry.country`)
-            ) {
-                newApplication.applicationData = {
-                    projectCountries: [
-                        get(req.session, `forms.standard-enquiry.country`),
-                    ],
-                };
-                unset(req.session, `forms.standard-enquiry.country`);
             }
 
             const application = await PendingApplication.createNewApplication(
