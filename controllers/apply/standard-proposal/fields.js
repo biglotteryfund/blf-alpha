@@ -491,16 +491,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     function fieldProjectStartDate() {
         function getLeadTimeWeeks(country) {
             const countryLeadTimes = {
-                'england': 18,
+                'england': 0,
                 'northern-ireland': 12,
             };
-
-            return countryLeadTimes[country] || 18;
+            return countryLeadTimes[country];
         }
 
         const localise = get(locale);
 
-        const projectCountry = get('projectCountry')(data);
+        const projectCountry = get('projectCountries')(data);
 
         const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
