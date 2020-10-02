@@ -85,6 +85,16 @@ const FREE_TEXT_MAXLENGTH = {
     large: 255,
 };
 
+const STATUTORY_BODY_TYPES = {
+    PARISH_COUNCIL: 'parish-council', // ⛪️
+    TOWN_COUNCIL: 'town-council', // 🏙
+    LOCAL_AUTHORITY: 'local-authority', // 🏛
+    NHS_TRUST: 'nhs-trust-health-authority', // 🏥
+    PRISON_SERVICE: 'prison-service', // 🔐
+    FIRE_SERVICE: 'fire-service', // 🚒
+    POLICE_AUTHORITY: 'police-authority', // 🚓
+};
+
 module.exports = {
     EXPIRY_EMAIL_REMINDERS,
     BENEFICIARY_GROUPS,
@@ -95,4 +105,5 @@ module.exports = {
     EDUCATION_NUMBER_TYPES,
     FREE_TEXT_MAXLENGTH,
     ORG_MIN_AGE,
+    STATUTORY_BODY_TYPES
 };
