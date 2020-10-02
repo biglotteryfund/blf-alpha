@@ -431,7 +431,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     cy: ``,
                 });
             },
-            minAmount: 10001,
+            schema: Joi.number().min(10001).max(Joi.ref('projectTotalCost')),
             messages: [
                 {
                     type: 'base',
@@ -453,6 +453,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         en: oneLine`The amount you ask for must be more than £10,000.
                             If you need less than this, 
                             <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
+                        cy: ``,
+                    }),
+                },
+                {
+                    type: 'number.max',
+                    message: localise({
+                        en: oneLine`The amount you ask for cannot exceed the total cost.`,
                         cy: ``,
                     }),
                 },
