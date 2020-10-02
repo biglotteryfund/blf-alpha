@@ -47,9 +47,11 @@
                                 <p>{{ country.content | safe }}</p>
 
                                 {% if country.start %}
-                                    <a href="/apply/under-10k/start" class="btn btn--small">
-                                        {{ country.start }}
-                                    </a>
+                                    <p>
+                                        <a href="{{ country.start.href }}" class="btn btn--small">
+                                            {{ country.start.title }}
+                                        </a>
+                                    </p>
                                 {% endif %}
 
                                 {% if country.whatNext %}
@@ -58,7 +60,7 @@
                                     <ul>
                                         {% for item in country.whatNext.checklist %}
                                             <li>
-                                                item
+                                                {{ item }}
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -72,11 +74,11 @@
                 </div>
 
                 <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
-                    <p>
-                        <a href="{{ copy.ready.noCountry.hyperlink }}">
-                            {{ copy.ready.noCountry.title }}
-                        </a>
-                    </p>
+                    <summary>
+                            <a href="{{ copy.ready.noCountry.hyperlink }}">
+                                {{ copy.ready.noCountry.title }}
+                            </a>
+                    </summary>
                     <div class="o-details__content">
                         <h2>{{ copy.ready.noCountry.header }}</h2>
                         <p>{{ copy.ready.noCountry.content | safe }}</p>

@@ -155,6 +155,7 @@ class PendingApplication extends Model {
         formId,
         customExpiry = null,
         metadata = null,
+        applicationData = null,
     }) {
         function expiresAt() {
             const [amount, unit] = config.get('applications.expiryPeriod');
@@ -164,7 +165,7 @@ class PendingApplication extends Model {
         return this.create({
             userId: userId,
             formId: formId,
-            applicationData: null,
+            applicationData: applicationData,
             metadata: metadata,
             expiresAt: customExpiry ? customExpiry : expiresAt(),
         });

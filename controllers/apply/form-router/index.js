@@ -231,6 +231,25 @@ function initFormRouter({
     }
 
     /**
+     * Route: New application for standard
+     */
+    router.get('/create/:country', function (req, res) {
+        const country = req.params.country;
+        if (formId === 'standard-enquiry') {
+            if (country === 'england' || country === 'northern-ireland') {
+                set(req.session, `forms.standard-enquiry.country`, country);
+                req.session.save(() => {
+                    res.redirect(`/apply/your-funding-proposal/new`);
+                });
+            } else {
+                res.redirect('/apply/your-funding-proposal/start');
+            }
+        } else {
+            res.redirect('/apply');
+        }
+    });
+
+    /**
      * Route: New application
      */
     router.get('/new', async function (req, res, next) {
@@ -247,6 +266,18 @@ function initFormRouter({
                 };
                 unset(req.session, formProgrammeSessionKey());
                 await req.session.save();
+            }
+
+            if (
+                newApplication.formId === 'standard-enquiry' &&
+                get(req.session, `forms.standard-enquiry.country`)
+            ) {
+                newApplication.applicationData = {
+                    projectCountries: [
+                        get(req.session, `forms.standard-enquiry.country`),
+                    ],
+                };
+                unset(req.session, `forms.standard-enquiry.country`);
             }
 
             const application = await PendingApplication.createNewApplication(

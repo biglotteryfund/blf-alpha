@@ -1200,7 +1200,7 @@ yourFundingProposal:
           subheader: What information you need to apply
           start:
             title: Start your funding proposal for a project in England
-            href: /your-funding-proposal/new
+            href: /apply/your-funding-proposal/create/england
           content: >
             <h3>1. The details of two different people from your organisation</h3>
             <p>One person should be someone we can talk to if we have any questions about your project. The other should  be a senior member of your organisation, who’ll be legally responsible for the funding. Both need to live in the UK.</p>
@@ -1255,7 +1255,7 @@ yourFundingProposal:
           subheader: What information will you need handy for this form?
           start:
             title: Start your funding proposal for a project in Northern Ireland
-            href: /your-funding-proposal/new
+            href: /apply/your-funding-proposal/create/northern-ireland
           content: >
             <ul>
               <li>
@@ -1288,10 +1288,10 @@ yourFundingProposal:
               </li>
             </ul>
           whatNext:
-            - title: What happens next?
-            - checklist:
+            title: What happens next?
+            checklist:
                 - We'll email you to let you know we got your proposal
-                - There continues to be high demand for the COVID-19 funding, so please bear with us as our funding teams respond to this demand
+                - There continues to be high demand for the COVID-19 funding, so please bear with us as our funding teams respond to this demand
         - title: Scotland
           header: Projects in Scotland
           content: >
