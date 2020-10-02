@@ -1198,7 +1198,9 @@ yourFundingProposal:
         - title: England
           header: Projects in England
           subheader: What information you need to apply
-          start: Start your funding proposal for a project in England
+          start:
+            title: Start your funding proposal for a project in England
+            href: /your-funding-proposal/new
           content: >
             <h3>1. The details of two different people from your organisation</h3>
             <p>One person should be someone we can talk to if we have any questions about your project. The other should  be a senior member of your organisation, who’ll be legally responsible for the funding. Both need to live in the UK.</p>
@@ -1251,7 +1253,9 @@ yourFundingProposal:
         - title: Northern Ireland
           header: Projects in Northern Ireland
           subheader: What information will you need handy for this form?
-          start: Start your funding proposal for a project in Northern Ireland
+          start:
+            title: Start your funding proposal for a project in Northern Ireland
+            href: /your-funding-proposal/new
           content: >
             <ul>
               <li>
