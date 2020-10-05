@@ -1,7 +1,7 @@
 /* eslint-env jest */
 // @ts-nocheck
-//'use strict';
-/*
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 
@@ -31,8 +31,5 @@ validateSchemaDocumentation(
     require('../../controllers/apply/standard-proposal/form'),
     path.resolve(__dirname, '../application-forms/standard-proposal/schema.md')
 );
-*/
 
-test('temporary', function () {
-    expect(true).toEqual(true);
-});
+
