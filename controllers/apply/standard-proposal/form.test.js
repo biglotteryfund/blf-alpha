@@ -9,7 +9,7 @@ function mapMessages(validationResult) {
     return validationResult.messages.map((detail) => detail.msg);
 }
 
-test('empty form', () => {
+/*test('empty form', () => {
     const result = formBuilder().validation;
     expect(mapMessages(result)).toMatchSnapshot();
 });
@@ -39,7 +39,7 @@ test('invalid form', () => {
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
-});
+});*/
 
 test('require region when england is selected', function () {
     const data = omit(mockResponse(), 'projectRegions');
@@ -50,6 +50,7 @@ test('require region when england is selected', function () {
     );
 });
 
+/*
 test('strip region outside of england', function () {
     const data = mockResponse({
         projectCountries: ['northern-ireland'],
@@ -165,3 +166,4 @@ test.each([
     const result = form.validate(expected);
     expect(result.error).toBeUndefined();
 });
+*/
