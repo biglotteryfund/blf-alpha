@@ -18,8 +18,8 @@ module.exports = {
                 cy: 'Beth yw eich dyddiad gorffen blwyddyn ariannol?',
             }),
             explanation: localise({
-                en: `<p><strong>For example: 31 03</strong></p>`,
-                cy: '<p><strong>Er enghraifft: 31 03</strong></p>',
+                en: `<p>For example: 31 03</p>`,
+                cy: '<p>Er enghraifft: 31 03</p>',
             }),
             schema(originalSchema) {
                 return isNewOrganisation(get('organisationStartDate')(data))
@@ -39,8 +39,9 @@ module.exports = {
                 cy: 'Beth yw cyfanswm eich incwm am y flwyddyn?',
             }),
             explanation: localise({
-                en: 'Use whole numbers only, eg. 12000',
-                cy: 'Defnyddiwch rifau cyflawn yn unig, e.e. 12000',
+                en:
+                    'This should be based on your most recent accounts, or a 12-month projection (if you’ve been up and running for less than 15 months). Use whole numbers only - for example, 12,345 and not 12,345.67.',
+                cy: '',
             }),
             schema(originalSchema) {
                 return isNewOrganisation(get('organisationStartDate')(data))
