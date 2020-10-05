@@ -1204,7 +1204,7 @@ yourFundingProposal:
           content: >
             <h3>1. The details of two different people from your organisation</h3>
             <p>One person should be someone we can talk to if we have any questions about your project. The other should  be a senior member of your organisation, who’ll be legally responsible for the funding. Both need to live in the UK.</p>
-            <p><strong>The two people cannot:</strong></p>
+            <p>The two people cannot:</p>
             <ul>
                 <li>be related by blood</li>
                 <li>be married to each other</li>

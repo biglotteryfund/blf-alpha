@@ -1480,7 +1480,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
 
     function allFields() {
         let fields = {};
-        let tradingName = true;
         if (projectCountries.includes('england')) {
             fields = {
                 projectName: fieldProjectName(),
