@@ -568,9 +568,7 @@ function under10KApplication(mock) {
             .invoke('val', faker.lorem.words(150))
             .trigger('change');
 
-        cy.findByLabelText(
-            'How does your project meet our funding priority?'
-        )
+        cy.findByLabelText('How does your project meet our funding priority?')
             .invoke('val', faker.lorem.words(100))
             .trigger('change');
 
@@ -1115,7 +1113,7 @@ it('should allow editing from the summary screen', () => {
     });
 });
 
-function standardApplication({
+/*function standardApplication({
     projectCountries,
     projectRegions = [],
     projectLocation,
@@ -1178,9 +1176,9 @@ function standardApplication({
 
         submitStep();
 
-        /**
+        /!**
          * Project regions step
-         */
+         *!/
         if (mock.projectRegions.length > 0) {
             // Submit step w/no answers. Confirm error message
             submitStep();
@@ -1284,9 +1282,9 @@ function standardApplication({
 
         cy.get('h1').should('contain', 'Thanks for telling us your proposal');
     });
-}
+}*/
 
-it('should complete standard your funding proposal in england', () => {
+/*it('should complete standard your funding proposal in england', () => {
     standardApplication({
         projectCountries: ['England'],
         projectRegions: ['North West', 'South West'],
@@ -1310,7 +1308,7 @@ it('should complete standard your funding proposal in northern-ireland', () => {
             postcode: 'BT7 2JD',
         },
     });
-});
+});*/
 
 it('should correctly email users with expiring applications', () => {
     cy.seedUser().then((newUser) => {
