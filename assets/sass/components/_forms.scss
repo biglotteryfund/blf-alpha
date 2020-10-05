@@ -1075,3 +1075,12 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
 .details-group {
     display: inline-block;
 }
+
+.summary-hyperlink {
+    text-decoration-color: #0075b0;
+}
+
+.span-hyperlink {
+    color: #0075b0;
+    font-weight: 800;
+}
