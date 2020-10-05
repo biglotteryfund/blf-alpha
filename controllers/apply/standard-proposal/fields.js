@@ -899,9 +899,14 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                     day-to-day work, please write it below`,
                 cy: ``,
             }),
-            schema: Joi.string()
-                .max(maxLength)
-                .invalid(Joi.ref('organisationLegalName')),
+            schema: Joi.when('organisationDifferentName', {
+                is: 'yes',
+                then: Joi.string()
+                    .max(maxLength)
+                    .invalid(Joi.ref('organisationLegalName'))
+                    .required(),
+                otherwise: Joi.any().strip(),
+            }),
             messages: [
                 {
                     type: 'base',
@@ -1473,242 +1478,300 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
-    return {
-        projectName: fieldProjectName(),
-        projectCountries: fieldProjectCountries(),
-        projectRegions: fieldProjectRegions(),
-        projectLocation: fieldProjectLocation(),
-        projectLocationDescription: fieldProjectLocationDescription(),
-        projectLocationPostcode: fieldProjectLocationPostcode(),
-        projectTotalCost: fieldProjectTotalCost(),
-        projectCosts: fieldProjectCosts(),
-        projectSpend: fieldProjectSpend(),
-        projectStartDate: fieldProjectStartDate(),
-        projectDurationYears: fieldProjectDurationYears(),
-        projectWebsite: fieldProjectWebsite(),
-        projectOrganisation: fieldProjectOrganisation(),
-        yourIdeaProject: fieldYourIdeaProject(),
-        yourIdeaCommunity: fieldYourIdeaCommunity(),
-        yourIdeaActivities: fieldYourIdeaActivities(),
-        beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
-        beneficiariesGroups: fieldBeneficiariesGroups(locale),
-        beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
-        beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
-            locale
-        ),
-        beneficiariesGroupsGender: fieldBeneficiariesGroupsGender(locale),
-        beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
-        beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
-            locale
-        ),
-        beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(locale),
-        beneficiariesGroupsReligionOther: fieldBeneficiariesGroupsReligionOther(
-            locale
-        ),
-        beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(locale),
-        beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
-            locale
-        ),
-        organisationLegalName: fieldOrganisationLegalName(),
-        organisationDifferentName: fieldOrganisationDifferentName(),
-        organisationTradingName: fieldOrganisationTradingName(),
-        organisationAddress: fieldOrganisationAddress(),
-        organisationStartDate: fieldOrganisationStartDate(),
-        organisationSupport: fieldOrganisationSupport(),
-        organisationVolunteers: fieldOrganisationVolunteers(),
-        organisationFullTimeStaff: fieldOrganisationFullTimeStaff(),
-        organisationLeadership: fieldOrganisationLeadership(),
-        organisationType: fieldOrganisationType(),
-        organisationSubType: fieldOrganisationSubType(),
-        accountingYearDate: fieldAccountingYearDate(locale, data),
-        totalIncomeYear: fieldTotalIncomeYear(locale, data),
-        mainContactName: new NameField({
-            locale: locale,
-            name: 'mainContactName',
-            label: localise({
-                en: 'Full name of main contact',
-                cy: 'Enw llawn y prif gyswllt',
-            }),
-            explanation: localise({
-                en: 'This person has to live in the UK.',
-                cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.',
-            }),
-            get warnings() {
-                let result = [];
+    function allFields() {
+        let fields = {};
+        let tradingName = true;
+        if (projectCountries.includes('england')) {
+            fields = {
+                projectName: fieldProjectName(),
+                projectCountries: fieldProjectCountries(),
+                projectRegions: fieldProjectRegions(),
+                projectLocation: fieldProjectLocation(),
+                projectLocationDescription: fieldProjectLocationDescription(),
+                projectLocationPostcode: fieldProjectLocationPostcode(),
+                projectTotalCost: fieldProjectTotalCost(),
+                projectCosts: fieldProjectCosts(),
+                projectSpend: fieldProjectSpend(),
+                projectStartDate: fieldProjectStartDate(),
+                projectDurationYears: fieldProjectDurationYears(),
+                projectWebsite: fieldProjectWebsite(),
+                projectOrganisation: fieldProjectOrganisation(),
+                yourIdeaProject: fieldYourIdeaProject(),
+                yourIdeaCommunity: fieldYourIdeaCommunity(),
+                yourIdeaActivities: fieldYourIdeaActivities(),
+                beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
+                beneficiariesGroups: fieldBeneficiariesGroups(locale),
+                beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
+                beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
+                    locale
+                ),
+                beneficiariesGroupsGender: fieldBeneficiariesGroupsGender(
+                    locale
+                ),
+                beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
+                beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
+                    locale
+                ),
+                beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
+                    locale
+                ),
+                beneficiariesGroupsReligionOther: fieldBeneficiariesGroupsReligionOther(
+                    locale
+                ),
+                beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
+                    locale
+                ),
+                beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
+                    locale
+                ),
+                organisationLegalName: fieldOrganisationLegalName(),
+                organisationDifferentName: fieldOrganisationDifferentName(),
+                organisationTradingName: fieldOrganisationTradingName(),
+                organisationAddress: fieldOrganisationAddress(),
+                organisationStartDate: fieldOrganisationStartDate(),
+                organisationSupport: fieldOrganisationSupport(),
+                organisationVolunteers: fieldOrganisationVolunteers(),
+                organisationFullTimeStaff: fieldOrganisationFullTimeStaff(),
+                organisationLeadership: fieldOrganisationLeadership(),
+                organisationType: fieldOrganisationType(),
+                organisationSubType: fieldOrganisationSubType(),
+                accountingYearDate: fieldAccountingYearDate(locale, data),
+                totalIncomeYear: fieldTotalIncomeYear(locale, data),
+                mainContactName: new NameField({
+                    locale: locale,
+                    name: 'mainContactName',
+                    label: localise({
+                        en: 'Full name of main contact',
+                        cy: 'Enw llawn y prif gyswllt',
+                    }),
+                    explanation: localise({
+                        en: 'This person has to live in the UK.',
+                        cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.',
+                    }),
+                    get warnings() {
+                        let result = [];
 
-                const seniorSurname = get('seniorContactName.lastName')(data);
+                        const seniorSurname = get('seniorContactName.lastName')(
+                            data
+                        );
 
-                const lastNamesMatch =
-                    seniorSurname &&
-                    seniorSurname === get('mainContactName.lastName')(data);
+                        const lastNamesMatch =
+                            seniorSurname &&
+                            seniorSurname ===
+                                get('mainContactName.lastName')(data);
 
-                if (lastNamesMatch) {
-                    result.push(
-                        localise({
-                            en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
+                        if (lastNamesMatch) {
+                            result.push(
+                                localise({
+                                    en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
                                      have the same surname. Remember we can't fund projects
                                      where the two contacts are married or related by blood.</span>`,
-                            cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
+                                    cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
                                      prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau
                                      lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`,
-                        })
-                    );
-                }
+                                })
+                            );
+                        }
 
-                return result;
-            },
-            schema(originalSchema) {
-                return originalSchema.compare(Joi.ref('seniorContactName'));
-            },
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Main contact name must be different from the senior contact's name`,
-                        cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`,
+                        return result;
+                    },
+                    schema(originalSchema) {
+                        return originalSchema.compare(
+                            Joi.ref('seniorContactName')
+                        );
+                    },
+                    messages: [
+                        {
+                            type: 'object.isEqual',
+                            message: localise({
+                                en: `Main contact name must be different from the senior contact's name`,
+                                cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`,
+                            }),
+                        },
+                    ],
+                }),
+                mainContactDateOfBirth: dateOfBirthField(
+                    'mainContactDateOfBirth',
+                    MIN_AGE_MAIN_CONTACT
+                ),
+                mainContactAddress: new AddressField({
+                    locale: locale,
+                    name: 'mainContactAddress',
+                    label: localise({
+                        en: 'Home address',
+                        cy: 'Cyfeiriad cartref',
                     }),
-                },
-            ],
-        }),
-        mainContactDateOfBirth: dateOfBirthField(
-            'mainContactDateOfBirth',
-            MIN_AGE_MAIN_CONTACT
-        ),
-        mainContactAddress: new AddressField({
-            locale: locale,
-            name: 'mainContactAddress',
-            label: localise({
-                en: 'Home address',
-                cy: 'Cyfeiriad cartref',
-            }),
-            explanation: localise({
-                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                cy: `Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
-            }),
-            schema: stripIfExcludedOrgType(
-                CONTACT_EXCLUDED_TYPES,
-                Joi.ukAddress()
-                    .required()
-                    .compare(Joi.ref('seniorContactAddress'))
-            ),
-            messages: [
-                {
-                    type: 'object.isEqual',
-                    message: localise({
-                        en: `Main contact address must be different from the senior contact's address`,
-                        cy: `Rhaid i gyfeiriad y prif gyswllt fod yn wahanol i gyfeiriad yr uwch gyswllt`,
+                    explanation: localise({
+                        en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                        cy: `Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
                     }),
-                },
-            ],
-        }),
-        mainContactAddressHistory: fieldContactAddressHistory(locale, {
-            name: 'mainContactAddressHistory',
-        }),
-        mainContactEmail: new EmailField({
-            locale: locale,
-            name: 'mainContactEmail',
-            explanation: localise({
-                en: `We’ll use this whenever we get in touch about the project`,
-                cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`,
-            }),
-            schema: Joi.string()
-                .required()
-                .email()
-                .lowercase()
-                .invalid(Joi.ref('seniorContactEmail')),
-            messages: [
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: `Main contact email address must be different from the senior contact's email address`,
-                        cy: `Rhaid i gyfeiriad e-bost y prif gyswllt fod yn wahanol i gyfeiriad e-bost yr uwch gyswllt`,
+                    schema: stripIfExcludedOrgType(
+                        CONTACT_EXCLUDED_TYPES,
+                        Joi.ukAddress()
+                            .required()
+                            .compare(Joi.ref('seniorContactAddress'))
+                    ),
+                    messages: [
+                        {
+                            type: 'object.isEqual',
+                            message: localise({
+                                en: `Main contact address must be different from the senior contact's address`,
+                                cy: `Rhaid i gyfeiriad y prif gyswllt fod yn wahanol i gyfeiriad yr uwch gyswllt`,
+                            }),
+                        },
+                    ],
+                }),
+                mainContactAddressHistory: fieldContactAddressHistory(locale, {
+                    name: 'mainContactAddressHistory',
+                }),
+                mainContactEmail: new EmailField({
+                    locale: locale,
+                    name: 'mainContactEmail',
+                    explanation: localise({
+                        en: `We’ll use this whenever we get in touch about the project`,
+                        cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`,
                     }),
-                },
-            ],
-        }),
-        mainContactPhone: new PhoneField({
-            locale: locale,
-            name: 'mainContactPhone',
-        }),
-        mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
-            name: 'mainContactLanguagePreference',
-        }),
-        mainContactCommunicationNeeds: fieldContactCommunicationNeeds(locale, {
-            name: 'mainContactCommunicationNeeds',
-        }),
-        seniorContactRole: fieldSeniorContactRole(locale, data),
-        seniorContactName: new NameField({
-            locale: locale,
-            name: 'seniorContactName',
-            label: localise({
-                en: 'Full name of senior contact',
-                cy: 'Enw llawn yr uwch gyswllt',
-            }),
-            explanation: localise({
-                en: 'This person has to live in the UK.',
-                cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
-            }),
-        }),
-        seniorContactDateOfBirth: dateOfBirthField(
-            'seniorContactDateOfBirth',
-            MIN_AGE_SENIOR_CONTACT
-        ),
-        seniorContactAddress: new AddressField({
-            locale: locale,
-            name: 'seniorContactAddress',
-            label: localise({
-                en: 'Home address',
-                cy: 'Cyfeiriad cartref',
-            }),
-            explanation: localise({
-                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
-            }),
-            schema: stripIfExcludedOrgType(
-                CONTACT_EXCLUDED_TYPES,
-                Joi.ukAddress().required()
-            ),
-        }),
-        seniorContactAddressHistory: fieldContactAddressHistory(locale, {
-            name: 'seniorContactAddressHistory',
-        }),
-        seniorContactEmail: new EmailField({
-            locale: locale,
-            name: 'seniorContactEmail',
-            explanation: localise({
-                en: `We’ll use this whenever we get in touch about the project`,
-                cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`,
-            }),
-            schema: Joi.string().required().email().lowercase(),
-        }),
-        seniorContactPhone: new PhoneField({
-            locale: locale,
-            name: 'seniorContactPhone',
-        }),
-        seniorContactLanguagePreference: fieldContactLanguagePreference(
-            locale,
-            {
-                name: 'seniorContactLanguagePreference',
-            }
-        ),
-        seniorContactCommunicationNeeds: fieldContactCommunicationNeeds(
-            locale,
-            {
-                name: 'seniorContactCommunicationNeeds',
-            }
-        ),
-        contactName: fieldContactName(),
-        contactEmail: fieldContactEmail(),
-        contactPhone: fieldContactPhone(),
-        contactLanguagePreference: fieldContactLanguagePreference(),
-        contactCommunicationNeeds: fieldContactCommunicationNeeds(),
-        termsAgreement1: fieldTermsAgreement1(locale),
-        termsAgreement2: fieldTermsAgreement2(locale),
-        termsAgreement3: fieldTermsAgreement3(locale),
-        termsAgreement4: fieldTermsAgreement4(locale),
-        termsAgreement5: fieldTermsAgreement5(locale),
-        termsAgreement6: fieldTermsAgreement6(locale),
-        termsPersonName: fieldTermsPersonName(locale),
-        termsPersonPosition: fieldTermsPersonPosition(locale),
-    };
+                    schema: Joi.string()
+                        .required()
+                        .email()
+                        .lowercase()
+                        .invalid(Joi.ref('seniorContactEmail')),
+                    messages: [
+                        {
+                            type: 'any.invalid',
+                            message: localise({
+                                en: `Main contact email address must be different from the senior contact's email address`,
+                                cy: `Rhaid i gyfeiriad e-bost y prif gyswllt fod yn wahanol i gyfeiriad e-bost yr uwch gyswllt`,
+                            }),
+                        },
+                    ],
+                }),
+                mainContactPhone: new PhoneField({
+                    locale: locale,
+                    name: 'mainContactPhone',
+                }),
+                mainContactLanguagePreference: fieldContactLanguagePreference(
+                    locale,
+                    {
+                        name: 'mainContactLanguagePreference',
+                    }
+                ),
+                mainContactCommunicationNeeds: fieldContactCommunicationNeeds(
+                    locale,
+                    {
+                        name: 'mainContactCommunicationNeeds',
+                    }
+                ),
+                seniorContactRole: fieldSeniorContactRole(locale, data),
+                seniorContactName: new NameField({
+                    locale: locale,
+                    name: 'seniorContactName',
+                    label: localise({
+                        en: 'Full name of senior contact',
+                        cy: 'Enw llawn yr uwch gyswllt',
+                    }),
+                    explanation: localise({
+                        en: 'This person has to live in the UK.',
+                        cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
+                    }),
+                }),
+                seniorContactDateOfBirth: dateOfBirthField(
+                    'seniorContactDateOfBirth',
+                    MIN_AGE_SENIOR_CONTACT
+                ),
+                seniorContactAddress: new AddressField({
+                    locale: locale,
+                    name: 'seniorContactAddress',
+                    label: localise({
+                        en: 'Home address',
+                        cy: 'Cyfeiriad cartref',
+                    }),
+                    explanation: localise({
+                        en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                        cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
+                    }),
+                    schema: stripIfExcludedOrgType(
+                        CONTACT_EXCLUDED_TYPES,
+                        Joi.ukAddress().required()
+                    ),
+                }),
+                seniorContactAddressHistory: fieldContactAddressHistory(
+                    locale,
+                    {
+                        name: 'seniorContactAddressHistory',
+                    }
+                ),
+                seniorContactEmail: new EmailField({
+                    locale: locale,
+                    name: 'seniorContactEmail',
+                    explanation: localise({
+                        en: `We’ll use this whenever we get in touch about the project`,
+                        cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`,
+                    }),
+                    schema: Joi.string().required().email().lowercase(),
+                }),
+                seniorContactPhone: new PhoneField({
+                    locale: locale,
+                    name: 'seniorContactPhone',
+                }),
+                seniorContactLanguagePreference: fieldContactLanguagePreference(
+                    locale,
+                    {
+                        name: 'seniorContactLanguagePreference',
+                    }
+                ),
+                seniorContactCommunicationNeeds: fieldContactCommunicationNeeds(
+                    locale,
+                    {
+                        name: 'seniorContactCommunicationNeeds',
+                    }
+                ),
+                contactName: fieldContactName(),
+                contactEmail: fieldContactEmail(),
+                contactPhone: fieldContactPhone(),
+                contactLanguagePreference: fieldContactLanguagePreference(),
+                contactCommunicationNeeds: fieldContactCommunicationNeeds(),
+                termsAgreement1: fieldTermsAgreement1(locale),
+                termsAgreement2: fieldTermsAgreement2(locale),
+                termsAgreement3: fieldTermsAgreement3(locale),
+                termsAgreement4: fieldTermsAgreement4(locale),
+                termsAgreement5: fieldTermsAgreement5(locale),
+                termsAgreement6: fieldTermsAgreement6(locale),
+                termsPersonName: fieldTermsPersonName(locale),
+                termsPersonPosition: fieldTermsPersonPosition(locale),
+            };
+        } else {
+            fields = {
+                projectName: fieldProjectName(),
+                projectCountries: fieldProjectCountries(),
+                projectRegions: fieldProjectRegions(),
+                projectLocation: fieldProjectLocation(),
+                projectLocationDescription: fieldProjectLocationDescription(),
+                projectTotalCost: fieldProjectTotalCost(),
+                projectCosts: fieldProjectCosts(),
+                projectStartDate: fieldProjectStartDate(),
+                projectDurationYears: fieldProjectDurationYears(),
+                projectWebsite: fieldProjectWebsite(),
+                projectOrganisation: fieldProjectOrganisation(),
+                yourIdeaProject: fieldYourIdeaProject(),
+                yourIdeaCommunity: fieldYourIdeaCommunity(),
+                yourIdeaActivities: fieldYourIdeaActivities(),
+                organisationLegalName: fieldOrganisationLegalName(),
+                organisationDifferentName: fieldOrganisationDifferentName(),
+                organisationTradingName: fieldOrganisationTradingName(),
+                organisationAddress: fieldOrganisationAddress(),
+                organisationSupport: fieldOrganisationSupport(),
+                organisationType: fieldOrganisationType(),
+                organisationSubType: fieldOrganisationSubType(),
+                contactName: fieldContactName(),
+                contactEmail: fieldContactEmail(),
+                contactPhone: fieldContactPhone(),
+                contactLanguagePreference: fieldContactLanguagePreference(),
+                contactCommunicationNeeds: fieldContactCommunicationNeeds(),
+            };
+        }
+        return fields;
+    }
+
+    return allFields();
 };
