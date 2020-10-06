@@ -18,12 +18,6 @@ test('valid form', () => {
     const data = mockResponse();
     const result = formBuilder({ data }).validation;
     expect(result.error).toBeUndefined();
-
-    expect(result.value).toMatchSnapshot({
-        yourIdeaProject: expect.any(String),
-        yourIdeaCommunity: expect.any(String),
-        yourIdeaActivities: expect.any(String),
-    });
 });
 
 test('invalid form', () => {
