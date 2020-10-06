@@ -386,7 +386,7 @@ module.exports = function ({
                             beneficiariesFields,
                             includeIfBeneficiaryType(
                                 BENEFICIARY_GROUPS.RELIGION,
-                                allFields
+                                beneficiariesFields
                             )
                         );
                     },
