@@ -73,7 +73,7 @@ const {
     MIN_AGE_SENIOR_CONTACT,
 } = require('./constants');
 
-module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
+module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);

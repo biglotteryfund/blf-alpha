@@ -5,10 +5,11 @@ const faker = require('faker');
 function mockResponse(overrides = {}) {
     const defaults = {
         projectName: 'My project',
-        projectCountries: ['england'],
-        projectRegions: ['midlands'],
-        projectLocation: 'derbyshire',
+        projectCountries: ['northern-ireland'],
+        projectRegions: ['mid-ulster'],
+        projectLocation: 'ards-and-north-down',
         projectLocationDescription: 'description',
+        projectPostcode: 'B15 1TR',
         projectCosts: '250,000',
         projectDurationYears: 1,
         yourIdeaProject: faker.lorem.words(random(50, 500)),
@@ -16,6 +17,7 @@ function mockResponse(overrides = {}) {
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationLegalName: 'Example organisation',
         organisationTradingName: 'Example trading name',
+        organisationDifferentName: 'no',
         organisationAddress: {
             line1: '1234 example street',
             townCity: 'Birmingham',
