@@ -620,7 +620,11 @@ module.exports = function ({
                             Your senior contact must be at least 18 years old and is legally responsible
                             for ensuring that this application is supported by the organisation applying,
                             any funding is delivered as set out in the application form, and that the
-                            funded organisation meets our monitoring requirements.
+                            funded organisation meets our monitoring requirements. Our identity checks may 
+                            appear on a credit report, but it’s not a credit check and can only be seen by 
+                            the person we’re checking, so their credit rating won’t be affected. You can 
+                            find out more 
+                            <a href="https://www.tnlcommunityfund.org.uk/funding/funding-guidance/information-checks">here</a>.                           
                         </p>`,
                         cy: `
                         <p>
@@ -695,7 +699,12 @@ module.exports = function ({
                                 The main contact is usually the person filling in
                                 the form—so it's probably you. The main contact needs
                                 to be from the organisation applying, but they don't
-                                need to hold a particular position.    
+                                need to hold a particular position. Our identity checks 
+                                may appear on a credit report, but it’s not a credit 
+                                check and can only be seen by the person we’re checking, 
+                                so their credit rating won’t be affected. You can find 
+                                out more 
+                                <a href="https://www.tnlcommunityfund.org.uk/funding/funding-guidance/information-checks">here</a>.    
                             </p>
                             <p>
                                 The main contact must be a different person from the senior contact` +
