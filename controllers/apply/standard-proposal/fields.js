@@ -828,12 +828,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: '',
             }),
             explanation: localise({
-                en: oneLine`This must be as shown on your governing document.
+                en: `<p>This must be as shown on your governing document.
                     Your governing document could be called one of several things,
                     depending on the type of organisation you're applying
                     on behalf of. It may be called a constitution, trust deed,
                     memorandum and articles of association,
-                    or something else entirely.`,
+                    or something else entirely.</p> 
+                    <p>You might find it on a registration website - for example, Companies House or a Charities Register</p>`,
                 cy: ``,
             }),
             maxLength: maxLength,
