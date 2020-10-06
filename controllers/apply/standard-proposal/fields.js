@@ -425,6 +425,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 Joi.number().min(10001);
             }
         }
+
         return new CurrencyField({
             locale: locale,
             name: 'projectCosts',
@@ -596,24 +597,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 { label: localise({ en: '5 years', cy: '' }), value: 5 },
             ],
             get schema() {
-                if (
-                    projectCountries.includes('england') &&
-                    flags.enableEnglandAutoProjectDuration
-                ) {
-                    // Clear out any pre-existing answers for England applications
-                    // as we now set this value directly upon submission for them
-                    return Joi.any().strip();
-                } else {
-                    return Joi.when('projectCountries', {
-                        is: Joi.array().min(2),
-                        then: Joi.any().strip(),
-                        otherwise: Joi.number()
-                            .integer()
-                            .required()
-                            .min(1)
-                            .max(5),
-                    });
-                }
+                return Joi.when('projectCountries', {
+                    is: Joi.array().min(2),
+                    then: Joi.any().strip(),
+                    otherwise: Joi.number().integer().required().min(1).max(5),
+                });
             },
             messages: [
                 {
@@ -1101,7 +1089,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             isRequired: false,
             messages: [
                 {
-                    type: 'base',
+                    type: 'number.max',
+                    message: localise({
+                        en:
+                            "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
                     message: localise({
                         en:
                             "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
@@ -1725,11 +1721,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         name: 'seniorContactCommunicationNeeds',
                     }
                 ),
-                contactName: fieldContactName(),
-                contactEmail: fieldContactEmail(),
-                contactPhone: fieldContactPhone(),
-                contactLanguagePreference: fieldContactLanguagePreference(),
-                contactCommunicationNeeds: fieldContactCommunicationNeeds(),
                 termsAgreement1: fieldTermsAgreement1(locale),
                 termsAgreement2: fieldTermsAgreement2(locale),
                 termsAgreement3: fieldTermsAgreement3(locale),
