@@ -9,7 +9,7 @@ function mapMessages(validationResult) {
     return validationResult.messages.map((detail) => detail.msg);
 }
 
-/*test('empty form', () => {
+test('empty form', () => {
     const result = formBuilder().validation;
     expect(mapMessages(result)).toMatchSnapshot();
 });
@@ -18,12 +18,6 @@ test('valid form', () => {
     const data = mockResponse();
     const result = formBuilder({ data }).validation;
     expect(result.error).toBeUndefined();
-
-    expect(result.value).toMatchSnapshot({
-        yourIdeaProject: expect.any(String),
-        yourIdeaCommunity: expect.any(String),
-        yourIdeaActivities: expect.any(String),
-    });
 });
 
 test('invalid form', () => {
@@ -39,10 +33,10 @@ test('invalid form', () => {
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
-});*/
+});
 
 test('require region when england is selected', function () {
-    const data = omit(mockResponse(), 'projectRegions');
+    const data = omit('england', 'projectRegions');
     const form = formBuilder({ data });
 
     expect(mapMessages(form.validation)).toEqual(
@@ -50,7 +44,6 @@ test('require region when england is selected', function () {
     );
 });
 
-/*
 test('strip region outside of england', function () {
     const data = mockResponse({
         projectCountries: ['northern-ireland'],
@@ -122,38 +115,6 @@ test('organisation sub-type required for statutory-body', function () {
     expect(result.error).toBeUndefined();
 });
 
-test('language preference required in wales', function () {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england', 'wales'],
-        }),
-    });
-
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([expect.stringContaining('Select a language')])
-    );
-
-    const formValid = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england', 'wales'],
-            contactLanguagePreference: 'welsh',
-        }),
-    });
-
-    expect(formValid.validation.error).toBeUndefined();
-
-    const formStrip = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england'],
-            contactLanguagePreference: 'welsh',
-        }),
-    });
-
-    expect(formStrip.validation.value).not.toHaveProperty(
-        'contactLanguagePreference'
-    );
-});
-
 test.each([
     'organisationTradingName',
     'contactPhone',
@@ -166,4 +127,3 @@ test.each([
     const result = form.validate(expected);
     expect(result.error).toBeUndefined();
 });
-*/

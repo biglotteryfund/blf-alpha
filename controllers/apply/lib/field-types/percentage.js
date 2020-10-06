@@ -15,17 +15,12 @@ class PercentageField extends Field {
     }
 
     defaultSchema() {
-        const minAmount = this.minAmount || 0;
-        const maxAmount = this.maxAmount || 100;
-        const baseSchema = Joi.friendlyNumber()
-            .integer()
-            .min(minAmount)
-            .max(maxAmount);
+        const baseSchema = Joi.number().min(0).max(100);
 
         if (this.isRequired) {
             return baseSchema.required();
         } else {
-            return baseSchema.optional();
+            return baseSchema.allow('').optional();
         }
     }
 

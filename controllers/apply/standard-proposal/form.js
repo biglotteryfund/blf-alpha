@@ -96,16 +96,11 @@ module.exports = function ({
             if (projectCountries.length > 1) {
                 return [allFields.projectLocationDescription];
             } else if (projectCountries.length > 0) {
-                return projectCountries.includes('england')
-                    ? [
-                          allFields.projectLocation,
-                          allFields.projectLocationDescription,
-                          allFields.projectLocationPostcode,
-                      ]
-                    : [
-                          allFields.projectLocation,
-                          allFields.projectLocationDescription,
-                      ];
+                return [
+                    allFields.projectLocation,
+                    allFields.projectLocationDescription,
+                    allFields.projectLocationPostcode,
+                ];
             } else {
                 return [];
             }
@@ -391,7 +386,7 @@ module.exports = function ({
                             beneficiariesFields,
                             includeIfBeneficiaryType(
                                 BENEFICIARY_GROUPS.RELIGION,
-                                allFields
+                                beneficiariesFields
                             )
                         );
                     },
@@ -924,7 +919,6 @@ module.exports = function ({
                     stepProjectRegions(),
                     stepProjectLocation(),
                     stepProjectCosts(),
-                    stepProjectDates(),
                     stepProjectDuration(),
                     stepYourIdea(),
                 ]);

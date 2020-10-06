@@ -73,7 +73,7 @@ const {
     MIN_AGE_SENIOR_CONTACT,
 } = require('./constants');
 
-module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
+module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
@@ -348,10 +348,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             explanation: localise({
                 en: `<p>If your project will take place across different locations,
                 please use the postcode where most of the project will take place.</p>
-                <p>If you do not know the postcode, you can use the <a href="">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
                 cy: `<p>Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
                 defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.</p>
-                <p>If you do not know the postcode, you can use the <a href="">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
             }),
             attributes: { size: 10, autocomplete: 'postal-code' },
             schema: Joi.string().postcode().required(),
@@ -420,11 +420,12 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     function fieldProjectCosts() {
         function schema() {
             if (projectCountries.includes('england')) {
-                Joi.number().min(10001).max(Joi.ref('projectTotalCost'));
+                return Joi.number().min(10001).max(Joi.ref('projectTotalCost'));
             } else {
-                Joi.number().min(10001);
+                return Joi.number().min(10001).max(1000000000);
             }
         }
+
         return new CurrencyField({
             locale: locale,
             name: 'projectCosts',
@@ -596,24 +597,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 { label: localise({ en: '5 years', cy: '' }), value: 5 },
             ],
             get schema() {
-                if (
-                    projectCountries.includes('england') &&
-                    flags.enableEnglandAutoProjectDuration
-                ) {
-                    // Clear out any pre-existing answers for England applications
-                    // as we now set this value directly upon submission for them
-                    return Joi.any().strip();
-                } else {
-                    return Joi.when('projectCountries', {
-                        is: Joi.array().min(2),
-                        then: Joi.any().strip(),
-                        otherwise: Joi.number()
-                            .integer()
-                            .required()
-                            .min(1)
-                            .max(5),
-                    });
-                }
+                return Joi.when('projectCountries', {
+                    is: Joi.array().min(2),
+                    then: Joi.any().strip(),
+                    otherwise: Joi.number().integer().required().min(1).max(5),
+                });
             },
             messages: [
                 {
@@ -828,12 +816,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: '',
             }),
             explanation: localise({
-                en: oneLine`This must be as shown on your governing document.
+                en: `<p>This must be as shown on your governing document.
                     Your governing document could be called one of several things,
                     depending on the type of organisation you're applying
                     on behalf of. It may be called a constitution, trust deed,
                     memorandum and articles of association,
-                    or something else entirely.`,
+                    or something else entirely.</p> 
+                    <p>You might find it on a registration website - for example, Companies House or a Charities Register</p>`,
                 cy: ``,
             }),
             maxLength: maxLength,
@@ -1101,7 +1090,15 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             isRequired: false,
             messages: [
                 {
-                    type: 'base',
+                    type: 'number.max',
+                    message: localise({
+                        en:
+                            "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
                     message: localise({
                         en:
                             "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
@@ -1725,11 +1722,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         name: 'seniorContactCommunicationNeeds',
                     }
                 ),
-                contactName: fieldContactName(),
-                contactEmail: fieldContactEmail(),
-                contactPhone: fieldContactPhone(),
-                contactLanguagePreference: fieldContactLanguagePreference(),
-                contactCommunicationNeeds: fieldContactCommunicationNeeds(),
                 termsAgreement1: fieldTermsAgreement1(locale),
                 termsAgreement2: fieldTermsAgreement2(locale),
                 termsAgreement3: fieldTermsAgreement3(locale),
@@ -1746,12 +1738,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 projectRegions: fieldProjectRegions(),
                 projectLocation: fieldProjectLocation(),
                 projectLocationDescription: fieldProjectLocationDescription(),
-                projectTotalCost: fieldProjectTotalCost(),
+                projectLocationPostcode: fieldProjectLocationPostcode(),
                 projectCosts: fieldProjectCosts(),
-                projectStartDate: fieldProjectStartDate(),
                 projectDurationYears: fieldProjectDurationYears(),
                 projectWebsite: fieldProjectWebsite(),
-                projectOrganisation: fieldProjectOrganisation(),
                 yourIdeaProject: fieldYourIdeaProject(),
                 yourIdeaCommunity: fieldYourIdeaCommunity(),
                 yourIdeaActivities: fieldYourIdeaActivities(),
@@ -1759,7 +1749,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 organisationDifferentName: fieldOrganisationDifferentName(),
                 organisationTradingName: fieldOrganisationTradingName(),
                 organisationAddress: fieldOrganisationAddress(),
-                organisationSupport: fieldOrganisationSupport(),
                 organisationType: fieldOrganisationType(),
                 organisationSubType: fieldOrganisationSubType(),
                 contactName: fieldContactName(),
