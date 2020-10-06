@@ -1114,6 +1114,7 @@ it('should allow editing from the summary screen', () => {
 });
 
 function standardApplication({
+    projectCountry,
     projectStart,
     projectCountries,
     projectRegions = [],
@@ -1121,6 +1122,7 @@ function standardApplication({
     organisationAddress,
 }) {
     const mock = {
+        projectCountry: projectCountry,
         projectStart: projectStart,
         projectName: faker.lorem.words(5),
         projectCountries: projectCountries,
@@ -1201,9 +1203,7 @@ function standardApplication({
 
         cy.findAllByText('Start your proposal').click();
 
-        cy.get('.details-group').within(() => {
-            cy.findAllByText('England').click();
-        });
+        cy.findAllByText(mock.projectCountry).first().click();
 
         cy.findAllByText(mock.projectStart).first().click();
 
@@ -1623,6 +1623,7 @@ function standardApplication({
 
 it('should complete standard your funding proposal in england', () => {
     standardApplication({
+        projectCountry: 'England',
         projectStart: 'Start your funding proposal for a project in England',
         projectCountries: ['England'],
         projectRegions: ['North West', 'South West'],
@@ -1637,6 +1638,9 @@ it('should complete standard your funding proposal in england', () => {
 
 it('should complete standard your funding proposal in northern-ireland', () => {
     standardApplication({
+        projectCountry: 'Northern Ireland',
+        projectStart:
+            'Start your funding proposal for a project in Northern Ireland',
         projectCountries: ['Northern Ireland'],
         projectRegions: [],
         projectLocation: 'Belfast',
