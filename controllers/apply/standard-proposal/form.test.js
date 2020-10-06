@@ -121,38 +121,6 @@ test('organisation sub-type required for statutory-body', function () {
     expect(result.error).toBeUndefined();
 });
 
-test('language preference required in wales', function () {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england', 'wales'],
-        }),
-    });
-
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([expect.stringContaining('Select a language')])
-    );
-
-    const formValid = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england', 'wales'],
-            contactLanguagePreference: 'welsh',
-        }),
-    });
-
-    expect(formValid.validation.error).toBeUndefined();
-
-    const formStrip = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england'],
-            contactLanguagePreference: 'welsh',
-        }),
-    });
-
-    expect(formStrip.validation.value).not.toHaveProperty(
-        'contactLanguagePreference'
-    );
-});
-
 test.each([
     'organisationTradingName',
     'contactPhone',
