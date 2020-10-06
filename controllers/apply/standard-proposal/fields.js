@@ -1741,7 +1741,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 projectLocationPostcode: fieldProjectLocationPostcode(),
                 projectTotalCost: fieldProjectTotalCost(),
                 projectCosts: fieldProjectCosts(),
-                projectStartDate: fieldProjectStartDate(),
                 projectDurationYears: fieldProjectDurationYears(),
                 projectWebsite: fieldProjectWebsite(),
                 projectOrganisation: fieldProjectOrganisation(),

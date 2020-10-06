@@ -919,7 +919,6 @@ module.exports = function ({
                     stepProjectRegions(),
                     stepProjectLocation(),
                     stepProjectCosts(),
-                    stepProjectDates(),
                     stepProjectDuration(),
                     stepYourIdea(),
                 ]);
