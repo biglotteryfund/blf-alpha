@@ -348,10 +348,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>If your project will take place across different locations,
                 please use the postcode where most of the project will take place.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode?campaignid=postcodes_redirect" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
                 cy: `<p>Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
                 defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode?campaignid=postcodes_redirect" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
             }),
             attributes: { size: 10, autocomplete: 'postal-code' },
             schema: Joi.string().postcode().required(),
@@ -822,7 +822,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     on behalf of. It may be called a constitution, trust deed,
                     memorandum and articles of association,
                     or something else entirely.</p> 
-                    <p>You might find it on a registration website - for example, Companies House or a Charities Register</p>`,
+                    <p>You might find it on a registration website - for example, Companies House or a Charities Register.</p>`,
                 cy: ``,
             }),
             maxLength: maxLength,
@@ -875,17 +875,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldOrganisationTradingName() {
+        const legalName = get('organisationLegalName')(data);
         const maxLength = 255;
         return new Field({
             locale: locale,
             name: 'organisationTradingName',
             label: localise({
-                en: 'Organisation trading name',
+                en:
+                    'Tell us the name your organisation uses in your day-to-day work',
                 cy: '',
             }),
             explanation: localise({
-                en: oneLine`If your organisation uses a different name in your
-                    day-to-day work, please write it below`,
+                en: oneLine`This is how you might be known if you're not just known 
+                by your legal name, ${legalName}.`,
                 cy: ``,
             }),
             schema: Joi.when('organisationDifferentName', {
