@@ -6,6 +6,8 @@ const { Model, Op } = require('sequelize');
 
 const Users = require('./user');
 
+const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {
         const schema = {
@@ -165,7 +167,7 @@ class PendingApplication extends Model {
         return this.create({
             userId: userId,
             formId: formId,
-            applicationData: applicationData,
+            applicationData: enableStandardV2 ? applicationData : null,
             metadata: metadata,
             expiresAt: customExpiry ? customExpiry : expiresAt(),
         });
