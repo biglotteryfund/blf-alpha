@@ -276,6 +276,18 @@ function englandLocationOptions(filterRegions = []) {
         ],
         'yorkshire-and-the-humber': [
             {
+                value: 'east-riding-of-yorkshire',
+                label: 'East Riding of Yorkshire',
+            },
+            {
+                value: 'north-east-lincolnshire',
+                label: 'North East Lincolnshire',
+            },
+            {
+                value: 'north-lincolnshire',
+                label: 'North Lincolnshire',
+            },
+            {
                 value: 'north-yorkshire',
                 label: 'North Yorkshire',
             },
@@ -286,10 +298,6 @@ function englandLocationOptions(filterRegions = []) {
             {
                 value: 'west-yorkshire',
                 label: 'West Yorkshire',
-            },
-            {
-                value: 'humber',
-                label: 'Humber',
             },
         ],
     };
