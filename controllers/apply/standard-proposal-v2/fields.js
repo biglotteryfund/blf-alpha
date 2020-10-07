@@ -270,7 +270,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'projectLocation',
             label: localise({
-                en: `Where will most of your project take place?`,
+                en: `What area will most of the project take place in?`,
                 cy: ``,
             }),
             defaultOption: localise({
