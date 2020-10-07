@@ -32,10 +32,17 @@
                                 copy.actions.simple,
                                 isSecondary = hasPendingSimpleApplication
                             ) }}
-                            {{ actionCard(
-                                copy.actions.standard,
-                                isSecondary = hasPendingStandardApplication
-                            ) }}
+                            {% if enableStandardV2 %}
+                                {{ actionCard(
+                                    copy.actions.standardV2,
+                                    isSecondary = hasPendingStandardApplication
+                                ) }}
+                            {% else %}
+                                {{ actionCard(
+                                    copy.actions.standard,
+                                    isSecondary = hasPendingStandardApplication
+                                ) }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

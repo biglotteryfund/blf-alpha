@@ -2,7 +2,7 @@
 
 exports[`enrich pending applications 1`] = `
 Object {
-  "amountRequested": "£250,000",
+  "amountRequested": "£250000",
   "createdAt": "2020-03-04T23:00:00.000Z",
   "deleteUrl": "/apply/your-funding-proposal-v2/delete/some-uuid",
   "editUrl": "/apply/your-funding-proposal-v2/edit/some-uuid",
@@ -17,7 +17,7 @@ Object {
     },
     Object {
       "label": "Location",
-      "value": "Derbyshire",
+      "value": "Lancashire",
     },
     Object {
       "label": "Organisation",
@@ -35,7 +35,7 @@ Object {
 
 exports[`enrich submitted applications 1`] = `
 Object {
-  "amountRequested": "£250,000",
+  "amountRequested": "£250000",
   "formId": "awards-for-all",
   "id": "some-uuid",
   "overview": Array [
@@ -45,7 +45,7 @@ Object {
     },
     Object {
       "label": "Location",
-      "value": "Derbyshire",
+      "value": "Lancashire",
     },
     Object {
       "label": "Organisation",

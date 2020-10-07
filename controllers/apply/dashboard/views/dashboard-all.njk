@@ -80,7 +80,11 @@
                         {{ actionCard(copy.actions.simple, isSecondary = true) }}
                     </div>
                     <div class="flex-grid__item">
-                        {{ actionCard(copy.actions.standard, isSecondary = true) }}
+                        {% if enableStandardV2 %}
+                            {{ actionCard(copy.actions.standardV2, isSecondary = true) }}
+                        {% else %}
+                            {{ actionCard(copy.actions.standard, isSecondary = true) }}
+                        {% endif %}
                     </div>
                 </div>
             </section>

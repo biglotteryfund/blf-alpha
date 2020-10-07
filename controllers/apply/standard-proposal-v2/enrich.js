@@ -4,8 +4,6 @@ const get = require('lodash/fp/get');
 const { findLocationName } = require('./lib/locations');
 
 const formBuilder = require('./form');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 function details(application, data, locale) {
     const localise = get(locale);
@@ -67,12 +65,8 @@ function enrichPending(application, locale = 'en') {
         isExpired: application.isExpired,
         updatedAt: application.updatedAt,
         progress: form.progress,
-        editUrl: enableStandardV2
-            ? `/apply/your-funding-proposal-v2/edit/${application.id}`
-            : `/apply/your-funding-proposal/edit/${application.id}`,
-        deleteUrl: enableStandardV2
-            ? `/apply/your-funding-proposal-v2/delete/${application.id}`
-            : `/apply/your-funding-proposal/delete/${application.id}`,
+        editUrl: `/apply/your-funding-proposal-v2/edit/${application.id}`,
+        deleteUrl: `/apply/your-funding-proposal-v2/delete/${application.id}`,
     };
 
     return Object.assign(defaults, details(application, data, locale));

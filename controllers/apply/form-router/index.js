@@ -9,6 +9,8 @@ const pick = require('lodash/pick');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
 const formidable = require('formidable');
+const config = require('config');
+const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 const {
     PendingApplication,
@@ -233,21 +235,23 @@ function initFormRouter({
     /**
      * Route: New application for standard
      */
-    router.get('/create/:country', function (req, res) {
-        const country = req.params.country;
-        if (formId === 'standard-enquiry') {
-            if (country === 'england' || country === 'northern-ireland') {
-                set(req.session, `forms.standard-enquiry.country`, country);
-                req.session.save(() => {
-                    res.redirect(`/apply/your-funding-proposal/new`);
-                });
+    if (enableStandardV2) {
+        router.get('/create/:country', function (req, res) {
+            const country = req.params.country;
+            if (formId === 'standard-enquiry') {
+                if (country === 'england' || country === 'northern-ireland') {
+                    set(req.session, `forms.standard-enquiry.country`, country);
+                    req.session.save(() => {
+                        res.redirect(`/apply/your-funding-proposal-v2/new`);
+                    });
+                } else {
+                    res.redirect('/apply/your-funding-proposal-v2/start');
+                }
             } else {
-                res.redirect('/apply/your-funding-proposal/start');
+                res.redirect('/apply');
             }
-        } else {
-            res.redirect('/apply');
-        }
-    });
+        });
+    }
 
     /**
      * Route: New application
@@ -259,17 +263,22 @@ function initFormRouter({
                 userId: req.user.userData.id,
             };
 
-            if (newApplication.formId === 'standard-enquiry') {
-                if (get(req.session, `forms.standard-enquiry.country`)) {
-                    newApplication.applicationData = {
-                        projectCountries: [
-                            get(req.session, `forms.standard-enquiry.country`),
-                        ],
-                    };
-                    unset(req.session, `forms.standard-enquiry.country`);
-                } else {
-                    res.redirect('/apply/your-funding-proposal/start');
-                    return;
+            if (enableStandardV2) {
+                if (newApplication.formId === 'standard-enquiry') {
+                    if (get(req.session, `forms.standard-enquiry.country`)) {
+                        newApplication.applicationData = {
+                            projectCountries: [
+                                get(
+                                    req.session,
+                                    `forms.standard-enquiry.country`
+                                ),
+                            ],
+                        };
+                        unset(req.session, `forms.standard-enquiry.country`);
+                    } else {
+                        res.redirect('/apply/your-funding-proposal-v2/start');
+                        return;
+                    }
                 }
             }
 

@@ -6,11 +6,12 @@ Array [
   "Select a country",
   "Select one or more regions",
   "Tell us all of the locations that you'll be running your project in",
-  "Enter a total cost for your project",
+  "Enter a real postcode",
   "Tell us what you would like to do",
   "Tell us how your project involves your community",
   "Tell us how your idea fits in with other local activities",
   "Enter the full legal name of the organisation",
+  "Tell us if your organisation uses a different name in your day-to-day work.",
   "Enter a full UK address",
   "Select a type of organisation",
   "Enter first and last name",
@@ -24,49 +25,16 @@ Array [
   "Select a country",
   "Select a location",
   "Tell us all of the locations that you'll be running your project in",
+  "Enter a real postcode",
   "The amount you ask for must be more than £10,000. If you need less than this,  <a href=\\"/funding/under10k\\">you can apply for under £10,000 here</a>.",
   "Select a project duration",
   "Tell us what you would like to do",
   "Tell us how your project involves your community",
   "Tell us how your idea fits in with other local activities",
-  "Trading name must not be the same as legal name",
+  "Tell us if your organisation uses a different name in your day-to-day work.",
   "Enter a full UK address",
   "Select a type of organisation",
   "Enter first and last name",
   "Enter an email address",
 ]
-`;
-
-exports[`valid form 1`] = `
-Object {
-  "contactCommunicationNeeds": "Large print",
-  "contactEmail": "general.enquiries@tnlcommunityfund.org.uk",
-  "contactName": Object {
-    "firstName": "Björk",
-    "lastName": "Guðmundsdóttir",
-  },
-  "contactPhone": "028 9568 0143",
-  "organisationAddress": Object {
-    "county": "West Midlands",
-    "line1": "1234 example street",
-    "postcode": "B15 1TR",
-    "townCity": "Birmingham",
-  },
-  "organisationLegalName": "Example organisation",
-  "organisationTradingName": "Example trading name",
-  "organisationType": "not-for-profit-company",
-  "projectCosts": 250000,
-  "projectCountries": Array [
-    "england",
-  ],
-  "projectLocation": "derbyshire",
-  "projectLocationDescription": "description",
-  "projectName": "My project",
-  "projectRegions": Array [
-    "midlands",
-  ],
-  "yourIdeaActivities": Any<String>,
-  "yourIdeaCommunity": Any<String>,
-  "yourIdeaProject": Any<String>,
-}
 `;
