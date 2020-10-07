@@ -8,6 +8,7 @@
     "enableGovCOVIDUpdates": true
   },
   "standardFundingProposal": {
-    "enableEnglandAutoProjectDuration": true
+    "enableEnglandAutoProjectDuration": true,
+    "enablev2": true
   }
 }

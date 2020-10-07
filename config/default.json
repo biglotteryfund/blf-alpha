@@ -35,7 +35,8 @@
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"],
-    "enableEnglandAutoProjectDuration": true
+    "enableEnglandAutoProjectDuration": true,
+    "enablev2": false
   },
   "session": {
     "cookie": "blf-alpha-session",
