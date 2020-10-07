@@ -1373,7 +1373,7 @@ function standardApplicationV2({
 
         acceptCookieConsent();
 
-        cy.findAllByText('Start your proposal').click();
+        cy.visit('/apply/your-funding-proposal-v2/start');
 
         cy.findAllByText(mock.projectCountry).first().click();
 
