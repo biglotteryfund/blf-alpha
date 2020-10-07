@@ -1851,6 +1851,14 @@ it('should complete standard your funding proposal in northern-ireland', () => {
     }
 });
 
+function yourFundingProposalSeed() {
+    if (enableStandardV2) {
+        return '/apply/your-funding-proposal-v2/seed';
+    } else {
+        return '/apply/your-funding-proposal/seed';
+    }
+}
+
 it('should correctly email users with expiring applications', () => {
     cy.seedUser().then((newUser) => {
         /**
@@ -1865,7 +1873,7 @@ it('should correctly email users with expiring applications', () => {
             moment().add(10, 'week'),
             moment().add(3, 'months'),
         ].map((expiry) => {
-            cy.request('POST', '/apply/your-funding-proposal/seed', {
+            cy.request('POST', yourFundingProposalSeed(), {
                 userId: newUser.id,
                 expiresAt: expiry.toDate(),
             });
