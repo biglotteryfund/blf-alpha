@@ -27,9 +27,10 @@ router.get('/awards-for-all*', function (req, res) {
 });
 
 router.use('/under-10k', require('./under10k'));
-router.use('/your-funding-proposal', require('./standard-proposal'));
 if (enableStandardV2) {
     router.use('/your-funding-proposal-v2', require('./standard-proposal-v2'));
+} else {
+    router.use('/your-funding-proposal', require('./standard-proposal'));
 }
 
 router.use('/emails/unsubscribe', require('./expiries/unsubscribe-router'));

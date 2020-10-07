@@ -1369,7 +1369,7 @@ function standardApplicationV2({
     }
 
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/your-funding-proposal');
+        cy.visit('/apply/your-funding-proposal-v2');
 
         acceptCookieConsent();
 
