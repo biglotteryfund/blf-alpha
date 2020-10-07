@@ -8,7 +8,7 @@ const sample = require('lodash/sample');
 const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
-const enableStandardV2 = false;
+const enableStandardV2 = true;
 
 function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
@@ -1415,7 +1415,7 @@ function standardApplicationV2({
         }
 
         cy.findByLabelText(
-            'Where will most of your project take place?'
+            'What area will most of the project take place in?'
         ).select(mock.projectLocation);
 
         cy.findByLabelText(
