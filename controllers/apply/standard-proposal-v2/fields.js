@@ -348,10 +348,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>If your project will take place across different locations,
                 please use the postcode where most of the project will take place.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode?campaignid=postcodes_redirect" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
                 cy: `<p>Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
                 defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode?campaignid=postcodes_redirect" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
+                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
             }),
             attributes: { size: 10, autocomplete: 'postal-code' },
             schema: Joi.string().postcode().required(),
