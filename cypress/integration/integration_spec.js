@@ -1415,7 +1415,7 @@ function standardApplicationV2({
         }
 
         cy.findByLabelText(
-            'Where will most of your project take place?'
+            'What area will most of the project take place in?'
         ).select(mock.projectLocation);
 
         cy.findByLabelText(
