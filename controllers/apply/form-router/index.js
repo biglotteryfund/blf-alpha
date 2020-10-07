@@ -276,7 +276,7 @@ function initFormRouter({
                         };
                         unset(req.session, `forms.standard-enquiry.country`);
                     } else {
-                        res.redirect('/apply/your-funding-proposal/start');
+                        res.redirect('/apply/your-funding-proposal-v2/start');
                         return;
                     }
                 }
