@@ -9,6 +9,6 @@
   },
   "standardFundingProposal": {
     "enableEnglandAutoProjectDuration": true,
-    "enablev2": false
+    "enablev2": true
   }
 }
