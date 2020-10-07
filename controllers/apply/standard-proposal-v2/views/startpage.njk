@@ -1,0 +1,92 @@
+{% extends "layouts/main.njk" %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+
+{% set copy = __('yourFundingProposal.startPage') %}
+{% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        {% call contentBox(skipProse = true) %}
+            {{ formHeader(
+                backUrl = sectionUrl if user else localify('/funding/over10k'),
+                title = formTitle,
+                prefix = globalCopy.brand.title
+            )}}
+
+            <div class="s-prose">
+
+                <h2>{{ copy.beforeYouStart.title }}</h2>
+
+                <ul>
+                    {% for item in copy.beforeYouStart.items %}
+                        <li>{{ item | safe}}</li>
+                    {% endfor %}
+                </ul>
+
+                <h2>{{ copy.ready.title }}</h2>
+                {{ copy.ready.introV2 | safe}}
+
+                <div>
+                    {% for country in copy.ready.countries %}
+                        <details class="o-details u-margin-bottom-s details-group js-toggleable">
+
+                            <summary class="o-details__summary" data-name="{{ country.title }}">
+                                <span class="btn btn--small">
+                                    {{ country.title }}
+                                </span>
+                            </summary>
+
+                            <div class="o-details__content">
+                                <h2>{{ country.header }}</h2>
+
+                                {% if country.subheader %}
+                                    <h3>{{ country.subheader }}</h3>
+                                {% endif %}
+
+                                <p>{{ country.content | safe }}</p>
+
+                                {% if country.start %}
+                                    <p>
+                                        <a href="{{ country.start.href }}" class="btn btn--small">
+                                            {{ country.start.title }}
+                                        </a>
+                                    </p>
+                                {% endif %}
+
+                                {% if country.whatNext %}
+                                    <h2>{{ country.whatNext.title }}</h2>
+
+                                    <ul>
+                                        {% for item in country.whatNext.checklist %}
+                                            <li>
+                                                {{ item }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <p>{% if country.whatNext.descripton %}{{ country.whatNext.description }}{% endif %}</p>
+                                {% endif %}
+                            </div>
+
+                        </details>
+
+                    {% endfor %}
+                </div>
+
+                <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
+                    <summary class="summary-hyperlink">
+                            <span class="span-hyperlink">
+                                {{ copy.ready.noCountry.title }}
+                            </span>
+                    </summary>
+                    <div class="o-details__content">
+                        <h2>{{ copy.ready.noCountry.header }}</h2>
+                        <p>{{ copy.ready.noCountry.content | safe }}</p>
+                    </div>
+                </details>
+
+            </div>
+
+        {% endcall %}
+    </main>
+{% endblock %}
