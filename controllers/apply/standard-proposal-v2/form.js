@@ -133,7 +133,14 @@ module.exports = function ({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect',
             }),
-            fieldsets: [{ fields: fields() }],
+            fieldsets: [{
+                fields: fields(),
+                introduction: localise({
+                    en: `We understand that your costs can change. We just need some estimates at this stage.`,
+                    cy: ``
+                })
+            }],
+
         });
     }
 
