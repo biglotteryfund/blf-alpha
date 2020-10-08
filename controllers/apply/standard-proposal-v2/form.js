@@ -1098,8 +1098,8 @@ module.exports = function ({
                 sectionYourProject(),
                 sectionBeneficiaries(),
                 sectionYourOrganisation(),
-                sectionMainContact(),
                 sectionSeniorContact(),
+                sectionMainContact(),
                 sectionTerms(),
             ];
         } else {
