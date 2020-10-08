@@ -933,7 +933,7 @@ apply:
       firstNameExplanation: >
         This can't be a nickname—or a short version of their name.
         We need their full first name to check their identity.
-        If you don't give us this, it could delay your application.
+        If you don't give us this, it could delay your proposal.
       lastName: Last name
     dates:
       startDate: Start date
