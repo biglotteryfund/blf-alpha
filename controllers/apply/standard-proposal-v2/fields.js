@@ -274,6 +274,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `What area will most of the project take place in?`,
                 cy: ``,
             }),
+            explanation: localise({
+                en: oneLine`If your project covers more than one area please
+                tell us where most of it will take place.`,
+                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`,
+            }),
             defaultOption: localise({
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad',
