@@ -1092,6 +1092,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: false,
             messages: [
                 {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter a valid number.`,
+                        cy: ``
+                    })
+                },
+                {
                     type: 'number.max',
                     message: localise({
                         en:
