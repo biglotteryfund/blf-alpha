@@ -444,14 +444,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total cost for your project',
+                        en: 'Enter an amount.',
                         cy: 'Rhowch gyfanswm cost eich prosiect',
                     }),
                 },
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: `Total cost must be a whole number (eg. no decimal point)`,
+                        en: `The amount you ask for must be a whole number (eg. no decimal point)`,
                         cy: `Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)`,
                     }),
                 },
