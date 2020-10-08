@@ -4,6 +4,7 @@ const get = require('lodash/fp/get');
 const { findLocationName } = require('./lib/locations');
 
 const formBuilder = require('./form');
+const formBuilderV2 = require('../standard-proposal-v2/form');
 const config = require('config');
 const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
@@ -56,7 +57,9 @@ function details(application, data, locale) {
 
 function enrichPending(application, locale = 'en') {
     const data = application.applicationData || {};
-    const form = formBuilder({ locale, data });
+    const form = enableStandardV2
+        ? formBuilderV2({ locale, data })
+        : formBuilder({ locale, data });
 
     const defaults = {
         type: 'pending',
