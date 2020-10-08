@@ -887,7 +887,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             explanation: localise({
                 en: oneLine`This is how you might be known if you're not just known 
-                by your legal name, ${legalName}.`,
+                by your legal name, <strong>${legalName}</strong>.`,
                 cy: ``,
             }),
             schema: Joi.when('organisationDifferentName', {
