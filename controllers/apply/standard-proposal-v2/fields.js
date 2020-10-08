@@ -889,6 +889,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldOrganisationTradingName() {
         const legalName = get('organisationLegalName')(data);
+        function explanation() {
+            if (legalName) {
+                return localise({
+                    en: oneLine`This is how you might be known if you're not just known 
+                by your legal name, <strong>${legalName}</strong>.`,
+                    cy: ``,
+                });
+            } else {
+                return localise({
+                    en: oneLine`This is how you might be known if you're not just known 
+                by your legal name.`,
+                    cy: ``,
+                });
+            }
+        }
         const maxLength = 255;
         return new Field({
             locale: locale,
@@ -898,11 +913,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     'Tell us the name your organisation uses in your day-to-day work',
                 cy: '',
             }),
-            explanation: localise({
-                en: oneLine`This is how you might be known if you're not just known 
-                by your legal name, <strong>${legalName}</strong>.`,
-                cy: ``,
-            }),
+            explanation: explanation(),
             schema: Joi.when('organisationDifferentName', {
                 is: 'yes',
                 then: Joi.string()
