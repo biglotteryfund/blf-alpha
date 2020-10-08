@@ -1082,10 +1082,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         who have lived through challenges the organisation is trying to tackle.</p>
                       <p>For example:</p>
                       <ul>
-                        <li>A charity working with care experienced people being led by people who have been in care.</li>
-                        <li>An organisation working with disabled people being led by disabled people.</li>
-                        <li>An organisation that works in or with particular Black, Asian or Minority Ethnic (BAME) communities having a leadership team that reflects those communities.</li>
-                        <li>An organisation that provides support to people affected by autism where someone from the organisation has a family member with autism.</li>
+                        <li>a charity working with care experienced people being led by people who have been in care</li>
+                        <li>an organisation working with disabled people being led by disabled people</li>
+                        <li>an organisation that works in or with particular Black, Asian or Minority Ethnic (BAME) communities having a leadership team that reflects those communities</li>
+                        <li>an organisation that provides support to people affected by autism where someone from the organisation has a family member with autism.</li>
                       </ul>`,
                 cy: ``,
             }),
