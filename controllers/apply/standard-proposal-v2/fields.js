@@ -31,6 +31,8 @@ const {
     northernIrelandLocationOptions,
 } = require('./lib/locations');
 
+const fieldProjectLocationPostcode = require('./fields/project-postcode');
+
 const {
     fieldBeneficiariesGroups,
     fieldBeneficiariesGroupsAge,
@@ -338,36 +340,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en: `Project locations must be ${maxLength} characters or less`,
                         cy: `Rhaid i leoliadau’r prosiect fod yn llai na ${maxLength} nod`,
-                    }),
-                },
-            ],
-        });
-    }
-
-    function fieldProjectLocationPostcode() {
-        return new Field({
-            locale: locale,
-            name: 'projectPostcode',
-            label: localise({
-                en: `What is the postcode of where your project will take place?`,
-                cy: `Beth yw côd post lleoliad eich prosiect?`,
-            }),
-            explanation: localise({
-                en: `<p>If your project will take place across different locations,
-                please use the postcode where most of the project will take place.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
-                cy: `<p>Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
-                defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
-            }),
-            attributes: { size: 10, autocomplete: 'postal-code' },
-            schema: Joi.string().postcode().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn',
                     }),
                 },
             ],
@@ -1517,7 +1489,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 projectRegions: fieldProjectRegions(),
                 projectLocation: fieldProjectLocation(),
                 projectLocationDescription: fieldProjectLocationDescription(),
-                projectLocationPostcode: fieldProjectLocationPostcode(),
+                projectLocationPostcode: fieldProjectLocationPostcode(locale),
                 projectTotalCost: fieldProjectTotalCost(),
                 projectCosts: fieldProjectCosts(),
                 projectSpend: fieldProjectSpend(),
@@ -1771,7 +1743,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 projectRegions: fieldProjectRegions(),
                 projectLocation: fieldProjectLocation(),
                 projectLocationDescription: fieldProjectLocationDescription(),
-                projectLocationPostcode: fieldProjectLocationPostcode(),
+                projectLocationPostcode: fieldProjectLocationPostcode(locale),
                 projectCosts: fieldProjectCosts(),
                 projectDurationYears: fieldProjectDurationYears(),
                 projectWebsite: fieldProjectWebsite(),
