@@ -420,9 +420,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectCosts() {
         function schema() {
             if (projectCountries.includes('england')) {
-                return Joi.number().min(10001).max(Joi.ref('projectTotalCost'));
+                return Joi.friendlyNumber()
+                    .integer()
+                    .min(10001)
+                    .max(Joi.ref('projectTotalCost'));
             } else {
-                return Joi.number().min(10001).max(1000000000);
+                return Joi.friendlyNumber()
+                    .integer()
+                    .min(10001)
+                    .max(1000000000);
             }
         }
 
