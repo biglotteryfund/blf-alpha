@@ -739,12 +739,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 <p>What do we mean by community?</p>
                 <p>A community can be made up of:</p>
                 <ul>
-                        <li>People living in the same area</li>
-                        <li>People who have similar interests or life experiences,
+                        <li>people living in the same area</li>
+                        <li>people who have similar interests or life experiences,
                             but might not live in the same area</li>
-                        <li>Even though schools can be at the heart of a
-                            community—we'll only fund schools that also
-                            benefit the communities around them.</li>
+                        <li>schools that also benefit the communities around them 
+                            (even though schools can be at the heart of a community, 
+                            we'll only fund projects that also benefit these communities).</li>
                     </ul>
                     <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                 cy: ``,
@@ -771,10 +771,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `<p>Tell us about how this project will fit in with other local activities.</p>
                 <p>You might want to to tell us about:</p>
                 <ul>
-                    <li>Any gaps in local services your work will fill.</li>
-                    <li>What other local activities your work will complement.</li>
-                    <li>What links you already have in the community that will help you deliver the project.</li>
-                    <li>If this project is being delivered in partnership, tell us the names of your partners and the background of you all working together.</li>
+                    <li>any gaps in local services your work will fill</li>
+                    <li>what other local activities your work will complement</li>
+                    <li>what links you already have in the community that will help you deliver the project</li>
+                    <li>if this project is being delivered in partnership, tell us the names of your partners and the background of you all working together.</li>
                 </ul>
                 <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                     cy: ``,
@@ -784,11 +784,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `<p>Tell us about how this project will fit in with other local activities.</p>
                 <p>You might want to to tell us about:</p>
                 <ul>
-                    <li>What makes your organisation best placed to carry out the project</li>
-                    <li>Any gaps in local services your work will fill.</li>
-                    <li>What other local activities your work will complement.</li>
-                    <li>What links you already have in the community that will help you deliver the project.</li>
-                    <li>How you will work together with other organisations in your community.</li>
+                    <li>what makes your organisation best placed to carry out the project</li>
+                    <li>any gaps in local services your work will fill</li>
+                    <li>what other local activities your work will complement</li>
+                    <li>what links you already have in the community that will help you deliver the project</li>
+                    <li>how you will work together with other organisations in your community.</li>
                 </ul>
                 <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                     cy: ``,
