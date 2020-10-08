@@ -684,12 +684,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>Tell us:</p>
                 <ul>
-                    <li>What you would like to do</li>
-                    <li>Who will benefit from it</li>
-                    <li>What difference your project will make</li>
-                    <li>Is it something new, or are you continuing
+                    <li>what you would like to do</li>
+                    <li>who will benefit from it</li>
+                    <li>what difference your project will make</li>
+                    <li>if it's something new, or are you continuing
                         something that has worked well previously?
-                        We want to fund both types of projects</li>
+                        We want to fund both types of projects.</li>
                 </ul>
                 <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
             }),
@@ -1095,8 +1095,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Enter a valid number.`,
-                        cy: ``
-                    })
+                        cy: ``,
+                    }),
                 },
                 {
                     type: 'number.max',
