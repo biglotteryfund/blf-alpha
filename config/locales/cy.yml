@@ -217,6 +217,7 @@ toplevel:
     disclaimer: Am ystadegau thematig (e.e. amgylcheddol, iechyd a lles, a.y.y.b.), rydym wedi cyfri prosiectau sy’n cynnwys y themâu hyn, ond nid yn gyfan gwbl.
   newsletter:
     title: e-fwletin
+    latest: Cylchlythyrau diweddaraf
     standard:
       heading: Mwy o wybodaeth am ein grantiau
       intro: >
@@ -224,9 +225,8 @@ toplevel:
     stakeholder:
       heading: Cylchlythyr Mewnwelediadau
       intro: >
-        <p>Bydd ein cylchlythyr polisi a mewnwelediadau yn rhannu'r dystiolaeth, y dysgu a'r data gwerthfawr a gasglwn gan y bobl, y prosiectau a'r cymunedau yr ydym yn eu cefnogi.</p>
-        <p>Byddwn yn edrych ar gyflawniadau, llwyddiannau a heriau'r sector a hefyd yn rhannu newyddion am ein hariannu a'n gweithgaredd ledled y DU. Cofrestrwch heddiw i'w anfon yn uniongyrchol i'ch mewnflwch.<p>
-        <p>Byddwn yn lansio'r cylchlythyr dros yr haf.</p>
+        <p>Ein cylchlythyr mewnwelediadau yw'r lle gorau i gael y wybodaeth ddiweddaraf am ymchwil, digwyddiadau, yn ogystal â chyhoeddiadau am grantiau a newyddion diddorol eraill o bob rhan o Gronfa Gymunedol y Loteri Genedlaethol.</p>
+        <p>Cofrestrwch isod i danysgrifio a derbyn diweddariadau rheolaidd gennym ni.</p>
     locations:
       england: Lloegr
       wales: Cymru
