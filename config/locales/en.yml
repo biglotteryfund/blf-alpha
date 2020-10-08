@@ -920,6 +920,7 @@ apply:
   saving: Saving
   progressSaved: Progress saved
   edit: Edit
+  continueIncomplete: Continue application
   submit: Submit application
   lastSaveTimeText: Last successful save
   localSaveWarning:
