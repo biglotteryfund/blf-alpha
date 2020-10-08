@@ -948,7 +948,9 @@ module.exports = function ({
                 cy: 'Eich prosiect',
             }),
             summary: localise({
-                en: `Please tell us about your project in this section.`,
+                en: oneLine`Please tell us about your project in this section. This 
+                is the most important section when it comes to making a decision 
+                about whether you will receive funding.`,
                 cy: ``,
             }),
             steps: steps(),
