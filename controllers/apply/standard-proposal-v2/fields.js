@@ -64,6 +64,7 @@ const {
 const fieldContactAddressHistory = require('./fields/contact-address-history');
 
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
+const fieldSMContactCommunicationNeeds = require('./fields/contact-communication-needs');
 
 const { stripIfExcludedOrgType } = require('./fields/organisation-type');
 
@@ -1667,7 +1668,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         name: 'mainContactLanguagePreference',
                     }
                 ),
-                mainContactCommunicationNeeds: fieldContactCommunicationNeeds(
+                mainContactCommunicationNeeds: fieldSMContactCommunicationNeeds(
                     locale,
                     {
                         name: 'mainContactCommunicationNeeds',
@@ -1731,7 +1732,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         name: 'seniorContactLanguagePreference',
                     }
                 ),
-                seniorContactCommunicationNeeds: fieldContactCommunicationNeeds(
+                seniorContactCommunicationNeeds: fieldSMContactCommunicationNeeds(
                     locale,
                     {
                         name: 'seniorContactCommunicationNeeds',
