@@ -698,11 +698,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `<p>Tell us:</p>
                 <ul>
                     <li>what you would like to do</li>
-                    <li>who will benefit from it</li>
+                    <li>who will benefit from this project</li>
                     <li>what difference your project will make</li>
                     <li>if it's something new, or are you continuing
-                        something that has worked well previously?
-                        We want to fund both types of projects.</li>
+                        something that has worked well previously -
+                        we want to fund both types of projects.</li>
                 </ul>
                 <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
             }),
