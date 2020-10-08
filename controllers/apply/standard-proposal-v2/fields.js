@@ -1011,7 +1011,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en:
-                            'Tell us how many people your whole organisation supports.',
+                            'Tell us how many people your whole organisation supports. Please enter a valid number.',
                         cy: '',
                     }),
                 },
@@ -1038,7 +1038,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en:
-                            'Tell us how many volunteers you have in your whole organisation.',
+                            'Tell us how many volunteers you have in your whole organisation. Please enter a valid number.',
                         cy: '',
                     }),
                 },
@@ -1066,7 +1066,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en:
-                            'Tell us how many full-time equivalent (FTE) staff work for your whole organisation.',
+                            'Tell us how many full-time equivalent (FTE) staff work for your whole organisation. Please enter a valid number.',
                         cy: '',
                     }),
                 },
