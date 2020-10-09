@@ -12,9 +12,7 @@ module.exports = function ({ data = {} }) {
                 <h3>What happens next?</h3>
                 <p>Your answers have been passed on to a funding officer, who will use this information 
                 to continue assessing your funding proposal.</p>
-                <p>We’ll aim to tell you our decision in the next 12 weeks.</p>
-                <p>Any questions in the meantime? <a href="https://www.tnlcommunityfund.org.uk/about/contact-us">Contact us</a></p>
-                `;
+                <p>We’ll aim to tell you our decision in the next 12 weeks.</p>`;
         } else {
             return `<p>
                 We’re now prioritising proposals for COVID-19 related projects,

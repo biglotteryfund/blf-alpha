@@ -45,17 +45,13 @@ module.exports = {
                       Or a group that aims to empower African women in the community—this group is
                       specifically for people from a particular ethnic background.
                     </p>
-                    <p>Check the one that applies:</p>`,
-                cy: `<p>Beth ydym yn ei olygu gan brosiectau i grwpiau penodol?</p>
                     <p>
-                      Mae clwb chwaraeon cadair olwyn yn le i bobl anabl gymryd
-                      rhan mewn chwaraeon cadair olwyn. Felly, mae hwn yn brosiect
-                      sydd wedi ei ddylunio’n arbennig i bobl anabl. Neu grŵp
-                      sydd wedi’i gynllunio i awdurdodi menywod Affricanaidd
-                      yn y gymuned – mae’r grŵp hwn yn benodol i bobl o
-                      gefndir ethnig arbennig. 
+                        Even if a wider community participates in the project in some way, this project 
+                        might still be for a specific group. For example, anyone can participate in 
+                        International Women's Day, but the specific group it's for is women.
                     </p>
-                    <p>Dewiswch y rhai sy’n berthnasol:</p>`,
+                    <p>Check the one that applies:</p>`,
+                cy: ``,
             }),
             options: [
                 {

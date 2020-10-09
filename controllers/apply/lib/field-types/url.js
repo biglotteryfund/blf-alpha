@@ -20,18 +20,11 @@ class UrlField extends Field {
                     cy: ``,
                 }),
             },
-            {
-                type: 'string.domain',
-                message: this.localise({
-                    en: `Organisation website must be in a valid URL format`,
-                    cy: ``,
-                }),
-            },
         ];
     }
 
     defaultSchema() {
-        const baseSchema = Joi.string().domain();
+        const baseSchema = Joi.string();
 
         if (this.isRequired) {
             return baseSchema.required();
@@ -42,7 +35,7 @@ class UrlField extends Field {
 
     get displayValue() {
         if (this.value) {
-            return `http://${this.value.toLocaleString()}`;
+            return `${this.value.toLocaleString()}`;
         } else {
             return '';
         }

@@ -31,6 +31,8 @@ const {
     northernIrelandLocationOptions,
 } = require('./lib/locations');
 
+const fieldProjectLocationPostcode = require('./fields/project-postcode');
+
 const {
     fieldBeneficiariesGroups,
     fieldBeneficiariesGroupsAge,
@@ -64,6 +66,7 @@ const {
 const fieldContactAddressHistory = require('./fields/contact-address-history');
 
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
+const fieldSMContactCommunicationNeeds = require('./fields/contact-communication-needs');
 
 const { stripIfExcludedOrgType } = require('./fields/organisation-type');
 
@@ -273,6 +276,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `What area will most of the project take place in?`,
                 cy: ``,
             }),
+            explanation: localise({
+                en: oneLine`If your project covers more than one area please
+                tell us where most of it will take place.`,
+                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`,
+            }),
             defaultOption: localise({
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad',
@@ -337,36 +346,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    function fieldProjectLocationPostcode() {
-        return new Field({
-            locale: locale,
-            name: 'projectPostcode',
-            label: localise({
-                en: `What is the postcode of where your project will take place?`,
-                cy: `Beth yw côd post lleoliad eich prosiect?`,
-            }),
-            explanation: localise({
-                en: `<p>If your project will take place across different locations,
-                please use the postcode where most of the project will take place.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
-                cy: `<p>Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
-                defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.</p>
-                <p>If you do not know the postcode, you can use the <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> to try and find it.</p>`,
-            }),
-            attributes: { size: 10, autocomplete: 'postal-code' },
-            schema: Joi.string().postcode().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn',
-                    }),
-                },
-            ],
-        });
-    }
-
     function fieldProjectTotalCost() {
         return new CurrencyField({
             locale: locale,
@@ -420,9 +399,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectCosts() {
         function schema() {
             if (projectCountries.includes('england')) {
-                return Joi.number().min(10001).max(Joi.ref('projectTotalCost'));
+                return Joi.friendlyNumber()
+                    .integer()
+                    .min(10001)
+                    .max(Joi.ref('projectTotalCost'));
             } else {
-                return Joi.number().min(10001).max(1000000000);
+                return Joi.friendlyNumber()
+                    .integer()
+                    .min(10001)
+                    .max(1000000000);
             }
         }
 
@@ -444,14 +429,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total cost for your project',
+                        en: 'Enter an amount.',
                         cy: 'Rhowch gyfanswm cost eich prosiect',
                     }),
                 },
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: `Total cost must be a whole number (eg. no decimal point)`,
+                        en: `The amount you ask for must be a whole number (eg. no decimal point)`,
                         cy: `Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)`,
                     }),
                 },
@@ -684,12 +669,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>Tell us:</p>
                 <ul>
-                    <li>What you would like to do</li>
-                    <li>Who will benefit from it</li>
-                    <li>What difference your project will make</li>
-                    <li>Is it something new, or are you continuing
-                        something that has worked well previously?
-                        We want to fund both types of projects</li>
+                    <li>what you would like to do</li>
+                    <li>who will benefit from this project</li>
+                    <li>what difference your project will make</li>
+                    <li>if it's something new, or are you continuing
+                        something that has worked well previously -
+                        we want to fund both types of projects.</li>
                 </ul>
                 <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
             }),
@@ -726,12 +711,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 <p>What do we mean by community?</p>
                 <p>A community can be made up of:</p>
                 <ul>
-                        <li>People living in the same area</li>
-                        <li>People who have similar interests or life experiences,
+                        <li>people living in the same area</li>
+                        <li>people who have similar interests or life experiences,
                             but might not live in the same area</li>
-                        <li>Even though schools can be at the heart of a
-                            community—we'll only fund schools that also
-                            benefit the communities around them.</li>
+                        <li>schools that also benefit the communities around them 
+                            (even though schools can be at the heart of a community, 
+                            we'll only fund projects that also benefit these communities).</li>
                     </ul>
                     <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                 cy: ``,
@@ -758,10 +743,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `<p>Tell us about how this project will fit in with other local activities.</p>
                 <p>You might want to to tell us about:</p>
                 <ul>
-                    <li>Any gaps in local services your work will fill.</li>
-                    <li>What other local activities your work will complement.</li>
-                    <li>What links you already have in the community that will help you deliver the project.</li>
-                    <li>If this project is being delivered in partnership, tell us the names of your partners and the background of you all working together.</li>
+                    <li>any gaps in local services your work will fill</li>
+                    <li>what other local activities your work will complement</li>
+                    <li>what links you already have in the community that will help you deliver the project</li>
+                    <li>if this project is being delivered in partnership, tell us the names of your partners and the background of you all working together.</li>
                 </ul>
                 <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                     cy: ``,
@@ -771,11 +756,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `<p>Tell us about how this project will fit in with other local activities.</p>
                 <p>You might want to to tell us about:</p>
                 <ul>
-                    <li>What makes your organisation best placed to carry out the project</li>
-                    <li>Any gaps in local services your work will fill.</li>
-                    <li>What other local activities your work will complement.</li>
-                    <li>What links you already have in the community that will help you deliver the project.</li>
-                    <li>How you will work together with other organisations in your community.</li>
+                    <li>what makes your organisation best placed to carry out the project</li>
+                    <li>any gaps in local services your work will fill</li>
+                    <li>what other local activities your work will complement</li>
+                    <li>what links you already have in the community that will help you deliver the project</li>
+                    <li>how you will work together with other organisations in your community.</li>
                 </ul>
                 <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                     cy: ``,
@@ -876,6 +861,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldOrganisationTradingName() {
         const legalName = get('organisationLegalName')(data);
+        function explanation() {
+            if (legalName) {
+                return localise({
+                    en: oneLine`This is how you might be known if you're not just known 
+                by your legal name, <strong>${legalName}</strong>.`,
+                    cy: ``,
+                });
+            } else {
+                return localise({
+                    en: oneLine`This is how you might be known if you're not just known 
+                by your legal name.`,
+                    cy: ``,
+                });
+            }
+        }
         const maxLength = 255;
         return new Field({
             locale: locale,
@@ -885,11 +885,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     'Tell us the name your organisation uses in your day-to-day work',
                 cy: '',
             }),
-            explanation: localise({
-                en: oneLine`This is how you might be known if you're not just known 
-                by your legal name, ${legalName}.`,
-                cy: ``,
-            }),
+            explanation: explanation(),
             schema: Joi.when('organisationDifferentName', {
                 is: 'yes',
                 then: Joi.string()
@@ -1005,7 +1001,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en:
-                            'Tell us how many people your whole organisation supports.',
+                            'Tell us how many people your whole organisation supports. Please enter a valid number.',
                         cy: '',
                     }),
                 },
@@ -1032,7 +1028,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en:
-                            'Tell us how many volunteers you have in your whole organisation.',
+                            'Tell us how many volunteers you have in your whole organisation. Please enter a valid number.',
                         cy: '',
                     }),
                 },
@@ -1060,7 +1056,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en:
-                            'Tell us how many full-time equivalent (FTE) staff work for your whole organisation.',
+                            'Tell us how many full-time equivalent (FTE) staff work for your whole organisation. Please enter a valid number.',
                         cy: '',
                     }),
                 },
@@ -1082,15 +1078,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         who have lived through challenges the organisation is trying to tackle.</p>
                       <p>For example:</p>
                       <ul>
-                        <li>A charity working with care experienced people being led by people who have been in care.</li>
-                        <li>An organisation working with disabled people being led by disabled people.</li>
-                        <li>An organisation that works in or with particular Black, Asian or Minority Ethnic (BAME) communities having a leadership team that reflects those communities.</li>
-                        <li>An organisation that provides support to people affected by autism where someone from the organisation has a family member with autism.</li>
+                        <li>a charity working with care experienced people being led by people who have been in care</li>
+                        <li>an organisation working with disabled people being led by disabled people</li>
+                        <li>an organisation that works in or with particular Black, Asian or Minority Ethnic (BAME) communities having a leadership team that reflects those communities</li>
+                        <li>an organisation that provides support to people affected by autism where someone from the organisation has a family member with autism.</li>
                       </ul>`,
                 cy: ``,
             }),
             isRequired: false,
             messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter a valid number.`,
+                        cy: ``,
+                    }),
+                },
                 {
                     type: 'number.max',
                     message: localise({
@@ -1486,7 +1489,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 projectRegions: fieldProjectRegions(),
                 projectLocation: fieldProjectLocation(),
                 projectLocationDescription: fieldProjectLocationDescription(),
-                projectLocationPostcode: fieldProjectLocationPostcode(),
+                projectLocationPostcode: fieldProjectLocationPostcode(locale),
                 projectTotalCost: fieldProjectTotalCost(),
                 projectCosts: fieldProjectCosts(),
                 projectSpend: fieldProjectSpend(),
@@ -1654,7 +1657,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         name: 'mainContactLanguagePreference',
                     }
                 ),
-                mainContactCommunicationNeeds: fieldContactCommunicationNeeds(
+                mainContactCommunicationNeeds: fieldSMContactCommunicationNeeds(
                     locale,
                     {
                         name: 'mainContactCommunicationNeeds',
@@ -1718,7 +1721,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         name: 'seniorContactLanguagePreference',
                     }
                 ),
-                seniorContactCommunicationNeeds: fieldContactCommunicationNeeds(
+                seniorContactCommunicationNeeds: fieldSMContactCommunicationNeeds(
                     locale,
                     {
                         name: 'seniorContactCommunicationNeeds',
@@ -1740,7 +1743,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 projectRegions: fieldProjectRegions(),
                 projectLocation: fieldProjectLocation(),
                 projectLocationDescription: fieldProjectLocationDescription(),
-                projectLocationPostcode: fieldProjectLocationPostcode(),
+                projectLocationPostcode: fieldProjectLocationPostcode(locale),
                 projectCosts: fieldProjectCosts(),
                 projectDurationYears: fieldProjectDurationYears(),
                 projectWebsite: fieldProjectWebsite(),

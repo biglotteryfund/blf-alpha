@@ -133,14 +133,15 @@ module.exports = function ({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect',
             }),
-            fieldsets: [{
-                fields: fields(),
-                introduction: localise({
-                    en: `We understand that your costs can change. We just need some estimates at this stage.`,
-                    cy: ``
-                })
-            }],
-
+            fieldsets: [
+                {
+                    fields: fields(),
+                    introduction: localise({
+                        en: `We understand that your costs can change. We just need some estimates at this stage.`,
+                        cy: ``,
+                    }),
+                },
+            ],
         });
     }
 
@@ -629,9 +630,9 @@ module.exports = function ({
                             any funding is delivered as set out in the application form, and that the
                             funded organisation meets our monitoring requirements. Our identity checks may 
                             appear on a credit report, but it’s not a credit check and can only be seen by 
-                            the person we’re checking, so their credit rating won’t be affected. You can 
-                            find out more 
-                            <a href="https://www.tnlcommunityfund.org.uk/funding/funding-guidance/information-checks">here</a>.                           
+                            the person we’re checking, so their credit rating won’t be affected. Find out 
+                            more about the checks we 
+                            <a href="https://www.tnlcommunityfund.org.uk/funding/funding-guidance/information-checks">carry out on your information</a>.                           
                         </p>`,
                         cy: `
                         <p>
@@ -709,9 +710,9 @@ module.exports = function ({
                                 need to hold a particular position. Our identity checks 
                                 may appear on a credit report, but it’s not a credit 
                                 check and can only be seen by the person we’re checking, 
-                                so their credit rating won’t be affected. You can find 
-                                out more 
-                                <a href="https://www.tnlcommunityfund.org.uk/funding/funding-guidance/information-checks">here</a>.    
+                                so their credit rating won’t be affected. Find out more 
+                                about the checks we 
+                                <a href="https://www.tnlcommunityfund.org.uk/funding/funding-guidance/information-checks">carry out on your information</a>.    
                             </p>
                             <p>
                                 The main contact must be a different person from the senior contact` +
@@ -947,7 +948,9 @@ module.exports = function ({
                 cy: 'Eich prosiect',
             }),
             summary: localise({
-                en: `Please tell us about your project in this section.`,
+                en: oneLine`Please tell us about your project in this section. This 
+                is the most important section when it comes to making a decision 
+                about whether you will receive funding.`,
                 cy: ``,
             }),
             steps: steps(),
@@ -1098,8 +1101,8 @@ module.exports = function ({
                 sectionYourProject(),
                 sectionBeneficiaries(),
                 sectionYourOrganisation(),
-                sectionMainContact(),
                 sectionSeniorContact(),
+                sectionMainContact(),
                 sectionTerms(),
             ];
         } else {

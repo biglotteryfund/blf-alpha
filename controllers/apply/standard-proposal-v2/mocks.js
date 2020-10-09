@@ -31,7 +31,7 @@ function mockResponse(overrides = {}) {
         projectRegions: ['north-west'],
         projectLocation: 'lancashire',
         projectLocationDescription: 'description',
-        projectPostcode: 'B15 1TR',
+        projectLocationPostcode: 'B15 1TR',
         projectTotalCost: '300,000',
         projectCosts: '250000',
         projectSpend: faker.lorem.words(random(50, 300)),
