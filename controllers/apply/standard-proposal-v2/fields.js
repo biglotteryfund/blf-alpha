@@ -372,8 +372,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total cost for your project',
-                        cy: 'Rhowch gyfanswm cost eich prosiect',
+                        en: oneLine`Tell us the total cost of your project — Total cost 
+                        must be the same as or higher than the amount you’re asking us to fund.`,
+                        cy: '',
                     }),
                 },
                 {
@@ -387,7 +388,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'number.min',
                     message: localise({
                         en: oneLine`Tell us the total cost of your project — Total cost 
-                        must be the same as or higher than the amount you’re asking us to fund. `,
+                        must be the same as or higher than the amount you’re asking us to fund.`,
                         cy: ``,
                     }),
                 },
