@@ -584,7 +584,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``,
             }),
             explanation: localise({
-                en: `We can fund projects for up to five years`,
+                en: `We can fund projects for up to five years. If 
+                your project is not an exact number of years, please 
+                round up to the nearest year. For example, for an 18 
+                month project, choose two years.`,
                 cy: ``,
             }),
             options: [
