@@ -223,6 +223,7 @@ toplevel:
     disclaimer: For thematic statistics (eg. environmental, health and wellbeing, etc), we've counted projects which include these themes, but not exclusively.
   newsletter:
     title: Newsletters
+    latest: Latest newsletters
     standard:
       heading: Find out about our funding
       intro: >
@@ -230,9 +231,9 @@ toplevel:
     stakeholder:
       heading: Insights newsletter
       intro: >
-        <p>Our Insights newsletter will share the valuable evidence, learning and data we collect from the people, projects and communities we support.</p>
-        <p>We'll look at the achievements, successes and challenges of the sector and also share news about our funding and activity across the UK. Sign up today to get the newsletter sent direct to your inbox.</p>
-        <p>We will be launching the newsletter over the summer.</p>
+        <p>Our Insights newsletter is the best place to stay up to date with research, events, as well as funding announcements and other interesting news from across The National Lottery Community Fund.</p>
+        <p>Sign up below to subscribe and receive regular updates from us.</p>
+
     locations:
       england: England
       wales: Wales
