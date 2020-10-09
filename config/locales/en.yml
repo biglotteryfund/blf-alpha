@@ -1207,7 +1207,7 @@ yourFundingProposal:
         - We'll email you to let you know we got your proposal
         - There continues to be high demand for the COVID-19 funding, so please bear with us as our funding teams respond to this demand
       introV2: >
-        <p>Get started by telling us which country your project will take place in</p>
+        <p>Get started by telling us which country your project will take place in:</p>
       countries:
         - title: England
           header: Projects in England
