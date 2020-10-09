@@ -386,9 +386,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.min',
                     message: localise({
-                        en: oneLine`The amount you ask for must be more than £10,000.
-                            If you need less than this, 
-                            <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
+                        en: oneLine`Tell us the total cost of your project — Total cost 
+                        must be the same as or higher than the amount you’re asking us to fund. `,
                         cy: ``,
                     }),
                 },
