@@ -502,6 +502,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
         const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
+        const maxDate = moment().add(10, 'years');
+
         const minDateExample = minDate
             .clone()
             .locale(locale)
@@ -519,6 +521,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 then: Joi.any().strip(),
                 otherwise: Joi.dateParts()
                     .minDate(minDate.format('YYYY-MM-DD'))
+                    .maxDate(maxDate.format('YYYY-MM-DD'))
                     .required(),
             });
         }
@@ -555,6 +558,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                             or after ${minDateExample}`,
                         cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich
                             prosiect fod ar neu ar ôl ${minDateExample}`,
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: oneLine`Date you start the project should not 
+                        be more than 10 years in the future of the current date.`,
+                        cy: oneLine``,
                     }),
                 },
             ],
@@ -1049,7 +1060,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                  the total number of hours worked by staff at your organisation by 37.`,
                 cy: ``,
             }),
-            schema: Joi.number().required(),
+            schema: Joi.number().precision(2).required(),
             messages: [
                 {
                     type: 'base',
