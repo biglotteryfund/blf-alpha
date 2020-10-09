@@ -563,8 +563,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateParts.maxDate',
                     message: localise({
-                        en: oneLine`Date you start the project should not 
-                        be more than 10 years in the future of the current date.`,
+                        en: oneLine`The estimated start date for the project 
+                        should not be more than 10 years in the future of 
+                        the current date.`,
                         cy: oneLine``,
                     }),
                 },
