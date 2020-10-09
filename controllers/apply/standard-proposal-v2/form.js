@@ -720,7 +720,7 @@ module.exports = function ({
                                 `. The two contacts also can't be:
                             </p>
                             <ul>                            
-                                <li>married to each other</li>
+                                <li>be married to each other or in a civil partnership</li>
                                 <li>in a long-term relationship together</li>
                                 <li>living at the same address</li>
                                 <li>or related by blood.</li> 
