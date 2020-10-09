@@ -535,8 +535,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
             }),
             explanation: localise({
-                en: oneLine`Don't worry, this can be an estimate. 
-                But please be aware we might take around 12 weeks to assess your proposal.`,
+                en: oneLine`<p>Don't worry, this can be an estimate. 
+                But please be aware we might take around 12 weeks to assess your proposal.</p>
+                <p><strong>For example: ${minDateExample}</strong></p>`,
                 cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
                 Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar.`,
             }),
