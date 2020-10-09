@@ -1750,11 +1750,11 @@ function standardApplicationV2({
         }
 
         if (mock.projectCountries.includes('England')) {
-            fillContact(mock.mainContact, includeAddressAndDob(mock));
-            submitStep();
-
             cy.get('label[for="field-seniorContactRole-1"]').click();
             fillContact(mock.seniorContact, includeAddressAndDob(mock));
+            submitStep();
+
+            fillContact(mock.mainContact, includeAddressAndDob(mock));
             submitStep();
 
             cy.findAllByLabelText('I agree').click({ multiple: true });
