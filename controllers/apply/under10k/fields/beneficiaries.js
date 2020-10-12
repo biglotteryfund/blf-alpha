@@ -110,8 +110,7 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.GENDER,
                     label: localise({
-                        en:
-                            'People of a particular gender (male, female, transgender, intersex, non-binary)',
+                        en: 'People of a particular gender',
                         cy: 'Pobl o ryw penodol',
                     }),
                 },
