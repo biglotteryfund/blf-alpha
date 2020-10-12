@@ -27,66 +27,72 @@
                 <h2>{{ copy.ready.title }}</h2>
                 {{ copy.ready.introV2 | safe}}
 
-                <div>
-                    {% for country in copy.ready.countries %}
-                        <details class="o-details u-margin-bottom-s details-group js-toggleable">
-
-                            <summary class="o-details__summary" data-name="{{ country.title }}">
-                                <span class="btn btn--small">
+                <div id="js-vue" class="no-vue">
+                    <div>
+                        <div class="o-button-group-flex">
+                            {% for country in copy.ready.countries %}
+                                <a href="#{{ country.id }}"
+                                   class="btn btn--small"
+                                   v-on:click.prevent="toggleItemCountry({{ country.toggle }})">
                                     {{ country.title }}
-                                </span>
-                            </summary>
-
-                            <div class="o-details__content">
-                                <h2>{{ country.header }}</h2>
-
-                                {% if country.subheader %}
-                                    <h3>{{ country.subheader }}</h3>
-                                {% endif %}
-
-                                <p>{{ country.content | safe }}</p>
-
-                                {% if country.start %}
-                                    <p>
-                                        <a href="{{ country.start.href }}" class="btn btn--small">
-                                            {{ country.start.title }}
-                                        </a>
-                                    </p>
-                                {% endif %}
-
-                                {% if country.whatNext %}
-                                    <h2>{{ country.whatNext.title }}</h2>
-
-                                    <ul>
-                                        {% for item in country.whatNext.checklist %}
-                                            <li>
-                                                {{ item }}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                    <p>{% if country.whatNext.descripton %}{{ country.whatNext.description }}{% endif %}</p>
-                                {% endif %}
-                            </div>
-
-                        </details>
-
-                    {% endfor %}
-                </div>
-
-                <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
-                    <summary class="summary-hyperlink">
-                            <span class="span-hyperlink">
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <p>
+                            <a href="#no-country"
+                               class="span-hyperlink"
+                               v-on:click.prevent="toggleItemCountry('no-country')">
                                 {{ copy.ready.noCountry.title }}
-                            </span>
-                    </summary>
-                    <div class="o-details__content">
-                        <h2>{{ copy.ready.noCountry.header }}</h2>
-                        <p>{{ copy.ready.noCountry.content | safe }}</p>
+                            </a>
+                        </p>
                     </div>
-                </details>
+
+                    <div v-show="itemCountry !== null">
+                        <div>
+                            {% for country in copy.ready.countries %}
+                                <div class="o-details__content" v-show="itemCountry === {{ country.toggle }}" id="{{ country.id }}">
+                                    <h1 class="t2 form-header__title u-tone-brand-primary">{{ country.header }}</h1>
+
+                                    {% if country.subheader %}
+                                        <h2>{{ country.subheader }}</h2>
+                                    {% endif %}
+
+                                    <p>{{ country.content | safe }}</p>
+
+                                    {% if country.start %}
+                                        <p>
+                                            <a href="{{ country.start.href }}" class="btn btn--small">
+                                                {{ country.start.title }}
+                                            </a>
+                                        </p>
+                                    {% endif %}
+
+                                    {% if country.whatNext %}
+                                        <h2>{{ country.whatNext.title }}</h2>
+
+                                        <ul>
+                                            {% for item in country.whatNext.checklist %}
+                                                <li>
+                                                    {{ item }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <p>{% if country.whatNext.descripton %}{{ country.whatNext.description }}{% endif %}</p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <div v-show="itemCountry === 'no-country'" id="no-country">
+                                <h1 class="t2 form-header__title u-tone-brand-primary">{{ copy.ready.noCountry.header }}</h1>
+                                <p>{{ copy.ready.noCountry.content | safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
         {% endcall %}
+
+
     </main>
 {% endblock %}

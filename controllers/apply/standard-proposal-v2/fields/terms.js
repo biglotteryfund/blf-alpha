@@ -85,9 +85,10 @@ module.exports = {
             name: 'termsAgreement3',
             type: 'checkbox',
             label: localise({
-                en: oneLine`You understand that any grant offered to your 
-                organisation will be subject to our terms and conditions 
-                which are available on our website.`,
+                en: `<p>You understand that any grant offered to your 
+                organisation will be subject to our 
+                <a href="https://www.tnlcommunityfund.org.uk/media/documents/terms-and-conditions-over-10000/Example-Standard-Revenue-Terms-and-Conditions.docx?mtime=20201009142921&focal=none">terms and conditions.</a>
+                </p>`,
                 cy: ``,
             }),
             options: [

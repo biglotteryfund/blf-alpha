@@ -17,9 +17,9 @@ module.exports = function (locale) {
         }),
         explanation: localise({
             en: oneLine`If your project will take place across different locations,
-                please use the postcode where most of the project will take place.`,
-            cy: oneLine`Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
-                defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.`,
+                please use the postcode where most of the project will take place
+                eg. EC4A 1DE.`,
+            cy: ``,
         }),
         attributes: { size: 10, autocomplete: 'postal-code' },
         schema: Joi.string().postcode().required(),

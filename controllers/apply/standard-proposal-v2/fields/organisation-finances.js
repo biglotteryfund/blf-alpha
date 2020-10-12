@@ -7,7 +7,7 @@ const { CurrencyField, DayMonthField } = require('../../lib/field-types');
 const isNewOrganisation = require('../lib/new-organisation');
 
 module.exports = {
-    fieldAccountingYearDate(locale, data = {}) {
+    fieldAccountingYearDate(locale) {
         const localise = get(locale);
 
         return new DayMonthField({
@@ -22,9 +22,7 @@ module.exports = {
                 cy: '<p>Er enghraifft: 31 03</p>',
             }),
             schema(originalSchema) {
-                return isNewOrganisation(get('organisationStartDate')(data))
-                    ? Joi.any().strip()
-                    : originalSchema;
+                return originalSchema;
             },
         });
     },

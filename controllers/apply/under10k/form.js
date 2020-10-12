@@ -10,6 +10,7 @@ const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
+const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 const { isTestServer } = require('../../../common/appData');
 
@@ -762,6 +763,13 @@ module.exports = function ({
     }
 
     function stepMainContact() {
+        function marriedListItem() {
+            if (enableStandardV2) {
+                return 'be married to each other or in a civil partnership';
+            } else {
+                return 'married to each other';
+            }
+        }
         return new Step({
             title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
             noValidate: false,
@@ -796,7 +804,7 @@ module.exports = function ({
                                 `. The two contacts also can't be:
                             </p>
                             <ul>                            
-                                <li>married to each other</li>
+                                <li>${marriedListItem()}</li>
                                 <li>in a long-term relationship together</li>
                                 <li>living at the same address</li>
                                 <li>or related by blood.</li> 

@@ -372,8 +372,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total cost for your project',
-                        cy: 'Rhowch gyfanswm cost eich prosiect',
+                        en: oneLine`Tell us the total cost of your project — Total cost 
+                        must be the same as or higher than the amount you’re asking us to fund.`,
+                        cy: '',
                     }),
                 },
                 {
@@ -386,9 +387,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.min',
                     message: localise({
-                        en: oneLine`The amount you ask for must be more than £10,000.
-                            If you need less than this, 
-                            <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
+                        en: oneLine`Tell us the total cost of your project — Total cost 
+                        must be the same as or higher than the amount you’re asking us to fund.`,
                         cy: ``,
                     }),
                 },
@@ -503,6 +503,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
         const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
 
+        const maxDate = moment().add(10, 'years');
+
         const minDateExample = minDate
             .clone()
             .locale(locale)
@@ -520,6 +522,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 then: Joi.any().strip(),
                 otherwise: Joi.dateParts()
                     .minDate(minDate.format('YYYY-MM-DD'))
+                    .maxDate(maxDate.format('YYYY-MM-DD'))
                     .required(),
             });
         }
@@ -532,8 +535,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
             }),
             explanation: localise({
-                en: oneLine`Don't worry, this can be an estimate. 
-                But please be aware we might take around 12 weeks to assess your proposal.`,
+                en: oneLine`<p>Don't worry, this can be an estimate. 
+                But please be aware we might take around 12 weeks to assess your proposal.</p>
+                <p><strong>For example: ${minDateExample}</strong></p>`,
                 cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
                 Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar.`,
             }),
@@ -558,6 +562,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                             prosiect fod ar neu ar ôl ${minDateExample}`,
                     }),
                 },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: oneLine`The estimated start date for the project 
+                        should not be more than 10 years in the future of 
+                        the current date.`,
+                        cy: oneLine``,
+                    }),
+                },
             ],
         });
     }
@@ -571,7 +584,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``,
             }),
             explanation: localise({
-                en: `We can fund projects for up to five years`,
+                en: `We can fund projects for up to five years. If 
+                your project is not an exact number of years, please 
+                round up to the nearest year. For example, for an 18 
+                month project, choose two years.`,
                 cy: ``,
             }),
             options: [
@@ -1050,7 +1066,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                  the total number of hours worked by staff at your organisation by 37.`,
                 cy: ``,
             }),
-            schema: Joi.number().required(),
+            schema: Joi.number().precision(2).required(),
             messages: [
                 {
                     type: 'base',
