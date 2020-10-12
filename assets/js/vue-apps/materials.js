@@ -33,13 +33,29 @@ function init() {
     }
 
     let langParam = 'lang';
+
+    let countryParam = 'country';
     // make sure we only allow valid language options
     let isValidLangParam = (param) =>
         ['monolingual', 'bilingual'].indexOf(param) !== -1;
 
+    // make sure we only allow valid country options
+    let isValidCountryParam = (param) =>
+        [
+            'england',
+            'northern-ireland',
+            'scotland',
+            'wales',
+            'no-country',
+        ].indexOf(param) !== -1;
+
     // save the language preference in the form so we can redirect to it
     let storeLangPrefInForm = (newState) =>
         $('#js-language-choice').val(newState);
+
+    // save the country preference in the form so we can redirect to it
+    let storeCountryPrefInForm = (newState) =>
+        $('#js-country-choice').val(newState);
 
     new Vue({
         el: mountEl,
@@ -47,6 +63,7 @@ function init() {
         data: {
             orderData: [],
             itemLanguage: null,
+            itemCountry: null,
         },
         created: function () {
             // check for a ?lang param and show the relevant products (if valid)
@@ -54,6 +71,14 @@ function init() {
             if (params[langParam] && isValidLangParam(params[langParam])) {
                 storeLangPrefInForm(params[langParam]);
                 this.itemLanguage = params[langParam];
+            }
+            // check for a ?country param and show the relevant information (if valid)
+            if (
+                params[countryParam] &&
+                isValidCountryParam(params[countryParam])
+            ) {
+                storeCountryPrefInForm(params[countryParam]);
+                this.itemCountry = params[countryParam];
             }
         },
         mounted: function () {
@@ -75,6 +100,21 @@ function init() {
                             null,
                             null,
                             `?${langParam}=${newState}`
+                        );
+                    }
+                }
+            },
+            // swap between countries for standard proposal before you start page
+            toggleItemCountry: function (newState) {
+                if (isValidCountryParam(newState)) {
+                    this.itemCountry = newState;
+                    storeCountryPrefInForm(newState);
+                    // add this to the URL
+                    if (history.replaceState) {
+                        history.replaceState(
+                            null,
+                            null,
+                            `?${countryParam}=${newState}`
                         );
                     }
                 }
