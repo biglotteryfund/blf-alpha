@@ -1053,6 +1053,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: '',
                     }),
                 },
+                {
+                    type: 'integer',
+                    message: localise({
+                        en: 'Please enter a valid number.',
+                        cy: '',
+                    }),
+                },
             ],
         });
     }
