@@ -1016,7 +1016,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 people your whole organisation supports.`,
                 cy: ``,
             }),
-            schema: Joi.number().required(),
+            schema: Joi.friendlyNumber().integer().required(),
             messages: [
                 {
                     type: 'base',
@@ -1043,7 +1043,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 on this project specifically - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
-            schema: Joi.number().required(),
+            schema: Joi.friendlyNumber().integer().required(),
             messages: [
                 {
                     type: 'base',
