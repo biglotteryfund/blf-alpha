@@ -16,9 +16,11 @@ module.exports = function (locale) {
             cy: `Beth yw côd post lleoliad eich prosiect?`,
         }),
         explanation: localise({
-            en: oneLine`If your project will take place across different locations,
-                please use the postcode where most of the project will take place
-                eg. EC4A 1DE.`,
+            en: `<p>If your project will take place across different locations,
+                please use the postcode where most of the project will take place.</p>
+                <p>If you do not know the postcode, you can use the 
+                <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> 
+                to try and find it.</p>`,
             cy: ``,
         }),
         attributes: { size: 10, autocomplete: 'postal-code' },
