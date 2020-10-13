@@ -1107,23 +1107,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Enter a valid number.`,
+                        en: `Please enter a valid whole number.`,
                         cy: ``,
                     }),
                 },
                 {
                     type: 'number.max',
                     message: localise({
-                        en:
-                            "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
+                        en: 'Please enter a valid percentage.',
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.min',
                     message: localise({
-                        en:
-                            "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
+                        en: 'Please enter a valid percentage.',
                         cy: '',
                     }),
                 },
