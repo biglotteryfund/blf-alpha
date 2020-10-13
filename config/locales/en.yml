@@ -932,9 +932,9 @@ apply:
     fullName:
       firstName: First name
       firstNameExplanation: >
-        This can't be a nickname—or a short version of their name.
+        (This can't be a nickname—or a short version of their name.
         We need their full first name to check their identity.
-        If you don't give us this, it could delay your proposal.
+        If you don't give us this, it could delay your proposal.)
       lastName: Last name
     dates:
       startDate: Start date
@@ -1061,7 +1061,7 @@ awardsForAll:
         <p><strong>The two people can’t:</strong></p>
         <ul>
             <li>be related by blood</li>
-            <li>be married to each other</li>
+            <li>be married to each other or in a civil partnership</li>
             <li>be in a long-term relationship with each other</li>
             <li>use the same email address in your application form</li>
         </ul>
@@ -1223,7 +1223,7 @@ yourFundingProposal:
             <p>The two people cannot:</p>
             <ul>
                 <li>be related by blood</li>
-                <li>be married to each other</li>
+                <li>be married to each other or in a civil partnership</li>
                 <li>be in a long-term relationship with each other</li>
                 <li>use the same email address in your application form.</li>
             </ul>

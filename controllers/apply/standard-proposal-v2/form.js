@@ -57,11 +57,9 @@ module.exports = function ({
     function stepProjectCountries() {
         const footer = localise({
             en: `<p>
-                  For projects in Scotland or Wales, or right across the UK, you'll need to <a href="">read our programme pages for funding over £10,000</a> to find out how to apply.
+                  For projects in Scotland or Wales, or right across the UK, you'll need to <a href="/funding/over10k">read our programme pages for funding over £10,000</a> to find out how to apply.
             </p>`,
-            cy: `<p>
-                  For projects in Scotland or Wales, or right across the UK, you'll need to read our programme pages for funding over £10,000 to find out how to apply.
-            </p>`,
+            cy: ``,
         });
 
         return new Step({

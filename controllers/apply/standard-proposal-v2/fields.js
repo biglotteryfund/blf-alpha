@@ -80,6 +80,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
+    const projectTotalCost = get('projectTotalCost')(data);
 
     function fieldProjectName() {
         const maxLength = 80;
@@ -399,10 +400,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectCosts() {
         function schema() {
             if (projectCountries.includes('england')) {
-                return Joi.friendlyNumber()
-                    .integer()
-                    .min(10001)
-                    .max(Joi.ref('projectTotalCost'));
+                if (projectTotalCost) {
+                    return Joi.friendlyNumber()
+                        .integer()
+                        .min(10001)
+                        .max(Joi.ref('projectTotalCost'));
+                } else {
+                    return Joi.friendlyNumber().integer().min(10001).max(0);
+                }
             } else {
                 return Joi.friendlyNumber()
                     .integer()
@@ -685,7 +690,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>Tell us:</p>
                 <ul>
-                    <li>what you would like to do</li>
+                    <li>what you'd like to do</li>
                     <li>who will benefit from this project</li>
                     <li>what difference your project will make</li>
                     <li>if it's something new, or are you continuing
@@ -756,8 +761,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         function explanation() {
             if (projectCountries.includes('england')) {
                 return localise({
-                    en: `<p>Tell us about how this project will fit in with other local activities.</p>
-                <p>You might want to to tell us about:</p>
+                    en: `<p>You might want to to tell us about:</p>
                 <ul>
                     <li>any gaps in local services your work will fill</li>
                     <li>what other local activities your work will complement</li>
@@ -1011,13 +1015,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 people your whole organisation supports.`,
                 cy: ``,
             }),
-            schema: Joi.number().required(),
+            schema: Joi.friendlyNumber().integer().required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'Tell us how many people your whole organisation supports. Please enter a valid number.',
+                        en: 'Please enter a valid whole number.',
                         cy: '',
                     }),
                 },
@@ -1038,13 +1041,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 on this project specifically - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
-            schema: Joi.number().required(),
+            schema: Joi.friendlyNumber().integer().required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'Tell us how many volunteers you have in your whole organisation. Please enter a valid number.',
+                        en: 'Please enter a valid whole number.',
                         cy: '',
                     }),
                 },
@@ -1071,8 +1073,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'Tell us how many full-time equivalent (FTE) staff work for your whole organisation. Please enter a valid number.',
+                        en: 'Please enter a valid number.',
                         cy: '',
                     }),
                 },
@@ -1106,23 +1107,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Enter a valid number.`,
+                        en: `Please enter a valid whole number.`,
                         cy: ``,
                     }),
                 },
                 {
                     type: 'number.max',
                     message: localise({
-                        en:
-                            "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
+                        en: 'Please enter a valid percentage.',
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.min',
                     message: localise({
-                        en:
-                            "Tell us what percentage of your leadership have lived experience of the issues you're trying to address.",
+                        en: 'Please enter a valid percentage.',
                         cy: '',
                     }),
                 },
