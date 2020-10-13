@@ -761,8 +761,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         function explanation() {
             if (projectCountries.includes('england')) {
                 return localise({
-                    en: `<p>Tell us about how this project will fit in with other local activities.</p>
-                <p>You might want to to tell us about:</p>
+                    en: `<p>You might want to to tell us about:</p>
                 <ul>
                     <li>any gaps in local services your work will fill</li>
                     <li>what other local activities your work will complement</li>
