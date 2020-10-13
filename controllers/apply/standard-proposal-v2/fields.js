@@ -80,6 +80,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
+    const projectTotalCost = get('projectTotalCost')(data);
 
     function fieldProjectName() {
         const maxLength = 80;
@@ -399,10 +400,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectCosts() {
         function schema() {
             if (projectCountries.includes('england')) {
-                return Joi.friendlyNumber()
-                    .integer()
-                    .min(10001)
-                    .max(Joi.ref('projectTotalCost'));
+                if (projectTotalCost) {
+                    return Joi.friendlyNumber()
+                        .integer()
+                        .min(10001)
+                        .max(Joi.ref('projectTotalCost'));
+                } else {
+                    return Joi.friendlyNumber().integer().min(10001).max(0);
+                }
             } else {
                 return Joi.friendlyNumber()
                     .integer()
