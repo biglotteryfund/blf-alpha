@@ -690,7 +690,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>Tell us:</p>
                 <ul>
-                    <li>what you would like to do</li>
+                    <li>what you'd like to do</li>
                     <li>who will benefit from this project</li>
                     <li>what difference your project will make</li>
                     <li>if it's something new, or are you continuing
