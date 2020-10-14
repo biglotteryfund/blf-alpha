@@ -28,7 +28,7 @@ module.exports = function (locale) {
             {
                 type: 'base',
                 message: localise({
-                    en: 'Enter a real postcode',
+                    en: 'Enter a postcode',
                     cy: 'Rhowch gôd post go iawn',
                 }),
             },
