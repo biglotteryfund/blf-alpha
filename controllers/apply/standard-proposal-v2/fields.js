@@ -914,14 +914,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please tell us your organisation trading name.',
+                        en: 'Enter your organisation's day-to-day name',
                         cy: '',
                     }),
                 },
                 {
                     type: 'any.invalid',
                     message: localise({
-                        en: 'Trading name must not be the same as legal name',
+                        en: 'Organisation's day-to-day name must not be the same as its legal name',
                         cy: '',
                     }),
                 },
@@ -1016,7 +1016,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please enter a valid whole number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
@@ -1042,7 +1042,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please enter a valid whole number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
@@ -1069,7 +1069,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please enter a valid number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
@@ -1103,21 +1103,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Please enter a valid whole number.`,
+                        en: `Enter a number.`,
                         cy: ``,
                     }),
                 },
                 {
                     type: 'number.max',
                     message: localise({
-                        en: 'Please enter a valid percentage.',
+                        en: 'Number must be between 0 and 100.',
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.min',
                     message: localise({
-                        en: 'Please enter a valid percentage.',
+                        en: 'Number must be between 0 and 100.',
                         cy: '',
                     }),
                 },
@@ -1481,8 +1481,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateParts.minDate',
                     message: localise({
-                        en: oneLine`Their birth date is not valid—please
-                            use four digits, eg. 1986`,
+                        en: oneLine`Birth year must be four digits, for example 1986`,
                         cy: oneLine`Nid yw’r dyddiad geni yn ddilys—defnyddiwch
                             bedwar digid, e.e. 1986`,
                     }),
