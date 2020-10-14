@@ -57,6 +57,7 @@ function initFormRouter({
 
     function setCommonLocals(req, res, next) {
         res.locals.copy = req.i18n.__('apply');
+        res.locals.enableStandardV2 = enableStandardV2;
         res.locals.isBilingual = isBilingual;
 
         const form = formBuilder({
