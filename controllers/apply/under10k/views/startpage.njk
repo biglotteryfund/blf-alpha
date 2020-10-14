@@ -19,7 +19,11 @@
                 {{ copy.beforeYouStart.body | safe }}
 
                 <h2>{{ copy.whatInformation.title }}</h2>
-                {{ copy.whatInformation.body | safe }}
+                {% if enableStandardV2 %}
+                    {{ copy.whatInformation.bodyV2 | safe }}
+                {% else %}
+                    {{ copy.whatInformation.body | safe }}
+                {% endif %}
 
                 <h2>{{ copy.readyToApply.title }}</h2>
             </div>

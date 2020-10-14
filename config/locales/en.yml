@@ -932,6 +932,10 @@ apply:
     fullName:
       firstName: First name
       firstNameExplanation: >
+        This can't be a nickname—or a short version of their name.
+        We need their full first name to check their identity.
+        If you don't give us this, it could delay your proposal.
+      firstNameExplanationV2: >
         (This can't be a nickname—or a short version of their name.
         We need their full first name to check their identity.
         If you don't give us this, it could delay your proposal.)
@@ -1056,6 +1060,48 @@ awardsForAll:
     whatInformation:
       title: What information you need to apply
       body: >
+        <h3>1. The details of two different people from your organisation</h3>
+        <p>One person should be someone we can talk to if we have any questions about your project. The other should  be a senior member of your organisation, who’ll be legally responsible for the funding. Both need to live in the UK.</p>
+        <p><strong>The two people can’t:</strong></p>
+        <ul>
+            <li>be related by blood</li>
+            <li>be married to each other</li>
+            <li>be in a long-term relationship with each other</li>
+            <li>use the same email address in your application form</li>
+        </ul>
+        <p><strong>What details you’ll need:</strong></p>
+        <ul>
+            <li>names, email addresses, telephone numbers</li>
+            <li>home addresses</li>
+            <li>dates of birth</li>
+        </ul>
+        <h3>2. Details about your organisation</h3>
+        <ul>
+            <li>The legal name of your organisation</li>
+            <li>Your organisation’s address</li>
+            <li>What type of organisation it is (for example, a registered charity or not-for-profit company)</li>
+        </ul>
+        <h3>3. Your organisation’s accounts</h3>
+        <p><strong>We want to know the date your accounts end each year.</strong><br/> And how much income you have.</p>
+        <p>
+            <strong>If you don’t have yearly accounts (because your organisation is less than 15 months old).</strong><br/>
+            That’s okay. We can still look at your application.
+        </p>
+        <h3>4. A bank statement from the last 3 months</h3>
+        <p>It should show:</p>
+        <ul>
+            <li>your organisation’s legal name</li>
+            <li>address the statements are sent to</li>
+            <li>your bank’s name</li>
+            <li>the account number and sort code</li>
+            <li>date the statement was issued.</li>
+        </ul>
+        <p>Here’s <a href="/assets/images/apply/under-10k-bank-statement-example.png">a handy picture of the kind of bank statement we’re looking for.</a></p>
+        <h3>5. We ask for information about what sort of project you’d like to do</h3>
+        <p>And how your project will help and involve your community.</p>
+        <h3>6. If you’re not sure about the sort of things we ask for when you apply</h3>
+        <p><a href="/contact">Contact us</a></p>
+      bodyV2: >
         <h3>1. The details of two different people from your organisation</h3>
         <p>One person should be someone we can talk to if we have any questions about your project. The other should  be a senior member of your organisation, who’ll be legally responsible for the funding. Both need to live in the UK.</p>
         <p><strong>The two people can’t:</strong></p>
