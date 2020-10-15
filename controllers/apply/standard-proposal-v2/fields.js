@@ -963,12 +963,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
         const projectCountry = get('projectCountries')(data);
 
-        const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
+        const minDate = moment().subtract(1000, 'years');
 
-        const minDateExample = minDate
-            .clone()
-            .locale(locale)
-            .format('DD MM YYYY');
+        const date = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
+
+        const dateExample = date.clone().locale(locale).format('DD MM YYYY');
 
         const maxDate = moment();
 
@@ -979,7 +978,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
              * and instead pre-fill it with the current date
              * at the point of submission (see forSalesforce())
              */
+
             return Joi.dateParts()
+                .minDate(minDate.format('YYYY-MM-DD'))
                 .maxDate(maxDate.format('YYYY-MM-DD'))
                 .required();
         }
@@ -995,7 +996,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `<p>This is the date your organisation took on its current legal status. 
                 It should be on your governing document. If you do not know the exact date or 
                 month, give us an approximate date.</p>
-                <p><strong>For example: ${minDateExample}</strong></p>`,
+                <p><strong>For example: ${dateExample}</strong></p>`,
                 cy: oneLine``,
             }),
             schema: schema(),
@@ -1012,6 +1013,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en: oneLine`Date you entered must be in the past.`,
                         cy: oneLine``,
+                    }),
+                },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: `Enter your organisation start date`,
+                        cy: ``,
                     }),
                 },
             ],
