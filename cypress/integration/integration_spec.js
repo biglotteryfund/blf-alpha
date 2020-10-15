@@ -1797,8 +1797,7 @@ it('should complete standard your funding proposal in england', () => {
     if (enableStandardV2) {
         standardApplicationV2({
             projectCountry: 'England',
-            projectStart:
-                'Start your funding proposal for a project in England',
+            projectStart: 'Start proposal for a project in England',
             projectCountries: ['England'],
             projectRegions: ['North West', 'South West'],
             projectLocation: 'Bournemouth',
@@ -1826,8 +1825,7 @@ it('should complete standard your funding proposal in northern-ireland', () => {
     if (enableStandardV2) {
         standardApplicationV2({
             projectCountry: 'Northern Ireland',
-            projectStart:
-                'Start your funding proposal for a project in Northern Ireland',
+            projectStart: 'Start proposal for a project in Northern Ireland',
             projectCountries: ['Northern Ireland'],
             projectRegions: [],
             projectLocation: 'Belfast',
