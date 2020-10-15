@@ -1031,19 +1031,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'organisationSupport',
             label: localise({
-                en: `How many people does your whole organisation support?`,
+                en: `How many people in England does your whole organisation directly support in a typical year?`,
                 cy: ``,
             }),
             explanation: localise({
                 en: `We’re not looking for how many people your specific project will support 
-                - we’ll ask for that at the end of the grant. We need to know about how many 
-                people your whole organisation supports.`,
+                - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
             schema: Joi.friendlyNumber().integer().required(),
             messages: [
                 {
                     type: 'base',
+                    message: localise({
+                        en: 'Please enter a valid whole number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.integer',
                     message: localise({
                         en: 'Please enter a valid whole number.',
                         cy: '',
@@ -1075,6 +1081,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: '',
                     }),
                 },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: 'Please enter a valid whole number.',
+                        cy: '',
+                    }),
+                },
             ],
         });
     }
@@ -1084,13 +1097,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'organisationFullTimeStaff',
             label: localise({
-                en: `How many full-time equivalent (FTE) staff work for your whole organisation?`,
+                en: `How many full-time equivalent staff work for your whole organisation?`,
                 cy: ``,
             }),
             explanation: localise({
-                en: `To help you give us an idea, full-time hours are usually around 37 hours per week.
-                 So, to find out how many full-time equivalent staff you have, you need to divide 
-                 the total number of hours worked by staff at your organisation by 37.`,
+                en: `To help you give us an idea, full-time hours are usually around 37 hours 
+                per week. So, to find out how many full-time equivalent staff you have, you 
+                need to divide the total number of hours worked by staff at your organisation by 37.`,
                 cy: ``,
             }),
             schema: Joi.number().precision(2).required(),
