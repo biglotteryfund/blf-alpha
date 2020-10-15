@@ -1621,7 +1621,7 @@ function standardApplicationV2({
             submitStep();
 
             cy.findByLabelText(
-                'How many people does your whole organisation support?'
+                'How many people in England does your whole organisation directly support in a typical year?'
             ).type(mock.organisationSupport);
 
             submitStep();
