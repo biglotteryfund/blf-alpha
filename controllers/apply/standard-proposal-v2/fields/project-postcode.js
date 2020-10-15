@@ -17,6 +17,7 @@ module.exports = function (locale) {
         explanation: localise({
             en: `<p>If your project will take place across different locations,
                 please use the postcode where most of the project will take place.</p>
+                <p><strong>For example: EC4A 1DE</strong></p>
                 <p>If you do not know the postcode, you can use the 
                 <a href="https://www.royalmail.com/find-a-postcode" target="_blank">Royal Mail Postcode Finder</a> 
                 to try and find it.</p>`,
