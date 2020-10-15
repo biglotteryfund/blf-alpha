@@ -1279,6 +1279,7 @@ yourFundingProposal:
                 <li>home addresses</li>
                 <li>dates of birth.</li>
             </ul>
+            <br/>
             <h3>2. Details about your organisation</h3>
             <ul>
                 <li>The legal name of your organisation.</li>
@@ -1287,12 +1288,14 @@ yourFundingProposal:
                 <li>How many people your organisation supports.</li>
                 <li>How many volunteers and staff members you have.</li>
             </ul>
+            <br/>
             <h3>3. Your organisation’s accounts</h3>
             <p>We want to know the date your accounts end each year. And how much income you have.</p>
             <p>
                 If you don’t have yearly accounts (because your organisation is less than 15 months old).<br/>
                 That’s okay. We can still look at your proposal.
             </p>
+            <br/>
             <h3>
                 4. We ask for information about what sort of project you’d like to do.<br/>
                 Tell us.
