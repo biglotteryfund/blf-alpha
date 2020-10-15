@@ -543,8 +543,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: oneLine`<p>Don't worry, this can be an estimate. 
                 But please be aware we might take around 12 weeks to assess your proposal.</p>
                 <p><strong>For example: ${minDateExample}</strong></p>`,
-                cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
-                Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar.`,
+                cy: ``,
             }),
             settings: {
                 minYear: minDate.format('YYYY'),
@@ -952,7 +951,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldOrganisationStartDate() {
+        function getLeadTimeWeeks(country) {
+            const countryLeadTimes = {
+                'england': 0,
+                'northern-ireland': 12,
+            };
+            return countryLeadTimes[country];
+        }
+
         const localise = get(locale);
+
+        const projectCountry = get('projectCountries')(data);
+
+        const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
+
+        const minDateExample = minDate
+            .clone()
+            .locale(locale)
+            .format('DD MM YYYY');
 
         const maxDate = moment();
 
@@ -976,9 +992,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``,
             }),
             explanation: localise({
-                en: oneLine`This is the date your organisation took on its current legal status. 
+                en: `<p>This is the date your organisation took on its current legal status. 
                 It should be on your governing document. If you do not know the exact date or 
-                month, give us an approximate date.`,
+                month, give us an approximate date.</p>
+                <p><strong>For example: ${minDateExample}</strong></p>`,
                 cy: oneLine``,
             }),
             schema: schema(),
