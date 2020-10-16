@@ -1631,7 +1631,7 @@ function standardApplicationV2({
             ).type(mock.organisationVolunteers);
 
             cy.findByLabelText(
-                'How many full-time equivalent (FTE) staff work for your whole organisation?'
+                'How many full-time equivalent staff work for your whole organisation?'
             ).type(mock.organisationFullTimeStaff);
 
             submitStep();
