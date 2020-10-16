@@ -543,8 +543,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: oneLine`<p>Don't worry, this can be an estimate. 
                 But please be aware we might take around 12 weeks to assess your proposal.</p>
                 <p><strong>For example: ${minDateExample}</strong></p>`,
-                cy: oneLine`Peidiwch â phoeni, gall hwn fod yn amcangyfrif. 
-                Ond fel rheol mae'n rhaid i'r mwyafrif o brosiectau ddechrau ar.`,
+                cy: ``,
             }),
             settings: {
                 minYear: minDate.format('YYYY'),
@@ -952,7 +951,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldOrganisationStartDate() {
+        function getLeadTimeWeeks(country) {
+            const countryLeadTimes = {
+                'england': 0,
+                'northern-ireland': 12,
+            };
+            return countryLeadTimes[country];
+        }
+
         const localise = get(locale);
+
+        const projectCountry = get('projectCountries')(data);
+
+        const minDate = moment().subtract(1000, 'years');
+
+        const date = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
+
+        const dateExample = date.clone().locale(locale).format('DD MM YYYY');
 
         const maxDate = moment();
 
@@ -963,7 +978,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
              * and instead pre-fill it with the current date
              * at the point of submission (see forSalesforce())
              */
+
             return Joi.dateParts()
+                .minDate(minDate.format('YYYY-MM-DD'))
                 .maxDate(maxDate.format('YYYY-MM-DD'))
                 .required();
         }
@@ -976,9 +993,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``,
             }),
             explanation: localise({
-                en: oneLine`This is the date your organisation took on its current legal status. 
+                en: `<p>This is the date your organisation took on its current legal status. 
                 It should be on your governing document. If you do not know the exact date or 
-                month, give us an approximate date.`,
+                month, give us an approximate date.</p>
+                <p><strong>For example: ${dateExample}</strong></p>`,
                 cy: oneLine``,
             }),
             schema: schema(),
@@ -997,6 +1015,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: oneLine``,
                     }),
                 },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: `Enter your organisation start date`,
+                        cy: ``,
+                    }),
+                },
             ],
         });
     }
@@ -1006,19 +1031,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'organisationSupport',
             label: localise({
-                en: `How many people does your whole organisation support?`,
+                en: `How many people in England does your whole organisation directly support in a typical year?`,
                 cy: ``,
             }),
             explanation: localise({
                 en: `We’re not looking for how many people your specific project will support 
-                - we’ll ask for that at the end of the grant. We need to know about how many 
-                people your whole organisation supports.`,
+                - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
             schema: Joi.friendlyNumber().integer().required(),
             messages: [
                 {
                     type: 'base',
+                    message: localise({
+                        en: 'Please enter a valid whole number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.integer',
                     message: localise({
                         en: 'Please enter a valid whole number.',
                         cy: '',
@@ -1050,6 +1081,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: '',
                     }),
                 },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: 'Please enter a valid whole number.',
+                        cy: '',
+                    }),
+                },
             ],
         });
     }
@@ -1059,13 +1097,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'organisationFullTimeStaff',
             label: localise({
-                en: `How many full-time equivalent (FTE) staff work for your whole organisation?`,
+                en: `How many full-time equivalent staff work for your whole organisation?`,
                 cy: ``,
             }),
             explanation: localise({
-                en: `To help you give us an idea, full-time hours are usually around 37 hours per week.
-                 So, to find out how many full-time equivalent staff you have, you need to divide 
-                 the total number of hours worked by staff at your organisation by 37.`,
+                en: `To help you give us an idea, full-time hours are usually around 37 hours 
+                per week. So, to find out how many full-time equivalent staff you have, you 
+                need to divide the total number of hours worked by staff at your organisation by 37.`,
                 cy: ``,
             }),
             schema: Joi.number().precision(2).required(),

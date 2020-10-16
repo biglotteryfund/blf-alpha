@@ -1621,7 +1621,7 @@ function standardApplicationV2({
             submitStep();
 
             cy.findByLabelText(
-                'How many people does your whole organisation support?'
+                'How many people in England does your whole organisation directly support in a typical year?'
             ).type(mock.organisationSupport);
 
             submitStep();
@@ -1631,7 +1631,7 @@ function standardApplicationV2({
             ).type(mock.organisationVolunteers);
 
             cy.findByLabelText(
-                'How many full-time equivalent (FTE) staff work for your whole organisation?'
+                'How many full-time equivalent staff work for your whole organisation?'
             ).type(mock.organisationFullTimeStaff);
 
             submitStep();
@@ -1797,8 +1797,7 @@ it('should complete standard your funding proposal in england', () => {
     if (enableStandardV2) {
         standardApplicationV2({
             projectCountry: 'England',
-            projectStart:
-                'Start your funding proposal for a project in England',
+            projectStart: 'Start proposal for a project in England',
             projectCountries: ['England'],
             projectRegions: ['North West', 'South West'],
             projectLocation: 'Bournemouth',
@@ -1826,8 +1825,7 @@ it('should complete standard your funding proposal in northern-ireland', () => {
     if (enableStandardV2) {
         standardApplicationV2({
             projectCountry: 'Northern Ireland',
-            projectStart:
-                'Start your funding proposal for a project in Northern Ireland',
+            projectStart: 'Start proposal for a project in Northern Ireland',
             projectCountries: ['Northern Ireland'],
             projectRegions: [],
             projectLocation: 'Belfast',

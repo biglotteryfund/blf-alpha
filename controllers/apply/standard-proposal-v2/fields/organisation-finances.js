@@ -72,6 +72,13 @@ module.exports = {
                         (e.e. dim pwynt degol)`,
                     }),
                 },
+                {
+                    type: 'number.max',
+                    message: localise({
+                        en: oneLine`Total income must be less than ten digits`,
+                        cy: ``,
+                    }),
+                },
             ],
         });
     },
