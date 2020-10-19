@@ -415,6 +415,26 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     .max(1000000000);
             }
         }
+        function base() {
+            if (projectCountries.includes('england')) {
+                return {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'Enter an amount less than or equal to the total cost.',
+                        cy: '',
+                    }),
+                };
+            } else {
+                return {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter an amount.',
+                        cy: '',
+                    }),
+                };
+            }
+        }
 
         return new CurrencyField({
             locale: locale,
@@ -431,13 +451,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             schema: schema(),
             messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter an amount.',
-                        cy: 'Rhowch gyfanswm cost eich prosiect',
-                    }),
-                },
+                base(),
                 {
                     type: 'number.integer',
                     message: localise({
