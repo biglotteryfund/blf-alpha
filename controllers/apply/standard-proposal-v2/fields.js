@@ -332,7 +332,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Tell us all of the locations that you'll be running your project in`,
+                        en: `Tell us all the locations that you'll be running your project in`,
                         cy: '',
                     }),
                 },
@@ -373,8 +373,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: oneLine`Tell us the total cost of your project — Total cost 
-                        must be the same as or higher than the amount you’re asking us to fund.`,
+                        en: oneLine`Enter the total cost of your project`,
                         cy: '',
                     }),
                 },
@@ -388,8 +387,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.min',
                     message: localise({
-                        en: oneLine`Tell us the total cost of your project — Total cost 
-                        must be the same as or higher than the amount you’re asking us to fund.`,
+                        en: oneLine`Total cost must be the same as or higher than the amount you’re asking us to fund.`,
                         cy: ``,
                     }),
                 },
@@ -471,7 +469,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.max',
                     message: localise({
-                        en: oneLine`The amount you ask for cannot exceed the total cost.`,
+                        en: oneLine`The amount you ask us for cannot be more than the total cost of the project.`,
                         cy: ``,
                     }),
                 },
@@ -574,7 +572,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateParts.minDate',
                     message: localise({
-                        en: oneLine`Date you start the project must be on
+                        en: oneLine`The date you start the project must be on
                             or after ${minDateExample}`,
                         cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich
                             prosiect fod ar neu ar ôl ${minDateExample}`,
@@ -583,9 +581,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateParts.maxDate',
                     message: localise({
-                        en: oneLine`The estimated start date for the project 
-                        should not be more than 10 years in the future of 
-                        the current date.`,
+                        en: oneLine`The date you start the project must be less than 10 years in the future.`,
                         cy: oneLine``,
                     }),
                 },
@@ -626,7 +622,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Select a project duration',
+                        en: 'Select a project length',
                         cy: '',
                     }),
                 },
@@ -855,7 +851,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.max',
                     message: localise({
-                        en: `Full legal name of organisation must be ${maxLength} characters or less`,
+                        en: `The full legal name of organisation must be ${maxLength} characters or less`,
                         cy: `Rhaid i’r enw cyfreithiol llawn fod yn llai na ${maxLength} nod`,
                     }),
                 },
@@ -884,7 +880,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en:
-                            'Tell us if your organisation uses a different name in your day-to-day work.',
+                            'Select yes or no.',
                         cy: '',
                     }),
                 },
@@ -931,14 +927,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please tell us your organisation trading name.',
+                        en: 'Enter your organisation\'s day-to-day name',
                         cy: '',
                     }),
                 },
                 {
                     type: 'any.invalid',
                     message: localise({
-                        en: 'Trading name must not be the same as legal name',
+                        en: 'Organisation\'s day-to-day name must not be the same as its legal name',
                         cy: '',
                     }),
                 },
@@ -1058,14 +1054,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please enter a valid whole number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: 'Please enter a valid whole number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
@@ -1091,14 +1087,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please enter a valid whole number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: 'Please enter a valid whole number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
@@ -1125,7 +1121,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Please enter a valid number.',
+                        en: 'Enter a number.',
                         cy: '',
                     }),
                 },
@@ -1159,21 +1155,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Please enter a valid whole number.`,
+                        en: `Enter a number.`,
                         cy: ``,
                     }),
                 },
                 {
                     type: 'number.max',
                     message: localise({
-                        en: 'Please enter a valid percentage.',
+                        en: 'Number must be between 0 and 100.',
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.min',
                     message: localise({
-                        en: 'Please enter a valid percentage.',
+                        en: 'Number must be between 0 and 100.',
                         cy: '',
                     }),
                 },
@@ -1537,8 +1533,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateParts.minDate',
                     message: localise({
-                        en: oneLine`Their birth date is not valid—please
-                            use four digits, eg. 1986`,
+                        en: oneLine`Birth year must be four digits, for example 1986`,
                         cy: oneLine`Nid yw’r dyddiad geni yn ddilys—defnyddiwch
                             bedwar digid, e.e. 1986`,
                     }),
