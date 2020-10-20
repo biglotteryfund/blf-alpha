@@ -27,6 +27,11 @@
             <dt>{{ labels.applicationDeadline }}</dt>
             <dd>{{ programme.applicationDeadline | safe }}</dd>
         {% endif %}
+        
+        {% if programme.trailText %}
+            <dt>{{ labels.trailText }}</dt>
+            <dd>{{ programme.trailText | safe }}</dd>
+        {% endif %}
     </dl>
 {% endmacro %}
 
