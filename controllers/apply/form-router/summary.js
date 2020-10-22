@@ -66,7 +66,9 @@ module.exports = function (formBuilder) {
             ];
         }
 
-        const featuredErrors = form.validation.featuredMessages;
+        const featuredMessages = form.validation.featuredMessages;
+
+        const featuredErrors = form.getFeaturedErrors(featuredMessages);
 
         if (featuredErrors.length > 0) {
             const msg = [
