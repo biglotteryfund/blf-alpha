@@ -11,6 +11,7 @@ const unset = require('lodash/unset');
 const formidable = require('formidable');
 const config = require('config');
 const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const {
     PendingApplication,
@@ -58,6 +59,7 @@ function initFormRouter({
     function setCommonLocals(req, res, next) {
         res.locals.copy = req.i18n.__('apply');
         res.locals.enableStandardV2 = enableStandardV2;
+        res.locals.enableSimpleV2 = enableSimpleV2;
         res.locals.isBilingual = isBilingual;
 
         const form = formBuilder({

@@ -28,7 +28,11 @@
                 <h2>{{ copy.readyToApply.title }}</h2>
             </div>
 
-            {% set processItemsSource = copy.readyToApply.processMap.processNew %}
+            {% if enableSimpleV2 %}
+                {% set processItemsSource = copy.readyToApply.processMap.processNewV2 %}
+            {% else %}
+                {% set processItemsSource = copy.readyToApply.processMap.processNew %}
+            {% endif %}
 
             {% set processItems = [] %}
             {% for item in processItemsSource %}

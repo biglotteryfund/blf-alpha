@@ -1,6 +1,8 @@
 'use strict';
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const {
     MIN_BUDGET_TOTAL_GBP,
@@ -19,18 +21,30 @@ module.exports = function ({ locale }) {
     const orgMinAgeLabel = localise(ORG_MIN_AGE.label);
 
     function question1() {
+        function unconnectedExplanation() {
+            if (enableSimpleV2) {
+                return localise({
+                    en: oneLine`By unconnected, we mean not a relation by blood, marriage,
+                civil partnership, in a long-term relationship or people living together 
+                at the same address.`,
+                    cy: ``,
+                });
+            } else {
+                return localise({
+                    en: oneLine`By unconnected, we mean not a relation by blood, marriage,
+                in a long-term relationship or people living together at the same address.`,
+                    cy: oneLine`Drwy gysylltiad i’w gilydd, rydym yn golygu ddim yn
+                berthynas drwy waed, mewn perthynas hir dymor neu bobl
+                sy’n byw â’u gilydd yn yr un cyfeiriad.`,
+                });
+            }
+        }
         return {
             question: localise({
                 en: oneLine`Does your organisation have at least two unconnected people on the board or committee?`,
                 cy: oneLine`Oes gan eich sefydliad o leiaf dau berson heb gysylltiad i’w gilydd ar y bwrdd neu bwyllgor?`,
             }),
-            explanation: localise({
-                en: oneLine`By unconnected, we mean not a relation by blood, marriage,
-                in a long-term relationship or people living together at the same address.`,
-                cy: oneLine`Drwy gysylltiad i’w gilydd, rydym yn golygu ddim yn
-                berthynas drwy waed, mewn perthynas hir dymor neu bobl
-                sy’n byw â’u gilydd yn yr un cyfeiriad.`,
-            }),
+            explanation: unconnectedExplanation(),
             yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
             noLabel: localise({ en: 'No', cy: 'Nac oes' }),
             errorMessage: localise({

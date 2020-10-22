@@ -10,7 +10,7 @@ const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const { isTestServer } = require('../../../common/appData');
 
@@ -763,11 +763,18 @@ module.exports = function ({
     }
 
     function stepMainContact() {
-        function marriedListItem() {
-            if (enableStandardV2) {
-                return 'be married to each other or in a civil partnership';
+        function listItems() {
+            if (enableSimpleV2) {
+                return `<li>married to each other</li>
+                <li>in a long-term relationship together</li>
+                <li>living at the same address</li>
+                <li>or related by blood.</li>`;
             } else {
-                return 'married to each other';
+                return `<li>married to each other</li>
+                <li>in a civil partnership with each other</li>
+                <li>in a long-term relationship together</li>
+                <li>living at the same address</li>
+                <li>or related by blood.</li>`;
             }
         }
         return new Step({
@@ -803,11 +810,8 @@ module.exports = function ({
                                 seniorNameMsg +
                                 `. The two contacts also can't be:
                             </p>
-                            <ul>                            
-                                <li>${marriedListItem()}</li>
-                                <li>in a long-term relationship together</li>
-                                <li>living at the same address</li>
-                                <li>or related by blood.</li> 
+                            <ul>                        
+                                ${listItems()}
                             </ul>
                             `,
                             cy:
