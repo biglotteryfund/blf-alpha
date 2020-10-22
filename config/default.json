@@ -31,7 +31,8 @@
   },
   "fundingUnder10k": {
     "enableGovCOVIDUpdates": true,
-    "enableEnglandAutoEndDate": true
+    "enableEnglandAutoEndDate": true,
+    "enablev2":  false
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"],
