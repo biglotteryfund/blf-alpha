@@ -52,7 +52,11 @@
         <p class="u-text-medium s-prose">
             <a href="?show-errors=true">{{ copy.summary.incompleteMessage }}</a>
         </p>
-        <a href="{{ formBaseUrl }}/{{ startPathSlug }}" class="btn">{{ copy.continueIncomplete }}</a>
+        {% if enableStandardV2 %}
+            <a href="{{ formBaseUrl }}/{{ startPathSlug }}" class="btn">{{ copy.continueIncomplete }}</a>
+        {% else %}
+            <a href="?show-errors=true" class="btn">{{ copy.submit }}</a>
+        {% endif %}
     </div>
 {% endmacro %}
 
