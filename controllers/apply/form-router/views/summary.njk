@@ -32,15 +32,20 @@
         <div class="form-errors form-errors--featured" data-testid="form-errors">
             <h2 class="form-errors__title">{{ copy.summary.featuredErrorsTitle }}</h2>
             <div class="form-errors__body">
-                <ol class="form-errors__list">
-                    {% for error in featuredErrors %}
-                        <li>
-                            {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
-                            {{ error.msg | safe }}
-                            {% if error.param %}</a>{% endif %}
-                        </li>
-                    {% endfor %}
-                </ol>
+                {% for step in featuredErrors %}
+                    {% if step.errors.length > 0 %}
+                        <h3 class="form-errors__subtitle_warning">{{ step.title }}</h3>
+                        <ol class="form-errors__list">
+                            {% for error in step.errors %}
+                                <li>
+                                    {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
+                                        {{ error.msg | safe }}
+                                        {% if error.param %}</a>{% endif %}
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     {% endif %}
