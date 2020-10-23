@@ -5,6 +5,8 @@ const differenceBy = require('lodash/differenceBy');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const concat = require('lodash/concat');
+const config = require('config');
+const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 const logger = require('../../../common/logger').child({
     service: 'form-summary',
@@ -43,6 +45,8 @@ module.exports = function (formBuilder) {
     router.get('/', function (req, res) {
         const { copy, currentApplication, currentApplicationData } = res.locals;
 
+        const launchDate = new Date(2020, 11, 16);
+
         const form = formBuilder({
             locale: req.i18n.getLocale(),
             data: currentApplicationData,
@@ -68,7 +72,12 @@ module.exports = function (formBuilder) {
 
         const featuredMessages = form.validation.featuredMessages;
 
-        const featuredErrors = form.getFeaturedErrors(featuredMessages);
+        const featuredErrors =
+            formShortId === 'YFP' &&
+            enableStandardV2 &&
+            currentApplication.dataValues.createdAt > launchDate
+                ? []
+                : form.getFeaturedErrors(featuredMessages);
 
         if (featuredErrors.length > 0) {
             const msg = [
