@@ -248,7 +248,7 @@ module.exports = {
                 </p>
                 <p><strong>Here are some examples of how you could be involving your community:</strong></p>
                 <ul>
-                    ${guidanceListItems()};
+                    ${guidanceListItems()}
                 </ul>`,
                 cy: `<p>
                     Rydym o’r gred fod pobl yn gwybod yr hyn sydd ei angen yn eu
