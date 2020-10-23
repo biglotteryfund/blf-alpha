@@ -216,14 +216,14 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaCommunity(locale) {
+    fieldYourIdeaCommunity(locale, data) {
         const localise = get(locale);
 
         const minWords = 50;
         const maxWords = 200;
 
         function guidanceListItems() {
-            if (enableSimpleV2) {
+            if (enableSimpleV2 && get('projectCountry')(data) === 'england') {
                 return `<li>Having regular chats with community members, in person or on social media</li>
                     <li>Including community members on your board or committee</li>
                     <li>Regular surveys</li>

@@ -166,7 +166,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),
-        yourIdeaCommunity: fieldYourIdeaCommunity(locale),
+        yourIdeaCommunity: fieldYourIdeaCommunity(locale, data),
         projectBudget: fieldProjectBudget(locale),
         projectTotalCosts: fieldProjectTotalCosts(locale, data),
         beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
