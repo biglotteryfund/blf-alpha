@@ -30,16 +30,8 @@ module.exports = {
     /*
      * Fields for form usage
      * */
-    fieldOrganisationType(locale, data = {}, flags = {}) {
+    fieldOrganisationType(locale) {
         const localise = get(locale);
-
-        function includeStatutoryGroups() {
-            if (flags.enableGovCOVIDUpdates) {
-                return get('projectCountry')(data) !== 'england';
-            } else {
-                return true;
-            }
-        }
 
         const options = compact([
             {
@@ -106,21 +98,21 @@ module.exports = {
                     cy: oneLine`Cwmni cofrestredig â Thŷ’r Cwmnïau. A’r Rheolydd Cwmni Budd Cymunedol.`,
                 }),
             },
-            includeStatutoryGroups() && {
+            {
                 value: ORGANISATION_TYPES.SCHOOL,
                 label: localise({
                     en: 'School',
                     cy: 'Ysgol',
                 }),
             },
-            includeStatutoryGroups() && {
+            {
                 value: ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
                 label: localise({
                     en: 'College or University',
                     cy: 'Coleg neu brifysgol',
                 }),
             },
-            includeStatutoryGroups() && {
+            {
                 value: ORGANISATION_TYPES.STATUTORY_BODY,
                 label: localise({
                     en: 'Statutory body',
