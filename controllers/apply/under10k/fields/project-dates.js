@@ -120,22 +120,6 @@ module.exports = {
             .locale(locale)
             .format('DD MM YYYY');
 
-        function schema() {
-            /**
-             * When projectStartDateCheck is asap
-             * we don't show the project start date question
-             * and instead pre-fill it with the current date
-             * at the point of submission (see forSalesforce())
-             */
-            return Joi.when('projectStartDateCheck', {
-                is: 'asap',
-                then: Joi.any().strip(),
-                otherwise: Joi.dateParts()
-                    .minDate(minDate.format('YYYY-MM-DD'))
-                    .required(),
-            });
-        }
-
         return new DateField({
             locale: locale,
             name: 'projectStartDate',
@@ -154,7 +138,9 @@ module.exports = {
             settings: {
                 minYear: minDate.format('YYYY'),
             },
-            schema: schema(),
+            schema: Joi.dateParts()
+                .minDate(minDate.format('YYYY-MM-DD'))
+                .required(),
             messages: [
                 {
                     type: 'base',
