@@ -3,6 +3,8 @@ const get = require('lodash/fp/get');
 const { stripIndents } = require('common-tags');
 
 const { TextareaField } = require('../../lib/field-types');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function wordCountText(locale, maxWords) {
     const localise = get(locale);
@@ -220,6 +222,21 @@ module.exports = {
         const minWords = 50;
         const maxWords = 200;
 
+        function guidanceListItems() {
+            if (enableSimpleV2) {
+                return `<li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>`;
+            } else {
+                return `<li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>
+                    <li>Running open days</li>`;
+            }
+        }
+
         function guidanceText() {
             return localise({
                 en: `<p>
@@ -231,11 +248,7 @@ module.exports = {
                 </p>
                 <p><strong>Here are some examples of how you could be involving your community:</strong></p>
                 <ul>
-                    <li>Having regular chats with community members, in person or on social media</li>
-                    <li>Including community members on your board or committee</li>
-                    <li>Regular surveys</li>
-                    <li>Setting up steering groups</li>
-                    <li>Running open days</li>
+                    ${guidanceListItems()};
                 </ul>`,
                 cy: `<p>
                     Rydym o’r gred fod pobl yn gwybod yr hyn sydd ei angen yn eu
