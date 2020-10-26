@@ -98,8 +98,20 @@ module.exports = {
         const maxWords = 150;
 
         function prioritiesDiversity() {
-            return localise({
-                en: `
+            if (enableSimpleV2) {
+                return localise({
+                    en: `
+                    <ul>
+                        <li>bring people together and build strong relationships in and across communities</li>
+                        <li>improve the places and spaces that matter to communities</li>
+                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
+                        <li>With the COVID-19 pandemic still with us, we will continue to seek to support people and communities most adversely impacted by COVID-19.</li>
+                    </ul>`,
+                    cy: ``,
+                });
+            } else {
+                return localise({
+                    en: `
                     <ul>
                         <li>older people</li>
                         <li>disabled people (including people with long-term health conditions)</li>
@@ -111,7 +123,7 @@ module.exports = {
                         result of the pandemic, and those organisations supporting people and their families with 
                         end-of-life care.
                     </p>`,
-                cy: `<ul>
+                    cy: `<ul>
                         <li>pobl hŷn</li>
                         <li>pobl anabl (gan gynnwys pobl â chyflyrau iechyd tymor hir)</li>
                         <li>cymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer + (LHDTQ +)</li>
@@ -122,7 +134,8 @@ module.exports = {
                         gwthio i argyfwng o ganlyniad i'r pandemig, a'r sefydliadau hynny sy'n cefnogi pobl a'u
                         teuluoedd â gofal diwedd oes
                     </p>`,
-            });
+                });
+            }
         }
 
         function prioritiesCovid19() {
@@ -157,22 +170,30 @@ module.exports = {
         }
         function guidanceText() {
             if (projectCountry === 'england') {
-                return localise({
-                    en: `<p>
+                if (enableSimpleV2) {
+                    localise({
+                        en: `<p>Our funding priorities are:</p>
+                        ${prioritiesDiversity()}`,
+                        cy: ``,
+                    });
+                } else {
+                    return localise({
+                        en: `<p>
                             We'll prioritise organisations supporting people and communities who experience 
                             disproportionate challenge and difficulty as a result of the COVID-19 crisis. This category
                             includes groups which are facing specific challenges during the current crisis and includes
                             organisations supporting:
                         </p>
                         ${prioritiesDiversity()}`,
-                    cy: `<p>
+                        cy: `<p>
                             Byddwn yn blaenoriaethu sefydliadau sy’n cefnogi pobl a chymunedau sy’n profi heriau ac
                             anawsterau anghymesur o ganlyniad o’r argyfwng COVID-19. Mae’r categori hwn yn cynnwys
                             grwpiau sy’n wynebu heriau penodol yn ystod yr argyfwng presennol a’n cynnwys sefydliadau
                             sy’n cefnogi:
                         </p>
                         ${prioritiesDiversity()}`,
-                });
+                    });
+                }
             } else {
                 return localise({
                     en: `<p><strong>We will prioritise:</strong></p>
