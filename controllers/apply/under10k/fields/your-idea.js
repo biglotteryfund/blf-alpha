@@ -107,7 +107,12 @@ module.exports = {
                         <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
                         <li>With the COVID-19 pandemic still with us, we will continue to seek to support people and communities most adversely impacted by COVID-19.</li>
                     </ul>`,
-                    cy: ``,
+                    cy: `<ul>
+                        <li>dod â phobl at ei gilydd ac adeiladu perthynas gref mewn cymunedau ac ar eu traws</li>
+                        <li>gwella'r lleoedd a'r mannau sy'n bwysig i gymunedau</li>
+                        <li>helpu mwy o bobl i gyrraedd eu potensial, drwy eu cefnogi cyn gynted â phosibl.</li>
+                        <li>gyda'r pandemig COVID-19 yn dal I fod yma, byddwn yn parhau i geisio cefnogi pobl a chymunedau yr effaith fwyaf andwyol arnynt gan COVID-19.</li> 
+                    </ul>`,
                 });
             } else {
                 return localise({
@@ -174,7 +179,8 @@ module.exports = {
                     localise({
                         en: `<p>Our funding priorities are:</p>
                         ${prioritiesDiversity()}`,
-                        cy: ``,
+                        cy: `<p>Ein blaenoriaethau ariannu yw:</p>
+                        ${prioritiesDiversity()}`,
                     });
                 } else {
                     return localise({
@@ -243,18 +249,39 @@ module.exports = {
         const minWords = 50;
         const maxWords = 200;
 
-        function guidanceListItems() {
-            if (enableSimpleV2 && get('projectCountry')(data) === 'england') {
-                return `<li>Having regular chats with community members, in person or on social media</li>
+        function guidanceListItems(en = true) {
+            if (en) {
+                if (
+                    enableSimpleV2 &&
+                    get('projectCountry')(data) === 'england'
+                ) {
+                    return `<li>Having regular chats with community members, in person or on social media</li>
                     <li>Including community members on your board or committee</li>
                     <li>Regular surveys</li>
                     <li>Setting up steering groups</li>`;
-            } else {
-                return `<li>Having regular chats with community members, in person or on social media</li>
+                } else {
+                    return `<li>Having regular chats with community members, in person or on social media</li>
                     <li>Including community members on your board or committee</li>
                     <li>Regular surveys</li>
                     <li>Setting up steering groups</li>
                     <li>Running open days</li>`;
+                }
+            } else {
+                if (
+                    enableSimpleV2 &&
+                    get('projectCountry')(data) === 'england'
+                ) {
+                    return `<li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
+                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
+                    <li>Arolygon rheolaidd</li>
+                    <li>Sefydlu grwpiau llywio</li>`;
+                } else {
+                    return `<li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
+                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
+                    <li>Arolygon rheolaidd</li>
+                    <li>Sefydlu grwpiau llywio</li>
+                    <li>Cynnal diwrnodau agored</li>`;
+                }
             }
         }
 
@@ -278,13 +305,9 @@ module.exports = {
                     faint o bobl rydych wedi siarad â nhw, a sut y byddant yn cael
                     eu cynnwys yn y datblygiad a’r ddarpariaeth o’r prosiect.
                 </p>
-                <p><strong>Dyma rhai enghreifftiau o sut gallwch fod yn cynnwys eich cymunedau:</strong></p>
+                <p><strong>Dyma rai enghreifftiau o sut y gallech fod yn cynnwys eich cymuned:</strong></p>
                 <ul>
-                    <li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
-                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
-                    <li>Arolygon rheolaidd</li>
-                    <li>Sefydlu grwpiau llywio</li>
-                    <li>Cynnal diwrnodau agored</li>
+                  ${guidanceListItems(false)}
                 </ul>`,
             });
         }

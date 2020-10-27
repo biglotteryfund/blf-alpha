@@ -759,18 +759,32 @@ module.exports = function ({
     }
 
     function stepMainContact() {
-        function listItems() {
-            if (enableSimpleV2) {
-                return `<li>married to each other</li>
+        function listItems(en = true) {
+            if (en) {
+                if (enableSimpleV2) {
+                    return `<li>married to each other</li>
                 <li>in a long-term relationship together</li>
                 <li>living at the same address</li>
                 <li>or related by blood.</li>`;
-            } else {
-                return `<li>married to each other</li>
+                } else {
+                    return `<li>married to each other</li>
                 <li>in a civil partnership with each other</li>
                 <li>in a long-term relationship together</li>
                 <li>living at the same address</li>
                 <li>or related by blood.</li>`;
+                }
+            } else {
+                if (enableSimpleV2) {
+                    return `<li>yn briod i’w gilydd</li>
+                <li>mewn perthynas hir dymor a’u gilydd</li>
+                <li>yn byw yn yr un cyfeiriad</li>
+                <li>Neu yn perthyn drwy waed.</li>`;
+                } else {
+                    return `<li>yn briod i’w gilydd</li>
+                <li>mewn perthynas hir dymor a’u gilydd</li>
+                <li>yn byw yn yr un cyfeiriad</li>
+                <li>Neu yn perthyn drwy waed.</li>`;
+                }
             }
         }
         return new Step({
@@ -824,10 +838,7 @@ module.exports = function ({
                                 `. Ni all y ddau gyswllt hefyd fod:
                             </p>
                             <ul>                            
-                                <li>yn briod i’w gilydd</li>
-                                <li>mewn perthynas hir dymor a’u gilydd</li>
-                                <li>yn byw yn yr un cyfeiriad</li>
-                                <li>Neu yn perthyn drwy waed.</li>
+                                ${listItems(false)}
                             </ul>
                             `,
                         });

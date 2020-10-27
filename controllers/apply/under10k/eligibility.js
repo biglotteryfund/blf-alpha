@@ -27,7 +27,9 @@ module.exports = function ({ locale }) {
                     en: oneLine`By unconnected, we mean not a relation by blood, marriage,
                 civil partnership, in a long-term relationship or people living together 
                 at the same address.`,
-                    cy: ``,
+                    cy: oneLine`Drwy anghysylltiedig, rydym yn golygu nad yw'n perthyn drwy 
+                    waed, priodas, partneriaeth sifil, mewn perthynas hirdymor na phobl sy'n 
+                    byw gyda'i gilydd yn yr un cyfeiriad.`,
                 });
             } else {
                 return localise({
@@ -109,7 +111,10 @@ module.exports = function ({ locale }) {
                   consider projects which are slightly longer than this.
                   But groups in England need to spend the funding in 6 months.
                   We will also consider applications for one-off events.`,
-                    cy: oneLine``,
+                    cy: oneLine`Gwyddom nad yw bob amser yn bosibl cwblhau 
+                    prosiect mewn 12 mis am lawer o resymau. Felly gallwn ystyried 
+                    prosiectau sydd ychydig yn hirach na hyn. Byddwn hefyd yn 
+                    ystyried ceisiadau am ddigwyddiadau untro.`,
                 });
             } else {
                 return localise({
