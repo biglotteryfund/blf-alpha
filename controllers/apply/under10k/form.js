@@ -148,7 +148,11 @@ module.exports = function ({
             }),
             fieldsets: [
                 {
-                    fields: [fields.projectStartDate],
+                    fields:
+                        get('projectCountry')(data) === 'england' ||
+                        get('supportingCOVID19')(data) === 'yes'
+                            ? [fields.projectStartDateCheck]
+                            : [],
                 },
             ],
         });
@@ -161,17 +165,7 @@ module.exports = function ({
          * 3. Otherwise, show both date fields
          */
         function _fields() {
-            if (
-                get('projectCountry')(data) === 'england' &&
-                get('projectStartDateCheck')(data) === 'asap' &&
-                flags.enableEnglandAutoEndDate
-            ) {
-                return [];
-            } else if (get('projectStartDateCheck')(data) === 'asap') {
-                return [fields.projectEndDate];
-            } else {
-                return [fields.projectStartDate, fields.projectEndDate];
-            }
+            return [fields.projectStartDate, fields.projectEndDate];
         }
 
         return new Step({

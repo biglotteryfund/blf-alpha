@@ -9,6 +9,7 @@ const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
 const enableStandardV2 = true;
+const enableSimpleV2 = true;
 
 function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
@@ -535,14 +536,30 @@ function under10KApplication(mock) {
 
         if (mock.country === 'England') {
             cy.findByText(
-                `Tell us when you'd like to get the money if you're awarded funding?`
+                `When would you like to get the money if you are awarded?`
             )
                 .parent()
                 .within(() => {
-                    fillDateParts(mock.projectDateRange.startDate);
+                    cy.findByLabelText('As soon as possible').click();
                 });
 
             submitStep();
+
+            if (enableSimpleV2) {
+                cy.findByText(
+                    `Tell us when you'd like to get the money if you're awarded funding?`
+                )
+                    .parent()
+                    .within(() => {
+                        fillDateParts(mock.projectDateRange.startDate);
+                    });
+
+                cy.findByText('When will you spend the money by?')
+                    .parent()
+                    .within(() => {
+                        fillDateParts(mock.projectDateRange.endDate);
+                    });
+            }
         } else {
             cy.findByText(
                 `Tell us when you'd like to get the money if you're awarded funding?`
