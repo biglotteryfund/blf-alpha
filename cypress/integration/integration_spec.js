@@ -999,6 +999,7 @@ it('should submit full application for under £10,000 in England', () => {
     under10KApplication({
         projectName: 'Test application',
         projectDateRange: {
+            startDate: moment().add(18, 'weeks'),
             endDate: moment().add(random(1, 6), 'months'),
         },
         country: 'England',
