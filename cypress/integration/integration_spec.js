@@ -535,7 +535,7 @@ function under10KApplication(mock) {
 
         if (mock.country === 'England') {
             cy.findByText(
-                'When would you like to get the money if you are awarded?'
+                `Tell us when you'd like to get the money if you're awarded funding?`
             )
                 .parent()
                 .within(() => {
