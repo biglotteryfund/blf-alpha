@@ -539,7 +539,7 @@ function under10KApplication(mock) {
             )
                 .parent()
                 .within(() => {
-                    cy.findByLabelText('As soon as possible').click();
+                    fillDateParts(mock.projectDateRange.startDate);
                 });
 
             submitStep();
