@@ -812,55 +812,8 @@ module.exports = function ({
 
     function stepTerms() {
         const title = localise({
-            en: 'Terms and conditions of your grant',
-            cy: 'Telerau ac Amodau eich grant',
-        });
-
-        const footer = localise({
-            en: `<p>
-                We know the vast majority of the many thousands who
-                seek and use our funding are genuine. However, we
-                sometimes receive fraudulent applications and so we
-                have a duty to carry out checks on individuals at
-                organisations which apply for grants.
-                The personal information we have collected from you
-                will therefore be shared with fraud prevention
-                agencies who will use it to prevent fraud and money-laundering
-                and to verify your identity. If fraud is detected,
-                you could be refused certain services, finance or employment.
-            </p>
-            <p>
-                Further details of how your information will be used by us
-                and these fraud prevention agencies, your data protection
-                rights and how to contact us, can be found in our full
-                Data Protection and Privacy Notice which is published on our website
-                <a href="/data-protection">www.tnlcommunityfund.org.uk/data-protection</a>.
-                Contact us to request a hard copy by telephoning our advice line on 028 9568 0143,
-                or by writing to Customer Services, The National Lottery Community Fund,
-                2 St James’ Gate, Newcastle upon Tyne, NE1 4BE.
-             </p>
-             <p>When you click submit the Terms and Conditions as agreed to above become binding.</p>`,
-            cy: `<p>
-                Rydym yn gwybod bod y rhan fwyaf o’r miloedd sy’n 
-                chwilio am arian gennym yn ddiffuant. Er hynny, rydym 
-                weithiau yn derbyn ceisiadau twyllodrus ac felly mae gennym 
-                ddyletswydd i wneud gwiriadau ar unigolion mewn sefydliadau 
-                sy’n ymgeisio am grantiau. Bydd y wybodaeth bersonol rydym wedi’i 
-                gasglu gennych felly yn cael ei rannu gydag asiantaethau atal twyll, 
-                a fydd yn ei ddefnyddio i atal twyll a gwyngalchu arian, 
-                ac i wireddu eich hunaniaeth. Os oes twyll yn cael ei ganfod, 
-                gellid eich gwrthod rhag rhai gwasanaethau, arian neu gyflogaeth.
-            </p>
-            <p>
-                Gall gwybodaeth pellach ar sut bydd eich gwybodaeth yn cael ei ddefnyddio gennym a’r 
-                asiantaethau atal twyll hyn, eich hawliau gwarchod data a sut i gysylltu â ni, ei ganfod yn ein 
-                Hysbysiad Diogelu Data a Phreifatrwydd llawn, sydd wedi’i gyhoeddi ar ein gwefan 
-                <a href="/welsh/about/customer-service/data-protection">https://www.tnlcommunityfund.org.uk/welsh/about/customer-service/data-protection</a>. 
-                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 029 2168 0214,
-                neu drwy ysgrifennu i Cronfa Gymunedol y Loteri Genedlaethol, 10fed Llawr,
-                Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY
-            </p>
-            <p>Pan fyddwch yn clicio anfon, mae’r Telerau ac Amodau fel y cytunwyd uchod yn dod yn rhwymol.</p>`,
+            en: 'Your declaration',
+            cy: '',
         });
 
         return new Step({
@@ -869,7 +822,6 @@ module.exports = function ({
                 {
                     legend: title,
                     introduction: terms(locale, data, flags),
-                    footer: footer,
                     get fields() {
                         return compact([
                             allFields.termsAgreement1,
@@ -1080,8 +1032,8 @@ module.exports = function ({
         return {
             slug: 'terms-and-conditions',
             title: localise({
-                en: 'Terms and conditions',
-                cy: 'Telerau ac Amodau',
+                en: 'Your declaration',
+                cy: '',
             }),
             summary: localise({
                 en: oneLine`In order to submit your application,
