@@ -29,7 +29,7 @@ class UrlField extends Field {
         if (this.isRequired) {
             return baseSchema.required();
         } else {
-            return baseSchema.optional();
+            return baseSchema.allow('').optional();
         }
     }
 
