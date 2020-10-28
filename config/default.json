@@ -37,7 +37,8 @@
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"],
     "enableEnglandAutoProjectDuration": true,
-    "enablev2": false
+    "enablev2": false,
+    "banners": false
   },
   "session": {
     "cookie": "blf-alpha-session",

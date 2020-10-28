@@ -1,7 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const {getNoticesSingle } = require('./notices');
-
+const { getNoticesSingle } = require('./notices');
 
 test.each(['school', 'college-or-university', 'statutory-body'])(
     'get notices for under £10,000 application in England for %p',
@@ -14,6 +13,6 @@ test.each(['school', 'college-or-university', 'statutory-body'])(
             },
         });
         expect(resultSingle).toMatchSnapshot();
-        expect(resultSingle).toHaveLength(1);
+        expect(resultSingle).toHaveLength(2);
     }
 );

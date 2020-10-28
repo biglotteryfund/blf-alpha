@@ -12,6 +12,8 @@ const enableGovCOVIDUpdates = config.get(
 const enableStandardEnglandAutoProjectDuration = config.get(
     'standardFundingProposal.enableEnglandAutoProjectDuration'
 );
+const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const bannersLaunch = config.get('standardFundingProposal.banners');
 
 module.exports = {
     getNoticesAll(locale, pendingApplications = []) {
@@ -32,9 +34,7 @@ module.exports = {
             });
         }
 
-
         const notices = [];
-
 
         if (showEnglandPrioritiesNotice()) {
             notices.push({
@@ -68,9 +68,49 @@ module.exports = {
             }
         }
 
+        if (bannersLaunch) {
+            if (enableStandardV2) {
+                notices.push({
+                    title: localise({
+                        en: oneLine`We’ve made changes to our online application forms`,
+                        cy: oneLine``,
+                    }),
+                    body: localise({
+                        en: `<p>We hope these improve the experience of applying for 
+                        funding. The changes might mean you have to answer more questions 
+                        or change your answers before submitting your application. But we'll 
+                        highlight new questions to you, and have given you an extra two weeks 
+                        to complete your application if your application was close to expiring 
+                        when we made the changes.</p>
+                        <p><strong>If you have any questions</strong></p>
+                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                        cy: oneLine``,
+                    }),
+                });
+            } else {
+                notices.push({
+                    title: localise({
+                        en: oneLine`We’re going to make changes to our online application forms soon`,
+                        cy: oneLine``,
+                    }),
+                    body: localise({
+                        en: `<p>We hope to improve the experience of applying for funding. These changes 
+                            might mean you have to answer more questions or change your answers before 
+                            submitting your application. But we'll highlight new questions to you, and 
+                            give you an extra two weeks to complete your application if your application 
+                            is close to expiring.</p>
+                        <p><strong>If you have any questions</strong></p>
+                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                        cy: oneLine``,
+                    }),
+                });
+            }
+        }
+
         return notices;
     },
     getNoticesSingle(locale, application = []) {
+        const localise = get(locale);
         const isEnglandStatutory =
             application.formId === 'awards-for-all' &&
             get('applicationData.projectCountry')(application) === 'england' &&
@@ -85,6 +125,7 @@ module.exports = {
          * which were created before this will have expired
          */
         const projectDurationCutoffDate = '2020-06-04';
+        const isStandard = application.formId === 'standard-enquiry';
         const isEnglandStandard =
             application.formId === 'standard-enquiry' &&
             getOr(
@@ -126,6 +167,90 @@ module.exports = {
                         six months.`,
                 }
             );
+        }
+
+        if (bannersLaunch) {
+            if (isStandard) {
+                if (enableStandardV2) {
+                    notices.push({
+                        title: localise({
+                            en: oneLine`We’ve made changes to this online application form`,
+                            cy: oneLine``,
+                        }),
+                        body: localise({
+                            en: `<p>We hope these improve the experience of applying for 
+                                  funding. These changes mean you have to answer more questions 
+                                  or change your answers before submitting your application. This 
+                                  includes where you tell us what 
+                                  <a href="/apply/your-funding-proposal-v2/your-project/8?edit#form-field-yourIdeaProject">your project</a> 
+                                  is about. But we’ve highlighted new questions to you, and given you an extra two weeks 
+                                  to complete your application if your application is close to expiring. 
+                                  Have a look at our website for the latest information about funding 
+                                  <a href="/funding/over10k">over £10,000</a>.</p>
+                        <p><strong>If you have any questions</strong></p>
+                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                            cy: oneLine``,
+                        }),
+                    });
+                } else {
+                    notices.push({
+                        title: localise({
+                            en: oneLine`We’re going to make changes to this online application form soon`,
+                            cy: oneLine``,
+                        }),
+                        body: localise({
+                            en: `<p>We hope to improve the experience of applying for funding. These 
+                                  changes will mean you have to answer more questions or change your 
+                                  answers before submitting your application. But we'll highlight new 
+                                  questions to you, and give you an extra two weeks to complete your 
+                                  application if your application is close to expiring. You can also 
+                                  wait until we’ve made the changes and then start a new application.</p>
+                        <p><strong>If you have any questions</strong></p>
+                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                            cy: oneLine``,
+                        }),
+                    });
+                }
+            } else {
+                if (enableStandardV2) {
+                    notices.push({
+                        title: localise({
+                            en: oneLine`We’ve made changes to this online application form`,
+                            cy: oneLine``,
+                        }),
+                        body: localise({
+                            en: `<p>We hope these improve the experience of applying for funding. 
+                                  These changes mean you have to answer more questions or change 
+                                  your answers before submitting your application. But we’ve highlight 
+                                  new questions to you, and given you an extra two weeks to complete 
+                                  your application if your application is close to expiring. Have a 
+                                  look at our website for the latest information about funding 
+                                  <a href="/funding/under10k">under £10,000</a>.</p>
+                        <p><strong>If you have any questions</strong></p>
+                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                            cy: oneLine``,
+                        }),
+                    });
+                } else {
+                    notices.push({
+                        title: localise({
+                            en: oneLine`We’re going to make changes to this online application form soon`,
+                            cy: oneLine``,
+                        }),
+                        body: localise({
+                            en: `<p>We hope to improve the experience of applying for funding. These changes 
+                                  might mean you have to answer more questions or change your answers before 
+                                  submitting your application. But we'll highlight new questions to you, and 
+                                  give you an extra two weeks to complete your application if your application 
+                                  is close to expiring. You can also wait until we’ve made the changes and then 
+                                  start a new application.</p>
+                        <p><strong>If you have any questions</strong></p>
+                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                            cy: oneLine``,
+                        }),
+                    });
+                }
+            }
         }
 
         return notices;

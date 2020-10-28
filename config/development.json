@@ -10,6 +10,7 @@
   },
   "standardFundingProposal": {
     "enableEnglandAutoProjectDuration": true,
-    "enablev2": true
+    "enablev2": true,
+    "banners": true
   }
 }
