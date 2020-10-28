@@ -1087,6 +1087,54 @@ awardsForAll:
         <p>A sut fydd eich prosiect yn helpu a chynnwys eich cymuned.</p>
         <h3>6. Os nad ydych yn siŵr am y mathau o bethau rydym yn gofyn amdano wrth i chi ymgeisio</h3>
         <p><a href="/welsh/contact">Cysylltwch â ni</a></p>
+      bodyV2: >
+        <h3>1. Manylion dau berson gwahanol o’ch mudiad</h3>
+        <p>
+          Dylai un person fod yn rhywun gallwn siarad â nhw os oes gennym
+          unrhyw gwestiwn am eich prosiect. Dylai’r llall fod yn uwch aelod
+          o’ch mudiad, a fydd yn gyfreithiol gyfrifol am yr arian.
+          Mae’n rhaid i’r ddau fyw yn y DU.
+        </p>
+        <p><strong>Ni all y ddau berson fod:</strong></p>
+        <ul>
+            <li>yn perthyn drwy waed</li>
+            <li>yn briod i’w gilydd</li>
+            <li>fod mewn partneriaeth sifil â'i gilydd</li>
+            <li>mewn perthynas hir dymor â’i gilydd</li>
+            <li>yn defnyddio’r un cyfeiriad e-bost yn eich ffurflen gais</li>
+        </ul>
+        <p><strong>Pa fanylion byddwch ei angen:</strong></p>
+        <ul>
+            <li>enwau, cyfeiriadau e-bost, rhifau ffôn</li>
+            <li>cyfeiriadau cartref</li>
+            <li>dyddiadau geni</li>
+        </ul>
+        <h3>2. Manylion am eich mudiad</h3>
+        <ul>
+            <li>Enw cyfreithiol eich mudiad</li>
+            <li>Cyfeiriad eich mudiad</li>
+            <li>Pa fath o fudiad yw e (er enghraifft, elusen gofrestredig neu gwmni nid er elw)</li>
+        </ul>
+        <h3>3. Cyfrifon eich mudiad</h3>
+        <p><strong>Rydym eisiau gwybod y dyddiad mae eich cyfrifon yn gorffen bob blwyddyn.</strong><br/> A faint o incwm sydd gennych.</p>
+        <p>
+            <strong>Os nad oes gennych gyfrifon blynyddol (gan bod eich mudiad yn llai na 15 mis oed).</strong><br/>
+            Mae hynny’n iawn. Gallwn dal edrych ar eich cais.
+        </p>
+        <h3>4. Cyfriflen banc o’r 3 mis diwethaf</h3>
+        <p>Dylai ddangos:</p>
+        <ul>
+            <li>enw cyfreithiol eich mudiad</li>
+            <li>y cyfeiriad mae’r cyfriflenni’n cael eu hanfon</li>
+            <li>enw eich banc</li>
+            <li>cod y cyfrif a’r rhif didoli</li>
+            <li>y dyddiad cafodd y datganiad ei gyhoeddi.</li>
+        </ul>
+        <p>Dyma <a href="/assets/images/apply/under-10k-bank-statement-example-welsh.jpg">lun defnyddiol o'r math o gyfriflen banc rydym yn chwilio amdano.</a></p>
+        <h3>5. Rydym yn gofyn am wybodaeth am ba fath o brosiect hoffech ei wneud</h3>
+        <p>A sut fydd eich prosiect yn helpu a chynnwys eich cymuned.</p>
+        <h3>6. Os nad ydych yn siŵr am y mathau o bethau rydym yn gofyn amdano wrth i chi ymgeisio</h3>
+        <p><a href="/welsh/contact">Cysylltwch â ni</a></p>
     readyToApply:
       title: Barod i ymgeisio?
       processMap:
@@ -1114,6 +1162,33 @@ awardsForAll:
               cymunedau trwy'r pandemig COVID-19. Felly gofynnwn i sefydliadau yn Lloegr
               nad ydynt yn chwilio am arian grant cysylltiedig â COVID-19 beidio â
               chyflwyno ceisiadau ar hyn o bryd.
+          - type: action
+            title: Cais wedi’i asesu
+          - type: step
+            title: Byddwn yn penderfynu i ariannu eich prosiect neu beidio
+            description: >
+              Efallai byddwn yn cysylltu â chi i siarad a gofyn cwestiynau am eich cais.
+              Yna, byddwn yn gwneud penderfyniad terfynol p’un a byddwn yn ariannu eich prosiect neu ddim.
+              Os byddwch yn llwyddiannus, gallwch
+              <a href="/welsh/funding/managing-your-grant/promoting-your-project">hyrwyddo eich prosiect</a>
+              a dechrau <a href="/welsh/funding/managing-your-grant/under10k">rheoli eich grant</a>.
+        processNewV2:
+          - type: step
+            title: Gwirio os gallwch ymgeisio
+            description: >
+              Cyn i chi dreulio amser yn llenwi ffurflen gais,
+              byddwn yn gofyn rhai cwestiynau i sicrhau y gallwch
+              ymgeisio yn gyntaf (gan ddefnyddio ein ‘gwiriad cymhwysedd’).
+              Os na allwch ymgeisio, byddwn yn rhoi gwybod pam i chi.
+              Dylai’r adborth hwn helpu os byddwch eisiau ymgeisio eto yn y dyfodol.
+          - type: action
+            title: Gallu ymgeisio
+          - type: step
+            title: Llenwi cais ar-lein
+            description: >
+              Dywedwch wrthym am eich syniad i helpu pobl i wella eu bywydau a'u cymunedau.
+              Bydd gennych hyd at dri mis i orffen eich ffurflen gais ar-lein. Unwaith y
+              byddwch yn anfon eich ffurflen gais atom, byddwn yn ei asesu.
           - type: action
             title: Cais wedi’i asesu
           - type: step

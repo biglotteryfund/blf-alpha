@@ -3,6 +3,8 @@ const get = require('lodash/fp/get');
 const { stripIndents } = require('common-tags');
 
 const { TextareaField } = require('../../lib/field-types');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function wordCountText(locale, maxWords) {
     const localise = get(locale);
@@ -96,8 +98,25 @@ module.exports = {
         const maxWords = 150;
 
         function prioritiesDiversity() {
-            return localise({
-                en: `
+            if (enableSimpleV2) {
+                return localise({
+                    en: `
+                    <ul>
+                        <li>bring people together and build strong relationships in and across communities</li>
+                        <li>improve the places and spaces that matter to communities</li>
+                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
+                        <li>With the COVID-19 pandemic still with us, we will continue to seek to support people and communities most adversely impacted by COVID-19.</li>
+                    </ul>`,
+                    cy: `<ul>
+                        <li>dod â phobl at ei gilydd ac adeiladu perthynas gref mewn cymunedau ac ar eu traws</li>
+                        <li>gwella'r lleoedd a'r mannau sy'n bwysig i gymunedau</li>
+                        <li>helpu mwy o bobl i gyrraedd eu potensial, drwy eu cefnogi cyn gynted â phosibl.</li>
+                        <li>gyda'r pandemig COVID-19 yn dal I fod yma, byddwn yn parhau i geisio cefnogi pobl a chymunedau yr effaith fwyaf andwyol arnynt gan COVID-19.</li> 
+                    </ul>`,
+                });
+            } else {
+                return localise({
+                    en: `
                     <ul>
                         <li>older people</li>
                         <li>disabled people (including people with long-term health conditions)</li>
@@ -109,7 +128,7 @@ module.exports = {
                         result of the pandemic, and those organisations supporting people and their families with 
                         end-of-life care.
                     </p>`,
-                cy: `<ul>
+                    cy: `<ul>
                         <li>pobl hŷn</li>
                         <li>pobl anabl (gan gynnwys pobl â chyflyrau iechyd tymor hir)</li>
                         <li>cymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer + (LHDTQ +)</li>
@@ -120,7 +139,8 @@ module.exports = {
                         gwthio i argyfwng o ganlyniad i'r pandemig, a'r sefydliadau hynny sy'n cefnogi pobl a'u
                         teuluoedd â gofal diwedd oes
                     </p>`,
-            });
+                });
+            }
         }
 
         function prioritiesCovid19() {
@@ -155,22 +175,31 @@ module.exports = {
         }
         function guidanceText() {
             if (projectCountry === 'england') {
-                return localise({
-                    en: `<p>
+                if (enableSimpleV2) {
+                    localise({
+                        en: `<p>Our funding priorities are:</p>
+                        ${prioritiesDiversity()}`,
+                        cy: `<p>Ein blaenoriaethau ariannu yw:</p>
+                        ${prioritiesDiversity()}`,
+                    });
+                } else {
+                    return localise({
+                        en: `<p>
                             We'll prioritise organisations supporting people and communities who experience 
                             disproportionate challenge and difficulty as a result of the COVID-19 crisis. This category
                             includes groups which are facing specific challenges during the current crisis and includes
                             organisations supporting:
                         </p>
                         ${prioritiesDiversity()}`,
-                    cy: `<p>
+                        cy: `<p>
                             Byddwn yn blaenoriaethu sefydliadau sy’n cefnogi pobl a chymunedau sy’n profi heriau ac
                             anawsterau anghymesur o ganlyniad o’r argyfwng COVID-19. Mae’r categori hwn yn cynnwys
                             grwpiau sy’n wynebu heriau penodol yn ystod yr argyfwng presennol a’n cynnwys sefydliadau
                             sy’n cefnogi:
                         </p>
                         ${prioritiesDiversity()}`,
-                });
+                    });
+                }
             } else {
                 return localise({
                     en: `<p><strong>We will prioritise:</strong></p>
@@ -214,11 +243,47 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaCommunity(locale) {
+    fieldYourIdeaCommunity(locale, data) {
         const localise = get(locale);
 
         const minWords = 50;
         const maxWords = 200;
+
+        function guidanceListItems(en = true) {
+            if (en) {
+                if (
+                    enableSimpleV2 &&
+                    get('projectCountry')(data) === 'england'
+                ) {
+                    return `<li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>`;
+                } else {
+                    return `<li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>
+                    <li>Running open days</li>`;
+                }
+            } else {
+                if (
+                    enableSimpleV2 &&
+                    get('projectCountry')(data) === 'england'
+                ) {
+                    return `<li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
+                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
+                    <li>Arolygon rheolaidd</li>
+                    <li>Sefydlu grwpiau llywio</li>`;
+                } else {
+                    return `<li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
+                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
+                    <li>Arolygon rheolaidd</li>
+                    <li>Sefydlu grwpiau llywio</li>
+                    <li>Cynnal diwrnodau agored</li>`;
+                }
+            }
+        }
 
         function guidanceText() {
             return localise({
@@ -231,11 +296,7 @@ module.exports = {
                 </p>
                 <p><strong>Here are some examples of how you could be involving your community:</strong></p>
                 <ul>
-                    <li>Having regular chats with community members, in person or on social media</li>
-                    <li>Including community members on your board or committee</li>
-                    <li>Regular surveys</li>
-                    <li>Setting up steering groups</li>
-                    <li>Running open days</li>
+                    ${guidanceListItems()}
                 </ul>`,
                 cy: `<p>
                     Rydym o’r gred fod pobl yn gwybod yr hyn sydd ei angen yn eu
@@ -244,13 +305,9 @@ module.exports = {
                     faint o bobl rydych wedi siarad â nhw, a sut y byddant yn cael
                     eu cynnwys yn y datblygiad a’r ddarpariaeth o’r prosiect.
                 </p>
-                <p><strong>Dyma rhai enghreifftiau o sut gallwch fod yn cynnwys eich cymunedau:</strong></p>
+                <p><strong>Dyma rai enghreifftiau o sut y gallech fod yn cynnwys eich cymuned:</strong></p>
                 <ul>
-                    <li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
-                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
-                    <li>Arolygon rheolaidd</li>
-                    <li>Sefydlu grwpiau llywio</li>
-                    <li>Cynnal diwrnodau agored</li>
+                  ${guidanceListItems(false)}
                 </ul>`,
             });
         }

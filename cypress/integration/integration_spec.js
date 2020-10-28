@@ -9,6 +9,7 @@ const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
 const enableStandardV2 = true;
+const enableSimpleV2 = true;
 
 function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
@@ -535,7 +536,7 @@ function under10KApplication(mock) {
 
         if (mock.country === 'England') {
             cy.findByText(
-                'When would you like to get the money if you are awarded?'
+                `When would you like to get the money if you are awarded?`
             )
                 .parent()
                 .within(() => {
@@ -543,6 +544,22 @@ function under10KApplication(mock) {
                 });
 
             submitStep();
+
+            if (enableSimpleV2) {
+                cy.findByText(
+                    `Tell us when you'd like to get the money if you're awarded funding?`
+                )
+                    .parent()
+                    .within(() => {
+                        fillDateParts(mock.projectDateRange.startDate);
+                    });
+
+                cy.findByText('When will you spend the money by?')
+                    .parent()
+                    .within(() => {
+                        fillDateParts(mock.projectDateRange.endDate);
+                    });
+            }
         } else {
             cy.findByText(
                 `Tell us when you'd like to get the money if you're awarded funding?`
@@ -999,6 +1016,7 @@ it('should submit full application for under £10,000 in England', () => {
     under10KApplication({
         projectName: 'Test application',
         projectDateRange: {
+            startDate: moment().add(18, 'weeks'),
             endDate: moment().add(random(1, 6), 'months'),
         },
         country: 'England',
