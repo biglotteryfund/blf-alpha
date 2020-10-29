@@ -116,6 +116,13 @@ module.exports = function (formBuilder) {
             logger.info('Notice shown on summary');
         }
 
+        const yfpStart =
+            formShortId === 'YFP' &&
+            JSON.stringify(currentApplicationData) ===
+                JSON.stringify({
+                    projectCountries: ['england'],
+                });
+
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
             csrfToken: req.csrfToken(),
@@ -128,6 +135,7 @@ module.exports = function (formBuilder) {
             featuredErrors: featuredErrors,
             expandSections: form.progress.isComplete || showErrors,
             startPathSlug: form.sections[0].slug,
+            yfpStart: yfpStart,
         });
     });
 
