@@ -18,9 +18,13 @@ class TextareaField extends Field {
             throw new Error('Must provide minWords and maxWords');
         }
 
+        this.showWordCount = has(props, 'showWordCount') ? false : true;
+
+        this.rows = has(props, 'maxRows') ? false : true;
+
         this.settings = {
             stackedSummary: true,
-            showWordCount: true,
+            showWordCount: this.showWordCount,
             minWords: this.minWords,
             maxWords: this.maxWords,
         };
@@ -58,7 +62,7 @@ class TextareaField extends Field {
     }
 
     defaultAttributes() {
-        return { rows: 15 };
+        return { rows: this.maxRows ? 15 : 7 };
     }
 
     get displayValue() {
