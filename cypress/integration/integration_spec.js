@@ -546,9 +546,7 @@ function under10KApplication(mock) {
             submitStep();
 
             if (enableSimpleV2) {
-                cy.findByText(
-                    `When would you like the money, if you're awarded funding?`
-                )
+                cy.findByText(`What date would you like to start your project?`)
                     .parent()
                     .within(() => {
                         fillDateParts(mock.projectDateRange.startDate);
@@ -569,7 +567,9 @@ function under10KApplication(mock) {
                     fillDateParts(mock.projectDateRange.startDate);
                 });
 
-            cy.findByText('When will you spend the money by?')
+            cy.findByText(
+                `When would you like the money, if you're awarded funding?`
+            )
                 .parent()
                 .within(() => {
                     fillDateParts(mock.projectDateRange.endDate);
@@ -1478,7 +1478,9 @@ function standardApplicationV2({
         }
 
         if (mock.projectCountries.includes('England')) {
-            cy.findByText(`What date would you like to start your project?`)
+            cy.findByText(
+                `When would you like the money, if you're awarded funding?`
+            )
                 .parent()
                 .within(() => {
                     fillDateParts(mock.projectDateRange.startDate);
