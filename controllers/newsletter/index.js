@@ -38,7 +38,7 @@ router
     .all(
         noStore,
         csrfProtection,
-        injectHeroImage('the-bike-project-2-new-letterbox')
+        injectHeroImage('ymca-allotment-redhill-letterbox-new')
     )
     .get(renderForm)
     .post(async function handleNewsletterSignup(req, res) {

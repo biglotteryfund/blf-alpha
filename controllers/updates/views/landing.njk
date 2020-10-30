@@ -2,7 +2,7 @@
 {% from "components/blog/macro.njk" import blogTrail with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/hero.njk" import hero with context %}
-{% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
+{% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter, iconNewsletter %}
 
 {% block content %}
     <main role="main" id="content">
@@ -15,21 +15,26 @@
 
             {# Social links #}
             <section class="u-inner-wide-only u-margin-bottom-l">
-                <div class="o-button-group-flex">
+                <div class="o-button-group-flex row">
                     <a class="btn btn--small btn--outline"
-                        href="{{ __('global.brand.instagram') }}">
-                        <span class="btn__icon">{{ iconInstagram() }}</span>
-                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.instagram') }}
+                        href="{{ __('global.brand.newsletter') }}">
+                        <span class="btn__icon">{{ iconNewsletter() }}</span>
+                        {{ __('global.misc.newsletter')}}
                     </a>
                     <a class="btn btn--small btn--outline"
                         href="{{ __('global.brand.facebook') }}">
                         <span class="btn__icon">{{ iconFacebook() }}</span>
-                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.facebook') }}
+                        {{ __('global.misc.facebook') }}
                     </a>
                     <a class="btn btn--small btn--outline"
                         href="https://www.twitter.com/{{ __('global.brand.twitter') }}" >
                         <span class="btn__icon">{{ iconTwitter() }}</span>
-                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.twitter') }}
+                        {{ __('global.misc.twitter') }}
+                    </a>
+                    <a class="btn btn--small btn--outline"
+                        href="{{ __('global.brand.instagram') }}">
+                        <span class="btn__icon">{{ iconInstagram() }}</span>
+                        {{ __('global.misc.instagram') }}
                     </a>
                 </div>
             </section>
