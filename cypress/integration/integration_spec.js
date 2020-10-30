@@ -546,7 +546,9 @@ function under10KApplication(mock) {
             submitStep();
 
             if (enableSimpleV2) {
-                cy.findByText(`What date would you like to start your project?`)
+                cy.findByText(
+                    `When would you like to get the money if you are awarded?`
+                )
                     .parent()
                     .within(() => {
                         fillDateParts(mock.projectDateRange.startDate);
@@ -568,7 +570,7 @@ function under10KApplication(mock) {
                 });
 
             cy.findByText(
-                `When would you like the money, if you're awarded funding?`
+                `When would you like to get the money if you are awarded?`
             )
                 .parent()
                 .within(() => {
