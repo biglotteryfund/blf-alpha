@@ -117,6 +117,7 @@ module.exports = function (formBuilder) {
         }
 
         const yfpStart =
+            enableStandardV2 &&
             formShortId === 'YFP' &&
             JSON.stringify(currentApplicationData) ===
                 JSON.stringify({
