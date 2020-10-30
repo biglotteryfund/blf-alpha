@@ -548,7 +548,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'projectStartDate',
             label: localise({
-                en: `What date would you like to start your project?`,
+                en: `When would you like the money, if you're awarded funding?`,
                 cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
             }),
             explanation: localise({

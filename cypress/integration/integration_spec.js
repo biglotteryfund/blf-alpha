@@ -547,7 +547,7 @@ function under10KApplication(mock) {
 
             if (enableSimpleV2) {
                 cy.findByText(
-                    `Tell us when you'd like to get the money if you're awarded funding?`
+                    `When would you like the money, if you're awarded funding?`
                 )
                     .parent()
                     .within(() => {
