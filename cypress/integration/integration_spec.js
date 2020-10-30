@@ -569,9 +569,7 @@ function under10KApplication(mock) {
                     fillDateParts(mock.projectDateRange.startDate);
                 });
 
-            cy.findByText(
-                `When would you like to get the money if you are awarded?`
-            )
+            cy.findByText(`When will you spend the money by?`)
                 .parent()
                 .within(() => {
                     fillDateParts(mock.projectDateRange.endDate);
