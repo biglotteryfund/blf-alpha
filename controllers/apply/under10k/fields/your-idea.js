@@ -176,7 +176,7 @@ module.exports = {
         function guidanceText() {
             if (projectCountry === 'england') {
                 if (enableSimpleV2) {
-                    localise({
+                    return localise({
                         en: `<p>Our funding priorities are:</p>
                         ${prioritiesDiversity()}`,
                         cy: `<p>Ein blaenoriaethau ariannu yw:</p>
