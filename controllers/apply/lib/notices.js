@@ -68,12 +68,21 @@ module.exports = {
             }
         }
 
-        if (bannersLaunch) {
+        function showFormChangesNotice() {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2020-11-16';
+            return pendingApplications.some(function (application) {
+                return moment(application.createdAt).isBefore(goLiveDate);
+            });
+        }
+
+        if (bannersLaunch && showFormChangesNotice()) {
             if (enableStandardV2) {
                 notices.push({
                     title: localise({
                         en: oneLine`We’ve made changes to our online application forms`,
-                        cy: oneLine``,
+                        cy: oneLine`Rydym wedi gwneud newidiadau i'n ffurflenni cais ar-lein`,
                     }),
                     body: localise({
                         en: `<p>We hope these improve the experience of applying for 
@@ -84,14 +93,20 @@ module.exports = {
                         when we made the changes.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                        cy: oneLine``,
+                        cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. 
+                        Gallai'r newidiadau olygu bod yn rhaid i chi ateb mwy o gwestiynau neu 
+                        newid eich atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw 
+                        at gwestiynau newydd i chi, ac yn rhoi pythefnos ychwanegol i chi gwblhau 
+                        eich cais os oedd eich cais yn agos at ddod i ben pan wnaethom y newidiadau.</p>
+                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
+                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
                     }),
                 });
             } else {
                 notices.push({
                     title: localise({
                         en: oneLine`We’re going to make changes to our online application forms soon`,
-                        cy: oneLine``,
+                        cy: oneLine`Rydym am wneud newidiadau i’n ffurflenni cais ar-lein yn fuan`,
                     }),
                     body: localise({
                         en: `<p>We hope to improve the experience of applying for funding. These changes 
@@ -101,7 +116,13 @@ module.exports = {
                             is close to expiring.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                        cy: oneLine``,
+                        cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Efallai 
+                        bydd y newidiadau hyn yn golygu bod gennych fwy o gwestiynau i’w hateb neu bod 
+                        angen newid eich atebion cyn anfon eich cais. Ond byddwn yn tynnu eich sylw at 
+                        gwestiynau newydd i chi, ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais 
+                        os yw eich cais yn agos at ddod i ben pan wnaethom y newidiadau.</p>
+                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
+                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
                     }),
                 });
             }
@@ -169,13 +190,23 @@ module.exports = {
             );
         }
 
+        function showFormChangesNotice(formId) {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2020-11-16';
+            return (
+                application.formId === formId &&
+                moment(application.createdAt).isBefore(goLiveDate)
+            );
+        }
+
         if (bannersLaunch) {
-            if (isStandard) {
+            if (isStandard && showFormChangesNotice('standard-enquiry')) {
                 if (enableStandardV2) {
                     notices.push({
                         title: localise({
                             en: oneLine`We’ve made changes to this online application form`,
-                            cy: oneLine``,
+                            cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
                         }),
                         body: localise({
                             en: `<p>We hope these improve the experience of applying for 
@@ -189,14 +220,24 @@ module.exports = {
                                   <a href="/funding/over10k">over £10,000</a>.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                            cy: oneLine``,
+                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Mae'r 
+                            newidiadau hyn yn golygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
+                            atebion cyn cyflwyno'ch cais. Mae hyn yn cynnwys ble rydych chi'n dweud wrthym 
+                            beth 
+                            <a href="/apply/your-funding-proposal-v2/your-project/8?edit#form-field-yourIdeaProject">mae eich prosiect amdano</a>
+                            . Ond rydym wedi tynnu sylw cwestiynau newydd atoch, 
+                            ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos 
+                            at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf am grantiau 
+                            <a href="/welsh/funding/over10k">dros £10,000</a>.</p>
+                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
+                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
                         }),
                     });
-                } else {
+                } else if (showFormChangesNotice('awards-for-all')) {
                     notices.push({
                         title: localise({
                             en: oneLine`We’re going to make changes to this online application form soon`,
-                            cy: oneLine``,
+                            cy: oneLine`Rydym yn mynd i wneud newidiadau i'r ffurflen gais ar-lein hon yn fuan`,
                         }),
                         body: localise({
                             en: `<p>We hope to improve the experience of applying for funding. These 
@@ -207,7 +248,14 @@ module.exports = {
                                   wait until we’ve made the changes and then start a new application.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                            cy: oneLine``,
+                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
+                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
+                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at 
+                            ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau 
+                            cais newydd.</p>
+                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
+                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
                         }),
                     });
                 }
@@ -216,7 +264,7 @@ module.exports = {
                     notices.push({
                         title: localise({
                             en: oneLine`We’ve made changes to this online application form`,
-                            cy: oneLine``,
+                            cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
                         }),
                         body: localise({
                             en: `<p>We hope these improve the experience of applying for funding. 
@@ -228,14 +276,21 @@ module.exports = {
                                   <a href="/funding/under10k">under £10,000</a>.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                            cy: oneLine``,
+                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Mae'r 
+                            newidiadau hyn yn golygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
+                            atebion cyn cyflwyno'ch cais. Ond rydym wedi tynnu eich sylw at gwestiynau newydd 
+                            i chi, ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais 
+                            yn agos at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf am grantiau 
+                            <a href="/welsh/funding/under10k">dan £10,000</a>.</p>
+                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
+                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
                         }),
                     });
                 } else {
                     notices.push({
                         title: localise({
                             en: oneLine`We’re going to make changes to this online application form soon`,
-                            cy: oneLine``,
+                            cy: oneLine`Rydym yn mynd i wneud newidiadau i'r ffurflen gais ar-lein hon yn fuan`,
                         }),
                         body: localise({
                             en: `<p>We hope to improve the experience of applying for funding. These changes 
@@ -246,7 +301,14 @@ module.exports = {
                                   start a new application.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                            cy: oneLine``,
+                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
+                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
+                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos 
+                            at ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna 
+                            dechrau cais newydd.</p>
+                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
+                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
                         }),
                     });
                 }
