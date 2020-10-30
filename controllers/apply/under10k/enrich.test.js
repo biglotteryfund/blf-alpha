@@ -92,7 +92,7 @@ test('enrich submitted applications', function () {
         mock({
             projectName: 'Example project',
             projectStartDateCheck: 'asap',
-            projectStartDate: moment().add(18, 'weeks'),
+            projectStartDate: toDateParts(moment().add(18, 'weeks')),
             projectEndDate: moment('2020-06-04T12:00:00.000Z')
                 .tz('Europe/London')
                 .toISOString(),
