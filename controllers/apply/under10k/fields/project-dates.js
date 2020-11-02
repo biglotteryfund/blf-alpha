@@ -208,28 +208,20 @@ module.exports = {
              * Otherwise we fallback to the default rules where
              * the end date must be within X months of the start date.
              */
-            if (
-                projectCountry === 'england' &&
-                projectStartDateCheck === 'asap' &&
-                flags.enableEnglandAutoEndDate === true
-            ) {
-                return Joi.any().strip();
-            } else {
-                return Joi.when('projectStartDateCheck', {
-                    is: 'asap',
-                    then: Joi.dateParts()
-                        .minDate(moment().format('YYYY-MM-DD'))
-                        .maxDate(maxDate.format('YYYY-MM-DD'))
-                        .required(),
-                    otherwise: Joi.dateParts()
-                        .minDateRef(Joi.ref('projectStartDate'))
-                        .rangeLimit(Joi.ref('projectStartDate'), {
-                            amount: getMaxDurationMonths(),
-                            unit: 'months',
-                        })
-                        .required(),
-                });
-            }
+            return Joi.when('projectStartDateCheck', {
+                is: 'asap',
+                then: Joi.dateParts()
+                    .minDate(moment().format('YYYY-MM-DD'))
+                    .maxDate(maxDate.format('YYYY-MM-DD'))
+                    .required(),
+                otherwise: Joi.dateParts()
+                    .minDateRef(Joi.ref('projectStartDate'))
+                    .rangeLimit(Joi.ref('projectStartDate'), {
+                        amount: getMaxDurationMonths(),
+                        unit: 'months',
+                    })
+                    .required(),
+            });
         }
 
         return new DateField({
