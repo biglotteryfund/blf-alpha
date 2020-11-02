@@ -509,7 +509,7 @@ function under10KApplication(mock) {
     }
 
     function stepCOVID9Check(mock) {
-        if (mock.country !== 'England') {
+        if (mock.country !== 'England' && !enableSimpleV2) {
             cy.checkA11y();
 
             cy.findByText(
@@ -1477,7 +1477,7 @@ function standardApplicationV2({
             cy.findByLabelText('Month').type(momentInstance.month() + 1);
         }
 
-        if (mock.projectCountries.includes('England')) {
+        if (mock.projectCountries.includes('England') && !enableSimpleV2) {
             cy.findByText(
                 `When would you like the money, if you're awarded funding?`
             )
