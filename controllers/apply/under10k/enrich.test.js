@@ -24,7 +24,9 @@ test('enrich pending applications', function () {
             projectCountry: 'england',
             projectLocation: 'derbyshire',
             projectStartDateCheck: 'asap',
-            projectStartDate: toDateParts(moment().add(18, 'weeks')),
+            projectStartDate: toDateParts(
+                moment('2020-11-11T12:00:00.000Z').tz('Europe/London')
+            ),
             projectEndDate: toDateParts(
                 moment('2020-06-04T12:00:00.000Z').tz('Europe/London')
             ),
@@ -41,7 +43,7 @@ test('enrich pending applications', function () {
 
     expect(resultAsap.amountRequested).toBe('£6,750');
     expect(resultAsap.overview).toStrictEqual([
-        { label: 'Project dates', value: '5 March, 2021–4 June, 2020' },
+        { label: 'Project dates', value: '11 November, 2020–4 June, 2020' },
         { label: 'Location', value: 'Derbyshire' },
         { label: 'Organisation', value: 'Example organisation trading name' },
     ]);
@@ -92,7 +94,9 @@ test('enrich submitted applications', function () {
         mock({
             projectName: 'Example project',
             projectStartDateCheck: 'asap',
-            projectStartDate: toDateParts(moment().add(18, 'weeks')),
+            projectStartDate: toDateParts(
+                moment('2020-11-11T12:00:00.000Z').tz('Europe/London')
+            ),
             projectEndDate: moment('2020-06-04T12:00:00.000Z')
                 .tz('Europe/London')
                 .toISOString(),
@@ -109,7 +113,7 @@ test('enrich submitted applications', function () {
 
     expect(resultAsap.amountRequested).toBe('£6,750');
     expect(resultAsap.overview).toStrictEqual([
-        { label: 'Project dates', value: '5 March, 2021–4 June, 2020' },
+        { label: 'Project dates', value: '11 November, 2020–4 June, 2020' },
         { label: 'Location', value: 'Derbyshire' },
         { label: 'Organisation', value: 'Example organisation trading name' },
     ]);
