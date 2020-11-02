@@ -161,11 +161,10 @@ module.exports = {
             ],
         });
     },
-    fieldProjectEndDate(locale, data = {}, flags = {}) {
+    fieldProjectEndDate(locale, data = {}) {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
-        const projectStartDateCheck = get('projectStartDateCheck')(data);
 
         function getMaxDurationMonths() {
             if (projectCountry === 'england') {
