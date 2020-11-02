@@ -757,12 +757,12 @@ module.exports = function ({
             if (en) {
                 if (enableSimpleV2) {
                     return `<li>married to each other</li>
+                <li>in a civil partnership with each other</li>
                 <li>in a long-term relationship together</li>
                 <li>living at the same address</li>
                 <li>or related by blood.</li>`;
                 } else {
                     return `<li>married to each other</li>
-                <li>in a civil partnership with each other</li>
                 <li>in a long-term relationship together</li>
                 <li>living at the same address</li>
                 <li>or related by blood.</li>`;
@@ -770,6 +770,7 @@ module.exports = function ({
             } else {
                 if (enableSimpleV2) {
                     return `<li>yn briod i’w gilydd</li>
+                <li>fod mewn partneriaeth sifil â'i gilydd</li>
                 <li>mewn perthynas hir dymor a’u gilydd</li>
                 <li>yn byw yn yr un cyfeiriad</li>
                 <li>Neu yn perthyn drwy waed.</li>`;
