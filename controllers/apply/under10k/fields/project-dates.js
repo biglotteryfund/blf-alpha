@@ -11,13 +11,13 @@ const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function getLeadTimeWeeks(country) {
     const countryLeadTimes = {
-        'england': 18,
+        'england': enableSimpleV2 ? 12 : 18,
         'northern-ireland': 12,
         'scotland': 12,
         'wales': 12,
     };
 
-    return countryLeadTimes[country] || 18;
+    return countryLeadTimes[country] || enableSimpleV2 ? 12 : 18;
 }
 
 module.exports = {
@@ -170,7 +170,7 @@ module.exports = {
         const projectStartDateCheck = get('projectStartDateCheck')(data);
 
         function getMaxDurationMonths() {
-            if (projectCountry === 'england') {
+            if (projectCountry === 'england' && !enableSimpleV2) {
                 return 6;
             } else {
                 return 12;
@@ -178,7 +178,7 @@ module.exports = {
         }
 
         function explanation() {
-            if (projectCountry === 'england') {
+            if (projectCountry === 'england' && !enableSimpleV2) {
                 return localise({
                     en: oneLine`Given the COVID-19 emergency, you can have up to
                         ${getMaxDurationMonths()} months after award to spend the money.`,

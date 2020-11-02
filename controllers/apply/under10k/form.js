@@ -126,7 +126,8 @@ module.exports = function ({
     function stepCOVID19Check() {
         function _fields() {
             return has('projectCountry')(data) &&
-                get('projectCountry')(data) !== 'england'
+                get('projectCountry')(data) !== 'england' &&
+                !enableSimpleV2
                 ? [fields.supportingCOVID19]
                 : [];
         }
@@ -141,6 +142,21 @@ module.exports = function ({
     }
 
     function stepProjectLengthCheck() {
+        function getFields() {
+            if (enableSimpleV2) {
+                return [];
+            } else {
+                if (
+                    get('projectCountry')(data) === 'england' ||
+                    get('supportingCOVID19')(data) === 'yes'
+                ) {
+                    return [fields.projectStartDateCheck];
+                } else {
+                    return [];
+                }
+            }
+        }
+
         return new Step({
             title: localise({
                 en: 'Project start date',
@@ -148,11 +164,7 @@ module.exports = function ({
             }),
             fieldsets: [
                 {
-                    fields:
-                        get('projectCountry')(data) === 'england' ||
-                        get('supportingCOVID19')(data) === 'yes'
-                            ? [fields.projectStartDateCheck]
-                            : [],
+                    fields: getFields(),
                 },
             ],
         });
@@ -1213,16 +1225,25 @@ module.exports = function ({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`,
             }),
-            steps: compact([
-                stepProjectName(),
-                stepProjectCountry(),
-                stepProjectLocation(),
-                stepCOVID19Check(),
-                stepProjectLengthCheck(),
-                stepProjectLength(),
-                stepYourIdea(),
-                stepProjectCosts(),
-            ]),
+            steps: enableSimpleV2
+                ? compact([
+                      stepProjectName(),
+                      stepProjectCountry(),
+                      stepProjectLocation(),
+                      stepProjectLength(),
+                      stepYourIdea(),
+                      stepProjectCosts(),
+                  ])
+                : compact([
+                      stepProjectName(),
+                      stepProjectCountry(),
+                      stepProjectLocation(),
+                      stepCOVID19Check(),
+                      stepProjectLengthCheck(),
+                      stepProjectLength(),
+                      stepYourIdea(),
+                      stepProjectCosts(),
+                  ]),
         };
     }
 
