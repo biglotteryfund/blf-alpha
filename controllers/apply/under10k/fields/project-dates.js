@@ -6,6 +6,8 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
 const { DateField, RadioField } = require('../../lib/field-types');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function getLeadTimeWeeks(country) {
     const countryLeadTimes = {
@@ -161,10 +163,11 @@ module.exports = {
             ],
         });
     },
-    fieldProjectEndDate(locale, data = {}) {
+    fieldProjectEndDate(locale, data = {}, flags = {}) {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
+        const projectStartDateCheck = get('projectStartDateCheck')(data);
 
         function getMaxDurationMonths() {
             if (projectCountry === 'england') {
@@ -207,20 +210,29 @@ module.exports = {
              * Otherwise we fallback to the default rules where
              * the end date must be within X months of the start date.
              */
-            return Joi.when('projectStartDateCheck', {
-                is: 'asap',
-                then: Joi.dateParts()
-                    .minDate(moment().format('YYYY-MM-DD'))
-                    .maxDate(maxDate.format('YYYY-MM-DD'))
-                    .required(),
-                otherwise: Joi.dateParts()
-                    .minDateRef(Joi.ref('projectStartDate'))
-                    .rangeLimit(Joi.ref('projectStartDate'), {
-                        amount: getMaxDurationMonths(),
-                        unit: 'months',
-                    })
-                    .required(),
-            });
+            if (
+                projectCountry === 'england' &&
+                projectStartDateCheck === 'asap' &&
+                flags.enableEnglandAutoEndDate === true &&
+                !enableSimpleV2
+            ) {
+                return Joi.any().strip();
+            } else {
+                return Joi.when('projectStartDateCheck', {
+                    is: 'asap',
+                    then: Joi.dateParts()
+                        .minDate(moment().format('YYYY-MM-DD'))
+                        .maxDate(maxDate.format('YYYY-MM-DD'))
+                        .required(),
+                    otherwise: Joi.dateParts()
+                        .minDateRef(Joi.ref('projectStartDate'))
+                        .rangeLimit(Joi.ref('projectStartDate'), {
+                            amount: getMaxDurationMonths(),
+                            unit: 'months',
+                        })
+                        .required(),
+                });
+            }
         }
 
         return new DateField({

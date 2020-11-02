@@ -5,6 +5,8 @@ const toInteger = require('lodash/toInteger');
 
 const { formatDateRange } = require('../lib/formatters');
 const { findLocationName } = require('./lib/location-options');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const formBuilder = require('./form');
 
@@ -19,7 +21,13 @@ function details(application, data, locale) {
     }
 
     function formatProjectDates() {
-        if (data.projectStartDate && data.projectEndDate) {
+        if (get('projectStartDateCheck')(data) === 'asap' && !enableSimpleV2) {
+            // Check for the new 'ASAP' value for Covid-19 fund
+            return localise({
+                en: `As soon as possible`,
+                cy: `Dyddiad cychwyn y prosiect`,
+            });
+        } else if (data.projectStartDate && data.projectEndDate) {
             // Fall back to formatting the regular start/end dare
             return formatDateRange(locale)({
                 startDate: data.projectStartDate,

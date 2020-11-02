@@ -8,6 +8,7 @@ const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
+const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
 const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
@@ -1396,8 +1397,43 @@ module.exports = function ({
 
         const enriched = clone(data);
 
-        enriched.projectStartDate = dateFormat(enriched.projectStartDate);
-        enriched.projectEndDate = dateFormat(enriched.projectEndDate);
+        function normaliseProjectStartDate() {
+            /**
+             * If projectStartDateCheck is `asap` then pre-fill
+             * the projectStartDate to today
+             */
+            if (
+                get('projectStartDateCheck')(data) === 'asap' &&
+                !enableSimpleV2
+            ) {
+                return moment().format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectStartDate);
+            }
+        }
+
+        function normaliseProjectEndDate() {
+            /**
+             * If projectCountry is England and date check is ASAP
+             * then pre-fill the projectEndDate to 6 months time
+             */
+            if (
+                get('projectCountry')(data) === 'england' &&
+                get('projectStartDateCheck')(data) === 'asap' &&
+                flags.enableEnglandAutoEndDate === true &&
+                !enableSimpleV2
+            ) {
+                return moment().add('6', 'months').format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectEndDate);
+            }
+        }
+
+        const projectStartDate = normaliseProjectStartDate();
+        const projectEndDate = normaliseProjectEndDate();
+
+        enriched.projectStartDate = projectStartDate;
+        enriched.projectEndDate = projectEndDate;
 
         // Support previous date range schema format
         enriched.projectDateRange = {
