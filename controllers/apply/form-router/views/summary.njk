@@ -218,6 +218,8 @@
                 <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
                 {% if form.progress.isPristine and formId === 'awards-for-all' %}
                     {{ startButton() }}
+                {% elseif yfpStart %}
+                    {{ startButton() }}
                 {% endif %}
             {% endif %}
 
@@ -246,12 +248,13 @@
                     {% endif %}
                     <input class="btn u-margin-bottom-s" type="submit" value="{{ copy.submit }}" data-prevent-double-click="true" />
                 </form>
-            {% elseif not form.progress.isPristine %}
+            {% elseif not form.progress.isPristine and not yfpStart %}
                 {{ submitActionsIncomplete() }}
+            {% elseif yfpStart %}
+                {{ startButton() }}
             {% elseif form.progress.isPristine %}
                 {{ startButton() }}
             {% endif %}
-
         </div>
     </main>
 {% endblock %}

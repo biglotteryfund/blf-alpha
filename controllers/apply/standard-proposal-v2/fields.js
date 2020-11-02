@@ -486,13 +486,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``,
             }),
             explanation: localise({
-                en: `<p>Give us a list of budget headings - like salaries, running costs, training, travel, overheads and refurbishment costs so we can check if these are things we can fund. We do not need a detailed list of items or any costs attached to these yet.</p>
-                    <p>If we invite you to the next stage of the application process, we'll ask you for a more detailed project budget, including a year-by-year breakdown.</p>
-                    <p><strong>You can write up to 300 words for this section, but don't worry if you use less.</strong></p>`,
+                en: `<ul>
+                        <li>Give us a list of budget headings (for example, salaries, running costs, training, travel, overheads and refurbishment costs).</li>
+                        <li>We do not need any costs attached to these yet, or a detailed list of items.</li>
+                     </ul>
+                    <p>If we invite you to the next stage of the application process, we'll ask you for a more detailed project budget, including a year-by-year breakdown. But right now, we just want to check if these are things we can fund.</p>`,
             }),
             type: 'textarea',
+            showWordCount: false,
             minWords: 0,
             maxWords: 300,
+            maxRows: false,
             messages: [
                 {
                     type: 'base',
@@ -548,7 +552,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             locale: locale,
             name: 'projectStartDate',
             label: localise({
-                en: `What date would you like to start your project?`,
+                en: `When would you like the money, if you're awarded funding?`,
                 cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
             }),
             explanation: localise({
@@ -879,8 +883,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'Select yes or no.',
+                        en: 'Select yes or no.',
                         cy: '',
                     }),
                 },
@@ -927,14 +930,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter your organisation\'s day-to-day name',
+                        en: "Enter your organisation's day-to-day name",
                         cy: '',
                     }),
                 },
                 {
                     type: 'any.invalid',
                     message: localise({
-                        en: 'Organisation\'s day-to-day name must not be the same as its legal name',
+                        en:
+                            "Organisation's day-to-day name must not be the same as its legal name",
                         cy: '',
                     }),
                 },
