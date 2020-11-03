@@ -101,18 +101,18 @@ module.exports = {
             if (enableSimpleV2) {
                 return localise({
                     en: `
-                    <ul>
-                        <li>bring people together and build strong relationships in and across communities</li>
+                    <p>A good application should do at least one of these three things:</p>
+                    <ol>
+                        <li>build strong relationships in and across communities</li>
                         <li>improve the places and spaces that matter to communities</li>
-                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
-                        <li>With the COVID-19 pandemic still with us, we will continue to seek to support people and communities most adversely impacted by COVID-19.</li>
+                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.  </li>
+                    </ol>
+                    <p>We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
+                    <ul>
+                        <li>continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity</li>
+                        <li>change and adapt, becoming more resilient in order to respond to new and future challenges.</li>
                     </ul>`,
-                    cy: `<ul>
-                        <li>dod â phobl at ei gilydd ac adeiladu perthynas gref mewn cymunedau ac ar eu traws</li>
-                        <li>gwella'r lleoedd a'r mannau sy'n bwysig i gymunedau</li>
-                        <li>helpu mwy o bobl i gyrraedd eu potensial, drwy eu cefnogi cyn gynted â phosibl.</li>
-                        <li>gyda'r pandemig COVID-19 yn dal I fod yma, byddwn yn parhau i geisio cefnogi pobl a chymunedau yr effaith fwyaf andwyol arnynt gan COVID-19.</li> 
-                    </ul>`,
+                    cy: ``,
                 });
             } else {
                 return localise({
@@ -177,7 +177,7 @@ module.exports = {
             if (projectCountry === 'england') {
                 if (enableSimpleV2) {
                     return localise({
-                        en: `<p>Our funding priorities are:</p>
+                        en: `<p>How does your project meet our funding priorities?</p>
                         ${prioritiesDiversity()}`,
                         cy: `<p>Ein blaenoriaethau ariannu yw:</p>
                         ${prioritiesDiversity()}`,

@@ -8,6 +8,7 @@ const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
+const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
 const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
@@ -125,7 +126,8 @@ module.exports = function ({
     function stepCOVID19Check() {
         function _fields() {
             return has('projectCountry')(data) &&
-                get('projectCountry')(data) !== 'england'
+                get('projectCountry')(data) !== 'england' &&
+                !enableSimpleV2
                 ? [fields.supportingCOVID19]
                 : [];
         }
@@ -140,6 +142,21 @@ module.exports = function ({
     }
 
     function stepProjectLengthCheck() {
+        function getFields() {
+            if (enableSimpleV2) {
+                return [];
+            } else {
+                if (
+                    get('projectCountry')(data) === 'england' ||
+                    get('supportingCOVID19')(data) === 'yes'
+                ) {
+                    return [fields.projectStartDateCheck];
+                } else {
+                    return [];
+                }
+            }
+        }
+
         return new Step({
             title: localise({
                 en: 'Project start date',
@@ -147,11 +164,7 @@ module.exports = function ({
             }),
             fieldsets: [
                 {
-                    fields:
-                        get('projectCountry')(data) === 'england' ||
-                        get('supportingCOVID19')(data) === 'yes'
-                            ? [fields.projectStartDateCheck]
-                            : [],
+                    fields: getFields(),
                 },
             ],
         });
@@ -164,7 +177,21 @@ module.exports = function ({
          * 3. Otherwise, show both date fields
          */
         function _fields() {
-            return [fields.projectStartDate, fields.projectEndDate];
+            if (enableSimpleV2) {
+                return [fields.projectStartDate, fields.projectEndDate];
+            } else {
+                if (
+                    get('projectCountry')(data) === 'england' &&
+                    get('projectStartDateCheck')(data) === 'asap' &&
+                    flags.enableEnglandAutoEndDate
+                ) {
+                    return [];
+                } else if (get('projectStartDateCheck')(data) === 'asap') {
+                    return [fields.projectEndDate];
+                } else {
+                    return [fields.projectStartDate, fields.projectEndDate];
+                }
+            }
         }
 
         return new Step({
@@ -1212,16 +1239,25 @@ module.exports = function ({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`,
             }),
-            steps: compact([
-                stepProjectName(),
-                stepProjectCountry(),
-                stepProjectLocation(),
-                stepCOVID19Check(),
-                stepProjectLengthCheck(),
-                stepProjectLength(),
-                stepYourIdea(),
-                stepProjectCosts(),
-            ]),
+            steps: enableSimpleV2
+                ? compact([
+                      stepProjectName(),
+                      stepProjectCountry(),
+                      stepProjectLocation(),
+                      stepProjectLength(),
+                      stepYourIdea(),
+                      stepProjectCosts(),
+                  ])
+                : compact([
+                      stepProjectName(),
+                      stepProjectCountry(),
+                      stepProjectLocation(),
+                      stepCOVID19Check(),
+                      stepProjectLengthCheck(),
+                      stepProjectLength(),
+                      stepYourIdea(),
+                      stepProjectCosts(),
+                  ]),
         };
     }
 
@@ -1396,8 +1432,43 @@ module.exports = function ({
 
         const enriched = clone(data);
 
-        enriched.projectStartDate = dateFormat(enriched.projectStartDate);
-        enriched.projectEndDate = dateFormat(enriched.projectEndDate);
+        function normaliseProjectStartDate() {
+            /**
+             * If projectStartDateCheck is `asap` then pre-fill
+             * the projectStartDate to today
+             */
+            if (
+                get('projectStartDateCheck')(data) === 'asap' &&
+                !enableSimpleV2
+            ) {
+                return moment().format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectStartDate);
+            }
+        }
+
+        function normaliseProjectEndDate() {
+            /**
+             * If projectCountry is England and date check is ASAP
+             * then pre-fill the projectEndDate to 6 months time
+             */
+            if (
+                get('projectCountry')(data) === 'england' &&
+                get('projectStartDateCheck')(data) === 'asap' &&
+                flags.enableEnglandAutoEndDate === true &&
+                !enableSimpleV2
+            ) {
+                return moment().add('6', 'months').format('YYYY-MM-DD');
+            } else {
+                return dateFormat(enriched.projectEndDate);
+            }
+        }
+
+        const projectStartDate = normaliseProjectStartDate();
+        const projectEndDate = normaliseProjectEndDate();
+
+        enriched.projectStartDate = projectStartDate;
+        enriched.projectEndDate = projectEndDate;
 
         // Support previous date range schema format
         enriched.projectDateRange = {

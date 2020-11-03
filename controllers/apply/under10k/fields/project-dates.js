@@ -6,16 +6,18 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
 const { DateField, RadioField } = require('../../lib/field-types');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function getLeadTimeWeeks(country) {
     const countryLeadTimes = {
-        'england': 18,
+        'england': enableSimpleV2 ? 12 : 18,
         'northern-ireland': 12,
         'scotland': 12,
         'wales': 12,
     };
 
-    return countryLeadTimes[country] || 18;
+    return countryLeadTimes[country] || enableSimpleV2 ? 12 : 18;
 }
 
 module.exports = {
@@ -109,6 +111,28 @@ module.exports = {
         });
     },
     fieldProjectStartDate(locale, data) {
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+            if (enableSimpleV2) {
+                return Joi.dateParts()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .required();
+            } else {
+                return Joi.when('projectStartDateCheck', {
+                    is: 'asap',
+                    then: Joi.any().strip(),
+                    otherwise: Joi.dateParts()
+                        .minDate(minDate.format('YYYY-MM-DD'))
+                        .required(),
+                });
+            }
+        }
+
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
@@ -138,9 +162,7 @@ module.exports = {
             settings: {
                 minYear: minDate.format('YYYY'),
             },
-            schema: Joi.dateParts()
-                .minDate(minDate.format('YYYY-MM-DD'))
-                .required(),
+            schema: schema(),
             messages: [
                 {
                     type: 'base',
@@ -161,13 +183,14 @@ module.exports = {
             ],
         });
     },
-    fieldProjectEndDate(locale, data = {}) {
+    fieldProjectEndDate(locale, data = {}, flags = {}) {
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
+        const projectStartDateCheck = get('projectStartDateCheck')(data);
 
         function getMaxDurationMonths() {
-            if (projectCountry === 'england') {
+            if (projectCountry === 'england' && !enableSimpleV2) {
                 return 6;
             } else {
                 return 12;
@@ -175,7 +198,7 @@ module.exports = {
         }
 
         function explanation() {
-            if (projectCountry === 'england') {
+            if (projectCountry === 'england' && !enableSimpleV2) {
                 return localise({
                     en: oneLine`Given the COVID-19 emergency, you can have up to
                         ${getMaxDurationMonths()} months after award to spend the money.`,
@@ -207,20 +230,29 @@ module.exports = {
              * Otherwise we fallback to the default rules where
              * the end date must be within X months of the start date.
              */
-            return Joi.when('projectStartDateCheck', {
-                is: 'asap',
-                then: Joi.dateParts()
-                    .minDate(moment().format('YYYY-MM-DD'))
-                    .maxDate(maxDate.format('YYYY-MM-DD'))
-                    .required(),
-                otherwise: Joi.dateParts()
-                    .minDateRef(Joi.ref('projectStartDate'))
-                    .rangeLimit(Joi.ref('projectStartDate'), {
-                        amount: getMaxDurationMonths(),
-                        unit: 'months',
-                    })
-                    .required(),
-            });
+            if (
+                projectCountry === 'england' &&
+                projectStartDateCheck === 'asap' &&
+                flags.enableEnglandAutoEndDate === true &&
+                !enableSimpleV2
+            ) {
+                return Joi.any().strip();
+            } else {
+                return Joi.when('projectStartDateCheck', {
+                    is: 'asap',
+                    then: Joi.dateParts()
+                        .minDate(moment().format('YYYY-MM-DD'))
+                        .maxDate(maxDate.format('YYYY-MM-DD'))
+                        .required(),
+                    otherwise: Joi.dateParts()
+                        .minDateRef(Joi.ref('projectStartDate'))
+                        .rangeLimit(Joi.ref('projectStartDate'), {
+                            amount: getMaxDurationMonths(),
+                            unit: 'months',
+                        })
+                        .required(),
+                });
+            }
         }
 
         return new DateField({

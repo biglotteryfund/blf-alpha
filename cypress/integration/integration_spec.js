@@ -509,7 +509,7 @@ function under10KApplication(mock) {
     }
 
     function stepCOVID9Check(mock) {
-        if (mock.country !== 'England') {
+        if (mock.country !== 'England' && !enableSimpleV2) {
             cy.checkA11y();
 
             cy.findByText(
@@ -535,15 +535,17 @@ function under10KApplication(mock) {
         }
 
         if (mock.country === 'England') {
-            cy.findByText(
-                `When would you like to get the money if you are awarded?`
-            )
-                .parent()
-                .within(() => {
-                    cy.findByLabelText('As soon as possible').click();
-                });
+            if (!enableSimpleV2) {
+                cy.findByText(
+                    `When would you like to get the money if you are awarded?`
+                )
+                    .parent()
+                    .within(() => {
+                        cy.findByLabelText('As soon as possible').click();
+                    });
 
-            submitStep();
+                submitStep();
+            }
 
             if (enableSimpleV2) {
                 cy.findByText(
@@ -1017,7 +1019,7 @@ it('should submit full application for under £10,000 in England', () => {
         projectName: 'Test application',
         projectDateRange: {
             startDate: moment().add(18, 'weeks'),
-            endDate: moment().add(random(1, 6), 'months'),
+            endDate: moment().add(6, 'months'),
         },
         country: 'England',
         beneficiariesGroups: [],
@@ -1062,7 +1064,7 @@ it('should submit full application for under £10,000 outside England', () => {
         projectName: 'Test application',
         projectDateRange: {
             startDate: moment().add(18, 'weeks'),
-            endDate: moment().add(random(18, 52), 'weeks'),
+            endDate: moment().add(6, 'months'),
         },
         country: sample(['Northern Ireland', 'Scotland', 'Wales']),
         beneficiariesGroups: sampleSize(

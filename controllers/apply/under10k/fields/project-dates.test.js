@@ -7,7 +7,7 @@ const {
 } = require('./project-dates');
 
 test('lead time conditional on country', () => {
-    expect(_getLeadTimeWeeks('england')).toBe(18);
+    expect(_getLeadTimeWeeks('england')).toBe(12);
 
     expect(_getLeadTimeWeeks('wales')).toBe(12);
     expect(_getLeadTimeWeeks('scotland')).toBe(12);

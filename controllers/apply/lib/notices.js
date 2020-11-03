@@ -13,6 +13,7 @@ const enableStandardEnglandAutoProjectDuration = config.get(
     'standardFundingProposal.enableEnglandAutoProjectDuration'
 );
 const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 const bannersLaunch = config.get('standardFundingProposal.banners');
 
 module.exports = {
@@ -85,12 +86,11 @@ module.exports = {
                         cy: oneLine`Rydym wedi gwneud newidiadau i'n ffurflenni cais ar-lein`,
                     }),
                     body: localise({
-                        en: `<p>We hope these improve the experience of applying for 
-                        funding. The changes might mean you have to answer more questions 
-                        or change your answers before submitting your application. But we'll 
-                        highlight new questions to you, and have given you an extra two weeks 
-                        to complete your application if your application was close to expiring 
-                        when we made the changes.</p>
+                        en: `<p>We hope to improve the experience of applying for funding. These 
+                        changes might mean you have to answer more questions or change your answers 
+                        before submitting your application. But we have given you an extra two weeks 
+                        to complete your application if your application was close to expiring when 
+                        we made the changes.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
                         cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. 
@@ -110,10 +110,9 @@ module.exports = {
                     }),
                     body: localise({
                         en: `<p>We hope to improve the experience of applying for funding. These changes 
-                            might mean you have to answer more questions or change your answers before 
-                            submitting your application. But we'll highlight new questions to you, and 
-                            give you an extra two weeks to complete your application if your application 
-                            is close to expiring.</p>
+                        might mean you have to answer more questions or change your answers before 
+                        submitting your application. But we'll give you an extra two weeks to complete 
+                        your application if your application is close to expiring.</p>
                         <p><strong>If you have any questions</strong></p>
                         <p><a href="/about/contact-us">Contact us</a>.</p>`,
                         cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Efallai 
@@ -147,6 +146,7 @@ module.exports = {
          */
         const projectDurationCutoffDate = '2020-06-04';
         const isStandard = application.formId === 'standard-enquiry';
+        const isSimple = application.formId === 'awards-for-all';
         const isEnglandStandard =
             application.formId === 'standard-enquiry' &&
             getOr(
@@ -209,17 +209,14 @@ module.exports = {
                             cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
                         }),
                         body: localise({
-                            en: `<p>We hope these improve the experience of applying for 
-                                  funding. These changes mean you have to answer more questions 
-                                  or change your answers before submitting your application. This 
-                                  includes where you tell us what 
+                            en: `<p>We hope these improve the experience of applying for funding. These changes might 
+                                  mean you have to answer more questions or change your answers before submitting your 
+                                  application. This includes where you tell us what 
                                   <a href="/apply/your-funding-proposal-v2/your-project/8?edit#form-field-yourIdeaProject">your project</a> 
-                                  is about. But we’ve highlighted new questions to you, and given you an extra two weeks 
-                                  to complete your application if your application is close to expiring. 
-                                  Have a look at our website for the latest information about funding 
-                                  <a href="/funding/over10k">over £10,000</a>.</p>
-                        <p><strong>If you have any questions</strong></p>
-                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                                   is about. But we’ve highlighted new questions to you, and given you an extra two 
+                                   weeks to complete your application if your application is close to expiring. Read 
+                                   about our 
+                                  <a href="/funding/over10k">over £10,000</a> to find out more about what's changed.</p>`,
                             cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Mae'r 
                             newidiadau hyn yn golygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
                             atebion cyn cyflwyno'ch cais. Mae hyn yn cynnwys ble rydych chi'n dweud wrthym 
@@ -228,62 +225,7 @@ module.exports = {
                             . Ond rydym wedi tynnu sylw cwestiynau newydd atoch, 
                             ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos 
                             at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf am grantiau 
-                            <a href="/welsh/funding/over10k">dros £10,000</a>.</p>
-                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
-                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
-                        }),
-                    });
-                } else if (showFormChangesNotice('awards-for-all')) {
-                    notices.push({
-                        title: localise({
-                            en: oneLine`We’re going to make changes to this online application form soon`,
-                            cy: oneLine`Rydym yn mynd i wneud newidiadau i'r ffurflen gais ar-lein hon yn fuan`,
-                        }),
-                        body: localise({
-                            en: `<p>We hope to improve the experience of applying for funding. These 
-                                  changes will mean you have to answer more questions or change your 
-                                  answers before submitting your application. But we'll highlight new 
-                                  questions to you, and give you an extra two weeks to complete your 
-                                  application if your application is close to expiring. You can also 
-                                  wait until we’ve made the changes and then start a new application.</p>
-                        <p><strong>If you have any questions</strong></p>
-                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
-                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
-                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
-                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at 
-                            ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau 
-                            cais newydd.</p>
-                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
-                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
-                        }),
-                    });
-                }
-            } else {
-                if (enableStandardV2) {
-                    notices.push({
-                        title: localise({
-                            en: oneLine`We’ve made changes to this online application form`,
-                            cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
-                        }),
-                        body: localise({
-                            en: `<p>We hope these improve the experience of applying for funding. 
-                                  These changes mean you have to answer more questions or change 
-                                  your answers before submitting your application. But we’ve highlight 
-                                  new questions to you, and given you an extra two weeks to complete 
-                                  your application if your application is close to expiring. Have a 
-                                  look at our website for the latest information about funding 
-                                  <a href="/funding/under10k">under £10,000</a>.</p>
-                        <p><strong>If you have any questions</strong></p>
-                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Mae'r 
-                            newidiadau hyn yn golygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
-                            atebion cyn cyflwyno'ch cais. Ond rydym wedi tynnu eich sylw at gwestiynau newydd 
-                            i chi, ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais 
-                            yn agos at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf am grantiau 
-                            <a href="/welsh/funding/under10k">dan £10,000</a>.</p>
-                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
-                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
+                            <a href="/welsh/funding/over10k">dros £10,000</a>.</p>`,
                         }),
                     });
                 } else {
@@ -294,24 +236,79 @@ module.exports = {
                         }),
                         body: localise({
                             en: `<p>We hope to improve the experience of applying for funding. These changes 
-                                  might mean you have to answer more questions or change your answers before 
-                                  submitting your application. But we'll highlight new questions to you, and 
-                                  give you an extra two weeks to complete your application if your application 
-                                  is close to expiring. You can also wait until we’ve made the changes and then 
-                                  start a new application.</p>
-                        <p><strong>If you have any questions</strong></p>
-                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
+                            will might mean you have to answer more questions or change your answers before submitting 
+                            your application. But we will give you an extra two weeks to complete your application if 
+                            your application is close to expiring. You can also wait until we’ve made the changes and 
+                            then start a new application.</p>`,
+                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
+                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
+                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at 
+                            ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau 
+                            cais newydd.</p>`,
+                        }),
+                    });
+                }
+            } else if (isSimple && showFormChangesNotice('awards-for-all')) {
+                if (enableSimpleV2) {
+                    notices.push({
+                        title: localise({
+                            en: oneLine`We’ve made changes to this online application form`,
+                            cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
+                        }),
+                        body: localise({
+                            en: `<p>We hope these improve the experience of applying for funding. These 
+                            changes might mean you have to answer more questions or change your answers before 
+                            submitting your application. But we have given you an extra two weeks to complete 
+                            your application if your application is close to expiring. Have a look at our website 
+                            for the latest information about funding 
+                                  <a href="/funding/under10k">under £10,000</a>.</p>`,
+                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Mae'r 
+                            newidiadau hyn yn golygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
+                            atebion cyn cyflwyno'ch cais. Ond rydym wedi tynnu eich sylw at gwestiynau newydd 
+                            i chi, ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais 
+                            yn agos at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf am grantiau 
+                            <a href="/welsh/funding/under10k">dan £10,000</a>.</p>`,
+                        }),
+                    });
+                } else {
+                    notices.push({
+                        title: localise({
+                            en: oneLine`We’re going to make changes to this online application form soon`,
+                            cy: oneLine`Rydym yn mynd i wneud newidiadau i'r ffurflen gais ar-lein hon yn fuan`,
+                        }),
+                        body: localise({
+                            en: `<p>We hope to improve the experience of applying for funding. These changes might 
+                        mean you have to answer more questions or change your answers before submitting your application. 
+                        But we'll give you an extra two weeks to complete your application if your application is close 
+                        to expiring. You can also wait until we’ve made the changes and then start a new application.</p>`,
                             cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
                             newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
                             atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
                             ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos 
                             at ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna 
-                            dechrau cais newydd.</p>
-                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
-                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
+                            dechrau cais newydd.</p>`,
                         }),
                     });
                 }
+            } else if (enableStandardV2) {
+                notices.push({
+                    title: localise({
+                        en: oneLine`We’ve made some changes to our application form`,
+                        cy: oneLine`Rydym yn mynd i wneud newidiadau i'r ffurflen gais ar-lein hon yn fuan`,
+                    }),
+                    body: localise({
+                        en: `<p>We hope these improve the experience of applying for funding. These changes 
+                        might mean you have to answer more questions and may want to change any answers you 
+                        might have prepared.</p>`,
+                        cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
+                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
+                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at 
+                            ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau 
+                            cais newydd.</p>`,
+                    }),
+                });
             }
         }
 

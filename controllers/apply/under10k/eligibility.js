@@ -109,7 +109,6 @@ module.exports = function ({ locale }) {
                     en: oneLine`We know it's not always possible to complete a
                   project in 12 months for lots of reasons. So we can
                   consider projects which are slightly longer than this.
-                  But groups in England need to spend the funding in 6 months.
                   We will also consider applications for one-off events.`,
                     cy: oneLine`Gwyddom nad yw bob amser yn bosibl cwblhau 
                     prosiect mewn 12 mis am lawer o resymau. Felly gallwn ystyried 
