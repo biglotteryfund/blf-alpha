@@ -1815,7 +1815,7 @@ function standardApplicationV2({
     });
 }
 
-it.only('should complete standard your funding proposal in england', () => {
+it('should complete standard your funding proposal in england', () => {
     if (enableStandardV2) {
         standardApplicationV2({
             projectCountry: 'England',
