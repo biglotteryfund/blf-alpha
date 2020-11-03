@@ -1019,7 +1019,7 @@ it('should submit full application for under £10,000 in England', () => {
         projectName: 'Test application',
         projectDateRange: {
             startDate: moment().add(18, 'weeks'),
-            endDate: moment().add(random(1, 6), 'months'),
+            endDate: moment().add(6, 'months'),
         },
         country: 'England',
         beneficiariesGroups: [],
@@ -1064,7 +1064,7 @@ it('should submit full application for under £10,000 outside England', () => {
         projectName: 'Test application',
         projectDateRange: {
             startDate: moment().add(18, 'weeks'),
-            endDate: moment().add(random(18, 52), 'weeks'),
+            endDate: moment().add(6, 'weeks'),
         },
         country: sample(['Northern Ireland', 'Scotland', 'Wales']),
         beneficiariesGroups: sampleSize(
@@ -1479,7 +1479,7 @@ function standardApplicationV2({
             cy.findByLabelText('Month').type(momentInstance.month() + 1);
         }
 
-        if (mock.projectCountries.includes('England') && !enableSimpleV2) {
+        if (mock.projectCountries.includes('England')) {
             cy.findByText(
                 `When would you like the money, if you're awarded funding?`
             )
@@ -1815,7 +1815,7 @@ function standardApplicationV2({
     });
 }
 
-it('should complete standard your funding proposal in england', () => {
+it.only('should complete standard your funding proposal in england', () => {
     if (enableStandardV2) {
         standardApplicationV2({
             projectCountry: 'England',

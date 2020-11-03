@@ -2,11 +2,14 @@
 
 exports[`show COVID-19 guidance text in England 1`] = `
 <p>
-  Our funding priorities are:
+  How does your project meet our funding priorities?
 </p>
-<ul>
+<p>
+  A good application should do at least one of these three things:
+</p>
+<ol>
   <li>
-    bring people together and build strong relationships in and across communities
+    build strong relationships in and across communities
   </li>
   <li>
     improve the places and spaces that matter to communities
@@ -14,8 +17,16 @@ exports[`show COVID-19 guidance text in England 1`] = `
   <li>
     help more people to reach their potential, by supporting them at the earliest possible stage.
   </li>
+</ol>
+<p>
+  We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:
+</p>
+<ul>
   <li>
-    With the COVID-19 pandemic still with us, we will continue to seek to support people and communities most adversely impacted by COVID-19.
+    continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity
+  </li>
+  <li>
+    change and adapt, becoming more resilient in order to respond to new and future challenges.
   </li>
 </ul>
 <p>
@@ -28,11 +39,14 @@ but don't worry if you use less.
 
 exports[`show COVID-19 guidance text in England 2`] = `
 <p>
-  Our funding priorities are:
+  How does your project meet our funding priorities?
 </p>
-<ul>
+<p>
+  A good application should do at least one of these three things:
+</p>
+<ol>
   <li>
-    bring people together and build strong relationships in and across communities
+    build strong relationships in and across communities
   </li>
   <li>
     improve the places and spaces that matter to communities
@@ -40,8 +54,16 @@ exports[`show COVID-19 guidance text in England 2`] = `
   <li>
     help more people to reach their potential, by supporting them at the earliest possible stage.
   </li>
+</ol>
+<p>
+  We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:
+</p>
+<ul>
   <li>
-    With the COVID-19 pandemic still with us, we will continue to seek to support people and communities most adversely impacted by COVID-19.
+    continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity
+  </li>
+  <li>
+    change and adapt, becoming more resilient in order to respond to new and future challenges.
   </li>
 </ul>
 <p>

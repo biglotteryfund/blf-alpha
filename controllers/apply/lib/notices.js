@@ -291,7 +291,7 @@ module.exports = {
                         }),
                     });
                 }
-            } else {
+            } else if (enableStandardV2) {
                 notices.push({
                     title: localise({
                         en: oneLine`We’ve made some changes to our application form`,
