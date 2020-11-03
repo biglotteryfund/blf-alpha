@@ -535,15 +535,17 @@ function under10KApplication(mock) {
         }
 
         if (mock.country === 'England') {
-            cy.findByText(
-                `When would you like to get the money if you are awarded?`
-            )
-                .parent()
-                .within(() => {
-                    cy.findByLabelText('As soon as possible').click();
-                });
+            if (!enableSimpleV2) {
+                cy.findByText(
+                    `When would you like to get the money if you are awarded?`
+                )
+                    .parent()
+                    .within(() => {
+                        cy.findByLabelText('As soon as possible').click();
+                    });
 
-            submitStep();
+                submitStep();
+            }
 
             if (enableSimpleV2) {
                 cy.findByText(
