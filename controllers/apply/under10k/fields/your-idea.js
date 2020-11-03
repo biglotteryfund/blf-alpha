@@ -174,15 +174,13 @@ module.exports = {
             });
         }
         function guidanceText() {
-            if (projectCountry === 'england') {
-                if (enableSimpleV2) {
-                    return localise({
-                        en: `<p>How does your project meet our funding priorities?</p>
-                        ${prioritiesDiversity()}`,
-                        cy: `<p>Ein blaenoriaethau ariannu yw:</p>
-                        ${prioritiesDiversity()}`,
-                    });
-                } else {
+            if (enableSimpleV2) {
+                return localise({
+                    en: `${prioritiesDiversity()}`,
+                    cy: `${prioritiesDiversity()}`,
+                });
+            } else {
+                if (projectCountry === 'england') {
                     return localise({
                         en: `<p>
                             We'll prioritise organisations supporting people and communities who experience 
@@ -199,22 +197,22 @@ module.exports = {
                         </p>
                         ${prioritiesDiversity()}`,
                     });
-                }
-            } else {
-                return localise({
-                    en: `<p><strong>We will prioritise:</strong></p>
+                } else {
+                    return localise({
+                        en: `<p><strong>We will prioritise:</strong></p>
                         ${prioritiesCovid19()}
                         <p>
                             You can tell us if your project meets more
                             than one priority, but don't worry if it doesn't.
                         </p>`,
-                    cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
+                        cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
                         ${prioritiesCovid19()}
                         <p>
                             Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
                             nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
                         </p>`,
-                });
+                    });
+                }
             }
         }
 
@@ -222,7 +220,7 @@ module.exports = {
             locale: locale,
             name: 'yourIdeaPriorities',
             label: localise({
-                en: `How does your project meet our funding priority?`,
+                en: `How does your project meet our funding priorities?`,
                 cy: `Sut mae'ch prosiect yn cwrdd â'n blaenoriaeth ariannu?`,
             }),
             explanation: stripIndents`${guidanceText()}${wordCountText(
