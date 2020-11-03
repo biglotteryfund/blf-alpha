@@ -77,13 +77,11 @@ module.exports = function ({ locale }) {
                     en: oneLine`Are you applying for an amount between
                 £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and
                 £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
-                that you’ll spend in around 12 months?
-                (or in 6 months for projects in England)`,
+                that you’ll spend in around 12 months?`,
                     cy: oneLine`A ydych chi'n gwneud cais am swm rhwng
                 £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a
                 £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} y
-                byddwch chi'n ei wario mewn tua 12 mis?
-                (neu mewn 6 mis ar gyfer prosiectau yn Lloegr) `,
+                byddwch chi'n ei wario mewn tua 12 mis?`,
                 });
             } else {
                 return localise({
