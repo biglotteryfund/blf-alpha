@@ -111,6 +111,28 @@ module.exports = {
         });
     },
     fieldProjectStartDate(locale, data) {
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+            if (enableSimpleV2) {
+                return Joi.dateParts()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .required();
+            } else {
+                return Joi.when('projectStartDateCheck', {
+                    is: 'asap',
+                    then: Joi.any().strip(),
+                    otherwise: Joi.dateParts()
+                        .minDate(minDate.format('YYYY-MM-DD'))
+                        .required(),
+                });
+            }
+        }
+
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
@@ -140,9 +162,7 @@ module.exports = {
             settings: {
                 minYear: minDate.format('YYYY'),
             },
-            schema: Joi.dateParts()
-                .minDate(minDate.format('YYYY-MM-DD'))
-                .required(),
+            schema: schema(),
             messages: [
                 {
                     type: 'base',
