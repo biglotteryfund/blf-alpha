@@ -1064,7 +1064,7 @@ it('should submit full application for under £10,000 outside England', () => {
         projectName: 'Test application',
         projectDateRange: {
             startDate: moment().add(18, 'weeks'),
-            endDate: moment().add(6, 'weeks'),
+            endDate: moment().add(6, 'months'),
         },
         country: sample(['Northern Ireland', 'Scotland', 'Wales']),
         beneficiariesGroups: sampleSize(
