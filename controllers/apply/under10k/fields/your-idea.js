@@ -216,13 +216,24 @@ module.exports = {
             }
         }
 
+        function getLabel() {
+            if (enableSimpleV2) {
+                return localise({
+                    en: `How does your project meet our funding priorities?`,
+                    cy: `Sut mae'ch prosiect yn cwrdd â'n blaenoriaeth ariannu?`,
+                });
+            } else {
+                return localise({
+                    en: `How does your project meet our funding priority?`,
+                    cy: `Sut mae'ch prosiect yn cwrdd â'n blaenoriaeth ariannu?`,
+                });
+            }
+        }
+
         return new TextareaField({
             locale: locale,
             name: 'yourIdeaPriorities',
-            label: localise({
-                en: `How does your project meet our funding priorities?`,
-                cy: `Sut mae'ch prosiect yn cwrdd â'n blaenoriaeth ariannu?`,
-            }),
+            label: getLabel(),
             explanation: stripIndents`${guidanceText()}${wordCountText(
                 locale,
                 maxWords
