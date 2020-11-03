@@ -4,6 +4,8 @@ const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const {
     Field,
@@ -515,7 +517,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     };
 
     // Add Covid-19-specific T&C fields if switched on
-    if (flags.enableGovCOVIDUpdates) {
+    if (flags.enableGovCOVIDUpdates && !enableSimpleV2) {
         allFields.termsAgreementCovid2 = fieldTermsAgreementCovid2(locale);
         allFields.termsAgreementCovid3 = fieldTermsAgreementCovid3(locale);
     }
