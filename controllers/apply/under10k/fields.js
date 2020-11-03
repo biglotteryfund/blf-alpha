@@ -164,7 +164,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
               projectLocationDescription: fieldProjectLocationDescription(
                   locale
               ),
-              supportingCOVID19: fieldSupportingCOVID19(locale),
               projectStartDate: fieldProjectStartDate(locale, data),
               projectEndDate: fieldProjectEndDate(locale, data, flags),
               projectPostcode: fieldProjectPostcode(locale),
