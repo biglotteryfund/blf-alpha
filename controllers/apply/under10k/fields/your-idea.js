@@ -112,7 +112,18 @@ module.exports = {
                         <li>continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity</li>
                         <li>change and adapt, becoming more resilient in order to respond to new and future challenges.</li>
                     </ul>`,
-                    cy: ``,
+                    cy: `
+                    <p>Dylai cais da wneud o leiaf un o'r tri pheth hyn:</p>
+                    <ol>
+                        <li>tmeithrin cydberthnasau cryf mewn cymunedau ac ar eu traws</li>
+                        <li>tgwella'r lleoedd a'r mannau sy'n bwysig i gymunedau</li>
+                        <li>thelpu mwy o bobl i gyrraedd eu potensial, drwy eu cefnogi cyn gynted â phosibl.</li>
+                    </ol>
+                    <p>Rydym hefyd yn awyddus i gefnogi pobl a chymunedau sydd wedi’u heffeithio fwyaf andwyol gan COVID-19. Gallwn eich cefnogi i:</p>
+                    <ul>
+                        <li>tbarhau i gyflawni gweithgarwch, p'un a ydych yn ymateb i'r argyfwng uniongyrchol neu'n cefnogi gweithgarwch adfer</li>
+                        <li>tnewid ac addasu, dod yn fwy gwydn er mwyn ymateb i heriau newydd ac yn y dyfodol.</li>
+                    </ul>`,
                 });
             } else {
                 return localise({
@@ -220,7 +231,7 @@ module.exports = {
             if (enableSimpleV2) {
                 return localise({
                     en: `How does your project meet our funding priorities?`,
-                    cy: `Sut mae'ch prosiect yn cwrdd â'n blaenoriaeth ariannu?`,
+                    cy: `Sut mae eich prosiect yn bodloni ein blaenoriaethau ariannu?`,
                 });
             } else {
                 return localise({
