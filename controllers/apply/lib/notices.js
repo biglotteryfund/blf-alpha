@@ -90,16 +90,11 @@ module.exports = {
                         changes might mean you have to answer more questions or change your answers 
                         before submitting your application. But we have given you an extra two weeks 
                         to complete your application if your application was close to expiring when 
-                        we made the changes.</p>
-                        <p><strong>If you have any questions</strong></p>
-                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                        cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. 
-                        Gallai'r newidiadau olygu bod yn rhaid i chi ateb mwy o gwestiynau neu 
-                        newid eich atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw 
-                        at gwestiynau newydd i chi, ac yn rhoi pythefnos ychwanegol i chi gwblhau 
-                        eich cais os oedd eich cais yn agos at ddod i ben pan wnaethom y newidiadau.</p>
-                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
-                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
+                        we made the changes.</p>`,
+                        cy: `<p>Gobeithiwn wella'r profiad o wneud cais am grant. Gallai'r newidiadau 
+                        hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn 
+                        cyflwyno'ch cais. Ond rydym wedi rhoi pythefnos ychwanegol i chi gwblhau eich 
+                        cais os oedd eich cais yn agos at ddod i ben pan wnaethom y newidiadau.</p>`,
                     }),
                 });
             } else {
@@ -112,16 +107,11 @@ module.exports = {
                         en: `<p>We hope to improve the experience of applying for funding. These changes 
                         might mean you have to answer more questions or change your answers before 
                         submitting your application. But we'll give you an extra two weeks to complete 
-                        your application if your application is close to expiring.</p>
-                        <p><strong>If you have any questions</strong></p>
-                        <p><a href="/about/contact-us">Contact us</a>.</p>`,
-                        cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Efallai 
-                        bydd y newidiadau hyn yn golygu bod gennych fwy o gwestiynau i’w hateb neu bod 
-                        angen newid eich atebion cyn anfon eich cais. Ond byddwn yn tynnu eich sylw at 
-                        gwestiynau newydd i chi, ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais 
-                        os yw eich cais yn agos at ddod i ben pan wnaethom y newidiadau.</p>
-                        <p><strong>Os oes gennych unrhyw gwestiynau</strong></p>
-                        <p><a href="/about/contact-us">Cysylltwch â ni</a>.</p>`,
+                        your application if your application is close to expiring.</p>`,
+                        cy: `<p>Gobeithiwn wella'r profiad o wneud cais am grant. Gallai'r newidiadau hyn 
+                        olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn 
+                        cyflwyno'ch cais. Ond byddwn yn rhoi pythefnos ychwanegol i chi gwblhau eich 
+                        cais os yw eich cais yn agos at ddod i ben.</p>`,
                     }),
                 });
             }
@@ -217,15 +207,14 @@ module.exports = {
                                    weeks to complete your application if your application is close to expiring. Read 
                                    about our 
                                   <a href="/funding/over10k">over £10,000</a> to find out more about what's changed.</p>`,
-                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Mae'r 
-                            newidiadau hyn yn golygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
-                            atebion cyn cyflwyno'ch cais. Mae hyn yn cynnwys ble rydych chi'n dweud wrthym 
-                            beth 
-                            <a href="/apply/your-funding-proposal-v2/your-project/8?edit#form-field-yourIdeaProject">mae eich prosiect amdano</a>
-                            . Ond rydym wedi tynnu sylw cwestiynau newydd atoch, 
-                            ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos 
-                            at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf am grantiau 
-                            <a href="/welsh/funding/over10k">dros £10,000</a>.</p>`,
+                            cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn 
+                            cyflwyno'ch cais. Mae hyn yn cynnwys ble rydych chi'n dweud wrthym beth yw 
+                            <a href="/apply/your-funding-proposal-v2/your-project/8?edit#form-field-yourIdeaProject">eich prosiect</a>
+                            . Ond rydym wedi tynnu ei sylw atoch, ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich 
+                            cais os yw eich cais yn agos at ddod i ben. Darllenwch am ein 
+                            <a href="/welsh/funding/over10k">grantiau dros £10,000</a> i gael gwybod mwy am yr hyn sydd 
+                            wedi newid.</p>`,
                         }),
                     });
                 } else {
@@ -240,12 +229,10 @@ module.exports = {
                             your application. But we will give you an extra two weeks to complete your application if 
                             your application is close to expiring. You can also wait until we’ve made the changes and 
                             then start a new application.</p>`,
-                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
-                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
-                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
-                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at 
-                            ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau 
-                            cais newydd.</p>`,
+                            cy: `<p>Gobeithiwn wella'r profiad o wneud cais am grant. Gallai'r newidiadau hyn olygu bod 
+                            yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn cyflwyno'ch cais. Ond byddwn 
+                            yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at ddod i ben. 
+                            Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau cais newydd.</p>`,
                         }),
                     });
                 }
@@ -263,11 +250,11 @@ module.exports = {
                             your application if your application is close to expiring. Have a look at our website 
                             for the latest information about funding 
                                   <a href="/funding/under10k">under £10,000</a>.</p>`,
-                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Mae'r 
-                            newidiadau hyn yn golygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
-                            atebion cyn cyflwyno'ch cais. Ond rydym wedi tynnu eich sylw at gwestiynau newydd 
-                            i chi, ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais 
-                            yn agos at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf am grantiau 
+                            cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion 
+                            cyn cyflwyno'ch cais. Ond rydym wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais 
+                            os yw eich cais yn agos at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf 
+                            am grantiau 
                             <a href="/welsh/funding/under10k">dan £10,000</a>.</p>`,
                         }),
                     });
@@ -282,12 +269,10 @@ module.exports = {
                         mean you have to answer more questions or change your answers before submitting your application. 
                         But we'll give you an extra two weeks to complete your application if your application is close 
                         to expiring. You can also wait until we’ve made the changes and then start a new application.</p>`,
-                            cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
-                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
-                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
-                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos 
-                            at ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna 
-                            dechrau cais newydd.</p>`,
+                            cy: `<p>Gobeithiwn wella'r profiad o wneud cais am grant. Gallai'r newidiadau hyn olygu bod 
+                            yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn cyflwyno'ch cais. Ond byddwn 
+                            yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at ddod i ben. 
+                            Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau cais newydd.</p>`,
                         }),
                     });
                 }
@@ -301,12 +286,9 @@ module.exports = {
                         en: `<p>We hope these improve the experience of applying for funding. These changes 
                         might mean you have to answer more questions and may want to change any answers you 
                         might have prepared.</p>`,
-                        cy: `<p>Rydym yn gobeithio gwella’r profiad o ymgeisio am arian grant. Gallai'r 
-                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich 
-                            atebion cyn cyflwyno'ch cais. Ond byddwn yn tynnu eich sylw at gwestiynau newydd, 
-                            ac yn rhoi pythefnos ychwanegol i chi gwblhau eich cais os yw eich cais yn agos at 
-                            ddod i ben. Gallwch hefyd aros nes ein bod wedi gwneud y newidiadau ac yna dechrau 
-                            cais newydd.</p>`,
+                        cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
+                        newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau ac efallai y byddwch am 
+                        newid unrhyw atebion y gallech fod wedi'u paratoi.</p>`,
                     }),
                 });
             }
