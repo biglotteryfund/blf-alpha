@@ -23,6 +23,5 @@ module.exports = function (locale) {
                  <p><strong>Er enghraifft: 11 ${exampleYear}</strong></p>`,
         }),
         isRequired: true,
-
     });
 };

@@ -56,7 +56,7 @@ class MonthYearField extends Field {
             const dt = moment({
                 year: this.value.year,
                 month: this.value.month - 1,
-                day: this.value.day,
+                day: 1,
             });
 
             return dt.isValid() ? dt.locale(this.locale).format('MMMM YYYY') : '';
