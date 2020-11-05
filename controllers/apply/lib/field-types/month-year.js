@@ -54,12 +54,12 @@ class MonthYearField extends Field {
     get displayValue() {
         if (this.value) {
             const dt = moment({
-                year: moment().year(),
+                year: this.value.year,
                 month: this.value.month - 1,
-                day: this.value.day,
+                day: 1,
             });
 
-            return dt.isValid() ? dt.locale(this.locale).format('Do MMMM') : '';
+            return dt.isValid() ? dt.locale(this.locale).format('MMMM YYYY') : '';
         } else {
             return '';
         }
