@@ -6,7 +6,7 @@ const { Model, Op } = require('sequelize');
 
 const Users = require('./user');
 
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const { enableStandardV2 } = require('../../common/secrets');
 
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {

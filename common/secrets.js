@@ -145,7 +145,18 @@ const DOTDIGITAL_API = {
  * */
 
 const SALESFORCE_SANDBOX_DOMAIN =
-    process.env.SALESFORCE_SANDBOX_DOMAIN || getParameter('sandbox.test.domain');
+    process.env.SALESFORCE_SANDBOX_DOMAIN ||
+    getParameter('sandbox.test.domain');
+
+/**
+ * Form changes
+ * Used to turn on and off for the standard and simple form changes
+ */
+const ENABLE_STANDARD =
+    process.env.ENABLE_STANDARD || getParameter('enable.std');
+const ENABLE_SIMPLE = process.env.ENABLE_SIMPLE || getParameter('enable.simp');
+const enableStandardV2 = ENABLE_STANDARD === 'true' ? ENABLE_STANDARD : '';
+const enableSimpleV2 = ENABLE_SIMPLE === 'true' ? ENABLE_SIMPLE : '';
 
 module.exports = {
     AZURE_AUTH,
@@ -156,6 +167,8 @@ module.exports = {
     DOTDIGITAL_API,
     EMAIL_EXPIRY_SECRET,
     EMAIL_EXPIRY_TEST_ADDRESS,
+    enableSimpleV2,
+    enableStandardV2,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,

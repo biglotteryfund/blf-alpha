@@ -5,8 +5,7 @@ const { findLocationName } = require('./lib/locations');
 
 const formBuilder = require('./form');
 const formBuilderV2 = require('../standard-proposal-v2/form');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const { enableStandardV2 } = require('../../../common/secrets');
 
 function details(application, data, locale) {
     const localise = get(locale);
