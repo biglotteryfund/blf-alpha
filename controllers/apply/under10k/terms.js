@@ -1,8 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
-const config = require('config');
-const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
+const { enableSimpleV2 } = require('../../../common/secrets');
 
 function newTerms(locale) {
     const localise = get(locale);
