@@ -1053,7 +1053,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
-            schema: Joi.friendlyNumber().integer().required(),
+            schema: Joi.friendlyNumber().integer().min(0).required(),
             messages: [
                 {
                     type: 'base',
@@ -1064,6 +1064,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'number.integer',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
                     message: localise({
                         en: 'Enter a number.',
                         cy: '',
@@ -1086,7 +1093,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 on this project specifically - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
-            schema: Joi.friendlyNumber().integer().required(),
+            schema: Joi.friendlyNumber().integer().min(0).required(),
             messages: [
                 {
                     type: 'base',
@@ -1097,6 +1104,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'number.integer',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
                     message: localise({
                         en: 'Enter a number.',
                         cy: '',
@@ -1120,10 +1134,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 need to divide the total number of hours worked by staff at your organisation by 37.`,
                 cy: ``,
             }),
-            schema: Joi.number().precision(2).required(),
+            schema: Joi.number().precision(2).min(0).required(),
             messages: [
                 {
                     type: 'base',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
                     message: localise({
                         en: 'Enter a number.',
                         cy: '',
