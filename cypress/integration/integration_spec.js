@@ -8,8 +8,7 @@ const sample = require('lodash/sample');
 const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
-const enableStandardV2 = true;
-const enableSimpleV2 = true;
+const { enableStandardV2, enableSimpleV2 } = require('../../common/secrets');
 
 function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();

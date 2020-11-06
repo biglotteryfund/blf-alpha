@@ -12,8 +12,11 @@ const enableGovCOVIDUpdates = config.get(
 const enableStandardEnglandAutoProjectDuration = config.get(
     'standardFundingProposal.enableEnglandAutoProjectDuration'
 );
-const { enableStandardV2, enableSimpleV2 } = require('../../../common/secrets');
-const bannersLaunch = config.get('standardFundingProposal.banners');
+const {
+    enableStandardV2,
+    enableSimpleV2,
+    bannersLaunch,
+} = require('../../../common/secrets');
 
 module.exports = {
     getNoticesAll(locale, pendingApplications = []) {
