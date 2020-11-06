@@ -6,20 +6,6 @@ Array [
     "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
     "title": "We're sorry, but your application is now not eligible for funding",
   },
-  Object {
-    "body": <p>
-  We hope these improve the experience of applying for funding. These 
-                            changes might mean you have to answer more questions or change your answers before 
-                            submitting your application. But we have given you an extra two weeks to complete 
-                            your application if your application is close to expiring. Have a look at our website 
-                            for the latest information about funding
-  <a href="/funding/under10k">
-    under £10,000
-  </a>
-  .
-</p>,
-    "title": "We’ve made changes to this online application form",
-  },
 ]
 `;
 
@@ -29,20 +15,6 @@ Array [
     "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
     "title": "We're sorry, but your application is now not eligible for funding",
   },
-  Object {
-    "body": <p>
-  We hope these improve the experience of applying for funding. These 
-                            changes might mean you have to answer more questions or change your answers before 
-                            submitting your application. But we have given you an extra two weeks to complete 
-                            your application if your application is close to expiring. Have a look at our website 
-                            for the latest information about funding
-  <a href="/funding/under10k">
-    under £10,000
-  </a>
-  .
-</p>,
-    "title": "We’ve made changes to this online application form",
-  },
 ]
 `;
 
@@ -51,20 +23,6 @@ Array [
   Object {
     "body": "We've changed our eligibility criteria (for the time being) to help communities through the pandemic. So for funding under £10,000, we're only funding voluntary and community organisations with COVID-19 related projects.",
     "title": "We're sorry, but your application is now not eligible for funding",
-  },
-  Object {
-    "body": <p>
-  We hope these improve the experience of applying for funding. These 
-                            changes might mean you have to answer more questions or change your answers before 
-                            submitting your application. But we have given you an extra two weeks to complete 
-                            your application if your application is close to expiring. Have a look at our website 
-                            for the latest information about funding
-  <a href="/funding/under10k">
-    under £10,000
-  </a>
-  .
-</p>,
-    "title": "We’ve made changes to this online application form",
   },
 ]
 `;

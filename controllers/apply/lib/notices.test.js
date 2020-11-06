@@ -13,6 +13,6 @@ test.each(['school', 'college-or-university', 'statutory-body'])(
             },
         });
         expect(resultSingle).toMatchSnapshot();
-        expect(resultSingle).toHaveLength(2);
+        expect(resultSingle).toHaveLength(1);
     }
 );
