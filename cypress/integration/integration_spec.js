@@ -8,8 +8,7 @@ const sample = require('lodash/sample');
 const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
-const enableStandardV2 = true;
-const enableSimpleV2 = true;
+const { enableStandardV2, enableSimpleV2 } = true;
 
 function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
@@ -588,7 +587,11 @@ function under10KApplication(mock) {
             .invoke('val', faker.lorem.words(150))
             .trigger('change');
 
-        cy.findByLabelText('How does your project meet our funding priorities?')
+        cy.findByLabelText(
+            enableSimpleV2
+                ? 'How does your project meet our funding priorities?'
+                : 'How does your project meet our funding priority?'
+        )
             .invoke('val', faker.lorem.words(100))
             .trigger('change');
 

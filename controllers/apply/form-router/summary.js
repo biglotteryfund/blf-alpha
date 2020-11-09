@@ -5,8 +5,7 @@ const differenceBy = require('lodash/differenceBy');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const concat = require('lodash/concat');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const { enableStandardV2 } = require('../../../common/secrets');
 
 const logger = require('../../../common/logger').child({
     service: 'form-summary',

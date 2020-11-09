@@ -10,7 +10,7 @@ const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
-const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
+const { enableSimpleV2 } = require('../../../common/secrets');
 
 const { isTestServer } = require('../../../common/appData');
 

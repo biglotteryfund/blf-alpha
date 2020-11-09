@@ -1,8 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 const flatMap = require('lodash/fp/flatMap');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const { enableStandardV2 } = require('../../../../common/secrets');
 
 function yorkshireAndHumber() {
     if (enableStandardV2) {

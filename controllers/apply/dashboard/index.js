@@ -16,8 +16,7 @@ const logger = require('../../../common/logger').child({ service: 'apply' });
 const enrichAwardsForAll = require('../under10k/enrich');
 const enrichStandard = require('../standard-proposal/enrich');
 const { getNoticesAll } = require('../lib/notices');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const { enableStandardV2 } = require('../../../common/secrets');
 
 const router = express.Router();
 
