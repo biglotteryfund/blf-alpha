@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`fieldProjectEndDate guidance states 6 months in England 1`] = `"You have up to 12 months after award to spend the money."`;
+exports[`fieldProjectEndDate guidance states 6 months in England 1`] = `"Given the COVID-19 emergency, you can have up to 6 months after award to spend the money."`;
 
 exports[`fieldProjectEndDate guidance states 12 months outside England 1`] = `"You have up to 12 months after award to spend the money."`;
 

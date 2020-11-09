@@ -4,6 +4,7 @@ const moment = require('moment-timezone');
 
 const { toDateParts } = require('./mocks');
 const { enrichPending, enrichSubmitted } = require('./enrich');
+const { enableSimpleV2 } = require('../../../common/secrets');
 
 test('enrich pending applications', function () {
     function mock(applicationData) {
@@ -42,11 +43,25 @@ test('enrich pending applications', function () {
     );
 
     expect(resultAsap.amountRequested).toBe('£6,750');
-    expect(resultAsap.overview).toStrictEqual([
-        { label: 'Project dates', value: '11 November, 2020–4 June, 2020' },
-        { label: 'Location', value: 'Derbyshire' },
-        { label: 'Organisation', value: 'Example organisation trading name' },
-    ]);
+    if (enableSimpleV2) {
+        expect(resultAsap.overview).toStrictEqual([
+            { label: 'Project dates', value: '11 November, 2020–4 June, 2020' },
+            { label: 'Location', value: 'Derbyshire' },
+            {
+                label: 'Organisation',
+                value: 'Example organisation trading name',
+            },
+        ]);
+    } else {
+        expect(resultAsap.overview).toStrictEqual([
+            { label: 'Project dates', value: 'As soon as possible' },
+            { label: 'Location', value: 'Derbyshire' },
+            {
+                label: 'Organisation',
+                value: 'Example organisation trading name',
+            },
+        ]);
+    }
 
     const resultExactDate = enrichPending(
         mock({
@@ -112,11 +127,25 @@ test('enrich submitted applications', function () {
     );
 
     expect(resultAsap.amountRequested).toBe('£6,750');
-    expect(resultAsap.overview).toStrictEqual([
-        { label: 'Project dates', value: '11 November, 2020–4 June, 2020' },
-        { label: 'Location', value: 'Derbyshire' },
-        { label: 'Organisation', value: 'Example organisation trading name' },
-    ]);
+    if (enableSimpleV2) {
+        expect(resultAsap.overview).toStrictEqual([
+            { label: 'Project dates', value: '11 November, 2020–4 June, 2020' },
+            { label: 'Location', value: 'Derbyshire' },
+            {
+                label: 'Organisation',
+                value: 'Example organisation trading name',
+            },
+        ]);
+    } else {
+        expect(resultAsap.overview).toStrictEqual([
+            { label: 'Project dates', value: 'As soon as possible' },
+            { label: 'Location', value: 'Derbyshire' },
+            {
+                label: 'Organisation',
+                value: 'Example organisation trading name',
+            },
+        ]);
+    }
 
     const resultExactDate = enrichSubmitted(
         mock({
