@@ -20,7 +20,7 @@ exports[`show COVID-19 guidance text in England 1`] = `
 </p>
 <ul>
   <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity.
+    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
   </li>
   <li>
     change and adapt, becoming more resilient to respond to new and future challenges.
@@ -68,7 +68,7 @@ exports[`show COVID-19 guidance text in England 2`] = `
 </p>
 <ul>
   <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity.
+    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
   </li>
   <li>
     change and adapt, becoming more resilient to respond to new and future challenges.
@@ -116,7 +116,7 @@ exports[`show COVID-19 guidance text outside England when project is responding 
 </p>
 <ul>
   <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity.
+    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
   </li>
   <li>
     change and adapt, becoming more resilient to respond to new and future challenges.
@@ -164,7 +164,7 @@ exports[`show combined guidance text as a fallback 1`] = `
 </p>
 <ul>
   <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity.
+    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
   </li>
   <li>
     change and adapt, becoming more resilient to respond to new and future challenges.
@@ -212,7 +212,7 @@ exports[`show regular guidance text outside England when project is not respondi
 </p>
 <ul>
   <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity.
+    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
   </li>
   <li>
     change and adapt, becoming more resilient to respond to new and future challenges.
