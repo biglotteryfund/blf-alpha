@@ -153,10 +153,11 @@ const SALESFORCE_SANDBOX_DOMAIN =
  * Used to turn on and off for the standard and simple form changes
  */
 const ENABLE_STANDARD =
-    process.env.ENABLE_STANDARD || getParameter('enable.std');
-const ENABLE_SIMPLE = process.env.ENABLE_SIMPLE || getParameter('enable.simp');
+    process.env.ENABLE_STANDARD || getParameter('enable.std', true);
+const ENABLE_SIMPLE =
+    process.env.ENABLE_SIMPLE || getParameter('enable.simp', true);
 const ENABLE_BANNERS =
-    process.env.ENABLE_BANNERS || getParameter('banners.launch');
+    process.env.ENABLE_BANNERS || getParameter('banners.launch', true);
 const enableStandardV2 = ENABLE_STANDARD === 'true' ? ENABLE_STANDARD : '';
 const enableSimpleV2 = ENABLE_SIMPLE === 'true' ? ENABLE_SIMPLE : '';
 const bannersLaunch = ENABLE_BANNERS === 'true' ? ENABLE_BANNERS : '';
