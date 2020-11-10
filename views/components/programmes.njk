@@ -34,12 +34,38 @@
     </dl>
 {% endmacro %}
 
+{% macro programmeInfo(programme, isCompact) %}
+    {% set labels = __('global.programmes.programmeLabels') %}
+    <dl class="o-definition-list{% if isCompact %} o-definition-list--compact{% endif %}">
+        {% if programme.area %}
+            <dt>{{ labels.area }}</dt>
+            <dd>{{ programme.area.label }}</dd>
+        {% endif %}
+
+        {% if programme.organisationType %}
+            <dt>{{ labels.organisationTypes }}</dt>
+            <dd>{{ programme.organisationType }}</dd>
+        {% endif %}
+
+        {% if programme.fundingSize.totalAvailable %}
+            <dt>{{ labels.totalAvailable }}</dt>
+            <dd>{{ programme.fundingSize.totalAvailable }}</dd>
+        {% endif %}
+
+        {% if programme.applicationDeadline %}
+            <dt>{{ labels.applicationDeadline }}</dt>
+            <dd>{{ programme.applicationDeadline | safe }}</dd>
+        {% endif %}
+
+    </dl>
+{% endmacro %}
+
 {% macro programmeCard(programme) %}
     {% set description %}
         {% if programme.trailText %}
             <p>{{ programme.trailText }}</p>
         {% endif %}
-        {{ programmeStats(programme) }}
+        {{ programmeInfo(programme) }}
     {% endset %}
     {{ promoCard({
         "title": programme.title,
