@@ -109,7 +109,7 @@ module.exports = {
                     </ol>
                     <p>With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
                     <ul>
-                        <li>continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity.</li>
+                        <li>continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity</li>
                         <li>change and adapt, becoming more resilient to respond to new and future challenges.</li>
                     </ul>
                     <p>In order to support communities to thrive, we aim to:</p>
