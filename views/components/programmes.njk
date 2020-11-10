@@ -13,7 +13,10 @@
             <dd>{{ programme.organisationType }}</dd>
         {% endif %}
 
-        {% if programme.fundingSize.description %}
+        {% if programme.trailText %}
+            <dt>{{ labels.trailText }}</dt>
+            <dd>{{ programme.trailText | safe }}</dd>
+        {% elseif programme.fundingSize.description %}
             <dt>{{ labels.fundingSize }}</dt>
             <dd>{{ programme.fundingSize.description }}</dd>
        {% endif %}
@@ -27,11 +30,7 @@
             <dt>{{ labels.applicationDeadline }}</dt>
             <dd>{{ programme.applicationDeadline | safe }}</dd>
         {% endif %}
-        
-        {% if programme.trailText %}
-            <dt>{{ labels.trailText }}</dt>
-            <dd>{{ programme.trailText | safe }}</dd>
-        {% endif %}
+
     </dl>
 {% endmacro %}
 
