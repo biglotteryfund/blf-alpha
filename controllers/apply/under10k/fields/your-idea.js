@@ -3,7 +3,8 @@ const get = require('lodash/fp/get');
 const { stripIndents } = require('common-tags');
 
 const { TextareaField } = require('../../lib/field-types');
-const { enableSimpleV2 } = require('../../../../common/secrets');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function wordCountText(locale, maxWords) {
     const localise = get(locale);

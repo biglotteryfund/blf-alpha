@@ -5,7 +5,8 @@ const toInteger = require('lodash/toInteger');
 
 const { formatDateRange } = require('../lib/formatters');
 const { findLocationName } = require('./lib/location-options');
-const { enableSimpleV2 } = require('../../../common/secrets');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const formBuilder = require('./form');
 

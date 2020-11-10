@@ -4,7 +4,8 @@ const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
-const { enableSimpleV2 } = require('../../../common/secrets');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const {
     Field,

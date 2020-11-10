@@ -9,7 +9,9 @@ const pick = require('lodash/pick');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
 const formidable = require('formidable');
-const { enableStandardV2, enableSimpleV2 } = require('../../../common/secrets');
+const config = require('config');
+const enableStandardV2 = config.get('standardFundingProposal.enablev2');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const {
     PendingApplication,
