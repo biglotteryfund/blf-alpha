@@ -107,10 +107,16 @@ module.exports = {
                         <li>improve the places and spaces that matter to communities</li>
                         <li>help more people to reach their potential, by supporting them at the earliest possible stage.  </li>
                     </ol>
-                    <p>We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
+                    <p>With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
                     <ul>
-                        <li>continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity</li>
-                        <li>change and adapt, becoming more resilient in order to respond to new and future challenges.</li>
+                        <li>continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity.</li>
+                        <li>change and adapt, becoming more resilient to respond to new and future challenges.</li>
+                    </ul>
+                    <p>In order to support communities to thrive, we aim to:</p>
+                    <ul>
+                        <li>build strong relationships in and across communities</li>
+                        <li>improve the places and spaces that matter to communities</li>
+                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
                     </ul>`,
                     cy: `
                     <p>Dylai cais da wneud o leiaf un o'r tri pheth hyn:</p>
