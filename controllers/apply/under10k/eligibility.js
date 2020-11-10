@@ -1,7 +1,8 @@
 'use strict';
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
-const { enableSimpleV2 } = require('../../../common/secrets');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const {
     MIN_BUDGET_TOTAL_GBP,

@@ -1,7 +1,8 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const { enableStandardV2 } = require('../../common/secrets');
+const config = require('config');
+const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 router.use(function (req, res, next) {
     if (req.user) {

@@ -6,7 +6,8 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../../lib/joi-extensions');
 const { DateField, RadioField } = require('../../lib/field-types');
-const { enableSimpleV2 } = require('../../../../common/secrets');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function getLeadTimeWeeks(country) {
     const countryLeadTimes = {

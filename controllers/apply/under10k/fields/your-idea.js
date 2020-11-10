@@ -3,7 +3,8 @@ const get = require('lodash/fp/get');
 const { stripIndents } = require('common-tags');
 
 const { TextareaField } = require('../../lib/field-types');
-const { enableSimpleV2 } = require('../../../../common/secrets');
+const config = require('config');
+const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 function wordCountText(locale, maxWords) {
     const localise = get(locale);
@@ -106,16 +107,10 @@ module.exports = {
                         <li>improve the places and spaces that matter to communities</li>
                         <li>help more people to reach their potential, by supporting them at the earliest possible stage.  </li>
                     </ol>
-                    <p>With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
+                    <p>We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
                     <ul>
-                        <li>continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity</li>
-                        <li>change and adapt, becoming more resilient to respond to new and future challenges.</li>
-                    </ul>
-                    <p>In order to support communities to thrive, we aim to:</p>
-                    <ul>
-                        <li>build strong relationships in and across communities</li>
-                        <li>improve the places and spaces that matter to communities</li>
-                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
+                        <li>continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity</li>
+                        <li>change and adapt, becoming more resilient in order to respond to new and future challenges.</li>
                     </ul>`,
                     cy: `
                     <p>Dylai cais da wneud o leiaf un o'r tri pheth hyn:</p>
