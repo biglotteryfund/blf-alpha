@@ -588,7 +588,11 @@ function under10KApplication(mock) {
             .invoke('val', faker.lorem.words(150))
             .trigger('change');
 
-        cy.findByLabelText('How does your project meet our funding priorities?')
+        cy.findByLabelText(
+            enableSimpleV2
+                ? 'How does your project meet our funding priorities?'
+                : 'How does your project meet our funding priority?'
+        )
             .invoke('val', faker.lorem.words(100))
             .trigger('change');
 
