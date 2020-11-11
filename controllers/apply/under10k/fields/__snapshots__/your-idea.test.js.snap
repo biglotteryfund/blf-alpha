@@ -2,20 +2,6 @@
 
 exports[`show COVID-19 guidance text in England 1`] = `
 <p>
-  A good application should do at least one of these three things:
-</p>
-<ol>
-  <li>
-    build strong relationships in and across communities
-  </li>
-  <li>
-    improve the places and spaces that matter to communities
-  </li>
-  <li>
-    help more people to reach their potential, by supporting them at the earliest possible stage.
-  </li>
-</ol>
-<p>
   With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
 </p>
 <ul>
@@ -49,20 +35,6 @@ but don't worry if you use less.
 `;
 
 exports[`show COVID-19 guidance text in England 2`] = `
-<p>
-  A good application should do at least one of these three things:
-</p>
-<ol>
-  <li>
-    build strong relationships in and across communities
-  </li>
-  <li>
-    improve the places and spaces that matter to communities
-  </li>
-  <li>
-    help more people to reach their potential, by supporting them at the earliest possible stage.
-  </li>
-</ol>
 <p>
   With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
 </p>
@@ -98,20 +70,6 @@ but don't worry if you use less.
 
 exports[`show COVID-19 guidance text outside England when project is responding to COVID-19 1`] = `
 <p>
-  A good application should do at least one of these three things:
-</p>
-<ol>
-  <li>
-    build strong relationships in and across communities
-  </li>
-  <li>
-    improve the places and spaces that matter to communities
-  </li>
-  <li>
-    help more people to reach their potential, by supporting them at the earliest possible stage.
-  </li>
-</ol>
-<p>
   With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
 </p>
 <ul>
@@ -146,20 +104,6 @@ but don't worry if you use less.
 
 exports[`show combined guidance text as a fallback 1`] = `
 <p>
-  A good application should do at least one of these three things:
-</p>
-<ol>
-  <li>
-    build strong relationships in and across communities
-  </li>
-  <li>
-    improve the places and spaces that matter to communities
-  </li>
-  <li>
-    help more people to reach their potential, by supporting them at the earliest possible stage.
-  </li>
-</ol>
-<p>
   With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
 </p>
 <ul>
@@ -193,20 +137,6 @@ but don't worry if you use less.
 `;
 
 exports[`show regular guidance text outside England when project is not responding to COVID-19 1`] = `
-<p>
-  A good application should do at least one of these three things:
-</p>
-<ol>
-  <li>
-    build strong relationships in and across communities
-  </li>
-  <li>
-    improve the places and spaces that matter to communities
-  </li>
-  <li>
-    help more people to reach their potential, by supporting them at the earliest possible stage.
-  </li>
-</ol>
 <p>
   With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
 </p>
