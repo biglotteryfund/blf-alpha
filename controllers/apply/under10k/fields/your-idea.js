@@ -101,12 +101,6 @@ module.exports = {
             if (enableSimpleV2) {
                 return localise({
                     en: `
-                    <p>A good application should do at least one of these three things:</p>
-                    <ol>
-                        <li>build strong relationships in and across communities</li>
-                        <li>improve the places and spaces that matter to communities</li>
-                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.  </li>
-                    </ol>
                     <p>With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
                     <ul>
                         <li>continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity</li>
