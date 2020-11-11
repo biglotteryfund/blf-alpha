@@ -54,9 +54,15 @@
                     <div class="flex-grid__item">
                         {{ actionCard(copy.actions.simple) }}
                     </div>
-                    <div class="flex-grid__item">
-                        {{ actionCard(copy.actions.standard) }}
-                    </div>
+                    {% if enableStandardV2 %}
+                        <div class="flex-grid__item">
+                            {{ actionCard(copy.actions.standardV2) }}
+                        </div>
+                    {% else %}
+                        <div class="flex-grid__item">
+                            {{ actionCard(copy.actions.standard) }}
+                        </div>
+                    {% endif %}
                 </div>
             {% endif %}
 
