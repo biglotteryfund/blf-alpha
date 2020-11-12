@@ -29,6 +29,13 @@ router.get('/awards-for-all*', function (req, res) {
 router.use('/under-10k', require('./under10k'));
 if (enableStandardV2) {
     router.use('/your-funding-proposal-v2', require('./standard-proposal-v2'));
+    router.get('/your-funding-proposal*', function (req, res) {
+        const newPath = req.originalUrl.replace(
+            '/your-funding-proposal',
+            '/your-funding-proposal-v2'
+        );
+        res.redirect(newPath);
+    });
 } else {
     router.use('/your-funding-proposal', require('./standard-proposal'));
 }
