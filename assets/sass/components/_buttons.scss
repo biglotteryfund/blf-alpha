@@ -150,6 +150,9 @@ $buttonColorDarker: #db0079; // Passes contrast a11y tests for use with smaller 
     background-color: get-color('brand', 'secondary-blue');
     font-weight: font-weight('display', 'semibold');
 }
+.btn.btn--reversed:focus {
+    outline: black solid 2px;
+}
 
 /**
  * Button: Outline variant
@@ -239,7 +242,7 @@ $buttonColorDarker: #db0079; // Passes contrast a11y tests for use with smaller 
 
     &:active,
     &:focus {
-        outline: none;
+        outline: -webkit-focus-ring-color auto 1px;
     }
 
     @include on-interact {
