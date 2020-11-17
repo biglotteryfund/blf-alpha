@@ -151,7 +151,7 @@ $buttonColorDarker: #db0079; // Passes contrast a11y tests for use with smaller 
     font-weight: font-weight('display', 'semibold');
 }
 .btn.btn--reversed:focus {
-    outline: black solid 1px;
+    outline: black solid 2px;
 }
 
 /**
