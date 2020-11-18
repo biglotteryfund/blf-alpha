@@ -7,7 +7,7 @@ const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 function yorkshireAndHumber() {
     if (enableStandardV2) {
         return {
-            label: 'Yorkshire and the Humber',
+            label: 'Yorkshire and Humber',
             options: [
                 {
                     value: 'north-yorkshire',
@@ -22,8 +22,8 @@ function yorkshireAndHumber() {
                     label: 'West Yorkshire',
                 },
                 {
-                    value: 'humber',
-                    label: 'Humber',
+                    value: 'the-humber',
+                    label: 'The Humber',
                 },
             ],
         };

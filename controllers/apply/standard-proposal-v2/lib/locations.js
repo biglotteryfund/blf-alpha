@@ -28,8 +28,8 @@ function englandRegions() {
             value: 'south-west',
         },
         {
-            label: 'Yorkshire and the Humber',
-            value: 'yorkshire-and-the-humber',
+            label: 'Yorkshire and Humber',
+            value: 'yorkshire-and-humber',
         },
     ];
 }
@@ -274,7 +274,7 @@ function englandLocationOptions(filterRegions = []) {
                 label: 'Wiltshire',
             },
         ],
-        'yorkshire-and-the-humber': [
+        'yorkshire-and-humber': [
             {
                 value: 'north-yorkshire',
                 label: 'North Yorkshire',
@@ -288,8 +288,8 @@ function englandLocationOptions(filterRegions = []) {
                 label: 'West Yorkshire',
             },
             {
-                value: 'humber',
-                label: 'Humber',
+                value: 'the-humber',
+                label: 'The Humber',
             },
         ],
     };
