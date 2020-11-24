@@ -44,10 +44,10 @@ function showNewTabPane($tabClicked) {
 
             // toggle the active tab in this set
             let $oldActiveTab = $tabset.find(`.${ACTIVE_CLASS}`);
-            $oldActiveTab
-                .removeClass(ACTIVE_CLASS)
-                .attr('aria-selected', 'false');
-            $tabClicked.addClass(ACTIVE_CLASS).attr('aria-selected', 'true');
+            $oldActiveTab.parents('li').attr('aria-selected', 'false');
+            $oldActiveTab.removeClass(ACTIVE_CLASS);
+            $tabClicked.parents('li').attr('aria-selected', 'true');
+            $tabClicked.addClass(ACTIVE_CLASS);
 
             // Re-render any videos embedded in the pane
             // which aren't picked up on pageload by fitvids
@@ -124,8 +124,8 @@ function addTabBehaviour($tabs) {
 function addAriaStates($tabs) {
     $(SELECTORS.tabpane).not(`.${ACTIVE_CLASS}`).attr('aria-hidden', 'true');
 
-    $tabs.not(`.${ACTIVE_CLASS}`).attr('aria-selected', 'false');
-    $tabs.parents('li').attr('role', 'presentation');
+    $tabs.parents('li').not(`.${ACTIVE_CLASS}`).attr('aria-selected', 'false');
+    $tabs.parents('li').attr('role', 'tab');
 
     // match the panes with the tabs for ARIA labels
     $tabs.each(function () {
