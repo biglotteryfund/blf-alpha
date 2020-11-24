@@ -125,7 +125,7 @@
                                 {% set hasChildren = item.children.length > 0 %}
                                 {% set isCurrent = sectionUrl === item.url %}
                                 <li class="{% if isCurrent %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}">
-                                    <a href="{{ item.url }}" class="qa-nav-link">
+                                    <a title="{{ item.label }}" href="{{ item.url }}" class="qa-nav-link">
                                         {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
                                     </a>
                                     {% if hasChildren %}
