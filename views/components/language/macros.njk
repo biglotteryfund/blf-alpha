@@ -3,7 +3,7 @@
 {% macro languageLink(currentLocale) %}
     {% if isBilingual %}
         {% if currentLocale == 'en' %}
-            <a class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
+            <a lang="cy" class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
         {% else %}
             <a class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
         {% endif %}
