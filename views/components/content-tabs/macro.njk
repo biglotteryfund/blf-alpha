@@ -3,7 +3,7 @@
 {% macro contentTabs(tabs) %}
     {# data-breakpoint must match breakpoint used for styles #}
     <div class="js-tab-container" data-breakpoint="(min-width: 620px)">
-        <ul class="js-tabset content-tabset">
+        <ul class="js-tabset content-tabset" role="tablist">
             {% for tab in tabs %}
                 <li class="content-tabset__item">
                     <a class="js-tab content-tabset__tab{% if loop.first %} is-active{% endif %}"
@@ -16,7 +16,7 @@
 
         <div id="{{ paneSetId }}" class="js-paneset">
             {% for tab in tabs %}
-                <section id="{{ tab.id }}" class="js-tab-pane content-tab-pane{% if loop.first %} is-active{% endif %}">
+                <section role="tabpanel" id="{{ tab.id }}" class="js-tab-pane content-tab-pane{% if loop.first %} is-active{% endif %}">
                     <article class="content-tab-pane__content">
                         <div class="content-box content-box--frameless">
                             <a class="content-tab-pane__title t1" href="#{{ tab.id }}">{{ tab.title }}</a>
