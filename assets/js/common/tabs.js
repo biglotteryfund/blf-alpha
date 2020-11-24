@@ -125,7 +125,6 @@ function addAriaStates($tabs) {
     $(SELECTORS.tabpane).not(`.${ACTIVE_CLASS}`).attr('aria-hidden', 'true');
 
     $tabs.not(`.${ACTIVE_CLASS}`).attr('aria-selected', 'false');
-    $tabs.parents('li').attr('role', 'presentation');
 
     // match the panes with the tabs for ARIA labels
     $tabs.each(function () {
