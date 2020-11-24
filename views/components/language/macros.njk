@@ -5,7 +5,7 @@
         {% if currentLocale == 'en' %}
             <a lang="cy" class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
         {% else %}
-            <a class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
+            <a lang="en" class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
         {% endif %}
     {% endif %}
 {% endmacro %}
