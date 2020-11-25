@@ -288,8 +288,8 @@ function englandLocationOptions(filterRegions = []) {
                 label: 'West Yorkshire',
             },
             {
-                value: 'the-humber',
-                label: 'The Humber',
+                value: 'humber',
+                label: 'Humber',
             },
         ],
     };
