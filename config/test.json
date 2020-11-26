@@ -7,12 +7,9 @@
   "hotjarId": "1036292",
   "fundingUnder10k": {
     "enableEnglandAutoEndDate": true,
-    "enableGovCOVIDUpdates": false,
-    "enablev2":  true
+    "enableGovCOVIDUpdates": false
   },
   "standardFundingProposal": {
-    "enableEnglandAutoProjectDuration": true,
-    "enablev2": true,
-    "banners": true
+    "enableEnglandAutoProjectDuration": true
   }
 }

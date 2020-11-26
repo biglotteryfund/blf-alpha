@@ -31,14 +31,11 @@
   },
   "fundingUnder10k": {
     "enableGovCOVIDUpdates": true,
-    "enableEnglandAutoEndDate": true,
-    "enablev2":  false
+    "enableEnglandAutoEndDate": true
   },
   "standardFundingProposal": {
     "allowedCountries": ["england", "northern-ireland"],
-    "enableEnglandAutoProjectDuration": true,
-    "enablev2": false,
-    "banners": false
+    "enableEnglandAutoProjectDuration": true
   },
   "session": {
     "cookie": "blf-alpha-session",
