@@ -515,21 +515,19 @@ function under10KApplication(mock) {
             cy.findByLabelText('Year').type(momentInstance.year());
         }
 
-        if (mock.country === 'England') {
-            cy.findByText(
-                `Tell us when you'd like to get the money if you're awarded funding?`
-            )
-                .parent()
-                .within(() => {
-                    fillDateParts(mock.projectDateRange.startDate);
-                });
+        cy.findByText(
+            `Tell us when you'd like to get the money if you're awarded funding?`
+        )
+            .parent()
+            .within(() => {
+                fillDateParts(mock.projectDateRange.startDate);
+            });
 
-            cy.findByText('When will you spend the money by?')
-                .parent()
-                .within(() => {
-                    fillDateParts(mock.projectDateRange.endDate);
-                });
-        }
+        cy.findByText('When will you spend the money by?')
+            .parent()
+            .within(() => {
+                fillDateParts(mock.projectDateRange.endDate);
+            });
 
         submitStep();
     }
