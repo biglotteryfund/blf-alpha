@@ -5,7 +5,6 @@ const toInteger = require('lodash/toInteger');
 
 const { formatDateRange } = require('../lib/formatters');
 const { findLocationName } = require('./lib/location-options');
-const config = require('config');
 
 const formBuilder = require('./form');
 

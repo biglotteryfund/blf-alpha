@@ -171,11 +171,8 @@ module.exports = {
             ],
         });
     },
-    fieldProjectEndDate(locale, data = {}, flags = {}) {
+    fieldProjectEndDate(locale) {
         const localise = get(locale);
-
-        const projectCountry = get('projectCountry')(data);
-        const projectStartDateCheck = get('projectStartDateCheck')(data);
 
         function explanation() {
             return localise({
@@ -187,7 +184,7 @@ module.exports = {
         }
 
         function schema() {
-            const maxDate = moment().add(getMaxDurationMonths(), 'months');
+            const maxDate = moment().add(12, 'months');
 
             /**
              * For projects in England when projectStartDateCheck is asap
@@ -244,7 +241,7 @@ module.exports = {
                 {
                     type: 'dateParts.maxDate',
                     message: localise({
-                        en: `Date must be no more than ${getMaxDurationMonths()} months away`,
+                        en: `Date must be no more than 12 months away`,
                         cy: `Rhaid i'r dyddiad fod ddim mwy na 6 mis i ffwrdd`,
                     }),
                 },
@@ -259,9 +256,9 @@ module.exports = {
                     type: 'dateParts.rangeLimit',
                     message: localise({
                         en: oneLine`Date must be within
-                        ${getMaxDurationMonths()} months of the start date.`,
+                        12 months of the start date.`,
                         cy: oneLine`Rhaid i ddyddiad gorffen y prosiect fod o fewn
-                        ${getMaxDurationMonths()} mis o ddyddiad dechrau’r prosiect.`,
+                        12 mis o ddyddiad dechrau’r prosiect.`,
                     }),
                 },
             ],

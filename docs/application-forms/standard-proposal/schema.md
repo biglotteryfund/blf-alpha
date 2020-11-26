@@ -16,6 +16,7 @@ Note: The schema is now varied between England and Northern Ireland due to chang
 - Added required field `organisationDifferentName`. 
 - Added field `organisationSupport` for England projects. 
 - Added required field `projectPostcode `.
+- Added required field `projectLocationPostcode `.
 
 ### v1.0
 
@@ -53,6 +54,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "projectRegions": ["midlands"],
         "projectLocation": "derbyshire",
         "projectLocationDescription": "Example location description",
+        "projectLocationPostcode": "B15 1TR",
         "projectPostcode": "B15 1TR",
         "projectCosts": 200000,
         "projectTotalCost": 30000,
@@ -154,6 +156,12 @@ validation rules: If `projectCountries` contains more than one selection then `p
 type: `string` or `null`
 
 validation rules: Optional field
+
+### projectLocationPostcode
+
+type: `string`
+
+validation rules: Required field. Must be a valid UK postcode format.
 
 ### projectPostcode
 

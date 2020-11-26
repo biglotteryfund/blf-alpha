@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const config = require('config');
 
 router.use(function (req, res, next) {
     if (req.user) {

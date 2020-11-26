@@ -8,7 +8,6 @@ const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
-const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
 
 const { isTestServer } = require('../../../common/appData');
@@ -129,7 +128,7 @@ module.exports = function ({
          * 3. Otherwise, show both date fields
          */
         function _fields() {
-                return [fields.projectStartDate, fields.projectEndDate];
+            return [fields.projectStartDate, fields.projectEndDate];
         }
 
         return new Step({
@@ -719,13 +718,13 @@ module.exports = function ({
     function stepMainContact() {
         function listItems(en = true) {
             if (en) {
-                    return `<li>married to each other</li>
+                return `<li>married to each other</li>
                 <li>in a civil partnership with each other</li>
                 <li>in a long-term relationship together</li>
                 <li>living at the same address</li>
                 <li>or related by blood.</li>`;
             } else {
-                    return `<li>yn briod i’w gilydd</li>
+                return `<li>yn briod i’w gilydd</li>
                 <li>fod mewn partneriaeth sifil â'i gilydd</li>
                 <li>mewn perthynas hir dymor a’u gilydd</li>
                 <li>yn byw yn yr un cyfeiriad</li>
@@ -1350,7 +1349,7 @@ module.exports = function ({
              * If projectStartDateCheck is `asap` then pre-fill
              * the projectStartDate to today
              */
-                return dateFormat(enriched.projectStartDate);
+            return dateFormat(enriched.projectStartDate);
         }
 
         function normaliseProjectEndDate() {
@@ -1358,7 +1357,7 @@ module.exports = function ({
              * If projectCountry is England and date check is ASAP
              * then pre-fill the projectEndDate to 6 months time
              */
-                return dateFormat(enriched.projectEndDate);
+            return dateFormat(enriched.projectEndDate);
         }
 
         const projectStartDate = normaliseProjectStartDate();

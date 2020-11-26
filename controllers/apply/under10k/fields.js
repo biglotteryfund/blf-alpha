@@ -36,8 +36,6 @@ const fieldProjectBudget = require('./fields/project-budget');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 
-const { fieldSupportingCOVID19 } = require('./fields/covid-19');
-
 const {
     fieldBeneficiariesGroups,
     fieldBeneficiariesGroupsAge,
@@ -53,7 +51,6 @@ const {
 } = require('./fields/beneficiaries');
 
 const {
-    fieldProjectStartDateCheck,
     fieldProjectStartDate,
     fieldProjectEndDate,
 } = require('./fields/project-dates');
@@ -80,8 +77,6 @@ const {
     fieldTermsAgreement2,
     fieldTermsAgreement3,
     fieldTermsAgreement4,
-    fieldTermsAgreementCovid2,
-    fieldTermsAgreementCovid3,
     fieldTermsPersonName,
     fieldTermsPersonPosition,
 } = require('./fields/terms');
@@ -160,7 +155,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: fieldProjectLocationDescription(locale),
         projectStartDate: fieldProjectStartDate(locale, data),
-        projectEndDate: fieldProjectEndDate(locale, data, flags),
+        projectEndDate: fieldProjectEndDate(locale),
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),

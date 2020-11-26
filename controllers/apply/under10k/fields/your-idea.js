@@ -3,7 +3,6 @@ const get = require('lodash/fp/get');
 const { stripIndents } = require('common-tags');
 
 const { TextareaField } = require('../../lib/field-types');
-const config = require('config');
 
 function wordCountText(locale, maxWords) {
     const localise = get(locale);
@@ -90,9 +89,8 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaPriorities(locale, data = {}) {
+    fieldYourIdeaPriorities(locale) {
         const localise = get(locale);
-        const projectCountry = get('projectCountry')(data);
         const minWords = 50;
         const maxWords = 150;
 
@@ -125,36 +123,6 @@ module.exports = {
             });
         }
 
-        function prioritiesCovid19() {
-            return localise({
-                en: `<ol>
-                        <li>organisations supporting people and communities
-                            who experience disproportionate challenge and
-                            difficulty as a result of the COVID-19 crisis
-                        </li>
-                        <li>organisations providing services and support
-                            for vulnerable people, for which there will be
-                            increased demand as a result of the COVID-19 crisis
-                        </li>
-                        <li>organisations which connect communities and support
-                            communities to work together to respond to COVID-19.
-                        </li>
-                    </ol>`,
-                cy: `<ol>
-                        <li>sefydliadau sy'n cefnogi pobl a chymunedau sy'n
-                            profi her ac anhawster anghymesur o ganlyniad
-                            i argyfwng Covid-19
-                        </li>
-                        <li>sefydliadau sy'n darparu gwasanaethau a chefnogaeth
-                            i bobl agored i niwed, y bydd galw cynyddol amdanynt
-                            o ganlyniad i argyfwng COVID-19
-                        </li>
-                        <li>sefydliadau sy'n cysylltu cymunedau ac yn cefnogi
-                            cymunedau i weithio gyda'i gilydd i ymateb i Covid-19
-                        </li>
-                    </ol>`,
-            });
-        }
         function guidanceText() {
             return localise({
                 en: `${prioritiesDiversity()}`,

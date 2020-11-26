@@ -9,7 +9,6 @@ const pick = require('lodash/pick');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
 const formidable = require('formidable');
-const config = require('config');
 
 const {
     PendingApplication,
