@@ -1876,11 +1876,7 @@ it('should complete standard your funding proposal in northern-ireland', () => {
 });
 
 function yourFundingProposalSeed() {
-    if (enableStandardV2) {
-        return '/apply/your-funding-proposal-v2/seed';
-    } else {
-        return '/apply/your-funding-proposal/seed';
-    }
+    return '/apply/your-funding-proposal/seed';
 }
 
 it('should correctly email users with expiring applications', () => {
