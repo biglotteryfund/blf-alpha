@@ -8,8 +8,6 @@ const sample = require('lodash/sample');
 const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
-const enableStandardV2 = true;
-const enableSimpleV2 = true;
 
 function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
@@ -508,23 +506,6 @@ function under10KApplication(mock) {
         submitStep();
     }
 
-    function stepCOVID9Check(mock) {
-        if (mock.country !== 'England' && !enableSimpleV2) {
-            cy.checkA11y();
-
-            cy.findByText(
-                'Is your project supporting people affected by the COVID-19 crisis?',
-                { exact: false }
-            )
-                .parent()
-                .within(() => {
-                    cy.findByLabelText('No').click();
-                });
-
-            submitStep();
-        }
-    }
-
     function stepProjectDates(mock) {
         cy.checkA11y();
 
@@ -535,34 +516,6 @@ function under10KApplication(mock) {
         }
 
         if (mock.country === 'England') {
-            if (!enableSimpleV2) {
-                cy.findByText(
-                    `When would you like to get the money if you are awarded?`
-                )
-                    .parent()
-                    .within(() => {
-                        cy.findByLabelText('As soon as possible').click();
-                    });
-
-                submitStep();
-            }
-
-            if (enableSimpleV2) {
-                cy.findByText(
-                    `Tell us when you'd like to get the money if you're awarded funding?`
-                )
-                    .parent()
-                    .within(() => {
-                        fillDateParts(mock.projectDateRange.startDate);
-                    });
-
-                cy.findByText('When will you spend the money by?')
-                    .parent()
-                    .within(() => {
-                        fillDateParts(mock.projectDateRange.endDate);
-                    });
-            }
-        } else {
             cy.findByText(
                 `Tell us when you'd like to get the money if you're awarded funding?`
             )
@@ -571,7 +524,7 @@ function under10KApplication(mock) {
                     fillDateParts(mock.projectDateRange.startDate);
                 });
 
-            cy.findByText(`When will you spend the money by?`)
+            cy.findByText('When will you spend the money by?')
                 .parent()
                 .within(() => {
                     fillDateParts(mock.projectDateRange.endDate);
@@ -588,11 +541,7 @@ function under10KApplication(mock) {
             .invoke('val', faker.lorem.words(150))
             .trigger('change');
 
-        cy.findByLabelText(
-            enableSimpleV2
-                ? 'How does your project meet our funding priorities?'
-                : 'How does your project meet our funding priority?'
-        )
+        cy.findByLabelText('How does your project meet our funding priorities?')
             .invoke('val', faker.lorem.words(100))
             .trigger('change');
 
@@ -635,7 +584,6 @@ function under10KApplication(mock) {
         stepProjectName(mock);
         stepProjectCountry(mock);
         stepProjectLocation(mock);
-        stepCOVID9Check(mock);
         stepProjectDates(mock);
         stepYourIdea(mock);
         stepProjectCosts(mock);
@@ -1139,177 +1087,6 @@ it('should allow editing from the summary screen', () => {
 });
 
 function standardApplication({
-    projectCountries,
-    projectRegions = [],
-    projectLocation,
-    organisationAddress,
-}) {
-    const mock = {
-        projectName: faker.lorem.words(5),
-        projectCountries: projectCountries,
-        projectRegions: projectRegions,
-        projectLocation: projectLocation,
-        projectLocationDescription: faker.lorem.words(5),
-        projectCosts: random(10001, 5000000),
-        projectDurationYears: sample(['3 years', '4 years', '5 years']),
-        yourIdeaProject: faker.lorem.words(random(50, 500)),
-        yourIdeaCommunity: faker.lorem.words(random(50, 500)),
-        yourIdeaActivities: faker.lorem.words(random(50, 350)),
-        organisationName: faker.company.companyName(),
-        organisationTradingName: sample([faker.company.companyName(), '']),
-        organisationAddress: organisationAddress,
-        organisationType: sample([
-            'Unregistered voluntary or community organisation',
-            'Not-for-profit company',
-            'Charitable Incorporated Organisation',
-        ]),
-        contactEmail: 'digital.monitoring@tnlcommunityfund.org.uk',
-        contactName: {
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName(),
-        },
-        contactPhone: '028 9568 0143',
-        contactCommunicationNeeds: 'Example communication need',
-    };
-
-    function submitStep() {
-        cy.findByText('Continue').click();
-    }
-
-    cy.seedAndLogin().then(() => {
-        cy.visit('/apply/your-funding-proposal');
-
-        acceptCookieConsent();
-
-        cy.findAllByText('Start your proposal').click();
-
-        cy.get('.form-actions').within(() => {
-            cy.findAllByText('Start your proposal').click();
-        });
-
-        cy.findAllByText('Start your proposal').first().click();
-
-        cy.findByLabelText('What is the name of your project?').type(
-            mock.projectName
-        );
-
-        submitStep();
-
-        mock.projectCountries.forEach(function (country) {
-            cy.findByLabelText(country).click();
-        });
-
-        submitStep();
-
-        /**
-         * Project regions step
-         */
-        if (mock.projectRegions.length > 0) {
-            // Submit step w/no answers. Confirm error message
-            submitStep();
-
-            cy.findByTestId('form-errors').should(
-                'contain',
-                `Select one or more regions`
-            );
-
-            mock.projectRegions.forEach(function (region) {
-                cy.findByLabelText(region).click();
-            });
-
-            submitStep();
-        }
-
-        cy.findByLabelText(
-            'Where will most of your project take place?'
-        ).select(mock.projectLocation);
-
-        cy.findByLabelText('Project location', { exact: false }).type(
-            mock.projectLocationDescription
-        );
-
-        submitStep();
-
-        cy.findByLabelText('How much money do you want from us?').type(
-            mock.projectCosts
-        );
-        submitStep();
-
-        // This field only exists for non-England forms
-        if (!mock.projectCountries.includes('England')) {
-            cy.findByLabelText(mock.projectDurationYears).click();
-            submitStep();
-        }
-
-        cy.findByLabelText('What would you like to do?')
-            .invoke('val', mock.yourIdeaProject)
-            .trigger('change');
-
-        cy.findByLabelText('How does your project involve your community?')
-            .invoke('val', mock.yourIdeaCommunity)
-            .trigger('change');
-
-        cy.findByLabelText(
-            'How does your idea fit in with other local activities?'
-        )
-            .invoke('val', mock.yourIdeaActivities)
-            .trigger('change');
-
-        submitStep();
-
-        cy.findByLabelText(
-            'What is the full legal name of your organisation?'
-        ).type(mock.organisationName);
-
-        cy.findByText(
-            'What is the main or registered address of your organisation?'
-        )
-            .parent()
-            .within(() => {
-                cy.findByText('Enter address manually').click();
-                cy.findByLabelText('Building and street').type(
-                    mock.organisationAddress.streetAddress
-                );
-                cy.findByLabelText('Town or city').type(
-                    mock.organisationAddress.city
-                );
-                cy.findByLabelText('Postcode').type(
-                    mock.organisationAddress.postcode
-                );
-            });
-
-        submitStep();
-
-        cy.findByLabelText(mock.organisationType, { exact: false }).click();
-
-        submitStep();
-
-        cy.findByLabelText('First name').type(mock.contactName.firstName);
-
-        cy.findByLabelText('Last name').type(mock.contactName.lastName);
-
-        cy.findByLabelText('Email').type(mock.contactEmail);
-
-        cy.findByLabelText('Telephone number', { exact: false }).type(
-            mock.contactPhone
-        );
-
-        cy.findByLabelText('Communication needs', { exact: false }).type(
-            mock.contactCommunicationNeeds
-        );
-        submitStep();
-
-        cy.findAllByText('Nearly done', { exact: false })
-            .first()
-            .should('exist');
-
-        cy.findAllByText('Submit application').first().click();
-
-        cy.get('h1').should('contain', 'Thanks for telling us your proposal');
-    });
-}
-
-function standardApplicationV2({
     projectCountry,
     projectStart,
     projectCountries,
@@ -1393,11 +1170,11 @@ function standardApplicationV2({
     }
 
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/your-funding-proposal-v2');
+        cy.visit('/apply/your-funding-proposal');
 
         acceptCookieConsent();
 
-        cy.visit('/apply/your-funding-proposal-v2/start');
+        cy.visit('/apply/your-funding-proposal/start');
 
         cy.findAllByText(mock.projectCountry).first().click();
 
@@ -1820,59 +1597,33 @@ function standardApplicationV2({
 }
 
 it('should complete standard your funding proposal in england', () => {
-    if (enableStandardV2) {
-        standardApplicationV2({
-            projectCountry: 'England',
-            projectStart: 'Start proposal for a project in England',
-            projectCountries: ['England'],
-            projectRegions: ['North West', 'South West'],
-            projectLocation: 'Bournemouth',
-            organisationAddress: {
-                streetAddress: `The Bar, 2 St James' Blvd`,
-                city: 'Newcastle',
-                postcode: 'NE4 7JH',
-            },
-        });
-    } else {
-        standardApplication({
-            projectCountries: ['England'],
-            projectRegions: ['North West', 'South West'],
-            projectLocation: 'Bournemouth',
-            organisationAddress: {
-                streetAddress: `The Bar, 2 St James' Blvd`,
-                city: 'Newcastle',
-                postcode: 'NE4 7JH',
-            },
-        });
-    }
+    standardApplication({
+        projectCountry: 'England',
+        projectStart: 'Start proposal for a project in England',
+        projectCountries: ['England'],
+        projectRegions: ['North West', 'South West'],
+        projectLocation: 'Bournemouth',
+        organisationAddress: {
+            streetAddress: `The Bar, 2 St James' Blvd`,
+            city: 'Newcastle',
+            postcode: 'NE4 7JH',
+        },
+    });
 });
 
 it('should complete standard your funding proposal in northern-ireland', () => {
-    if (enableStandardV2) {
-        standardApplicationV2({
-            projectCountry: 'Northern Ireland',
-            projectStart: 'Start proposal for a project in Northern Ireland',
-            projectCountries: ['Northern Ireland'],
-            projectRegions: [],
-            projectLocation: 'Belfast',
-            organisationAddress: {
-                streetAddress: `1 Cromac Pl`,
-                city: 'Belfast',
-                postcode: 'BT7 2JD',
-            },
-        });
-    } else {
-        standardApplication({
-            projectCountries: ['Northern Ireland'],
-            projectRegions: [],
-            projectLocation: 'Belfast',
-            organisationAddress: {
-                streetAddress: `1 Cromac Pl`,
-                city: 'Belfast',
-                postcode: 'BT7 2JD',
-            },
-        });
-    }
+    standardApplication({
+        projectCountry: 'Northern Ireland',
+        projectStart: 'Start proposal for a project in Northern Ireland',
+        projectCountries: ['Northern Ireland'],
+        projectRegions: [],
+        projectLocation: 'Belfast',
+        organisationAddress: {
+            streetAddress: `1 Cromac Pl`,
+            city: 'Belfast',
+            postcode: 'BT7 2JD',
+        },
+    });
 });
 
 function yourFundingProposalSeed() {

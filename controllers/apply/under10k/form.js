@@ -10,7 +10,6 @@ const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
-const enableSimpleV2 = config.get('fundingUnder10k.enablev2');
 
 const { isTestServer } = require('../../../common/appData');
 
@@ -123,53 +122,6 @@ module.exports = function ({
         });
     }
 
-    function stepCOVID19Check() {
-        function _fields() {
-            return has('projectCountry')(data) &&
-                get('projectCountry')(data) !== 'england' &&
-                !enableSimpleV2
-                ? [fields.supportingCOVID19]
-                : [];
-        }
-
-        return new Step({
-            title: localise({
-                en: 'COVID-19 project',
-                cy: 'Prosiect COVID-19',
-            }),
-            fieldsets: [{ fields: _fields() }],
-        });
-    }
-
-    function stepProjectLengthCheck() {
-        function getFields() {
-            if (enableSimpleV2) {
-                return [];
-            } else {
-                if (
-                    get('projectCountry')(data) === 'england' ||
-                    get('supportingCOVID19')(data) === 'yes'
-                ) {
-                    return [fields.projectStartDateCheck];
-                } else {
-                    return [];
-                }
-            }
-        }
-
-        return new Step({
-            title: localise({
-                en: 'Project start date',
-                cy: 'Dyddiad cychwyn y prosiect',
-            }),
-            fieldsets: [
-                {
-                    fields: getFields(),
-                },
-            ],
-        });
-    }
-
     function stepProjectLength() {
         /**
          * 1. If in England and asap then don't ask any day questions (when flag turned on)
@@ -177,21 +129,7 @@ module.exports = function ({
          * 3. Otherwise, show both date fields
          */
         function _fields() {
-            if (enableSimpleV2) {
                 return [fields.projectStartDate, fields.projectEndDate];
-            } else {
-                if (
-                    get('projectCountry')(data) === 'england' &&
-                    get('projectStartDateCheck')(data) === 'asap' &&
-                    flags.enableEnglandAutoEndDate
-                ) {
-                    return [];
-                } else if (get('projectStartDateCheck')(data) === 'asap') {
-                    return [fields.projectEndDate];
-                } else {
-                    return [fields.projectStartDate, fields.projectEndDate];
-                }
-            }
         }
 
         return new Step({
@@ -781,31 +719,17 @@ module.exports = function ({
     function stepMainContact() {
         function listItems(en = true) {
             if (en) {
-                if (enableSimpleV2) {
                     return `<li>married to each other</li>
                 <li>in a civil partnership with each other</li>
                 <li>in a long-term relationship together</li>
                 <li>living at the same address</li>
                 <li>or related by blood.</li>`;
-                } else {
-                    return `<li>married to each other</li>
-                <li>in a long-term relationship together</li>
-                <li>living at the same address</li>
-                <li>or related by blood.</li>`;
-                }
             } else {
-                if (enableSimpleV2) {
                     return `<li>yn briod i’w gilydd</li>
                 <li>fod mewn partneriaeth sifil â'i gilydd</li>
                 <li>mewn perthynas hir dymor a’u gilydd</li>
                 <li>yn byw yn yr un cyfeiriad</li>
                 <li>Neu yn perthyn drwy waed.</li>`;
-                } else {
-                    return `<li>yn briod i’w gilydd</li>
-                <li>mewn perthynas hir dymor a’u gilydd</li>
-                <li>yn byw yn yr un cyfeiriad</li>
-                <li>Neu yn perthyn drwy waed.</li>`;
-                }
             }
         }
         return new Step({
@@ -1239,25 +1163,14 @@ module.exports = function ({
                     Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
                     a ydych wedi bod yn llwyddiannus ai beidio.`,
             }),
-            steps: enableSimpleV2
-                ? compact([
-                      stepProjectName(),
-                      stepProjectCountry(),
-                      stepProjectLocation(),
-                      stepProjectLength(),
-                      stepYourIdea(),
-                      stepProjectCosts(),
-                  ])
-                : compact([
-                      stepProjectName(),
-                      stepProjectCountry(),
-                      stepProjectLocation(),
-                      stepCOVID19Check(),
-                      stepProjectLengthCheck(),
-                      stepProjectLength(),
-                      stepYourIdea(),
-                      stepProjectCosts(),
-                  ]),
+            steps: compact([
+                stepProjectName(),
+                stepProjectCountry(),
+                stepProjectLocation(),
+                stepProjectLength(),
+                stepYourIdea(),
+                stepProjectCosts(),
+            ]),
         };
     }
 
@@ -1437,14 +1350,7 @@ module.exports = function ({
              * If projectStartDateCheck is `asap` then pre-fill
              * the projectStartDate to today
              */
-            if (
-                get('projectStartDateCheck')(data) === 'asap' &&
-                !enableSimpleV2
-            ) {
-                return moment().format('YYYY-MM-DD');
-            } else {
                 return dateFormat(enriched.projectStartDate);
-            }
         }
 
         function normaliseProjectEndDate() {
@@ -1452,16 +1358,7 @@ module.exports = function ({
              * If projectCountry is England and date check is ASAP
              * then pre-fill the projectEndDate to 6 months time
              */
-            if (
-                get('projectCountry')(data) === 'england' &&
-                get('projectStartDateCheck')(data) === 'asap' &&
-                flags.enableEnglandAutoEndDate === true &&
-                !enableSimpleV2
-            ) {
-                return moment().add('6', 'months').format('YYYY-MM-DD');
-            } else {
                 return dateFormat(enriched.projectEndDate);
-            }
         }
 
         const projectStartDate = normaliseProjectStartDate();

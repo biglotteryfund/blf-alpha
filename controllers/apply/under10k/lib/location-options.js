@@ -1,64 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
 const flatMap = require('lodash/fp/flatMap');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
-
-function yorkshireAndHumber() {
-    if (enableStandardV2) {
-        return {
-            label: 'Yorkshire and Humber',
-            options: [
-                {
-                    value: 'north-yorkshire',
-                    label: 'North Yorkshire',
-                },
-                {
-                    value: 'south-yorkshire',
-                    label: 'South Yorkshire',
-                },
-                {
-                    value: 'west-yorkshire',
-                    label: 'West Yorkshire',
-                },
-                {
-                    value: 'humber',
-                    label: 'Humber',
-                },
-            ],
-        };
-    } else {
-        return {
-            label: 'Yorkshire and the Humber',
-            options: [
-                {
-                    value: 'east-riding-of-yorkshire',
-                    label: 'East Riding of Yorkshire',
-                },
-                {
-                    value: 'north-east-lincolnshire',
-                    label: 'North East Lincolnshire',
-                },
-                {
-                    value: 'north-lincolnshire',
-                    label: 'North Lincolnshire',
-                },
-                {
-                    value: 'north-yorkshire',
-                    label: 'North Yorkshire',
-                },
-                {
-                    value: 'south-yorkshire',
-                    label: 'South Yorkshire',
-                },
-                {
-                    value: 'west-yorkshire',
-                    label: 'West Yorkshire',
-                },
-            ],
-        };
-    }
-}
 
 function locationOptions(locale = 'en') {
     const localise = get(locale);
@@ -317,7 +259,27 @@ function locationOptions(locale = 'en') {
                 },
             ],
         },
-        yorkshireAndHumber(),
+        {
+            label: 'Yorkshire and Humber',
+            options: [
+                {
+                    value: 'north-yorkshire',
+                    label: 'North Yorkshire',
+                },
+                {
+                    value: 'south-yorkshire',
+                    label: 'South Yorkshire',
+                },
+                {
+                    value: 'west-yorkshire',
+                    label: 'West Yorkshire',
+                },
+                {
+                    value: 'humber',
+                    label: 'Humber',
+                },
+            ],
+        },
     ];
 
     const scotland = [

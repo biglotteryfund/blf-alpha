@@ -85,11 +85,7 @@
     <fieldset class="ff-names" id="field-{{ field.name }}-legend">
         <legend class="ff-label">{{ field.label }}</legend>
         {{ explanationFor(field) }}
-        {% if enableStandardV2 %}
-            {{ nameField(field, 'firstName', 'given-name', copy.fields.fullName.firstName, copy.fields.fullName.firstNameExplanationV2) }}
-        {% else %}
-            {{ nameField(field, 'firstName', 'given-name', copy.fields.fullName.firstName, copy.fields.fullName.firstNameExplanation) }}
-        {% endif %}
+        {{ nameField(field, 'firstName', 'given-name', copy.fields.fullName.firstName, copy.fields.fullName.firstNameExplanation) }}
         {{ nameField(field, 'lastName', 'family-name', copy.fields.fullName.lastName) }}
     </fieldset>
 {% endmacro %}

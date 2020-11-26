@@ -5,8 +5,6 @@ const differenceBy = require('lodash/differenceBy');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const concat = require('lodash/concat');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 const logger = require('../../../common/logger').child({
     service: 'form-summary',
@@ -74,7 +72,6 @@ module.exports = function (formBuilder) {
 
         const featuredErrors =
             formShortId === 'YFP' &&
-            enableStandardV2 &&
             currentApplication.dataValues.createdAt > launchDate
                 ? []
                 : form.getFeaturedErrors(featuredMessages);
@@ -117,7 +114,6 @@ module.exports = function (formBuilder) {
         }
 
         const yfpStart =
-            enableStandardV2 &&
             formShortId === 'YFP' &&
             JSON.stringify(currentApplicationData) ===
                 JSON.stringify({
