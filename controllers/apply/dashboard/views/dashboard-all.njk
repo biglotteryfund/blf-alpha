@@ -23,15 +23,9 @@
                     <div class="flex-grid__item">
                         {{ actionCard(copy.actions.simple) }}
                     </div>
-                    {% if enableStandardV2 %}
-                        <div class="flex-grid__item">
-                            {{ actionCard(copy.actions.standardV2) }}
-                        </div>
-                    {% else %}
-                        <div class="flex-grid__item">
-                            {{ actionCard(copy.actions.standard) }}
-                        </div>
-                    {% endif %}
+                    <div class="flex-grid__item">
+                        {{ actionCard(copy.actions.standard) }}
+                    </div>
                 </div>
             </section>
         {% else %}
@@ -86,11 +80,7 @@
                         {{ actionCard(copy.actions.simple, isSecondary = true) }}
                     </div>
                     <div class="flex-grid__item">
-                        {% if enableStandardV2 %}
-                            {{ actionCard(copy.actions.standardV2, isSecondary = true) }}
-                        {% else %}
-                            {{ actionCard(copy.actions.standard, isSecondary = true) }}
-                        {% endif %}
+                        {{ actionCard(copy.actions.standard, isSecondary = true) }}
                     </div>
                 </div>
             </section>

@@ -1,8 +1,6 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 router.use(function (req, res, next) {
     if (req.user) {
@@ -27,18 +25,14 @@ router.get('/awards-for-all*', function (req, res) {
 });
 
 router.use('/under-10k', require('./under10k'));
-if (enableStandardV2) {
-    router.use('/your-funding-proposal', require('./standard-proposal-v2'));
-    router.get('/your-funding-proposal-v2*', function (req, res) {
-        const newPath = req.originalUrl.replace(
-            '/your-funding-proposal-v2',
-            '/your-funding-proposal'
-        );
-        res.redirect(newPath);
-    });
-} else {
-    router.use('/your-funding-proposal', require('./standard-proposal'));
-}
+router.use('/your-funding-proposal', require('./standard-proposal'));
+router.get('/your-funding-proposal-v2*', function (req, res) {
+    const newPath = req.originalUrl.replace(
+        '/your-funding-proposal-v2',
+        '/your-funding-proposal'
+    );
+    res.redirect(newPath);
+});
 
 router.use('/emails/unsubscribe', require('./expiries/unsubscribe-router'));
 router.use('/handle-expiry', require('./expiries/expiry-router'));

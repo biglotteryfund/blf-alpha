@@ -16,8 +16,6 @@ const logger = require('../../../common/logger').child({ service: 'apply' });
 const enrichAwardsForAll = require('../under10k/enrich');
 const enrichStandard = require('../standard-proposal/enrich');
 const { getNoticesAll } = require('../lib/notices');
-const config = require('config');
-const enableStandardV2 = config.get('standardFundingProposal.enablev2');
 
 const router = express.Router();
 
@@ -127,7 +125,6 @@ router.get(
                 latestApplication: latestApplication,
                 hasPendingSimpleApplication: !isEmpty(pendingSimple),
                 hasPendingStandardApplication: !isEmpty(pendingStandard),
-                enableStandardV2: enableStandardV2,
             });
         } catch (err) {
             next(err);
@@ -177,7 +174,6 @@ router.get(
                     (application) =>
                         enrichSubmitted(application, req.i18n.getLocale())
                 ),
-                enableStandardV2: enableStandardV2,
             });
         } catch (err) {
             next(err);

@@ -5,6 +5,7 @@ const getOr = require('lodash/fp/getOr');
 const orderBy = require('lodash/orderBy');
 const { oneLine } = require('common-tags');
 const config = require('config');
+const moment = require('moment');
 
 const Joi = require('../lib/joi-extensions');
 
@@ -19,6 +20,9 @@ const {
     RadioField,
     SelectField,
     TextareaField,
+    DateField,
+    UrlField,
+    PercentageField,
 } = require('../lib/field-types');
 
 const {
@@ -27,10 +31,56 @@ const {
     northernIrelandLocationOptions,
 } = require('./lib/locations');
 
-module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
+const fieldProjectLocationPostcode = require('./fields/project-postcode');
+
+const {
+    fieldBeneficiariesGroups,
+    fieldBeneficiariesGroupsAge,
+    fieldBeneficiariesGroupsCheck,
+    fieldBeneficiariesGroupsDisabledPeople,
+    fieldBeneficiariesEthnicBackground,
+    fieldBeneficiariesGroupsGender,
+    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesGroupsReligion,
+    fieldBeneficiariesGroupsReligionOther,
+    fieldBeneficiariesNorthernIrelandCommunity,
+    fieldBeneficiariesWelshLanguage,
+} = require('./fields/beneficiaries');
+
+const {
+    fieldAccountingYearDate,
+    fieldTotalIncomeYear,
+} = require('./fields/organisation-finances');
+
+const {
+    fieldTermsAgreement1,
+    fieldTermsAgreement2,
+    fieldTermsAgreement3,
+    fieldTermsAgreement4,
+    fieldTermsAgreement5,
+    fieldTermsAgreement6,
+    fieldTermsPersonName,
+    fieldTermsPersonPosition,
+} = require('./fields/terms');
+
+const fieldContactAddressHistory = require('./fields/contact-address-history');
+
+const fieldSeniorContactRole = require('./fields/senior-contact-role');
+const fieldSMContactCommunicationNeeds = require('./fields/contact-communication-needs');
+
+const { stripIfExcludedOrgType } = require('./fields/organisation-type');
+
+const {
+    CONTACT_EXCLUDED_TYPES,
+    MIN_AGE_MAIN_CONTACT,
+    MIN_AGE_SENIOR_CONTACT,
+} = require('./constants');
+
+module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const projectCountries = getOr([], 'projectCountries')(data);
+    const projectTotalCost = get('projectTotalCost')(data);
 
     function fieldProjectName() {
         const maxLength = 80;
@@ -78,39 +128,19 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         en: 'England',
                         cy: 'Lloegr',
                     });
-                } else if (country === 'scotland') {
-                    result = localise({
-                        en: 'Scotland',
-                        cy: 'Yr Alban',
-                    });
                 } else if (country === 'northern-ireland') {
                     result = localise({
                         en: 'Northern Ireland',
                         cy: 'Gogledd Iwerddon',
-                    });
-                } else if (country === 'wales') {
-                    result = localise({
-                        en: 'Wales',
-                        cy: 'Cymru',
-                    });
-                }
-
-                if (allowedCountries.includes(country) === false) {
-                    result += localise({
-                        en: ' (coming soon)',
-                        cy: ' (Dod yn fuan)',
                     });
                 }
 
                 return result;
             }
 
-            const options = [
-                'england',
-                'scotland',
-                'wales',
-                'northern-ireland',
-            ].map(function (country) {
+            const options = ['england', 'northern-ireland'].map(function (
+                country
+            ) {
                 const option = { value: country, label: label(country) };
 
                 if (allowedCountries.includes(country) === false) {
@@ -131,13 +161,11 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             locale: locale,
             name: 'projectCountries',
             label: localise({
-                en: `Which country will your project take place in?`,
+                en: `Confirm the country your project will be based in`,
                 cy: ``,
             }),
             explanation: localise({
-                en: oneLine`We work slightly differently depending on which
-                    country your project is based in, to meet local needs
-                    and the regulations that apply there.`,
+                en: oneLine`We work in different ways in each country, to meet local needs and rules.`,
                 cy: oneLine`Rydym yn gweithredu ychydig yn wahanol, yn ddibynnol
                     ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu
                     anghenion lleol a’r rheoliadau sy’n berthnasol yna.`,
@@ -246,8 +274,14 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             locale: locale,
             name: 'projectLocation',
             label: localise({
-                en: `Where will most of your project take place?`,
+                en: `What area will most of the project take place in?`,
                 cy: ``,
+            }),
+            explanation: localise({
+                en: oneLine`If your project covers more than one area please
+                tell us where most of it will take place.`,
+                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`,
             }),
             defaultOption: localise({
                 en: 'Select a location',
@@ -284,13 +318,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             locale: locale,
             name: 'projectLocationDescription',
             label: localise({
-                en: 'Project location',
+                en: 'Tell us all the locations the project will run in',
                 cy: 'Lleoliad y prosiect',
             }),
             explanation: localise({
                 en: oneLine`In your own words, describe all of the locations
-                    that you'll be running your project in, e.g.
-                    'Yorkshire' or 'Glasgow, Cardiff and Belfast'`,
+                            that you’ll be running your project in. For example, ‘West
+                            Yorkshire’, 'Salford' or ‘Antrim’.`,
                 cy: ``,
             }),
             maxLength: maxLength,
@@ -298,7 +332,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Tell us all of the locations that you'll be running your project in`,
+                        en: `Tell us all the locations that you'll be running your project in`,
                         cy: '',
                     }),
                 },
@@ -313,41 +347,34 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
-    function fieldProjectCosts() {
+    function fieldProjectTotalCost() {
         return new CurrencyField({
             locale: locale,
-            name: 'projectCosts',
+            name: 'projectTotalCost',
             label: localise({
-                en: `How much money do you want from us?`,
+                en: `What is the total cost of your project?`,
                 cy: ``,
             }),
             get explanation() {
-                if (
-                    projectCountries.includes('england') &&
-                    flags.enableEnglandAutoProjectDuration
-                ) {
-                    return localise({
-                        en: `Given the COVID-19 emergency, you can ask us for a 
-                             maximum of £100,000 for up to six months. In some 
-                             cases we might award more funding to projects over 
-                             a longer period of time. For example, if your 
-                             organisation works across more than one area of England.`,
-                        cy: ``,
-                    });
-                } else {
-                    return localise({
-                        en: `This can be an estimate`,
-                        cy: ``,
-                    });
-                }
+                return localise({
+                    en: `<p>This is the cost of everything related to your project, even things you're not asking us to fund.</p>
+                        <p>For example:
+                            <ul>
+                                <li>If you're asking us for £280,000 and you're getting £20,000 from another funder to cover additional costs, your total project cost is £300,000.</li>
+                                <li>If you're asking us for £80,000 and there are no other costs, your total project cost is £80,000.</li>
+                            </ul>
+                        </p>
+                        <p>We do not need to know where the rest of your funding's coming from right now.</p>`,
+                    cy: ``,
+                });
             },
             minAmount: 10001,
             messages: [
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total cost for your project',
-                        cy: 'Rhowch gyfanswm cost eich prosiect',
+                        en: oneLine`Enter the total cost of your project`,
+                        cy: '',
                     }),
                 },
                 {
@@ -360,10 +387,206 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 {
                     type: 'number.min',
                     message: localise({
+                        en: oneLine`Total cost must be the same as or higher than the amount you’re asking us to fund.`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectCosts() {
+        function schema() {
+            if (projectCountries.includes('england')) {
+                if (projectTotalCost) {
+                    return Joi.friendlyNumber()
+                        .integer()
+                        .min(10001)
+                        .max(Joi.ref('projectTotalCost'));
+                } else {
+                    return Joi.friendlyNumber().integer().min(10001).max(0);
+                }
+            } else {
+                return Joi.friendlyNumber()
+                    .integer()
+                    .min(10001)
+                    .max(1000000000);
+            }
+        }
+        function base() {
+            if (projectCountries.includes('england')) {
+                return {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'Enter an amount less than or equal to the total cost.',
+                        cy: '',
+                    }),
+                };
+            } else {
+                return {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter an amount.',
+                        cy: '',
+                    }),
+                };
+            }
+        }
+
+        return new CurrencyField({
+            locale: locale,
+            name: 'projectCosts',
+            label: localise({
+                en: `How much money do you want from us?`,
+                cy: ``,
+            }),
+            get explanation() {
+                return localise({
+                    en: `This can be an estimate`,
+                    cy: ``,
+                });
+            },
+            schema: schema(),
+            messages: [
+                base(),
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: `The amount you ask for must be a whole number (eg. no decimal point)`,
+                        cy: `Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)`,
+                    }),
+                },
+                {
+                    type: 'number.min',
+                    message: localise({
                         en: oneLine`The amount you ask for must be more than £10,000.
                             If you need less than this, 
                             <a href="/funding/under10k">you can apply for under £10,000 here</a>.`,
                         cy: ``,
+                    }),
+                },
+                {
+                    type: 'number.max',
+                    message: localise({
+                        en: oneLine`The amount you ask us for cannot be more than the total cost of the project.`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectSpend() {
+        return new TextareaField({
+            locale: locale,
+            name: 'projectSpend',
+            label: localise({
+                en: 'What will you spend the money on?',
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<ul>
+                        <li>Give us a list of budget headings (for example, salaries, running costs, training, travel, overheads and refurbishment costs).</li>
+                        <li>We do not need any costs attached to these yet, or a detailed list of items.</li>
+                     </ul>
+                    <p>If we invite you to the next stage of the application process, we'll ask you for a more detailed project budget, including a year-by-year breakdown. But right now, we just want to check if these are things we can fund.</p>`,
+            }),
+            type: 'textarea',
+            showWordCount: false,
+            minWords: 0,
+            maxWords: 300,
+            maxRows: false,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us what you will spend the money on.`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectStartDate() {
+        function getLeadTimeWeeks(country) {
+            const countryLeadTimes = {
+                'england': 0,
+                'northern-ireland': 12,
+            };
+            return countryLeadTimes[country];
+        }
+
+        const localise = get(locale);
+
+        const projectCountry = get('projectCountries')(data);
+
+        const minDate = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
+
+        const maxDate = moment().add(10, 'years');
+
+        const minDateExample = minDate
+            .clone()
+            .locale(locale)
+            .format('DD MM YYYY');
+
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+            return Joi.when('projectStartDateCheck', {
+                is: 'asap',
+                then: Joi.any().strip(),
+                otherwise: Joi.dateParts()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .maxDate(maxDate.format('YYYY-MM-DD'))
+                    .required(),
+            });
+        }
+
+        return new DateField({
+            locale: locale,
+            name: 'projectStartDate',
+            label: localise({
+                en: `When would you like the money, if you're awarded funding?`,
+                cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
+            }),
+            explanation: localise({
+                en: oneLine`<p>Don't worry, this can be an estimate. 
+                But please be aware we might take around 12 weeks to assess your proposal.</p>
+                <p><strong>For example: ${minDateExample}</strong></p>`,
+                cy: ``,
+            }),
+            settings: {
+                minYear: minDate.format('YYYY'),
+            },
+            schema: schema(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter a project start date`,
+                        cy: `Cofnodwch ddyddiad dechrau i’ch prosiect`,
+                    }),
+                },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: oneLine`The date you start the project must be on
+                            or after ${minDateExample}`,
+                        cy: oneLine`Mae’n rhaid i ddyddiad dechrau eich
+                            prosiect fod ar neu ar ôl ${minDateExample}`,
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: oneLine`The date you start the project must be less than 10 years in the future.`,
+                        cy: oneLine``,
                     }),
                 },
             ],
@@ -379,7 +602,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: ``,
             }),
             explanation: localise({
-                en: `We can fund projects for up to five years`,
+                en: `We can fund projects for up to five years. If 
+                your project is not an exact number of years, please 
+                round up to the nearest year. For example, for an 18 
+                month project, choose two years.`,
                 cy: ``,
             }),
             options: [
@@ -390,31 +616,76 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 { label: localise({ en: '5 years', cy: '' }), value: 5 },
             ],
             get schema() {
-                if (
-                    projectCountries.includes('england') &&
-                    flags.enableEnglandAutoProjectDuration
-                ) {
-                    // Clear out any pre-existing answers for England applications
-                    // as we now set this value directly upon submission for them
-                    return Joi.any().strip();
-                } else {
-                    return Joi.when('projectCountries', {
-                        is: Joi.array().min(2),
-                        then: Joi.any().strip(),
-                        otherwise: Joi.number()
-                            .integer()
-                            .required()
-                            .min(1)
-                            .max(5),
-                    });
-                }
+                return Joi.when('projectCountries', {
+                    is: Joi.array().min(2),
+                    then: Joi.any().strip(),
+                    otherwise: Joi.number().integer().required().min(1).max(5),
+                });
             },
             messages: [
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Select a project duration',
+                        en: 'Select a project length',
                         cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectWebsite() {
+        const maxLength = 200;
+        return new UrlField({
+            locale: locale,
+            name: 'projectWebsite',
+            label: localise({
+                en: 'Organisation website',
+                cy: '',
+            }),
+            isRequired: false,
+            maxLength: maxLength,
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Organisation website must be ${maxLength} characters or less`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldProjectOrganisation() {
+        return new TextareaField({
+            locale: locale,
+            name: 'projectOrganisation',
+            label: localise({
+                en:
+                    'Tell us why your organisation is the right one to manage this project',
+                cy: '',
+            }),
+            explanation: localise({
+                en: `
+                <ul>
+                    <li>Give us a brief description of your organisation and the work it does.</li>
+                    <li>How does your organisation’s experience and connections mean it is best placed to run this project?</li>
+                    <li>How would this project add value to the work you do?</li>
+                    <li>To what extent is your organisation led by people with 'lived experience'? By this we mean people who have lived through the challenges the organisation is trying to address.</li>
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
+                cy: ``,
+            }),
+            type: 'textarea',
+            minWords: 50,
+            maxWords: 500,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us why your organisation is the right one to manage this project`,
+                        cy: ``,
                     }),
                 },
             ],
@@ -432,16 +703,17 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             explanation: localise({
                 en: `<p>Tell us:</p>
                 <ul>
-                    <li>What you would like to do</li>
-                    <li>Who will benefit from it</li>
-                    <li>What difference your project will make</li>
-                    <li>Is it something new, or are you continuing
-                        something that has worked well previously?
-                        We want to fund both types of projects</li>
-                </ul>`,
+                    <li>what you'd like to do</li>
+                    <li>who will benefit from this project</li>
+                    <li>what difference your project will make</li>
+                    <li>if it's something new, or are you continuing
+                        something that has worked well previously -
+                        we want to fund both types of projects.</li>
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
             }),
             type: 'textarea',
-            minWords: 0,
+            minWords: 50,
             maxWords: 500,
             messages: [
                 {
@@ -463,40 +735,28 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: `How does your project involve your community?`,
                 cy: `Sut mae eich prosiect yn cynnwys eich cymuned?`,
             }),
-            labelDetails: {
-                summary: localise({
-                    en: `What do we mean by community?`,
-                    cy: `Beth rydym yn ei olygu drwy gymuned?`,
-                }),
-                content: localise({
-                    en: `<ol>
-                        <li>People living in the same area</li>
-                        <li>People who have similar interests or life experiences,
-                            but might not live in the same area</li>
-                        <li>Even though schools can be at the heart of a
-                            community—we'll only fund schools that also
-                            benefit the communities around them.</li>
-                    </ol>`,
-                    cy: `<ol>
-                        <li>Pobl yn byw yn yr un ardal</li>
-                        <li>Pobl sydd â diddordebau neu brofiadau bywyd tebyg,
-                            ond efallai ddim yn byw yn yr un ardal</li>
-                        <li>Er gall ysgolion fod wrth wraidd cymuned—byddwn dim ond yn
-                            ariannu ysgolion sydd hefyd yn rhoi budd i gymunedau o’u cwmpas.
-                        </li>
-                    </ol>`,
-                }),
-            },
             explanation: localise({
-                en: oneLine`We believe that people understand what's needed in their
-                    communities better than anyone. Tell us how your community came
-                    up with the idea for your project. We want to know how many
-                    people you've spoken to, and how they'll be involved in the
-                    development and delivery of your project.`,
+                en: `<p>We believe that people understand what's needed in
+                     their own communities better than anyone. Tell us how your 
+                     community came up with the idea for your project. We want 
+                     to know how many people you've spoken to, and how they'll 
+                     be involved in the development and delivery of your project.
+                </p>
+                <p>What do we mean by community?</p>
+                <p>A community can be made up of:</p>
+                <ul>
+                        <li>people living in the same area</li>
+                        <li>people who have similar interests or life experiences,
+                            but might not live in the same area</li>
+                        <li>schools that also benefit the communities around them 
+                            (even though schools can be at the heart of a community, 
+                            we'll only fund projects that also benefit these communities).</li>
+                    </ul>
+                    <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
                 cy: ``,
             }),
             type: 'textarea',
-            minWords: 0,
+            minWords: 50,
             maxWords: 500,
             messages: [
                 {
@@ -511,6 +771,36 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     }
 
     function fieldYourIdeaActivities() {
+        function explanation() {
+            if (projectCountries.includes('england')) {
+                return localise({
+                    en: `<p>You might want to to tell us about:</p>
+                <ul>
+                    <li>any gaps in local services your work will fill</li>
+                    <li>what other local activities your work will complement</li>
+                    <li>what links you already have in the community that will help you deliver the project</li>
+                    <li>if this project is being delivered in partnership, tell us the names of your partners and the background of you all working together.</li>
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ``,
+                });
+            } else {
+                return localise({
+                    en: `<p>Tell us about how this project will fit in with other local activities.</p>
+                <p>You might want to to tell us about:</p>
+                <ul>
+                    <li>what makes your organisation best placed to carry out the project</li>
+                    <li>any gaps in local services your work will fill</li>
+                    <li>what other local activities your work will complement</li>
+                    <li>what links you already have in the community that will help you deliver the project</li>
+                    <li>how you will work together with other organisations in your community.</li>
+                </ul>
+                <p><strong>You can write up to 500 words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ``,
+                });
+            }
+        }
+
         return new TextareaField({
             locale: locale,
             name: 'yourIdeaActivities',
@@ -518,26 +808,10 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: 'How does your idea fit in with other local activities?',
                 cy: '',
             }),
-            labelDetails: {
-                summary: localise({
-                    en: `Some ideas of what to tell us about`,
-                    cy: ``,
-                }),
-                content: localise({
-                    en: `<ul>
-                        <li>What makes your organisation best placed to carry out the project</li>
-                        <li>Any gaps in local services your work will fill</li>
-                        <li>What other local activities your work will complement</li>
-                        <li>What links you already have in the community
-                            that will help you deliver the project</li>
-                        <li>How you will work together with other organisations in your community</li>
-                    </ul>`,
-                    cy: ``,
-                }),
-            },
+            explanation: explanation(),
             type: 'textarea',
-            minWords: 0,
-            maxWords: 350,
+            minWords: 50,
+            maxWords: 500,
             messages: [
                 {
                     type: 'base',
@@ -560,12 +834,13 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: '',
             }),
             explanation: localise({
-                en: oneLine`This must be as shown on your governing document.
+                en: `<p>This must be as shown on your governing document.
                     Your governing document could be called one of several things,
                     depending on the type of organisation you're applying
                     on behalf of. It may be called a constitution, trust deed,
                     memorandum and articles of association,
-                    or something else entirely.`,
+                    or something else entirely.</p> 
+                    <p>You might find it on a registration website - for example, Companies House or a Charities Register.</p>`,
                 cy: ``,
             }),
             maxLength: maxLength,
@@ -580,7 +855,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 {
                     type: 'string.max',
                     message: localise({
-                        en: `Full legal name of organisation must be ${maxLength} characters or less`,
+                        en: `The full legal name of organisation must be ${maxLength} characters or less`,
                         cy: `Rhaid i’r enw cyfreithiol llawn fod yn llai na ${maxLength} nod`,
                     }),
                 },
@@ -588,31 +863,82 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
+    function fieldOrganisationDifferentName() {
+        return new RadioField({
+            locale: locale,
+            name: 'organisationDifferentName',
+            label: localise({
+                en: `Does your organisation use a different name in your day-to-day work?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `This is how you might be known if you're not just known by your legal name (the legal name is on your governing document or registration website).`,
+                cy: ``,
+            }),
+            options: [
+                { label: localise({ en: 'Yes', cy: '' }), value: 'yes' },
+                { label: localise({ en: 'No', cy: '' }), value: 'no' },
+            ],
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Select yes or no.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
     function fieldOrganisationTradingName() {
+        const legalName = get('organisationLegalName')(data);
+        function explanation() {
+            if (legalName) {
+                return localise({
+                    en: oneLine`This is how you might be known if you're not just known 
+                by your legal name, <strong>${legalName}</strong>.`,
+                    cy: ``,
+                });
+            } else {
+                return localise({
+                    en: oneLine`This is how you might be known if you're not just known 
+                by your legal name.`,
+                    cy: ``,
+                });
+            }
+        }
         const maxLength = 255;
         return new Field({
             locale: locale,
             name: 'organisationTradingName',
             label: localise({
-                en: 'Organisation trading name',
+                en:
+                    'Tell us the name your organisation uses in your day-to-day work',
                 cy: '',
             }),
-            explanation: localise({
-                en: oneLine`If your organisation uses a different name in your
-                    day-to-day work, please write it below`,
-                cy: ``,
+            explanation: explanation(),
+            schema: Joi.when('organisationDifferentName', {
+                is: 'yes',
+                then: Joi.string()
+                    .max(maxLength)
+                    .invalid(Joi.ref('organisationLegalName'))
+                    .required(),
+                otherwise: Joi.any().strip(),
             }),
-            isRequired: false,
-            schema: Joi.string()
-                .max(maxLength)
-                .allow('')
-                .optional()
-                .invalid(Joi.ref('organisationLegalName')),
             messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: "Enter your organisation's day-to-day name",
+                        cy: '',
+                    }),
+                },
                 {
                     type: 'any.invalid',
                     message: localise({
-                        en: 'Trading name must not be the same as legal name',
+                        en:
+                            "Organisation's day-to-day name must not be the same as its legal name",
                         cy: '',
                     }),
                 },
@@ -635,6 +961,244 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 en: `What is the main or registered address of your organisation?`,
                 cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`,
             }),
+        });
+    }
+
+    function fieldOrganisationStartDate() {
+        function getLeadTimeWeeks(country) {
+            const countryLeadTimes = {
+                'england': 0,
+                'northern-ireland': 12,
+            };
+            return countryLeadTimes[country];
+        }
+
+        const localise = get(locale);
+
+        const projectCountry = get('projectCountries')(data);
+
+        const minDate = moment().subtract(1000, 'years');
+
+        const date = moment().add(getLeadTimeWeeks(projectCountry), 'weeks');
+
+        const dateExample = date.clone().locale(locale).format('DD MM YYYY');
+
+        const maxDate = moment();
+
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+
+            return Joi.dateParts()
+                .minDate(minDate.format('YYYY-MM-DD'))
+                .maxDate(maxDate.format('YYYY-MM-DD'))
+                .required();
+        }
+
+        return new DateField({
+            locale: locale,
+            name: 'organisationStartDate',
+            label: localise({
+                en: `When was your organisation set up?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>This is the date your organisation took on its current legal status. 
+                It should be on your governing document. If you do not know the exact date or 
+                month, give us an approximate date.</p>
+                <p><strong>For example: ${dateExample}</strong></p>`,
+                cy: oneLine``,
+            }),
+            schema: schema(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter your organisation start date`,
+                        cy: ``,
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: oneLine`Date you entered must be in the past.`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: `Enter your organisation start date`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationSupport() {
+        return new Field({
+            locale: locale,
+            name: 'organisationSupport',
+            label: localise({
+                en: `How many people in England does your whole organisation directly support in a typical year?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `We’re not looking for how many people your specific project will support 
+                - we’ll ask for that at the end of the grant.`,
+                cy: ``,
+            }),
+            schema: Joi.friendlyNumber().integer().min(0).required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationVolunteers() {
+        return new Field({
+            locale: locale,
+            name: 'organisationVolunteers',
+            label: localise({
+                en: `How many volunteers do you have in your whole organisation?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `We’re not looking for the number of volunteers you’ll work with 
+                on this project specifically - we’ll ask for that at the end of the grant.`,
+                cy: ``,
+            }),
+            schema: Joi.friendlyNumber().integer().min(0).required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationFullTimeStaff() {
+        return new Field({
+            locale: locale,
+            name: 'organisationFullTimeStaff',
+            label: localise({
+                en: `How many full-time equivalent staff work for your whole organisation?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `To help you give us an idea, full-time hours are usually around 37 hours 
+                per week. So, to find out how many full-time equivalent staff you have, you 
+                need to divide the total number of hours worked by staff at your organisation by 37.`,
+                cy: ``,
+            }),
+            schema: Joi.number().precision(2).min(0).required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
+                    message: localise({
+                        en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+            ],
+        });
+    }
+
+    function fieldOrganisationLeadership() {
+        return new PercentageField({
+            locale: locale,
+            name: 'organisationLeadership',
+            label: localise({
+                en: `What percentage of your leadership (for example, senior management team, board, 
+                committee) have 'lived experience' of the issues you're trying to address?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>When we say lived experience, we mean organisations led by people 
+                        who have lived through challenges the organisation is trying to tackle.</p>
+                      <p>For example:</p>
+                      <ul>
+                        <li>a charity working with care experienced people being led by people who have been in care</li>
+                        <li>an organisation working with disabled people being led by disabled people</li>
+                        <li>an organisation that works in or with particular Black, Asian or Minority Ethnic (BAME) communities having a leadership team that reflects those communities</li>
+                        <li>an organisation that provides support to people affected by autism where someone from the organisation has a family member with autism.</li>
+                      </ul>`,
+                cy: ``,
+            }),
+            isRequired: false,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter a number.`,
+                        cy: ``,
+                    }),
+                },
+                {
+                    type: 'number.max',
+                    message: localise({
+                        en: 'Number must be between 0 and 100.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.min',
+                    message: localise({
+                        en: 'Number must be between 0 and 100.',
+                        cy: '',
+                    }),
+                },
+            ],
         });
     }
 
@@ -946,26 +1510,348 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
-    return {
-        projectName: fieldProjectName(),
-        projectCountries: fieldProjectCountries(),
-        projectRegions: fieldProjectRegions(),
-        projectLocation: fieldProjectLocation(),
-        projectLocationDescription: fieldProjectLocationDescription(),
-        projectCosts: fieldProjectCosts(),
-        projectDurationYears: fieldProjectDurationYears(),
-        yourIdeaProject: fieldYourIdeaProject(),
-        yourIdeaCommunity: fieldYourIdeaCommunity(),
-        yourIdeaActivities: fieldYourIdeaActivities(),
-        organisationLegalName: fieldOrganisationLegalName(),
-        organisationTradingName: fieldOrganisationTradingName(),
-        organisationAddress: fieldOrganisationAddress(),
-        organisationType: fieldOrganisationType(),
-        organisationSubType: fieldOrganisationSubType(),
-        contactName: fieldContactName(),
-        contactEmail: fieldContactEmail(),
-        contactPhone: fieldContactPhone(),
-        contactLanguagePreference: fieldContactLanguagePreference(),
-        contactCommunicationNeeds: fieldContactCommunicationNeeds(),
-    };
+    function dateOfBirthField(name, minAge) {
+        const minDate = moment().subtract(120, 'years').format('YYYY-MM-DD');
+
+        const maxDate = moment().subtract(minAge, 'years').format('YYYY-MM-DD');
+
+        return new DateField({
+            locale: locale,
+            name: name,
+            label: localise({ en: 'Date of birth', cy: 'Dyddad geni' }),
+            explanation: localise({
+                en: `<p>
+                    We need their date of birth to help confirm who they are.
+                    And we do check their date of birth.
+                    So make sure you've entered it right.
+                    If you don't, it could delay your application.
+                </p>
+                <p><strong>For example: 30 03 1980</strong></p>`,
+                cy: `<p>
+                    Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
+                    Rydym yn gwirio eu dyddiad geni.
+                    Felly sicrhewch eich bod wedi ei roi yn gywir.
+                    Os nad ydych, gall oedi eich cais.
+                </p>
+                <p><strong>Er enghraifft: 30 03 1980</strong></p>`,
+            }),
+            attributes: { max: maxDate },
+            schema: stripIfExcludedOrgType(
+                CONTACT_EXCLUDED_TYPES,
+                Joi.dateParts().minDate(minDate).maxDate(maxDate).required()
+            ),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a date of birth',
+                        cy: 'Rhowch ddyddiad geni',
+                    }),
+                },
+                {
+                    type: 'dateParts.maxDate',
+                    message: localise({
+                        en: `Must be at least ${minAge} years old`,
+                        cy: `Rhaid bod yn o leiaf ${minAge} oed`,
+                    }),
+                },
+                {
+                    type: 'dateParts.minDate',
+                    message: localise({
+                        en: oneLine`Birth year must be four digits, for example 1986`,
+                        cy: oneLine`Nid yw’r dyddiad geni yn ddilys—defnyddiwch
+                            bedwar digid, e.e. 1986`,
+                    }),
+                },
+            ],
+        });
+    }
+
+    function allFields() {
+        let fields = {};
+        if (projectCountries.includes('england')) {
+            fields = {
+                projectName: fieldProjectName(),
+                projectCountries: fieldProjectCountries(),
+                projectRegions: fieldProjectRegions(),
+                projectLocation: fieldProjectLocation(),
+                projectLocationDescription: fieldProjectLocationDescription(),
+                projectLocationPostcode: fieldProjectLocationPostcode(locale),
+                projectTotalCost: fieldProjectTotalCost(),
+                projectCosts: fieldProjectCosts(),
+                projectSpend: fieldProjectSpend(),
+                projectStartDate: fieldProjectStartDate(),
+                projectDurationYears: fieldProjectDurationYears(),
+                projectWebsite: fieldProjectWebsite(),
+                projectOrganisation: fieldProjectOrganisation(),
+                yourIdeaProject: fieldYourIdeaProject(),
+                yourIdeaCommunity: fieldYourIdeaCommunity(),
+                yourIdeaActivities: fieldYourIdeaActivities(),
+                beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
+                beneficiariesGroups: fieldBeneficiariesGroups(locale),
+                beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
+                beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
+                    locale
+                ),
+                beneficiariesGroupsGender: fieldBeneficiariesGroupsGender(
+                    locale
+                ),
+                beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
+                beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
+                    locale
+                ),
+                beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
+                    locale
+                ),
+                beneficiariesGroupsReligionOther: fieldBeneficiariesGroupsReligionOther(
+                    locale
+                ),
+                beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
+                    locale
+                ),
+                beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
+                    locale
+                ),
+                organisationLegalName: fieldOrganisationLegalName(),
+                organisationDifferentName: fieldOrganisationDifferentName(),
+                organisationTradingName: fieldOrganisationTradingName(),
+                organisationAddress: fieldOrganisationAddress(),
+                organisationStartDate: fieldOrganisationStartDate(),
+                organisationSupport: fieldOrganisationSupport(),
+                organisationVolunteers: fieldOrganisationVolunteers(),
+                organisationFullTimeStaff: fieldOrganisationFullTimeStaff(),
+                organisationLeadership: fieldOrganisationLeadership(),
+                organisationType: fieldOrganisationType(),
+                organisationSubType: fieldOrganisationSubType(),
+                accountingYearDate: fieldAccountingYearDate(locale, data),
+                totalIncomeYear: fieldTotalIncomeYear(locale, data),
+                mainContactName: new NameField({
+                    locale: locale,
+                    name: 'mainContactName',
+                    label: localise({
+                        en: 'Full name of main contact',
+                        cy: 'Enw llawn y prif gyswllt',
+                    }),
+                    explanation: localise({
+                        en: 'This person has to live in the UK.',
+                        cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.',
+                    }),
+                    get warnings() {
+                        let result = [];
+
+                        const seniorSurname = get('seniorContactName.lastName')(
+                            data
+                        );
+
+                        const lastNamesMatch =
+                            seniorSurname &&
+                            seniorSurname ===
+                                get('mainContactName.lastName')(data);
+
+                        if (lastNamesMatch) {
+                            result.push(
+                                localise({
+                                    en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
+                                     have the same surname. Remember we can't fund projects
+                                     where the two contacts are married or related by blood.</span>`,
+                                    cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
+                                     prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau
+                                     lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`,
+                                })
+                            );
+                        }
+
+                        return result;
+                    },
+                    schema(originalSchema) {
+                        return originalSchema.compare(
+                            Joi.ref('seniorContactName')
+                        );
+                    },
+                    messages: [
+                        {
+                            type: 'object.isEqual',
+                            message: localise({
+                                en: `Main contact name must be different from the senior contact's name`,
+                                cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`,
+                            }),
+                        },
+                    ],
+                }),
+                mainContactDateOfBirth: dateOfBirthField(
+                    'mainContactDateOfBirth',
+                    MIN_AGE_MAIN_CONTACT
+                ),
+                mainContactAddress: new AddressField({
+                    locale: locale,
+                    name: 'mainContactAddress',
+                    label: localise({
+                        en: 'Home address',
+                        cy: 'Cyfeiriad cartref',
+                    }),
+                    explanation: localise({
+                        en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                        cy: `Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
+                    }),
+                    schema: stripIfExcludedOrgType(
+                        CONTACT_EXCLUDED_TYPES,
+                        Joi.ukAddress()
+                            .required()
+                            .compare(Joi.ref('seniorContactAddress'))
+                    ),
+                    messages: [
+                        {
+                            type: 'object.isEqual',
+                            message: localise({
+                                en: `Main contact address must be different from the senior contact's address`,
+                                cy: `Rhaid i gyfeiriad y prif gyswllt fod yn wahanol i gyfeiriad yr uwch gyswllt`,
+                            }),
+                        },
+                    ],
+                }),
+                mainContactAddressHistory: fieldContactAddressHistory(locale, {
+                    name: 'mainContactAddressHistory',
+                }),
+                mainContactEmail: new EmailField({
+                    locale: locale,
+                    name: 'mainContactEmail',
+                    explanation: localise({
+                        en: `We’ll use this whenever we get in touch about the project`,
+                        cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`,
+                    }),
+                    schema: Joi.string()
+                        .required()
+                        .email()
+                        .lowercase()
+                        .invalid(Joi.ref('seniorContactEmail')),
+                    messages: [
+                        {
+                            type: 'any.invalid',
+                            message: localise({
+                                en: `Main contact email address must be different from the senior contact's email address`,
+                                cy: `Rhaid i gyfeiriad e-bost y prif gyswllt fod yn wahanol i gyfeiriad e-bost yr uwch gyswllt`,
+                            }),
+                        },
+                    ],
+                }),
+                mainContactPhone: new PhoneField({
+                    locale: locale,
+                    name: 'mainContactPhone',
+                }),
+                mainContactLanguagePreference: fieldContactLanguagePreference(
+                    locale,
+                    {
+                        name: 'mainContactLanguagePreference',
+                    }
+                ),
+                mainContactCommunicationNeeds: fieldSMContactCommunicationNeeds(
+                    locale,
+                    {
+                        name: 'mainContactCommunicationNeeds',
+                    }
+                ),
+                seniorContactRole: fieldSeniorContactRole(locale, data),
+                seniorContactName: new NameField({
+                    locale: locale,
+                    name: 'seniorContactName',
+                    label: localise({
+                        en: 'Full name of senior contact',
+                        cy: 'Enw llawn yr uwch gyswllt',
+                    }),
+                    explanation: localise({
+                        en: 'This person has to live in the UK.',
+                        cy: 'Rhaid i’r person hwn fyw ym Mhrydain',
+                    }),
+                }),
+                seniorContactDateOfBirth: dateOfBirthField(
+                    'seniorContactDateOfBirth',
+                    MIN_AGE_SENIOR_CONTACT
+                ),
+                seniorContactAddress: new AddressField({
+                    locale: locale,
+                    name: 'seniorContactAddress',
+                    label: localise({
+                        en: 'Home address',
+                        cy: 'Cyfeiriad cartref',
+                    }),
+                    explanation: localise({
+                        en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                        cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`,
+                    }),
+                    schema: stripIfExcludedOrgType(
+                        CONTACT_EXCLUDED_TYPES,
+                        Joi.ukAddress().required()
+                    ),
+                }),
+                seniorContactAddressHistory: fieldContactAddressHistory(
+                    locale,
+                    {
+                        name: 'seniorContactAddressHistory',
+                    }
+                ),
+                seniorContactEmail: new EmailField({
+                    locale: locale,
+                    name: 'seniorContactEmail',
+                    explanation: localise({
+                        en: `We’ll use this whenever we get in touch about the project`,
+                        cy: `Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect`,
+                    }),
+                    schema: Joi.string().required().email().lowercase(),
+                }),
+                seniorContactPhone: new PhoneField({
+                    locale: locale,
+                    name: 'seniorContactPhone',
+                }),
+                seniorContactLanguagePreference: fieldContactLanguagePreference(
+                    locale,
+                    {
+                        name: 'seniorContactLanguagePreference',
+                    }
+                ),
+                seniorContactCommunicationNeeds: fieldSMContactCommunicationNeeds(
+                    locale,
+                    {
+                        name: 'seniorContactCommunicationNeeds',
+                    }
+                ),
+                termsAgreement1: fieldTermsAgreement1(locale),
+                termsAgreement2: fieldTermsAgreement2(locale),
+                termsAgreement3: fieldTermsAgreement3(locale),
+                termsAgreement4: fieldTermsAgreement4(locale),
+                termsAgreement5: fieldTermsAgreement5(locale),
+                termsAgreement6: fieldTermsAgreement6(locale),
+                termsPersonName: fieldTermsPersonName(locale),
+                termsPersonPosition: fieldTermsPersonPosition(locale),
+            };
+        } else {
+            fields = {
+                projectName: fieldProjectName(),
+                projectCountries: fieldProjectCountries(),
+                projectRegions: fieldProjectRegions(),
+                projectLocation: fieldProjectLocation(),
+                projectLocationDescription: fieldProjectLocationDescription(),
+                projectLocationPostcode: fieldProjectLocationPostcode(locale),
+                projectCosts: fieldProjectCosts(),
+                projectDurationYears: fieldProjectDurationYears(),
+                projectWebsite: fieldProjectWebsite(),
+                yourIdeaProject: fieldYourIdeaProject(),
+                yourIdeaCommunity: fieldYourIdeaCommunity(),
+                yourIdeaActivities: fieldYourIdeaActivities(),
+                organisationLegalName: fieldOrganisationLegalName(),
+                organisationDifferentName: fieldOrganisationDifferentName(),
+                organisationTradingName: fieldOrganisationTradingName(),
+                organisationAddress: fieldOrganisationAddress(),
+                organisationType: fieldOrganisationType(),
+                organisationSubType: fieldOrganisationSubType(),
+                contactName: fieldContactName(),
+                contactEmail: fieldContactEmail(),
+                contactPhone: fieldContactPhone(),
+                contactLanguagePreference: fieldContactLanguagePreference(),
+                contactCommunicationNeeds: fieldContactCommunicationNeeds(),
+            };
+        }
+        return fields;
+    }
+
+    return allFields();
 };
