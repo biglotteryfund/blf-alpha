@@ -3,5 +3,5 @@
 const terms = require('./terms');
 
 test('default terms', function () {
-    expect(terms('en', {}, { enableGovCOVIDUpdates: true })).toMatchSnapshot();
+    expect(terms('en', {})).toMatchSnapshot();
 });

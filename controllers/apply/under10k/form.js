@@ -1126,18 +1126,11 @@ module.exports = function ({
                     introduction: terms(locale, data, flags),
                     footer: footer,
                     get fields() {
-                        const showCovidFields =
-                            flags.enableGovCOVIDUpdates &&
-                            isForCountry('england');
-
                         return compact([
                             fields.termsAgreement1,
                             fields.termsAgreement2,
                             fields.termsAgreement3,
                             fields.termsAgreement4,
-                            showCovidFields && fields.termsAgreementCovid1,
-                            showCovidFields && fields.termsAgreementCovid2,
-                            showCovidFields && fields.termsAgreementCovid3,
                             fields.termsPersonName,
                             fields.termsPersonPosition,
                         ]);
@@ -1405,7 +1398,7 @@ module.exports = function ({
             { fieldName: 'projectDateRange', includeBase: false },
             { fieldName: 'projectStartDate', includeBase: false },
             { fieldName: 'projectEndDate', includeBase: false },
-            flags.enableGovCOVIDUpdates && {
+            {
                 fieldName: 'organisationType',
                 includeBase: true,
             },

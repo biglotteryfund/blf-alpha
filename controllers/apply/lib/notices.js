@@ -5,10 +5,6 @@ const { oneLine } = require('common-tags');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 
-const enableGovCOVIDUpdates = config.get(
-    'fundingUnder10k.enableGovCOVIDUpdates'
-);
-
 const enableStandardEnglandAutoProjectDuration = config.get(
     'standardFundingProposal.enableEnglandAutoProjectDuration'
 );
@@ -55,15 +51,6 @@ module.exports = {
                     un newydd sy'n canolbwyntio ar COVID-19 yn lle.`,
                 }),
             });
-
-            if (enableGovCOVIDUpdates) {
-                notices.push({
-                    title: oneLine`We've also changed our eligibility
-                        criteria to help communities through the pandemic`,
-                    body: oneLine`So in England we're only funding voluntary
-                        and community organisations for the time being.`,
-                });
-            }
         }
 
         function showFormChangesNotice() {
@@ -99,12 +86,6 @@ module.exports = {
     },
     getNoticesSingle(locale, application = []) {
         const localise = get(locale);
-        const isEnglandStatutory =
-            application.formId === 'awards-for-all' &&
-            get('applicationData.projectCountry')(application) === 'england' &&
-            ['school', 'college-or-university', 'statutory-body'].includes(
-                get('applicationData.organisationType')(application)
-            ) === true;
 
         /*
          * Only show notice for applications created before this date
@@ -124,17 +105,6 @@ module.exports = {
             moment(application.createdAt).isBefore(projectDurationCutoffDate);
 
         const notices = [];
-
-        if (enableGovCOVIDUpdates && isEnglandStatutory) {
-            notices.push({
-                title: `We're sorry, but your application is now not eligible for funding`,
-                body: oneLine`We've changed our eligibility criteria
-                    (for the time being) to help communities through
-                    the pandemic. So for funding under £10,000,
-                    we're only funding voluntary and community
-                    organisations with COVID-19 related projects.`,
-            });
-        }
 
         if (enableStandardEnglandAutoProjectDuration && isEnglandStandard) {
             notices.push(
