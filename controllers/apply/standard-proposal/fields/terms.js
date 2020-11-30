@@ -88,7 +88,7 @@ module.exports = {
                 en: `<p>You understand that if a grant is offered 
                       to your organisation it will be subject to our 
                       terms and conditions. You can see example 
-                      <a href="https://www.tnlcommunityfund.org.uk/media/documents/terms-and-conditions-over-10000/Example-Standard-Revenue-Terms-and-Conditions.docx?mtime=20201009142921&focal=none">Terms and Conditions</a> 
+                      <a href="https://www.tnlcommunityfund.org.uk/about/customer-service/standard-terms-and-conditions-of-national-lottery-funding-over-10-000">Terms and Conditions</a> 
                       on our website.
                 </p>`,
                 cy: ``,
