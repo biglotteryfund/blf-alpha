@@ -15,7 +15,7 @@ exports[`show COVID-19 guidance text in England 1`] = `
 <p>
   In order to support communities to thrive, we aim to:
 </p>
-<ul>
+<ol>
   <li>
     build strong relationships in and across communities
   </li>
@@ -25,7 +25,7 @@ exports[`show COVID-19 guidance text in England 1`] = `
   <li>
     help more people to reach their potential, by supporting them at the earliest possible stage.
   </li>
-</ul>
+</ol>
 <p>
   <strong>
     You can write up to 150 words for this section,
@@ -49,7 +49,7 @@ exports[`show COVID-19 guidance text in England 2`] = `
 <p>
   In order to support communities to thrive, we aim to:
 </p>
-<ul>
+<ol>
   <li>
     build strong relationships in and across communities
   </li>
@@ -59,7 +59,7 @@ exports[`show COVID-19 guidance text in England 2`] = `
   <li>
     help more people to reach their potential, by supporting them at the earliest possible stage.
   </li>
-</ul>
+</ol>
 <p>
   <strong>
     You can write up to 150 words for this section,
@@ -70,20 +70,9 @@ but don't worry if you use less.
 
 exports[`show COVID-19 guidance text outside England when project is responding to COVID-19 1`] = `
 <p>
-  With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
+  A good application should do at least one of these three things:
 </p>
-<ul>
-  <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
-  </li>
-  <li>
-    change and adapt, becoming more resilient to respond to new and future challenges.
-  </li>
-</ul>
-<p>
-  In order to support communities to thrive, we aim to:
-</p>
-<ul>
+<ol>
   <li>
     build strong relationships in and across communities
   </li>
@@ -92,6 +81,17 @@ exports[`show COVID-19 guidance text outside England when project is responding 
   </li>
   <li>
     help more people to reach their potential, by supporting them at the earliest possible stage.
+  </li>
+</ol>
+<p>
+  We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:
+</p>
+<ul>
+  <li>
+    continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity
+  </li>
+  <li>
+    change and adapt, becoming more resilient in order to respond to new and future challenges.
   </li>
 </ul>
 <p>
@@ -104,20 +104,9 @@ but don't worry if you use less.
 
 exports[`show combined guidance text as a fallback 1`] = `
 <p>
-  With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
+  A good application should do at least one of these three things:
 </p>
-<ul>
-  <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
-  </li>
-  <li>
-    change and adapt, becoming more resilient to respond to new and future challenges.
-  </li>
-</ul>
-<p>
-  In order to support communities to thrive, we aim to:
-</p>
-<ul>
+<ol>
   <li>
     build strong relationships in and across communities
   </li>
@@ -126,6 +115,17 @@ exports[`show combined guidance text as a fallback 1`] = `
   </li>
   <li>
     help more people to reach their potential, by supporting them at the earliest possible stage.
+  </li>
+</ol>
+<p>
+  We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:
+</p>
+<ul>
+  <li>
+    continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity
+  </li>
+  <li>
+    change and adapt, becoming more resilient in order to respond to new and future challenges.
   </li>
 </ul>
 <p>
@@ -138,20 +138,9 @@ but don't worry if you use less.
 
 exports[`show regular guidance text outside England when project is not responding to COVID-19 1`] = `
 <p>
-  With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:
+  A good application should do at least one of these three things:
 </p>
-<ul>
-  <li>
-    continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity
-  </li>
-  <li>
-    change and adapt, becoming more resilient to respond to new and future challenges.
-  </li>
-</ul>
-<p>
-  In order to support communities to thrive, we aim to:
-</p>
-<ul>
+<ol>
   <li>
     build strong relationships in and across communities
   </li>
@@ -160,6 +149,17 @@ exports[`show regular guidance text outside England when project is not respondi
   </li>
   <li>
     help more people to reach their potential, by supporting them at the earliest possible stage.
+  </li>
+</ol>
+<p>
+  We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:
+</p>
+<ul>
+  <li>
+    continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity
+  </li>
+  <li>
+    change and adapt, becoming more resilient in order to respond to new and future challenges.
   </li>
 </ul>
 <p>
