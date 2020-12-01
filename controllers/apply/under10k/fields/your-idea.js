@@ -89,26 +89,57 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaPriorities(locale) {
+    fieldYourIdeaPriorities(locale, data) {
         const localise = get(locale);
         const minWords = 50;
         const maxWords = 150;
 
         function prioritiesDiversity() {
-            return localise({
-                en: `
+            if (get('projectCountry')(data) === 'england') {
+                return localise({
+                    en: `
                     <p>With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
                     <ul>
                         <li>continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity</li>
                         <li>change and adapt, becoming more resilient to respond to new and future challenges.</li>
                     </ul>
                     <p>In order to support communities to thrive, we aim to:</p>
-                    <ul>
+                    <ol>
                         <li>build strong relationships in and across communities</li>
                         <li>improve the places and spaces that matter to communities</li>
                         <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
-                    </ul>`,
-                cy: `
+                    </ol>`,
+                    cy: `
+                    <p>Gyda’r pandemig COVID-19 yn dal I fod o gwmpas, byddwn yn parhau i gefnogi pobl a chymunedau yr effeithir arnynt fwyaf o COVID-19. Gallwn eich cefnogi i:</p>
+                    <ul>
+                        <li>tbarhau i gyflawni gweithgarwch, p'un a ydych yn ymateb i'r argyfwng uniongyrchol neu'n cefnogi gweithgarwch adfer</li>
+                        <li>tnewid ac addasu, dod yn fwy gwydn er mwyn ymateb i heriau newydd ac yn y dyfodol.</li>
+                    </ul>
+                    <p>Er mwyn cefnogi cymunedau i ffynnu, rydym yn anelu i:</p>
+                    <ol>
+                        <li>tmeithrin cydberthnasau cryf mewn cymunedau ac ar eu traws</li>
+                        <li>tgwella'r lleoedd a'r mannau sy'n bwysig i gymunedau</li>
+                        <li>thelpu mwy o bobl i gyrraedd eu potensial, drwy eu cefnogi cyn gynted â phosibl.</li>
+                    </ol>
+                    `,
+                });
+            }
+            else {
+                return localise({
+                    en: `
+                    <p>A good application should do at least one of these three things:</p>
+                    <ol>
+                        <li>build strong relationships in and across communities</li>
+                        <li>improve the places and spaces that matter to communities</li>
+                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
+                    </ol>
+                    <p>We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
+                    <ul>
+                        <li>continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity</li>
+                        <li>change and adapt, becoming more resilient in order to respond to new and future challenges.</li>
+                    </ul>
+                    `,
+                    cy: `
                     <p>Dylai cais da wneud o leiaf un o'r tri pheth hyn:</p>
                     <ol>
                         <li>tmeithrin cydberthnasau cryf mewn cymunedau ac ar eu traws</li>
@@ -120,7 +151,8 @@ module.exports = {
                         <li>tbarhau i gyflawni gweithgarwch, p'un a ydych yn ymateb i'r argyfwng uniongyrchol neu'n cefnogi gweithgarwch adfer</li>
                         <li>tnewid ac addasu, dod yn fwy gwydn er mwyn ymateb i heriau newydd ac yn y dyfodol.</li>
                     </ul>`,
-            });
+                });
+            }
         }
 
         function guidanceText() {
