@@ -1105,7 +1105,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: 'Enter a number.',
+                        en: 'Use whole numbers only, eg. 12',
                         cy: '',
                     }),
                 },
@@ -1198,6 +1198,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: '',
                     }),
                 },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: 'Use whole numbers only, eg. 12',
+                        cy: '',
+                    }),
+                }
             ],
         });
     }

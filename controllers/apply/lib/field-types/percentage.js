@@ -15,7 +15,7 @@ class PercentageField extends Field {
     }
 
     defaultSchema() {
-        const baseSchema = Joi.number().min(0).max(100);
+        const baseSchema = Joi.number().integer().min(0).max(100);
 
         if (this.isRequired) {
             return baseSchema.required();
