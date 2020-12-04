@@ -16,6 +16,7 @@
       "optional": "Optional",
       "helpText": "eg. EC4A 1DE",
       "enterManually": "Enter address manually",
+      "chooseAddress": "Choose address",
       "selectAddress": "Select an address",
       "addressesFound": "addresses found",
       "lookupError": "There was an error finding your address - please provide it below.",
