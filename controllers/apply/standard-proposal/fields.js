@@ -556,8 +556,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `Dywedwch wrthym pryd yr hoffech gael yr arian os dyfernir arian grant ichi?`,
             }),
             explanation: localise({
-                en: oneLine`<p>Don't worry, this can be an estimate. 
-                But please be aware we might take around 12 weeks to assess your proposal.</p>
+                en: oneLine`<p>Don't worry, this can be an estimate.</p>
                 <p><strong>For example: ${minDateExample}</strong></p>`,
                 cy: ``,
             }),
