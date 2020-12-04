@@ -15,6 +15,7 @@ const fields = {
         label: localeKeyFor('yourName'),
         emailKey: 'Name',
         required: true,
+        autocomplete: 'name',
     },
     yourEmail: {
         type: 'email',
@@ -22,6 +23,7 @@ const fields = {
         label: localeKeyFor('yourEmail'),
         emailKey: 'Email address',
         required: true,
+        autocomplete: 'email',
     },
     yourAddress1: {
         type: 'text',
@@ -29,6 +31,7 @@ const fields = {
         label: localeKeyFor('yourAddress1'),
         emailKey: 'Address line 1',
         required: true,
+        autocomplete: 'address-line1',
     },
     yourAddress2: {
         type: 'text',
@@ -36,6 +39,7 @@ const fields = {
         label: localeKeyFor('yourAddress2'),
         emailKey: 'Address line 2',
         required: false,
+        autocomplete: 'address-line2'
     },
     yourTown: {
         type: 'text',
@@ -43,6 +47,7 @@ const fields = {
         label: localeKeyFor('yourAddress2'),
         emailKey: 'Town/city',
         required: true,
+        autocomplete: 'address-line3'
     },
     yourCounty: {
         type: 'text',
@@ -50,6 +55,7 @@ const fields = {
         label: localeKeyFor('yourCounty'),
         emailKey: 'County',
         required: false,
+        autocomplete: 'address-level1'
     },
     yourCountry: {
         type: 'text',
@@ -57,6 +63,7 @@ const fields = {
         label: localeKeyFor('yourCountry'),
         emailKey: 'Country',
         required: true,
+        autocomplete: 'country'
     },
     yourPostcode: {
         type: 'text',
@@ -64,6 +71,7 @@ const fields = {
         label: localeKeyFor('yourPostcode'),
         emailKey: 'Postcode',
         required: true,
+        autocomplete: 'postal-code'
     },
     yourProjectName: {
         type: 'text',
