@@ -12,7 +12,7 @@ module.exports = function ({ data = {} }) {
                 <h3>What happens next?</h3>
                 <p>Your answers have been passed on to a funding officer, who will use this information 
                 to continue assessing your funding proposal.</p>
-                <p>We’ll aim to tell you our decision in the next 12 weeks.</p>`;
+                <p>We’ll let you know if your proposal is something we’re interested in progressing in around 12 weeks.</p>`;
         } else {
             return `<p>
             We've emailed you a copy of what you wrote along
