@@ -44,7 +44,7 @@ const fields = {
     yourTown: {
         type: 'text',
         name: 'yourTown',
-        label: localeKeyFor('yourAddress2'),
+        label: localeKeyFor('yourTown'),
         emailKey: 'Town/city',
         required: true,
         autocomplete: 'address-line3'
