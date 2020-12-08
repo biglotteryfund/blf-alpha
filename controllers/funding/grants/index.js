@@ -250,7 +250,7 @@ router.get('/recipients/:id', async function (req, res, next) {
 
         if (organisation) {
             res.render(path.resolve(__dirname, './views/recipient-detail'), {
-                title: organisation.name,
+                title: organisation.name + " - " + req.i18n.__('funding.pastGrants.orgTitle'),
                 organisation: organisation,
                 recipientGrants: data.results,
                 recipientProgrammes: data.facets.grantProgramme,
@@ -312,7 +312,7 @@ router.get('/:id', async function (req, res, next) {
             }
 
             res.render(path.resolve(__dirname, './views/grant-detail'), {
-                title: data.result.title,
+                title: data.result.title + " - " + req.i18n.__('funding.pastGrants.projectTitle'),
                 grant: grant,
                 content: projectStory,
                 fundingProgramme: fundingProgramme,
