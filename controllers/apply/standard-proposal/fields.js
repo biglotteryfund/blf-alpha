@@ -1052,7 +1052,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
-            schema: Joi.friendlyNumber().integer().min(0).max(70000).required(),
+            schema: Joi.friendlyNumber()
+                .integer()
+                .min(0)
+                .max(70000000)
+                .required(),
             messages: [
                 {
                     type: 'base',
