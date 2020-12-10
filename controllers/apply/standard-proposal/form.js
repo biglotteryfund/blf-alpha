@@ -1082,17 +1082,6 @@ module.exports = function ({
                 enriched.projectName = `${metadata.programme.title}: ${enriched.projectName}`;
             }
 
-            /**
-             * If projectCountries contains England
-             * then pre-fill the projectDurationYears to 1 year
-             * as this question is hidden from them
-             */
-            if (
-                enriched.projectCountries.includes('england') &&
-                flags.enableEnglandAutoProjectDuration
-            ) {
-                enriched.projectDurationYears = 1;
-            }
             return enriched;
         },
         sections: sections(),

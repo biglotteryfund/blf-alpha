@@ -182,7 +182,7 @@
                                                    data-ga-event-category="Insight Documents"
                                                    data-ga-event-action="Downloaded a document"
                                                    data-ga-event-label="{{ entry.document.url }}">
-                                                    {{ iconDownload() }}
+                                                    <span aria-hidden="true">{{ iconDownload() }}</span>
                                                     {{ docTitle }}
                                                 </a>
                                             {% endif %}

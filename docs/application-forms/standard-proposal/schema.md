@@ -108,7 +108,7 @@ type: `array[string]`
 
 validation rules: If `projectCountries` contains `england` then `projectRegions` is included and required. If `all-england` is selected all other values are stripped.
 
-allowed values: `all-england`, `midlands`, `london-and-south-east`, `north-east-and-cumbria`, `north-west`, `south-west`, `yorkshire-and-the-humber`
+allowed values: `all-england`, `midlands`, `london-and-south-east`, `north-east-and-cumbria`, `north-west`, `south-west`, `yorkshire-and-humber`
 
 ### projectLocation
 
@@ -122,7 +122,7 @@ validation rules: If `projectCountries` contains more than one selection then `p
 
 -   **North East & Cumbria**: `northumberland`, `county-durham`, `tyne-and-wear`, `middlesbrough`, `darlington`, `stockton-on-tees`, `cleveland`, `cumbria`
 -   **North West**: `greater-manchester`, `lancashire`, `cheshire`, `merseyside`
--   **Yorkshire and the Humber**: `north-yorkshire`, `south-yorkshire`, `west-yorkshire`, `humber`
+-   **Yorkshire and Humber**: `north-yorkshire`, `south-yorkshire`, `west-yorkshire`, `humber`
 -   **South West**: `gloucestershire`, `south-gloucestershire`, `bristol`, `bath-and-north-east-somerset`, `north-somerset`, `somerset`, `wiltshire`, `swindon`, `dorset`, `bournemouth`, `poole`, `devon`, `torbay`, `plymouth`, `cornwall`, `isles-of-scilly`
 -   **London, South East and East of England**: `greater-london`, `berkshire`, `buckinghamshire`, `east-sussex`, `west-sussex`, `hampshire`, `the-isle-of-wight`, `kent`, `oxfordshire`, `surrey`, `bedfordshire`, `peterborough`, `cambridgeshire`, `essex`, `hertfordshire`, `norfolk`, `suffolk`
 -   **East and West Midlands**: `derbyshire`, `leicestershire`, `lincolnshire`, `northamptonshire`, `nottinghamshire`, `rutland`, `herefordshire`, `shropshire`, `staffordshire`, `warwickshire`, `west-midlands`, `worcestershire`
