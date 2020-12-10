@@ -508,6 +508,8 @@ funding:
         numFundedTotal:
           one: "ariannwyd %s prosiect gan Gronfa Gymunedol y Loteri Genedlaethol (cyfanswm o £%%s wedi'i ddyfarnu)"
           other: "ariannwyd %s o brosiectau gan Gronfa Gymunedol y Loteri Genedlaethol (cyfanswm o £%%s wedi'i ddyfarnu)"
+    projectTitle: Prosiect
+    orgTitle: Sefydliad
   guidance:
     order-free-materials:
       title: Sut i gael deunyddiau â'n brand arnynt am ddim
@@ -648,6 +650,7 @@ funding:
   allProgrammes:
     title: Pob rhaglen
     filterLabel: Hidlo fesul rhanbarth
+
 materials:
   orderEmail: >
     <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>

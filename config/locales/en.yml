@@ -517,6 +517,8 @@ funding:
         numFundedTotal:
           one: '%s project funded by The National Lottery Community Fund (£%%s awarded in total)'
           other: '%s projects funded by The National Lottery Community Fund (£%%s awarded in total)'
+    projectTitle: Project
+    orgTitle: Organisation
   guidance:
     order-free-materials:
       title: How to get free branded materials

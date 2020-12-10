@@ -62,9 +62,14 @@
                 <div class="content-sidebar__secondary">
                     {% call card(aboutTitle) %}
                         <aside class="grant-summary">
-                            <p class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</p>
-                            <p class="grant-summary__title">{{ grant.title }}</p>
-                            <p class="grant-summary__date">{{ formatDate(grant.awardDate) }}</p>
+                            <dl>
+                                <dt class="u-visually-hidden">Grant amount</dt>
+                                <dd class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</dd>
+                                <dt class="u-visually-hidden">Organisation name</dt>
+                                <dd class="grant-summary__title">{{ grant.title }}</dd>
+                                <dt class="u-visually-hidden">Grant date</dt>
+                                <dd class="grant-summary__date">{{ formatDate(grant.awardDate) }}</dd>
+                            </dl>
                         </aside>
 
                         <dl class="o-definition-list o-definition-list--compact u-text-small">

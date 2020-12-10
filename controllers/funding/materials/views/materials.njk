@@ -10,7 +10,8 @@
         fieldLabel = __(field.label),
         inputType = field.type,
         required = field.required,
-        showErrorsBelowFields = true
+        showErrorsBelowFields = true,
+        autocomplete = field.autocomplete
     ) }}
 {% endmacro %}
 
@@ -61,15 +62,16 @@
     {% else %}
         {% set quantity = 0 %}
     {% endif %}
-    <div class="material-product {% if quantity > 0 %}is-selected--no-js{% endif %}"
+    <fieldset>
+        <div class="material-product {% if quantity > 0 %}is-selected--no-js{% endif %}"
          v-bind:class="{ 'is-selected': getQuantity('{{ product.id }}') > 0 }">
-        <h5 class="material-product__title t5">
+        <legend class="material-product__title t5">
             {% if product.name %}
                 {{ product.name }}
             {% else %}
                 {{ material.title }}
             {% endif %}
-        </h5>
+        </legend>
         {% if material.description %}
             <p class="material-product__subtitle">
                 ({{ material.description }})
@@ -77,6 +79,7 @@
         {% endif %}
         {{ stepControl(material, product, quantity) }}
     </div>
+    </fieldset>
 {% endmacro %}
 
 {% macro materialCard(material, languageToShow, loopIndex) %}
