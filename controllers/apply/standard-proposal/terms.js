@@ -7,7 +7,7 @@ function defaultTerms(locale) {
     return localise({
         en: [
             `<p>Make sure you read and understand this whole section before ticking the boxes at the bottom.</p>
-             <p><strong>Data protection</strong></p>
+             <h2>Data protection</h2>
              <p>The National Lottery Community Fund is a public body with a duty to distribute National Lottery 
              and other money in grants for good causes. We use the personal data you provide, such as contact 
              details for individuals at your organisation, to help you apply for a grant and to assess your 
@@ -26,7 +26,7 @@ function defaultTerms(locale) {
              personal data and the lawful basis for this. Please read the full notice which is published 
              on our website at tnlcommunityfund.org.uk/data-protection or contact us to request a hard copy. 
              The notice may be updated from time to time.</p>
-             <p><strong>Freedom of information</strong></p>
+             <h2>Freedom of information</h2>
              <p>The Freedom of Information Act 2000 gives members of the public the right to request any 
              information that we hold. This includes information received from third parties, such as, 
              although not limited to grant applicants, grant holders and contractors. Please read our full 
@@ -39,7 +39,7 @@ function defaultTerms(locale) {
              information about your project whilst it is being assessed. Otherwise we will use our judgement 
              as to whether any exemptions may apply, which we may seek your opinion on.</p>
              <p>Personal information would be withheld subject to the requirements of data protection laws.</p>
-             <p><strong>Our approach to fraud</strong></p>
+             <h2>Our approach to fraud</h2>
              <p>We know the vast majority of the many thousands who seek and use our funding are genuine. 
              However, we sometimes receive fraudulent funding proposals and so we have a duty to carry out 
              checks on individuals at organisations which apply for grants.</p>
@@ -52,7 +52,7 @@ function defaultTerms(locale) {
              <a href="https://www.tnlcommunityfund.org.uk/about/customer-service/data-protection">
                 tnlcommunityfund.org.uk/data-protection</a>. Contact us to request a hard copy.
              </p>
-             <p><strong>Working with children, young people and vulnerable adults</strong></p>
+             <h2>Working with children, young people and vulnerable adults</h2>
              <p>If you’ll be working with children, young people or vulnerable adults, 
              you need to be sure they’ll be safe.</p>
              <ul>We would expect you to:

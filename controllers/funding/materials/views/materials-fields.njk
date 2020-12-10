@@ -1,4 +1,4 @@
-{% macro textInput(fieldName, fieldLabel, inputType = 'text', required = false, extraClasses = false, helpText = false, charLimit = false, showErrorsBelowFields = false) %}
+{% macro textInput(fieldName, fieldLabel, inputType = 'text', required = false, extraClasses = false, helpText = false, charLimit = false, showErrorsBelowFields = false, autocomplete = 'off') %}
 
     {% set error = formErrors | filter('param', fieldName) | first %}
     {# this is whitespace sensitive so don't add newlines! #}
@@ -21,7 +21,8 @@
                name="{{ fieldName }}"
                id="ff-{{ fieldName }}"{% if required %} required aria-required="true"{% endif %}
                value="{{ formValues[fieldName] }}"
-               placeholder="{{ placeholderText }}"{% if charLimit %} data-char-limit="{{ charLimit }}"{% endif %}>
+               placeholder="{{ placeholderText }}"{% if charLimit %} data-char-limit="{{ charLimit }}"{% endif %}
+               autocomplete="{{ autocomplete }}">
     {% endif %}
     {% if showErrorsBelowFields %}
         <p class="ff-error u-margin-top">
