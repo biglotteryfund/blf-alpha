@@ -96,7 +96,8 @@
                     </a>
 
                     <a href="#global-nav"
-                       class="global-header__toggle global-header__toggle-nav js-toggle-nav">
+                       class="global-header__toggle global-header__toggle-nav js-toggle-nav"
+                       aria-expanded="false">
                         {{ iconHamburger() }}
                         <span class="global-header__toggle-label">
                             {{ __("global.misc.menu") }}
@@ -197,6 +198,7 @@
             e.preventDefault();
             html.classList.remove(stateClassNames.search);
             html.classList.toggle(stateClassNames.nav);
+            toggleNav.setAttribute('aria-expanded', toggleNav.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');
         });
 
         toggleSearch.addEventListener('click', function(e) {

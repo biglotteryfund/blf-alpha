@@ -1052,7 +1052,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 - we’ll ask for that at the end of the grant.`,
                 cy: ``,
             }),
-            schema: Joi.friendlyNumber().integer().min(0).required(),
+            schema: Joi.friendlyNumber()
+                .integer()
+                .min(0)
+                .max(70000000)
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -1072,6 +1076,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'number.min',
                     message: localise({
                         en: 'Enter a number.',
+                        cy: '',
+                    }),
+                },
+                {
+                    type: 'number.max',
+                    message: localise({
+                        en: 'Enter a number smaller than 70,000,000.',
                         cy: '',
                     }),
                 },
@@ -1203,7 +1214,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         en: 'Use whole numbers only, eg. 12',
                         cy: '',
                     }),
-                }
+                },
             ],
         });
     }

@@ -1,0 +1,19 @@
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
+
+{{ formErrors(__('global.misc.errorTitle'), errors) }}
+
+<script>
+    (function() {
+        var elSelector = '.form-errors__list';
+        var el = document.querySelector(elSelector);
+
+        if (!el) {
+            return;
+        }
+
+        var listItems = el.getElementsByTagName("li");
+
+        if (listItems.length > 0)
+            listItems[0].focus();
+    }());
+</script>

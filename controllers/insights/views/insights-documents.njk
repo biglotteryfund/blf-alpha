@@ -56,7 +56,7 @@
 
                 {# Search totals #}
                     <div class="search__meta">
-                        <h2 class="search__total t--underline">
+                        <h2 class="search__total t--underline" role="alert">
                             {% if entriesMeta.pagination.total > 0 %}
                                 {{ __n('insights.documents.search.totals', entriesMeta.pagination.total) }}
                             {% else %}
