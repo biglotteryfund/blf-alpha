@@ -51,4 +51,16 @@
     &[open] .o-details__summary {
         background-image: $iconChevronDown;
     }
+
+    &[open] .summary__toggle {
+        &:after{
+            content: attr(data-open);
+        }
+    }
+
+    &:not([open]) .summary__toggle {
+        &:after{
+            content: attr(data-hide);
+        }
+    }
 }

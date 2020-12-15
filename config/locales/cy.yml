@@ -885,6 +885,7 @@ apply:
     expandAll: Ehangu pob adran
     collapseAll: Cau pob adran
     showQuestions: Dangos cwestiynau
+    hideQuestions: Cuddio cwestiynau
     notRequired: Nid oes angen i chi lenwi’r rhan yma oherwydd yr hyn rydych wedi ei ddweud wrthym am eich prosiect hyd yn hyn.
     errorSummaryTitle: Mae’r meysydd hyn angen eich sylw cyn ichi allu ei anfon.
     featuredErrorsTitle: Mae rhai manylion yn eich ffurflen angen sylw ychwanegol.
