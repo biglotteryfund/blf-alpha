@@ -897,6 +897,7 @@ apply:
     expandAll: Expand all sections
     collapseAll: Collapse all sections
     showQuestions: Show questions
+    hideQuestions: Hide questions
     notRequired: You don't need to fill this bit in because of what you've told us about your project so far.
     errorSummaryTitle: These fields need attention before you can submit
     featuredErrorsTitle: Some details in your application need extra attention

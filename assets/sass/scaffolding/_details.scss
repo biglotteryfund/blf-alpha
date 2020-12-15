@@ -50,5 +50,14 @@
 
     &[open] .o-details__summary {
         background-image: $iconChevronDown;
+        &:after{
+            content: attr(data-open);
+        }
+    }
+
+    &:not([open]) .o-details__summary {
+        &:after{
+            content: attr(data-hide);
+        }
     }
 }

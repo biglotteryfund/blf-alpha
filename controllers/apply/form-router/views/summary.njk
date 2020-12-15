@@ -1,11 +1,20 @@
 {% extends "layouts/main.njk" %}
-{% from "components/details/macro.njk" import details %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "./expiry-warnings.njk" import expiryLoggedOut with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+
+{% macro details(showQuestionsTitle, hideQuestionsTitle, isOpen = false, showInfoIcon = true, extraClasses, assistiveText = false, dataName = false) %}
+    <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
+        <summary class="o-details__summary"{% if dataName %} data-name="{{ dataName }}"{% endif %} data-open="{{ hideQuestionsTitle }}" data-hide="{{ showQuestionsTitle }}">
+            {% if showInfoIcon %}{{ iconInfo() }}{% endif %}
+            {% if assistiveText %}<span class="u-visually-hidden">{{ assistiveText }}</span>{% endif %}
+        </summary>
+        <div class="o-details__content">{{ caller() }}</div>
+    </details>
+{% endmacro %}
 
 {% macro summariseErrors() %}
     {% if showErrors and errorsByStep.length > 0 %}
@@ -157,7 +166,8 @@
                 {% endfor %}
             {% else %}
                 {% call details(
-                    title = copy.summary.showQuestions,
+                    showQuestionsTitle = copy.summary.showQuestions,
+                    hideQuestionsTitle = copy.summary.hideQuestions,
                     assistiveText = 'for "' + secTitle + '" section',
                     extraClasses = 'js-toggleable',
                     isOpen = form.progress.isComplete or section.hasFeaturedErrors,
