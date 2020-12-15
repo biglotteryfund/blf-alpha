@@ -8,7 +8,7 @@
 
 {% macro details(showQuestionsTitle, hideQuestionsTitle, isOpen = false, showInfoIcon = true, extraClasses, assistiveText = false, dataName = false) %}
     <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
-        <summary class="o-details__summary"{% if dataName %} data-name="{{ dataName }}"{% endif %} data-open="{{ hideQuestionsTitle }}" data-hide="{{ showQuestionsTitle }}">
+        <summary class="o-details__summary summary__toggle"{% if dataName %} data-name="{{ dataName }}"{% endif %} data-open="{{ hideQuestionsTitle }}" data-hide="{{ showQuestionsTitle }}">
             {% if showInfoIcon %}{{ iconInfo() }}{% endif %}
             {% if assistiveText %}<span class="u-visually-hidden">{{ assistiveText }}</span>{% endif %}
         </summary>
