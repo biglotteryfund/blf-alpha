@@ -223,7 +223,7 @@ $filterSpacing: 10px;
 
         &:active,
         &:focus {
-            outline: none;
+            outline: 1px auto -webkit-focus-ring-color;
 
             .icon {
                 fill: black;
