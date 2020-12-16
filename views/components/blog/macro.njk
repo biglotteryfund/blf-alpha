@@ -6,7 +6,7 @@
         "subtitle": formatDate(entry.postDate.date),
         "summary": entry.summary or entry.trailText,
         "image": {
-            "url": entry.thumbnail.large or entry.hero.image.default,
+            "url": entry.thumbnail.medium or entry.hero.image.default,
             "alt": entry.title
         },
         "link": {
