@@ -193,7 +193,7 @@ toplevel:
       prefix: We are here and ready to help you through COVID-19.
       title: When people are in the lead, communities thrive
       description: >
-        <p>The National Lottery Community Fund distributes <a href="%s">over £600m</a> a year to communities across the UK,
+        <p>The National Lottery Community Fund distributes over £600m a year to communities across the UK,
         raised by players of <a href="%s">The National Lottery</a></p>
     under10k: Apply for funding under £10,000
     over10k: Apply for funding over £10,000
