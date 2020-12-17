@@ -1,9 +1,9 @@
 {% macro articleTeaser(props) %}
     <article class="article-teaser s-prose">
         <header class="article-teaser__header">
-            <p class="article-teaser__title t3">
+            <h2 class="article-teaser__title t3">
                 <a class="u-link-minimal" href="{{ props.linkUrl }}">{{ props.title }}</a>
-            </p>
+            </h2>
             {% if props.subtitle %}
                 <p class="article-teaser__subtitle">
                     {{ props.subtitle }}
