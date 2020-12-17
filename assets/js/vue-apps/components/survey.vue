@@ -1,5 +1,6 @@
 <script>
 import $ from 'jquery';
+import { tagHotjarRecording } from '../../helpers/metrics';
 
 const statuses = {
     NOT_ASKED: 'NOT_ASKED',
@@ -62,13 +63,19 @@ export default {
         },
         selectChoice(choice) {
             if (choice === 'yes') {
+                tagHotjarRecording(['App: User selected yes']);
                 this.storeResponse(choice);
             } else if (choice === 'no') {
+                tagHotjarRecording([' User selected no and was the shown text box']);
                 this.status = statuses.MESSAGE_BOX_SHOWN;
             }
         },
         resetChoice() {
+            tagHotjarRecording(['App: User cancelled out of the survey']);
             this.status = statuses.NOT_ASKED;
+        },
+        submitAnswer(){
+            tagHotjarRecording(['App: User submitted the survey']);
         },
     },
 };
@@ -136,6 +143,7 @@ export default {
                             type="submit"
                             class="btn btn--small"
                             :value="submit"
+                            @click="submitAnswer"
                         />
                         <button
                             type="reset"
