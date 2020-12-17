@@ -185,3 +185,10 @@
         margin-top: auto;
     }
 }
+
+.card__head {
+    font-family: font-stack('display');
+    font-weight: font-weight('display', 'bold');
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+}
