@@ -63,19 +63,19 @@ export default {
         },
         selectChoice(choice) {
             if (choice === 'yes') {
-                tagHotjarRecording(['App: User selected yes']);
+                tagHotjarRecording(['Survey: User selected yes']);
                 this.storeResponse(choice);
             } else if (choice === 'no') {
-                tagHotjarRecording([' User selected no and was the shown text box']);
+                tagHotjarRecording(['Survey: User selected no and was the shown text box']);
                 this.status = statuses.MESSAGE_BOX_SHOWN;
             }
         },
         resetChoice() {
-            tagHotjarRecording(['App: User cancelled out of the survey']);
+            tagHotjarRecording(['Survey: User cancelled out of the survey']);
             this.status = statuses.NOT_ASKED;
         },
         submitAnswer(){
-            tagHotjarRecording(['App: User submitted the survey']);
+            tagHotjarRecording(['Survey: User submitted the survey']);
         },
     },
 };
