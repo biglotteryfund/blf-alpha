@@ -172,6 +172,7 @@ global:
       fundingSize: Funding size
       totalAvailable: Total available
       applicationDeadline: Application deadline
+      grantLength: Grant length
   survey:
     question: Did you find what you were looking for?
     prompt: How could we have made this page better?
