@@ -57,7 +57,6 @@
         name="{{ field.name }}"
         {% if field.value %}value="{{ field.value | escape }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        size="40"
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
 {% endmacro %}
@@ -103,7 +102,6 @@
             name="{{ field.name }}"
             {% if field.value %}value="{{ field.value | escape }}"{% endif %}
             {% if field.isRequired %}required aria-required="true"{% endif %}
-            size="40"
             {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
         />
 {% endmacro %}
