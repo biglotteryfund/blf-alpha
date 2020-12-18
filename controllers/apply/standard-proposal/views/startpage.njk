@@ -51,7 +51,7 @@
                         <div>
                             {% for country in copy.ready.countries %}
                                 <div class="o-details__content" v-show="itemCountry === {{ country.toggle }}" id="{{ country.id }}">
-                                    <h1 class="t2 form-header__title u-tone-brand-primary">{{ country.header }}</h1>
+                                    <h2 class="t2 form-header__title u-tone-brand-primary">{{ country.header }}</h2>
 
                                     {% if country.subheader %}
                                         <h2>{{ country.subheader }}</h2>
@@ -82,7 +82,7 @@
                                 </div>
                             {% endfor %}
                             <div v-show="itemCountry === 'no-country'" id="no-country">
-                                <h1 class="t2 form-header__title u-tone-brand-primary">{{ copy.ready.noCountry.header }}</h1>
+                                <h2 class="t2 form-header__title u-tone-brand-primary">{{ copy.ready.noCountry.header }}</h2>
                                 <p>{{ copy.ready.noCountry.content | safe }}</p>
                             </div>
                         </div>
