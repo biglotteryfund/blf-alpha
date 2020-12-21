@@ -260,7 +260,10 @@ it('should prevent registration with invalid passwords', () => {
 
     cy.visit('/user/register');
     createAccount(username, '5555555555');
-    cy.findByTestId('form-errors').should('contain', 'Password is too weak');
+    cy.findByTestId('form-errors').should(
+        'contain',
+        'Enter a stronger password'
+    );
 
     cy.visit('/user/register');
     createAccount(username, 'donot', 'match');
@@ -401,7 +404,7 @@ it('should throw errors on multiple failed password reset attempts', () => {
                 submitPasswordReset(weakPassword, null, true);
                 cy.findByTestId('form-errors').should(
                     'contain',
-                    'Password is too weak, try another password'
+                    'Enter a stronger password'
                 );
             });
         });
