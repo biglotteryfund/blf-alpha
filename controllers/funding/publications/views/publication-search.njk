@@ -6,7 +6,7 @@
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/icons.njk" import iconClose, iconTickPlain %}
 
-{% set copy = __('insights.documents') %}
+{% set copy = __('publications') %}
 {% set basePageUrl = localify(baseUrl) %}
 
 {% block content %}
@@ -58,7 +58,7 @@
                 <div class="search__meta">
                     <h2 class="search__total t--underline" role="alert">
                         {% if entriesMeta.pagination.total > 0 %}
-                            {{ __n('insights.documents.search.totals', entriesMeta.pagination.total) }}
+                            {{ __n('publications.search.totals', entriesMeta.pagination.total) }}
                         {% else %}
                             {{ copy.search.noResultsTotal }}
                         {% endif %}
