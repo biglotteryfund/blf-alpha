@@ -334,6 +334,37 @@ insights:
     region: Rhanbarth
     partner: Partner
     tags: Tagiau
+publication:
+  search:
+    cta: Chwiliwch ein dogfennau
+    submit: Chwilio
+    download: Lawrlwytho
+    explanation: 'Chwiliwch am allweddair fel "unigrwydd" neu enw mudiad'
+    totals:
+      one: 'Canfuwyd %s dogfen'
+      other: 'Canfuwyd %s ddogfen'
+    noResultsTotal: Canfuwyd 0 dogfen
+    sortBy:
+      orderedBy: "Wedi'u trefnu fesul"
+      relevancy: Mwyaf perthnasol
+      newest: Diweddaraf yn gyntaf
+      oldest: Hynaf yn gyntaf
+    filters:
+      clearAll: Clirio popeth
+      clearAllFilters: Clirio pob hidlydd
+      filterBy: Hidlwch fesul
+      applyFilters: Cymhwyso hidlyddion
+      programme:
+        title: Rhaglen ariannu
+        label: Dewis rhaglen
+      region:
+        title: Rhanbarth
+        label: Dewis rhanbarth
+      docType:
+        title: Math o ddogfen
+        label: Pob math o ddogfen
+    noResults: Ni chanfuwyd canlyniadau ar gyfer y chwiliad hwn - rhowch gynnig ar ddileu hidlyddion neu nodwch ymholiad gwahanol.
+  tags: Tagiau
 news:
   title: Newyddion
   allNews: Holl newyddion
