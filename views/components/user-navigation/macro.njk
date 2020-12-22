@@ -41,8 +41,8 @@
             <nav class="user-nav__secondary">
                 <ul class="user-nav__links">
                     {% for link in links %}
-                        <li>
-                            {% set shouldLink = link.url !== currentPath %}
+                        {% set shouldLink = link.url !== currentPath %}
+                        <li {% if shouldLink === false %}aria-current="page"{% endif %}>
                             {% if shouldLink  %}
                                 <a href="{{ link.url }}">
                             {% endif %}

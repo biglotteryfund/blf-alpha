@@ -19,18 +19,22 @@ module.exports = function ({ locale }) {
     const orgMinAgeLabel = localise(ORG_MIN_AGE.label);
 
     function question1() {
+        function getExplanation() {
+            return localise({
+                en: oneLine`By unconnected, we mean not a relation by blood, marriage,
+                civil partnership, in a long-term relationship or people living together 
+                at the same address.`,
+                cy: oneLine`Drwy anghysylltiedig, rydym yn golygu nad yw'n perthyn drwy 
+                    waed, priodas, partneriaeth sifil, mewn perthynas hirdymor na phobl sy'n 
+                    byw gyda'i gilydd yn yr un cyfeiriad.`,
+            });
+        }
         return {
             question: localise({
                 en: oneLine`Does your organisation have at least two unconnected people on the board or committee?`,
                 cy: oneLine`Oes gan eich sefydliad o leiaf dau berson heb gysylltiad i’w gilydd ar y bwrdd neu bwyllgor?`,
             }),
-            explanation: localise({
-                en: oneLine`By unconnected, we mean not a relation by blood, marriage,
-                in a long-term relationship or people living together at the same address.`,
-                cy: oneLine`Drwy gysylltiad i’w gilydd, rydym yn golygu ddim yn
-                berthynas drwy waed, mewn perthynas hir dymor neu bobl
-                sy’n byw â’u gilydd yn yr un cyfeiriad.`,
-            }),
+            explanation: getExplanation(),
             yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
             noLabel: localise({ en: 'No', cy: 'Nac oes' }),
             errorMessage: localise({
@@ -59,29 +63,22 @@ module.exports = function ({ locale }) {
             en: oneLine`Are you applying for an amount between
                 £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and
                 £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}
-                that you’ll spend in around in around 12 months?
-                (or in 6 months for projects in England)`,
+                that you’ll spend in around 12 months?`,
             cy: oneLine`A ydych chi'n gwneud cais am swm rhwng
                 £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a
                 £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} y
-                byddwch chi'n ei wario mewn tua 12 mis?
-                (neu mewn 6 mis ar gyfer prosiectau yn Lloegr) `,
+                byddwch chi'n ei wario mewn tua 12 mis?`,
         });
 
         const explanation = localise({
             en: oneLine`We know it's not always possible to complete a
-                  project in 12 months for lots of reasons. So we can
-                  consider projects which are slightly longer than this.
-                  But groups in England need to spend the funding in 6 months.
-                  We will also consider applications for one-off events
-                  such as a festival, gala day or conference`,
-            cy: oneLine`Rydym yn gwybod nad yw bob amser yn bosibl
-                  cwblhau prosiect mewn 12 mis am lawer o resymau.
-                  Felly gallwn ystyried prosiectau sydd ychydig yn
-                  hirach na hyn. Ond mae angen i grwpiau yn Lloegr
-                  wario'r arian mewn 6 mis. Byddwn hefyd yn ystyried
-                  ceisiadau am ddigwyddiadau unwaith yn unig fel gŵyl,
-                  diwrnod gala neu gynhadledd.`,
+                      project in 12 months for lots of reasons. So we can
+                      consider projects which are slightly longer than this.
+                      We will also consider applications for one-off events.`,
+            cy: oneLine`Gwyddom nad yw bob amser yn bosibl cwblhau 
+                        prosiect mewn 12 mis am lawer o resymau. Felly gallwn ystyried 
+                        prosiectau sydd ychydig yn hirach na hyn. Byddwn hefyd yn 
+                        ystyried ceisiadau am ddigwyddiadau untro.`,
         });
 
         return {

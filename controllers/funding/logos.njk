@@ -98,7 +98,8 @@
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
                    data-ga-event-action="{{ logo.title }} - {{ language }} - Digital"
-                   download>
+                   download
+                   aria-label="Download the digital version of the {{ logo.title }}">
                     {{ copy.downloads.digital }}
                 </a>
             </li>
@@ -128,9 +129,11 @@
     {% endcall %}
 {% endmacro %}
 
-{% macro howToChooseLogo() %}
+{% macro howToChooseLogo(region) %}
     <details class="u-margin-bottom-l">
-        <summary>{{ copy.howToChoose.title }}</summary>
+        <summary>{{ copy.howToChoose.title }}
+            <span class="u-visually-hidden">for projects in {{ region }}</span>
+        </summary>
         <div class="u-tone-background-tint u-padded">
             {{ copy.howToChoose.body | safe }}
         </div>
@@ -159,7 +162,7 @@
 
         <h3 id="region1">{{ copy.locations.monolingual }}</h3>
 
-        {{ howToChooseLogo() }}
+        {{ howToChooseLogo(copy.locations.monolingual) }}
 
         <ul class="flex-grid flex-grid--3up u-margin-bottom-l">
             {% for logo in logoTypes.monolingual %}
@@ -171,7 +174,7 @@
 
         <h3 id="region2">{{ copy.locations.bilingual }}</h3>
 
-        {{ howToChooseLogo() }}
+        {{ howToChooseLogo(copy.locations.bilingual) }}
 
         <ul class="flex-grid flex-grid--3up">
             {% for logo in logoTypes.bilingual %}

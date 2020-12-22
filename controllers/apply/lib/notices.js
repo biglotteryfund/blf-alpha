@@ -5,10 +5,6 @@ const { oneLine } = require('common-tags');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 
-const enableGovCOVIDUpdates = config.get(
-    'fundingUnder10k.enableGovCOVIDUpdates'
-);
-
 const enableStandardEnglandAutoProjectDuration = config.get(
     'standardFundingProposal.enableEnglandAutoProjectDuration'
 );
@@ -32,9 +28,7 @@ module.exports = {
             });
         }
 
-
         const notices = [];
-
 
         if (showEnglandPrioritiesNotice()) {
             notices.push({
@@ -57,26 +51,41 @@ module.exports = {
                     un newydd sy'n canolbwyntio ar COVID-19 yn lle.`,
                 }),
             });
+        }
 
-            if (enableGovCOVIDUpdates) {
-                notices.push({
-                    title: oneLine`We've also changed our eligibility
-                        criteria to help communities through the pandemic`,
-                    body: oneLine`So in England we're only funding voluntary
-                        and community organisations for the time being.`,
-                });
-            }
+        function showFormChangesNotice() {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2020-11-16';
+            return pendingApplications.some(function (application) {
+                return moment(application.createdAt).isBefore(goLiveDate);
+            });
+        }
+
+        if (showFormChangesNotice()) {
+            notices.push({
+                title: localise({
+                    en: oneLine`We’ve made changes to our online application forms`,
+                    cy: oneLine`Rydym wedi gwneud newidiadau i'n ffurflenni cais ar-lein`,
+                }),
+                body: localise({
+                    en: `<p>We hope to improve the experience of applying for funding. These 
+                        changes might mean you have to answer more questions or change your answers 
+                        before submitting your application. But we have given you an extra two weeks 
+                        to complete your application if your application was close to expiring when 
+                        we made the changes.</p>`,
+                    cy: `<p>Gobeithiwn wella'r profiad o wneud cais am grant. Gallai'r newidiadau 
+                        hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn 
+                        cyflwyno'ch cais. Ond rydym wedi rhoi pythefnos ychwanegol i chi gwblhau eich 
+                        cais os oedd eich cais yn agos at ddod i ben pan wnaethom y newidiadau.</p>`,
+                }),
+            });
         }
 
         return notices;
     },
     getNoticesSingle(locale, application = []) {
-        const isEnglandStatutory =
-            application.formId === 'awards-for-all' &&
-            get('applicationData.projectCountry')(application) === 'england' &&
-            ['school', 'college-or-university', 'statutory-body'].includes(
-                get('applicationData.organisationType')(application)
-            ) === true;
+        const localise = get(locale);
 
         /*
          * Only show notice for applications created before this date
@@ -85,6 +94,8 @@ module.exports = {
          * which were created before this will have expired
          */
         const projectDurationCutoffDate = '2020-06-04';
+        const isStandard = application.formId === 'standard-enquiry';
+        const isSimple = application.formId === 'awards-for-all';
         const isEnglandStandard =
             application.formId === 'standard-enquiry' &&
             getOr(
@@ -94,17 +105,6 @@ module.exports = {
             moment(application.createdAt).isBefore(projectDurationCutoffDate);
 
         const notices = [];
-
-        if (enableGovCOVIDUpdates && isEnglandStatutory) {
-            notices.push({
-                title: `We're sorry, but your application is now not eligible for funding`,
-                body: oneLine`We've changed our eligibility criteria
-                    (for the time being) to help communities through
-                    the pandemic. So for funding under £10,000,
-                    we're only funding voluntary and community
-                    organisations with COVID-19 related projects.`,
-            });
-        }
 
         if (enableStandardEnglandAutoProjectDuration && isEnglandStandard) {
             notices.push(
@@ -126,6 +126,79 @@ module.exports = {
                         six months.`,
                 }
             );
+        }
+
+        function showFormChangesNotice(formId) {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2020-11-16';
+            return (
+                application.formId === formId &&
+                moment(application.createdAt).isBefore(goLiveDate)
+            );
+        }
+
+        if (isStandard && showFormChangesNotice('standard-enquiry')) {
+            notices.push({
+                title: localise({
+                    en: oneLine`We’ve made changes to this online application form`,
+                    cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
+                }),
+                body: localise({
+                    en: `<p>We hope these improve the experience of applying for funding. These changes might 
+                                  mean you have to answer more questions or change your answers before submitting your 
+                                  application. This includes where you tell us what 
+                                  <a href="/apply/your-funding-proposal/your-project/8?edit#form-field-yourIdeaProject">your project</a> 
+                                   is about. But we’ve highlighted new questions to you, and given you an extra two 
+                                   weeks to complete your application if your application is close to expiring. Read 
+                                   about our 
+                                  <a href="/funding/over10k">over £10,000</a> to find out more about what's changed.</p>`,
+                    cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn 
+                            cyflwyno'ch cais. Mae hyn yn cynnwys ble rydych chi'n dweud wrthym beth yw 
+                            <a href="/apply/your-funding-proposal/your-project/8?edit#form-field-yourIdeaProject">eich prosiect</a>
+                            . Ond rydym wedi tynnu ei sylw atoch, ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich 
+                            cais os yw eich cais yn agos at ddod i ben. Darllenwch am ein 
+                            <a href="/welsh/funding/over10k">grantiau dros £10,000</a> i gael gwybod mwy am yr hyn sydd 
+                            wedi newid.</p>`,
+                }),
+            });
+        } else if (isSimple && showFormChangesNotice('awards-for-all')) {
+            notices.push({
+                title: localise({
+                    en: oneLine`We’ve made changes to this online application form`,
+                    cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
+                }),
+                body: localise({
+                    en: `<p>We hope these improve the experience of applying for funding. These 
+                            changes might mean you have to answer more questions or change your answers before 
+                            submitting your application. But we have given you an extra two weeks to complete 
+                            your application if your application is close to expiring. Have a look at our website 
+                            for the latest information about funding 
+                                  <a href="/funding/under10k">under £10,000</a>.</p>`,
+                    cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
+                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion 
+                            cyn cyflwyno'ch cais. Ond rydym wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais 
+                            os yw eich cais yn agos at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf 
+                            am grantiau 
+                            <a href="/welsh/funding/under10k">dan £10,000</a>.</p>`,
+                }),
+            });
+        } else {
+            notices.push({
+                title: localise({
+                    en: oneLine`We’ve made some changes to our application form`,
+                    cy: oneLine`Rydym yn mynd i wneud newidiadau i'r ffurflen gais ar-lein hon yn fuan`,
+                }),
+                body: localise({
+                    en: `<p>We hope these improve the experience of applying for funding. These changes 
+                        might mean you have to answer more questions and may want to change any answers you 
+                        might have prepared.</p>`,
+                    cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
+                        newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau ac efallai y byddwch am 
+                        newid unrhyw atebion y gallech fod wedi'u paratoi.</p>`,
+                }),
+            });
         }
 
         return notices;

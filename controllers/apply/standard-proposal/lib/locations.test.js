@@ -13,14 +13,11 @@ test('england region groups should match location groups', function () {
 });
 
 test('filter england location options by region', function () {
-    const result = englandLocationOptions([
-        'midlands',
-        'yorkshire-and-the-humber',
-    ]);
+    const result = englandLocationOptions(['midlands', 'yorkshire-and-humber']);
     expect(result.length).toBe(2);
     expect(result.map((group) => group.label)).toEqual([
         'East and West Midlands',
-        'Yorkshire and the Humber',
+        'Yorkshire and Humber',
     ]);
 });
 

@@ -244,7 +244,7 @@
         font-family: font-stack('display');
         font-weight: font-weight('display', 'semibold');
         color: white;
-        background-color: get-color('brand', 'primary-tint');
+        background-color: rgba(229,0,125,1);
 
         @include mq('medium') {
             height: 35%;

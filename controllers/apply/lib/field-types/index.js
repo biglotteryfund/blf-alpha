@@ -16,4 +16,6 @@ module.exports = {
     AddressHistoryField: require('./address-history'),
     NameField: require('./name'),
     BudgetField: require('./budget'),
+    UrlField: require('./url'),
+    PercentageField: require('./percentage'),
 };

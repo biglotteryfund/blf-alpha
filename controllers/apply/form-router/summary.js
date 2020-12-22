@@ -43,6 +43,8 @@ module.exports = function (formBuilder) {
     router.get('/', function (req, res) {
         const { copy, currentApplication, currentApplicationData } = res.locals;
 
+        const launchDate = new Date(2020, 11, 16);
+
         const form = formBuilder({
             locale: req.i18n.getLocale(),
             data: currentApplicationData,
@@ -66,7 +68,13 @@ module.exports = function (formBuilder) {
             ];
         }
 
-        const featuredErrors = form.validation.featuredMessages;
+        const featuredMessages = form.validation.featuredMessages;
+
+        const featuredErrors =
+            formShortId === 'YFP' &&
+            currentApplication.dataValues.createdAt > launchDate
+                ? []
+                : form.getFeaturedErrors(featuredMessages);
 
         if (featuredErrors.length > 0) {
             const msg = [
@@ -105,6 +113,13 @@ module.exports = function (formBuilder) {
             logger.info('Notice shown on summary');
         }
 
+        const yfpStart =
+            formShortId === 'YFP' &&
+            JSON.stringify(currentApplicationData) ===
+                JSON.stringify({
+                    projectCountries: ['england'],
+                });
+
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
             csrfToken: req.csrfToken(),
@@ -117,6 +132,7 @@ module.exports = function (formBuilder) {
             featuredErrors: featuredErrors,
             expandSections: form.progress.isComplete || showErrors,
             startPathSlug: form.sections[0].slug,
+            yfpStart: yfpStart,
         });
     });
 

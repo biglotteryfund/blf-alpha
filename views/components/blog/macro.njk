@@ -6,7 +6,7 @@
         "subtitle": formatDate(entry.postDate.date),
         "summary": entry.summary or entry.trailText,
         "image": {
-            "url": entry.thumbnail.large or entry.hero.image.default,
+            "url": entry.thumbnail.medium or entry.hero.image.default,
             "alt": entry.title
         },
         "link": {
@@ -29,9 +29,15 @@
                                      width="60"/>
                             {% endif %}
                             <div class="o-media__body">
-                                <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                                <dl>
+                                    <dt class="u-visually-hidden">Article author</dt>
+                                    <dd><p class="u-no-margin"><strong>{{ author.title }}</strong></p></dd>
+                                </dl>
                                 {% if author.authorTitle %}
-                                    <p>{{ author.authorTitle }}</p>
+                                    <dl>
+                                        <dt class="u-visually-hidden">Article author title</dt>
+                                        <dd><p>{{ author.authorTitle }}</p></dd>
+                                    </dl>
                                 {% endif %}
                             </div>
                         </div>
@@ -46,10 +52,15 @@
 
             {% if entry.category and updateType %}
                 <div class="blogpost-attribution__extra">
-                    <a class="o-tag"
-                       href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
-                        {{ entry.category.title }}
-                    </a>
+                    <dl>
+                        <dt class="u-visually-hidden">Article section</dt>
+                        <dd>
+                            <a class="o-tag"
+                               href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
+                                {{ entry.category.title }}
+                            </a>
+                        </dd>
+                    </dl>
                 </div>
             {% endif %}
         </div>

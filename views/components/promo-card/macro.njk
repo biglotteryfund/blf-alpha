@@ -15,7 +15,7 @@ props: {Object}
     <div class="promo-card{% if featured %} promo-card--featured{% endif %}{% if isInline %} promo-card--inline{% endif %}">
         {% if props.image.url %}
             <div class="promo-card__media">
-                {% if props.link.url %}<a href="{{ props.link.url }}">{% endif %}
+                {% if props.link.url %}<a href="{{ props.link.url }}" aria-hidden="true" tabindex="-1">{% endif %}
                 <img src="{{ props.image.url }}" alt="{{ props.image.alt }}"/>
                 {% if props.link.url %}</a>{% endif %}
                 {% if props.kicker %}
@@ -38,7 +38,7 @@ props: {Object}
             {% if props.headingLevel and props.headingLevel < 6 and props.headingLevel > 0 %}
                 {% set level = props.headingLevel %}
             {% endif %}
-            <h{{ level }} class="promo-card__title t4">
+            <p class="promo-card__title t4">
                 {% if props.link.url %}
                     <a
                         class="u-link-minimal"
@@ -48,7 +48,7 @@ props: {Object}
                 {% endif %}
                 {{ props.title }}
                 {% if props.link.url %}</a>{% endif %}
-            </h{{ level }}>
+            </p>
             {% if props.subtitle %}
                 <p class="promo-card__subtitle">{{ props.subtitle }}</p>
             {% endif %}

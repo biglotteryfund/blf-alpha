@@ -57,7 +57,6 @@
         name="{{ field.name }}"
         {% if field.value %}value="{{ field.value | escape }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        {% if not field.attributes.size %}size="{{ field.size | default(40, true) }}"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
 {% endmacro %}
@@ -88,6 +87,23 @@
         {{ nameField(field, 'firstName', 'given-name', copy.fields.fullName.firstName, copy.fields.fullName.firstNameExplanation) }}
         {{ nameField(field, 'lastName', 'family-name', copy.fields.fullName.lastName) }}
     </fieldset>
+{% endmacro %}
+
+{% macro inputUrl(field) %}
+    {# a11y fix - type=email has a bug in Dragon which doesn't allow voice input #}
+    <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+    {{ explanationFor(field) }}
+        <input
+            class="ff-text"
+            type="{{ fieldType }}"
+            id="field-{{ field.name }}"
+            name="{{ field.name }}"
+            {% if field.value %}value="{{ field.value | escape }}"{% endif %}
+            {% if field.isRequired %}required aria-required="true"{% endif %}
+            {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        />
 {% endmacro %}
 
 {% macro dateInputName(field, datePiece, rangePeriod = false) %}
@@ -194,6 +210,24 @@
             {% if field.isRequired %}required aria-required="true"{% endif %}
             {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
         />
+    </div>
+{% endmacro %}
+
+{% macro inputPercentage(field) %}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+    {{ explanationFor(field) }}
+    <div class="ff-currency ff-currency--constrained">
+        <input class="ff-currency__input--suff"
+               type="tel"
+               id="field-{{ field.name }}"
+               name="{{ field.name }}"
+               {% if field.value %}value="{{ field.value }}"{% endif %}
+               {% if field.isRequired %}required aria-required="true"{% endif %}
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        />
+        <div class="ff-currency__suff">%</div>
     </div>
 {% endmacro %}
 
@@ -633,6 +667,10 @@
                     {{ inputFile(field) }}
                 {% elseif field.type === 'full-name' %}
                     {{ inputNames(field) }}
+                {% elseif field.type === 'url' %}
+                    {{ inputUrl(field) }}
+                {% elseif field.type === 'percentage' %}
+                    {{ inputPercentage(field) }}
                 {% else %}
                     {{ inputText(field) }}
                 {% endif %}

@@ -40,6 +40,7 @@ export default {
             </legend>
             <button
                 type="button"
+                role="link"
                 class="search-filters__clear-all btn-link"
                 @click="$emit('clear-filters')"
             >

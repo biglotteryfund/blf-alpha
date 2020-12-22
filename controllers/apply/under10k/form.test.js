@@ -397,27 +397,6 @@ test('valid form for statutory-body', function () {
     expect(form.validation.error).toBeUndefined();
 });
 
-test.each(['school', 'college-or-university', 'statutory-body'])(
-    '%p not allowed in England',
-    function (orgType) {
-        const data = mockResponse({
-            projectCountry: 'england',
-            organisationType: orgType,
-        });
-
-        const result = formBuilder({
-            data,
-            flags: { enableGovCOVIDUpdates: true },
-        }).validation;
-
-        expect(mapMessages(result)).toEqual(
-            expect.arrayContaining([
-                expect.stringContaining('Select a type of organisation'),
-            ])
-        );
-    }
-);
-
 test('role can be free text for some statutory bodies', function () {
     const data = mockResponse({
         projectCountry: 'scotland',
@@ -527,8 +506,8 @@ test('maintain backwards compatibility for date schema', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
-        projectStartDate: { day: 3, month: 3, year: 2021 },
-        projectEndDate: { day: 3, month: 4, year: 2021 },
+        projectStartDate: { day: 3, month: 4, year: 2021 },
+        projectEndDate: { day: 3, month: 5, year: 2021 },
     });
 
     const form = formBuilder({
@@ -539,11 +518,11 @@ test('maintain backwards compatibility for date schema', function () {
 
     // Maintain backwards compatibility with salesforce schema
     const salesforceResult = form.forSalesforce();
-    expect(salesforceResult.projectStartDate).toBe('2021-03-03');
-    expect(salesforceResult.projectEndDate).toBe('2021-04-03');
+    expect(salesforceResult.projectStartDate).toBe('2021-04-03');
+    expect(salesforceResult.projectEndDate).toBe('2021-05-03');
     expect(salesforceResult.projectDateRange).toEqual({
-        startDate: '2021-03-03',
-        endDate: '2021-04-03',
+        startDate: '2021-04-03',
+        endDate: '2021-05-03',
     });
 });
 
@@ -561,66 +540,6 @@ test('require project dates', function () {
             'Enter a project end date',
         ])
     );
-});
-
-test('start date defaults to current date if specifying as soon as possible', function () {
-    const projectStartDate = moment();
-    const projectEndDate = moment().add('3', 'days');
-
-    const mock = mockResponse({
-        projectCountry: 'england',
-        projectStartDateCheck: 'asap',
-        projectEndDate: toDateParts(projectEndDate),
-    });
-
-    const data = omit(mock, ['projectStartDate']);
-
-    const form = formBuilder({
-        data,
-        flags: { enableEnglandAutoEndDate: false },
-    });
-
-    expect(form.validation.error).toBeUndefined();
-
-    const salesforceResult = form.forSalesforce();
-
-    const expectedProjectStartDate = projectStartDate.format('YYYY-MM-DD');
-    const expectedProjectEndDate = projectEndDate.format('YYYY-MM-DD');
-
-    expect(salesforceResult.projectStartDate).toBe(expectedProjectStartDate);
-    expect(salesforceResult.projectEndDate).toBe(expectedProjectEndDate);
-    expect(salesforceResult.projectDateRange).toEqual({
-        startDate: expectedProjectStartDate,
-        endDate: expectedProjectEndDate,
-    });
-});
-
-test('end date pre-filled to 6 months from now if specifying asap in England', function () {
-    const mock = mockResponse({
-        projectCountry: 'england',
-        projectStartDateCheck: 'asap',
-    });
-
-    const data = omit(mock, ['projectStartDate', 'projectEndDate']);
-
-    const form = formBuilder({ data });
-
-    expect(form.validation.error).toBeUndefined();
-
-    const salesforceResult = form.forSalesforce();
-
-    const expectedProjectStartDate = moment().format('YYYY-MM-DD');
-    const expectedProjectEndDate = moment()
-        .add('6', 'months')
-        .format('YYYY-MM-DD');
-
-    expect(salesforceResult.projectStartDate).toBe(expectedProjectStartDate);
-    expect(salesforceResult.projectEndDate).toBe(expectedProjectEndDate);
-
-    expect(salesforceResult.projectDateRange).toEqual({
-        startDate: expectedProjectStartDate,
-        endDate: expectedProjectEndDate,
-    });
 });
 
 test('start date must be at least 12 weeks away outside England when not supporting COVID-19', function () {

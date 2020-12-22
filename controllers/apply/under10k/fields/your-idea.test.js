@@ -9,9 +9,7 @@ test('show COVID-19 guidance text in England', function () {
     const field = fieldYourIdeaPriorities('en', data);
     expect(field.explanation).toMatchSnapshot();
 
-    const fieldFlag = fieldYourIdeaPriorities('en', data, {
-        enableGovCOVIDUpdates: true,
-    });
+    const fieldFlag = fieldYourIdeaPriorities('en', data);
     expect(fieldFlag.explanation).toMatchSnapshot();
 });
 

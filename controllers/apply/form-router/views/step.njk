@@ -67,7 +67,7 @@
                     <div class="form-fieldset__intro s-prose">{{ step.introduction | safe }}</div>
                 {% endif %}
 
-                {{ formErrors(__('global.misc.errorTitle'), errors) }}
+                {% include "includes/errorFocus.njk" %}
 
                 {% block formContent %}
 

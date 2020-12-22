@@ -33,11 +33,12 @@ function renderForm(req, res, data = null, errors = []) {
 }
 
 router
+    // remove ?  if you want to turn off the grantholder newsletter
     .route('/:contactType(insights)?')
     .all(
         noStore,
         csrfProtection,
-        injectHeroImage('the-bike-project-2-new-letterbox')
+        injectHeroImage('ymca-allotment-redhill-letterbox-new')
     )
     .get(renderForm)
     .post(async function handleNewsletterSignup(req, res) {

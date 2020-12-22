@@ -9,13 +9,13 @@ const { DateField, RadioField } = require('../../lib/field-types');
 
 function getLeadTimeWeeks(country) {
     const countryLeadTimes = {
-        'england': 18,
+        'england': 12,
         'northern-ireland': 12,
         'scotland': 12,
         'wales': 12,
     };
 
-    return countryLeadTimes[country] || 18;
+    return countryLeadTimes[country] || 12;
 }
 
 module.exports = {
@@ -109,6 +109,18 @@ module.exports = {
         });
     },
     fieldProjectStartDate(locale, data) {
+        function schema() {
+            /**
+             * When projectStartDateCheck is asap
+             * we don't show the project start date question
+             * and instead pre-fill it with the current date
+             * at the point of submission (see forSalesforce())
+             */
+            return Joi.dateParts()
+                .minDate(minDate.format('YYYY-MM-DD'))
+                .required();
+        }
+
         const localise = get(locale);
 
         const projectCountry = get('projectCountry')(data);
@@ -119,22 +131,6 @@ module.exports = {
             .clone()
             .locale(locale)
             .format('DD MM YYYY');
-
-        function schema() {
-            /**
-             * When projectStartDateCheck is asap
-             * we don't show the project start date question
-             * and instead pre-fill it with the current date
-             * at the point of submission (see forSalesforce())
-             */
-            return Joi.when('projectStartDateCheck', {
-                is: 'asap',
-                then: Joi.any().strip(),
-                otherwise: Joi.dateParts()
-                    .minDate(minDate.format('YYYY-MM-DD'))
-                    .required(),
-            });
-        }
 
         return new DateField({
             locale: locale,
@@ -175,40 +171,20 @@ module.exports = {
             ],
         });
     },
-    fieldProjectEndDate(locale, data = {}, flags = {}) {
+    fieldProjectEndDate(locale) {
         const localise = get(locale);
 
-        const projectCountry = get('projectCountry')(data);
-        const projectStartDateCheck = get('projectStartDateCheck')(data);
-
-        function getMaxDurationMonths() {
-            if (projectCountry === 'england') {
-                return 6;
-            } else {
-                return 12;
-            }
-        }
-
         function explanation() {
-            if (projectCountry === 'england') {
-                return localise({
-                    en: oneLine`Given the COVID-19 emergency, you can have up to
-                        ${getMaxDurationMonths()} months after award to spend the money.`,
-                    cy: oneLine`O ystyried yr argyfwng COVID-19, gallwch gael 
-                        hyd at 6 mis ar ôl dyfarnu i wario'r arian.`,
-                });
-            } else {
-                return localise({
-                    en: oneLine`You have up to ${getMaxDurationMonths()} months
+            return localise({
+                en: oneLine`You have up to 12 months
                         after award to spend the money.`,
-                    cy: oneLine`Mae gennych hyd at 12 mis ar 
+                cy: oneLine`Mae gennych hyd at 12 mis ar 
                         ôl dyfarnu i wario'r arian.`,
-                });
-            }
+            });
         }
 
         function schema() {
-            const maxDate = moment().add(getMaxDurationMonths(), 'months');
+            const maxDate = moment().add(12, 'months');
 
             /**
              * For projects in England when projectStartDateCheck is asap
@@ -222,28 +198,20 @@ module.exports = {
              * Otherwise we fallback to the default rules where
              * the end date must be within X months of the start date.
              */
-            if (
-                projectCountry === 'england' &&
-                projectStartDateCheck === 'asap' &&
-                flags.enableEnglandAutoEndDate === true
-            ) {
-                return Joi.any().strip();
-            } else {
-                return Joi.when('projectStartDateCheck', {
-                    is: 'asap',
-                    then: Joi.dateParts()
-                        .minDate(moment().format('YYYY-MM-DD'))
-                        .maxDate(maxDate.format('YYYY-MM-DD'))
-                        .required(),
-                    otherwise: Joi.dateParts()
-                        .minDateRef(Joi.ref('projectStartDate'))
-                        .rangeLimit(Joi.ref('projectStartDate'), {
-                            amount: getMaxDurationMonths(),
-                            unit: 'months',
-                        })
-                        .required(),
-                });
-            }
+            return Joi.when('projectStartDateCheck', {
+                is: 'asap',
+                then: Joi.dateParts()
+                    .minDate(moment().format('YYYY-MM-DD'))
+                    .maxDate(maxDate.format('YYYY-MM-DD'))
+                    .required(),
+                otherwise: Joi.dateParts()
+                    .minDateRef(Joi.ref('projectStartDate'))
+                    .rangeLimit(Joi.ref('projectStartDate'), {
+                        amount: 12,
+                        unit: 'months',
+                    })
+                    .required(),
+            });
         }
 
         return new DateField({
@@ -273,7 +241,7 @@ module.exports = {
                 {
                     type: 'dateParts.maxDate',
                     message: localise({
-                        en: `Date must be no more than ${getMaxDurationMonths()} months away`,
+                        en: `Date must be no more than 12 months away`,
                         cy: `Rhaid i'r dyddiad fod ddim mwy na 6 mis i ffwrdd`,
                     }),
                 },
@@ -288,9 +256,9 @@ module.exports = {
                     type: 'dateParts.rangeLimit',
                     message: localise({
                         en: oneLine`Date must be within
-                        ${getMaxDurationMonths()} months of the start date.`,
+                        12 months of the start date.`,
                         cy: oneLine`Rhaid i ddyddiad gorffen y prosiect fod o fewn
-                        ${getMaxDurationMonths()} mis o ddyddiad dechrau’r prosiect.`,
+                        12 mis o ddyddiad dechrau’r prosiect.`,
                     }),
                 },
             ],

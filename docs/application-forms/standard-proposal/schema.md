@@ -4,6 +4,20 @@ The following documents the data schema for the standard product funding proposa
 
 ## Changelog
 
+### v1.1
+
+Note: The schema is now varied between England and Northern Ireland due to changes in sections. This will be updated once changes are confirmed. 
+
+- Updated `projectLocation` to reflect changes to Yorkshire and the Humber.
+- Added field `projectTotalCost` for England projects. 
+- Added field `projectStartDate` for England projects.
+- Added optional field `projectWebsite` for England projects.  
+- Added field `projectOrganisation` for England projects. 
+- Added required field `organisationDifferentName`. 
+- Added field `organisationSupport` for England projects. 
+- Added required field `projectPostcode `.
+- Added required field `projectLocationPostcode `.
+
 ### v1.0
 
 -   Add new conditional `projectRegions` value for applications in england. Used to determine new queue mapping rules.
@@ -40,12 +54,19 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "projectRegions": ["midlands"],
         "projectLocation": "derbyshire",
         "projectLocationDescription": "Example location description",
+        "projectLocationPostcode": "B15 1TR",
+        "projectPostcode": "B15 1TR",
         "projectCosts": 200000,
+        "projectTotalCost": 30000,
+        "projectStartDate": "05/10/2020",
         "projectDurationYears": 1,
+        "projectWebsite": "www.example.com",
         "yourIdeaProject": "Free text…",
         "yourIdeaCommunity": "Free text…",
         "yourIdeaActivities": "Free text…",
+        "projectOrganisation": "Free text…",
         "organisationLegalName": "Example organisation",
+        "organisationDifferentName": "Yes",
         "organisationTradingName": "",
         "organisationType": "unregistered-vco",
         "organisationSubType": null,
@@ -87,7 +108,7 @@ type: `array[string]`
 
 validation rules: If `projectCountries` contains `england` then `projectRegions` is included and required. If `all-england` is selected all other values are stripped.
 
-allowed values: `all-england`, `midlands`, `london-and-south-east`, `north-east-and-cumbria`, `north-west`, `south-west`, `yorkshire-and-the-humber`
+allowed values: `all-england`, `midlands`, `london-and-south-east`, `north-east-and-cumbria`, `north-west`, `south-west`, `yorkshire-and-humber`
 
 ### projectLocation
 
@@ -101,7 +122,7 @@ validation rules: If `projectCountries` contains more than one selection then `p
 
 -   **North East & Cumbria**: `northumberland`, `county-durham`, `tyne-and-wear`, `middlesbrough`, `darlington`, `stockton-on-tees`, `cleveland`, `cumbria`
 -   **North West**: `greater-manchester`, `lancashire`, `cheshire`, `merseyside`
--   **Yorkshire and the Humber**: `north-yorkshire`, `south-yorkshire`, `west-yorkshire`, `east-riding-of-yorkshire`, `north-lincolnshire`, `north-east-lincolnshire`
+-   **Yorkshire and Humber**: `north-yorkshire`, `south-yorkshire`, `west-yorkshire`, `humber`
 -   **South West**: `gloucestershire`, `south-gloucestershire`, `bristol`, `bath-and-north-east-somerset`, `north-somerset`, `somerset`, `wiltshire`, `swindon`, `dorset`, `bournemouth`, `poole`, `devon`, `torbay`, `plymouth`, `cornwall`, `isles-of-scilly`
 -   **London, South East and East of England**: `greater-london`, `berkshire`, `buckinghamshire`, `east-sussex`, `west-sussex`, `hampshire`, `the-isle-of-wight`, `kent`, `oxfordshire`, `surrey`, `bedfordshire`, `peterborough`, `cambridgeshire`, `essex`, `hertfordshire`, `norfolk`, `suffolk`
 -   **East and West Midlands**: `derbyshire`, `leicestershire`, `lincolnshire`, `northamptonshire`, `nottinghamshire`, `rutland`, `herefordshire`, `shropshire`, `staffordshire`, `warwickshire`, `west-midlands`, `worcestershire`
@@ -136,11 +157,35 @@ type: `string` or `null`
 
 validation rules: Optional field
 
+### projectLocationPostcode
+
+type: `string`
+
+validation rules: Required field. Must be a valid UK postcode format.
+
+### projectPostcode
+
+type: `string`
+
+validation rules: Required field. Must be a valid UK postcode format.
+
 ### projectCosts
 
 type: `integer`
 
-validation rules: Must be a whole number over 10,000
+validation rules: Must be a whole number over 10,000. Cannot exceed project total cost.
+
+### projectTotalCost
+
+type: `integer`
+
+validation rules: Must be a whole number over 10,000.
+
+### projectStartDate 
+
+type: `date`
+
+validation rules: Must be a valid date in the future. If `projectCountries` contains northern-ireland must be at least 18 weeks ahead of the current date.
 
 ### projectDurationYears
 
@@ -166,17 +211,41 @@ type: `string`
 
 validation rules: Required field, must be at most 350 words.
 
+### projectWebsite 
+
+type: `url`
+
+validation rules: Optional field. Must be a valid URL.
+
+### projectOrganisation
+
+type: `string`
+
+validation rules: Required if `projectCountries` contains england. Cannot exceed 500 words.
+
 ### organisationLegalName
 
 type: `string`
 
 validation rules: Required field
 
+### organisationDifferentName
+
+type `yesno`
+
+validation rules: Required field.
+
 ### organisationTradingName
 
 type: `string` or `null`
 
-validation rules: Optional field. If provided must not match `organisationLegalName`
+validation rules: Required field if `organisationDifferentName` is yes. If provided must not match `organisationLegalName`
+
+### organisationSupport
+
+type: `integer`
+
+validation rules: Required field. Must be a valid number.
 
 ### organisationAddress
 

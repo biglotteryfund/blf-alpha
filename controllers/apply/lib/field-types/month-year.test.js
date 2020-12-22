@@ -15,7 +15,7 @@ test('MonthYearField', function () {
     const goodInput = { year: 1986, month: 9 };
     field.withValue(goodInput);
     expect(field.validate().error).toBeUndefined();
-    expect(field.displayValue).toBe('1st September');
+    expect(field.displayValue).toBe('September 1986');
 
     const badInput = { year: 3000, month: 1 };
     field.withValue(badInput);

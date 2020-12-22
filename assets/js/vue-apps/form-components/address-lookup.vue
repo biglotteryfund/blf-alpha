@@ -355,7 +355,6 @@ export default {
                     :required="shouldShowPostcodeLookup"
                     @focus="selectFocused"
                     @keydown="selectKeyed"
-                    @change="selectChanged"
                     @mousedown="selectClicked"
                     data-hj-suppress
                 >
@@ -372,6 +371,12 @@ export default {
                         {{ option.label }}
                     </option>
                 </select>
+                <button
+                    type="button"
+                    class="btn-link u-margin-top-s"
+                    @click="selectChanged"
+                    v-html="$t('address.chooseAddress')"
+                ></button>
             </div>
         </div>
 

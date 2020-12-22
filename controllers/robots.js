@@ -26,6 +26,7 @@ module.exports = function (req, res) {
     res.send(stripIndents`
         user-agent: *
         sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}
+        disallow: /about/newsletter/insights
         ${shouldIndex ? '' : 'disallow: /'}
     `);
 };

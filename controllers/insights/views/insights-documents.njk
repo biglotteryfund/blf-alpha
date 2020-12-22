@@ -56,7 +56,7 @@
 
                 {# Search totals #}
                     <div class="search__meta">
-                        <h2 class="search__total t--underline">
+                        <h2 class="search__total t--underline" role="alert">
                             {% if entriesMeta.pagination.total > 0 %}
                                 {{ __n('insights.documents.search.totals', entriesMeta.pagination.total) }}
                             {% else %}
@@ -176,13 +176,13 @@
                                                 </a>
                                             {% endif %}
                                             {% if entry.document %}
-                                                <a class="btn btn--outline btn--small"
+                                                <a class="btn btn--small"
                                                    href="{{ entry.document.url }}"
                                                    data-ga-on="click"
                                                    data-ga-event-category="Insight Documents"
                                                    data-ga-event-action="Downloaded a document"
                                                    data-ga-event-label="{{ entry.document.url }}">
-                                                    {{ iconDownload() }}
+                                                    <span aria-hidden="true">{{ iconDownload() }}</span>
                                                     {{ docTitle }}
                                                 </a>
                                             {% endif %}

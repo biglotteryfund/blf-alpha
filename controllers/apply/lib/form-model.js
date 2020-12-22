@@ -169,6 +169,19 @@ class FormModel {
         });
     }
 
+    getFeaturedErrors(messages) {
+        if (messages.length > 0) {
+            return this.getCurrentSteps().map((step) => {
+                return {
+                    title: step.title,
+                    errors: step.filterErrors(messages),
+                };
+            });
+        } else {
+            return [];
+        }
+    }
+
     validate(data) {
         const { value, error } = this.schema.validate(data, {
             abortEarly: false,

@@ -18,12 +18,6 @@ test('valid form', () => {
     const data = mockResponse();
     const result = formBuilder({ data }).validation;
     expect(result.error).toBeUndefined();
-
-    expect(result.value).toMatchSnapshot({
-        yourIdeaProject: expect.any(String),
-        yourIdeaCommunity: expect.any(String),
-        yourIdeaActivities: expect.any(String),
-    });
 });
 
 test('invalid form', () => {
@@ -42,7 +36,7 @@ test('invalid form', () => {
 });
 
 test('require region when england is selected', function () {
-    const data = omit(mockResponse(), 'projectRegions');
+    const data = omit('england', 'projectRegions');
     const form = formBuilder({ data });
 
     expect(mapMessages(form.validation)).toEqual(
@@ -94,7 +88,7 @@ test('strip projectDurationYears when applying for more than one country', () =>
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
 });
 
-test('set projectDurationYears to 1 when applying for England', () => {
+test('projectDurationYears should match input when applying for England', () => {
     const form = formBuilder({
         data: mockResponse({
             projectCountries: ['england'],
@@ -102,7 +96,7 @@ test('set projectDurationYears to 1 when applying for England', () => {
         }),
     });
     const salesforceResult = form.forSalesforce();
-    expect(salesforceResult.projectDurationYears).toBe(1);
+    expect(salesforceResult.projectDurationYears).toBe(5);
 });
 
 test('organisation sub-type required for statutory-body', function () {
@@ -119,38 +113,6 @@ test('organisation sub-type required for statutory-body', function () {
     });
     const result = formBuilder({ data: validData }).validation;
     expect(result.error).toBeUndefined();
-});
-
-test('language preference required in wales', function () {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england', 'wales'],
-        }),
-    });
-
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([expect.stringContaining('Select a language')])
-    );
-
-    const formValid = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england', 'wales'],
-            contactLanguagePreference: 'welsh',
-        }),
-    });
-
-    expect(formValid.validation.error).toBeUndefined();
-
-    const formStrip = formBuilder({
-        data: mockResponse({
-            projectCountries: ['england'],
-            contactLanguagePreference: 'welsh',
-        }),
-    });
-
-    expect(formStrip.validation.value).not.toHaveProperty(
-        'contactLanguagePreference'
-    );
 });
 
 test.each([

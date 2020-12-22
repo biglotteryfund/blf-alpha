@@ -89,113 +89,90 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaPriorities(locale, data = {}) {
+    fieldYourIdeaPriorities(locale, data) {
         const localise = get(locale);
-        const projectCountry = get('projectCountry')(data);
         const minWords = 50;
         const maxWords = 150;
 
         function prioritiesDiversity() {
-            return localise({
-                en: `
+            if (get('projectCountry')(data) === 'england') {
+                return localise({
+                    en: `
+                    <p>With the COVID-19 pandemic still with us, we'll continue to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
                     <ul>
-                        <li>older people</li>
-                        <li>disabled people (including people with long-term health conditions)</li>
-                        <li>lesbian, gay, bisexual, transgender, queer + (LGBTQ+) communities</li>
-                        <li>Black, Asian and Minority Ethnic (BAME) communities.</li>
+                        <li>continue to deliver activity - whether your community needs crisis response, recovery or business as usual activity</li>
+                        <li>change and adapt, becoming more resilient to respond to new and future challenges.</li>
                     </ul>
-                    <p>
-                        It also includes organisations who provide advice and support to those pushed into crisis as a 
-                        result of the pandemic, and those organisations supporting people and their families with 
-                        end-of-life care.
-                    </p>`,
-                cy: `<ul>
-                        <li>pobl hŷn</li>
-                        <li>pobl anabl (gan gynnwys pobl â chyflyrau iechyd tymor hir)</li>
-                        <li>cymunedau lesbiaidd, hoyw, deurywiol, trawsryweddol, queer + (LHDTQ +)</li>
-                        <li>cymunedau Du, Asiaidd a Lleiafrifoedd Ethnig.</li> 
+                    <p>In order to support communities to thrive, we aim to:</p>
+                    <ol>
+                        <li>build strong relationships in and across communities</li>
+                        <li>improve the places and spaces that matter to communities</li>
+                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
+                    </ol>`,
+                    cy: `
+                    <p>Gyda’r pandemig COVID-19 yn dal I fod o gwmpas, byddwn yn parhau i gefnogi pobl a chymunedau yr effeithir arnynt fwyaf o COVID-19. Gallwn eich cefnogi i:</p>
+                    <ul>
+                        <li>tbarhau i gyflawni gweithgarwch, p'un a ydych yn ymateb i'r argyfwng uniongyrchol neu'n cefnogi gweithgarwch adfer</li>
+                        <li>tnewid ac addasu, dod yn fwy gwydn er mwyn ymateb i heriau newydd ac yn y dyfodol.</li>
                     </ul>
-                    <p>
-                        Mae hefyd yn cynnwys sefydliadau sy'n darparu cyngor a chefnogaeth i'r rhai sy'n cael eu
-                        gwthio i argyfwng o ganlyniad i'r pandemig, a'r sefydliadau hynny sy'n cefnogi pobl a'u
-                        teuluoedd â gofal diwedd oes
-                    </p>`,
+                    <p>Er mwyn cefnogi cymunedau i ffynnu, rydym yn anelu i:</p>
+                    <ol>
+                        <li>tmeithrin cydberthnasau cryf mewn cymunedau ac ar eu traws</li>
+                        <li>tgwella'r lleoedd a'r mannau sy'n bwysig i gymunedau</li>
+                        <li>thelpu mwy o bobl i gyrraedd eu potensial, drwy eu cefnogi cyn gynted â phosibl.</li>
+                    </ol>
+                    `,
+                });
+            }
+            else {
+                return localise({
+                    en: `
+                    <p>A good application should do at least one of these three things:</p>
+                    <ol>
+                        <li>build strong relationships in and across communities</li>
+                        <li>improve the places and spaces that matter to communities</li>
+                        <li>help more people to reach their potential, by supporting them at the earliest possible stage.</li>
+                    </ol>
+                    <p>We're also keen to support people and communities most adversely impacted by COVID-19. We can support you to:</p>
+                    <ul>
+                        <li>continue to deliver activity, whether you are responding to the immediate crisis or supporting recovery activity</li>
+                        <li>change and adapt, becoming more resilient in order to respond to new and future challenges.</li>
+                    </ul>
+                    `,
+                    cy: `
+                    <p>Dylai cais da wneud o leiaf un o'r tri pheth hyn:</p>
+                    <ol>
+                        <li>tmeithrin cydberthnasau cryf mewn cymunedau ac ar eu traws</li>
+                        <li>tgwella'r lleoedd a'r mannau sy'n bwysig i gymunedau</li>
+                        <li>thelpu mwy o bobl i gyrraedd eu potensial, drwy eu cefnogi cyn gynted â phosibl.</li>
+                    </ol>
+                    <p>Rydym hefyd yn awyddus i gefnogi pobl a chymunedau sydd wedi’u heffeithio fwyaf andwyol gan COVID-19. Gallwn eich cefnogi i:</p>
+                    <ul>
+                        <li>tbarhau i gyflawni gweithgarwch, p'un a ydych yn ymateb i'r argyfwng uniongyrchol neu'n cefnogi gweithgarwch adfer</li>
+                        <li>tnewid ac addasu, dod yn fwy gwydn er mwyn ymateb i heriau newydd ac yn y dyfodol.</li>
+                    </ul>`,
+                });
+            }
+        }
+
+        function guidanceText() {
+            return localise({
+                en: `${prioritiesDiversity()}`,
+                cy: `${prioritiesDiversity()}`,
             });
         }
 
-        function prioritiesCovid19() {
+        function getLabel() {
             return localise({
-                en: `<ol>
-                        <li>organisations supporting people and communities
-                            who experience disproportionate challenge and
-                            difficulty as a result of the COVID-19 crisis
-                        </li>
-                        <li>organisations providing services and support
-                            for vulnerable people, for which there will be
-                            increased demand as a result of the COVID-19 crisis
-                        </li>
-                        <li>organisations which connect communities and support
-                            communities to work together to respond to COVID-19.
-                        </li>
-                    </ol>`,
-                cy: `<ol>
-                        <li>sefydliadau sy'n cefnogi pobl a chymunedau sy'n
-                            profi her ac anhawster anghymesur o ganlyniad
-                            i argyfwng Covid-19
-                        </li>
-                        <li>sefydliadau sy'n darparu gwasanaethau a chefnogaeth
-                            i bobl agored i niwed, y bydd galw cynyddol amdanynt
-                            o ganlyniad i argyfwng COVID-19
-                        </li>
-                        <li>sefydliadau sy'n cysylltu cymunedau ac yn cefnogi
-                            cymunedau i weithio gyda'i gilydd i ymateb i Covid-19
-                        </li>
-                    </ol>`,
+                en: `How does your project meet our funding priorities?`,
+                cy: `Sut mae eich prosiect yn bodloni ein blaenoriaethau ariannu?`,
             });
-        }
-        function guidanceText() {
-            if (projectCountry === 'england') {
-                return localise({
-                    en: `<p>
-                            We'll prioritise organisations supporting people and communities who experience 
-                            disproportionate challenge and difficulty as a result of the COVID-19 crisis. This category
-                            includes groups which are facing specific challenges during the current crisis and includes
-                            organisations supporting:
-                        </p>
-                        ${prioritiesDiversity()}`,
-                    cy: `<p>
-                            Byddwn yn blaenoriaethu sefydliadau sy’n cefnogi pobl a chymunedau sy’n profi heriau ac
-                            anawsterau anghymesur o ganlyniad o’r argyfwng COVID-19. Mae’r categori hwn yn cynnwys
-                            grwpiau sy’n wynebu heriau penodol yn ystod yr argyfwng presennol a’n cynnwys sefydliadau
-                            sy’n cefnogi:
-                        </p>
-                        ${prioritiesDiversity()}`,
-                });
-            } else {
-                return localise({
-                    en: `<p><strong>We will prioritise:</strong></p>
-                        ${prioritiesCovid19()}
-                        <p>
-                            You can tell us if your project meets more
-                            than one priority, but don't worry if it doesn't.
-                        </p>`,
-                    cy: `<p><strong>Byddwn yn blaenoriaethu:</strong></p>
-                        ${prioritiesCovid19()}
-                        <p>
-                            Gallwch ddweud wrthym a yw'ch prosiect yn cwrdd â mwy 
-                            nag un flaenoriaeth, ond peidiwch â phoeni os na fydd.
-                        </p>`,
-                });
-            }
         }
 
         return new TextareaField({
             locale: locale,
             name: 'yourIdeaPriorities',
-            label: localise({
-                en: `How does your project meet our funding priority?`,
-                cy: `Sut mae'ch prosiect yn cwrdd â'n blaenoriaeth ariannu?`,
-            }),
+            label: getLabel(),
             explanation: stripIndents`${guidanceText()}${wordCountText(
                 locale,
                 maxWords
@@ -214,11 +191,41 @@ module.exports = {
             ],
         });
     },
-    fieldYourIdeaCommunity(locale) {
+    fieldYourIdeaCommunity(locale, data) {
         const localise = get(locale);
 
         const minWords = 50;
         const maxWords = 200;
+
+        function guidanceListItems(en = true) {
+            if (en) {
+                if (get('projectCountry')(data) === 'england') {
+                    return `<li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>`;
+                } else {
+                    return `<li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>
+                    <li>Running open days</li>`;
+                }
+            } else {
+                if (get('projectCountry')(data) === 'england') {
+                    return `<li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
+                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
+                    <li>Arolygon rheolaidd</li>
+                    <li>Sefydlu grwpiau llywio</li>`;
+                } else {
+                    return `<li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
+                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
+                    <li>Arolygon rheolaidd</li>
+                    <li>Sefydlu grwpiau llywio</li>
+                    <li>Cynnal diwrnodau agored</li>`;
+                }
+            }
+        }
 
         function guidanceText() {
             return localise({
@@ -231,11 +238,7 @@ module.exports = {
                 </p>
                 <p><strong>Here are some examples of how you could be involving your community:</strong></p>
                 <ul>
-                    <li>Having regular chats with community members, in person or on social media</li>
-                    <li>Including community members on your board or committee</li>
-                    <li>Regular surveys</li>
-                    <li>Setting up steering groups</li>
-                    <li>Running open days</li>
+                    ${guidanceListItems()}
                 </ul>`,
                 cy: `<p>
                     Rydym o’r gred fod pobl yn gwybod yr hyn sydd ei angen yn eu
@@ -244,13 +247,9 @@ module.exports = {
                     faint o bobl rydych wedi siarad â nhw, a sut y byddant yn cael
                     eu cynnwys yn y datblygiad a’r ddarpariaeth o’r prosiect.
                 </p>
-                <p><strong>Dyma rhai enghreifftiau o sut gallwch fod yn cynnwys eich cymunedau:</strong></p>
+                <p><strong>Dyma rai enghreifftiau o sut y gallech fod yn cynnwys eich cymuned:</strong></p>
                 <ul>
-                    <li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
-                    <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
-                    <li>Arolygon rheolaidd</li>
-                    <li>Sefydlu grwpiau llywio</li>
-                    <li>Cynnal diwrnodau agored</li>
+                  ${guidanceListItems(false)}
                 </ul>`,
             });
         }

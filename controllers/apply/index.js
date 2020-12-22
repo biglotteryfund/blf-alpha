@@ -26,6 +26,13 @@ router.get('/awards-for-all*', function (req, res) {
 
 router.use('/under-10k', require('./under10k'));
 router.use('/your-funding-proposal', require('./standard-proposal'));
+router.get('/your-funding-proposal-v2*', function (req, res) {
+    const newPath = req.originalUrl.replace(
+        '/your-funding-proposal-v2',
+        '/your-funding-proposal'
+    );
+    res.redirect(newPath);
+});
 
 router.use('/emails/unsubscribe', require('./expiries/unsubscribe-router'));
 router.use('/handle-expiry', require('./expiries/expiry-router'));

@@ -506,23 +506,6 @@ function under10KApplication(mock) {
         submitStep();
     }
 
-    function stepCOVID9Check(mock) {
-        if (mock.country !== 'England') {
-            cy.checkA11y();
-
-            cy.findByText(
-                'Is your project supporting people affected by the COVID-19 crisis?',
-                { exact: false }
-            )
-                .parent()
-                .within(() => {
-                    cy.findByLabelText('No').click();
-                });
-
-            submitStep();
-        }
-    }
-
     function stepProjectDates(mock) {
         cy.checkA11y();
 
@@ -532,31 +515,19 @@ function under10KApplication(mock) {
             cy.findByLabelText('Year').type(momentInstance.year());
         }
 
-        if (mock.country === 'England') {
-            cy.findByText(
-                'When would you like to get the money if you are awarded?'
-            )
-                .parent()
-                .within(() => {
-                    cy.findByLabelText('As soon as possible').click();
-                });
+        cy.findByText(
+            `Tell us when you'd like to get the money if you're awarded funding?`
+        )
+            .parent()
+            .within(() => {
+                fillDateParts(mock.projectDateRange.startDate);
+            });
 
-            submitStep();
-        } else {
-            cy.findByText(
-                `Tell us when you'd like to get the money if you're awarded funding?`
-            )
-                .parent()
-                .within(() => {
-                    fillDateParts(mock.projectDateRange.startDate);
-                });
-
-            cy.findByText('When will you spend the money by?')
-                .parent()
-                .within(() => {
-                    fillDateParts(mock.projectDateRange.endDate);
-                });
-        }
+        cy.findByText('When will you spend the money by?')
+            .parent()
+            .within(() => {
+                fillDateParts(mock.projectDateRange.endDate);
+            });
 
         submitStep();
     }
@@ -568,9 +539,7 @@ function under10KApplication(mock) {
             .invoke('val', faker.lorem.words(150))
             .trigger('change');
 
-        cy.findByLabelText(
-            'How does your project meet our funding priority?'
-        )
+        cy.findByLabelText('How does your project meet our funding priorities?')
             .invoke('val', faker.lorem.words(100))
             .trigger('change');
 
@@ -613,7 +582,6 @@ function under10KApplication(mock) {
         stepProjectName(mock);
         stepProjectCountry(mock);
         stepProjectLocation(mock);
-        stepCOVID9Check(mock);
         stepProjectDates(mock);
         stepYourIdea(mock);
         stepProjectCosts(mock);
@@ -1000,7 +968,8 @@ it('should submit full application for under £10,000 in England', () => {
     under10KApplication({
         projectName: 'Test application',
         projectDateRange: {
-            endDate: moment().add(random(1, 6), 'months'),
+            startDate: moment().add(18, 'weeks'),
+            endDate: moment().add(6, 'months'),
         },
         country: 'England',
         beneficiariesGroups: [],
@@ -1045,7 +1014,7 @@ it('should submit full application for under £10,000 outside England', () => {
         projectName: 'Test application',
         projectDateRange: {
             startDate: moment().add(18, 'weeks'),
-            endDate: moment().add(random(18, 52), 'weeks'),
+            endDate: moment().add(6, 'months'),
         },
         country: sample(['Northern Ireland', 'Scotland', 'Wales']),
         beneficiariesGroups: sampleSize(
@@ -1116,30 +1085,51 @@ it('should allow editing from the summary screen', () => {
 });
 
 function standardApplication({
+    projectCountry,
+    projectStart,
     projectCountries,
     projectRegions = [],
     projectLocation,
     organisationAddress,
 }) {
     const mock = {
+        projectCountry: projectCountry,
+        projectStart: projectStart,
         projectName: faker.lorem.words(5),
         projectCountries: projectCountries,
         projectRegions: projectRegions,
         projectLocation: projectLocation,
         projectLocationDescription: faker.lorem.words(5),
+        projectPostcode: 'B15 1TR',
         projectCosts: random(10001, 5000000),
+        projectSpend: faker.lorem.words(random(50, 300)),
+        projectDateRange: {
+            startDate: moment().add(18, 'weeks'),
+            endDate: moment().add(random(18, 52), 'weeks'),
+        },
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
+        projectWebsite: 'google.com',
+        projectOrganisation: faker.lorem.words(random(50, 500)),
+        beneficiariesGroups: [],
         yourIdeaProject: faker.lorem.words(random(50, 500)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
+        organisationDifferentName: 'No',
         organisationTradingName: sample([faker.company.companyName(), '']),
         organisationAddress: organisationAddress,
+        organisationSetupDate: moment().subtract(18, 'weeks'),
+        organisationSupport: random(1, 100),
+        organisationVolunteers: random(1, 100),
+        organisationFullTimeStaff: random(1, 100),
+        organisationLeadership: random(1, 100),
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Not-for-profit company',
             'Charitable Incorporated Organisation',
         ]),
+        accountingYearDate: moment(),
+        totalIncomeYear: random(1, 5000000),
         contactEmail: 'digital.monitoring@tnlcommunityfund.org.uk',
         contactName: {
             firstName: faker.name.firstName(),
@@ -1147,6 +1137,30 @@ function standardApplication({
         },
         contactPhone: '028 9568 0143',
         contactCommunicationNeeds: 'Example communication need',
+        seniorContact: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            email: Cypress.env('under10k_senior_contact_email'),
+            phone: '028 9568 0143',
+            dateOfBirth: moment().subtract(random(18, 90), 'years'),
+            address: {
+                streetAddress: `The Bar, 2 St James' Blvd`,
+                city: 'Newcastle',
+                postcode: 'NE4 7JH',
+            },
+        },
+        mainContact: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            email: Cypress.env('under10k_main_contact_email'),
+            phone: '020 7211 1888',
+            dateOfBirth: moment().subtract(random(18, 90), 'years'),
+            address: {
+                streetAddress: 'Pacific House, 70 Wellington St',
+                city: 'Glasgow',
+                postcode: 'G2 6UA',
+            },
+        },
     };
 
     function submitStep() {
@@ -1158,13 +1172,15 @@ function standardApplication({
 
         acceptCookieConsent();
 
-        cy.findAllByText('Start your proposal').click();
+        cy.visit('/apply/your-funding-proposal/start');
 
-        cy.get('.form-actions').within(() => {
-            cy.findAllByText('Start your proposal').click();
+        cy.findAllByText(mock.projectCountry).first().click();
+
+        cy.findAllByText(mock.projectStart).first().click();
+
+        cy.get('.u-edit-link').within(() => {
+            cy.findAllByText('Continue').click();
         });
-
-        cy.findAllByText('Start your proposal').first().click();
 
         cy.findByLabelText('What is the name of your project?').type(
             mock.projectName
@@ -1198,25 +1214,65 @@ function standardApplication({
         }
 
         cy.findByLabelText(
-            'Where will most of your project take place?'
+            'What area will most of the project take place in?'
         ).select(mock.projectLocation);
 
-        cy.findByLabelText('Project location', { exact: false }).type(
-            mock.projectLocationDescription
-        );
+        cy.findByLabelText(
+            'Tell us all the locations the project will run in',
+            { exact: false }
+        ).type(mock.projectLocationDescription);
+
+        cy.findByLabelText(
+            'What is the postcode of where your project will take place?',
+            { exact: false }
+        ).type(mock.projectPostcode);
 
         submitStep();
+
+        if (mock.projectCountries.includes('England')) {
+            cy.findByLabelText('What is the total cost of your project?').type(
+                mock.projectCosts + 1
+            );
+        }
 
         cy.findByLabelText('How much money do you want from us?').type(
             mock.projectCosts
         );
+
+        if (mock.projectCountries.includes('England')) {
+            cy.findByLabelText('What will you spend the money on?')
+                .invoke('val', mock.projectSpend)
+                .trigger('change');
+        }
+
         submitStep();
 
-        // This field only exists for non-England forms
-        if (!mock.projectCountries.includes('England')) {
-            cy.findByLabelText(mock.projectDurationYears).click();
+        function fillDateParts(momentInstance) {
+            cy.findByLabelText('Day').type(momentInstance.date());
+            cy.findByLabelText('Month').type(momentInstance.month() + 1);
+            cy.findByLabelText('Year').type(momentInstance.year());
+        }
+
+        function fillDayMonthParts(momentInstance) {
+            cy.findByLabelText('Day').type(momentInstance.date());
+            cy.findByLabelText('Month').type(momentInstance.month() + 1);
+        }
+
+        if (mock.projectCountries.includes('England')) {
+            cy.findByText(
+                `When would you like the money, if you're awarded funding?`
+            )
+                .parent()
+                .within(() => {
+                    fillDateParts(mock.projectDateRange.startDate);
+                });
+
             submitStep();
         }
+
+        cy.findByLabelText(mock.projectDurationYears).click();
+
+        submitStep();
 
         cy.findByLabelText('What would you like to do?')
             .invoke('val', mock.yourIdeaProject)
@@ -1234,9 +1290,108 @@ function standardApplication({
 
         submitStep();
 
+        if (mock.projectCountries.includes('England')) {
+            cy.findByLabelText('Organisation website', { exact: false }).type(
+                mock.projectWebsite
+            );
+
+            cy.findByLabelText(
+                'Tell us why your organisation is the right one to manage this project'
+            )
+                .invoke('val', mock.projectOrganisation)
+                .trigger('change');
+
+            submitStep();
+        }
+
+        if (mock.projectCountries.includes('England')) {
+            if (mock.beneficiariesGroups.length > 0) {
+                cy.findByLabelText(
+                    'My project is aimed at a specific group of people'
+                ).click();
+
+                submitStep();
+
+                cy.log(
+                    `Beneficiary groups: ${mock.beneficiariesGroups.join(', ')}`
+                );
+
+                cy.checkA11y();
+
+                mock.beneficiariesGroups.forEach((label) => {
+                    cy.findByLabelText(label).click();
+                });
+
+                submitStep();
+
+                if (
+                    includes(
+                        mock.beneficiariesGroups,
+                        'People from a particular ethnic background'
+                    )
+                ) {
+                    cy.checkA11y();
+                    cy.findByLabelText('Caribbean').click();
+                    cy.findByLabelText('African').click();
+                    submitStep();
+                }
+
+                if (
+                    includes(
+                        mock.beneficiariesGroups,
+                        'People of a particular gender'
+                    )
+                ) {
+                    cy.checkA11y();
+                    cy.findByLabelText('Non-binary').click();
+                    submitStep();
+                }
+
+                if (
+                    includes(
+                        mock.beneficiariesGroups,
+                        'People of a particular age'
+                    )
+                ) {
+                    cy.checkA11y();
+                    cy.findByLabelText('25-64').click();
+                    submitStep();
+                }
+
+                if (includes(mock.beneficiariesGroups, 'Disabled people')) {
+                    cy.checkA11y();
+                    cy.findByLabelText(
+                        'Disabled people with learning or mental difficulties',
+                        { exact: false }
+                    ).click();
+                    submitStep();
+                }
+            } else {
+                cy.findByLabelText(
+                    'My project is open to everyone and isn’t aimed at a specific group of people'
+                ).click();
+
+                submitStep();
+            }
+
+            if (mock.country === 'Wales') {
+                cy.findByLabelText('More than half').click();
+                submitStep();
+            }
+
+            if (mock.country === 'Northern Ireland') {
+                cy.findByLabelText('Both Catholic and Protestant').click();
+                submitStep();
+            }
+        }
+
         cy.findByLabelText(
             'What is the full legal name of your organisation?'
         ).type(mock.organisationName);
+
+        cy.findByLabelText(mock.organisationDifferentName).click();
+
+        submitStep();
 
         cy.findByText(
             'What is the main or registered address of your organisation?'
@@ -1257,24 +1412,177 @@ function standardApplication({
 
         submitStep();
 
+        if (mock.projectCountries.includes('England')) {
+            cy.findByText(`When was your organisation set up?`)
+                .parent()
+                .within(() => {
+                    fillDateParts(mock.organisationSetupDate);
+                });
+
+            submitStep();
+
+            cy.findByLabelText(
+                'How many people in England does your whole organisation directly support in a typical year?'
+            ).type(mock.organisationSupport);
+
+            submitStep();
+
+            cy.findByLabelText(
+                'How many volunteers do you have in your whole organisation?'
+            ).type(mock.organisationVolunteers);
+
+            cy.findByLabelText(
+                'How many full-time equivalent staff work for your whole organisation?'
+            ).type(mock.organisationFullTimeStaff);
+
+            submitStep();
+        }
+
         cy.findByLabelText(mock.organisationType, { exact: false }).click();
 
         submitStep();
 
-        cy.findByLabelText('First name').type(mock.contactName.firstName);
+        if (mock.projectCountries.includes('England')) {
+            cy.findByText(`What is your accounting year end date?`)
+                .parent()
+                .within(() => {
+                    fillDayMonthParts(mock.accountingYearDate);
+                });
 
-        cy.findByLabelText('Last name').type(mock.contactName.lastName);
+            cy.findByLabelText('What is your total income for the year?').type(
+                mock.totalIncomeYear
+            );
 
-        cy.findByLabelText('Email').type(mock.contactEmail);
+            submitStep();
+        }
 
-        cy.findByLabelText('Telephone number', { exact: false }).type(
-            mock.contactPhone
-        );
+        function fillAddress({ streetAddress, city, county, postcode }) {
+            cy.findByText('Enter address manually').click();
 
-        cy.findByLabelText('Communication needs', { exact: false }).type(
-            mock.contactCommunicationNeeds
-        );
-        submitStep();
+            cy.findByLabelText('Building and street').type(streetAddress);
+
+            cy.findByLabelText('Town or city').type(city);
+
+            if (county) {
+                cy.findByLabelText('County').type(county);
+            }
+
+            cy.findByLabelText('Postcode').type(postcode);
+        }
+
+        function fillContact(contact, includeAddressAndDob = true) {
+            cy.findByLabelText('First name').type(contact.firstName);
+
+            cy.findByLabelText('Last name').type(contact.lastName);
+
+            if (includeAddressAndDob) {
+                cy.findByText('Date of birth')
+                    .parent()
+                    .within(() => {
+                        cy.findByLabelText('Day').type(
+                            contact.dateOfBirth.date().toString()
+                        );
+                        cy.findByLabelText('Month').type(
+                            contact.dateOfBirth.month() + 1
+                        );
+                        cy.findByLabelText('Year').type(
+                            contact.dateOfBirth.year().toString()
+                        );
+                    });
+
+                cy.findByText('Home address', { timeout: 1000 })
+                    .parent()
+                    .within(() => {
+                        fillAddress(contact.address);
+                    });
+
+                cy.findByText(
+                    'Have they lived at their home address for the last three years?'
+                )
+                    .parent()
+                    .within(() => {
+                        cy.findByLabelText('No').click();
+                    });
+
+                cy.findByText('Previous home address')
+                    .parent()
+                    .within(() => {
+                        fillAddress({
+                            streetAddress: `Apex house, Edgbaston`,
+                            city: 'Birmingham',
+                            postcode: 'B15 1TR',
+                        });
+                    });
+            }
+
+            cy.findByLabelText('Email').type(
+                contact.email || faker.internet.exampleEmail()
+            );
+
+            cy.findByLabelText('Telephone number').type(contact.phone);
+
+            if (mock.country === 'Wales') {
+                cy.findByText(
+                    'What language should we use to contact this person?',
+                    {
+                        exact: false,
+                    }
+                ).then((el) => {
+                    cy.wrap(el)
+                        .parent()
+                        .within(() => {
+                            cy.findByLabelText('Welsh').click();
+                        });
+                });
+            }
+
+            cy.findByLabelText('Communication needs', {
+                exact: false,
+            }).type('Example communication need');
+        }
+
+        function includeAddressAndDob(mock) {
+            return (
+                includes(
+                    ['School', 'College or University', 'Statutory body'],
+                    mock.organisationType
+                ) === false
+            );
+        }
+
+        if (mock.projectCountries.includes('England')) {
+            cy.get('label[for="field-seniorContactRole-1"]').click();
+            fillContact(mock.seniorContact, includeAddressAndDob(mock));
+            submitStep();
+
+            fillContact(mock.mainContact, includeAddressAndDob(mock));
+            submitStep();
+
+            cy.findAllByLabelText('I agree').click({ multiple: true });
+
+            cy.findByLabelText('Full name of person completing this form').type(
+                faker.name.findName()
+            );
+
+            cy.findByLabelText('Position in organisation').type('CEO');
+
+            submitStep();
+        } else {
+            cy.findByLabelText('First name').type(mock.contactName.firstName);
+
+            cy.findByLabelText('Last name').type(mock.contactName.lastName);
+
+            cy.findByLabelText('Email').type(mock.contactEmail);
+
+            cy.findByLabelText('Telephone number', { exact: false }).type(
+                mock.contactPhone
+            );
+
+            cy.findByLabelText('Communication needs', { exact: false }).type(
+                mock.contactCommunicationNeeds
+            );
+            submitStep();
+        }
 
         cy.findAllByText('Nearly done', { exact: false })
             .first()
@@ -1288,6 +1596,8 @@ function standardApplication({
 
 it('should complete standard your funding proposal in england', () => {
     standardApplication({
+        projectCountry: 'England',
+        projectStart: 'Start proposal for a project in England',
         projectCountries: ['England'],
         projectRegions: ['North West', 'South West'],
         projectLocation: 'Bournemouth',
@@ -1301,6 +1611,8 @@ it('should complete standard your funding proposal in england', () => {
 
 it('should complete standard your funding proposal in northern-ireland', () => {
     standardApplication({
+        projectCountry: 'Northern Ireland',
+        projectStart: 'Start proposal for a project in Northern Ireland',
         projectCountries: ['Northern Ireland'],
         projectRegions: [],
         projectLocation: 'Belfast',
@@ -1311,6 +1623,10 @@ it('should complete standard your funding proposal in northern-ireland', () => {
         },
     });
 });
+
+function yourFundingProposalSeed() {
+    return '/apply/your-funding-proposal/seed';
+}
 
 it('should correctly email users with expiring applications', () => {
     cy.seedUser().then((newUser) => {
@@ -1326,7 +1642,7 @@ it('should correctly email users with expiring applications', () => {
             moment().add(10, 'week'),
             moment().add(3, 'months'),
         ].map((expiry) => {
-            cy.request('POST', '/apply/your-funding-proposal/seed', {
+            cy.request('POST', yourFundingProposalSeed(), {
                 userId: newUser.id,
                 expiresAt: expiry.toDate(),
             });

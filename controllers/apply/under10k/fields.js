@@ -36,8 +36,6 @@ const fieldProjectBudget = require('./fields/project-budget');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 
-const { fieldSupportingCOVID19 } = require('./fields/covid-19');
-
 const {
     fieldBeneficiariesGroups,
     fieldBeneficiariesGroupsAge,
@@ -53,7 +51,6 @@ const {
 } = require('./fields/beneficiaries');
 
 const {
-    fieldProjectStartDateCheck,
     fieldProjectStartDate,
     fieldProjectEndDate,
 } = require('./fields/project-dates');
@@ -80,8 +77,6 @@ const {
     fieldTermsAgreement2,
     fieldTermsAgreement3,
     fieldTermsAgreement4,
-    fieldTermsAgreementCovid2,
-    fieldTermsAgreementCovid3,
     fieldTermsPersonName,
     fieldTermsPersonPosition,
 } = require('./fields/terms');
@@ -154,19 +149,17 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         });
     }
 
-    const allFields = {
+    return {
         projectName: fieldProjectName(locale),
         projectCountry: fieldProjectCountry(locale),
         projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: fieldProjectLocationDescription(locale),
-        supportingCOVID19: fieldSupportingCOVID19(locale),
-        projectStartDateCheck: fieldProjectStartDateCheck(locale, data),
         projectStartDate: fieldProjectStartDate(locale, data),
-        projectEndDate: fieldProjectEndDate(locale, data, flags),
+        projectEndDate: fieldProjectEndDate(locale),
         projectPostcode: fieldProjectPostcode(locale),
         yourIdeaProject: fieldYourIdeaProject(locale),
         yourIdeaPriorities: fieldYourIdeaPriorities(locale, data, flags),
-        yourIdeaCommunity: fieldYourIdeaCommunity(locale),
+        yourIdeaCommunity: fieldYourIdeaCommunity(locale, data),
         projectBudget: fieldProjectBudget(locale),
         projectTotalCosts: fieldProjectTotalCosts(locale, data),
         beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
@@ -317,7 +310,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`,
             }),
         }),
-        organisationType: fieldOrganisationType(locale, data, flags),
+        organisationType: fieldOrganisationType(locale),
         organisationSubTypeStatutoryBody: fieldOrganisationSubTypeStatutoryBody(
             locale
         ),
@@ -513,12 +506,4 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         termsPersonName: fieldTermsPersonName(locale),
         termsPersonPosition: fieldTermsPersonPosition(locale),
     };
-
-    // Add Covid-19-specific T&C fields if switched on
-    if (flags.enableGovCOVIDUpdates) {
-        allFields.termsAgreementCovid2 = fieldTermsAgreementCovid2(locale);
-        allFields.termsAgreementCovid3 = fieldTermsAgreementCovid3(locale);
-    }
-
-    return allFields;
 };

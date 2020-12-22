@@ -33,6 +33,11 @@
         margin-bottom: 1em;
     }
 
+    P + ul,
+    h2 + ul{
+        margin-top: -10px;
+    }
+
     ul li,
     ol li {
         margin-bottom: 0.3em;

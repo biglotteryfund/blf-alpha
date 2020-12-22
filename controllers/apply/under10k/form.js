@@ -8,7 +8,6 @@ const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
-const moment = require('moment');
 const { safeHtml, oneLine } = require('common-tags');
 
 const { isTestServer } = require('../../../common/appData');
@@ -122,41 +121,6 @@ module.exports = function ({
         });
     }
 
-    function stepCOVID19Check() {
-        function _fields() {
-            return has('projectCountry')(data) &&
-                get('projectCountry')(data) !== 'england'
-                ? [fields.supportingCOVID19]
-                : [];
-        }
-
-        return new Step({
-            title: localise({
-                en: 'COVID-19 project',
-                cy: 'Prosiect COVID-19',
-            }),
-            fieldsets: [{ fields: _fields() }],
-        });
-    }
-
-    function stepProjectLengthCheck() {
-        return new Step({
-            title: localise({
-                en: 'Project start date',
-                cy: 'Dyddiad cychwyn y prosiect',
-            }),
-            fieldsets: [
-                {
-                    fields:
-                        get('projectCountry')(data) === 'england' ||
-                        get('supportingCOVID19')(data) === 'yes'
-                            ? [fields.projectStartDateCheck]
-                            : [],
-                },
-            ],
-        });
-    }
-
     function stepProjectLength() {
         /**
          * 1. If in England and asap then don't ask any day questions (when flag turned on)
@@ -164,17 +128,7 @@ module.exports = function ({
          * 3. Otherwise, show both date fields
          */
         function _fields() {
-            if (
-                get('projectCountry')(data) === 'england' &&
-                get('projectStartDateCheck')(data) === 'asap' &&
-                flags.enableEnglandAutoEndDate
-            ) {
-                return [];
-            } else if (get('projectStartDateCheck')(data) === 'asap') {
-                return [fields.projectEndDate];
-            } else {
-                return [fields.projectStartDate, fields.projectEndDate];
-            }
+            return [fields.projectStartDate, fields.projectEndDate];
         }
 
         return new Step({
@@ -762,6 +716,21 @@ module.exports = function ({
     }
 
     function stepMainContact() {
+        function listItems(en = true) {
+            if (en) {
+                return `<li>married to each other</li>
+                <li>in a civil partnership with each other</li>
+                <li>in a long-term relationship together</li>
+                <li>living at the same address</li>
+                <li>or related by blood.</li>`;
+            } else {
+                return `<li>yn briod i’w gilydd</li>
+                <li>fod mewn partneriaeth sifil â'i gilydd</li>
+                <li>mewn perthynas hir dymor a’u gilydd</li>
+                <li>yn byw yn yr un cyfeiriad</li>
+                <li>Neu yn perthyn drwy waed.</li>`;
+            }
+        }
         return new Step({
             title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
             noValidate: false,
@@ -795,11 +764,8 @@ module.exports = function ({
                                 seniorNameMsg +
                                 `. The two contacts also can't be:
                             </p>
-                            <ul>                            
-                                <li>married to each other</li>
-                                <li>in a long-term relationship together</li>
-                                <li>living at the same address</li>
-                                <li>or related by blood.</li> 
+                            <ul>                        
+                                ${listItems()}
                             </ul>
                             `,
                             cy:
@@ -816,10 +782,7 @@ module.exports = function ({
                                 `. Ni all y ddau gyswllt hefyd fod:
                             </p>
                             <ul>                            
-                                <li>yn briod i’w gilydd</li>
-                                <li>mewn perthynas hir dymor a’u gilydd</li>
-                                <li>yn byw yn yr un cyfeiriad</li>
-                                <li>Neu yn perthyn drwy waed.</li>
+                                ${listItems(false)}
                             </ul>
                             `,
                         });
@@ -1163,18 +1126,11 @@ module.exports = function ({
                     introduction: terms(locale, data, flags),
                     footer: footer,
                     get fields() {
-                        const showCovidFields =
-                            flags.enableGovCOVIDUpdates &&
-                            isForCountry('england');
-
                         return compact([
                             fields.termsAgreement1,
                             fields.termsAgreement2,
                             fields.termsAgreement3,
                             fields.termsAgreement4,
-                            showCovidFields && fields.termsAgreementCovid1,
-                            showCovidFields && fields.termsAgreementCovid2,
-                            showCovidFields && fields.termsAgreementCovid3,
                             fields.termsPersonName,
                             fields.termsPersonPosition,
                         ]);
@@ -1203,8 +1159,6 @@ module.exports = function ({
                 stepProjectName(),
                 stepProjectCountry(),
                 stepProjectLocation(),
-                stepCOVID19Check(),
-                stepProjectLengthCheck(),
                 stepProjectLength(),
                 stepYourIdea(),
                 stepProjectCosts(),
@@ -1388,11 +1342,7 @@ module.exports = function ({
              * If projectStartDateCheck is `asap` then pre-fill
              * the projectStartDate to today
              */
-            if (get('projectStartDateCheck')(data) === 'asap') {
-                return moment().format('YYYY-MM-DD');
-            } else {
-                return dateFormat(enriched.projectStartDate);
-            }
+            return dateFormat(enriched.projectStartDate);
         }
 
         function normaliseProjectEndDate() {
@@ -1400,15 +1350,7 @@ module.exports = function ({
              * If projectCountry is England and date check is ASAP
              * then pre-fill the projectEndDate to 6 months time
              */
-            if (
-                get('projectCountry')(data) === 'england' &&
-                get('projectStartDateCheck')(data) === 'asap' &&
-                flags.enableEnglandAutoEndDate === true
-            ) {
-                return moment().add('6', 'months').format('YYYY-MM-DD');
-            } else {
-                return dateFormat(enriched.projectEndDate);
-            }
+            return dateFormat(enriched.projectEndDate);
         }
 
         const projectStartDate = normaliseProjectStartDate();
@@ -1419,8 +1361,8 @@ module.exports = function ({
 
         // Support previous date range schema format
         enriched.projectDateRange = {
-            startDate: projectStartDate,
-            endDate: projectEndDate,
+            startDate: enriched.projectStartDate,
+            endDate: enriched.projectEndDate,
         };
 
         if (has('mainContactDateOfBirth')(enriched)) {
@@ -1456,7 +1398,7 @@ module.exports = function ({
             { fieldName: 'projectDateRange', includeBase: false },
             { fieldName: 'projectStartDate', includeBase: false },
             { fieldName: 'projectEndDate', includeBase: false },
-            flags.enableGovCOVIDUpdates && {
+            {
                 fieldName: 'organisationType',
                 includeBase: true,
             },

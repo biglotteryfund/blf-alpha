@@ -7,7 +7,7 @@
                 <source srcset="{{ image.large }}" media="(min-width: 980px)">
                 <source srcset="{{ image.medium }}" media="(min-width: 600px)">
                 <source srcset="{{ image.small }}">
-                <img src="{{ image.default }}" alt="{{ image.caption }}" />
+                <img src="{{ image.default }}" alt="" />
             </picture>
         </div>
         <div class="hero__content">
@@ -21,7 +21,7 @@
         {% if image.caption %}
             <span class="hero__caption u-desktop-only">
                 {% if image.grantId %}
-                    <a href="{{ localify("/funding/grants/" + image.grantId) }}" class="u-link-unstyled">
+                    <a href="{{ localify("/funding/grants/" + image.grantId) }}" class="u-link-unstyled" aria-hidden="true" tabindex="-1">
                 {% endif %}
                 <span class="u-caption">{{ image.caption }}</span>
                 {% if image.grantId %}</a>{% endif %}

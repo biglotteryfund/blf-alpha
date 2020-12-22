@@ -1,11 +1,20 @@
 {% extends "layouts/main.njk" %}
-{% from "components/details/macro.njk" import details %}
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "./expiry-warnings.njk" import expiryLoggedOut with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+
+{% macro details(showQuestionsTitle, hideQuestionsTitle, isOpen = false, showInfoIcon = true, extraClasses, assistiveText = false, dataName = false) %}
+    <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
+        <summary class="o-details__summary summary__toggle"{% if dataName %} data-name="{{ dataName }}"{% endif %} data-open="{{ hideQuestionsTitle }}" data-hide="{{ showQuestionsTitle }}">
+            {% if showInfoIcon %}{{ iconInfo() }}{% endif %}
+            {% if assistiveText %}<span class="u-visually-hidden">{{ assistiveText }}</span>{% endif %}
+        </summary>
+        <div class="o-details__content">{{ caller() }}</div>
+    </details>
+{% endmacro %}
 
 {% macro summariseErrors() %}
     {% if showErrors and errorsByStep.length > 0 %}
@@ -32,15 +41,20 @@
         <div class="form-errors form-errors--featured" data-testid="form-errors">
             <h2 class="form-errors__title">{{ copy.summary.featuredErrorsTitle }}</h2>
             <div class="form-errors__body">
-                <ol class="form-errors__list">
-                    {% for error in featuredErrors %}
-                        <li>
-                            {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
-                            {{ error.msg | safe }}
-                            {% if error.param %}</a>{% endif %}
-                        </li>
-                    {% endfor %}
-                </ol>
+                {% for step in featuredErrors %}
+                    {% if step.errors.length > 0 %}
+                        <h3 class="form-errors__subtitle_warning">{{ step.title }}</h3>
+                        <ol class="form-errors__list">
+                            {% for error in step.errors %}
+                                <li>
+                                    {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
+                                        {{ error.msg | safe }}
+                                        {% if error.param %}</a>{% endif %}
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     {% endif %}
@@ -52,7 +66,7 @@
         <p class="u-text-medium s-prose">
             <a href="?show-errors=true">{{ copy.summary.incompleteMessage }}</a>
         </p>
-        <a href="?show-errors=true" class="btn">{{ copy.submit }}</a>
+        <a href="{{ formBaseUrl }}/{{ startPathSlug }}" class="btn">{{ copy.continueIncomplete }}</a>
     </div>
 {% endmacro %}
 
@@ -72,8 +86,9 @@
 
                     <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}"
                         id="field-{{ field.name }}">
-                        <div class="step-summary__data__question">{{ field.label | safe }}</div>
-                        <div class="step-summary__data__answer">
+                        <dl>
+                        <dt class="step-summary__data__question">{{ field.label | safe }}</dt>
+                        <dd class="step-summary__data__answer">
                             <div class="step-summary__data__answer-inner
                                 {% if fieldErrors.length > 0 %}{% if showErrors %} has-errors{% else %} has-featured-errors{% endif %}{% endif %}">
 
@@ -92,7 +107,8 @@
                                     </ol>
                                 {% endif %}
                             </div>
-                        </div>
+                        </dd>
+                        </dl>
                         <div class="step-summary__data__link">
                             <a href="{{ formBaseUrl }}/{{ step.slug }}?edit#form-field-{{ field.name }}" class="u-edit-link">
                                 {{ copy.change }} <span class="u-visually-hidden">{{ field.label | striptags }}</span>
@@ -150,7 +166,8 @@
                 {% endfor %}
             {% else %}
                 {% call details(
-                    title = copy.summary.showQuestions,
+                    showQuestionsTitle = copy.summary.showQuestions,
+                    hideQuestionsTitle = copy.summary.hideQuestions,
                     assistiveText = 'for "' + secTitle + '" section',
                     extraClasses = 'js-toggleable',
                     isOpen = form.progress.isComplete or section.hasFeaturedErrors,
@@ -209,6 +226,8 @@
                 <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
                 {% if form.progress.isPristine and formId === 'awards-for-all' %}
                     {{ startButton() }}
+                {% elseif yfpStart %}
+                    {{ startButton() }}
                 {% endif %}
             {% endif %}
 
@@ -237,12 +256,13 @@
                     {% endif %}
                     <input class="btn u-margin-bottom-s" type="submit" value="{{ copy.submit }}" data-prevent-double-click="true" />
                 </form>
-            {% elseif not form.progress.isPristine %}
+            {% elseif not form.progress.isPristine and not yfpStart %}
                 {{ submitActionsIncomplete() }}
+            {% elseif yfpStart %}
+                {{ startButton() }}
             {% elseif form.progress.isPristine %}
                 {{ startButton() }}
             {% endif %}
-
         </div>
     </main>
 {% endblock %}

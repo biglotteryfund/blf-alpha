@@ -4,8 +4,7 @@
     "enableSalesforceConnector": false
   },
   "fundingUnder10k": {
-    "enableEnglandAutoEndDate": true,
-    "enableGovCOVIDUpdates": true
+    "enableEnglandAutoEndDate": true
   },
   "standardFundingProposal": {
     "enableEnglandAutoProjectDuration": true

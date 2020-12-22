@@ -1,13 +1,14 @@
 {% macro documentsCard(title, documents, gaCategory = false, gaAction = false) %}
     <aside class="card">
         <header class="card__header">
-            <h3 class="card__title">{{ title }}</h3>
+            <h2 class="card__title t4">{{ title }}</h2>
         </header>
         <div class="card__body">
             {% for document in documents %}
                 <div class="document-summary">
                     <a class="document-summary__link u-document-link"
                        href="{{ document.url }}"
+                       id="{{ document.title }}"
                         {% if gaCategory and gaAction %}
                             data-ga-on="click"
                             data-ga-event-category="{{ gaCategory }}"
@@ -37,6 +38,7 @@
                                 data-ga-event-action="{{ gaAction }}"
                                 data-ga-event-label="{{ document.url }}"
                             {% endif %}
+                            aria-labelledby="{{ document.title }}"
                         >
                             {{ __('global.misc.download') | title }}
                         </a>

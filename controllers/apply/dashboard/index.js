@@ -110,7 +110,10 @@ router.get(
                 }),
             ]);
 
-            const notices = getNoticesAll(req.i18n.getLocale(), pendingApplications);
+            const notices = getNoticesAll(
+                req.i18n.getLocale(),
+                pendingApplications
+            );
             if (notices.length > 0) {
                 logger.info('Notice shown on dashboard');
             }
