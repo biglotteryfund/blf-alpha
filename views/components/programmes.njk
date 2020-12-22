@@ -23,9 +23,9 @@
             <dd>{{ programme.fundingSize.totalAvailable }}</dd>
         {% endif %}
 
-        {% if programme.grantLength %}
+        {% if programme.grantLength.description %}
             <dt>{{ labels.grantLength }}</dt>
-            <dd>{{ programme.grantLength }}</dd>
+            <dd>{{ programme.grantLength.description }}</dd>
         {% endif %}
 
         {% if programme.applicationDeadline %}
