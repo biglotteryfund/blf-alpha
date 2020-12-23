@@ -23,6 +23,11 @@
             <dd>{{ programme.fundingSize.totalAvailable }}</dd>
         {% endif %}
 
+        {% if programme.grantLength.description %}
+            <dt>{{ labels.grantLength }}</dt>
+            <dd>{{ programme.grantLength.description }}</dd>
+        {% endif %}
+
         {% if programme.applicationDeadline %}
             <dt>{{ labels.applicationDeadline }}</dt>
             <dd>{{ programme.applicationDeadline | safe }}</dd>

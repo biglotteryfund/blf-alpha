@@ -170,6 +170,7 @@ global:
       fundingSize: Maint yr ariannu
       totalAvailable: Cyfanswm ar gael
       applicationDeadline: Terfyn amser ymgeisio
+      grantLength: Hyd y grant
   survey:
     question: A ddaethoch o hyd i'r hyn yr oeddech yn chwilio amdano?
     prompt: Sut gallem fod wedi gwneud y dudalen hon yn well?
