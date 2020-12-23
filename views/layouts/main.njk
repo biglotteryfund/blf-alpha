@@ -7,7 +7,7 @@
         {% block extraHead %}{% endblock %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
-        <nav class="accessibility-nav">
+        <nav class="accessibility-nav" aria-label="main-nav">
             {% set a11yCopy = __('global.accessibility') %}
             <ul>
                 <li><a href="#content" tabindex="0">{{ a11yCopy.skipToContent | safe }}</a></li>
@@ -41,7 +41,7 @@
             {% include "includes/global-header.njk" %}
 
             {% if showCOVID19AnnouncementBanner %}
-                <aside class="announcement-banner announcement-banner--major">
+                <aside class="announcement-banner announcement-banner--major" aria-label="announcement banner">
                     <a href="{{ localify('/funding/covid-19') }}">
                         {{ __('global.covidMessage') }}
                     </a>
