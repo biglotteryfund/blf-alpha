@@ -36,14 +36,16 @@
                             name: 'username',
                             label: __('user.common.emailAddress'),
                             isRequired: true,
-                            value: formValues['username']
+                            value: formValues['username'],
+                            attributes: { 'size' : 40 }
                         }, errors = errors) }}
 
                         {{ formField({
                             type: 'password',
                             name: 'password',
                             label: __('user.common.password'),
-                            isRequired: true
+                            isRequired: true,
+                            attributes: { 'size' : 40 }
                         }, errors = errors) }}
 
                         <p>
