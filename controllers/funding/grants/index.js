@@ -9,6 +9,7 @@ const clone = require('lodash/clone');
 const get = require('lodash/get');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
+const { check } = require('express-validator');
 
 const {
     injectHeroImage,
@@ -69,8 +70,24 @@ function buildPagination(req, paginationMeta, currentQuery = {}) {
 }
 
 router.get(
-    '/',
-    injectHeroImage('search-all-grants-letterbox-new'),
+    '/', [
+    check([
+        'q',
+        'amount',
+        'postcode',
+        'programme',
+        'year',
+        'orgType',
+        'sort',
+        'country',
+        'awardDate',
+        'localAuthority',
+        'westminsterConstituency',
+        'recipient',
+        'exclude',
+        'limit',
+    ]).escape(),
+    injectHeroImage('search-all-grants-letterbox-new')],
     async function (req, res, next) {
         try {
             const locale = req.i18n.getLocale();
