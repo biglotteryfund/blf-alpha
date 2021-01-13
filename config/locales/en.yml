@@ -735,12 +735,16 @@ user:
     passwordOld: Your old password
     passwordNew: Your new password
     passwordRequirements: >
-      <p>Must be at least 10 characters long <br>
-      Must not be the same as your email address<br>
-      <a href="https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/use-a-strong-and-separate-password-for-email">
-        Read tips on how to create a strong password
-        <span class="u-visually-hidden"> National Cyber Security Centre - External link</span>
-      </a></p>
+      <p>Your password:</p>
+      <ul>
+        <li>must be at least <strong>10 characters</strong> long</li>
+        <li>must be different from your email address.</li>
+      </ul>
+      <p>To make your password strong enough to avoid cyber criminals:</p>
+      <ul>
+        <li>use three random words, like ‘batfoxpenguin’ – numbers and symbols can be used too, like ‘9batfoxpenguin53!’</li>
+        <li>do not use any personal information, like people’s names or favourite places.</li>
+      </ul>
     loggedInAs: Logged in as
     logOut: log out
     alertMessages:
@@ -757,7 +761,7 @@ user:
     passwordRequired: Enter a password
     passwordMatchesEmail: Password must be different from your email address
     passwordLength: Password must be at least %s characters long
-    passwordStrength: Password is too weak, try another password
+    passwordStrength: Enter a stronger password. Add numbers, symbols, and one or two unusual words
     passwordConfirmation: Passwords must match
   dashboard:
     title: Your account
