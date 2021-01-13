@@ -239,6 +239,7 @@
         position: absolute;
         bottom: 0;
         padding: 10px;
+        height: auto;
 
         font-size: 16px;
         font-family: font-stack('display');
@@ -247,7 +248,7 @@
         background-color: rgba(229,0,125,1);
 
         @include mq('medium') {
-            height: 35%;
+            min-height: 35%;
         }
 
         @include mq('medium-major') {
@@ -255,7 +256,7 @@
         }
 
         @include mq('large') {
-            height: 30%;
+            min-height: 30%;
             bottom: $spacingUnit / 2;
             padding: 14px 16px;
         }
