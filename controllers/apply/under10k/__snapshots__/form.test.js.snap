@@ -25,7 +25,6 @@ Array [
   "mainContactDateOfBirth: Enter a date of birth",
   "mainContactAddress: Enter a full UK address",
   "mainContactAddressHistory: Enter a full UK address",
-  "mainContactPhone: Enter a UK telephone number",
   "seniorContactRole: Choose a role",
   "seniorContactName: Enter first and last name",
   "mainContactName: Enter first and last name",
@@ -35,6 +34,7 @@ Array [
   "seniorContactEmail: Enter an email address",
   "mainContactEmail: Enter an email address",
   "seniorContactPhone: Enter a UK telephone number",
+  "mainContactPhone: Enter a UK telephone number",
   "bankAccountName: Enter the name of your organisation, as it appears on your bank statement",
   "bankSortCode: Enter a sort code",
   "bankAccountNumber: Enter an account number",
@@ -119,21 +119,21 @@ Array [
   "mainContactDateOfBirth: Must be at least 16 years old",
   "mainContactAddress: Main contact address must be different from the senior contact's address",
   "mainContactAddressHistory: Enter a full UK address",
-  "mainContactPhone: Enter a real UK telephone number",
   "seniorContactRole: Choose a role",
   "mainContactName: Main contact name must be different from the senior contact's name",
   "seniorContactDateOfBirth: Must be at least 18 years old",
   "seniorContactAddressHistory: Enter a full UK address",
   "mainContactEmail: Main contact email address must be different from the senior contact's email address",
   "seniorContactPhone: Enter a real UK telephone number",
+  "mainContactPhone: Main contact phone number must be different from the senior contact's phone number",
 ]
 `;
 
 exports[`invalid form 2`] = `
 Array [
-  "Enter a real UK telephone number",
   "Main contact name must be different from the senior contact's name",
   "Main contact email address must be different from the senior contact's email address",
+  "Main contact phone number must be different from the senior contact's phone number",
 ]
 `;
 
