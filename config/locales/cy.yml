@@ -723,12 +723,16 @@ user:
     passwordOld: Eich hen gyfrinair
     passwordNew: Eich cyfrinair newydd
     passwordRequirements: >
-      <p>Rhaid bod o leiaf 10 nod o hyd <br>
-      Rhaid bod yn wahanol i’ch cyfeiriad e-bost<br>
-      <a href="https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/use-a-strong-and-separate-password-for-email">
-        Darllenwch awgrymiadau ar sut i greu cyfrinair cryf
-        <span class="u-visually-hidden"> National Cyber Security  - Dolen allanol</span>
-      </a></p>
+      <p>Rhaid i’ch cyfrinair:</p>
+      <ul>
+        <li>fod o leiaf <strong>10 llythyren/nod</strong> o hyd</li>
+        <li>fod yn wahanol i’ch cyfeiriad e-bost.</li>
+      </ul>
+      <p>I wneud eich cyfrinair yn ddigon cryf i osgoi troseddwyr seibir:</p>
+      <ul>
+        <li>defnyddiwch eiriau ar hap, fel ‘ceffylcipysgodyn’ - gallwch ddefnyddio rhifau a symbolau hefyd, fel ‘9ceffylcipysgodyn53!’</li>
+        <li>peidiwch â defnyddio gwybodaeth bersonol, fel enwau pobl neu hoff lefydd.</li>
+      </ul>
     loggedInAs: Wedi mewngofnodi fel
     logOut: allgofnodi
     alertMessages:
@@ -745,7 +749,7 @@ user:
     passwordRequired: Rhowch eich cyfrinair
     passwordMatchesEmail: Rhaid i’r cyfrinair fod yn wahanol i’ch cyfeiriad e-bost
     passwordLength: Rhaid i’r cyfrinair fod o leiaf %s nod o hyd
-    passwordStrength: Cyfrinair yn rhy wan, ceisiwch gyfrinair gwahanol
+    passwordStrength: Dewiswch gyfrinair cryfach.   Ychwanegwch rifau, symbolau, ac un neu ddau air anarferol
     passwordConfirmation: Rhaid i’r cyfrineiriau gyfateb
   dashboard:
     title: Eich cyfrif

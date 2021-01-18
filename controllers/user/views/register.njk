@@ -25,7 +25,8 @@
                             name: 'username',
                             label: __('user.common.emailAddress'),
                             isRequired: true,
-                            value: formValues['username']
+                            value: formValues['username'],
+                            attributes: { 'size': 40 }
                         }, errors = errors) }}
 
                         {{ formField({
@@ -33,7 +34,8 @@
                             name: 'password',
                             label: __('user.common.password'),
                             explanation: __('user.common.passwordRequirements'),
-                            isRequired: true
+                            isRequired: true,
+                            attributes: { 'size': 40 }
                         }, errors = errors) }}
 
                         {{ formField({
@@ -41,7 +43,8 @@
                             name: 'passwordConfirmation',
                             label: __('user.common.passwordConfirmation.label'),
                             explanation: __('user.common.passwordConfirmation.explanation'),
-                            isRequired: true
+                            isRequired: true,
+                            attributes: { 'size': 40 }
                         }, errors = errors) }}
 
                         <div class="form-actions">
