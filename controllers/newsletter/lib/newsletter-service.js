@@ -23,15 +23,12 @@ function subscribe({
         dataFields: [
             { key: 'FirstName', value: subscriptionData.firstName },
             { key: 'LastName', value: subscriptionData.lastName },
+            { key: 'COUNTRY', value: subscriptionData.location },
         ],
     };
 
     if (contactType === 'insights') {
         data.dataFields.push(
-            {
-                key: 'COUNTRY',
-                value: subscriptionData.location,
-            },
             {
                 key: 'JOBTITLE',
                 value: subscriptionData.jobTitle,
