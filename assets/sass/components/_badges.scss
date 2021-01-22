@@ -30,16 +30,15 @@
 
 .o-tag {
     display: inline-block;
-    border: 1px solid get-color('brand', 'primary');
-    color: get-color('brand', 'primary');
+    border: 1px solid #0075b0;
     padding: 2px 7px;
     text-decoration: none;
     font-size: 14px;
     margin: 3px 3px 3px 0;
 
     @include on-interact() {
-        border-color: darken(get-color('brand', 'primary'), 10%);
-        color: darken(get-color('brand', 'primary'), 10%);
+        border-color: darken(#0075b0, 10%);
+        color: darken(#0075b0, 10%);
     }
 }
 
