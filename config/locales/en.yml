@@ -105,6 +105,7 @@ global:
       This site uses cookies. For an explanation of their purpose and how to manage them see our
       <a href="/about/customer-service/cookies">cookies policy</a>.
     action: Accept cookies
+    label: Cookie consent bar
   covidMessage: Funding during COVID-19
   forms:
     missingFieldError: Please provide the '%s' field
