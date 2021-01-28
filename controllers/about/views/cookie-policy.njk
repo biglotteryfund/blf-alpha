@@ -1,0 +1,42 @@
+{% extends "layouts/main.njk" %}
+{% from "components/page-title/macro.njk" import pageTitle %}
+
+{% block content %}
+    <main role="main" id="content">
+        {{ pageTitle(title) }}
+
+        <section class="content-box u-inner-wide-only" id="item-1">
+            <ol class="u-dont-print breadcrumb-trail breadcrumb-trail--flush">
+                <li class="breadcrumb-trail__item"><a class="breadcrumb-trail__link" href="/about">About</a></li>
+                <li class="breadcrumb-trail__item">Cookies</li>
+            </ol>
+
+            <div class="s-prose">
+                <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
+                <p>We use cookies to store information about how you use the our website, such as the pages you visit.</p>
+
+                <h2>Neccessary cookies</h2>
+                <p>These essential cookies do things like allow you to login to your account and remember your progress through an application form.</p>
+                <p>They always need to be on.</p>
+
+                <h2>Cookies that measure website use</h2>
+                <p>These cookies are used to collect information about how visitors use our site. We use the information to compile reports and to help us improve the site.</p>
+                <p>We use Google Analytics and Hotjar to track:
+                <ul>
+                    <li>how you got to the site</li>
+                    <li>the pages you visit on and how long you spend on each page</li>
+                    <li>what you click on while you're visiting the site</li>
+                    <li>how you navigate through pages and content on the site</li>
+                </ul>
+                </p>
+
+                <div class="input-group">
+                    <input type="radio">Use cookies which measure my website use <br />
+                    <input type="radio">Do not use cookies which measure my website use
+                </div>
+            </div>
+
+
+        </section>
+    </main>
+{% endblock %}
