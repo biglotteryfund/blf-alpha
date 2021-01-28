@@ -103,7 +103,8 @@ global:
     message: >
       Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
       <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
-    action: Derbyn cwcis
+    actionAll: Derbyn cwcis (all)
+    actionEssential: VSet cookie preferences (essential)
   covidMessage: Ariannu yn ystod COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
@@ -194,6 +195,8 @@ toplevel:
       description: <p>Diolch i chwaraewyr y Loteri Genedlaethol sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ledled y Deyrnas Unedig bob blwyddyn</p>
     under10k: Ymgeisio am grant o dan £10,000
     over10k: Ymgeisio am grant dros £10,000
+  cookies:
+    title: Cookies
   funding:
     title: Ariannu
     latestTitle: Rhaglenni a phartneriaethau diweddaraf

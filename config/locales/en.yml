@@ -104,7 +104,8 @@ global:
     message: >
       This site uses cookies. For an explanation of their purpose and how to manage them see our
       <a href="/about/customer-service/cookies">cookies policy</a>.
-    action: Accept cookies
+    actionAll: Accept all cookies
+    actionEssential: Set cookie preferences
   covidMessage: Funding during COVID-19
   forms:
     missingFieldError: Please provide the '%s' field
@@ -198,6 +199,8 @@ toplevel:
         raised by players of <a href="%s">The National Lottery</a></p>
     under10k: Apply for funding under £10,000
     over10k: Apply for funding over £10,000
+  cookies:
+    title: Cookies
   funding:
     title: Funding
     latestTitle: Latest Programmes & Partnerships
