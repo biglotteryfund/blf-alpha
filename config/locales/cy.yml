@@ -105,6 +105,7 @@ global:
       Rydym yn defnyddio'r wybodaeth hon i wneud i'n gwefan a'n gwasanaethau weithio cystal â phosibl.
     actionAll: Derbyn cwcis
     actionEssential: Gosod dewisiadau cwci
+    policyUrl:
   cookiePolicy:
     title: Cwcis
     intro: <p>Mae cwcis yn ffeiliau sydd wedi'u cadw ar eich ffôn, tabled neu gyfrifiadur pan fyddwch yn ymweld â gwefan.</p>
