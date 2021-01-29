@@ -35,9 +35,9 @@ export default {
                 <button class="btn btn--small" @click="handleAcceptAll">
                     {{ actionall }}
                 </button>
-                <button class="btn btn--small" @click="handleAcceptEssential">
+                <a class="btn btn--small" @click="handleAcceptEssential" href="/about/customer-service/cookies">
                     {{ actionessential }}
-                </button>
+                </a>
             </div>
         </div>
     </aside>
