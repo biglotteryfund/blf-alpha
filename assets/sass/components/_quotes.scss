@@ -4,7 +4,7 @@
 
 .blockquote {
     $offset: 32px;
-
+    font-family: font-stack('display');
     font-style: normal;
     color: get-color('brand', 'primary');
     margin-bottom: 1.5em;
@@ -13,7 +13,7 @@
     max-width: 30em;
 
     .blockquote__text {
-        font-size: font-scale('display', 't2');
+        font-size: font-scale('display', 't3');
         font-weight: font-weight('display', 'bold');
         display: inline-block;
         margin-bottom: 0.25em;
@@ -23,7 +23,7 @@
             font-size: 46px;
             font-family: font-stack('display');
             font-weight: font-weight('display', 'semibold');
-            color: get-color('text', 'base');
+            color: get-color('brand', 'primary');
             vertical-align: text-bottom;
             display: inline-block;
             line-height: 0;
@@ -76,7 +76,7 @@
     }
 
     .callout__text {
-        font-size: 18px;
+        font-size: 19px;
         font-weight: font-weight('display', 'bold');
     }
 
