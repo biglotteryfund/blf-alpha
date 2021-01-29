@@ -228,7 +228,7 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
  * Field help text
  */
 .ff-help {
-    font-size: 18px;
+    font-size: 17px;
     margin: 10px 0;
     color: get-color('text', 'note');
 
@@ -721,7 +721,7 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
 
 .word-count {
     background-color: get-color('background', 'light-neutral');
-    font-size: 18px;
+    font-size: 17px;
     margin-bottom: $spacingUnit / 2;
 
     @include mq('medium') {
