@@ -1,0 +1,45 @@
+{% extends "layouts/main.njk" %}
+{% from "components/page-title/macro.njk" import pageTitle %}
+
+
+{% set copy = __('global.cookiePolicy') %}
+{% set navCopy = __('global.nav') %}
+
+
+{% block content %}
+    <main role="main" id="content">
+        {{ pageTitle(title) }}
+
+        <section class="content-box u-inner-wide-only" id="item-1">
+            <ol class="u-dont-print breadcrumb-trail breadcrumb-trail--flush">
+                <li class="breadcrumb-trail__item"><a class="breadcrumb-trail__link" href="/about">{{navCopy.about}}</a></li>
+                <li class="breadcrumb-trail__item">{{ copy.title }}</li>
+            </ol>
+
+            <div class="s-prose">
+            {{ copy.intro | safe}}
+
+                <h2>{{copy.neccessaryCookies.title}}</h2>
+                {{copy.neccessaryCookies.description | safe}}
+
+                <h2>{{copy.websiteUse.title}}</h2>
+                {{copy.websiteUse.description | safe}}
+
+                {% set cookieLang = __('global.cookiePolicy') %}
+                <div id="js-cookie-policy-select">
+                    <cookie-policy-select
+                        actionsave='{{ cookieLang.actionSave }}'
+                        actionsuccess='{{ cookieLang.actionSuccess }}'
+                        actionfail='{{ cookieLang.actionFail }}'
+                        messageall='{{ cookieLang.messageAll }}'
+                        messageessential='{{ cookieLang.messageEssential }}'
+                    ></cookie-policy-select>
+                </div>
+
+
+            </div>
+
+
+        </section>
+    </main>
+{% endblock %}

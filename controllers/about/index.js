@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+const path = require('path');
 
 const { flexibleContentPage } = require('../common');
 
@@ -11,6 +12,12 @@ router.get('/', flexibleContentPage());
 router.get('/our-people/*', (req, res, next) => {
     res.locals.showSiblings = true;
     next();
+});
+
+router.get('/customer-service/cookies', function (req, res) {
+    res.render(path.resolve(__dirname, './views/cookie-policy'), {
+        title: req.i18n.__('toplevel.cookies.title'),
+    });
 });
 
 router.use('/newsletter', require('../newsletter'));

@@ -101,9 +101,34 @@ global:
     nextItem: Eitem nesaf
   cookieConsent:
     message: >
-      Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
-      <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
-    action: Derbyn cwcis
+      Mae'r wefan hon yn defnyddio <a href="/welsh/about/customer-service/cookies">cwcis</a>.
+      Rydym yn defnyddio'r wybodaeth hon i wneud i'n gwefan a'n gwasanaethau weithio cystal â phosibl.
+    actionAll: Derbyn cwcis
+    actionEssential: Gosod dewisiadau cwci
+  cookiePolicy:
+    title: Cwcis
+    intro: <p>Mae cwcis yn ffeiliau sydd wedi'u cadw ar eich ffôn, tabled neu gyfrifiadur pan fyddwch yn ymweld â gwefan.</p>
+      <p>Rydym yn defnyddio cwcis i storio gwybodaeth am sut rydych chi'n defnyddio'r wefan, fel y tudalennau rydych chi'n ymweld â nhw.</p>
+    neccessaryCookies:
+      title: Cwcis angenrheidiol
+      description: <p>Mae'r cwcis hanfodol hyn yn gwneud pethau fel eich galluogi i fewngofnodi i'ch cyfrif a chofio eich cynnydd drwy ffurflen gais.</p>
+        <p>Mae angen iddynt fod ymlaen bob amser.</p>
+    websiteUse:
+      title: Cwcis sy'n mesur defnydd gwefan
+      description: >
+        <p>Defnyddir y cwcis hyn i gasglu gwybodaeth am sut mae ymwelwyr yn defnyddio ein gwefan. Rydym yn defnyddio'r wybodaeth i lunio adroddiadau ac i'n helpu i wella'r wefan.</p>
+        <p>Rydym yn defnyddio Google Analytics a Hotjar i olrhain:
+        <ul>
+        <li>sut y gwnaethoch gyrraedd y safle</li>
+        <li>y tudalennau rydych chi'n ymweld â nhw a pha mor hir rydych chi'n ei dreulio ar bob tudalen</li>
+        <li>beth rydych chi'n clicio arno tra byddwch chi'n ymweld â'r safle</li>
+        <li>sut rydych chi'n llywio drwy dudalennau a chynnwys ar y safle</li>
+        </ul></p>
+    actionSave: Arbed newidiadau
+    actionSuccess: Diweddaru dewisiadau cwci
+    actionFail: Dewisiadau cwci heb eu diweddaru
+    messageAll: Defnyddiwch cwcis sy'n mesur fy nefnydd ar y wefan
+    messageEssential: Peidiwch â defnyddio cwcis sy'n mesur fy nefnydd ar y wefan
   covidMessage: Ariannu yn ystod COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
@@ -194,6 +219,8 @@ toplevel:
       description: <p>Diolch i chwaraewyr y Loteri Genedlaethol sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ledled y Deyrnas Unedig bob blwyddyn</p>
     under10k: Ymgeisio am grant o dan £10,000
     over10k: Ymgeisio am grant dros £10,000
+  cookies:
+    title: Cookies
   funding:
     title: Ariannu
     latestTitle: Rhaglenni a phartneriaethau diweddaraf
