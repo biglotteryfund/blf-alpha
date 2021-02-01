@@ -63,7 +63,7 @@ function shouldInitAnalytics() {
         window.navigator.msDoNotTrack === '1';
 
     // If the user hasn't consented to all cookies, we don't enable GA or other tracking.
-    if(sessionStorage.getItem('tnlcommunityfund:cookie-consent') != 'all')
+    if(localStorage.getItem('tnlcommunityfund:cookie-consent') != 'all')
         return false;
 
     if (window.AppConfig.environment === 'production') {

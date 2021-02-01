@@ -5,7 +5,7 @@
 {% if hotjarId %}
     <script id="script-hotjar">
         var hotjarId = "{{ hotjarId }}";
-        var isDoNotTrack = (window.doNotTrack === '1' || window.navigator.doNotTrack === '1' || window.navigator.msDoNotTrack === '1') || sessionStorage.getItem('tnlcommunityfund:cookie-consent') != 'all';
+        var isDoNotTrack = (window.doNotTrack === '1' || window.navigator.doNotTrack === '1' || window.navigator.msDoNotTrack === '1') || localStorage.getItem('tnlcommunityfund:cookie-consent') != 'all';
 
         if (hotjarId && isDoNotTrack === false) {
             // Pre-init Hotjar so we can tag pages before its library loads
