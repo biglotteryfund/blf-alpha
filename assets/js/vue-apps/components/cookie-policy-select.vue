@@ -1,6 +1,7 @@
 <script>
 import { storageAvailable } from '../../helpers/storage';
 
+
 const canStore = storageAvailable('localStorage');
 const STORAGE_KEY = 'tnlcommunityfund:cookie-consent';
 
@@ -39,11 +40,36 @@ export default {
 
 <template>
     <div class="input-group">
-        <p>
-        <input type="radio" name="cookie-consent-options" class="tnlcf-radio-button" @click="changeCookiePref('all')" value="all">
-        <label>{{ messageall }}</label></p>
-        <input type="radio" name="cookie-consent-options" @click="changeCookiePref('essential')" value="essential">{{ messageessential }}
-        <br /><br />
+        <fieldset class="ff-choice">
+        <ul class="ff-choice__list">
+            <li class="ff-choice__option ff-choice__option--radio" style="margin-left: 0px"
+            >
+                <input
+                    type="radio"
+                    name="cookie-consent-options"
+                    value="all"
+                    id="cookie-all"
+                    @click="changeCookiePref('all')"
+                />
+                <label class="ff-choice__label" label for="cookie-all">
+                    {{ messageall}}
+                </label>
+            </li>
+            <li class="ff-choice__option ff-choice__option--radio" style="margin-left: 0px">
+                <input
+                    type="radio"
+                    name="cookie-consent-options"
+                    value="all"
+                    id="cookie-essential"
+                    @click="changeCookiePref('essential')"
+                />
+                <label class="ff-choice__label" label for="cookie-essential" >
+                    {{ messageessential }}
+                </label>
+            </li>
+        </ul>
+        </fieldset>
+
         <button class="btn btn--small" @click="saveChanges">
             {{ actionsave }}
         </button>
@@ -52,3 +78,4 @@ export default {
 
     </div>
 </template>
+
