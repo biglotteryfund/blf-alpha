@@ -106,7 +106,6 @@ global:
       We use this information to make our website and services work as well as possible.
     actionAll: Accept all cookies
     actionEssential: Set cookie preferences
-    policyUrl: english
   cookiePolicy:
     title: Cookies
     intro: <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
