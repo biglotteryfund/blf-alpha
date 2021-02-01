@@ -48,9 +48,10 @@ export default {
                     type="radio"
                     name="cookie-consent-options"
                     value="all"
+                    id="cookie-all"
                     @click="changeCookiePref('all')"
                 />
-                <label class="ff-choice__label" >
+                <label class="ff-choice__label" label for="cookie-all">
                     {{ messageall}}
                 </label>
             </li>
@@ -59,9 +60,10 @@ export default {
                     type="radio"
                     name="cookie-consent-options"
                     value="all"
+                    id="cookie-essential"
                     @click="changeCookiePref('essential')"
                 />
-                <label class="ff-choice__label" >
+                <label class="ff-choice__label" label for="cookie-essential" >
                     {{ messageessential }}
                 </label>
             </li>
