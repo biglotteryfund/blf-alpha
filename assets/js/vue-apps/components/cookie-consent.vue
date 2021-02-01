@@ -6,7 +6,7 @@ const canStore = storageAvailable('localStorage');
 const STORAGE_KEY = 'tnlcommunityfund:cookie-consent';
 
 export default {
-    props: ['title', 'message', 'actionall', 'actionessential', 'locale'],
+    props: ['title', 'message', 'actionall', 'actionessential', 'policyurl'],
     data() {
         const hasAccepted =
             canStore && (window.localStorage.getItem(STORAGE_KEY) === 'all' || window.localStorage.getItem(STORAGE_KEY) === 'essential');
@@ -35,11 +35,7 @@ export default {
                 <button class="btn btn--small" @click="handleAcceptAll">
                     {{ actionall }}
                 </button>
-
-                <a v-if="locale === 'en'" class="btn btn--small" @click="handleAcceptEssential" href="/about/customer-service/cookies">
-                    {{ actionessential }}
-                </a>
-                <a v-else class="btn btn--small" @click="handleAcceptEssential" href="/welsh/about/customer-service/cookies">
+                <a class="btn btn--small" @click="handleAcceptEssential" v-bind:href="policyurl">
                     {{ actionessential }}
                 </a>
             </div>
