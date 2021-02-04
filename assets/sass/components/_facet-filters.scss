@@ -121,6 +121,9 @@ $filterSpacing: 10px;
     }
     .search-filters__clear-all {
         float: right;
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: font-weight('body', 'semibold');
     }
 
     .search-filters__actions {
