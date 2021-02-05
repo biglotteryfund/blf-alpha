@@ -6,7 +6,8 @@
         <div class="card__body">
             {% for document in documents %}
                 <div class="document-summary">
-                    <div class="document-summary__link u-document-link"
+                    <a class="document-summary__link u-document-link"
+                       href="{{ document.url }}"
                        id="document-link"
                         {% if gaCategory and gaAction %}
                             data-ga-on="click"
@@ -19,7 +20,7 @@
                         {% if document.filetype or document.filesize %}
                             <small>({{ document.filetype | upper }} {{ document.filesize }})</small>
                         {% endif %}
-                    </div>
+                    </a>
                     {% if document.contents %}
                         <ul class="document-summary__contents">
                             {% for item in document.contents %}
