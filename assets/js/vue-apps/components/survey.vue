@@ -85,7 +85,7 @@ export default {
     <aside role="complementary" class="survey u-dont-print">
         <div class="u-inner">
             <div class="survey__choices" v-if="status === statuses.NOT_ASKED">
-                <p class="survey__choices-question">{{ question }}</p>
+                <h2 class="survey__choices-question">{{ question }}</h2>
                 <div class="survey__choices-actions">
                     <button
                         class="btn btn--small survey__choice"
