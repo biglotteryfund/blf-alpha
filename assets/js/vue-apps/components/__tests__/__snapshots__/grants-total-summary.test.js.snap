@@ -2,6 +2,7 @@
 
 exports[`GrantsTotalSummary should render 1`] = `
 <span
+  aria-live="polite"
   role="alert"
 >
   
