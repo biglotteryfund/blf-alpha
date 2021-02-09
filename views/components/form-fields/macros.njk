@@ -6,11 +6,11 @@
         <div class="form-errors" data-testid="form-errors">
             <h2 class="form-errors__title">{{ title }}</h2>
             <div class="form-errors__body">
-                <ol class="form-errors__list">
+                <ol class="form-errors__list" id="form-errors__list">
                     {% for error in errors %}
                         <li>
                             {% if error.label %}{{ error.label | safe }} &mdash;{% endif %}
-                            {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
+                            {% if error.param %}<a id="error-{{ error.param }}" href="#form-field-{{ error.param }}">{% endif %}
                             {{ error.msg | safe }}
                             {% if error.param %}</a>{% endif %}
                         </li>
@@ -18,6 +18,11 @@
                 </ol>
             </div>
         </div>
+        <script>
+            if(document.getElementById('form-errors__list') !== null) {
+                document.getElementById("error-{{ errors[0].param }}").focus();
+            }
+        </script>
     {% endif %}
 {% endmacro %}
 
