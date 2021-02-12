@@ -7,7 +7,7 @@
         {% block extraHead %}{% endblock %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
-        <nav class="accessibility-nav">
+        <nav class="accessibility-nav" role="navigation" aria-label="accessibility">
             {% set a11yCopy = __('global.accessibility') %}
             <ul>
                 <li><a href="#content" tabindex="0">{{ a11yCopy.skipToContent | safe }}</a></li>
