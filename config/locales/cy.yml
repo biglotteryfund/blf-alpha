@@ -110,7 +110,7 @@ global:
     title: Cwcis
     intro: <p>Mae cwcis yn ffeiliau sydd wedi'u cadw ar eich ffôn, tabled neu gyfrifiadur pan fyddwch yn ymweld â gwefan.</p>
       <p>Rydym yn defnyddio cwcis i storio gwybodaeth am sut rydych chi'n defnyddio'r wefan, fel y tudalennau rydych chi'n ymweld â nhw.</p>
-    neccessaryCookies:
+    necessaryCookies:
       title: Cwcis angenrheidiol
       description: <p>Mae'r cwcis hanfodol hyn yn gwneud pethau fel eich galluogi i fewngofnodi i'ch cyfrif a chofio eich cynnydd drwy ffurflen gais.</p>
         <p>Mae angen iddynt fod ymlaen bob amser.</p>
