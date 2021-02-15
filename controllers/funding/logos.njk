@@ -110,7 +110,8 @@
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
                    data-ga-event-action="{{ logo.title }} - {{ language }} - Print"
-                   download>
+                   download
+                   aria-label="Print the digital version of the {{ logo.title }}">
                     {{ copy.downloads.print }}
                 </a>
             </li>
@@ -121,7 +122,8 @@
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
                    data-ga-event-action="{{ logo.title }} - {{ language }} - Vector"
-                   download>
+                   download
+                   aria-label="Vector version of the {{ logo.title }}">
                     {{ copy.downloads.vector }}
                 </a>
             </li>
