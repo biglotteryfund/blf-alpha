@@ -111,8 +111,8 @@ global:
     title: Cookies
     intro: <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
       <p>We use cookies to store information about how you use the our website, such as the pages you visit.</p>
-    neccessaryCookies:
-      title: Neccessary cookies
+    necessaryCookies:
+      title: Necessary cookies
       description: <p>These essential cookies do things like allow you to log into your account and remember your progress through an application form.</p>
         <p>They always need to be on.</p>
     websiteUse:
