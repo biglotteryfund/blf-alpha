@@ -1061,14 +1061,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a number smaller than 70,000,000.',
+                        en: "Enter a number that's less than 70,000,000.",
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: 'Enter a number smaller than 70,000,000.',
+                        en: "Enter a number that's less than 70,000,000.",
                         cy: '',
                     }),
                 },
@@ -1082,7 +1082,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.max',
                     message: localise({
-                        en: 'Enter a number smaller than 70,000,000.',
+                        en: "Enter a number that's less than 70,000,000.",
                         cy: '',
                     }),
                 },
