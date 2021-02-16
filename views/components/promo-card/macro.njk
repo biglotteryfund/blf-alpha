@@ -57,7 +57,7 @@ props: {Object}
                     {{ props.summary | safe }}
                 {% endif %}
                 {% if props.link.url and props.link.label %}
-                    <a href="{{ props.link.url }}"{% if props.link.labelAria %} aria-label="{{ props.link.labelAria }}"{% endif %}>
+                    <a href="{{ props.link.url }}"{% if props.link.labelAria %} aria-label="{{ props.link.labelAria }} about {{ props.title }}"{% endif %}>
                         {{ props.link.label }}
                     </a>
                 {% endif %}
