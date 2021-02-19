@@ -3,6 +3,7 @@ import fitvids from 'fitvids';
 import tabs from './tabs';
 import forms from './forms';
 import modal from './modal';
+import videos from './videos';
 
 /**
  * Common modules that are run across the site.
@@ -22,4 +23,5 @@ export const init = () => {
     modal.init();
     tabs.init();
     forms.init();
+    videos.init();
 };
