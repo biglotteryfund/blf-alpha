@@ -33,6 +33,9 @@ export default {
         {
             newCookiePref = cookiePref;
 
+        },
+        getCookiePref(option){
+            return window.localStorage.getItem(STORAGE_KEY) === option;
         }
     },
 };
@@ -50,6 +53,7 @@ export default {
                     value="all"
                     id="cookie-all"
                     @click="changeCookiePref('all')"
+                    :checked="getCookiePref('all')"
                 />
                 <label class="ff-choice__label" label for="cookie-all">
                     {{ messageall}}
@@ -62,6 +66,7 @@ export default {
                     value="all"
                     id="cookie-essential"
                     @click="changeCookiePref('essential')"
+                    :checked="getCookiePref('essential')"
                 />
                 <label class="ff-choice__label" label for="cookie-essential" >
                     {{ messageessential }}
