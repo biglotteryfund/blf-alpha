@@ -3,19 +3,24 @@ import { storageAvailable } from '../../helpers/storage';
 import { trackEvent } from '../../helpers/metrics';
 
 const canStore = storageAvailable('localStorage');
-const STORAGE_KEY = 'biglotteryfund:cookie-consent';
+const STORAGE_KEY = 'tnlcommunityfund:cookie-consent';
 
 export default {
-    props: ['title', 'message', 'action'],
+    props: ['title', 'message', 'actionall', 'actionessential', 'policyurl'],
     data() {
         const hasAccepted =
-            canStore && window.localStorage.getItem(STORAGE_KEY) === 'true';
+            canStore && (window.localStorage.getItem(STORAGE_KEY) === 'all' || window.localStorage.getItem(STORAGE_KEY) === 'essential');
         return { isShown: hasAccepted === false };
     },
     methods: {
-        handleAccept() {
-            canStore && window.localStorage.setItem(STORAGE_KEY, 'true');
-            trackEvent('Cookie Warning', 'Click', 'Accept');
+        handleAcceptAll() {
+            canStore && window.localStorage.setItem(STORAGE_KEY, 'all');
+            trackEvent('Cookie Warning', 'Click', 'Accept all');
+            this.isShown = false;
+        },
+        handleAcceptEssential() {
+            canStore && window.localStorage.setItem(STORAGE_KEY, 'essential');
+            trackEvent('Cookie Warning', 'Click', 'Essential cookies only');
             this.isShown = false;
         },
     },
@@ -27,9 +32,12 @@ export default {
         <div class="cookie-consent__inner">
             <div class="cookie-consent__content" v-html="message"></div>
             <div class="cookie-consent__actions">
-                <button class="btn btn--small" @click="handleAccept">
-                    {{ action }}
+                <button class="btn btn--small" @click="handleAcceptAll">
+                    {{ actionall }}
                 </button>
+                <a class="btn btn--small" @click="handleAcceptEssential" v-bind:href="policyurl">
+                    {{ actionessential }}
+                </a>
             </div>
         </div>
     </aside>

@@ -40,7 +40,7 @@ button {
     color: get-color('text', 'base');
     font-family: font-stack('body');
     font-weight: 400;
-    font-size: 20px;
+    font-size: 19px;
     line-height: 1.35;
 }
 
@@ -67,6 +67,7 @@ h3 {
 }
 h4 {
     font-size: font-scale('display', 't4');
+    font-family: caecilia-sans-text, sans-serif;
 }
 h5 {
     font-size: font-scale('display', 't5');

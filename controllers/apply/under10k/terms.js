@@ -33,7 +33,7 @@ function newTerms(locale) {
                     to approve all transactions and withdrawals;`,
 
                     oneLine`immediately return any part of the grant that is not used for your project or 
-                    which constitutes unlawful state aid;`,
+                    which constitutes an unlawful subsidy;`,
 
                     oneLine`where your project involves working with children, young people or adults at risk, 
                     adopt and implement an appropriate written safeguarding policy, obtain written consent from 
@@ -154,7 +154,7 @@ function newTerms(locale) {
                     gymeradwyo'r holl drafodion a thynnu'n ôl;`,
 
                     oneLine`dychwelyd ar unwaith unrhyw ran o'r grant nad yw'n cael ei ddefnyddio ar gyfer eich 
-                    prosiect neu sy'n gyfystyr â chymorth gwladwriaethol anghyfreithlon;`,
+                    prosiect neu sy'n gymhorthdal anghyfreithlon;`,
 
                     oneLine`os yw eich prosiect yn cynnwys gweithio gyda phlant, pobl ifanc neu oedolion sydd mewn perygl, 
                     mabwysiadwch a gweithredwch bolisi diogelu ysgrifenedig priodol, cael caniatâd ysgrifenedig gan ofalwyr 

@@ -8,7 +8,7 @@
                 <div class="document-summary">
                     <a class="document-summary__link u-document-link"
                        href="{{ document.url }}"
-                       id="{{ document.title }}"
+                       id="document-link"
                         {% if gaCategory and gaAction %}
                             data-ga-on="click"
                             data-ga-event-category="{{ gaCategory }}"
@@ -38,7 +38,7 @@
                                 data-ga-event-action="{{ gaAction }}"
                                 data-ga-event-label="{{ document.url }}"
                             {% endif %}
-                            aria-labelledby="{{ document.title }}"
+                            aria-labelledby="document-link"
                         >
                             {{ __('global.misc.download') | title }}
                         </a>

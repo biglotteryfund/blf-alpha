@@ -61,7 +61,7 @@
 
                 <div class="content-sidebar__secondary">
                     {% call card(aboutTitle) %}
-                        <aside class="grant-summary">
+                        <div class="grant-summary">
                             <dl>
                                 <dt class="u-visually-hidden">Grant amount</dt>
                                 <dd class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</dd>
@@ -70,7 +70,7 @@
                                 <dt class="u-visually-hidden">Grant date</dt>
                                 <dd class="grant-summary__date">{{ formatDate(grant.awardDate) }}</dd>
                             </dl>
-                        </aside>
+                        </div>
 
                         <dl class="o-definition-list o-definition-list--compact u-text-small">
                             {% if grant.plannedDates %}

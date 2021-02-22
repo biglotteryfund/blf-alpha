@@ -26,12 +26,14 @@ function subscribe({
         ],
     };
 
+    data.dataFields.push(
+        {
+            key: 'COUNTRY',
+            value: subscriptionData.location,
+        });
+
     if (contactType === 'insights') {
         data.dataFields.push(
-            {
-                key: 'COUNTRY',
-                value: subscriptionData.location,
-            },
             {
                 key: 'JOBTITLE',
                 value: subscriptionData.jobTitle,
