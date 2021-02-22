@@ -18,12 +18,12 @@
         <div class="global-container">
             {# Status and announcement banners #}
             {% if previewStatus.isPreview %}
-                <aside class="announcement-banner announcement-banner--info">
+                <aside class="announcement-banner announcement-banner--info" aria-label="page draft banner">
                     ✋ You are viewing a draft (last updated {{ previewStatus.lastUpdated }}).
                     Please do not share this page. <a href="{{ getCurrentUrl() }}">View original</a>
                 </aside>
             {% elseif appData.isNotProduction and not appData.isDev %}
-                <aside class="announcement-banner announcement-banner--info">
+                <aside class="announcement-banner announcement-banner--info" aria-label="test environment banner">
                     ✋ This is a test environment. Please do not share this page.
                 </aside>
             {% endif %}
