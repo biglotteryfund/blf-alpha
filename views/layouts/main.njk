@@ -43,7 +43,7 @@
             {% include "includes/global-header.njk" %}
 
             {% if showCOVID19AnnouncementBanner %}
-                <aside class="announcement-banner announcement-banner--major">
+                <aside class="announcement-banner announcement-banner--major" aria-label="announcement banner">
                     <a href="{{ localify('/funding/covid-19') }}">
                         {{ __('global.covidMessage') }}
                     </a>
