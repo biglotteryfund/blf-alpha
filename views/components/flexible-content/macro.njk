@@ -150,6 +150,14 @@
                             </div>
                         {% endif %}
 
+                        {% elseif part.type === 'lastUpdatedDateBlock' %}
+                            {% if part.lastUpdatedField %}
+                                <div class="message message--minor">
+                                    <strong>{{ __('global.misc.lastUpdated') }}</strong>:
+                                    {{ formatDate(part.lastUpdatedField.date, "dddd D MMMM, YYYY") }}
+                                </div>
+                            {% endif %}
+
                         {{ tableOfContents(flexibleContent, anchor = flexAnchor, hideDivider = not part.content) }}
                     {% else %}
                         <div class="s-prose u-constrained-content-wide">
