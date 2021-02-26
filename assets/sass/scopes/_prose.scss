@@ -4,7 +4,7 @@
 /* https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/#scope-namespaces-s- */
 
 .s-prose {
-    h2::after {
+    h2:not(.u-tone-brand-primary):after {
         @include underlined();
     }
 
