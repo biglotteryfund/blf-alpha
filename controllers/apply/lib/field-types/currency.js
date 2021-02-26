@@ -17,15 +17,14 @@ class CurrencyField extends Field {
     defaultSchema() {
         const minAmount = this.minAmount || 0;
         const maxAmount = this.maxAmount || 999999999;
-        const baseSchema = Joi.friendlyNumber()
-            .integer()
+        const baseSchema = Joi.friendlyNumber().integer()
             .min(minAmount)
             .max(maxAmount);
 
         if (this.isRequired) {
             return baseSchema.required();
         } else {
-            return baseSchema.optional();
+            return Joi.optional();
         }
     }
 
