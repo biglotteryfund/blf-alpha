@@ -1754,6 +1754,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 mainContactPhone: new PhoneField({
                     locale: locale,
                     name: 'mainContactPhone',
+                    schema: Joi.string()
+                        .required()
+                        .phoneNumber()
+                        .invalid(Joi.ref('seniorContactPhone')),
+                    messages: [
+                        {
+                            type: 'any.invalid',
+                            message: localise({
+                                en: `Main contact phone number must be different from the senior contact's phone number`,
+                                cy: `Rhaid i'r prif rif ffôn cyswllt fod yn wahanol i rif ffôn yr uwch gyswllt`,
+                            }),
+                        },
+                    ],
                 }),
                 mainContactLanguagePreference: fieldContactLanguagePreference(
                     locale,
