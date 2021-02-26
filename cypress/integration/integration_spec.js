@@ -1452,7 +1452,7 @@ function standardApplication({
                     fillDayMonthParts(mock.accountingYearDate);
                 });
 
-            cy.findByLabelText('What is your total income for the year?').type(
+            cy.findByLabelText('What is your total income for the year? (optional)').type(
                 mock.totalIncomeYear
             );
 
