@@ -13,8 +13,9 @@
 {% macro languageSwitcher(currentLocale) %}
     {% for item in [{ "id": "en", "label": "English" }, { "id": "cy", "label": "Cymraeg" }] %}
         {% if item.id === currentLocale %}
-            <span class="language-control is-current">
+            <span class="language-control is-current" aria-label="Language selected">
                 {{ iconTick() }} {{ item.label }}
+
             </span>
         {% else %}
             <a href="{{ getCurrentUrl(item.id) }}"
