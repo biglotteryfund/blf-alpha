@@ -11,10 +11,13 @@
 {% endmacro %}
 
 {% macro languageSwitcher(currentLocale) %}
-    {% for item in [{ "id": "en", "label": "English" }, { "id": "cy", "label": "Cymraeg" }] %}
+    {% for item in [{ "id": "en", "label": "English", "lang": "language selected" }, { "id": "cy", "label": "Cymraeg", "lang": "dewis iaith" }] %}
         {% if item.id === currentLocale %}
-            <span class="language-control is-current" aria-label="Language selected">
+            <span class="language-control is-current" >
                 {{ iconTick() }} {{ item.label }}
+                <span class="u-visually-hidden ">
+                    {{ item.lang }}
+                </span>
 
             </span>
         {% else %}
