@@ -3,7 +3,6 @@ const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
 const { CurrencyField, DayMonthField } = require('../../lib/field-types');
-const isNewOrganisation = require('../lib/new-organisation');
 
 module.exports = {
     fieldAccountingYearDate(locale) {
@@ -25,7 +24,7 @@ module.exports = {
             },
         });
     },
-    fieldTotalIncomeYear(locale, data = {}) {
+    fieldTotalIncomeYear(locale) {
         const localise = get(locale);
 
         return new CurrencyField({
@@ -40,7 +39,7 @@ module.exports = {
                     'This should be based on your most recent accounts, or a 12-month projection (if you’ve been up and running for less than 15 months). Use whole numbers only - for example, 12,345 and not 12,345.67.',
                 cy: '',
             }),
-            isRequired: !isNewOrganisation(get('organisationStartDate')(data)),
+            //isRequired: !isNewOrganisation(get('organisationStartDate')(data)),
             messages: [
                 {
                     type: 'base',
