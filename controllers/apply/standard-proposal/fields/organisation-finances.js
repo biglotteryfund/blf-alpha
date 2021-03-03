@@ -3,7 +3,6 @@ const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
 const { CurrencyField, DayMonthField } = require('../../lib/field-types');
-const isNewOrganisation = require('../lib/new-organisation');
 
 module.exports = {
     fieldAccountingYearDate(locale) {
