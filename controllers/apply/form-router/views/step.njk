@@ -64,12 +64,11 @@
 
                     {% set singleFieldset = step.fieldsets.length === 1 %}
                     {% for fieldset in step.fieldsets %}
-                        <fieldset class="form-fieldset{% if not singleFieldset %} form-fieldset--multi{% endif %} u-constrained-wide">
                             <div class="form-header">
                                 <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
-                                <legend class="form-header__suffix">
+                                <h3 class="form-header__suffix">
                                     <strong>{{ step.title }}</strong><span> ({{ stepCount }})</span>
-                                </legend>
+                                </h3>
                             </div>
 
                             {% if fieldset.introduction %}
@@ -85,9 +84,7 @@
                             {% if fieldset.footer %}
                                 <div class="form-fieldset__intro s-prose">{{ fieldset.footer | safe }}</div>
                             {% endif %}
-                        </fieldset>
                     {% endfor %}
-
                 {% endblock %}
 
                 {% if csrfToken %}
