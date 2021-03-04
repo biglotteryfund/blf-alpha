@@ -4,16 +4,8 @@
 
 <script>
     (function() {
-        var elSelector = '.form-errors__list';
-        var el = document.querySelector(elSelector);
 
-        if (!el) {
-            return;
-        }
+        document.getElementById("error-container").focus();
 
-        var listItems = el.getElementsByTagName("a");
-
-        if (listItems.length > 0)
-            listItems[0].focus();
     }());
 </script>
