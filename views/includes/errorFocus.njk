@@ -4,7 +4,12 @@
 
 <script>
     (function() {
+        var elSelector = '.form-errors__list';
+        var el = document.querySelector(elSelector);
 
+        if (!el) {
+            return;
+        }
         document.getElementById("error-container").focus();
 
     }());
