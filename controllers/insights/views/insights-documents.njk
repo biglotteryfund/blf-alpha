@@ -145,7 +145,94 @@
                 </div>
 
                 <div class="search__content">
+<div class="search__controls">
 
+                        <fieldset class="search-filters">
+                            <div class="search-filters__header">
+                                <legend class="search-filters__title">{{ copy.search.filters.filterBy }}</legend>
+                                <a class="search-filters__clear-all btn-link" href="{{ basePageUrl }}">
+                                    {{ copy.search.filters.clearAll }}
+                                </a>
+                            </div>
+
+                            <div class="facet-group is-open">
+                                <div class="facet-group__body">
+
+                                    {# Programme #}
+                                    <div class="facet-group__item">
+                                        <label class="facet-field-label" for="field-programme">
+                                            {{ copy.search.filters.programme.title }}
+                                        </label>
+                                        <select id="field-programme" name="programme">
+                                            {% for option in (entriesMeta.programmes.unshift({
+                                                'label': copy.search.filters.programme.label,
+                                                'value': ''
+                                            }), entriesMeta.programmes) %}
+                                                <option value="{{ option.value }}"
+                                                    {% if option.value === entriesMeta.activeProgramme.value %} selected{% endif %}>
+                                                    {{ option.label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    {# Region #}
+                                    <div class="facet-group__item facet-field">
+                                        <label class="facet-field-label" for="field-portfolio">
+                                            {{ copy.search.filters.region.title }}
+                                        </label>
+                                        <select id="field-portfolio" name="portfolio">
+                                            {% for option in (entriesMeta.portfolios.unshift({
+                                                'label': copy.search.filters.region.label,
+                                                'value': ''
+                                            }), entriesMeta.portfolios) %}
+                                                <option value="{{ option.value }}"
+                                                    {% if option.value === entriesMeta.activePortfolio.value %} selected{% endif %}>
+                                                    {{ option.label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    {# Document type #}
+                                    <fieldset>
+                                        <legend class="facet-field-label">
+                                            {{ copy.search.filters.docType.title }}
+                                        </legend>
+                                        <ul class="facet-field-radios">
+                                            {% for option in (entriesMeta.docTypes.unshift({
+                                                'label': copy.search.filters.docType.label,
+                                                'value': ''
+                                            }), entriesMeta.docTypes) %}
+                                                <li class="facet-field-radios__option">
+                                                    <div class="facet-field-radios__input">
+                                                        <input
+                                                            type="radio"
+                                                            id="field-doctype-{{ loop.index }}"
+                                                            name="doctype"
+                                                            value="{{ option.value }}"
+                                                            {% if entriesMeta.activeDocType.value === option.value %}checked{% endif %}
+                                                        />
+                                                    </div>
+                                                    <label class="facet-field-radios__label"
+                                                           for="field-doctype-{{ loop.index }}">
+                                                        {{ option.label }}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <div class="search-filters__actions">
+                                <input type="submit" value="{{ copy.search.filters.applyFilters }}" class="btn btn--medium">
+                                <a class="btn-link" href="{{ basePageUrl }}">{{ copy.search.filters.clearAllFilters }}</a>
+                            </div>
+
+                        </fieldset>
+
+                    </div>
                     <div class="search__results">
 
                         {% if researchEntries.length > 0 %}
@@ -232,94 +319,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="search__controls">
 
-                        <fieldset class="search-filters">
-                            <div class="search-filters__header">
-                                <legend class="search-filters__title">{{ copy.search.filters.filterBy }}</legend>
-                                <button  role="link" tabindex="0" class="search-filters__clear-all btn-link" href="{{ basePageUrl }}">
-                                    {{ copy.search.filters.clearAll }}
-                                </button>
-                            </div>
-
-                            <div class="facet-group is-open">
-                                <div class="facet-group__body">
-
-                                    {# Programme #}
-                                    <div class="facet-group__item">
-                                        <label class="facet-field-label" for="field-programme">
-                                            {{ copy.search.filters.programme.title }}
-                                        </label>
-                                        <select id="field-programme" name="programme">
-                                            {% for option in (entriesMeta.programmes.unshift({
-                                                'label': copy.search.filters.programme.label,
-                                                'value': ''
-                                            }), entriesMeta.programmes) %}
-                                                <option value="{{ option.value }}"
-                                                    {% if option.value === entriesMeta.activeProgramme.value %} selected{% endif %}>
-                                                    {{ option.label }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-
-                                    {# Region #}
-                                    <div class="facet-group__item facet-field">
-                                        <label class="facet-field-label" for="field-portfolio">
-                                            {{ copy.search.filters.region.title }}
-                                        </label>
-                                        <select id="field-portfolio" name="portfolio">
-                                            {% for option in (entriesMeta.portfolios.unshift({
-                                                'label': copy.search.filters.region.label,
-                                                'value': ''
-                                            }), entriesMeta.portfolios) %}
-                                                <option value="{{ option.value }}"
-                                                    {% if option.value === entriesMeta.activePortfolio.value %} selected{% endif %}>
-                                                    {{ option.label }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-
-                                    {# Document type #}
-                                    <fieldset>
-                                        <legend class="facet-field-label">
-                                            {{ copy.search.filters.docType.title }}
-                                        </legend>
-                                        <ul class="facet-field-radios">
-                                            {% for option in (entriesMeta.docTypes.unshift({
-                                                'label': copy.search.filters.docType.label,
-                                                'value': ''
-                                            }), entriesMeta.docTypes) %}
-                                                <li class="facet-field-radios__option">
-                                                    <div class="facet-field-radios__input">
-                                                        <input
-                                                            type="radio"
-                                                            id="field-doctype-{{ loop.index }}"
-                                                            name="doctype"
-                                                            value="{{ option.value }}"
-                                                            {% if entriesMeta.activeDocType.value === option.value %}checked{% endif %}
-                                                        />
-                                                    </div>
-                                                    <label class="facet-field-radios__label"
-                                                           for="field-doctype-{{ loop.index }}">
-                                                        {{ option.label }}
-                                                    </label>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </fieldset>
-                                </div>
-                            </div>
-
-                            <div class="search-filters__actions">
-                                <input type="submit" value="{{ copy.search.filters.applyFilters }}" class="btn btn--medium">
-                                <a class="btn-link" href="{{ basePageUrl }}">{{ copy.search.filters.clearAllFilters }}</a>
-                            </div>
-
-                        </fieldset>
-
-                    </div>
                 </div>
             </div>
 

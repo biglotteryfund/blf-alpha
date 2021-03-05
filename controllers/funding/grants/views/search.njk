@@ -193,27 +193,6 @@
                     </div>
 
                     <div class="search__content">
-
-                        <div class="search__results">
-                            <div>
-                                <grants-loading-status
-                                    :status="status"
-                                    :copy="copy"
-                                />
-                            </div>
-
-                            {# Placeholder for Vue-rendered HTML  #}
-                            <div v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1"
-                                 v-if="resultsWereFiltered"
-                                 v-html="resultsHtml">
-                            </div>
-
-                            {# Placeholder for server-rendered HTML (later hidden) #}
-                            <div v-if="!resultsWereFiltered">
-                                {{ grantResultList(grants) }}
-                            </div>
-                        </div>
-
                         <div class="search__controls" v-if="totalResults > 0">
 
                             {# Javascript component version of filters #}
@@ -346,6 +325,27 @@
 
 
                         </div>
+                        <div class="search__results">
+                            <div>
+                                <grants-loading-status
+                                    :status="status"
+                                    :copy="copy"
+                                />
+                            </div>
+
+                            {# Placeholder for Vue-rendered HTML  #}
+                            <div v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1"
+                                 v-if="resultsWereFiltered"
+                                 v-html="resultsHtml">
+                            </div>
+
+                            {# Placeholder for server-rendered HTML (later hidden) #}
+                            <div v-if="!resultsWereFiltered">
+                                {{ grantResultList(grants) }}
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>{# End grants-search #}
 
