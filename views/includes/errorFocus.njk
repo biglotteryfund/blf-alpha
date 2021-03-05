@@ -10,10 +10,7 @@
         if (!el) {
             return;
         }
+        document.getElementById("error-container").focus();
 
-        var listItems = el.getElementsByTagName("a");
-
-        if (listItems.length > 0)
-            listItems[0].focus();
     }());
 </script>
