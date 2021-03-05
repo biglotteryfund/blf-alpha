@@ -30,7 +30,7 @@ cache:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
 script:
-  - shellcheck deploy/*.sh
+  #- shellcheck deploy/*.sh
   - npm audit --production --audit-level=moderate
   - npm run lint
   - npm run build-production
