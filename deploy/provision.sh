@@ -29,6 +29,16 @@ wget -O /var/lib/clamav/main.cvd https://database.clamav.net/main.cvd && \
 wget -O /var/lib/clamav/daily.cvd https://database.clamav.net/daily.cvd && \
 wget -O /var/lib/clamav/bytecode.cvd https://database.clamav.net/bytecode.cvd
 
+# Check the virus database has been downloaded
+# This was experiencing an issue where it would return 403
+# and no files would be downloaded causing errors.
+if [ `ls -1 /var/lib/clamav/*.cvd 2>/dev/null | wc -l ` -lt 3 ];
+then
+	service clamav-freshclam restart
+	sleep 300 # sleep for 5 minutes
+fi
+
+# Start the service.
 service clamav-daemon start
 service clamav-daemon status
 
