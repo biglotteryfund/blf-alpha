@@ -1611,14 +1611,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return new PhoneField({
                     locale: locale,
                     name: 'mainContactPhone',
-                    schema: Joi.string().required().phoneNumber(),
+                    schema: Joi.string()
+                        .required()
+                        .phoneNumber()
+                        .invalid(Joi.ref('seniorContactPhone')),
                 });
             }
         } else {
             return new PhoneField({
                 locale: locale,
                 name: 'mainContactPhone',
-                schema: Joi.string().required().phoneNumber(),
+                schema: Joi.string()
+                    .required()
+                    .phoneNumber()
+                    .invalid(Joi.ref('seniorContactPhone')),
             });
         }
     }
