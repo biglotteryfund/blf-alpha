@@ -81,6 +81,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     const projectCountries = getOr([], 'projectCountries')(data);
     const projectTotalCost = get('projectTotalCost')(data);
+    const mainContactPhone = get('mainContactPhone')(data);
+    const seniorContactPhone = get('seniorContactPhone')(data);
 
     function fieldProjectName() {
         const maxLength = 80;
@@ -1584,6 +1586,49 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
+    function fieldMainContactPhone() {
+        if (mainContactPhone) {
+            if (
+                mainContactPhone.toString().replace(/[^\d]/g, '') ===
+                seniorContactPhone
+            ) {
+                return new Field({
+                    locale: locale,
+                    name: 'mainContactPhone',
+                    label: 'Telephone number',
+                    schema: Joi.number().max(0).precision(2),
+                    messages: [
+                        {
+                            type: 'base',
+                            message: localise({
+                                en: `Main contact phone number must be different from the senior contact's phone number`,
+                                cy: `Rhaid i'r prif rif ffôn cyswllt fod yn wahanol i rif ffôn yr uwch gyswllt`,
+                            }),
+                        },
+                    ],
+                });
+            } else {
+                return new PhoneField({
+                    locale: locale,
+                    name: 'mainContactPhone',
+                    schema: Joi.string()
+                        .required()
+                        .phoneNumber()
+                        .invalid(Joi.ref('seniorContactPhone')),
+                });
+            }
+        } else {
+            return new PhoneField({
+                locale: locale,
+                name: 'mainContactPhone',
+                schema: Joi.string()
+                    .required()
+                    .phoneNumber()
+                    .invalid(Joi.ref('seniorContactPhone')),
+            });
+        }
+    }
+
     function allFields() {
         let fields = {};
         if (projectCountries.includes('england')) {
@@ -1751,23 +1796,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         },
                     ],
                 }),
-                mainContactPhone: new PhoneField({
-                    locale: locale,
-                    name: 'mainContactPhone',
-                    schema: Joi.string()
-                        .required()
-                        .phoneNumber()
-                        .invalid(Joi.ref('seniorContactPhone')),
-                    messages: [
-                        {
-                            type: 'any.invalid',
-                            message: localise({
-                                en: `Main contact phone number must be different from the senior contact's phone number`,
-                                cy: `Rhaid i'r prif rif ffôn cyswllt fod yn wahanol i rif ffôn yr uwch gyswllt`,
-                            }),
-                        },
-                    ],
-                }),
+                mainContactPhone: fieldMainContactPhone(),
                 mainContactLanguagePreference: fieldContactLanguagePreference(
                     locale,
                     {
@@ -1831,6 +1860,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 seniorContactPhone: new PhoneField({
                     locale: locale,
                     name: 'seniorContactPhone',
+                    schema: Joi.string().phoneNumber().replace(/[^\d]/g, ''),
                 }),
                 seniorContactLanguagePreference: fieldContactLanguagePreference(
                     locale,

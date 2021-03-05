@@ -2,6 +2,8 @@
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
+const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
+const phoneUtil = PhoneNumberUtil.getInstance();
 
 class PhoneField extends Field {
     getType() {
@@ -43,6 +45,22 @@ class PhoneField extends Field {
                 }),
             },
         ];
+    }
+
+    get displayValue() {
+        if (this.value) {
+            const parsedValue = phoneUtil.parse(this.value, 'GB');
+            if (phoneUtil.isValidNumber(parsedValue)) {
+                return phoneUtil.format(
+                    parsedValue,
+                    PhoneNumberFormat.NATIONAL
+                );
+            } else {
+                return this.value;
+            }
+        } else {
+            return '';
+        }
     }
 }
 
