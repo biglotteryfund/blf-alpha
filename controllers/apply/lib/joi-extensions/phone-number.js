@@ -24,6 +24,7 @@ module.exports = function phoneNumber(joi) {
                 validate(value, helpers) {
                     try {
                         const parsedValue = phoneUtil.parse(value, 'GB');
+                        helpers.prefs.convert = false;
                         if (phoneUtil.isValidNumber(parsedValue)) {
                             if (helpers.prefs.convert) {
                                 return phoneUtil.format(
