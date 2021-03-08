@@ -20,7 +20,7 @@ module.exports = function ({ data = {} }) {
             Hold on to it in case you want to look at your answers again.
             It can be helpful to refer back to if we call.
         </p>
-        <h2>What happens next?</h2>
+        <h3>What happens next?</h3>
         <p>Your proposal has been passed on to one of our funding officers.</p>
         <p>
                 We’re now prioritising proposals for COVID-19 related projects,
