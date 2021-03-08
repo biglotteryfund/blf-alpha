@@ -38,12 +38,14 @@ export default {
             <legend class="search-filters__title">
                 {{ copy.filters.title }}
             </legend>
-            <a
-                class="search-filters__clear-all"
+            <button
+                tabindex="0"
+                role="link"
+                class="search-filters__clear-all btn-link"
                 @click="$emit('clear-filters')"
             >
                 {{ copy.filters.reset }}
-            </a>
+            </button>
         </div>
 
         <FacetGroup
