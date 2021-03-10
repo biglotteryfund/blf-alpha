@@ -49,13 +49,17 @@ class PhoneField extends Field {
 
     get displayValue() {
         if (this.value) {
-            const parsedValue = phoneUtil.parse(this.value, 'GB');
-            if (phoneUtil.isValidNumber(parsedValue)) {
-                return phoneUtil.format(
-                    parsedValue,
-                    PhoneNumberFormat.NATIONAL
-                );
-            } else {
+            try {
+                const parsedValue = phoneUtil.parse(this.value, 'GB');
+                if (phoneUtil.isValidNumber(parsedValue)) {
+                    return phoneUtil.format(
+                        parsedValue,
+                        PhoneNumberFormat.NATIONAL
+                    );
+                } else {
+                    return this.value;
+                }
+            } catch {
                 return this.value;
             }
         } else {
