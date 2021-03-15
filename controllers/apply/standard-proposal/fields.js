@@ -1857,11 +1857,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     }),
                     schema: Joi.string().required().email().lowercase(),
                 }),
-                seniorContactPhone: new PhoneField({
-                    locale: locale,
-                    name: 'seniorContactPhone',
-                    schema: Joi.string().phoneNumber().replace(/[^\d]/g, ''),
-                }),
                 seniorContactLanguagePreference: fieldContactLanguagePreference(
                     locale,
                     {
@@ -1882,6 +1877,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 termsAgreement6: fieldTermsAgreement6(locale),
                 termsPersonName: fieldTermsPersonName(locale),
                 termsPersonPosition: fieldTermsPersonPosition(locale),
+                seniorContactPhone: new PhoneField({
+                    locale: locale,
+                    name: 'seniorContactPhone',
+                    schema: Joi.string()
+                        .required()
+                        .phoneNumber()
+                        .replace(/[^\d]/g, '')
+                        .invalid(Joi.ref('seniorContactLanguagePreference')),
+                }),
             };
         } else {
             fields = {
