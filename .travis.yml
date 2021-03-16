@@ -93,7 +93,7 @@ deploy:
     application: BLF_WWW
     deployment_group: Dev_Fleet
     on:
-      tags: false
+      tags: true
       branch: dev
 
 # Notifications
