@@ -437,7 +437,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                         en: `Main contact phone number must be different from the senior contact's phone number`,
                         cy: `Rhaid i'r prif rif ffôn cyswllt fod yn wahanol i rif ffôn yr uwch gyswllt`,
                     }),
-                 },
+                },
             ],
         }),
         mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
@@ -491,10 +491,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
             }),
             schema: Joi.string().required().email().lowercase(),
         }),
-        seniorContactPhone: new PhoneField({
-            locale: locale,
-            name: 'seniorContactPhone',
-        }),
         seniorContactLanguagePreference: fieldContactLanguagePreference(
             locale,
             {
@@ -518,5 +514,9 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         termsAgreement4: fieldTermsAgreement4(locale),
         termsPersonName: fieldTermsPersonName(locale),
         termsPersonPosition: fieldTermsPersonPosition(locale),
+        seniorContactPhone: new PhoneField({
+            locale: locale,
+            name: 'seniorContactPhone',
+        }),
     };
 };
