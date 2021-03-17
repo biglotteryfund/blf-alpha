@@ -8,9 +8,9 @@ const prompt = require('prompt');
 const { stripIndents } = require('common-tags');
 const has = require('lodash/has');
 
-if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
+if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL') || !has(process.env, 'DEV_URL')) {
     throw new Error(
-        'TEST_URL and PROD_URL environment variables must be defined'
+        'DEV_URL and TEST_URL and PROD_URL environment variables must be defined'
     );
 }
 
@@ -18,6 +18,12 @@ const argv = require('yargs')
     .boolean('l')
     .alias('l', 'live')
     .describe('l', 'Run this command on the live servers')
+    .boolean('d')
+    .alias('d', 'dev')
+    .describe('d', 'Run this command on the dev servers')
+    .boolean('t')
+    .alias('t', 'test')
+    .describe('t', 'Run this command on the test servers')
     .alias('b', 'build')
     .describe('b', 'Pass a custom build number to deploy')
     .help('h')
@@ -30,6 +36,10 @@ const codeDeployEnvs = {
         applicationName: 'BLF_WWW',
         deploymentGroupName: 'Test_Fleet',
     },
+    dev: {
+        applicationName: 'BLF_WWW',
+        deploymentGroupName: 'Dev_Fleet',
+    },
     live: {
         applicationName: 'BLF_WWW',
         deploymentGroupName: 'Live_Fleet',
@@ -39,7 +49,7 @@ const codeDeployEnvs = {
 const CONFIG = {
     s3Bucket: 'blf-deployments',
     filenamePattern: /build-(\d+).zip/,
-    codedeploy: argv.l ? codeDeployEnvs.live : codeDeployEnvs.test,
+    codedeploy: argv.l ? codeDeployEnvs.live : argv.d ? codeDeployEnvs.dev : codeDeployEnvs.test,
     githubRepo: 'biglotteryfund/blf-alpha',
 };
 
@@ -200,7 +210,7 @@ function pushOutDeploy(env, id) {
 
 // do a final check about commits
 function deployRevision(id) {
-    let env = argv.l ? 'PRODUCTION' : 'TEST';
+    let env = argv.l ? 'PRODUCTION' : argv.d ? 'DEV' : 'TEST';
 
     // if we're deploying to PROD, look up the commits this will push live
     if (env === 'PRODUCTION') {
