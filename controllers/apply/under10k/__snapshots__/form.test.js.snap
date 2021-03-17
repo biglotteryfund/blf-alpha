@@ -33,8 +33,6 @@ Array [
   "seniorContactAddressHistory: Enter a full UK address",
   "seniorContactEmail: Enter an email address",
   "mainContactEmail: Enter an email address",
-  "seniorContactPhone: Enter a UK telephone number",
-  "mainContactPhone: Enter a UK telephone number",
   "bankAccountName: Enter the name of your organisation, as it appears on your bank statement",
   "bankSortCode: Enter a sort code",
   "bankAccountNumber: Enter an account number",
@@ -45,6 +43,8 @@ Array [
   "termsAgreement4: You must confirm that you understand your application is subject to our Freedom of Information policy",
   "termsPersonName: Enter the full name of the person completing this form",
   "termsPersonPosition: Enter the position of the person completing this form",
+  "seniorContactPhone: Enter a UK telephone number",
+  "mainContactPhone: Enter a UK telephone number",
 ]
 `;
 
