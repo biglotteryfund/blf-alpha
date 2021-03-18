@@ -73,7 +73,10 @@ deploy:
     skip_cleanup: true
     on:
       repo: biglotteryfund/blf-alpha
-      branch: master, dev
+      branches:
+        only:
+          - master
+          - dev
   - provider: codedeploy
     region: eu-west-2
     access_key_id: $AWS_ACCESS_KEY_ID
