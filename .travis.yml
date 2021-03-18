@@ -60,10 +60,19 @@ deploy:
     cache_control: 'max-age=31536000'
     skip_cleanup: true
     on:
-      branches:
-         only:
-          - master
-          - dev
+      branch: master
+  - provider: s3
+    region: eu-west-1
+    bucket: blf-assets
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    local_dir: public
+    upload-dir: assets
+    acl: public_read
+    cache_control: 'max-age=31536000'
+    skip_cleanup: true
+    on:
+      branch: dev
   - provider: s3
     region: eu-west-2
     bucket: blf-deployments
@@ -73,10 +82,17 @@ deploy:
     skip_cleanup: true
     on:
       repo: biglotteryfund/blf-alpha
-      branches:
-        only:
-          - master
-          - dev
+      branch: master
+  - provider: s3
+    region: eu-west-2
+    bucket: blf-deployments
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    local_dir: dpl_cd_upload
+    skip_cleanup: true
+    on:
+      repo: biglotteryfund/blf-alpha
+      branch: dev
   - provider: codedeploy
     region: eu-west-2
     access_key_id: $AWS_ACCESS_KEY_ID
