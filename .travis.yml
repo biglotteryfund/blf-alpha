@@ -60,7 +60,10 @@ deploy:
     cache_control: 'max-age=31536000'
     skip_cleanup: true
     on:
-      branch: master, dev
+      branches:
+         only:
+          - master
+          - dev
   - provider: s3
     region: eu-west-2
     bucket: blf-deployments
@@ -70,7 +73,10 @@ deploy:
     skip_cleanup: true
     on:
       repo: biglotteryfund/blf-alpha
-      branch: master, dev
+      branches:
+        only:
+          - master
+          - dev
   - provider: codedeploy
     region: eu-west-2
     access_key_id: $AWS_ACCESS_KEY_ID
@@ -93,7 +99,7 @@ deploy:
     application: BLF_WWW
     deployment_group: Dev_Fleet
     on:
-      tags: true
+      tags: false
       branch: dev
 
 # Notifications
