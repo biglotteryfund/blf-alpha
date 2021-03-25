@@ -26,7 +26,7 @@ LIVE_IN_PLACE="Live_In_Place";
 # Check if the deployment group name contains one of the above strings
 APP_ENV="development"
 if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
-   [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]] ||
+   [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
 then
     APP_ENV="test"
 elif [[ $DEPLOYMENT_GROUP_NAME =~ $LIVE_FLEET ]] ||
