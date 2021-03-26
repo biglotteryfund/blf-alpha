@@ -17,7 +17,6 @@ chown -R www-data:www-data /var/www/biglotteryfund/
 #################################################
 # Set app environment based on CodeDeploy group
 
-DEV_FLEET="Dev_Fleet";
 TEST_FLEET="Test_Fleet";
 TEST_IN_PLACE="Test_In_Place";
 LIVE_FLEET="Live_Fleet";
