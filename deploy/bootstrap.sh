@@ -27,7 +27,7 @@ APP_ENV="development"
 if [[ $DEPLOYMENT_GROUP_NAME =~ $DEV_FLEET ]];
 then
     APP_ENV="dev"
-if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
+elif [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
    [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
 then
     APP_ENV="test"
