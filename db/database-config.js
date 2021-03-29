@@ -26,6 +26,10 @@ module.exports = {
             ? 'sqlite'
             : 'mysql',
     }),
+    dev: Object.assign(commonConfig, {
+        url: DB_CONNECTION_URI,
+        logging: false,
+    }),
     test: Object.assign(commonConfig, {
         url: DB_CONNECTION_URI,
         logging: false,
