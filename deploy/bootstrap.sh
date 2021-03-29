@@ -17,7 +17,6 @@ chown -R www-data:www-data /var/www/biglotteryfund/
 #################################################
 # Set app environment based on CodeDeploy group
 
-DEV_FLEET="Dev_Fleet";
 TEST_FLEET="Test_Fleet";
 TEST_IN_PLACE="Test_In_Place";
 LIVE_FLEET="Live_Fleet";
@@ -25,9 +24,11 @@ LIVE_IN_PLACE="Live_In_Place";
 
 # Check if the deployment group name contains one of the above strings
 APP_ENV="development"
-if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
-   [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]] ||
-   [[ $DEPLOYMENT_GROUP_NAME =~ $DEV_FLEET ]];
+if [[ $DEPLOYMENT_GROUP_NAME =~ $DEV_FLEET ]];
+then
+    APP_ENV="dev"
+elif [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
+   [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
 then
     APP_ENV="test"
 elif [[ $DEPLOYMENT_GROUP_NAME =~ $LIVE_FLEET ]] ||
