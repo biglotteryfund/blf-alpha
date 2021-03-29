@@ -49,6 +49,7 @@ export default {
         </div>
 
         <FacetGroup
+            :open-by-default="false"
             :legend="copy.filters.grantLegend"
             :toggle-label="copy.filters.toggle"
             :track-ui="trackUi"
@@ -93,6 +94,7 @@ export default {
         </FacetGroup>
 
         <FacetGroup
+            :open-by-default="false"
             :legend="copy.filters.organisationLegend"
             :toggle-label="copy.filters.toggle"
             :track-ui="trackUi"
