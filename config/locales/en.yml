@@ -131,7 +131,6 @@ global:
     actionFail: Cookie preferences not updated
     messageAll: Use cookies which measure my website use
     messageEssential: Do not use cookies which measure my website use
-  covidMessage: Funding during COVID-19
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address

@@ -130,7 +130,6 @@ global:
     actionFail: Dewisiadau cwci heb eu diweddaru
     messageAll: Defnyddiwch cwcis sy'n mesur fy nefnydd ar y wefan
     messageEssential: Peidiwch â defnyddio cwcis sy'n mesur fy nefnydd ar y wefan
-  covidMessage: Ariannu yn ystod COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
