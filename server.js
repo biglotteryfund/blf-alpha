@@ -167,9 +167,7 @@ app.use(
         require('./common/preview-auth'),
     ],
     function (req, res, next) {
-        return appData.environment === 'dev'
-            ? requireStaffAuth(req, res, next)
-            : next();
+        return appData.isDevServer ? requireStaffAuth(req, res, next) : next();
     }
 );
 
