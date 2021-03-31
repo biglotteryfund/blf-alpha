@@ -68,10 +68,6 @@ router.get(
     }
 );
 
-router.get('/covid-19', (req, res, next) => {
-    res.locals.showCOVID19AnnouncementBanner = false;
-    next();
-});
 
 router.get('/wales', (req, res, next) => {
     res.locals.showBilingualLogo = true;
