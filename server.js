@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
+const { requireStaffAuth } = require('./common/authed');
 const nunjucks = require('nunjucks');
 const cacheControl = require('express-cache-controller');
 const favicon = require('serve-favicon');
@@ -39,7 +40,6 @@ Sentry.init({
         return event;
     },
 });
-
 /**
  * The Sentry request handler must be the first middleware
  */
@@ -115,37 +115,63 @@ function initViewEngine() {
 
 initViewEngine();
 
+app.use(
+    '/user',
+    function (req, res, next) {
+        const sectionTitle = req.i18n.__(`global.nav.user`);
+        const sectionUrl = localify(req.i18n.getLocale())(req.baseUrl || '/');
+
+        res.locals.sectionTitle = sectionTitle;
+        res.locals.sectionUrl = sectionUrl;
+
+        /**
+         * Set top-level breadcrumb for current section
+         */
+        res.locals.breadcrumbs = [{ label: sectionTitle, url: sectionUrl }];
+
+        next();
+    },
+    require('./controllers/user')
+);
+
 /**
  * Register global middleware
  */
-app.use([
-    slashes(false),
-    (req, res, next) => {
-        vary(res, 'Cookie');
-        next();
-    },
-    cacheControl(),
-    defaultMaxAge,
-    helmet({
-        contentSecurityPolicy: {
-            directives: cspDirectives(),
+app.use(
+    [
+        slashes(false),
+        (req, res, next) => {
+            vary(res, 'Cookie');
+            next();
         },
-        dnsPrefetchControl: { allow: true },
-        frameguard: { action: 'sameorigin' },
-        permittedCrossDomainPolicies: {
-            permittedPolicies: 'none',
-        },
-        referrerPolicy: {
-            policy: 'no-referrer-when-downgrade',
-        },
-    }),
-    express.json(),
-    express.urlencoded({ extended: true }),
-    require('./common/session')(app),
-    require('./common/passport')(),
-    require('./common/locals'),
-    require('./common/preview-auth'),
-]);
+        cacheControl(),
+        defaultMaxAge,
+        helmet({
+            contentSecurityPolicy: {
+                directives: cspDirectives(),
+            },
+            dnsPrefetchControl: { allow: true },
+            frameguard: { action: 'sameorigin' },
+            permittedCrossDomainPolicies: {
+                permittedPolicies: 'none',
+            },
+            referrerPolicy: {
+                policy: 'no-referrer-when-downgrade',
+            },
+        }),
+        express.json(),
+        express.urlencoded({ extended: true }),
+        require('./common/session')(app),
+        require('./common/passport')(),
+        require('./common/locals'),
+        require('./common/preview-auth'),
+    ],
+    function (req, res, next) {
+        return appData.environment === 'development'
+            ? requireStaffAuth(req, res, next)
+            : next();
+    }
+);
 
 /**
  * Non-localised routers
@@ -193,10 +219,6 @@ const sections = {
     data: {
         path: '/data',
         router: require('./controllers/data'),
-    },
-    user: {
-        path: '/user',
-        router: require('./controllers/user'),
     },
     apply: {
         path: '/apply',
