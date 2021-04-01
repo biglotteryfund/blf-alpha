@@ -42,14 +42,6 @@
 
             {% include "includes/global-header.njk" %}
 
-            {% if showCOVID19AnnouncementBanner %}
-                <aside class="announcement-banner announcement-banner--major">
-                    <a href="{{ localify('/funding/covid-19') }}">
-                        {{ __('global.covidMessage') }}
-                    </a>
-                </aside>
-            {% endif %}
-
             {% block content %}{% endblock %}
 
             {% include "includes/global-footer.njk" %}

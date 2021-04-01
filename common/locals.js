@@ -63,12 +63,6 @@ module.exports = function (req, res, next) {
     res.locals.hotjarId = config.get('hotjarId');
 
     /**
-     * Show COVID-19 announcement banner?
-     * Default to true, allow overriding on specific pages
-     */
-    res.locals.showCOVID19AnnouncementBanner = true;
-
-    /**
      * Global copy
      */
     res.locals.globalCopy = {
