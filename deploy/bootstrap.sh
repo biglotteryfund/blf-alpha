@@ -96,3 +96,10 @@ cp $nginx_config /etc/nginx/conf.d
 cp $server_config /etc/nginx/sites-enabled
 
 service nginx restart
+
+# Assign a static IP Address to dev
+if [ $APP_ENV == "dev" ]; then
+    INSTANCE_ID=$(wget -q -O - http://169.254.169.254/latest/meta-data/instance-id)
+    ALLOCATION_ID=$(aws --region=eu-west-2 ssm get-parameter --name "/Web/Dev/elastic.id" --with-decryption --output text --query Parameter.Value)
+    aws ec2 associate-address --instance-id "$INSTANCE_ID" --allocation-id "$ALLOCATION_ID" --allow-reassociation --region eu-west-2
+fi
