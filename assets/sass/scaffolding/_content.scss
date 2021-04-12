@@ -260,6 +260,11 @@
         font-size: 18px;
     }
 }
+.alertbox__container
+ {
+    padding: 30px;
+    border: 7px solid #002b57;
+ }
 
 // Populated via the CMS to indicate text with a small font size
 p.cms-type-small {
