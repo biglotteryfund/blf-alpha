@@ -45,7 +45,15 @@ const {
     fieldBeneficiariesNorthernIrelandCommunity,
     fieldBeneficiariesWelshLanguage,
     fieldBeneficiariesGroupsMigrant,
-    fieldBeneficiariesGroupsOther
+    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesLeadershipGroups,
+    fieldBeneficiariesLeadershipGroupsEthnicBackground,
+    fieldBeneficiariesLeadershipGroupsReligion,
+    fieldBeneficiariesLeadershipGroupsMigrant,
+    fieldBeneficiariesLeadershipGroupsDisabledPeople,
+    fieldBeneficiariesLeadershipGroupsAge,
+    fieldBeneficiariesLeadershipGroupsLGBT,
+    fieldBeneficiariesLeadershipGroupsOther
 } = require('./fields/beneficiaries');
 
 const {
@@ -1674,6 +1682,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ),
                 beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(locale),
                 beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
+                beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(locale),
+                beneficiariesLeadershipGroupsEthnicBackground: fieldBeneficiariesLeadershipGroupsEthnicBackground(locale),
+                beneficiariesLeadershipGroupsReligion: fieldBeneficiariesLeadershipGroupsReligion(locale),
+                beneficiariesLeadershipGroupsMigrants: fieldBeneficiariesLeadershipGroupsMigrant(locale),
+                beneficiariesLeadershipGroupsAge: fieldBeneficiariesLeadershipGroupsAge(locale),
+                beneficiariesLeadershipGroupsDisabledPeople: fieldBeneficiariesLeadershipGroupsDisabledPeople(locale),
+                beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(locale),
+                beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(locale),
                 organisationLegalName: fieldOrganisationLegalName(),
                 organisationDifferentName: fieldOrganisationDifferentName(),
                 organisationTradingName: fieldOrganisationTradingName(),

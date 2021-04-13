@@ -512,7 +512,7 @@ module.exports = {
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
-                    match: BENEFICIARY_GROUPS.GENDER,
+                    match: BENEFICIARY_GROUPS.LGBT,
                     schema: multiChoice(this.options).required(),
                 });
             },
@@ -520,7 +520,7 @@ module.exports = {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Select the gender(s) of the people that will benefit from your project`,
+                        en: `Select an option`,
                         cy: `Dewiswch y rhyw(iau) o’r bobl a fydd yn elwa o’ch prosiect`,
                     }),
                 },
@@ -961,6 +961,740 @@ module.exports = {
                     type: 'base',
                     message: localise({
                         en: `Please tell us the people that will benefit from your project`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroups: function (locale) {
+        const localise = get(locale);
+
+        return new CheckboxField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroups',
+            label: localise({
+                en: `Does the leadership of your organisation self-identify in any of these groups?`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>We'd like to know mean if most of the people who lead or make the key decisions in your 
+                    organisation belong to <strong>one</strong> specific group. 
+                    For example, <strong>75% or more</strong> of your board of trustees or management committee might 
+                    be from a specific group. <strong>Or 50%</strong> or more of senior staff self-identify 
+                    as from a specific community or having a characteristic.</p>
+                    
+                    <p>If they do, tell us who they are - you can choose more than one category. <br />
+                    If they do not, you can choose 'No or prefer not to say'.</p>`,
+                cy: ``,
+            }),
+            options: [
+                {
+                    value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                    label: localise({
+                        en: 'Communities experiencing ethnic or racial inequity, discrimation or inequality',
+                        cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples include: Black, Mixed, Asian and Roma`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.RELIGION,
+                    label: localise({
+                        en: 'Faith communities',
+                        cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples include: Catholic, Protestant, Muslim, Hindu, Jewish`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.MIGRANT,
+                    label: localise({
+                        en: 'Migrants',
+                        cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples include: migrants, asylum seekers, refugees, 
+                                    undocumented people, other migrants`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.DISABLED_PEOPLE,
+                    label: localise({
+                        en: 'Disabled people',
+                        cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples include: having physical difficulties, 
+                                    mental health conditions, cognitive difficulties, 
+                                    neurodiversity, sensory impairments, chronic health conditions`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.AGE,
+                    label: localise({
+                        en: 'Older (65 and over) and younger (25 and under) people',
+                        cy: '',
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.GENDER,
+                    label: localise({
+                        en:
+                            'Women and girls',
+                        cy: '',
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.LGBT,
+                    label: localise({
+                        en: 'LGBT+ people',
+                        cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples include: bisexual men, lesbian/gay women, trans women`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.SOCIOECONOMIC,
+                    label: localise({
+                        en: 'People who are educationally or economically disadvantaged',
+                        cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Example are people from a low-income and/or educationally disadvantaged background 
+                        which might have a long-term impact on their life, and/or people experiencing 
+                        financial difficulties just now`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: BENEFICIARY_GROUPS.OTHER,
+                    label: localise({
+                        en: `Specific groups that are not included already`,
+                        cy: ``,
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples include: care experienced young people, 
+                        people recovering from alcohol addiction, sex workers`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: 'no-prefer-not-to-say',
+                    label: localise({
+                        en: 'No or prefer not to say',
+                        cy: ''
+                    }),
+                    explanation: localise({
+                        en: 'We understand that this could be an awkward question to answer, so you can choose not to say.',
+                        cy: ''
+                    })
+                }
+            ],
+            get schema() {
+                return Joi.when('beneficiariesGroupsCheck', {
+                    is: 'yes',
+                    then: multiChoice(this.options)
+                        .required(),
+                    otherwise: Joi.any().strip(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Select the specific group(s) of people your leadership identifies in`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroupsEthnicBackground: function (locale) {
+        const localise = get(locale);
+
+        return new CheckboxField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroupsEthnicBackground',
+            label: localise({
+                en: `Communities experiencing ethnic or racial inequity`,
+                cy: '',
+            }),
+            explanation: localise({
+                en: `<p>You told us that the leadership of your organisation self-identify coming from communities 
+                    experiencing racial inequity.</p>
+                    <p>Tell us who they are - you can choose more than one category.</p>`,
+                cy: ``,
+            }),
+            optgroups: [
+                {
+                    label: localise({
+                        en: 'Black / African / Caribbean / Black British',
+                        cy: 'Du / Affricanaidd / Caribiaidd / Du Brydeinig',
+                    }),
+                    options: [
+                        {
+                            value: 'mixed-black',
+                            label: localise({
+                                en: 'Mixed Black',
+                                cy: ''
+                            }),
+                        },
+                        {
+                            value: 'black-british',
+                            label: localise({
+                                en: 'Black British',
+                                cy: ''
+                            }),
+                        },
+                        {
+                            value: 'african',
+                            label: localise({
+                                en: 'African',
+                                cy: 'Affricanaidd',
+                            }),
+                        },
+                        {
+                            value: 'caribbean',
+                            label: localise({
+                                en: 'Caribbean',
+                                cy: 'Caribiaidd',
+                            }),
+                        },
+                        {
+                            value: 'black-other',
+                            label: localise({
+                                en: `Any other Black / African / Caribbean background`,
+                                cy: `Unrhyw gefndir Du / Affricanaidd / Caribiaidd arall`,
+                            }),
+                        },
+                    ],
+                },
+                {
+                    label: localise({
+                        en: 'Mixed',
+                        cy: '',
+                    }),
+                    options: [
+                        {
+                            value: 'mixed-groups',
+                            label: localise({
+                                en: 'Mixed Groups',
+                                cy: '',
+                            }),
+                        },
+                        {
+                            value: 'white-black',
+                            label: localise({
+                                en: 'White and Black',
+                                cy: ''
+                            }),
+                        },
+                        {
+                            value: 'white-asian',
+                            label: localise({
+                                en: 'White and Asian',
+                                cy: ''
+                            }),
+                        },
+                        {
+                            value: 'mixed-other',
+                            label: localise({
+                                en: 'Any other mixed / multiple ethnic background',
+                                cy: ''
+                            }),
+                        },
+                    ],
+                },
+                {
+                    label: localise({
+                        en: 'Asian / Asian British',
+                        cy: 'Asiaidd / Asiaidd Brydeinig',
+                    }),
+                    options: [
+                        {
+                            value: 'mixed-asian',
+                            label: localise({
+                                en: 'Mixed Asian / Asian British',
+                                cy: ''
+                            }),
+                        },
+                        {
+                            value: 'indian',
+                            label: localise({ en: 'Indian', cy: 'Indiaidd' }),
+                        },
+                        {
+                            value: 'pakistani',
+                            label: localise({
+                                en: 'Pakistani',
+                                cy: 'Pacistanaidd',
+                            }),
+                        },
+                        {
+                            value: 'bangladeshi',
+                            label: localise({
+                                en: 'Bangladeshi',
+                                cy: 'Bangladeshi',
+                            }),
+                        },
+                        {
+                            value: 'chinese',
+                            label: localise({
+                                en: 'Chinese',
+                                cy: 'Tsieniaidd',
+                            }),
+                        },
+                        {
+                            value: 'asian-other',
+                            label: localise({
+                                en: 'Any other Asian background',
+                                cy: 'Unrhyw gefndir Asiaidd arall',
+                            }),
+                        },
+                    ],
+                },
+                {
+                    label: localise({
+                        en: 'Other group experiencing ethnic or racial inequity',
+                        cy: '',
+                    }),
+                    options: [
+                        {
+                            value: 'arab',
+                            label: localise({ en: 'Arab', cy: 'Arabaidd' }),
+                        },
+
+                        {
+                            value: 'Jewish',
+                            label: localise({ en: 'Jewish', cy: '' }),
+                        },
+                        {
+                            value: 'gypsy-roma-traveller',
+                            label: localise({
+                                en: 'Gypsy, Roma and Traveller Communities',
+                                cy: '',
+                            }),
+                        },
+                        {
+                            value: 'other',
+                            label: localise({
+                                en: 'Any other ethnic group',
+                                cy: ''
+                            }),
+                        },
+                    ],
+                },
+            ],
+            get schema() {
+                return conditionalBeneficiaryChoice({
+                    match: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                    schema: multiChoice(
+                        flatMap(this.optgroups, (o) => o.options)
+                    ).required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: oneLine`Select the ethnic background(s) of the
+                                people that will benefit from your project`,
+                        cy: oneLine`Dewiswch y cefndir(oedd) ethnig o’r bobl
+                                fydd yn elwa o’ch prosiect`,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroupsReligion: function (locale) {
+        const localise = get(locale);
+        return new CheckboxField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroupsReligion',
+            label: localise({
+                en: `Faith communities`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>You told us that the leadership of your organisation self-identify coming from
+                      faith communities.</p>
+                    <p>Tell us who they are - you can choose more than one category.</p>`,
+                cy: ``,
+            }),
+            options: [
+                {
+                    value: 'catholic',
+                    label: localise({ en: 'Catholic', cy: ''}),
+                },
+                {
+                    value: 'protestant',
+                    label: localise({ en: 'Protestant', cy: ''}),
+                },
+                {
+                    value: 'other-christian',
+                    label: localise({ en: 'Other Christian denominations', cy: '' }),
+                },
+                {
+                    value: 'buddhist',
+                    label: localise({ en: 'Buddhist', cy: 'Bwdhaidd' }),
+                },
+                {
+                    value: 'hindu',
+                    label: localise({ en: 'Hindu', cy: ''}),
+                },
+                {
+                    value: 'jewish',
+                    label: localise({ en: 'Jewish', cy: 'Iddew' }),
+                },
+                {
+                    value: 'muslim',
+                    label: localise({ en: 'Muslim', cy: 'Mwslim' }),
+                },
+                {
+                    value: 'sikh',
+                    label: localise({ en: 'Sikh', cy: 'Sikh' })
+                },
+                {
+                    value: 'atheist',
+                    label: localise({ en: 'Athiest', cy: '' }),
+                },
+                {
+                    value: 'agnostic',
+                    label: localise({ en: 'Agnostic', cy: ''}),
+                },
+                {
+                    value: 'other-faith',
+                    label: localise({ en: 'Other faiths and beliefs', cy: ''}),
+                },
+            ],
+            get schema() {
+                return conditionalBeneficiaryChoice({
+                    match: BENEFICIARY_GROUPS.RELIGION,
+                    schema: multiChoice(this.options).required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Select the religion(s) or belief(s) of the people that will benefit from your project`,
+                        cy: `Dewiswch grefydd(au) neu gred(oau) y bobl a fydd yn elwa o’ch prosiect`,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroupsMigrant: function (locale) {
+        const localise = get(locale);
+        return new CheckboxField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroupsMigrant',
+            label: localise({
+                en: `Migrants`,
+                cy: `Rhyw`,
+            }),
+            explanation: localise({
+                en: `<p>You told us that the leadership of your organisation self-identify as migrants.</p>
+                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                cy: ``,
+            }),
+            options: [
+                {
+                    value: 'asylum-seeker',
+                    label: localise({ en: 'Asylum Seekers', cy: '' }),
+                },
+                {
+                    value: 'refugee',
+                    label: localise({ en: 'Refugees', cy: '' }),
+                },
+                {
+                    value: 'undocumented-people',
+                    label: localise({ en: 'Undocumented people', cy: '' }),
+                },
+                {
+                    value: 'other-migrant',
+                    label: localise({ en: 'Other migrants', cy: '' }),
+                },
+            ],
+            get schema() {
+                return conditionalBeneficiaryChoice({
+                    match: BENEFICIARY_GROUPS.MIGRANT,
+                    schema: multiChoice(this.options).required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Select the group(s) of the people that your leadership identify as.`,
+                        cy: `Dewiswch y rhyw(iau) o’r bobl a fydd yn elwa o’ch prosiect`,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroupsDisabledPeople: function (locale) {
+        const localise = get(locale);
+        return new CheckboxField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroupsDisabledPeople',
+            label: localise({ en: `Disabled people`, cy: 'Pobl anabl' }),
+            explanation: localise({
+                en: `<p>You told us that the leadership of your organisation self-identify as disabled people.</p>
+                <p>Tell us who they are - you can choose more than one category.</p>`,
+                cy: ``,
+            }),
+            options: [
+                {
+                    value: 'mental-health',
+                    label: localise({
+                        en: 'Mental health',
+                        cy: '',
+                    }),
+                },
+                {
+                    value: 'health',
+                    label: localise({
+                        en: 'Health',
+                        cy: ''
+                    }),
+                },
+                {
+                    value: 'mobility',
+                    label: localise({
+                        en: `Mobility impairments`,
+                        cy: ``,
+                    }),
+                    explanation: localise({
+                        en: oneLine`Like difficulty using your arms, or mobility issues which require you to 
+                        use a wheelchair or crutches`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: 'visual',
+                    label: localise({
+                        en: 'Visual impairment / partial sight / sight loss',
+                        cy: ''
+                    }),
+                },
+                {
+                    value: 'deaf',
+                    label: localise({
+                        en: 'Deaf / hard of hearing / hearing loss',
+                        cy: ''
+                    }),
+                },
+                {
+                    value: 'speech',
+                    label: localise({
+                        en: 'Speech impairment',
+                        cy: ''
+                    }),
+                },
+                {
+                    value: 'multiple-physical',
+                    label: localise({
+                        en: 'Multiple physical impairment',
+                        cy: ''
+                    }),
+                },
+                {
+                    value: 'learning-disability',
+                    label: localise({
+                        en: `Learning disability`,
+                        cy: ``,
+                    }),
+                    explanation: localise({
+                        en: oneLine`A reduced intellectual ability and difficulty with everyday activities which 
+                        affects someone for their whole life, such as Down’s Syndrome`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: 'learning-difficulty',
+                    label: localise({
+                        en: `Learning difficulty`,
+                        cy: ``,
+                    }),
+                    explanation: localise({
+                        en: oneLine`Learning difficulties such as dyslexia and ADHD`,
+                        cy: oneLine``,
+                    }),
+                },
+                {
+                    value: 'neurodiverse',
+                    label: localise({
+                        en: `Neurodiverse`,
+                        cy: ``,
+                    }),
+                    explanation: localise({
+                        en: oneLine`Cognitive difference such as autistic spectrum disorder where individuals 
+                        are impacted by the social environment`,
+                        cy: oneLine``,
+                    }),
+                },
+            ],
+            get schema() {
+                return conditionalBeneficiaryChoice({
+                    match: BENEFICIARY_GROUPS.DISABLED_PEOPLE,
+                    schema: multiChoice(this.options).required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Select the group(s) of people that your leadership identify as`,
+                        cy: `Dewiswch y bobl anabl a fydd yn elwa o’ch prosiect`,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroupsAge: function (locale) {
+        const localise = get(locale);
+
+        return new CheckboxField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroupsAge',
+            label: localise({
+                en: `Age`,
+                cy: `Oedran`,
+            }),
+            explanation: localise({
+                en: `<p>You told us that the leadership of your organisation self-identify 
+                     as older and younger people.</p>
+                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                cy: ``,
+            }),
+            options: [
+                { value: '60+', label: localise({ en: '60 and over', cy: ''}) },
+                { value: '19-25', label: '19-25' },
+                { value: '16-18', label: '16-18' },
+                { value: '8-15', label: '8-15' },
+                { value: '3-7', label: '3-7' },
+                { value: '0-2', label: localise({ en: 'Under 2 years of age', cy: ''}) },
+            ],
+            get schema() {
+                return conditionalBeneficiaryChoice({
+                    match: BENEFICIARY_GROUPS.AGE,
+                    schema: multiChoice(this.options).required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Select the age group(s) of the people that your leadership identify as`,
+                        cy: `Dewiswch y grŵp(iau) oedran o’r bobl a fydd yn elwa o’ch prosiect`,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroupsLGBT: function (locale) {
+        const localise = get(locale);
+        return new CheckboxField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroupsLGBT',
+            label: localise({
+                en: `LGBT+ people`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>You told us that the leadership of your organisation self-identify as LGBT+ people.</p>
+                     <p>How would you describe the group or groups? You can choose more than one category.</p>`,
+                cy: ``,
+            }),
+            options: [
+                { value: 'bisexual-men',
+                    label: localise({ en: 'Bisexual men', cy: '' })
+                },
+                {
+                    value: 'bisexual-women',
+                    label: localise({ en: 'Bisexual women', cy: '' }),
+                },
+                {
+                    value: 'gay-men',
+                    label: localise({ en: 'Gay men', cy: '' }),
+                },
+                {
+                    value: 'lesbian-women',
+                    label: localise({ en: 'Lesbian / gay women', cy: '' }),
+                },
+                {
+                    value: 'trans-men',
+                    label: localise({ en: 'Trans men', cy: '' }),
+                },
+                {
+                    value: 'trans-women',
+                    label: localise({ en: 'Trans women', cy: '' }),
+                },
+                {
+                    value: 'non-binary',
+                    label: localise({ en: 'Non-binary people', cy: '' }),
+                },
+                {
+                    value: 'lbgt-other',
+                    label: localise({ en: 'In another way', cy: '' }),
+                },
+            ],
+            get schema() {
+                return conditionalBeneficiaryChoice({
+                    match: BENEFICIARY_GROUPS.LGBT,
+                    schema: multiChoice(this.options).required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Select an option.`,
+                        cy: `Dewiswch y rhyw(iau) o’r bobl a fydd yn elwa o’ch prosiect`,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesLeadershipGroupsOther: function (locale) {
+        const localise = get(locale);
+        return new TextareaField({
+            locale: locale,
+            name: 'beneficiariesLeadershipGroupsOther',
+            label: localise({
+                en: `Specific groups that are not included already`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>You told us that the leadership of your organisation self-identify coming from specific groups 
+                      that are not included already. Tell us which groups these are.</p>
+                     <p>Tell us who they are - you can choose more than one category.</p>
+                     <p>Examples include: men and boys, care-experienced young people, people recovering from alcohol 
+                     addiction, people with experience of the criminal justice system, and sex workers.</p>`,
+                cy: ``,
+            }),
+            minWords: 0,
+            maxWords: 100,
+            get schema() {
+                return conditionalBeneficiaryChoice({
+                    match: BENEFICIARY_GROUPS.OTHER,
+                    schema: Joi.required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Please tell us the groups`,
                         cy: ``,
                     }),
                 },
