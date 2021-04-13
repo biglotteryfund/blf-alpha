@@ -34,17 +34,18 @@ const {
 const fieldProjectLocationPostcode = require('./fields/project-postcode');
 
 const {
+    fieldBeneficiariesPreflightCheck,
     fieldBeneficiariesGroups,
     fieldBeneficiariesGroupsAge,
     fieldBeneficiariesGroupsCheck,
     fieldBeneficiariesGroupsDisabledPeople,
     fieldBeneficiariesEthnicBackground,
-    fieldBeneficiariesGroupsGender,
-    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesGroupsLGBT,
     fieldBeneficiariesGroupsReligion,
-    fieldBeneficiariesGroupsReligionOther,
     fieldBeneficiariesNorthernIrelandCommunity,
     fieldBeneficiariesWelshLanguage,
+    fieldBeneficiariesGroupsMigrant,
+    fieldBeneficiariesGroupsOther
 } = require('./fields/beneficiaries');
 
 const {
@@ -1649,13 +1650,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 yourIdeaProject: fieldYourIdeaProject(),
                 yourIdeaCommunity: fieldYourIdeaCommunity(),
                 yourIdeaActivities: fieldYourIdeaActivities(),
+                beneficiariesPreflightCheck: fieldBeneficiariesPreflightCheck(locale),
                 beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
                 beneficiariesGroups: fieldBeneficiariesGroups(locale),
-                beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
                 beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
                     locale
                 ),
-                beneficiariesGroupsGender: fieldBeneficiariesGroupsGender(
+                beneficiariesGroupsLGBT: fieldBeneficiariesGroupsLGBT(
                     locale
                 ),
                 beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
@@ -1665,15 +1666,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
                     locale
                 ),
-                beneficiariesGroupsReligionOther: fieldBeneficiariesGroupsReligionOther(
-                    locale
-                ),
                 beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
                     locale
                 ),
                 beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
                     locale
                 ),
+                beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(locale),
+                beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
                 organisationLegalName: fieldOrganisationLegalName(),
                 organisationDifferentName: fieldOrganisationDifferentName(),
                 organisationTradingName: fieldOrganisationTradingName(),

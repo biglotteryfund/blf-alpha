@@ -35,6 +35,9 @@ const BENEFICIARY_GROUPS = {
     RELIGION: 'religion',
     LGBT: 'lgbt',
     CARING: 'caring-responsibilities',
+    MIGRANT: 'migrant',
+    SOCIOECONOMIC: 'socioeconomic',
+    OTHER: 'other'
 };
 
 const ORG_MIN_AGE = {
