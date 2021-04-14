@@ -1601,7 +1601,7 @@ function standardApplication({
     });
 }
 
-it.only('should complete standard your funding proposal in england', () => {
+it('should complete standard your funding proposal in england', () => {
     standardApplication({
         projectCountry: 'England',
         projectStart: 'Start proposal for a project in England',
