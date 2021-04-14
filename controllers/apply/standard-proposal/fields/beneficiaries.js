@@ -981,7 +981,6 @@ module.exports = {
             }),
             minWords: 0,
             maxWords: 100,
-            isRequired: false,
             get schema() {
                 return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.OTHER,
@@ -1730,7 +1729,6 @@ module.exports = {
             }),
             minWords: 0,
             maxWords: 100,
-            isRequired: false,
             get schema() {
                 return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.OTHER,
