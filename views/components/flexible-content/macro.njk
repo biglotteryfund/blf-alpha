@@ -169,6 +169,10 @@
                                     <img src="{{ part.photo }}" alt="{{ part.caption }}">
                                     <figcaption>{{ part.photoCaption }}</figcaption>
                                 </figure>
+                            {% elseif part.type === 'alertBox' %}
+                                <div class="s-prose u-constrained-content-wide alertbox__container">
+                                    {{ part.content | safe }}
+                                </div>
                             {% elseif part.type === 'quote' %}
                                 <blockquote class="blockquote">
                                     <div class="blockquote__text">

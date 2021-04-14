@@ -1308,6 +1308,10 @@ function standardApplication({
         }
 
         if (mock.projectCountries.includes('England')) {
+            cy.findByLabelText('I understand').click();
+
+            submitStep();
+
             if (mock.beneficiariesGroups.length > 0) {
                 cy.findByLabelText(
                     'My project is aimed at a specific group of people'
