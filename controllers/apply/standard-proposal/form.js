@@ -30,6 +30,11 @@ module.exports = function ({
 
     const currentOrganisationType = get('organisationType')(data);
 
+    const beneficiariesGroupsCheck = getOr(
+        [],
+        'beneficiariesGroupsCheck'
+    )(data);
+
     const conditionalFields = (fields, filteredFields) => {
         const filteredFieldNames = filteredFields.map((_) => _.name);
         const allFields = compact(
@@ -362,11 +367,15 @@ module.exports = function ({
 
     function stepEthnicBackground() {
         return new Step({
-            title: localise({ en: 'Communities experiencing ethnic or racial inequity', cy: '' }),
+            title: localise({
+                en: 'Communities experiencing ethnic or racial inequity',
+                cy: '',
+            }),
             fieldsets: [
                 {
                     legend: localise({
-                        en: 'Communities experiencing ethnic or racial inequity',
+                        en:
+                            'Communities experiencing ethnic or racial inequity',
                         cy: '',
                     }),
                     fields: conditionalFields(
@@ -381,24 +390,23 @@ module.exports = function ({
         });
     }
 
-    function stepMigrants(){
+    function stepMigrants() {
         return new Step({
-            title: localise({ en: 'Migrants', cy: ''}),
+            title: localise({ en: 'Migrants', cy: '' }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Migrants',
-                        cy: ''
+                        cy: '',
                     }),
                     fields: conditionalFields(
-                        [ allFields.beneficiariesGroupsMigrant ],
-                        includeIfBeneficiaryType(
-                            BENEFICIARY_GROUPS.MIGRANT,
-                            [ allFields.beneficiariesGroupsMigrant ]
-                        )
+                        [allFields.beneficiariesGroupsMigrant],
+                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.MIGRANT, [
+                            allFields.beneficiariesGroupsMigrant,
+                        ])
                     ),
-                }
-            ]
+                },
+            ],
         });
     }
 
@@ -457,10 +465,12 @@ module.exports = function ({
         });
     }
 
-    function stepOtherBeneficiaryGroups()
-    {
+    function stepOtherBeneficiaryGroups() {
         return new Step({
-            title: localise({ en: 'Specific groups that are not included already', cy: ''}),
+            title: localise({
+                en: 'Specific groups that are not included already',
+                cy: '',
+            }),
             fieldsets: [
                 {
                     legend: localise({
@@ -468,11 +478,10 @@ module.exports = function ({
                         cy: '',
                     }),
                     fields: conditionalFields(
-                        [ allFields.beneficiariesGroupsOther ],
-                        includeIfBeneficiaryType(
-                            BENEFICIARY_GROUPS.OTHER,
-                            [ allFields.beneficiariesGroupsOther ]
-                        )
+                        [allFields.beneficiariesGroupsOther],
+                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.OTHER, [
+                            allFields.beneficiariesGroupsOther,
+                        ])
                     ),
                 },
             ],
@@ -575,8 +584,8 @@ module.exports = function ({
                 cy: '',
             }),
             introduction: localise({
-               en: '',
-               cy: ''
+                en: '',
+                cy: '',
             }),
             fieldsets: [
                 {
@@ -592,7 +601,7 @@ module.exports = function ({
                             beneficiariesLeadershipFields,
                             compact([
                                 groupsCheck === 'yes' &&
-                                allFields.beneficiariesLeadershipGroups,
+                                    allFields.beneficiariesLeadershipGroups,
                             ])
                         );
                     },
@@ -603,18 +612,26 @@ module.exports = function ({
 
     function stepLeadershipEthnicBackground() {
         return new Step({
-            title: localise({ en: 'Communities experiencing ethnic or racial inequity', cy: '' }),
+            title: localise({
+                en: 'Communities experiencing ethnic or racial inequity',
+                cy: '',
+            }),
             fieldsets: [
                 {
                     legend: localise({
-                        en: 'Communities experiencing ethnic or racial inequity',
+                        en:
+                            'Communities experiencing ethnic or racial inequity',
                         cy: '',
                     }),
                     fields: conditionalFields(
-                        [allFields.beneficiariesLeadershipGroupsEthnicBackground],
+                        [
+                            allFields.beneficiariesLeadershipGroupsEthnicBackground,
+                        ],
                         includeIfLeadershipBeneficiaryType(
                             BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
-                            [allFields.beneficiariesLeadershipGroupsEthnicBackground]
+                            [
+                                allFields.beneficiariesLeadershipGroupsEthnicBackground,
+                            ]
                         )
                     ),
                 },
@@ -677,7 +694,9 @@ module.exports = function ({
                         [allFields.beneficiariesLeadershipGroupsDisabledPeople],
                         includeIfLeadershipBeneficiaryType(
                             BENEFICIARY_GROUPS.DISABLED_PEOPLE,
-                            [allFields.beneficiariesLeadershipGroupsDisabledPeople]
+                            [
+                                allFields.beneficiariesLeadershipGroupsDisabledPeople,
+                            ]
                         )
                     ),
                 },
@@ -729,7 +748,10 @@ module.exports = function ({
 
     function stepLeadershipOtherBeneficiaryGroups() {
         return new Step({
-            title: localise({ en: 'Specific groups that are not included already', cy: '' }),
+            title: localise({
+                en: 'Specific groups that are not included already',
+                cy: '',
+            }),
             fieldsets: [
                 {
                     legend: localise({
@@ -1197,43 +1219,72 @@ module.exports = function ({
     }
 
     function sectionBeneficiaries() {
+        function steps() {
+            if (beneficiariesGroupsCheck === 'yes') {
+                return [
+                    stepBeneficairiesPreflightCheck(),
+                    stepBeneficiariesCheck(),
+                    stepBeneficiariesGroups(),
+                    stepEthnicBackground(),
+                    stepReligionOrFaith(),
+                    stepMigrants(),
+                    stepDisabledPeople(),
+                    stepAge(),
+                    stepLGBT(),
+                    stepOtherBeneficiaryGroups(),
+                    stepWelshLanguage(),
+                    stepNorthernIrelandCommunity(),
+                    // Leadership EDI
+                    stepBeneficiariesLeadershipEdi(),
+                    stepLeadershipEthnicBackground(),
+                    stepLeadershipReligion(),
+                    stepLeadershipMigrants(),
+                    stepLeadershipDisabledPeople(),
+                    stepLeadershipAge(),
+                    stepLeadershipLGBT(),
+                    stepLeadershipOtherBeneficiaryGroups(),
+                ];
+            } else {
+                return [
+                    stepBeneficairiesPreflightCheck(),
+                    stepBeneficiariesCheck(),
+                    stepBeneficiariesGroups(),
+                    stepEthnicBackground(),
+                    stepReligionOrFaith(),
+                    stepMigrants(),
+                    stepDisabledPeople(),
+                    stepAge(),
+                    stepLGBT(),
+                    stepWelshLanguage(),
+                    stepNorthernIrelandCommunity(),
+                    // Leadership EDI
+                    stepBeneficiariesLeadershipEdi(),
+                    stepLeadershipEthnicBackground(),
+                    stepLeadershipReligion(),
+                    stepLeadershipMigrants(),
+                    stepLeadershipDisabledPeople(),
+                    stepLeadershipAge(),
+                    stepLeadershipLGBT(),
+                ];
+            }
+        }
         return {
             slug: 'beneficiaries',
             title: localise({
-                en: 'Equity, Diversity and Inclusion (EDI) monitoring information',
+                en:
+                    'Equity, Diversity and Inclusion (EDI) monitoring information',
                 cy: '',
             }),
             shortTitle: localise({
-                en: 'Equity, Diversity and Inclusion (EDI) monitoring information',
+                en:
+                    'Equity, Diversity and Inclusion (EDI) monitoring information',
                 cy: '',
             }),
             summary: localise({
                 en: `We want to hear more about the people who’ll benefit from your project and your organisation.`,
                 cy: ``,
             }),
-            steps: [
-                stepBeneficairiesPreflightCheck(),
-                stepBeneficiariesCheck(),
-                stepBeneficiariesGroups(),
-                stepEthnicBackground(),
-                stepReligionOrFaith(),
-                stepMigrants(),
-                stepDisabledPeople(),
-                stepAge(),
-                stepLGBT(),
-                stepOtherBeneficiaryGroups(),
-                stepWelshLanguage(),
-                stepNorthernIrelandCommunity(),
-                // Leadership EDI
-                stepBeneficiariesLeadershipEdi(),
-                stepLeadershipEthnicBackground(),
-                stepLeadershipReligion(),
-                stepLeadershipMigrants(),
-                stepLeadershipDisabledPeople(),
-                stepLeadershipAge(),
-                stepLeadershipLGBT(),
-                stepLeadershipOtherBeneficiaryGroups(),
-            ],
+            steps: steps(),
         };
     }
 
