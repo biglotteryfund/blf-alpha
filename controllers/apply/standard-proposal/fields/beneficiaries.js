@@ -27,6 +27,20 @@ function conditionalBeneficiaryChoice({ match, schema }) {
     });
 }
 
+function conditionalBeneficiaryLeadershipChoice({ match, schema }) {
+    return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
+        is: 'yes',
+        then: Joi.when(Joi.ref('beneficiariesLeadershipGroups'), {
+            is: Joi.array()
+                .items(Joi.string().valid(match).required(), Joi.any())
+                .required(),
+            then: schema,
+            otherwise: Joi.any().strip(),
+        }),
+        otherwise: Joi.any().strip(),
+    });
+}
+
 module.exports = {
     fieldBeneficiariesPreflightCheck: function(locale) {
         const localise = get(locale);
@@ -1294,7 +1308,7 @@ module.exports = {
                 },
             ],
             get schema() {
-                return conditionalBeneficiaryChoice({
+                return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     schema: multiChoice(
                         flatMap(this.optgroups, (o) => o.options)
@@ -1376,7 +1390,7 @@ module.exports = {
                 },
             ],
             get schema() {
-                return conditionalBeneficiaryChoice({
+                return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.RELIGION,
                     schema: multiChoice(this.options).required(),
                 });
@@ -1425,7 +1439,7 @@ module.exports = {
                 },
             ],
             get schema() {
-                return conditionalBeneficiaryChoice({
+                return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.MIGRANT,
                     schema: multiChoice(this.options).required(),
                 });
@@ -1544,7 +1558,7 @@ module.exports = {
                 },
             ],
             get schema() {
-                return conditionalBeneficiaryChoice({
+                return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.DISABLED_PEOPLE,
                     schema: multiChoice(this.options).required(),
                 });
@@ -1585,7 +1599,7 @@ module.exports = {
                 { value: '0-2', label: localise({ en: 'Under 2 years of age', cy: ''}) },
             ],
             get schema() {
-                return conditionalBeneficiaryChoice({
+                return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.AGE,
                     schema: multiChoice(this.options).required(),
                 });
@@ -1649,7 +1663,7 @@ module.exports = {
                 },
             ],
             get schema() {
-                return conditionalBeneficiaryChoice({
+                return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.LGBT,
                     schema: multiChoice(this.options).required(),
                 });
@@ -1685,7 +1699,7 @@ module.exports = {
             minWords: 0,
             maxWords: 100,
             get schema() {
-                return conditionalBeneficiaryChoice({
+                return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.OTHER,
                     schema: Joi.required(),
                 });
