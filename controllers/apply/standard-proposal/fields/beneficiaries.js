@@ -4,7 +4,11 @@ const get = require('lodash/fp/get');
 const flatMap = require('lodash/flatMap');
 
 const Joi = require('../../lib/joi-extensions');
-const { TextareaField, RadioField, CheckboxField } = require('../../lib/field-types');
+const {
+    TextareaField,
+    RadioField,
+    CheckboxField,
+} = require('../../lib/field-types');
 const { BENEFICIARY_GROUPS, FREE_TEXT_MAXLENGTH } = require('../constants');
 
 function multiChoice(options) {
@@ -42,7 +46,7 @@ function conditionalBeneficiaryLeadershipChoice({ match, schema }) {
 }
 
 module.exports = {
-    fieldBeneficiariesPreflightCheck: function(locale) {
+    fieldBeneficiariesPreflightCheck: function (locale) {
         const localise = get(locale);
         return new CheckboxField({
             locale: locale,
@@ -165,7 +169,8 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
-                        en: 'Communities experiencing ethnic or racial inequity, discrimation or inequality',
+                        en:
+                            'Communities experiencing ethnic or racial inequity, discrimation or inequality',
                         cy: '',
                     }),
                     explanation: localise({
@@ -212,15 +217,15 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.AGE,
                     label: localise({
-                        en: 'Older (65 and over) and younger (25 and under) people',
+                        en:
+                            'Older (65 and over) and younger (25 and under) people',
                         cy: '',
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.GENDER,
                     label: localise({
-                        en:
-                            'Women and girls',
+                        en: 'Women and girls',
                         cy: '',
                     }),
                 },
@@ -238,7 +243,8 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.SOCIOECONOMIC,
                     label: localise({
-                        en: 'People who are educationally or economically disadvantaged',
+                        en:
+                            'People who are educationally or economically disadvantaged',
                         cy: '',
                     }),
                     explanation: localise({
@@ -264,8 +270,7 @@ module.exports = {
             get schema() {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
-                    then: multiChoice(this.options)
-                        .required(),
+                    then: multiChoice(this.options).required(),
                     otherwise: Joi.any().strip(),
                 });
             },
@@ -305,17 +310,17 @@ module.exports = {
                     }),
                     options: [
                         {
-                          value: 'mixed-black',
-                          label: localise({
-                              en: 'Mixed Black',
-                              cy: ''
-                          }),
+                            value: 'mixed-black',
+                            label: localise({
+                                en: 'Mixed Black',
+                                cy: '',
+                            }),
                         },
                         {
                             value: 'black-british',
                             label: localise({
                                 en: 'Black British',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
@@ -358,21 +363,22 @@ module.exports = {
                             value: 'white-black',
                             label: localise({
                                 en: 'White and Black',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
                             value: 'white-asian',
                             label: localise({
                                 en: 'White and Asian',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
                             value: 'mixed-other',
                             label: localise({
-                                en: 'Any other mixed / multiple ethnic background',
-                                cy: ''
+                                en:
+                                    'Any other mixed / multiple ethnic background',
+                                cy: '',
                             }),
                         },
                     ],
@@ -387,7 +393,7 @@ module.exports = {
                             value: 'mixed-asian',
                             label: localise({
                                 en: 'Mixed Asian / Asian British',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
@@ -426,7 +432,8 @@ module.exports = {
                 },
                 {
                     label: localise({
-                        en: 'Other group experiencing ethnic or racial inequity',
+                        en:
+                            'Other group experiencing ethnic or racial inequity',
                         cy: '',
                     }),
                     options: [
@@ -450,7 +457,7 @@ module.exports = {
                             value: 'other',
                             label: localise({
                                 en: 'Any other ethnic group',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                     ],
@@ -492,8 +499,9 @@ module.exports = {
                 cy: ``,
             }),
             options: [
-                { value: 'bisexual-men',
-                    label: localise({ en: 'Bisexual men', cy: '' })
+                {
+                    value: 'bisexual-men',
+                    label: localise({ en: 'Bisexual men', cy: '' }),
                 },
                 {
                     value: 'bisexual-women',
@@ -557,12 +565,18 @@ module.exports = {
                 cy: ``,
             }),
             options: [
-                { value: '60+', label: localise({ en: '60 and over', cy: ''}) },
+                {
+                    value: '60+',
+                    label: localise({ en: '60 and over', cy: '' }),
+                },
                 { value: '19-25', label: '19-25' },
                 { value: '16-18', label: '16-18' },
                 { value: '8-15', label: '8-15' },
                 { value: '3-7', label: '3-7' },
-                { value: '0-2', label: localise({ en: 'Under 2 years of age', cy: ''}) },
+                {
+                    value: '0-2',
+                    label: localise({ en: 'Under 2 years of age', cy: '' }),
+                },
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
@@ -607,8 +621,8 @@ module.exports = {
                 {
                     value: 'health',
                     label: localise({
-                       en: 'Health',
-                       cy: ''
+                        en: 'Health',
+                        cy: '',
                     }),
                 },
                 {
@@ -627,28 +641,28 @@ module.exports = {
                     value: 'visual',
                     label: localise({
                         en: 'Visual impairment / partial sight / sight loss',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
                     value: 'deaf',
                     label: localise({
                         en: 'Deaf / hard of hearing / hearing loss',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
                     value: 'speech',
                     label: localise({
                         en: 'Speech impairment',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
                     value: 'multiple-physical',
                     label: localise({
                         en: 'Multiple physical impairment',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
@@ -721,15 +735,18 @@ module.exports = {
             options: [
                 {
                     value: 'catholic',
-                    label: localise({ en: 'Catholic', cy: ''}),
+                    label: localise({ en: 'Catholic', cy: '' }),
                 },
                 {
                     value: 'protestant',
-                    label: localise({ en: 'Protestant', cy: ''}),
+                    label: localise({ en: 'Protestant', cy: '' }),
                 },
                 {
                     value: 'other-christian',
-                    label: localise({ en: 'Other Christian denominations', cy: '' }),
+                    label: localise({
+                        en: 'Other Christian denominations',
+                        cy: '',
+                    }),
                 },
                 {
                     value: 'buddhist',
@@ -737,7 +754,7 @@ module.exports = {
                 },
                 {
                     value: 'hindu',
-                    label: localise({ en: 'Hindu', cy: ''}),
+                    label: localise({ en: 'Hindu', cy: '' }),
                 },
                 {
                     value: 'jewish',
@@ -749,7 +766,7 @@ module.exports = {
                 },
                 {
                     value: 'sikh',
-                    label: localise({ en: 'Sikh', cy: 'Sikh' })
+                    label: localise({ en: 'Sikh', cy: 'Sikh' }),
                 },
                 {
                     value: 'atheist',
@@ -757,11 +774,11 @@ module.exports = {
                 },
                 {
                     value: 'agnostic',
-                    label: localise({ en: 'Agnostic', cy: ''}),
+                    label: localise({ en: 'Agnostic', cy: '' }),
                 },
                 {
                     value: 'other-faith',
-                    label: localise({ en: 'Other faiths and beliefs', cy: ''}),
+                    label: localise({ en: 'Other faiths and beliefs', cy: '' }),
                 },
             ],
             get schema() {
@@ -964,6 +981,7 @@ module.exports = {
             }),
             minWords: 0,
             maxWords: 100,
+            isRequired: false,
             get schema() {
                 return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.OTHER,
@@ -1006,7 +1024,8 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
-                        en: 'Communities experiencing ethnic or racial inequity, discrimation or inequality',
+                        en:
+                            'Communities experiencing ethnic or racial inequity, discrimation or inequality',
                         cy: '',
                     }),
                     explanation: localise({
@@ -1053,15 +1072,15 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.AGE,
                     label: localise({
-                        en: 'Older (65 and over) and younger (25 and under) people',
+                        en:
+                            'Older (65 and over) and younger (25 and under) people',
                         cy: '',
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.GENDER,
                     label: localise({
-                        en:
-                            'Women and girls',
+                        en: 'Women and girls',
                         cy: '',
                     }),
                 },
@@ -1079,7 +1098,8 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.SOCIOECONOMIC,
                     label: localise({
-                        en: 'People who are educationally or economically disadvantaged',
+                        en:
+                            'People who are educationally or economically disadvantaged',
                         cy: '',
                     }),
                     explanation: localise({
@@ -1105,19 +1125,19 @@ module.exports = {
                     value: 'no-prefer-not-to-say',
                     label: localise({
                         en: 'No or prefer not to say',
-                        cy: ''
+                        cy: '',
                     }),
                     explanation: localise({
-                        en: 'We understand that this could be an awkward question to answer, so you can choose not to say.',
-                        cy: ''
-                    })
-                }
+                        en:
+                            'We understand that this could be an awkward question to answer, so you can choose not to say.',
+                        cy: '',
+                    }),
+                },
             ],
             get schema() {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
-                    then: multiChoice(this.options)
-                        .required(),
+                    then: multiChoice(this.options).required(),
                     otherwise: Joi.any().strip(),
                 });
             },
@@ -1159,14 +1179,14 @@ module.exports = {
                             value: 'mixed-black',
                             label: localise({
                                 en: 'Mixed Black',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
                             value: 'black-british',
                             label: localise({
                                 en: 'Black British',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
@@ -1209,21 +1229,22 @@ module.exports = {
                             value: 'white-black',
                             label: localise({
                                 en: 'White and Black',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
                             value: 'white-asian',
                             label: localise({
                                 en: 'White and Asian',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
                             value: 'mixed-other',
                             label: localise({
-                                en: 'Any other mixed / multiple ethnic background',
-                                cy: ''
+                                en:
+                                    'Any other mixed / multiple ethnic background',
+                                cy: '',
                             }),
                         },
                     ],
@@ -1238,7 +1259,7 @@ module.exports = {
                             value: 'mixed-asian',
                             label: localise({
                                 en: 'Mixed Asian / Asian British',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                         {
@@ -1277,7 +1298,8 @@ module.exports = {
                 },
                 {
                     label: localise({
-                        en: 'Other group experiencing ethnic or racial inequity',
+                        en:
+                            'Other group experiencing ethnic or racial inequity',
                         cy: '',
                     }),
                     options: [
@@ -1301,7 +1323,7 @@ module.exports = {
                             value: 'other',
                             label: localise({
                                 en: 'Any other ethnic group',
-                                cy: ''
+                                cy: '',
                             }),
                         },
                     ],
@@ -1346,15 +1368,18 @@ module.exports = {
             options: [
                 {
                     value: 'catholic',
-                    label: localise({ en: 'Catholic', cy: ''}),
+                    label: localise({ en: 'Catholic', cy: '' }),
                 },
                 {
                     value: 'protestant',
-                    label: localise({ en: 'Protestant', cy: ''}),
+                    label: localise({ en: 'Protestant', cy: '' }),
                 },
                 {
                     value: 'other-christian',
-                    label: localise({ en: 'Other Christian denominations', cy: '' }),
+                    label: localise({
+                        en: 'Other Christian denominations',
+                        cy: '',
+                    }),
                 },
                 {
                     value: 'buddhist',
@@ -1362,7 +1387,7 @@ module.exports = {
                 },
                 {
                     value: 'hindu',
-                    label: localise({ en: 'Hindu', cy: ''}),
+                    label: localise({ en: 'Hindu', cy: '' }),
                 },
                 {
                     value: 'jewish',
@@ -1374,7 +1399,7 @@ module.exports = {
                 },
                 {
                     value: 'sikh',
-                    label: localise({ en: 'Sikh', cy: 'Sikh' })
+                    label: localise({ en: 'Sikh', cy: 'Sikh' }),
                 },
                 {
                     value: 'atheist',
@@ -1382,11 +1407,11 @@ module.exports = {
                 },
                 {
                     value: 'agnostic',
-                    label: localise({ en: 'Agnostic', cy: ''}),
+                    label: localise({ en: 'Agnostic', cy: '' }),
                 },
                 {
                     value: 'other-faith',
-                    label: localise({ en: 'Other faiths and beliefs', cy: ''}),
+                    label: localise({ en: 'Other faiths and beliefs', cy: '' }),
                 },
             ],
             get schema() {
@@ -1478,7 +1503,7 @@ module.exports = {
                     value: 'health',
                     label: localise({
                         en: 'Health',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
@@ -1497,28 +1522,28 @@ module.exports = {
                     value: 'visual',
                     label: localise({
                         en: 'Visual impairment / partial sight / sight loss',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
                     value: 'deaf',
                     label: localise({
                         en: 'Deaf / hard of hearing / hearing loss',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
                     value: 'speech',
                     label: localise({
                         en: 'Speech impairment',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
                     value: 'multiple-physical',
                     label: localise({
                         en: 'Multiple physical impairment',
-                        cy: ''
+                        cy: '',
                     }),
                 },
                 {
@@ -1591,12 +1616,18 @@ module.exports = {
                 cy: ``,
             }),
             options: [
-                { value: '60+', label: localise({ en: '60 and over', cy: ''}) },
+                {
+                    value: '60+',
+                    label: localise({ en: '60 and over', cy: '' }),
+                },
                 { value: '19-25', label: '19-25' },
                 { value: '16-18', label: '16-18' },
                 { value: '8-15', label: '8-15' },
                 { value: '3-7', label: '3-7' },
-                { value: '0-2', label: localise({ en: 'Under 2 years of age', cy: ''}) },
+                {
+                    value: '0-2',
+                    label: localise({ en: 'Under 2 years of age', cy: '' }),
+                },
             ],
             get schema() {
                 return conditionalBeneficiaryLeadershipChoice({
@@ -1630,8 +1661,9 @@ module.exports = {
                 cy: ``,
             }),
             options: [
-                { value: 'bisexual-men',
-                    label: localise({ en: 'Bisexual men', cy: '' })
+                {
+                    value: 'bisexual-men',
+                    label: localise({ en: 'Bisexual men', cy: '' }),
                 },
                 {
                     value: 'bisexual-women',
@@ -1698,6 +1730,7 @@ module.exports = {
             }),
             minWords: 0,
             maxWords: 100,
+            isRequired: false,
             get schema() {
                 return conditionalBeneficiaryLeadershipChoice({
                     match: BENEFICIARY_GROUPS.OTHER,
