@@ -1308,6 +1308,10 @@ function standardApplication({
         }
 
         if (mock.projectCountries.includes('England')) {
+            cy.findByLabelText('I understand').click();
+
+            submitStep();
+
             if (mock.beneficiariesGroups.length > 0) {
                 cy.findByLabelText(
                     'My project is aimed at a specific group of people'
@@ -1597,7 +1601,7 @@ function standardApplication({
     });
 }
 
-it('should complete standard your funding proposal in england', () => {
+it.only('should complete standard your funding proposal in england', () => {
     standardApplication({
         projectCountry: 'England',
         projectStart: 'Start proposal for a project in England',
