@@ -50,7 +50,7 @@ module.exports = {
         const localise = get(locale);
         return new CheckboxField({
             locale: locale,
-            name: 'beneficiariesGroupsPreflightCheck',
+            name: 'beneficiariesPreflightCheck',
             label: localise({
                 en: `We will not use your answers in this section to assess your application. Check this box to show you understand.`,
                 cy: ``,
@@ -69,7 +69,7 @@ module.exports = {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Select an option',
+                        en: 'Check this box to show you understand',
                         cy: 'Dewis opsiwn',
                     }),
                 },
