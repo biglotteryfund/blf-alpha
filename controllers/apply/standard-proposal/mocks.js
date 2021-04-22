@@ -45,7 +45,7 @@ function mockResponse(overrides = {}) {
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         projectOrganisation: faker.lorem.words(random(50, 500)),
-        beneficiariesGroupsPreflightCheck: 'yes',
+        beneficiariesPreflightCheck: 'yes',
         beneficiariesGroupsCheck: 'yes',
         beneficiariesGroups: [
             'ethnic-background',
@@ -63,7 +63,7 @@ function mockResponse(overrides = {}) {
         beneficiariesGroupsDisabledPeople: ['mental-health'],
         beneficiariesGroupsReligion: ['sikh'],
         beneficiariesGroupsMigrant: ['asylum-seeker'],
-        beneficiariesGroupsLGBT: ['lbgt-other'],
+        beneficiariesGroupsLGBT: ['other-lgbt'],
         beneficiariesGroupsOther: faker.lorem.words(random(20, 100)),
         beneficiariesLeadershipGroups: ['ethnic-background', 'lgbt'],
         beneficiariesLeadershipGroupsEthnicBackground: [

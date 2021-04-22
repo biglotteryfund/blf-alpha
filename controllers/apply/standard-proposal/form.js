@@ -220,28 +220,29 @@ module.exports = function ({
                             </p>
 
                             <p>This information is being used to inform our own monitoring and strategy and will not be 
-                            used as the basis of individual funding decisions. There’s no judgment on - or preference 
-                            for - particular responses except where explicitly specified in the criteria for the Fund.</p>
-
-
+                            used as the basis of individual funding decisions unless the programme you're applying for 
+                            is aimed at specific communities. There’s no judgment on - or preference for - particular 
+                            responses except where explicitly specified in the criteria for the Fund.</p>
 
                             <p>If you’re successful in being awarded a grant, the responses you provide in this section
                              may be included in data published about our grants. This is to support the transparency 
-                             and accountability on our grantmaking. If this may cause any issues, you’ll have an 
-                             opportunity to not provide some of the data and prevent it from being shared externally.
-                             </p>
+                             and accountability on our grantmaking.</p>
+                             
+                             <p>We understand that the questions on leadership may be sensitive, and you may not be 
+                             comfortable sharing this information. If this could cause you issues, you can opt out 
+                             of giving us this information.</p>
 
                             <h3>Equity</h3>
-                            <p>In the context of grant-making, improving equity is to about promoting justice, 
-                            impartiality and fairness in how we give out money.  To be able to tackle equity issues, 
+                            <p>In the context of grantmaking, improving equity is to about promoting justice, 
+                            impartiality and fairness in how we give out money. To be able to tackle equity issues, 
                             we need to understand the causes of the disparities faced by some communities.</p>
                             
                             <h3>Diversity</h3>
                             <p>Diversity means including various aspects of the differences between people. 
                             They include race and ethnicity, sexual orientation, disability and gender. Nuanced 
-                            definitions of diversity also recognise the intersectional nature of identity and the 
+                            definitions of diversity also recognise the intersectional nature of identity, and the 
                             complex and cumulative ways in which different forms of discrimination 
-                            (based upon these attributes) combine, overlap, and intersect.</p>
+                            (based upon these attributes) combine, overlap and intersect.</p>
 
                             <h3>Inclusion</h3>
                             <p>Inclusion refers to the degree to which people feel valued and able to participate 
@@ -294,7 +295,7 @@ module.exports = function ({
                         <p>
                             However, the information you provide here is <strong>not assessed</strong>
                             and <strong>will not</strong> be used to decide whether you will be
-                            awarded funding for your project.
+                            awarded funding for your project .
                         </p>`,
                         cy: `<p>
                             Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.
@@ -584,7 +585,9 @@ module.exports = function ({
                 cy: '',
             }),
             introduction: localise({
-                en: '',
+                en: `<p>We’d like to understand more about the leadership of the organisations that we’re supporting. 
+                      These questions are optional - they'll just help us to understand our grantees and inform our 
+                      process and strategy. But we'll not them use for this individual funding decision.</p>`,
                 cy: '',
             }),
             fieldsets: [
@@ -1401,11 +1404,11 @@ module.exports = function ({
         if (projectCountries.includes('england')) {
             return [
                 sectionYourProject(),
-                sectionBeneficiaries(),
                 sectionYourOrganisation(),
                 sectionSeniorContact(),
                 sectionMainContact(),
                 sectionTerms(),
+                sectionBeneficiaries(),
             ];
         } else {
             return [

@@ -50,7 +50,7 @@ module.exports = {
         const localise = get(locale);
         return new CheckboxField({
             locale: locale,
-            name: 'beneficiariesGroupsPreflightCheck',
+            name: 'beneficiariesPreflightCheck',
             label: localise({
                 en: `We will not use your answers in this section to assess your application. Check this box to show you understand.`,
                 cy: ``,
@@ -69,7 +69,7 @@ module.exports = {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Select an option',
+                        en: 'Check this box to show you understand',
                         cy: 'Dewis opsiwn',
                     }),
                 },
@@ -82,7 +82,7 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesGroupsCheck',
             label: localise({
-                en: `Is your project open to everyone or is it aimed at a specific group of people?`,
+                en: `Is your project aimed at a specific group of people or open to everyone?`,
                 cy: `A yw eich prosiect yn agored i bawb neu a yw’n targedu grŵp penodol o bobl?`,
             }),
             explanation: localise({
@@ -338,7 +338,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'black-other',
+                            value: 'other-black',
                             label: localise({
                                 en: `Any other Black / African / Caribbean background`,
                                 cy: `Unrhyw gefndir Du / Affricanaidd / Caribiaidd arall`,
@@ -374,7 +374,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'mixed-other',
+                            value: 'other-mixed',
                             label: localise({
                                 en:
                                     'Any other mixed / multiple ethnic background',
@@ -422,7 +422,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'asian-other',
+                            value: 'other-asian',
                             label: localise({
                                 en: 'Any other Asian background',
                                 cy: 'Unrhyw gefndir Asiaidd arall',
@@ -454,7 +454,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'other',
+                            value: 'other-ethnicity',
                             label: localise({
                                 en: 'Any other ethnic group',
                                 cy: '',
@@ -528,7 +528,7 @@ module.exports = {
                     label: localise({ en: 'Non-binary people', cy: '' }),
                 },
                 {
-                    value: 'lbgt-other',
+                    value: 'other-lgbt',
                     label: localise({ en: 'In another way', cy: '' }),
                 },
             ],
@@ -700,6 +700,13 @@ module.exports = {
                         cy: oneLine``,
                     }),
                 },
+                {
+                    value: 'other-disability',
+                    label: localise({
+                        en: 'Other type of disability or impairment',
+                        cy: ''
+                    })
+                }
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
@@ -1009,7 +1016,7 @@ module.exports = {
                 cy: ``,
             }),
             explanation: localise({
-                en: `<p>We'd like to know mean if most of the people who lead or make the key decisions in your 
+                en: `<p>We'd like to know if most of the people who lead or make the key decisions in your 
                     organisation belong to <strong>one</strong> specific group. 
                     For example, <strong>75% or more</strong> of your board of trustees or management committee might 
                     be from a specific group. <strong>Or 50%</strong> or more of senior staff self-identify 
@@ -1203,7 +1210,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'black-other',
+                            value: 'other-black',
                             label: localise({
                                 en: `Any other Black / African / Caribbean background`,
                                 cy: `Unrhyw gefndir Du / Affricanaidd / Caribiaidd arall`,
@@ -1239,7 +1246,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'mixed-other',
+                            value: 'other-mixed',
                             label: localise({
                                 en:
                                     'Any other mixed / multiple ethnic background',
@@ -1287,7 +1294,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'asian-other',
+                            value: 'other-asian',
                             label: localise({
                                 en: 'Any other Asian background',
                                 cy: 'Unrhyw gefndir Asiaidd arall',
@@ -1319,7 +1326,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'other',
+                            value: 'other-ethnicity',
                             label: localise({
                                 en: 'Any other ethnic group',
                                 cy: '',
@@ -1580,6 +1587,13 @@ module.exports = {
                         cy: oneLine``,
                     }),
                 },
+                {
+                    value: 'other-disability',
+                    label: localise({
+                        en: 'Other type of disability or impairment',
+                        cy: ''
+                    })
+                }
             ],
             get schema() {
                 return conditionalBeneficiaryLeadershipChoice({
@@ -1689,7 +1703,7 @@ module.exports = {
                     label: localise({ en: 'Non-binary people', cy: '' }),
                 },
                 {
-                    value: 'lbgt-other',
+                    value: 'other-lgbt',
                     label: localise({ en: 'In another way', cy: '' }),
                 },
             ],
