@@ -338,7 +338,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'black-other',
+                            value: 'other-black',
                             label: localise({
                                 en: `Any other Black / African / Caribbean background`,
                                 cy: `Unrhyw gefndir Du / Affricanaidd / Caribiaidd arall`,
@@ -374,7 +374,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'mixed-other',
+                            value: 'other-mixed',
                             label: localise({
                                 en:
                                     'Any other mixed / multiple ethnic background',
@@ -422,7 +422,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'asian-other',
+                            value: 'other-asian',
                             label: localise({
                                 en: 'Any other Asian background',
                                 cy: 'Unrhyw gefndir Asiaidd arall',
@@ -454,7 +454,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'other',
+                            value: 'other-ethnicity',
                             label: localise({
                                 en: 'Any other ethnic group',
                                 cy: '',
@@ -528,7 +528,7 @@ module.exports = {
                     label: localise({ en: 'Non-binary people', cy: '' }),
                 },
                 {
-                    value: 'lbgt-other',
+                    value: 'other-lgbt',
                     label: localise({ en: 'In another way', cy: '' }),
                 },
             ],
@@ -700,6 +700,13 @@ module.exports = {
                         cy: oneLine``,
                     }),
                 },
+                {
+                    value: 'other-disability',
+                    label: localise({
+                        en: 'Other type of disability or impairment',
+                        cy: ''
+                    })
+                }
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
@@ -1203,7 +1210,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'black-other',
+                            value: 'other-black',
                             label: localise({
                                 en: `Any other Black / African / Caribbean background`,
                                 cy: `Unrhyw gefndir Du / Affricanaidd / Caribiaidd arall`,
@@ -1239,7 +1246,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'mixed-other',
+                            value: 'other-mixed',
                             label: localise({
                                 en:
                                     'Any other mixed / multiple ethnic background',
@@ -1287,7 +1294,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'asian-other',
+                            value: 'other-asian',
                             label: localise({
                                 en: 'Any other Asian background',
                                 cy: 'Unrhyw gefndir Asiaidd arall',
@@ -1319,7 +1326,7 @@ module.exports = {
                             }),
                         },
                         {
-                            value: 'other',
+                            value: 'other-ethnicity',
                             label: localise({
                                 en: 'Any other ethnic group',
                                 cy: '',
@@ -1580,6 +1587,13 @@ module.exports = {
                         cy: oneLine``,
                     }),
                 },
+                {
+                    value: 'other-disability',
+                    label: localise({
+                        en: 'Other type of disability or impairment',
+                        cy: ''
+                    })
+                }
             ],
             get schema() {
                 return conditionalBeneficiaryLeadershipChoice({
@@ -1689,7 +1703,7 @@ module.exports = {
                     label: localise({ en: 'Non-binary people', cy: '' }),
                 },
                 {
-                    value: 'lbgt-other',
+                    value: 'other-lgbt',
                     label: localise({ en: 'In another way', cy: '' }),
                 },
             ],
