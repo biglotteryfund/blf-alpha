@@ -1834,12 +1834,7 @@ module.exports = {
             }),
             minWords: 0,
             maxWords: 100,
-            get schema() {
-                return conditionalBeneficiaryLeadershipChoice({
-                    match: BENEFICIARY_GROUPS.OTHER,
-                    schema: Joi.required(),
-                });
-            },
+            isRequired: false,
             messages: [
                 {
                     type: 'base',
@@ -1898,12 +1893,7 @@ module.exports = {
             }),
             minWords: 0,
             maxWords: 100,
-            get schema() {
-                return conditionalBeneficiaryLeadershipChoice({
-                    match: BENEFICIARY_GROUPS.OTHER,
-                    schema: Joi.required(),
-                });
-            },
+            isRequired: false,
             messages: [
                 {
                     type: 'base',
