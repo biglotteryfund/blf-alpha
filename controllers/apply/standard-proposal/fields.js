@@ -55,6 +55,7 @@ const {
     fieldBeneficiariesLeadershipGroupsLGBT,
     fieldBeneficiariesLeadershipGroupsOther,
     fieldBeneficiariesAnyGroupsOther,
+    fieldBeneficiariesLeadershipAnyGroupsOther,
 } = require('./fields/beneficiaries');
 
 const {
@@ -1722,6 +1723,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ),
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
+                    ),
+                    beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
+                        locale,
+                        data
                     ),
                     organisationLegalName: fieldOrganisationLegalName(),
                     organisationDifferentName: fieldOrganisationDifferentName(),

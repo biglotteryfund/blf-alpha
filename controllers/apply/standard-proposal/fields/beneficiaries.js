@@ -1851,4 +1851,68 @@ module.exports = {
             ],
         });
     },
+
+    fieldBeneficiariesLeadershipAnyGroupsOther: function (locale, data) {
+        const localise = get(locale);
+        const beneficiariesLeadershipGroupsEthnicBackground =
+            get('beneficiariesLeadershipGroupsEthnicBackground')(data) || [];
+        const beneficiariesLeadershipGroupsLGBT =
+            get('beneficiariesLeadershipGroupsLGBT')(data) || [];
+        const beneficiariesLeadershipGroupsDisabledPeople =
+            get('beneficiariesLeadershipGroupsDisabledPeople')(data) || [];
+        const beneficiariesLeadershipGroupsReligion =
+            get('beneficiariesLeadershipGroupsReligion')(data) || [];
+        const beneficiariesLeadershipGroupsMigrant =
+            get('beneficiariesLeadershipGroupsMigrant')(data) || [];
+
+        return new TextareaField({
+            locale: locale,
+            name: 'beneficiariesLeadershipAnyGroupsOther',
+            label: localise({
+                en: `Additional information`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>You told us that your project will benefit:</p>
+                      <ul>${othersIdsToText(
+                          beneficiariesLeadershipGroupsEthnicBackground,
+                          'en'
+                      )} ${othersIdsToText(
+                    beneficiariesLeadershipGroupsReligion,
+                    'en'
+                )}
+                      ${othersIdsToText(
+                          beneficiariesLeadershipGroupsMigrant,
+                          'en'
+                      )}
+                      ${othersIdsToText(
+                          beneficiariesLeadershipGroupsDisabledPeople,
+                          'en'
+                      )}
+                      ${othersIdsToText(
+                          beneficiariesLeadershipGroupsLGBT,
+                          'en'
+                      )}</ul>
+                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                cy: ``,
+            }),
+            minWords: 0,
+            maxWords: 100,
+            get schema() {
+                return conditionalBeneficiaryLeadershipChoice({
+                    match: BENEFICIARY_GROUPS.OTHER,
+                    schema: Joi.required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Please tell us the groups`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    },
 };
