@@ -11,8 +11,24 @@ const slashes = require('connect-slashes');
 const vary = require('vary');
 const Sentry = require('@sentry/node');
 const forEach = require('lodash/forEach');
+const config = require('config');
+const NODE_ENV = config.util.getEnv('NODE_ENV');
+let { IP_RANGE } = require('./common/secrets');
 
 const app = express();
+if (NODE_ENV === 'dev' && IP_RANGE) {
+    const ipfilter = require('express-ipfilter').IpFilter;
+
+    app.use(
+        ipfilter(IP_RANGE.split(','), {
+            mode: 'allow',
+            detectIp: function (req) {
+                return req.headers['x-forwarded-for'].split(',')[0];
+            },
+        })
+    );
+}
+
 module.exports = app;
 
 const appData = require('./common/appData');

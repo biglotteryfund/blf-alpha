@@ -35,6 +35,20 @@ const BENEFICIARY_GROUPS = {
     RELIGION: 'religion',
     LGBT: 'lgbt',
     CARING: 'caring-responsibilities',
+    MIGRANT: 'migrant',
+    SOCIOECONOMIC: 'socioeconomic',
+    OTHER: 'other',
+};
+
+const OTHER_GROUPS = {
+    OTHER_BLACK: 'other-black',
+    OTHER_MIXED: 'other-mixed',
+    OTHER_ASIAN: 'other-asian',
+    OTHER_ETHNICITY: 'other-ethnicity',
+    OTHER_LGBT: 'other-lgbt',
+    OTHER_MIGRANT: 'other-migrant',
+    OTHER_FAITH: 'other-faith',
+    OTHER_DISABILITY: 'other-disability',
 };
 
 const ORG_MIN_AGE = {
@@ -101,6 +115,7 @@ const STATUTORY_BODY_TYPES = {
 module.exports = {
     EXPIRY_EMAIL_REMINDERS,
     BENEFICIARY_GROUPS,
+    OTHER_GROUPS,
     CONTACT_EXCLUDED_TYPES,
     ORGANISATION_TYPES,
     MIN_AGE_MAIN_CONTACT,
