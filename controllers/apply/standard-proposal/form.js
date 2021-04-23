@@ -357,6 +357,26 @@ module.exports = function ({
         return groupChoices.includes(type) ? fields : [];
     }
 
+    function includeIfAnyBeneficiaryType(fields) {
+        const groupsEthnicBackground =
+            get('beneficiariesGroupsEthnicBackground')(data) || [];
+        const groupsLGBT = get('beneficiariesGroupsLGBT')(data) || [];
+        const groupsDisabledPeople =
+            get('beneficiariesGroupsDisabledPeople')(data) || [];
+        const groupsReligion = get('beneficiariesGroupsReligion')(data) || [];
+        const groupsMigrant = get('beneficiariesGroupsMigrant')(data) || [];
+
+        const list = [
+            groupsEthnicBackground,
+            groupsLGBT,
+            groupsDisabledPeople,
+            groupsReligion,
+            groupsMigrant,
+        ];
+
+        return list.toString().includes('other-') ? fields : [];
+    }
+
     function includeIfLeadershipBeneficiaryType(type, fields) {
         const groupChoices = get('beneficiariesLeadershipGroups')(data) || [];
         return groupChoices.includes(type) ? fields : [];
@@ -636,6 +656,29 @@ module.exports = function ({
                                 allFields.beneficiariesLeadershipGroupsEthnicBackground,
                             ]
                         )
+                    ),
+                },
+            ],
+        });
+    }
+
+    function stepBeneficiariesAnyGroupsOther() {
+        return new Step({
+            title: localise({
+                en: 'Any groups other',
+                cy: '',
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Communities with any other',
+                        cy: '',
+                    }),
+                    fields: conditionalFields(
+                        [allFields.beneficiariesAnyGroupsOther],
+                        includeIfAnyBeneficiaryType([
+                            allFields.beneficiariesAnyGroupsOther,
+                        ])
                     ),
                 },
             ],
@@ -1237,6 +1280,7 @@ module.exports = function ({
                     stepOtherBeneficiaryGroups(),
                     stepWelshLanguage(),
                     stepNorthernIrelandCommunity(),
+                    stepBeneficiariesAnyGroupsOther(),
                     // Leadership EDI
                     stepBeneficiariesLeadershipEdi(),
                     stepLeadershipEthnicBackground(),

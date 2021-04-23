@@ -9,7 +9,11 @@ const {
     RadioField,
     CheckboxField,
 } = require('../../lib/field-types');
-const { BENEFICIARY_GROUPS, FREE_TEXT_MAXLENGTH } = require('../constants');
+const {
+    BENEFICIARY_GROUPS,
+    FREE_TEXT_MAXLENGTH,
+    OTHER_GROUPS,
+} = require('../constants');
 
 function multiChoice(options) {
     return Joi.array()
@@ -43,6 +47,39 @@ function conditionalBeneficiaryLeadershipChoice({ match, schema }) {
         }),
         otherwise: Joi.any().strip(),
     });
+}
+
+function othersIdsToText(id, lang) {
+    let list = '';
+
+    if (id.includes(OTHER_GROUPS.OTHER_BLACK)) {
+        list +=
+            lang === 'en'
+                ? '<li>Any other Black / African / Caribbean background</li>'
+                : '';
+    }
+    if (id.includes(OTHER_GROUPS.OTHER_MIXED))
+        list +=
+            lang === 'en'
+                ? '<li>Any other mixed / multiple ethnic background</li>'
+                : '';
+    if (id.includes(OTHER_GROUPS.OTHER_ASIAN))
+        list += lang === 'en' ? '<li>Any other asian background</li>' : '';
+    if (id.includes(OTHER_GROUPS.OTHER_ETHNICITY))
+        list += lang === 'en' ? '<li>Any other ethnic background</li>' : '';
+    if (id.includes(OTHER_GROUPS.OTHER_LGBT))
+        list += lang === 'en' ? '<li>In another way</li>' : '';
+    if (id.includes(OTHER_GROUPS.OTHER_MIGRANT))
+        list += lang === 'en' ? '<li>Other migrants</li>' : '';
+    if (id.includes(OTHER_GROUPS.OTHER_FAITH))
+        list += lang === 'en' ? '<li>Other faiths and beliefs</li>' : '';
+    if (id.includes(OTHER_GROUPS.OTHER_DISABILITY))
+        list +=
+            lang === 'en'
+                ? '<li>Other type of disability or impairment</li>'
+                : '';
+
+    return list;
 }
 
 module.exports = {
@@ -704,9 +741,9 @@ module.exports = {
                     value: 'other-disability',
                     label: localise({
                         en: 'Other type of disability or impairment',
-                        cy: ''
-                    })
-                }
+                        cy: '',
+                    }),
+                },
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
@@ -1591,9 +1628,9 @@ module.exports = {
                     value: 'other-disability',
                     label: localise({
                         en: 'Other type of disability or impairment',
-                        cy: ''
-                    })
-                }
+                        cy: '',
+                    }),
+                },
             ],
             get schema() {
                 return conditionalBeneficiaryLeadershipChoice({
@@ -1739,6 +1776,60 @@ module.exports = {
                      <p>Tell us who they are - you can choose more than one category.</p>
                      <p>Examples include: men and boys, care-experienced young people, people recovering from alcohol 
                      addiction, people with experience of the criminal justice system, and sex workers.</p>`,
+                cy: ``,
+            }),
+            minWords: 0,
+            maxWords: 100,
+            get schema() {
+                return conditionalBeneficiaryLeadershipChoice({
+                    match: BENEFICIARY_GROUPS.OTHER,
+                    schema: Joi.required(),
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Please tell us the groups`,
+                        cy: ``,
+                    }),
+                },
+            ],
+        });
+    },
+    fieldBeneficiariesAnyGroupsOther: function (locale, data) {
+        const localise = get(locale);
+        const beneficiariesGroupsEthnicBackground =
+            get('beneficiariesGroupsEthnicBackground')(data) || [];
+        const beneficiariesGroupsLGBT =
+            get('beneficiariesGroupsLGBT')(data) || [];
+        const beneficiariesGroupsDisabledPeople =
+            get('beneficiariesGroupsDisabledPeople')(data) || [];
+        const beneficiariesGroupsReligion =
+            get('beneficiariesGroupsReligion')(data) || [];
+        const beneficiariesGroupsMigrant =
+            get('beneficiariesGroupsMigrant')(data) || [];
+
+        return new TextareaField({
+            locale: locale,
+            name: 'beneficiariesAnyGroupsOther',
+            label: localise({
+                en: `Additional information`,
+                cy: ``,
+            }),
+            explanation: localise({
+                en: `<p>You told us that your project will benefit:</p>
+                      <ul>${othersIdsToText(
+                          beneficiariesGroupsEthnicBackground,
+                          'en'
+                      )} ${othersIdsToText(beneficiariesGroupsReligion, 'en')}
+                      ${othersIdsToText(beneficiariesGroupsMigrant, 'en')}
+                      ${othersIdsToText(
+                          beneficiariesGroupsDisabledPeople,
+                          'en'
+                      )}
+                      ${othersIdsToText(beneficiariesGroupsLGBT, 'en')}</ul>
+                     <p>Tell us who they are - you can choose more than one category.</p>`,
                 cy: ``,
             }),
             minWords: 0,
