@@ -144,6 +144,7 @@ router.post('/', async (req, res) => {
             response.emailQueue = [];
         }
 
+        logger.info(expiredApplications.length + " expired applications to delete.");
         if (expiredApplications.length > 0) {
             response.expired = await deleteExpiredApplications(
                 expiredApplications
@@ -159,6 +160,7 @@ router.post('/', async (req, res) => {
 
         res.json(response);
     } catch (error) {
+        logger.error("Expiry routing failed: " + error.message);
         res.status(400).json({
             err: error.message,
         });
