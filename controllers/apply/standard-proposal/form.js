@@ -377,28 +377,6 @@ module.exports = function ({
         return list.toString().includes('other-') ? fields : [];
     }
 
-    function includeIfAnyLeadershipBeneficiaryType(fields) {
-        const groupsEthnicBackground =
-            get('beneficiariesLeadershipGroupsEthnicBackground')(data) || [];
-        const groupsLGBT = get('beneficiariesLeadershipGroupsLGBT')(data) || [];
-        const groupsDisabledPeople =
-            get('beneficiariesLeadershipGroupsDisabledPeople')(data) || [];
-        const groupsReligion =
-            get('beneficiariesLeadershipGroupsReligion')(data) || [];
-        const groupsMigrant =
-            get('beneficiariesLeadershipGroupsMigrant')(data) || [];
-
-        const list = [
-            groupsEthnicBackground,
-            groupsLGBT,
-            groupsDisabledPeople,
-            groupsReligion,
-            groupsMigrant,
-        ];
-
-        return list.toString().includes('other-') ? fields : [];
-    }
-
     function includeIfLeadershipBeneficiaryType(type, fields) {
         const groupChoices = get('beneficiariesLeadershipGroups')(data) || [];
         return groupChoices.includes(type) ? fields : [];
@@ -832,29 +810,6 @@ module.exports = function ({
                             BENEFICIARY_GROUPS.OTHER,
                             [allFields.beneficiariesLeadershipGroupsOther]
                         )
-                    ),
-                },
-            ],
-        });
-    }
-
-    function stepBeneficiariesLeadershipAnyGroupsOther() {
-        return new Step({
-            title: localise({
-                en: 'Any leadership groups other',
-                cy: '',
-            }),
-            fieldsets: [
-                {
-                    legend: localise({
-                        en: 'leaderships with any other',
-                        cy: '',
-                    }),
-                    fields: conditionalFields(
-                        [allFields.beneficiariesLeadershipAnyGroupsOther],
-                        includeIfAnyLeadershipBeneficiaryType([
-                            allFields.beneficiariesLeadershipAnyGroupsOther,
-                        ])
                     ),
                 },
             ],
@@ -1335,7 +1290,6 @@ module.exports = function ({
                     stepLeadershipAge(),
                     stepLeadershipLGBT(),
                     stepLeadershipOtherBeneficiaryGroups(),
-                    stepBeneficiariesLeadershipAnyGroupsOther(),
                 ];
             } else {
                 return [
