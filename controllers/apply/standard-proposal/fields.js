@@ -54,7 +54,6 @@ const {
     fieldBeneficiariesLeadershipGroupsAge,
     fieldBeneficiariesLeadershipGroupsLGBT,
     fieldBeneficiariesLeadershipGroupsOther,
-    fieldBeneficiariesAnyGroupsOther,
 } = require('./fields/beneficiaries');
 
 const {
@@ -1694,10 +1693,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ),
                     beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                         locale
-                    ),
-                    beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
-                        locale,
-                        data
                     ),
                     beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
                         locale
