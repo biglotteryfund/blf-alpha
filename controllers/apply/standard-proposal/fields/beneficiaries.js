@@ -82,8 +82,8 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesGroupsCheck',
             label: localise({
-                en: `Is your project aimed at a specific group of people or open to everyone?`,
-                cy: `A yw eich prosiect yn agored i bawb neu a yw’n targedu grŵp penodol o bobl?`,
+                en: `Is your project open to everyone or is it aimed at a specific group of people?`,
+                cy: `A yw eich prosiect yn agored i bawb neu a yw’n targedu grŵp penodol o bobl?`
             }),
             explanation: localise({
                 en: `<p>What do we mean by projects for specific groups? We'd like to know if your project will mostly 
@@ -1009,7 +1009,7 @@ module.exports = {
                 cy: ``,
             }),
             explanation: localise({
-                en: `<p>We'd like to know if most of the people who lead or make the key decisions in your 
+                en: `<p>We'd like to know mean if most of the people who lead or make the key decisions in your 
                     organisation belong to <strong>one</strong> specific group. 
                     For example, <strong>75% or more</strong> of your board of trustees or management committee might 
                     be from a specific group. <strong>Or 50%</strong> or more of senior staff self-identify 
