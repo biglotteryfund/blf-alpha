@@ -38,14 +38,14 @@ function mockResponse(overrides = {}) {
         projectStartDate: {
             day: moment().date(),
             month: moment().month() + 1,
-            year: moment().year(),
+            year: moment().year()
         },
         projectDurationYears: 1,
         yourIdeaProject: faker.lorem.words(random(50, 500)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
         yourIdeaActivities: faker.lorem.words(random(50, 350)),
         projectOrganisation: faker.lorem.words(random(50, 500)),
-        beneficiariesPreflightCheck: 'yes',
+        beneficiariesGroupsPreflightCheck: 'yes',
         beneficiariesGroupsCheck: 'yes',
         beneficiariesGroups: [
             'ethnic-background',
@@ -56,19 +56,19 @@ function mockResponse(overrides = {}) {
             'lgbt',
             'migrant',
             'socioeconomic',
-            'other',
+            'other'
         ],
         beneficiariesGroupsEthnicBackground: ['mixed-black', 'chinese'],
         beneficiariesGroupsAge: ['16-18', '60+'],
         beneficiariesGroupsDisabledPeople: ['mental-health'],
         beneficiariesGroupsReligion: ['sikh'],
         beneficiariesGroupsMigrant: ['asylum-seeker'],
-        beneficiariesGroupsLGBT: ['other-lgbt'],
+        beneficiariesGroupsLGBT: ['lbgt-other'],
         beneficiariesGroupsOther: faker.lorem.words(random(20, 100)),
         beneficiariesLeadershipGroups: ['ethnic-background', 'lgbt'],
         beneficiariesLeadershipGroupsEthnicBackground: [
             'mixed-black',
-            'chinese',
+            'chinese'
         ],
         beneficiariesLeadershipGroupsLGBT: ['non-binary'],
         beneficiariesLeadershipGroupsOther: 'Example specific group',
