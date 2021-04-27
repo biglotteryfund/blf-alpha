@@ -624,29 +624,29 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Leadership of the organisation',
-                cy: '',
+                cy: ''
+            }),
+            introduction: localise({
+                en: `<p>We’d like to understand more about the leadership of the organisations that we’re supporting. 
+                      These questions are optional - they'll just help us to understand our grantees and inform our 
+                      process and strategy. But we'll not them use for this individual funding decision.</p>`,
+                cy: ''
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Leadership of the organisation',
-                        cy: '',
-                    }),
-                    introduction: localise({
-                        en: `<p>We’d like to understand more about the leadership of the organisations that we’re supporting. 
-                      These questions are optional - they'll just help us to understand our grantees and inform our 
-                      process and strategy. But we'll not them use for this individual funding decision.</p>`,
-                        cy: ``,
+                        cy: ''
                     }),
                     get fields() {
                         const beneficiariesLeadershipFields = [
-                            allFields.beneficiariesLeadershipGroups,
+                            allFields.beneficiariesLeadershipGroups
                         ];
                         return conditionalFields(
                             beneficiariesLeadershipFields,
                             compact([
                                 groupsCheck === 'yes' &&
-                                    allFields.beneficiariesLeadershipGroups,
+                                allFields.beneficiariesLeadershipGroups
                             ])
                         );
                     },
