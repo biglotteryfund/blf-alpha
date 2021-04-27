@@ -1825,25 +1825,30 @@ module.exports = {
                       )} ${othersIdsToText(beneficiariesGroupsReligion, 'en')}
                       ${othersIdsToText(beneficiariesGroupsMigrant, 'en')}
                       ${othersIdsToText(
-                          beneficiariesGroupsDisabledPeople,
-                          'en'
-                      )}
+                    beneficiariesGroupsDisabledPeople,
+                    'en'
+                )}
                       ${othersIdsToText(beneficiariesGroupsLGBT, 'en')}</ul>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: ``,
+                cy: ``
             }),
             minWords: 0,
             maxWords: 100,
-            isRequired: false,
+            get schema() {
+                return conditionalBeneficiaryLeadershipChoice({
+                    match: BENEFICIARY_GROUPS.OTHER,
+                    schema: Joi.required()
+                });
+            },
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Please tell us the groups`,
-                        cy: ``,
-                    }),
-                },
-            ],
+                        cy: ``
+                    })
+                }
+            ]
         });
     },
 
@@ -1883,26 +1888,31 @@ module.exports = {
                       ${othersIdsToText(
                           beneficiariesLeadershipGroupsDisabledPeople,
                           'en'
-                      )}
+                )}
                       ${othersIdsToText(
-                          beneficiariesLeadershipGroupsLGBT,
-                          'en'
-                      )}</ul>
+                    beneficiariesLeadershipGroupsLGBT,
+                    'en'
+                )}</ul>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: ``,
+                cy: ``
             }),
             minWords: 0,
             maxWords: 100,
-            isRequired: false,
+            get schema() {
+                return conditionalBeneficiaryLeadershipChoice({
+                    match: BENEFICIARY_GROUPS.OTHER,
+                    schema: Joi.required()
+                });
+            },
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Please tell us the groups`,
-                        cy: ``,
-                    }),
-                },
-            ],
+                        cy: ``
+                    })
+                }
+            ]
         });
     },
 };
