@@ -146,19 +146,19 @@ module.exports = {
             }),
             options: [
                 {
-                    value: 'yes',
-                    label: localise({
-                        en: `My project is aimed at a specific group of people`,
-                        cy: `Mae fy mhrosiect wedi’i anelu at grŵp penodol o bobl`,
-                    }),
-                },
-                {
                     value: 'no',
                     label: localise({
                         en: `My project is open to everyone and isn’t aimed at a specific group of people`,
-                        cy: `Mae fy mhrosiect yn agored i bawb ac nid yw wedi’i anelu at grŵp penodol o bobl`,
-                    }),
+                        cy: `Mae fy mhrosiect yn agored i bawb ac nid yw wedi’i anelu at grŵp penodol o bobl`
+                    })
                 },
+                {
+                    value: 'yes',
+                    label: localise({
+                        en: `My project is aimed at a specific group of people`,
+                        cy: `Mae fy mhrosiect wedi’i anelu at grŵp penodol o bobl`
+                    })
+                }
             ],
             isRequired: true,
             messages: [
