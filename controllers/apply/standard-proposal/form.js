@@ -1401,11 +1401,11 @@ module.exports = function ({
         if (projectCountries.includes('england')) {
             return [
                 sectionYourProject(),
+                sectionBeneficiaries(),
                 sectionYourOrganisation(),
                 sectionSeniorContact(),
                 sectionMainContact(),
-                sectionTerms(),
-                sectionBeneficiaries(),
+                sectionTerms()
             ];
         } else {
             return [
