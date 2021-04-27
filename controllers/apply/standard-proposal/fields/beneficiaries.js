@@ -1820,9 +1820,9 @@ module.exports = {
             explanation: localise({
                 en: `<p>You told us that your project will benefit:</p>
                       <ul>${othersIdsToText(
-                          beneficiariesGroupsEthnicBackground,
-                          'en'
-                      )} ${othersIdsToText(beneficiariesGroupsReligion, 'en')}
+                    beneficiariesGroupsEthnicBackground,
+                    'en'
+                )} ${othersIdsToText(beneficiariesGroupsReligion, 'en')}
                       ${othersIdsToText(beneficiariesGroupsMigrant, 'en')}
                       ${othersIdsToText(
                     beneficiariesGroupsDisabledPeople,
@@ -1882,12 +1882,12 @@ module.exports = {
                     'en'
                 )}
                       ${othersIdsToText(
-                          beneficiariesLeadershipGroupsMigrant,
-                          'en'
-                      )}
+                    beneficiariesLeadershipGroupsMigrant,
+                    'en'
+                )}
                       ${othersIdsToText(
-                          beneficiariesLeadershipGroupsDisabledPeople,
-                          'en'
+                    beneficiariesLeadershipGroupsDisabledPeople,
+                    'en'
                 )}
                       ${othersIdsToText(
                     beneficiariesLeadershipGroupsLGBT,
