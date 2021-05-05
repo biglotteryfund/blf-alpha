@@ -11,17 +11,22 @@
             {% call contentBox() %}
                 {{ __('insights.intro') | safe }}
                 <div class="o-button-group-flex">
+                    <a class="btn btn--medium" href="{{ localify('/insights/differences-we-make/differences-we-make') }}">
+                        {{  __('insights.differenceWeMake') }}
+                    </a>
                     <a class="btn btn--medium" href="{{ localify('/insights/documents') }}">
                         {{ __('insights.evidenceLibrary') }}
                     </a>
+                </div>
+                <div class="o-button-group-flex">
                     <a class="btn btn--medium" href="{{ localify('/insights/covid-19-resources/responding-to-covid-19') }}">
                         {{  __('insights.covidInsights') }}
                     </a>
-                </div>
-                <div class="o-button-group-flex">
                     <a class="btn btn--medium" href="{{ localify('/insights/civil-society-approach') }}">
                         {{ __('insights.civilSociety') }}
                     </a>
+                </div>
+                <div class="o-button-group-flex">
                     <a class="btn btn--medium" href="{{ localify('/insights/grantmaking-practice/grantmaking-practice') }}">
                         {{ __('insights.grantmakingPractice') }}
                     </a>
