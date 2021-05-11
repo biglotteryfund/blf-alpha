@@ -1507,7 +1507,7 @@ function standardApplication({
         }
 
         if (mock.projectCountries.includes('England')) {
-            cy.findByLabelText('I understand').click();
+            cy.findByLabelText('I understand you will not use my answers in this section to assess my application').click();
 
             submitStep();
 

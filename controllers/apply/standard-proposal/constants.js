@@ -31,6 +31,7 @@ const BENEFICIARY_GROUPS = {
     ETHNIC_BACKGROUND: 'ethnic-background',
     GENDER: 'gender',
     AGE: 'age',
+    OLDER_PEOPLE: 'older-people',
     DISABLED_PEOPLE: 'disabled-people',
     RELIGION: 'religion',
     LGBT: 'lgbt',

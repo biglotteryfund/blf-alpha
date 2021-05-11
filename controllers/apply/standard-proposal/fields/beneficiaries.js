@@ -89,14 +89,16 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesPreflightCheck',
             label: localise({
-                en: `We will not use your answers in this section to assess your application. Check this box to show you understand.`,
+                en: `<h3>Accessing your application</h3>
+                     <p>This information is being used to inform our own monitoring. We will <strong>not</strong> use your answers in this EDI section to assess your application.</p>
+                     <p><strong>Check this box to show you understand.</strong></p>`,
                 cy: ``,
             }),
             options: [
                 {
                     value: 'yes',
                     label: localise({
-                        en: `I understand`,
+                        en: `I understand you will not use my answers in this section to assess my application`,
                         cy: ``,
                     }),
                 },
@@ -252,10 +254,18 @@ module.exports = {
                     }),
                 },
                 {
+                    value: BENEFICIARY_GROUPS.OLDER_PEOPLE,
+                    label: localise({
+                        en:
+                            'Older people (65 and over)',
+                        cy: '',
+                    }),
+                },
+                {
                     value: BENEFICIARY_GROUPS.AGE,
                     label: localise({
                         en:
-                            'Older (65 and over) and younger (25 and under) people',
+                            'Younger people (under 25)',
                         cy: '',
                     }),
                 },
@@ -269,7 +279,7 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.LGBT,
                     label: localise({
-                        en: 'LGBT+ people',
+                        en: 'LGBTQ+ people',
                         cy: '',
                     }),
                     explanation: localise({
@@ -527,11 +537,11 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesGroupsLGBT',
             label: localise({
-                en: `LGBT+ people`,
+                en: `LGBTQ+ people`,
                 cy: ``,
             }),
             explanation: localise({
-                en: `<p>You told us that your project mostly benefits LGBT+ people.</p>
+                en: `<p>You told us that your project mostly benefits LGBTQ+ people.</p>
                      <p>How would you describe the group or groups? You can choose more than one category.</p>`,
                 cy: ``,
             }),
@@ -566,7 +576,7 @@ module.exports = {
                 },
                 {
                     value: 'other-lgbt',
-                    label: localise({ en: 'In another way', cy: '' }),
+                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way:', cy: '' }),
                 },
             ],
             get schema() {
@@ -593,19 +603,15 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesGroupsAge',
             label: localise({
-                en: `Age`,
-                cy: `Oedran`,
+                en: `Younger people`,
+                cy: ``,
             }),
             explanation: localise({
-                en: `<p>You told us that your project mostly benefits older and younger people.</p>
+                en: `<p>You told us that your project mostly benefits younger people.</p>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
                 cy: ``,
             }),
             options: [
-                {
-                    value: '60+',
-                    label: localise({ en: '60 and over', cy: '' }),
-                },
                 { value: '19-25', label: '19-25' },
                 { value: '16-18', label: '16-18' },
                 { value: '8-15', label: '8-15' },
@@ -1113,10 +1119,18 @@ module.exports = {
                     }),
                 },
                 {
+                    value: BENEFICIARY_GROUPS.OLDER_PEOPLE,
+                    label: localise({
+                        en:
+                            'Older people',
+                        cy: '',
+                    }),
+                },
+                {
                     value: BENEFICIARY_GROUPS.AGE,
                     label: localise({
                         en:
-                            'Older (65 and over) and younger (25 and under) people',
+                            'Younger people',
                         cy: '',
                     }),
                 },
@@ -1130,7 +1144,7 @@ module.exports = {
                 {
                     value: BENEFICIARY_GROUPS.LGBT,
                     label: localise({
-                        en: 'LGBT+ people',
+                        en: 'LGBTQ+ people',
                         cy: '',
                     }),
                     explanation: localise({
@@ -1165,9 +1179,21 @@ module.exports = {
                     }),
                 },
                 {
-                    value: 'no-prefer-not-to-say',
+                    value: 'no',
                     label: localise({
-                        en: 'No or prefer not to say',
+                        en: 'No',
+                        cy: '',
+                    }),
+                    explanation: localise({
+                        en:
+                            'Most of the people who lead or make the key decisions in my organisation do not belong to one specific group',
+                        cy: '',
+                    }),
+                },
+                {
+                    value: 'prefer-not-to-say',
+                    label: localise({
+                        en: 'Prefer not to say',
                         cy: '',
                     }),
                     explanation: localise({
@@ -1661,15 +1687,11 @@ module.exports = {
             }),
             explanation: localise({
                 en: `<p>You told us that the leadership of your organisation self-identify 
-                     as older and younger people.</p>
+                     as younger people.</p>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
                 cy: ``,
             }),
             options: [
-                {
-                    value: '60+',
-                    label: localise({ en: '60 and over', cy: '' }),
-                },
                 { value: '19-25', label: '19-25' },
                 { value: '16-18', label: '16-18' },
                 { value: '8-15', label: '8-15' },
@@ -1702,11 +1724,11 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesLeadershipGroupsLGBT',
             label: localise({
-                en: `LGBT+ people`,
+                en: `LGBTQ+ people`,
                 cy: ``,
             }),
             explanation: localise({
-                en: `<p>You told us that the leadership of your organisation self-identify as LGBT+ people.</p>
+                en: `<p>You told us that the leadership of your organisation self-identify as LGBTQ+ people.</p>
                      <p>How would you describe the group or groups? You can choose more than one category.</p>`,
                 cy: ``,
             }),
@@ -1741,7 +1763,8 @@ module.exports = {
                 },
                 {
                     value: 'other-lgbt',
-                    label: localise({ en: 'In another way', cy: '' }),
+                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way:', cy: '' }),
+                    explanation: localise({ en: 'Examples: Other LGBTQ+ People, including queer and intersex people', cy:''}),
                 },
             ],
             get schema() {
