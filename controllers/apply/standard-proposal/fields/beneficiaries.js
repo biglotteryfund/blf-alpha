@@ -576,7 +576,7 @@ module.exports = {
                 },
                 {
                     value: 'other-lgbt',
-                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way:', cy: '' }),
+                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way: ', cy: '' }),
                     explanation: localise({
                         en: oneLine`Examples: Other LGBTQ+ People, including queer and intersex people`,
                         cy: oneLine``,
