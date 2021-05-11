@@ -59,7 +59,7 @@ function mockResponse(overrides = {}) {
             'other',
         ],
         beneficiariesGroupsEthnicBackground: ['mixed-black', 'chinese'],
-        beneficiariesGroupsAge: ['16-18', '60+'],
+        beneficiariesGroupsAge: ['16-18'],
         beneficiariesGroupsDisabledPeople: ['mental-health'],
         beneficiariesGroupsReligion: ['sikh'],
         beneficiariesGroupsMigrant: ['asylum-seeker'],
