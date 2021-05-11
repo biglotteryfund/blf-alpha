@@ -89,7 +89,9 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesPreflightCheck',
             label: localise({
-                en: `This information is being used to inform our own monitoring. We will not use your answers in this EDI section to assess your application. Check this box to show you understand.`,
+                en: `<h3>Accessing your application</h3>
+                     <p>This information is being used to inform our own monitoring. We will <strong>not</strong> use your answers in this EDI section to assess your application.</p>
+                     <p><strong>Check this box to show you understand.</strong></p>`,
                 cy: ``,
             }),
             options: [
@@ -574,7 +576,7 @@ module.exports = {
                 },
                 {
                     value: 'other-lgbt',
-                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way: Examples: Other LGBTQ+ People, including queer and intersex people', cy: '' }),
+                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way:', cy: '' }),
                 },
             ],
             get schema() {
@@ -1762,6 +1764,7 @@ module.exports = {
                 {
                     value: 'other-lgbt',
                     label: localise({ en: 'LGBTQ+ people I\'d describe in another way:', cy: '' }),
+                    explanation: localise({ en: 'Examples: Other LGBTQ+ People, including queer and intersex people', cy:''}),
                 },
             ],
             get schema() {
