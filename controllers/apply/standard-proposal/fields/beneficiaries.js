@@ -257,7 +257,7 @@ module.exports = {
                     value: BENEFICIARY_GROUPS.OLDER_PEOPLE,
                     label: localise({
                         en:
-                            'Older people',
+                            'Older people (65 and over)',
                         cy: '',
                     }),
                 },
@@ -265,7 +265,7 @@ module.exports = {
                     value: BENEFICIARY_GROUPS.AGE,
                     label: localise({
                         en:
-                            'Younger people',
+                            'Younger people (under 25)',
                         cy: '',
                     }),
                 },
@@ -603,8 +603,8 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesGroupsAge',
             label: localise({
-                en: `Age`,
-                cy: `Oedran`,
+                en: `Younger people`,
+                cy: ``,
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits younger people.</p>
