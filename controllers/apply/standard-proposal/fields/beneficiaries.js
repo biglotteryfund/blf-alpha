@@ -576,8 +576,11 @@ module.exports = {
                 },
                 {
                     value: 'other-lgbt',
-                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way:', cy: '' }),
-                    explanation: localise({ en: 'Examples: Other LGBTQ+ People, including queer and intersex people', cy: '' }),
+                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way', cy: '' }),
+                    explanation: localise({
+                        en: oneLine`Examples: Other LGBTQ+ People, including queer and intersex people`,
+                        cy: oneLine``,
+                    }),
                 },
             ],
             get schema() {
@@ -665,8 +668,12 @@ module.exports = {
                 {
                     value: 'health',
                     label: localise({
-                        en: 'Health',
+                        en: 'Long standing illness or health condition',
                         cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples are cancer, HIV, diabetes, chronic heart disease or epilepsy, or other rare conditions`,
+                        cy: oneLine``,
                     }),
                 },
                 {
@@ -1572,8 +1579,12 @@ module.exports = {
                 {
                     value: 'health',
                     label: localise({
-                        en: 'Health',
+                        en: 'Long standing illness or health condition',
                         cy: '',
+                    }),
+                    explanation: localise({
+                        en: oneLine`Examples are cancer, HIV, diabetes, chronic heart disease or epilepsy, or other rare conditions`,
+                        cy: oneLine``,
                     }),
                 },
                 {
@@ -1683,8 +1694,8 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesLeadershipGroupsAge',
             label: localise({
-                en: `Age`,
-                cy: `Oedran`,
+                en: `Younger people`,
+                cy: ``,
             }),
             explanation: localise({
                 en: `<p>You told us that the leadership of your organisation self-identify 
@@ -1764,8 +1775,11 @@ module.exports = {
                 },
                 {
                     value: 'other-lgbt',
-                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way:', cy: '' }),
-                    explanation: localise({ en: 'Examples: Other LGBTQ+ People, including queer and intersex people', cy: '' }),
+                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way', cy: '' }),
+                    explanation: localise({
+                        en: oneLine`Examples: Other LGBTQ+ People, including queer and intersex people`,
+                        cy: oneLine``,
+                    }),
                 },
             ],
             get schema() {
