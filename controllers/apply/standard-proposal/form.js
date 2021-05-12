@@ -249,7 +249,7 @@ module.exports = function ({
                             fully in decision-making processes. While an 'inclusive' group is diverse, a 'diverse' 
                             group may or may not be 'inclusive'.</p>
 
-                            <h3>Accessing your application</h3>
+                            <h3>Assessing your application</h3>
                             <p>This information is being used to inform our own monitoring. 
                             We will <strong>not</strong> use your answers in this EDI section to assess your 
                             application.</p>`,
