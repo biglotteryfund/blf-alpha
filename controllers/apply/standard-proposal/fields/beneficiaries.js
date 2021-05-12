@@ -293,7 +293,7 @@ module.exports = {
                         cy: '',
                     }),
                     explanation: localise({
-                        en: oneLine`Example are people from a low-income and/or educationally disadvantaged background 
+                        en: oneLine`Examples are people from a low-income and/or educationally disadvantaged background 
                         which might have a long-term impact on their life, and/or people experiencing 
                         financial difficulties just now`,
                         cy: oneLine``,
@@ -1166,7 +1166,7 @@ module.exports = {
                         cy: '',
                     }),
                     explanation: localise({
-                        en: oneLine`Example are people from a low-income and/or educationally disadvantaged background 
+                        en: oneLine`Examples are people from a low-income and/or educationally disadvantaged background 
                         which might have a long-term impact on their life, and/or people experiencing 
                         financial difficulties just now`,
                         cy: oneLine``,
