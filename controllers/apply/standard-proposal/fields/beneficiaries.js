@@ -68,7 +68,7 @@ function othersIdsToText(id, lang) {
     if (id.includes(OTHER_GROUPS.OTHER_ETHNICITY))
         list += lang === 'en' ? '<li>Any other ethnic background</li>' : '';
     if (id.includes(OTHER_GROUPS.OTHER_LGBT))
-        list += lang === 'en' ? '<li>In another way</li>' : '';
+        list += lang === 'en' ? '<li>LGBTQ+ people I\'d describe in another way</li>' : '';
     if (id.includes(OTHER_GROUPS.OTHER_MIGRANT))
         list += lang === 'en' ? '<li>Other migrants</li>' : '';
     if (id.includes(OTHER_GROUPS.OTHER_FAITH))
@@ -293,7 +293,7 @@ module.exports = {
                         cy: '',
                     }),
                     explanation: localise({
-                        en: oneLine`Example are people from a low-income and/or educationally disadvantaged background 
+                        en: oneLine`Examples are people from a low-income and/or educationally disadvantaged background 
                         which might have a long-term impact on their life, and/or people experiencing 
                         financial difficulties just now`,
                         cy: oneLine``,
@@ -1128,7 +1128,7 @@ module.exports = {
                     value: BENEFICIARY_GROUPS.OLDER_PEOPLE,
                     label: localise({
                         en:
-                            'Older people',
+                            'Older people (65 and over)',
                         cy: '',
                     }),
                 },
@@ -1136,7 +1136,7 @@ module.exports = {
                     value: BENEFICIARY_GROUPS.AGE,
                     label: localise({
                         en:
-                            'Younger people',
+                            'Younger people (under 25)',
                         cy: '',
                     }),
                 },
@@ -1166,7 +1166,7 @@ module.exports = {
                         cy: '',
                     }),
                     explanation: localise({
-                        en: oneLine`Example are people from a low-income and/or educationally disadvantaged background 
+                        en: oneLine`Examples are people from a low-income and/or educationally disadvantaged background 
                         which might have a long-term impact on their life, and/or people experiencing 
                         financial difficulties just now`,
                         cy: oneLine``,
