@@ -17,7 +17,7 @@ let { IP_RANGE } = require('./common/secrets');
 
 const app = express();
 if (NODE_ENV === 'dev' && IP_RANGE) {
-    const ipfilter = require('express-ipfilter').IpFilter;git
+    const ipfilter = require('express-ipfilter').IpFilter;
 
     app.use(
         ipfilter(IP_RANGE.split(','), {
