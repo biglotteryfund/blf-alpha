@@ -247,7 +247,12 @@ module.exports = function ({
                             <h3>Inclusion</h3>
                             <p>Inclusion refers to the degree to which people feel valued and able to participate 
                             fully in decision-making processes. While an 'inclusive' group is diverse, a 'diverse' 
-                            group may or may not be 'inclusive'.</p>`,
+                            group may or may not be 'inclusive'.</p>
+
+                            <h3>Assessing your application</h3>
+                            <p>This information is being used to inform our own monitoring. 
+                            We will <strong>not</strong> use your answers in this EDI section to assess your 
+                            application.</p>`,
                         cy: `<p>
                             Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.
                         </p>
@@ -455,10 +460,10 @@ module.exports = function ({
 
     function stepLGBT() {
         return new Step({
-            title: localise({ en: 'LGBT+ people', cy: 'Rhyw' }),
+            title: localise({ en: 'LGBTQ+ people', cy: 'Rhyw' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'LGBT+ people', cy: 'Rhyw' }),
+                    legend: localise({ en: 'LGBTQ+ people', cy: 'Rhyw' }),
                     fields: conditionalFields(
                         [allFields.beneficiariesGroupsLGBT],
                         includeIfBeneficiaryType(BENEFICIARY_GROUPS.LGBT, [
@@ -774,11 +779,11 @@ module.exports = function ({
 
     function stepLeadershipAge() {
         return new Step({
-            title: localise({ en: 'Older and younger people', cy: '' }),
+            title: localise({ en: 'Young people', cy: '' }),
             fieldsets: [
                 {
                     legend: localise({
-                        en: 'Older and younger people',
+                        en: 'Young people',
                         cy: '',
                     }),
                     fields: conditionalFields(
@@ -795,11 +800,11 @@ module.exports = function ({
 
     function stepLeadershipLGBT() {
         return new Step({
-            title: localise({ en: 'LGBT+ people', cy: '' }),
+            title: localise({ en: 'LGBTQ+ people', cy: '' }),
             fieldsets: [
                 {
                     legend: localise({
-                        en: 'LGBT+ people',
+                        en: 'LGBTQ+ people',
                         cy: '',
                     }),
                     fields: conditionalFields(
