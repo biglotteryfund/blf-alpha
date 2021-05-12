@@ -460,10 +460,10 @@ module.exports = function ({
 
     function stepLGBT() {
         return new Step({
-            title: localise({ en: 'LGBT+ people', cy: 'Rhyw' }),
+            title: localise({ en: 'LGBTQ+ people', cy: 'Rhyw' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'LGBT+ people', cy: 'Rhyw' }),
+                    legend: localise({ en: 'LGBTQ+ people', cy: 'Rhyw' }),
                     fields: conditionalFields(
                         [allFields.beneficiariesGroupsLGBT],
                         includeIfBeneficiaryType(BENEFICIARY_GROUPS.LGBT, [
@@ -800,11 +800,11 @@ module.exports = function ({
 
     function stepLeadershipLGBT() {
         return new Step({
-            title: localise({ en: 'LGBT+ people', cy: '' }),
+            title: localise({ en: 'LGBTQ+ people', cy: '' }),
             fieldsets: [
                 {
                     legend: localise({
-                        en: 'LGBT+ people',
+                        en: 'LGBTQ+ people',
                         cy: '',
                     }),
                     fields: conditionalFields(
