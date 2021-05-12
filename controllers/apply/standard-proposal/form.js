@@ -472,7 +472,7 @@ module.exports = function ({
 
     function stepAge() {
         return new Step({
-            title: localise({ en: 'Age', cy: 'Oedran' }),
+            title: localise({ en: 'Young people', cy: 'Oedran' }),
             fieldsets: [
                 {
                     legend: localise({ en: 'Age', cy: 'Oedran' }),
