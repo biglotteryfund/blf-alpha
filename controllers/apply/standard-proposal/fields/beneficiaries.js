@@ -68,7 +68,7 @@ function othersIdsToText(id, lang) {
     if (id.includes(OTHER_GROUPS.OTHER_ETHNICITY))
         list += lang === 'en' ? '<li>Any other ethnic background</li>' : '';
     if (id.includes(OTHER_GROUPS.OTHER_LGBT))
-        list += lang === 'en' ? '<li>In another way</li>' : '';
+        list += lang === 'en' ? '<li>LGBTQ+ people I\'d describe in another way</li>' : '';
     if (id.includes(OTHER_GROUPS.OTHER_MIGRANT))
         list += lang === 'en' ? '<li>Other migrants</li>' : '';
     if (id.includes(OTHER_GROUPS.OTHER_FAITH))
