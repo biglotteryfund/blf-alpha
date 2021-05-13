@@ -593,6 +593,10 @@ function under10KApplication(mock) {
     function sectionBeneficiaries(mock) {
         cy.checkA11y();
 
+        cy.findByLabelText('I understand you will not use my answers in this section to assess my application').click();
+
+        submitStep();
+
         if (mock.beneficiariesGroups.length > 0) {
             cy.findByLabelText(
                 'My project is aimed at a specific group of people'
@@ -1020,16 +1024,9 @@ it('should submit full application for under £10,000 outside England', () => {
             endDate: moment().add(6, 'months'),
         },
         country: sample(['Northern Ireland', 'Scotland', 'Wales']),
-        beneficiariesGroups: sampleSize(
+        beneficiariesGroups:
             [
-                'People from a particular ethnic background',
-                'People of a particular gender',
-                'People of a particular age',
-                'Disabled people',
-                'Lesbian, gay, or bisexual people',
             ],
-            2
-        ),
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Registered charity (unincorporated)',
