@@ -37,17 +37,28 @@ const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 
 const {
+    fieldBeneficiariesPreflightCheck,
     fieldBeneficiariesGroups,
     fieldBeneficiariesGroupsAge,
     fieldBeneficiariesGroupsCheck,
     fieldBeneficiariesGroupsDisabledPeople,
     fieldBeneficiariesEthnicBackground,
-    fieldBeneficiariesGroupsGender,
-    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesGroupsLGBT,
     fieldBeneficiariesGroupsReligion,
-    fieldBeneficiariesGroupsReligionOther,
     fieldBeneficiariesNorthernIrelandCommunity,
     fieldBeneficiariesWelshLanguage,
+    fieldBeneficiariesGroupsMigrant,
+    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesLeadershipGroups,
+    fieldBeneficiariesLeadershipGroupsEthnicBackground,
+    fieldBeneficiariesLeadershipGroupsReligion,
+    fieldBeneficiariesLeadershipGroupsMigrant,
+    fieldBeneficiariesLeadershipGroupsDisabledPeople,
+    fieldBeneficiariesLeadershipGroupsAge,
+    fieldBeneficiariesLeadershipGroupsLGBT,
+    fieldBeneficiariesLeadershipGroupsOther,
+    fieldBeneficiariesAnyGroupsOther,
+    fieldBeneficiariesLeadershipAnyGroupsOther,
 } = require('./fields/beneficiaries');
 
 const {
@@ -162,24 +173,69 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         yourIdeaCommunity: fieldYourIdeaCommunity(locale, data),
         projectBudget: fieldProjectBudget(locale),
         projectTotalCosts: fieldProjectTotalCosts(locale, data),
-        beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
+        beneficiariesPreflightCheck: fieldBeneficiariesPreflightCheck(
+            locale
+        ),
+        beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(
+            locale
+        ),
         beneficiariesGroups: fieldBeneficiariesGroups(locale),
-        beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
         beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
             locale
         ),
-        beneficiariesGroupsGender: fieldBeneficiariesGroupsGender(locale),
+        beneficiariesGroupsLGBT: fieldBeneficiariesGroupsLGBT(
+            locale
+        ),
         beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
         beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
             locale
         ),
-        beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(locale),
-        beneficiariesGroupsReligionOther: fieldBeneficiariesGroupsReligionOther(
+        beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
             locale
         ),
-        beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(locale),
+        beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
+            locale
+        ),
         beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
             locale
+        ),
+        beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(
+            locale
+        ),
+        beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
+            locale
+        ),
+        beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
+            locale,
+            data
+        ),
+        beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
+            locale
+        ),
+        beneficiariesLeadershipGroupsEthnicBackground: fieldBeneficiariesLeadershipGroupsEthnicBackground(
+            locale
+        ),
+        beneficiariesLeadershipGroupsReligion: fieldBeneficiariesLeadershipGroupsReligion(
+            locale
+        ),
+        beneficiariesLeadershipGroupsMigrants: fieldBeneficiariesLeadershipGroupsMigrant(
+            locale
+        ),
+        beneficiariesLeadershipGroupsAge: fieldBeneficiariesLeadershipGroupsAge(
+            locale
+        ),
+        beneficiariesLeadershipGroupsDisabledPeople: fieldBeneficiariesLeadershipGroupsDisabledPeople(
+            locale
+        ),
+        beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(
+            locale
+        ),
+        beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
+            locale
+        ),
+        beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
+            locale,
+            data
         ),
         organisationHasDifferentTradingName: new RadioField({
             locale: locale,
