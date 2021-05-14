@@ -5,7 +5,6 @@ const includes = require('lodash/includes');
 const partition = require('lodash/partition');
 const random = require('lodash/random');
 const sample = require('lodash/sample');
-const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
 
