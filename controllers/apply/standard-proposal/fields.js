@@ -2326,7 +2326,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         data
                     )
                 };
-
             } else {
                 fields = {
                     projectName: fieldProjectName(),
@@ -2381,9 +2380,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(
                         locale
                     ),
-                    beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
-                        locale
-                    ),
                     beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
                         locale
                     ),
@@ -2403,9 +2399,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         locale
                     ),
                     beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(
-                        locale
-                    ),
-                    beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
                     )
                 };
