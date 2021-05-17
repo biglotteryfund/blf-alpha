@@ -1510,7 +1510,7 @@ module.exports = function ({
                 sectionYourProject(),
                 sectionYourOrganisation(),
                 sectionYourDetails(),
-                //sectionBeneficiaries()
+                sectionBeneficiaries()
             ];
         }
     }

@@ -2236,31 +2236,173 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 };
             }
         } else {
-            fields = {
-                projectName: fieldProjectName(),
-                projectCountries: fieldProjectCountries(),
-                projectRegions: fieldProjectRegions(),
-                projectLocation: fieldProjectLocation(),
-                projectLocationDescription: fieldProjectLocationDescription(),
-                projectLocationPostcode: fieldProjectLocationPostcode(locale),
-                projectCosts: fieldProjectCosts(),
-                projectDurationYears: fieldProjectDurationYears(),
-                projectWebsite: fieldProjectWebsite(),
-                yourIdeaProject: fieldYourIdeaProject(),
-                yourIdeaCommunity: fieldYourIdeaCommunity(),
-                yourIdeaActivities: fieldYourIdeaActivities(),
-                organisationLegalName: fieldOrganisationLegalName(),
-                organisationDifferentName: fieldOrganisationDifferentName(),
-                organisationTradingName: fieldOrganisationTradingName(),
-                organisationAddress: fieldOrganisationAddress(),
-                organisationType: fieldOrganisationType(),
-                organisationSubType: fieldOrganisationSubType(),
-                contactName: fieldContactName(),
-                contactEmail: fieldContactEmail(),
-                contactPhone: fieldContactPhone(),
-                contactLanguagePreference: fieldContactLanguagePreference(),
-                contactCommunicationNeeds: fieldContactCommunicationNeeds(),
-            };
+            if (beneficiariesGroupCheck === 'yes') {
+                fields = {
+                    projectName: fieldProjectName(),
+                    projectCountries: fieldProjectCountries(),
+                    projectRegions: fieldProjectRegions(),
+                    projectLocation: fieldProjectLocation(),
+                    projectLocationDescription: fieldProjectLocationDescription(),
+                    projectLocationPostcode: fieldProjectLocationPostcode(locale),
+                    projectCosts: fieldProjectCosts(),
+                    projectDurationYears: fieldProjectDurationYears(),
+                    projectWebsite: fieldProjectWebsite(),
+                    yourIdeaProject: fieldYourIdeaProject(),
+                    yourIdeaCommunity: fieldYourIdeaCommunity(),
+                    yourIdeaActivities: fieldYourIdeaActivities(),
+                    organisationLegalName: fieldOrganisationLegalName(),
+                    organisationDifferentName: fieldOrganisationDifferentName(),
+                    organisationTradingName: fieldOrganisationTradingName(),
+                    organisationAddress: fieldOrganisationAddress(),
+                    organisationType: fieldOrganisationType(),
+                    organisationSubType: fieldOrganisationSubType(),
+                    contactName: fieldContactName(),
+                    contactEmail: fieldContactEmail(),
+                    contactPhone: fieldContactPhone(),
+                    contactLanguagePreference: fieldContactLanguagePreference(),
+                    contactCommunicationNeeds: fieldContactCommunicationNeeds(),
+                    beneficiariesPreflightCheck: fieldBeneficiariesPreflightCheck(
+                        locale
+                    ),
+                    beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(
+                        locale
+                    ),
+                    beneficiariesGroups: fieldBeneficiariesGroups(locale),
+                    beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
+                        locale
+                    ),
+                    beneficiariesGroupsLGBT: fieldBeneficiariesGroupsLGBT(
+                        locale
+                    ),
+                    beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
+                    beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
+                        locale
+                    ),
+                    beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
+                        locale
+                    ),
+                    beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
+                        locale
+                    ),
+                    beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
+                        locale
+                    ),
+                    beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(
+                        locale
+                    ),
+                    beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
+                        locale
+                    ),
+                    beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
+                        locale,
+                        data
+                    ),
+                    beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsEthnicBackground: fieldBeneficiariesLeadershipGroupsEthnicBackground(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsReligion: fieldBeneficiariesLeadershipGroupsReligion(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsMigrants: fieldBeneficiariesLeadershipGroupsMigrant(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsAge: fieldBeneficiariesLeadershipGroupsAge(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsDisabledPeople: fieldBeneficiariesLeadershipGroupsDisabledPeople(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
+                        locale
+                    ),
+                    beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
+                        locale,
+                        data
+                    )
+                };
+            } else {
+                fields = {
+                    projectName: fieldProjectName(),
+                    projectCountries: fieldProjectCountries(),
+                    projectRegions: fieldProjectRegions(),
+                    projectLocation: fieldProjectLocation(),
+                    projectLocationDescription: fieldProjectLocationDescription(),
+                    projectLocationPostcode: fieldProjectLocationPostcode(locale),
+                    projectCosts: fieldProjectCosts(),
+                    projectDurationYears: fieldProjectDurationYears(),
+                    projectWebsite: fieldProjectWebsite(),
+                    yourIdeaProject: fieldYourIdeaProject(),
+                    yourIdeaCommunity: fieldYourIdeaCommunity(),
+                    yourIdeaActivities: fieldYourIdeaActivities(),
+                    organisationLegalName: fieldOrganisationLegalName(),
+                    organisationDifferentName: fieldOrganisationDifferentName(),
+                    organisationTradingName: fieldOrganisationTradingName(),
+                    organisationAddress: fieldOrganisationAddress(),
+                    organisationType: fieldOrganisationType(),
+                    organisationSubType: fieldOrganisationSubType(),
+                    contactName: fieldContactName(),
+                    contactEmail: fieldContactEmail(),
+                    contactPhone: fieldContactPhone(),
+                    contactLanguagePreference: fieldContactLanguagePreference(),
+                    contactCommunicationNeeds: fieldContactCommunicationNeeds(),
+                    beneficiariesPreflightCheck: fieldBeneficiariesPreflightCheck(
+                        locale
+                    ),
+                    beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(
+                        locale
+                    ),
+                    beneficiariesGroups: fieldBeneficiariesGroups(locale),
+                    beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
+                        locale
+                    ),
+                    beneficiariesGroupsLGBT: fieldBeneficiariesGroupsLGBT(
+                        locale
+                    ),
+                    beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
+                    beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
+                        locale
+                    ),
+                    beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
+                        locale
+                    ),
+                    beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
+                        locale
+                    ),
+                    beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
+                        locale
+                    ),
+                    beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsEthnicBackground: fieldBeneficiariesLeadershipGroupsEthnicBackground(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsReligion: fieldBeneficiariesLeadershipGroupsReligion(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsMigrants: fieldBeneficiariesLeadershipGroupsMigrant(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsAge: fieldBeneficiariesLeadershipGroupsAge(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsDisabledPeople: fieldBeneficiariesLeadershipGroupsDisabledPeople(
+                        locale
+                    ),
+                    beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(
+                        locale
+                    )
+                };
+            }
         }
         return fields;
     }
