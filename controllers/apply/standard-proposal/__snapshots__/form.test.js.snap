@@ -16,6 +16,10 @@ Array [
   "Select a type of organisation",
   "Enter first and last name",
   "Enter an email address",
+  "Check this box to show you understand",
+  "Select an option",
+  "Please tell us the people that will benefit from your project",
+  "Please tell us the groups",
 ]
 `;
 
@@ -36,5 +40,9 @@ Array [
   "Select a type of organisation",
   "Enter first and last name",
   "Enter an email address",
+  "Check this box to show you understand",
+  "Select an option",
+  "Please tell us the people that will benefit from your project",
+  "Please tell us the groups",
 ]
 `;
