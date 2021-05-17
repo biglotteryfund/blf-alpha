@@ -18,8 +18,6 @@ Array [
   "Enter an email address",
   "Check this box to show you understand",
   "Select an option",
-  "Please tell us the people that will benefit from your project",
-  "Please tell us the groups",
 ]
 `;
 
@@ -42,7 +40,5 @@ Array [
   "Enter an email address",
   "Check this box to show you understand",
   "Select an option",
-  "Please tell us the people that will benefit from your project",
-  "Please tell us the groups",
 ]
 `;
