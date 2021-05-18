@@ -30,10 +30,6 @@ module.exports = function ({
 
     const currentOrganisationType = get('organisationType')(data);
 
-    const beneficiariesGroupsCheck = getOr(
-        [],
-        'beneficiariesGroupsCheck'
-    )(data);
     const beneficiariesGroupCheck = get('beneficiariesGroupsCheck')(data);
 
     const beneficiariesGroups = get('beneficiariesGroups')(data);
@@ -1332,7 +1328,7 @@ module.exports = function ({
                 stepAge(),
                 stepLGBT(),
             ];
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
                 steps.push(
                     stepOtherBeneficiaryGroups(),
                 );
@@ -1340,7 +1336,13 @@ module.exports = function ({
             steps.push(
                 stepWelshLanguage(),
                 stepNorthernIrelandCommunity(),
-                stepBeneficiariesAnyGroupsOther(),
+            );
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
+                steps.push(
+                    stepBeneficiariesAnyGroupsOther(),
+                );
+            }
+            steps.push(
                 // Leadership EDI
                 stepBeneficiariesLeadershipEdi(),
                 stepLeadershipEthnicBackground(),
@@ -1353,11 +1355,9 @@ module.exports = function ({
             if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups.includes('other')) {
                 steps.push(
                     stepLeadershipOtherBeneficiaryGroups(),
+                    stepBeneficiariesLeadershipAnyGroupsOther(),
                 );
             }
-            steps.push(
-                stepBeneficiariesLeadershipAnyGroupsOther(),
-            );
 
             return steps;
         }
