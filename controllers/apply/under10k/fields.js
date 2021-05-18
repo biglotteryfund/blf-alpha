@@ -49,16 +49,7 @@ const {
     fieldBeneficiariesWelshLanguage,
     fieldBeneficiariesGroupsMigrant,
     fieldBeneficiariesGroupsOther,
-    fieldBeneficiariesLeadershipGroups,
-    fieldBeneficiariesLeadershipGroupsEthnicBackground,
-    fieldBeneficiariesLeadershipGroupsReligion,
-    fieldBeneficiariesLeadershipGroupsMigrant,
-    fieldBeneficiariesLeadershipGroupsDisabledPeople,
-    fieldBeneficiariesLeadershipGroupsAge,
-    fieldBeneficiariesLeadershipGroupsLGBT,
-    fieldBeneficiariesLeadershipGroupsOther,
     fieldBeneficiariesAnyGroupsOther,
-    fieldBeneficiariesLeadershipAnyGroupsOther,
 } = require('./fields/beneficiaries');
 
 const {
@@ -103,6 +94,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
     const localise = get(locale);
 
     const beneficiariesGroupCheck = get('beneficiariesGroupsCheck')(data);
+    const beneficiariesGroups = get('beneficiariesGroups')(data);
 
     function dateOfBirthField(name, minAge) {
         const minDate = moment().subtract(120, 'years').format('YYYY-MM-DD');
@@ -207,7 +199,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 locale
             ),
         };
-        if (beneficiariesGroupCheck !== 'yes') {
+        if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
             Object.assign(fields, {
                 beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                     locale
@@ -216,40 +208,6 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
         }
         Object.assign(fields, {
             beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
-                locale,
-                data
-            ),
-            beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
-                locale
-            ),
-            beneficiariesLeadershipGroupsEthnicBackground: fieldBeneficiariesLeadershipGroupsEthnicBackground(
-                locale
-            ),
-            beneficiariesLeadershipGroupsReligion: fieldBeneficiariesLeadershipGroupsReligion(
-                locale
-            ),
-            beneficiariesLeadershipGroupsMigrants: fieldBeneficiariesLeadershipGroupsMigrant(
-                locale
-            ),
-            beneficiariesLeadershipGroupsAge: fieldBeneficiariesLeadershipGroupsAge(
-                locale
-            ),
-            beneficiariesLeadershipGroupsDisabledPeople: fieldBeneficiariesLeadershipGroupsDisabledPeople(
-                locale
-            ),
-            beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(
-                locale
-            ),
-        });
-        if (beneficiariesGroupCheck !== 'yes') {
-            Object.assign(fields, {
-                beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
-                    locale
-                ),
-            });
-        }
-        Object.assign(fields, {
-            beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
                 locale,
                 data
             ),
@@ -591,6 +549,7 @@ module.exports = function fieldsFor({ locale, data = {}, flags = {} }) {
                 name: 'seniorContactPhone',
             }),
         });
+
         return fields;
     }
 
