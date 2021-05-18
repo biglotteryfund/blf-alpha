@@ -1707,8 +1707,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck !== 'yes') {
-                fields.push({
+            if (beneficiariesGroupCheck === 'yes') {
+                Object.assign(fields, {
                     beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                         locale
                     ),
@@ -1741,8 +1741,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck !== 'yes') {
-                fields.push({
+            if (beneficiariesGroupCheck === 'yes') {
+                Object.assign(fields, {
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
                     ),
@@ -2017,7 +2017,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck !== 'yes') {
+            if (beneficiariesGroupCheck === 'yes') {
                 Object.assign(fields, {
                     beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                         locale
@@ -2051,7 +2051,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck !== 'yes') {
+            if (beneficiariesGroupCheck === 'yes') {
                 Object.assign(fields, {
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
