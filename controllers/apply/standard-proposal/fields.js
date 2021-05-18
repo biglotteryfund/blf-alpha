@@ -1709,18 +1709,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                         locale
                     ),
+                    beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
+                        locale,
+                        data
+                    ),
                 });
             }
             Object.assign(fields, {
-                beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
-                    locale,
-                    data
-                ),
                 beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
                     locale
                 ),
@@ -1743,19 +1743,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
                     ),
+                    beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
+                        locale,
+                        data
+                    ),
                 });
             }
-            Object.assign(fields, {
-                beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
-                    locale,
-                    data
-                ),
-            });
         }
         Object.assign(fields, {
             organisationLegalName: fieldOrganisationLegalName(),
@@ -2019,7 +2017,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                         locale
@@ -2053,7 +2051,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
