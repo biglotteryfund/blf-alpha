@@ -95,6 +95,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     const mainContactPhone = get('mainContactPhone')(data);
     const seniorContactPhone = get('seniorContactPhone')(data);
     const beneficiariesGroupCheck = get('beneficiariesGroupsCheck')(data);
+    const beneficiariesGroups = get('beneficiariesGroups')(data);
+    const beneficiariesLeadershipGroups = get('beneficiariesLeadershipGroups')(data);
 
     function fieldProjectName() {
         const maxLength = 80;
@@ -1707,7 +1709,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes') {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                         locale
@@ -1741,7 +1743,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes') {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
@@ -2017,7 +2019,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes') {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
                         locale
@@ -2051,7 +2053,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes') {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
