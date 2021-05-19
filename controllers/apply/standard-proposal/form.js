@@ -30,10 +30,10 @@ module.exports = function ({
 
     const currentOrganisationType = get('organisationType')(data);
 
-    const beneficiariesGroupsCheck = getOr(
-        [],
-        'beneficiariesGroupsCheck'
-    )(data);
+    const beneficiariesGroupCheck = get('beneficiariesGroupsCheck')(data);
+
+    const beneficiariesGroups = get('beneficiariesGroups')(data);
+    const beneficiariesLeadershipGroups = get('beneficiariesLeadershipGroups')(data);
 
     const conditionalFields = (fields, filteredFields) => {
         const filteredFieldNames = filteredFields.map((_) => _.name);
@@ -1316,55 +1316,50 @@ module.exports = function ({
 
     function sectionBeneficiaries() {
         function steps() {
-            if (beneficiariesGroupsCheck === 'yes') {
-                return [
-                    stepBeneficairiesPreflightCheck(),
-                    stepBeneficiariesCheck(),
-                    stepBeneficiariesGroups(),
-                    stepEthnicBackground(),
-                    stepReligionOrFaith(),
-                    stepMigrants(),
-                    stepDisabledPeople(),
-                    stepAge(),
-                    stepLGBT(),
+            let steps = [];
+            steps = [
+                stepBeneficairiesPreflightCheck(),
+                stepBeneficiariesCheck(),
+                stepBeneficiariesGroups(),
+                stepEthnicBackground(),
+                stepReligionOrFaith(),
+                stepMigrants(),
+                stepDisabledPeople(),
+                stepAge(),
+                stepLGBT(),
+            ];
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
+                steps.push(
                     stepOtherBeneficiaryGroups(),
-                    stepWelshLanguage(),
-                    stepNorthernIrelandCommunity(),
+                );
+            }
+            steps.push(
+                stepWelshLanguage(),
+                stepNorthernIrelandCommunity(),
+            );
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
+                steps.push(
                     stepBeneficiariesAnyGroupsOther(),
-                    // Leadership EDI
-                    stepBeneficiariesLeadershipEdi(),
-                    stepLeadershipEthnicBackground(),
-                    stepLeadershipReligion(),
-                    stepLeadershipMigrants(),
-                    stepLeadershipDisabledPeople(),
-                    stepLeadershipAge(),
-                    stepLeadershipLGBT(),
+                );
+            }
+            steps.push(
+                // Leadership EDI
+                stepBeneficiariesLeadershipEdi(),
+                stepLeadershipEthnicBackground(),
+                stepLeadershipReligion(),
+                stepLeadershipMigrants(),
+                stepLeadershipDisabledPeople(),
+                stepLeadershipAge(),
+                stepLeadershipLGBT(),
+            );
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
+                steps.push(
                     stepLeadershipOtherBeneficiaryGroups(),
                     stepBeneficiariesLeadershipAnyGroupsOther(),
-                ];
-            } else {
-                return [
-                    stepBeneficairiesPreflightCheck(),
-                    stepBeneficiariesCheck(),
-                    stepBeneficiariesGroups(),
-                    stepEthnicBackground(),
-                    stepReligionOrFaith(),
-                    stepMigrants(),
-                    stepDisabledPeople(),
-                    stepAge(),
-                    stepLGBT(),
-                    stepWelshLanguage(),
-                    stepNorthernIrelandCommunity(),
-                    // Leadership EDI
-                    stepBeneficiariesLeadershipEdi(),
-                    stepLeadershipEthnicBackground(),
-                    stepLeadershipReligion(),
-                    stepLeadershipMigrants(),
-                    stepLeadershipDisabledPeople(),
-                    stepLeadershipAge(),
-                    stepLeadershipLGBT(),
-                ];
+                );
             }
+
+            return steps;
         }
         return {
             slug: 'beneficiaries',
