@@ -33,7 +33,7 @@ module.exports = function ({
     const beneficiariesGroupCheck = get('beneficiariesGroupsCheck')(data);
 
     const beneficiariesGroups = get('beneficiariesGroups')(data);
-    const beneficiariesLeadershipGroups = get('beneficiariesGroups')(data);
+    const beneficiariesLeadershipGroups = get('beneficiariesLeadershipGroups')(data);
 
     const conditionalFields = (fields, filteredFields) => {
         const filteredFieldNames = filteredFields.map((_) => _.name);
@@ -1352,7 +1352,7 @@ module.exports = function ({
                 stepLeadershipAge(),
                 stepLeadershipLGBT(),
             );
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
                 steps.push(
                     stepLeadershipOtherBeneficiaryGroups(),
                     stepBeneficiariesLeadershipAnyGroupsOther(),
