@@ -34,28 +34,28 @@ function othersIdsToText(id, lang) {
         list +=
             lang === 'en'
                 ? '<li>Any other Black / African / Caribbean background</li>'
-                : '';
+                : '<li>Unrhyw gefndir Du / Affricanaidd / Caribiaidd arall</li>';
     }
     if (id.includes(OTHER_GROUPS.OTHER_MIXED))
         list +=
             lang === 'en'
                 ? '<li>Any other mixed / multiple ethnic background</li>'
-                : '';
+                : '<li>Unrhyw gefndir ethnig cymysg / lluosog arall</li>';
     if (id.includes(OTHER_GROUPS.OTHER_ASIAN))
-        list += lang === 'en' ? '<li>Any other asian background</li>' : '';
+        list += lang === 'en' ? '<li>Any other asian background</li>' : '<li>Unrhyw gefndir Asiaidd arall</li>';
     if (id.includes(OTHER_GROUPS.OTHER_ETHNICITY))
-        list += lang === 'en' ? '<li>Any other ethnic background</li>' : '';
+        list += lang === 'en' ? '<li>Any other ethnic background</li>' : '<li>Unrhyw grŵp ethnig arall</li>';
     if (id.includes(OTHER_GROUPS.OTHER_LGBT))
-        list += lang === 'en' ? '<li>LGBTQ+ people I\'d describe in another way</li>' : '';
+        list += lang === 'en' ? '<li>LGBTQ+ people I\'d describe in another way</li>' : '<li>POBL LHDTQ+ y byddwn i\'n eu disgrifio mewn ffordd arall</li>';
     if (id.includes(OTHER_GROUPS.OTHER_MIGRANT))
-        list += lang === 'en' ? '<li>Other migrants</li>' : '';
+        list += lang === 'en' ? '<li>Other migrants</li>' : '<li>Mudwyr eraill</li>';
     if (id.includes(OTHER_GROUPS.OTHER_FAITH))
-        list += lang === 'en' ? '<li>Other faiths and beliefs</li>' : '';
+        list += lang === 'en' ? '<li>Other faiths and beliefs</li>' : '<li>Crefyddau a chredoau eraill</li>';
     if (id.includes(OTHER_GROUPS.OTHER_DISABILITY))
         list +=
             lang === 'en'
                 ? '<li>Other type of disability or impairment</li>'
-                : '';
+                : '<li>Math arall o anabledd neu nam</li>';
 
     return list;
 }
@@ -68,14 +68,14 @@ module.exports = {
             name: 'beneficiariesPreflightCheck',
             label: localise({
                 en: `<strong>Check this box to show you understand.</strong>`,
-                cy: ``,
+                cy: `Gwiriwch y blwch hwn i ddangos eich bod yn deall.`,
             }),
             options: [
                 {
                     value: 'yes',
                     label: localise({
-                        en: `I understand you will not use my answers in this section to assess my application`,
-                        cy: ``,
+                        en: `Yes, I understand you will not use my answers in this section to assess my application`,
+                        cy: `Ydw, rwy'n deall na fyddwch yn defnyddio fy atebion yn yr adran hon i asesu fy nghais`,
                     }),
                 },
             ],
@@ -98,29 +98,49 @@ module.exports = {
             name: 'beneficiariesGroupsCheck',
             label: localise({
                 en: `Is your project open to everyone or is it aimed at a specific group of people?`,
-                cy: `A yw eich prosiect yn agored i bawb neu a yw’n targedu grŵp penodol o bobl?`,
+                cy: `A yw eich prosiect yn agored i bawb neu a yw wedi'i anelu at grŵp penodol o bobl?`,
             }),
             explanation: localise({
-                en: `<p>What do we mean by projects for specific groups? We'd like to know if your project will mostly 
-                      benefit people who might have a common characteristic.</p>
-                    <p>
-                      A wheelchair sports club is a place for disabled people to play wheelchair sport. 
-                      So, this is a project that’s specifically for disabled people. 
-                      Or a group that aims to empower African women in the community - 
-                      this group is specifically for people from a particular ethnic background.
-                    </p>
-                    <p>
-                        Even if a wider community participates in the project in some way, 
-                        this project might still be for a specific group. For example, 
-                        anyone can participate in International Women's Day, but the specific group it's for is women.
-                    </p>
+                en: `
                     <p>If <strong>75% or more of the people supported or benefiting</strong> from your project come from 
-                    <strong>one</strong> specific group of people, that means it's for that group. 
-                    For example, if you're supporting 100 people, and around 75 or more are Deaf, 
-                    this would qualify as benefiting a specific group - the Deaf community.</p>
+                    <strong>one</strong> specific group of people, that means it's for that group.</p>
+                    
+                    <p>Your specific group may share more than one characteristic. When you go through this form,
+                    you can pick more than one. But 75% or more of the group should share these characteristics. </p>
+                    
+                    <p>For example, if the group you’re supporting is made up of at least 75% female refugees,
+                    this would qualify as supporting a specific group - that specific group would be women who are refugees.
+                    And they would share two characteristics - women + refugees.</p>
 
-                    <p>This figure of 75% was decided on after working with a wide range of groups.</p>`,
-                cy: ``,
+                    <p>This figure of 75% - or 3 in 4 people - was decided on after working with a wide range of groups.</p>
+                    
+                    <p>We know this can only be an <strong>estimate</strong>. It’d be too difficult to work out exactly,
+                    especially when you will not yet know exactly who’ll benefit.
+                    <ul>
+                      <li>My project is aimed at a specific group of people</li>
+                      <li>My project is open to everyone and is not aimed at a specific group of people</li>
+                    </ul>
+                    </p>
+                `,
+                cy: `<p>Os daw <strong>75% neu fwy o'r bobl sy'n cefnogi neu'n elwa</strong> o'ch prosiect gan
+                    <strong>un</strong> grŵp penodol o bobl, mae hynny'n golygu ei fod ar gyfer y grŵp hwnnw.</p>
+                    
+                    <p>Efallai y bydd eich grŵp penodol yn rhannu mwy nag un nodwedd. Pan fyddwch yn mynd drwy'r ffurflen hon,
+                    gallwch ddewis mwy nag un. Ond dylai 75% neu fwy o'r grŵp rannu'r nodweddion hyn.</p>
+                    
+                    <p>Er enghraifft, os yw'r grŵp rydych chi'n ei gefnogi yn cynnwys o leiaf 75% o ffoaduriaid benywaidd,
+                    byddai hyn yn gymwys i gefnogi grŵp penodol - y grŵp penodol hwnnw fyddai menywod sy'n ffoaduriaid.
+                    A byddent yn rhannu dwy nodwedd - menywod + ffoaduriaid.</p>
+
+                    <p>Penderfynwyd ar y ffigur hwn o 75% - neu 3 o bob 4 o bobl - ar ôl gweithio gydag ystod eang o grwpiau.</p>
+                    
+                    <p>Gwyddom mai <strong>amcangyfrif</strong> yn unig y gall hyn fod. Byddai'n rhy anodd gweithio allan yn union,
+                    yn enwedig pan na fyddwch yn gwybod yn union pwy fydd yn elwa eto.
+                    <ul>
+                      <li>Mae fy mhrosiect wedi'i anelu at grŵp penodol o bobl </li>
+                      <li>Mae fy mhrosiect yn agored i bawb ac nid yw wedi'i anelu at grŵp penodol o bobl</li>
+                    </ul>
+                    </p>`,
             }),
             options: [
                 {
@@ -158,7 +178,7 @@ module.exports = {
             name: 'beneficiariesGroups',
             label: localise({
                 en: `Does the project intend to benefit specific groups?`,
-                cy: `Pa grwpiau penodol mae eich prosiect wedi’i anelu ar ei gyfer?`,
+                cy: `A yw'r prosiect yn bwriadu bod o fudd i grwpiau penodol?`,
             }),
             explanation: localise({
                 en: `<p>We'd like to find out if your project will help groups which can sometimes be under-represented 
@@ -167,18 +187,40 @@ module.exports = {
                     - better understand who's applying for funding <br />
                     - try to reach certain groups more.</p>
                     
-                    <p>This information will not be used to assess your application for funding.</p>
-                    <p>If <strong>75% or more of the people supported or benefiting</strong> from your project come 
-                    from a specific group, we think of the project as being for that specific group. 
-                    For example, if you're supporting 100 people, and around 75 or more are Deaf, 
-                    this would qualify as benefiting a specific group - the Deaf community.</p>
+                    <p>This information will <strong>not</strong> be used to assess your application for funding.</p>
                     
-                    <p>Tell us which groups they are - you can choose more than one category. For example, you 
-                    might want to choose: black + mental health, or young people + faith communities.</p>
+                    <p>If <strong>75% or more of the people supported or benefiting</strong>
+                    from your project come from <strong>one</strong> specific group of people, that means it's for that group.</p>
                     
+                    <p>Your specific group may share more than one characteristic. When you go through this form, you can pick more than one.
+                    But 75% or more of the group should share these characteristics.</p>
+                    
+                    <p>For example, if the group you’re supporting is made up of at least 75% female refugees,
+                    this would qualify as supporting a specific group - that specific group would be women who are refugees.
+                    And they would share two characteristics - women + refugees.</p>
+         
                     <p>If you select any categories, we may ask you next if your project will benefit any sub-groups 
                     within the categories.</p>`,
-                cy: ``,
+                cy: `<p>Hoffem ddarganfod a fydd eich prosiect yn helpu grwpiau y gellir weithiau eu tangynrychioli mewn cymdeithas.</p>
+                     <p>Bydd gofyn y cwestiynau hyn i chi yn ein helpu: <br />
+                      - deall yn well pwy sy'n gwneud cais am grant <br />
+                      - ceisio cyrraedd rhai grwpiau yn fwy.</p>
+                    
+                    <p><strong>Ni fydd</strong> y wybodaeth hon yn cael ei defnyddio i asesu eich cais am grant.</p>
+                    
+                    <p>Os daw <strong>75% neu fwy o'r bobl sy'n cefnogi neu'n elwa</strong> o'ch prosiect gan <strong>un</strong> grŵp penodol o bobl,
+                    mae hynny'n golygu ei fod ar gyfer y grŵp hwnnw.</p>
+                    
+                    <p>Efallai y bydd eich grŵp penodol yn rhannu mwy nag un nodwedd.
+                    Pan fyddwch yn mynd drwy'r ffurflen hon, gallwch ddewis mwy nag un.
+                    Ond dylai 75% neu fwy o'r grŵp rannu'r nodweddion hyn.</p>
+                    
+                    <p>Er enghraifft, os yw'r grŵp rydych chi'n ei gefnogi yn cynnwys o leiaf 75% o ffoaduriaid benywaidd,
+                    byddai hyn yn gymwys i gefnogi grŵp penodol - y grŵp penodol hwnnw fyddai menywod sy'n ffoaduriaid.
+                    A byddent yn rhannu dwy nodwedd - menywod + ffoaduriaid.</p>
+         
+                    <p>Os byddwch yn dewis unrhyw gategorïau, efallai y byddwn yn gofyn i chi
+                    nesaf a fydd eich prosiect o fudd i unrhyw is-grwpiau o fewn y categorïau.</p>`,
             }),
             options: [
                 {
@@ -186,47 +228,48 @@ module.exports = {
                     label: localise({
                         en:
                             'Communities experiencing ethnic or racial inequity, discrimation or inequality',
-                        cy: '',
+                        cy: 'Cymunedau sy\'n profi annhegwch ethnig neu hiliol, ymwadiad neu anghydraddoldeb',
                     }),
                     explanation: localise({
                         en: oneLine`Examples include: Black, Mixed, Asian and Roma`,
-                        cy: oneLine``,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: Du, Cymysg, Asiaidd a Roma`,
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.RELIGION,
                     label: localise({
                         en: 'Faith communities',
-                        cy: '',
+                        cy: 'Cymunedau ffydd',
                     }),
                     explanation: localise({
                         en: oneLine`Examples include: Catholic, Protestant, Muslim, Hindu, Jewish`,
-                        cy: oneLine``,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: Catholig, Protestannaidd, Mwslimaidd, Hindŵaidd, Iddewon`,
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.MIGRANT,
                     label: localise({
                         en: 'Migrants',
-                        cy: '',
+                        cy: 'Mudwyr',
                     }),
                     explanation: localise({
                         en: oneLine`Examples include: migrants, asylum seekers, refugees, 
                                     undocumented people, other migrants`,
-                        cy: oneLine``,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: mudwyr, ceiswyr lloches, ffoaduriaid, pobl ddiamheuol, mudwyr eraill`,
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.DISABLED_PEOPLE,
                     label: localise({
                         en: 'Disabled people',
-                        cy: '',
+                        cy: 'Pobl anabl',
                     }),
                     explanation: localise({
                         en: oneLine`Examples include: having physical difficulties, 
                                     mental health conditions, cognitive difficulties, 
                                     neurodiversity, sensory impairments, chronic health conditions`,
-                        cy: oneLine``,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: cael anawsterau corfforol, cyflyrau iechyd meddwl,
+                                    anawsterau gwybyddol, niwroamrywiaeth, namau synhwyraidd, cyflyrau iechyd cronig`,
                     }),
                 },
                 {
@@ -234,7 +277,7 @@ module.exports = {
                     label: localise({
                         en:
                             'Older people (65 and over)',
-                        cy: '',
+                        cy: 'Pobl hŷn (65 oed a throsodd)',
                     }),
                 },
                 {
@@ -242,25 +285,25 @@ module.exports = {
                     label: localise({
                         en:
                             'Younger people (under 25)',
-                        cy: '',
+                        cy: 'Pobl iau (dan 25 oed)',
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.GENDER,
                     label: localise({
                         en: 'Women and girls',
-                        cy: '',
+                        cy: 'Menywod a merched',
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.LGBT,
                     label: localise({
                         en: 'LGBTQ+ people',
-                        cy: '',
+                        cy: 'Pobl LHDTQ+',
                     }),
                     explanation: localise({
                         en: oneLine`Examples include: bisexual men, lesbian/gay women, trans women`,
-                        cy: oneLine``,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: dynion deurywiol, menywod lesbiaidd/hoyw, menywod traws`,
                     }),
                 },
                 {
@@ -268,25 +311,29 @@ module.exports = {
                     label: localise({
                         en:
                             'People who are educationally or economically disadvantaged',
-                        cy: '',
+                        cy: 'Pobl sydd o dan anfantais addysgol neu economaidd',
                     }),
                     explanation: localise({
                         en: oneLine`Examples are people from a low-income and/or educationally disadvantaged background 
                         which might have a long-term impact on their life, and/or people experiencing 
                         financial difficulties just now`,
-                        cy: oneLine``,
+                        cy: oneLine`Enghreifftiau yw pobl o gefndir incwm isel a/neu dan anfantais addysgol a allai gael effaith hirdymor
+                        ar eu bywyd, a/neu bobl sy'n cael anawsterau ariannol yn awr`,
                     }),
                 },
                 {
                     value: BENEFICIARY_GROUPS.OTHER,
                     label: localise({
                         en: `Specific groups that are not included already`,
-                        cy: ``,
+                        cy: `Grwpiau penodol nad ydynt wedi'u cynnwys eisoes`,
                     }),
                     explanation: localise({
-                        en: oneLine`Examples include: care experienced young people, 
-                        people recovering from alcohol addiction, sex workers`,
-                        cy: oneLine``,
+                        en: oneLine`Examples include: care experienced young people, carers,
+                        people recovering from alcohol addiction,sex workers,
+                        people whose first language is not English or have problems reading`,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc profiadol o ofal,
+                        gofalwyr, pobl sy'n gwella o gaethiwed alcohol, gweithwyr rhyw,
+                        pobl nad Saesneg yw eu hiaith gyntaf neu sy'n cael problemau darllen`,
                     }),
                 },
             ],
@@ -316,14 +363,15 @@ module.exports = {
             name: 'beneficiariesGroupsEthnicBackground',
             label: localise({
                 en: `Communities experiencing ethnic or racial inequity`,
-                cy: '',
+                cy: 'Cymunedau sy\'n profi annhegwch ethnig neu hiliol',
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits people from communities who are experiencing 
                         ethnic or racial inequity.</p>
                         
                         <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: ``,
+                cy: `<p>Fe ddywedoch wrthym fod eich prosiect yn bennaf o fudd i bobl o gymunedau sy'n profi annhegwch ethnig neu hiliol.</p>
+                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
             }),
             optgroups: [
                 {
@@ -336,14 +384,14 @@ module.exports = {
                             value: 'mixed-black',
                             label: localise({
                                 en: 'Mixed Black',
-                                cy: '',
+                                cy: 'Du Cymysg',
                             }),
                         },
                         {
                             value: 'black-british',
                             label: localise({
                                 en: 'Black British',
-                                cy: '',
+                                cy: 'Du Prydeinig',
                             }),
                         },
                         {
@@ -372,28 +420,28 @@ module.exports = {
                 {
                     label: localise({
                         en: 'Mixed',
-                        cy: '',
+                        cy: 'cymysg',
                     }),
                     options: [
                         {
                             value: 'mixed-groups',
                             label: localise({
                                 en: 'Mixed Groups',
-                                cy: '',
+                                cy: 'Grwpiau cymysg',
                             }),
                         },
                         {
                             value: 'white-black',
                             label: localise({
                                 en: 'White and Black',
-                                cy: '',
+                                cy: 'Gwyn a Du',
                             }),
                         },
                         {
                             value: 'white-asian',
                             label: localise({
                                 en: 'White and Asian',
-                                cy: '',
+                                cy: 'Gwyn ac Asiaidd',
                             }),
                         },
                         {
@@ -401,7 +449,7 @@ module.exports = {
                             label: localise({
                                 en:
                                     'Any other mixed / multiple ethnic background',
-                                cy: '',
+                                cy: 'Unrhyw gefndir ethnig cymysg / lluosog arall',
                             }),
                         },
                     ],
@@ -416,7 +464,7 @@ module.exports = {
                             value: 'mixed-asian',
                             label: localise({
                                 en: 'Mixed Asian / Asian British',
-                                cy: '',
+                                cy: 'Asiaidd Cymysg / Asiaidd Prydeinig',
                             }),
                         },
                         {
@@ -457,7 +505,7 @@ module.exports = {
                     label: localise({
                         en:
                             'Other group experiencing ethnic or racial inequity',
-                        cy: '',
+                        cy: 'Grŵp arall sy\'n profi annhegwch ethnig neu hiliol',
                     }),
                     options: [
                         {
@@ -467,20 +515,20 @@ module.exports = {
 
                         {
                             value: 'Jewish',
-                            label: localise({ en: 'Jewish', cy: '' }),
+                            label: localise({ en: 'Jewish', cy: 'Iddewig' }),
                         },
                         {
                             value: 'gypsy-roma-traveller',
                             label: localise({
                                 en: 'Gypsy, Roma and Traveller Communities',
-                                cy: '',
+                                cy: 'Cymunedau Sipsiwn, Roma a Theithwyr',
                             }),
                         },
                         {
                             value: 'other-ethnicity',
                             label: localise({
                                 en: 'Any other ethnic group',
-                                cy: '',
+                                cy: 'Unrhyw grŵp ethnig arall',
                             }),
                         },
                     ],
@@ -514,48 +562,49 @@ module.exports = {
             name: 'beneficiariesGroupsLGBT',
             label: localise({
                 en: `LGBTQ+ people`,
-                cy: ``,
+                cy: `Pobl LHDTQ+`,
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits LGBTQ+ people.</p>
                      <p>How would you describe the group or groups? You can choose more than one category.</p>`,
-                cy: ``,
+                cy: `<p>Fe ddywedoch wrthym fod eich prosiect o fudd i bobl LHDTQ+ yn bennaf.</p>
+                     <p>Sut fyddech chi'n disgrifio'r grŵp neu'r grwpiau? Gallwch ddewis mwy nag un categori.</p>`,
             }),
             options: [
                 {
                     value: 'bisexual-men',
-                    label: localise({ en: 'Bisexual men', cy: '' }),
+                    label: localise({ en: 'Bisexual men', cy: 'Dynion deurywiol' }),
                 },
                 {
                     value: 'bisexual-women',
-                    label: localise({ en: 'Bisexual women', cy: '' }),
+                    label: localise({ en: 'Bisexual women', cy: 'Menywod deurywiol' }),
                 },
                 {
                     value: 'gay-men',
-                    label: localise({ en: 'Gay men', cy: '' }),
+                    label: localise({ en: 'Gay men', cy: 'Dynion hoyw' }),
                 },
                 {
                     value: 'lesbian-women',
-                    label: localise({ en: 'Lesbian / gay women', cy: '' }),
+                    label: localise({ en: 'Lesbian / gay women', cy: 'Menywod lesbiaidd / hoyw' }),
                 },
                 {
                     value: 'trans-men',
-                    label: localise({ en: 'Trans men', cy: '' }),
+                    label: localise({ en: 'Trans men', cy: 'Dynion traws' }),
                 },
                 {
                     value: 'trans-women',
-                    label: localise({ en: 'Trans women', cy: '' }),
+                    label: localise({ en: 'Trans women', cy: 'Menywod traws' }),
                 },
                 {
                     value: 'non-binary',
-                    label: localise({ en: 'Non-binary people', cy: '' }),
+                    label: localise({ en: 'Non-binary people', cy: 'Pobl anneuaidd' }),
                 },
                 {
                     value: 'other-lgbt',
-                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way ', cy: '' }),
+                    label: localise({ en: 'LGBTQ+ people I\'d describe in another way ', cy: 'POBL LHDTQ+ y byddwn i\'n eu disgrifio mewn ffordd arall' }),
                     explanation: localise({
                         en: oneLine`Examples: Other LGBTQ+ People, including queer and intersex people`,
-                        cy: oneLine``,
+                        cy: oneLine`Enghreifftiau: Pobl LHDTQ+ eraill, gan gynnwys pobl queer a rhyngrywiol`,
                     }),
                 },
             ],
@@ -584,12 +633,13 @@ module.exports = {
             name: 'beneficiariesGroupsAge',
             label: localise({
                 en: `Younger people`,
-                cy: ``,
+                cy: `Pobl ifanc `,
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits younger people.</p>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: ``,
+                cy: `<p>Fe ddywedoch wrthym fod eich prosiect o fudd i bobl iau ar y cyfan.</p>
+                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
             }),
             options: [
                 { value: '19-25', label: '19-25' },
@@ -598,7 +648,7 @@ module.exports = {
                 { value: '3-7', label: '3-7' },
                 {
                     value: '0-2',
-                    label: localise({ en: 'Under 2 years of age', cy: '' }),
+                    label: localise({ en: 'Under 2 years of age', cy: 'Dan 2 oed' }),
                 },
             ],
             get schema() {
@@ -631,76 +681,80 @@ module.exports = {
                 <p>
                     Tell us who they are - you can choose more than one category.
                 </p>`,
-                cy: ``,
+                cy: `<p>
+                    Fe ddywedoch wrthym fod eich prosiect o fudd i bobl anabl yn bennaf.
+                </p>
+                <p>
+                    Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.
+                </p>`,
             }),
             options: [
                 {
                     value: 'mental-health',
                     label: localise({
                         en: 'Mental health',
-                        cy: '',
+                        cy: 'Iechyd meddwl',
                     }),
                 },
                 {
                     value: 'health',
                     label: localise({
                         en: 'Long standing illness or health condition',
-                        cy: '',
+                        cy: 'Salwch neu gyflwr iechyd hirsefydlog',
                     }),
                     explanation: localise({
                         en: oneLine`Examples are cancer, HIV, diabetes, chronic heart disease or epilepsy, or other rare conditions`,
-                        cy: oneLine``,
+                        cy: oneLine`Enghreifftiau yw canser, HIV, diabetes, clefyd cronig y galon neu epilepsi, neu gyflyrau prin eraill`,
                     }),
                 },
                 {
                     value: 'mobility',
                     label: localise({
                         en: `Mobility impairments`,
-                        cy: ``,
+                        cy: `Namau symudedd`,
                     }),
                     explanation: localise({
                         en: oneLine`Like difficulty using your arms, or mobility issues which require you to 
                         use a wheelchair or crutches`,
-                        cy: oneLine``,
+                        cy: oneLine`Fel anhawster defnyddio eich breichiau, neu faterion symudedd sy'n gofyn i chi ddefnyddio cadair olwyn neu greulon`,
                     }),
                 },
                 {
                     value: 'visual',
                     label: localise({
                         en: 'Visual impairment / partial sight / sight loss',
-                        cy: '',
+                        cy: 'Nam ar y golwg / golwg rhannol / colli golwg',
                     }),
                 },
                 {
                     value: 'deaf',
                     label: localise({
                         en: 'Deaf / hard of hearing / hearing loss',
-                        cy: '',
+                        cy: 'Pobl fyddar / caled eu clyw / colli clyw',
                     }),
                 },
                 {
                     value: 'speech',
                     label: localise({
                         en: 'Speech impairment',
-                        cy: '',
+                        cy: 'Nam ar y lleferydd',
                     }),
                 },
                 {
                     value: 'multiple-physical',
                     label: localise({
                         en: 'Multiple physical impairment',
-                        cy: '',
+                        cy: 'Nam corfforol lluosog',
                     }),
                 },
                 {
                     value: 'learning-disability',
                     label: localise({
                         en: `Learning disability`,
-                        cy: ``,
+                        cy: `Anabledd dysgu`,
                     }),
                     explanation: localise({
-                        en: oneLine`A reduced intellectual ability and difficulty with everyday activities which 
-                        affects someone for their whole life, such as Down’s Syndrome`,
+                        en: oneLine`Llai o allu deallusol ac anhawster gyda gweithgareddau bob dydd sy'n effeithio ar rywun am eu bywyd cyfan, fel Down’s Syndrome`,
                         cy: oneLine``,
                     }),
                 },
@@ -708,30 +762,30 @@ module.exports = {
                     value: 'learning-difficulty',
                     label: localise({
                         en: `Learning difficulty`,
-                        cy: ``,
+                        cy: `Anhawster dysgu`,
                     }),
                     explanation: localise({
                         en: oneLine`Learning difficulties such as dyslexia and ADHD`,
-                        cy: oneLine``,
+                        cy: oneLine`Anawsterau dysgu fel dyslecsia ac ADHD`,
                     }),
                 },
                 {
                     value: 'neurodiverse',
                     label: localise({
                         en: `Neurodiverse`,
-                        cy: ``,
+                        cy: `Niwroamrywiaeth`,
                     }),
                     explanation: localise({
                         en: oneLine`Cognitive difference such as autistic spectrum disorder where individuals 
                         are impacted by the social environment`,
-                        cy: oneLine``,
+                        cy: oneLine`Gwahaniaeth gwybyddol fel anhwylder sbectrwm awtistig lle mae'r amgylchedd cymdeithasol yn effeithio ar unigolion`,
                     }),
                 },
                 {
                     value: 'other-disability',
                     label: localise({
                         en: 'Other type of disability or impairment',
-                        cy: '',
+                        cy: 'Math arall o anabledd neu nam',
                     }),
                 },
             ],
@@ -759,27 +813,28 @@ module.exports = {
             name: 'beneficiariesGroupsReligion',
             label: localise({
                 en: `Faith communities`,
-                cy: ``,
+                cy: `Cymunedau ffydd`,
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits people from faith communities.</p>
                     <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: ``,
+                cy: `<p>Fe ddywedoch wrthym fod eich prosiect o fudd i bobl o gymunedau ffydd yn bennaf.</p>
+                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
             }),
             options: [
                 {
                     value: 'catholic',
-                    label: localise({ en: 'Catholic', cy: '' }),
+                    label: localise({ en: 'Catholic', cy: 'Catholig' }),
                 },
                 {
                     value: 'protestant',
-                    label: localise({ en: 'Protestant', cy: '' }),
+                    label: localise({ en: 'Protestant', cy: 'Protestannaidd' }),
                 },
                 {
                     value: 'other-christian',
                     label: localise({
                         en: 'Other Christian denominations',
-                        cy: '',
+                        cy: 'Enwadau Cristnogol eraill',
                     }),
                 },
                 {
@@ -788,11 +843,11 @@ module.exports = {
                 },
                 {
                     value: 'hindu',
-                    label: localise({ en: 'Hindu', cy: '' }),
+                    label: localise({ en: 'Hindu', cy: 'Hindŵaidd' }),
                 },
                 {
                     value: 'jewish',
-                    label: localise({ en: 'Jewish', cy: 'Iddew' }),
+                    label: localise({ en: 'Jewish', cy: 'Iddewig' }),
                 },
                 {
                     value: 'muslim',
@@ -804,15 +859,15 @@ module.exports = {
                 },
                 {
                     value: 'atheist',
-                    label: localise({ en: 'Athiest', cy: '' }),
+                    label: localise({ en: 'Athiest', cy: 'Athiest' }),
                 },
                 {
                     value: 'agnostic',
-                    label: localise({ en: 'Agnostic', cy: '' }),
+                    label: localise({ en: 'Agnostic', cy: 'Agnostig' }),
                 },
                 {
                     value: 'other-faith',
-                    label: localise({ en: 'Other faiths and beliefs', cy: '' }),
+                    label: localise({ en: 'Other faiths and beliefs', cy: 'Crefyddau a chredoau eraill' }),
                 },
             ],
             get schema() {
@@ -954,29 +1009,30 @@ module.exports = {
             name: 'beneficiariesGroupsMigrant',
             label: localise({
                 en: `Migrants`,
-                cy: `Rhyw`,
+                cy: `Mudwyr`,
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits migrants.</p>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: ``,
+                cy: `<p>Fe ddywedoch wrthym fod eich prosiect o fudd i fudwyr yn bennaf.</p>
+                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
             }),
             options: [
                 {
                     value: 'asylum-seeker',
-                    label: localise({ en: 'Asylum Seekers', cy: '' }),
+                    label: localise({ en: 'Asylum Seekers', cy: 'Ceiswyr Lloches' }),
                 },
                 {
                     value: 'refugee',
-                    label: localise({ en: 'Refugees', cy: '' }),
+                    label: localise({ en: 'Refugees', cy: 'Ffoaduriaid' }),
                 },
                 {
                     value: 'undocumented-people',
-                    label: localise({ en: 'Undocumented people', cy: '' }),
+                    label: localise({ en: 'Undocumented people', cy: 'Pobl nad ydynt wedi’u cofnodi' }),
                 },
                 {
                     value: 'other-migrant',
-                    label: localise({ en: 'Other migrants', cy: '' }),
+                    label: localise({ en: 'Other migrants', cy: 'Mudwyr eraill' }),
                 },
             ],
             get schema() {
@@ -1003,7 +1059,7 @@ module.exports = {
             name: 'beneficiariesGroupsOther',
             label: localise({
                 en: `Specific groups that are not included already`,
-                cy: ``,
+                cy: `Grwpiau penodol nad ydynt wedi'u cynnwys eisoes`,
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits people from specific 
@@ -1011,7 +1067,11 @@ module.exports = {
                      <p>Tell us who they are - you can choose more than one category.</p>
                      <p>Examples include: men and boys, care-experienced young people, people recovering from alcohol 
                      addiction, people with experience of the criminal justice system, and sex workers.</p>`,
-                cy: ``,
+                cy: `<p>Fe ddywedoch wrthym fod eich prosiect yn bennaf o fudd i bobl o grwpiau penodol nad oeddem wedi'u rhestru.</p>
+                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>
+                     <p>Mae enghreifftiau'n cynnwys: dynion a bechgyn, pobl ifanc sydd â phrofiad o ofal,
+                     pobl sy'n gwella o gaethiwed alcohol, pobl sydd â phrofiad o'r system cyfiawnder troseddol,
+                     a gweithwyr rhyw.</p>`,
             }),
             minWords: 0,
             maxWords: 100,
@@ -1045,10 +1105,10 @@ module.exports = {
             name: 'beneficiariesAnyGroupsOther',
             label: localise({
                 en: `Additional information`,
-                cy: ``,
+                cy: `Gwybodaeth ychwanegol`,
             }),
             explanation: localise({
-                en: `<p>You told us that your project will benefit:</p>
+                en: `<p>Fe ddywedoch wrthym y bydd eich prosiect yn elwa:</p>
                       <ul>${othersIdsToText(
                     beneficiariesGroupsEthnicBackground,
                     'en'
@@ -1060,7 +1120,18 @@ module.exports = {
                 )}
                       ${othersIdsToText(beneficiariesGroupsLGBT, 'en')}</ul>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: ``,
+                cy: `<p>You told us that your project will benefit:</p>
+                      <ul>${othersIdsToText(
+                    beneficiariesGroupsEthnicBackground,
+                    'cy'
+                )} ${othersIdsToText(beneficiariesGroupsReligion, 'cy')}
+                      ${othersIdsToText(beneficiariesGroupsMigrant, 'cy')}
+                      ${othersIdsToText(
+                    beneficiariesGroupsDisabledPeople,
+                    'cy'
+                )}
+                      ${othersIdsToText(beneficiariesGroupsLGBT, 'cy')}</ul>
+                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
             }),
             minWords: 0,
             maxWords: 100,
