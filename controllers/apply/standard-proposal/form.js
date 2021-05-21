@@ -1425,7 +1425,7 @@ module.exports = function ({
             }),
             summary: localise({
                 en: `We want to hear more about the people who’ll benefit from your project and your organisation.`,
-                cy: ``,
+                cy: `Rydyn ni eisiau clywed mwy am y bobl fydd yn elwa o'ch prosiect a'ch sefydliad.`,
             }),
             steps: steps(),
         };

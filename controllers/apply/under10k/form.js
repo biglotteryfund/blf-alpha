@@ -1415,13 +1415,12 @@ module.exports = function ({
                 cy: 'Gwybodaeth fonitro Tegwch, Amrywiaeth a Chynhwysiant',
             }),
             shortTitle: localise({
-                en:
-                    'Equity, Diversity and Inclusion (EDI) monitoring information',
+                en: 'Equity, Diversity and Inclusion (EDI) monitoring information',
                 cy: 'Gwybodaeth fonitro Tegwch, Amrywiaeth a Chynhwysiant',
             }),
             summary: localise({
                 en: `We want to hear more about the people who’ll benefit from your project and your organisation.`,
-                cy: `Rydym am glywed mwy am y bobl sydd angen eich prosiect a'ch sefydliad.`,
+                cy: `Rydyn ni eisiau clywed mwy am y bobl fydd yn elwa o'ch prosiect a'ch sefydliad.`,
             }),
             steps: steps(),
         };
