@@ -132,10 +132,6 @@ module.exports = {
                     
                     <p>Gwyddom mai <strong>amcangyfrif</strong> yn unig y gall hyn fod. Byddai'n rhy anodd gweithio allan yn union,
                     yn enwedig pan na fyddwch yn gwybod yn union pwy fydd yn elwa eto.
-                    <ul>
-                      <li>Mae fy mhrosiect wedi'i anelu at grŵp penodol o bobl </li>
-                      <li>Mae fy mhrosiect yn agored i bawb ac nid yw wedi'i anelu at grŵp penodol o bobl</li>
-                    </ul>
                     </p>`,
             }),
             options: [
