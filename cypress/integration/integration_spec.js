@@ -1502,7 +1502,7 @@ function standardApplication({
             submitStep();
         }
 
-        cy.findByLabelText('I understand you will not use my answers in this section to assess my application').click();
+        cy.findByLabelText('Yes, I understand you will not use my answers in this section to assess my application').click();
 
         submitStep();
 
