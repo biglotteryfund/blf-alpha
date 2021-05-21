@@ -656,7 +656,7 @@ function under10KApplication(mock) {
             }
         } else {
             cy.findByLabelText(
-                'My project is open to everyone and isn’t aimed at a specific group of people'
+                'My project is open to everyone and is not aimed at a specific group of people'
             ).click();
 
             submitStep();
@@ -1570,7 +1570,7 @@ function standardApplication({
         } else {
 
             cy.findByLabelText(
-                'My project is open to everyone and isn’t aimed at a specific group of people'
+                'My project is open to everyone and is not aimed at a specific group of people'
             ).click();
 
             submitStep();

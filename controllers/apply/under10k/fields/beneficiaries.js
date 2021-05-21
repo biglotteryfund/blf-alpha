@@ -116,10 +116,6 @@ module.exports = {
                     
                     <p>We know this can only be an <strong>estimate</strong>. It’d be too difficult to work out exactly,
                     especially when you will not yet know exactly who’ll benefit.
-                    <ul>
-                      <li>My project is aimed at a specific group of people</li>
-                      <li>My project is open to everyone and is not aimed at a specific group of people</li>
-                    </ul>
                     </p>
                 `,
                 cy: `<p>Os daw <strong>75% neu fwy o'r bobl sy'n cefnogi neu'n elwa</strong> o'ch prosiect gan
@@ -153,7 +149,7 @@ module.exports = {
                 {
                     value: 'no',
                     label: localise({
-                        en: `My project is open to everyone and isn’t aimed at a specific group of people`,
+                        en: `My project is open to everyone and is not aimed at a specific group of people`,
                         cy: `Mae fy mhrosiect yn agored i bawb ac nid yw wedi’i anelu at grŵp penodol o bobl`,
                     }),
                 },
