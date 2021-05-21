@@ -1121,7 +1121,7 @@ module.exports = {
             locale: locale,
             name: 'beneficiariesLeadershipGroups',
             label: localise({
-                en: ``,
+                en: `Does the leadership of your organisation self-identify in any of these groups?`,
                 cy: ``,
             }),
             explanation: localise({
@@ -1129,9 +1129,7 @@ module.exports = {
                     <p>We’d like to understand more about the leadership of the organisations that we’re supporting.
                     These questions are optional - they'll just help us to understand our grantees and inform our process
                     and strategy. But we'll not them use for this individual funding decision.</p>
-                    
-                    <h3>Does the leadership of your organisation self-identify in any of these groups?</h3>
-                    
+                      
                     <p>We'd like to know if most of the people who lead or make the key decisions in your 
                     organisation belong to <strong>one</strong> specific group. 
                     For example, <strong>75% or more</strong> of your board of trustees or management committee might 
