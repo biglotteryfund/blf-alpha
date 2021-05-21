@@ -188,65 +188,115 @@ module.exports = function ({
     function stepBeneficairiesPreflightCheck() {
         return new Step({
             title: localise({
-                en: `Making sure our grantmaking is fair`,
-                cy: `Grwpiau penodol o bobl`,
+                en: `What is Equity, Diversity and Inclusion (EDI)?`,
+                cy: `Beth yw Tegwch, Amrywiaeth a Chynhwysiant?`,
             }),
             fieldsets: [
                 {
                     introduction: localise({
                         en: `<p>
-                            We’d like to ask some questions about the people being supported and your organisation, 
-                            to help us to understand our applicants and funding better.
+                            You may have heard of ‘EDI’ before as meaning ‘<strong>equality</strong>, diversity and inclusion’. We believe ‘equity’ is better. 
                             </p>
 
-                            <p>This information is being used to inform our own monitoring and strategy and will not be 
-                            used as the basis of individual funding decisions unless the programme you're applying for 
-                            is aimed at specific communities. There’s no judgment on - or preference for - particular 
-                            responses except where explicitly specified in the criteria for the Fund.</p>
+                            <p>We know people have different starting points and we want to tailor our funding to avoid
+                             any ‘disparity’ - that is, any lack of fairness.</p>
 
-                            <p>If you’re successful in being awarded a grant, the responses you provide in this section
-                             may be included in data published about our grants. This is to support the transparency 
-                             and accountability on our grantmaking.</p>
+                            <p>‘Equality’ is about treating people in the same way. But ‘<strong>equity</strong>’ is about <strong>fairness</strong>.
+                            If we treat everyone in the same way, funding programmes will not reach people in an equal or fair way.</p>
                              
-                             <p>We understand that the questions on leadership may be sensitive, and you may not be 
-                             comfortable sharing this information. If this could cause you issues, you can opt out 
-                             of giving us this information.</p>
+                            <p>‘Diversity’ is about including various aspects of the differences between people. 
+                            These differences include: 
+                            <ul>
+                                <li>race and ethnicity</li>
+                                <li>faith</li>
+                                <li>sexual orientation</li>
+                                <li>disability</li>
+                                <li>age</li>
+                                <li>gender.</li>
+                            </ul>
+                            </p>
+                             
+                            <p>‘Inclusion’ is about helping people feel valued. It’s also about making sure they can take part
+                             in decision-making processes.</p>
 
-                            <h3>Equity</h3>
-                            <p>In the context of grantmaking, improving equity is to about promoting justice, 
-                            impartiality and fairness in how we give out money. To be able to tackle equity issues, 
-                            we need to understand the causes of the disparities faced by some communities.</p>
+                            <h3>Why we're asking these questions</h3>
                             
-                            <h3>Diversity</h3>
-                            <p>Diversity means including various aspects of the differences between people. 
-                            They include race and ethnicity, sexual orientation, disability and gender. Nuanced 
-                            definitions of diversity also recognise the intersectional nature of identity, and the 
-                            complex and cumulative ways in which different forms of discrimination 
-                            (based upon these attributes) combine, overlap and intersect.</p>
+                            <p>We want to get better at equity, diversity and inclusion.</p>
+                            
+                            <p>Our aim is to help creating an open culture, where all opinions are taken into account.
+                            This includes the opinions of the communities we’re trying to reach. This will make our communities
+                            and our society stronger.</p>
+                            
+                            <p>We need to find out who you’re trying to help, and who’s making the decisions,
+                            so we can understand who our funding reaches. It’ll help us to shape our funding to be fairer. </p>
+                            
+                            <h3>How we'll use your information</h3>
+                            
+                            <p>The information in this section is only to find out if we’re reaching all the people we’re trying to.
+                            We will not use your answers to decide if we award you a grant.</p> 
 
-                            <h3>Inclusion</h3>
-                            <p>Inclusion refers to the degree to which people feel valued and able to participate 
-                            fully in decision-making processes. While an 'inclusive' group is diverse, a 'diverse' 
-                            group may or may not be 'inclusive'.</p>
+                            <p>We may use these answers in information we publish about grants awarded, including on other websites
+                            like <a href='http://grantnav.threesixtygiving.org/'>360 Giving GrantNav</a>.</p>
+                            
+                            <p>If it’s difficult to answer the questions in the leadership part, we’ll give you the chance
+                            to opt out of answering them.</p>
+                            
+                            <p>You must complete the other parts.</p>
 
                             <h3>Assessing your application</h3>
-                            <p>This information is being used to inform our own monitoring. 
-                            We will <strong>not</strong> use your answers in this EDI section to assess your 
+                            
+                            <p>We will <strong>not</strong> use your answers in this EDI section to assess your 
                             application.</p>`,
                         cy: `<p>
-                            Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.
-                        </p>
-                        <p>
-                            Mae’n bwysig bod mor gywir â phosibl gyda’ch atebion. 
-                            Byddwn yn defnyddio’r wybodaeth hyn i wneud gwell benderfyniadau am 
-                            sut mae ein hariannu yn cefnogi pobl a chymunedau i ffynnu. 
-                            Byddwn hefyd yn ei ddefnyddio i ddweud wrth bobl am effaith 
-                            ein hariannu a phwy mae’n ei gyrraedd.
-                        </p>
-                        <p>
-                            Er hynny, <strong>nid</strong> yw’r wybodaeth rydych wedi’i ddarparu yma’n cael ei asesu 
-                            a <strong>ni fydd</strong> yn cael ei ddefnyddio i benderfynu a fyddwch yn llwyddiannus yn eich cais.
-                        </p>`,
+                            Efallai eich bod wedi clywed am 'EDI' o'r blaen yn golygu '<strong>cydraddoldeb</strong>, amrywiaeth a chynhwysiant'. Credwn fod 'tegwch' yn well.
+                            </p>
+
+                            <p>Gwyddom fod gan bobl fannau cychwyn gwahanol ac rydym am deilwra ein grantiau i osgoi unrhyw 'wahaniaeth' - hynny yw, unrhyw ddiffyg tegwch.</p>
+
+                            <p>Mae 'cydraddoldeb' yn ymwneud â thrin pobl yn yr un ffordd. Ond mae '<strong>tegwch</strong>' yn ymwneud â bod <strong>yn deg</strong>.
+                            Os ydym yn trin pawb yn yr un ffordd, ni fydd rhaglenni ariannu yn cyrraedd pobl mewn ffordd gyfartal neu deg.</p>
+                             
+                            <p>Mae 'amrywiaeth' yn ymwneud â chynnwys gwahanol agweddau ar y gwahaniaethau rhwng pobl.
+                            Mae'r gwahaniaethau hyn yn cynnwys: 
+                            <ul>
+                                <li>hil ac ethnigrwydd</li>
+                                <li>ffydd</li>
+                                <li>cyfeiriadedd rhywiol</li>
+                                <li>anabledd</li>
+                                <li>oedran</li>
+                                <li>rhyw.</li>
+                            </ul>
+                            </p>
+                             
+                            <p>Mae 'cynhwysiant' yn ymwneud â helpu pobl i deimlo eu bod yn cael eu gwerthfawrogi.
+                            Mae hefyd yn ymwneud â sicrhau y gallant gymryd rhan mewn prosesau gwneud penderfyniadau.</p>
+
+                            <h3>Pam ein bod yn gofyn y cwestiynau hyn i chi</h3>
+                            
+                            <p>Rydym am wella o ran tegwch, amrywiaeth a chynhwysiant.</p>
+                            
+                            <p>Ein nod yw helpu i greu diwylliant agored, lle mae pob barn yn cael ei hystyried.
+                            Mae hyn yn cynnwys barn y cymunedau rydym yn ceisio'u cyrraedd. Bydd hyn yn gwneud ein cymunedau
+                            a'n cymdeithas yn gryfach. </p>
+                            
+                            <p>Mae angen i ni ddarganfod pwy rydych chi'n ceisio'u helpu, a phwy sy'n gwneud y penderfyniadau,
+                            fel y gallwn ddeall pwy mae ein grantiau yn ei gyrraedd. Bydd yn ein helpu i lunio ein grantiau i fod yn decach.</p>
+                            
+                            <h3>Sut y byddwn yn defnyddio eich gwybodaeth</h3>
+                            
+                            <p>Dim ond os ydym yn cyrraedd yr holl bobl rydym yn ceisio gwneud hynny y dylid darganfod y wybodaeth yn yr adran hon.
+                            Ni fyddwn yn defnyddio eich atebion i benderfynu a ydym yn dyfarnu grant i chi.</p>
+
+                            <p>Efallai y byddwn yn defnyddio'r atebion hyn mewn gwybodaeth a gyhoeddir gennym am grantiau a ddyfarnwyd,
+                            gan gynnwys ar wefannau eraill fel <a href='http://grantnav.threesixtygiving.org/'>360 Giving GrantNav</a>.</p>
+                            
+                            <p>Os yw'n anodd ateb y cwestiynau yn y rhan arweinyddiaeth, byddwn yn rhoi cyfle i chi optio allan o'u hateb.</p>
+                            
+                            <p>Rhaid i chi gwblhau'r rhannau eraill.</p>
+
+                            <h3>Asesu eich cais</h3>
+                            
+                            <p><strong>Ni fyddwn</strong> yn defnyddio eich atebion yn yr adran hon i asesu eich cais.</p>`,
                     }),
                     fields: [allFields.beneficiariesPreflightCheck],
                 },
@@ -281,7 +331,7 @@ module.exports = function ({
                             However, the information you provide here is <strong>not assessed</strong>
                             and <strong>will not</strong> be used to decide whether you will be
                             awarded funding for your project .
-                        </p>`,
+                        </p>  `,
                         cy: `<p>
                             Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.
                         </p>
@@ -293,8 +343,8 @@ module.exports = function ({
                             ein hariannu a phwy mae’n ei gyrraedd.
                         </p>
                         <p>
-                            Er hynny, <strong>nid</strong> yw’r wybodaeth rydych wedi’i ddarparu yma’n cael ei asesu 
-                            a <strong>ni fydd</strong> yn cael ei ddefnyddio i benderfynu a fyddwch yn llwyddiannus yn eich cais.
+                            Fodd bynnag, <strong>nid yw'r</strong> wybodaeth a roddwch yma yn cael ei hasesu ac <strong>ni chaiff</strong>
+                            ei defnyddio i benderfynu a fyddwch yn cael grant ar gyfer eich prosiect.
                         </p>`,
                     }),
                     fields: [allFields.beneficiariesGroupsCheck],
@@ -1363,12 +1413,12 @@ module.exports = function ({
             title: localise({
                 en:
                     'Equity, Diversity and Inclusion (EDI) monitoring information',
-                cy: '',
+                cy: 'Gwybodaeth fonitro Tegwch, Amrywiaeth a Chynhwysiant',
             }),
             shortTitle: localise({
                 en:
                     'Equity, Diversity and Inclusion (EDI) monitoring information',
-                cy: '',
+                cy: 'Gwybodaeth fonitro Tegwch, Amrywiaeth a Chynhwysiant',
             }),
             summary: localise({
                 en: `We want to hear more about the people who’ll benefit from your project and your organisation.`,
