@@ -416,14 +416,13 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Communities experiencing ethnic or racial inequity',
-                cy: '',
+                cy: 'Cymunedau sy\'n profi annhegwch ethnig neu hiliol, ymwadiad neu anghydraddoldeb',
             }),
             fieldsets: [
                 {
                     legend: localise({
-                        en:
-                            'Communities experiencing ethnic or racial inequity',
-                        cy: '',
+                        en: 'Communities experiencing ethnic or racial inequity',
+                        cy: 'Cymunedau sy\'n profi annhegwch ethnig neu hiliol, ymwadiad neu anghydraddoldeb',
                     }),
                     fields: conditionalFields(
                         [allFields.beneficiariesEthnicBackground],
@@ -439,12 +438,12 @@ module.exports = function ({
 
     function stepMigrants() {
         return new Step({
-            title: localise({ en: 'Migrants', cy: '' }),
+            title: localise({ en: 'Migrants', cy: 'Mudwyr' }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Migrants',
-                        cy: '',
+                        cy: 'Mudwyr',
                     }),
                     fields: conditionalFields(
                         [allFields.beneficiariesGroupsMigrant],
@@ -459,10 +458,10 @@ module.exports = function ({
 
     function stepLGBT() {
         return new Step({
-            title: localise({ en: 'LGBTQ+ people', cy: 'Rhyw' }),
+            title: localise({ en: 'LGBTQ+ people', cy: 'Pobl LHDTQ+' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'LGBTQ+ people', cy: 'Rhyw' }),
+                    legend: localise({ en: 'LGBTQ+ people', cy: 'Pobl LHDTQ+' }),
                     fields: conditionalFields(
                         [allFields.beneficiariesGroupsLGBT],
                         includeIfBeneficiaryType(BENEFICIARY_GROUPS.LGBT, [
@@ -476,7 +475,7 @@ module.exports = function ({
 
     function stepAge() {
         return new Step({
-            title: localise({ en: 'Young people', cy: 'Oedran' }),
+            title: localise({ en: 'Young people', cy: 'Pobl iau' }),
             fieldsets: [
                 {
                     legend: localise({ en: 'Age', cy: 'Oedran' }),
@@ -516,13 +515,13 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Specific groups that are not included already',
-                cy: '',
+                cy: 'Grwpiau penodol nad ydynt wedi\'u cynnwys eisoes',
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Specific groups that are not included already',
-                        cy: '',
+                        cy: 'Grwpiau penodol nad ydynt wedi\'u cynnwys eisoes',
                     }),
                     fields: conditionalFields(
                         [allFields.beneficiariesGroupsOther],
@@ -626,13 +625,13 @@ module.exports = function ({
         return new Step({
             title: localise({
                 en: 'Any groups other',
-                cy: '',
+                cy: 'Unrhyw grŵp arall',
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Communities with any other',
-                        cy: '',
+                        cy: 'Cymunedau ag unrhyw un arall',
                     }),
                     fields: conditionalFields(
                         [allFields.beneficiariesAnyGroupsOther],
@@ -1416,13 +1415,12 @@ module.exports = function ({
                 cy: 'Gwybodaeth fonitro Tegwch, Amrywiaeth a Chynhwysiant',
             }),
             shortTitle: localise({
-                en:
-                    'Equity, Diversity and Inclusion (EDI) monitoring information',
+                en: 'Equity, Diversity and Inclusion (EDI) monitoring information',
                 cy: 'Gwybodaeth fonitro Tegwch, Amrywiaeth a Chynhwysiant',
             }),
             summary: localise({
                 en: `We want to hear more about the people who’ll benefit from your project and your organisation.`,
-                cy: ``,
+                cy: `Rydyn ni eisiau clywed mwy am y bobl fydd yn elwa o'ch prosiect a'ch sefydliad.`,
             }),
             steps: steps(),
         };
