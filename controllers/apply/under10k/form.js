@@ -65,6 +65,30 @@ module.exports = function ({
 
     const fields = fieldsFor({ locale, data, flags });
 
+    function anyOtherGroupsCheck(){
+        const beneficiariesGroupsEthnicBackground =
+            get('beneficiariesGroupsEthnicBackground')(data) || [];
+        const beneficiariesGroupsLGBT =
+            get('beneficiariesGroupsLGBT')(data) || [];
+        const beneficiariesGroupsDisabledPeople =
+            get('beneficiariesGroupsDisabledPeople')(data) || [];
+        const beneficiariesGroupsReligion =
+            get('beneficiariesGroupsReligion')(data) || [];
+        const beneficiariesGroupsMigrant =
+            get('beneficiariesGroupsMigrant')(data) || [];
+
+        if (beneficiariesGroupsEthnicBackground.includes('other-ethnicity') ||
+            beneficiariesGroupsLGBT.includes('other-lgbt') ||
+            beneficiariesGroupsDisabledPeople.includes('other-disability') ||
+            beneficiariesGroupsReligion.includes('other-faith') ||
+            beneficiariesGroupsMigrant.includes('other-migrant')) {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
     function stepProjectName() {
         return new Step({
             title: localise({
@@ -1394,7 +1418,7 @@ module.exports = function ({
                 stepWelshLanguage(),
                 stepNorthernIrelandCommunity(),
             );
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && anyOtherGroupsCheck()) {
                 steps.push(
                     stepBeneficiariesAnyGroupsOther(),
                 );
