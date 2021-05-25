@@ -418,7 +418,7 @@ module.exports = {
                         {
                             value: 'mixed-groups',
                             label: localise({
-                                en: 'Mixed Groups',
+                                en: 'Mixed groups',
                                 cy: 'Grwpiau cymysg',
                             }),
                         },
@@ -512,7 +512,7 @@ module.exports = {
                         {
                             value: 'gypsy-roma-traveller',
                             label: localise({
-                                en: 'Gypsy, Roma and Traveller Communities',
+                                en: 'Gypsy, Roma and Traveller communities',
                                 cy: 'Cymunedau Sipsiwn, Roma a Theithwyr',
                             }),
                         },
