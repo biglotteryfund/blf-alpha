@@ -256,7 +256,7 @@ module.exports = function ({
                             We will not use your answers to decide if we award you a grant.</p> 
 
                             <p>We may use these answers in information we publish about grants awarded, including on other websites
-                            like <a href='http://grantnav.threesixtygiving.org/'>360 Giving GrantNav</a>.</p>
+                            like <a href="http://grantnav.threesixtygiving.org/" target="_blank">360 Giving GrantNav</a>.</p>
                             
                             <p>If it’s difficult to answer the questions in the leadership part, we’ll give you the chance
                             to opt out of answering them.</p>
@@ -345,12 +345,12 @@ module.exports = function ({
                             We'll use this information to make better decisions about how
                             our funding supports people and communities to thrive.
                             We'll also use it to tell people about the impact of
-                            our funding and who it is reaching.
+                            our funding and who it's reaching.
                         </p>
                         <p>
                             However, the information you provide here is <strong>not assessed</strong>
-                            and <strong>will not</strong> be used to decide whether you will be
-                            awarded funding for your project .
+                            and <strong>will not</strong> be used to decide whether you'll be
+                            awarded funding for your project.
                         </p>  `,
                         cy: `<p>
                             Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.

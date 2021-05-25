@@ -178,7 +178,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectCountries',
             label: localise({
                 en: `Confirm the country your project will be based in`,
-                cy: ``,
+                cy: `Cadarnhewch y wlad y bydd eich prosiect wedi'i lleoli ynddi`,
             }),
             explanation: localise({
                 en: oneLine`We work in different ways in each country, to meet local needs and rules.`,
