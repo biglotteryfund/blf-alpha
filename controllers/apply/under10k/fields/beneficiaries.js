@@ -102,7 +102,7 @@ module.exports = {
             }),
             explanation: localise({
                 en: `
-                    <p>If <strong>75% or more of the people supported or benefiting</strong> from your project come from 
+                    <p>If <strong>75% or more of the people supported or benefitting</strong> from your project come from 
                     <strong>one</strong> specific group of people, that means it's for that group.</p>
                     
                     <p>Your specific group may share more than one characteristic. When you go through this form,
@@ -181,7 +181,7 @@ module.exports = {
                     
                     <p>This information will <strong>not</strong> be used to assess your application for funding.</p>
                     
-                    <p>If <strong>75% or more of the people supported or benefiting</strong>
+                    <p>If <strong>75% or more of the people supported or benefitting</strong>
                     from your project come from <strong>one</strong> specific group of people, that means it's for that group.</p>
                     
                     <p>Your specific group may share more than one characteristic. When you go through this form, you can pick more than one.
@@ -321,7 +321,7 @@ module.exports = {
                     }),
                     explanation: localise({
                         en: oneLine`Examples include: care experienced young people, carers,
-                        people recovering from alcohol addiction,sex workers,
+                        people recovering from alcohol addiction, sex workers,
                         people whose first language is not English or have problems reading`,
                         cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc profiadol o ofal,
                         gofalwyr, pobl sy'n gwella o gaethiwed alcohol, gweithwyr rhyw,
@@ -506,7 +506,7 @@ module.exports = {
                         },
 
                         {
-                            value: 'Jewish',
+                            value: 'jewish',
                             label: localise({ en: 'Jewish', cy: 'Iddewig' }),
                         },
                         {
@@ -595,7 +595,7 @@ module.exports = {
                     value: 'other-lgbt',
                     label: localise({ en: 'LGBTQ+ people I\'d describe in another way ', cy: 'POBL LHDTQ+ y byddwn i\'n eu disgrifio mewn ffordd arall' }),
                     explanation: localise({
-                        en: oneLine`Examples: Other LGBTQ+ People, including queer and intersex people`,
+                        en: oneLine`Examples: other LGBTQ+ people, including queer and intersex people`,
                         cy: oneLine`Enghreifftiau: Pobl LHDTQ+ eraill, gan gynnwys pobl queer a rhyngrywiol`,
                     }),
                 },
@@ -691,7 +691,7 @@ module.exports = {
                 {
                     value: 'health',
                     label: localise({
-                        en: 'Long standing illness or health condition',
+                        en: 'Long-standing illness or health condition',
                         cy: 'Salwch neu gyflwr iechyd hirsefydlog',
                     }),
                     explanation: localise({
@@ -746,8 +746,8 @@ module.exports = {
                         cy: `Anabledd dysgu`,
                     }),
                     explanation: localise({
-                        en: oneLine`Llai o allu deallusol ac anhawster gyda gweithgareddau bob dydd sy'n effeithio ar rywun am eu bywyd cyfan, fel Down’s Syndrome`,
-                        cy: oneLine``,
+                        en: oneLine`A reduced intellectual ability and difficulty with everyday activities which affects someone for their whole life, such as Down’s Syndrome`,
+                        cy: oneLine`Llai o allu deallusol ac anhawster gyda gweithgareddau bob dydd sy'n effeithio ar rywun am eu bywyd cyfan, fel Down’s Syndrome`,
                     }),
                 },
                 {
@@ -851,7 +851,7 @@ module.exports = {
                 },
                 {
                     value: 'atheist',
-                    label: localise({ en: 'Athiest', cy: 'Athiest' }),
+                    label: localise({ en: 'Athiest', cy: 'Anffyddiwr' }),
                 },
                 {
                     value: 'agnostic',
@@ -1012,7 +1012,7 @@ module.exports = {
             options: [
                 {
                     value: 'asylum-seeker',
-                    label: localise({ en: 'Asylum Seekers', cy: 'Ceiswyr Lloches' }),
+                    label: localise({ en: 'Asylum seekers', cy: 'Ceiswyr Lloches' }),
                 },
                 {
                     value: 'refugee',
@@ -1100,7 +1100,7 @@ module.exports = {
                 cy: `Gwybodaeth ychwanegol`,
             }),
             explanation: localise({
-                en: `<p>Fe ddywedoch wrthym y bydd eich prosiect yn elwa:</p>
+                en: `<p>You told us that your project will benefit:</p>
                       <ul>${othersIdsToText(
                     beneficiariesGroupsEthnicBackground,
                     'en'
@@ -1112,7 +1112,7 @@ module.exports = {
                 )}
                       ${othersIdsToText(beneficiariesGroupsLGBT, 'en')}</ul>
                      <p>Tell us who they are - you can choose more than one category.</p>`,
-                cy: `<p>You told us that your project will benefit:</p>
+                cy: `<p>Fe ddywedoch wrthym y bydd eich prosiect yn elwa:</p>
                       <ul>${othersIdsToText(
                     beneficiariesGroupsEthnicBackground,
                     'cy'
