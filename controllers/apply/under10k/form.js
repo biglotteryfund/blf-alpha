@@ -257,7 +257,7 @@ module.exports = function ({
                             <h3>How we'll use your information</h3>
                             
                             <p>The information in this section is only to find out if we’re reaching all the people we’re trying to.
-                            We will not use your answers to decide if we award you a grant.</p> 
+                            We will <strong>not</strong> use your answers to decide if we award you a grant.</p> 
 
                             <p>We may use these answers in information we publish about grants awarded, including on other websites
                             like <a href="http://grantnav.threesixtygiving.org/" target="_blank">360 Giving GrantNav</a>.</p>

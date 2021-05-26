@@ -18,6 +18,7 @@ Array [
   "Enter an email address",
   "Check this box to show you understand",
   "Select an option",
+  "Select the specific group(s) of people your leadership identifies in",
 ]
 `;
 
@@ -40,5 +41,6 @@ Array [
   "Enter an email address",
   "Check this box to show you understand",
   "Select an option",
+  "Select the specific group(s) of people your leadership identifies in",
 ]
 `;

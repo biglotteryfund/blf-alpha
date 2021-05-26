@@ -322,7 +322,7 @@ module.exports = {
                     explanation: localise({
                         en: oneLine`Examples include: care experienced young people, carers,
                         people recovering from alcohol addiction, sex workers,
-                        people whose first language is not English or have problems reading`,
+                        people whose first language is not English or who have problems reading`,
                         cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc profiadol o ofal,
                         gofalwyr, pobl sy'n gwella o gaethiwed alcohol, gweithwyr rhyw,
                         pobl nad Saesneg yw eu hiaith gyntaf neu sy'n cael problemau darllen`,
@@ -851,7 +851,7 @@ module.exports = {
                 },
                 {
                     value: 'atheist',
-                    label: localise({ en: 'Athiest', cy: 'Anffyddiwr' }),
+                    label: localise({ en: 'Atheist', cy: 'Anffyddiwr' }),
                 },
                 {
                     value: 'agnostic',
