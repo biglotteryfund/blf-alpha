@@ -36,17 +36,13 @@ function conditionalBeneficiaryChoice({ match, schema }) {
 }
 
 function conditionalBeneficiaryLeadershipChoice({ match, schema }) {
-    return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
-        is: 'yes',
-        then: Joi.when(Joi.ref('beneficiariesLeadershipGroups'), {
+    return Joi.when(Joi.ref('beneficiariesLeadershipGroups'), {
             is: Joi.array()
                 .items(Joi.string().valid(match).required(), Joi.any())
                 .required(),
             then: schema,
             otherwise: Joi.any().strip(),
-        }),
-        otherwise: Joi.any().strip(),
-    });
+        });
 }
 
 function othersIdsToText(id, lang) {
