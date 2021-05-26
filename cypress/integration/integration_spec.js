@@ -1576,13 +1576,13 @@ function standardApplication({
             submitStep();
         }
 
-        if (mock.country === 'Northern Ireland') {
-            cy.findByLabelText('Both Catholic and Protestant').click();
+        if (mock.projectCountry === 'Wales') {
+            cy.findByLabelText('More than half').click();
             submitStep();
         }
 
-        if (mock.country === 'Wales') {
-            cy.findByLabelText('More than half').click();
+        if (mock.projectCountry === 'Northern Ireland') {
+            cy.findByLabelText('Both Catholic and Protestant').click();
             submitStep();
         }
 
