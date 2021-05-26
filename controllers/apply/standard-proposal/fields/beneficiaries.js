@@ -344,7 +344,7 @@ module.exports = {
                     explanation: localise({
                         en: oneLine`Examples include: care experienced young people, carers,
                         people recovering from alcohol addiction, sex workers,
-                        people whose first language is not English or have problems reading`,
+                        people whose first language is not English or who have problems reading`,
                         cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc profiadol o ofal,
                         gofalwyr, pobl sy'n gwella o gaethiwed alcohol, gweithwyr rhyw,
                         pobl nad Saesneg yw eu hiaith gyntaf neu sy'n cael problemau darllen`,
@@ -873,7 +873,7 @@ module.exports = {
                 },
                 {
                     value: 'atheist',
-                    label: localise({ en: 'Athiest', cy: 'Anffyddiwr' }),
+                    label: localise({ en: 'Atheist', cy: 'Anffyddiwr' }),
                 },
                 {
                     value: 'agnostic',
@@ -1237,8 +1237,9 @@ module.exports = {
                         cy: ``,
                     }),
                     explanation: localise({
-                        en: oneLine`Examples include: care experienced young people, 
-                        people recovering from alcohol addiction, sex workers`,
+                        en: oneLine`Examples include: care experienced young people, carers,
+                        people recovering from alcohol addiction, sex workers,
+                        people whose first language is not English or who have problems reading`,
                         cy: oneLine``,
                     }),
                 },
@@ -1268,11 +1269,7 @@ module.exports = {
                 },
             ],
             get schema() {
-                return Joi.when('beneficiariesGroupsCheck', {
-                    is: 'yes',
-                    then: multiChoice(this.options).required(),
-                    otherwise: Joi.any().strip(),
-                });
+                return multiChoice(this.options).required();
             },
             messages: [
                 {
@@ -1536,7 +1533,7 @@ module.exports = {
                 },
                 {
                     value: 'atheist',
-                    label: localise({ en: 'Athiest', cy: '' }),
+                    label: localise({ en: 'Atheist', cy: '' }),
                 },
                 {
                     value: 'agnostic',
