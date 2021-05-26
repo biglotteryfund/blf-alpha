@@ -1576,21 +1576,21 @@ function standardApplication({
             submitStep();
         }
 
+        if (mock.projectCountry === 'Wales') {
+            cy.findByLabelText('More than half').click();
+            submitStep();
+        }
+
+        if (mock.projectCountry === 'Northern Ireland') {
+            cy.findByLabelText('Both Catholic and Protestant').click();
+            submitStep();
+        }
+
         cy.findByLabelText(
             'Prefer not to say'
         ).click();
 
         submitStep();
-
-        if (mock.country === 'Wales') {
-            cy.findByLabelText('More than half').click();
-            submitStep();
-        }
-
-        if (mock.country === 'Northern Ireland') {
-            cy.findByLabelText('Both Catholic and Protestant').click();
-            submitStep();
-        }
 
         cy.findAllByText('Nearly done', { exact: false })
             .first()
