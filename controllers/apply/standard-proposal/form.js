@@ -1449,12 +1449,12 @@ module.exports = function ({
                 stepLeadershipAge(),
                 stepLeadershipLGBT(),
             );
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
+            if (beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
                 steps.push(
                     stepLeadershipOtherBeneficiaryGroups(),
                 );
             }
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && anyOtherGroupsLeadershipCheck()) {
+            if (beneficiariesLeadershipGroups && anyOtherGroupsLeadershipCheck()) {
                 steps.push(
                     stepBeneficiariesLeadershipAnyGroupsOther(),
                 );
