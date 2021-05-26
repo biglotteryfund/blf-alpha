@@ -665,8 +665,8 @@ module.exports = function ({
     }
 
     function isForCountry(country) {
-        const currentCountry = get('projectCountry')(data);
-        return currentCountry === country;
+        const currentCountry = get('projectCountries')(data);
+        return currentCountry && currentCountry.includes(country);
     }
 
     /**

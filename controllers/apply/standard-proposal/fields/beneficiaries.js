@@ -932,7 +932,7 @@ module.exports = {
             ],
             isRequired: true,
             get schema() {
-                return Joi.when('projectCountry', {
+                return Joi.when('projectCountries', {
                     is: 'wales',
                     then: Joi.string()
                         .valid(...this.options.map((option) => option.value))
@@ -993,7 +993,7 @@ module.exports = {
             ],
             isRequired: true,
             get schema() {
-                return Joi.when('projectCountry', {
+                return Joi.when('projectCountries', {
                     is: 'northern-ireland',
                     then: Joi.string()
                         .valid(...this.options.map((option) => option.value))
