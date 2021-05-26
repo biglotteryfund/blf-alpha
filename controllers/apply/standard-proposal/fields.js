@@ -2108,7 +2108,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     locale
                 ),
             });
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
+            if (beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
                 Object.assign(fields, {
                     beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
                         locale
