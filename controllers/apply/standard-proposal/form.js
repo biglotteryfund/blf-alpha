@@ -49,6 +49,55 @@ module.exports = function ({
         return showAllFields ? allFields : filteredFields;
     };
 
+    function anyOtherGroupsCheck(){
+        const beneficiariesGroupsEthnicBackground =
+            get('beneficiariesGroupsEthnicBackground')(data) || [];
+        const beneficiariesGroupsLGBT =
+            get('beneficiariesGroupsLGBT')(data) || [];
+        const beneficiariesGroupsDisabledPeople =
+            get('beneficiariesGroupsDisabledPeople')(data) || [];
+        const beneficiariesGroupsReligion =
+            get('beneficiariesGroupsReligion')(data) || [];
+        const beneficiariesGroupsMigrant =
+            get('beneficiariesGroupsMigrant')(data) || [];
+
+        if (beneficiariesGroupsEthnicBackground.includes('other-ethnicity') ||
+            beneficiariesGroupsLGBT.includes('other-lgbt') ||
+            beneficiariesGroupsDisabledPeople.includes('other-disability') ||
+            beneficiariesGroupsReligion.includes('other-faith') ||
+            beneficiariesGroupsMigrant.includes('other-migrant')) {
+
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    function anyOtherGroupsLeadershipCheck(){
+        const beneficiariesLeadershipGroupsEthnicBackground =
+            get('beneficiariesLeadershipGroupsEthnicBackground')(data) || [];
+        const beneficiariesLeadershipGroupsLGBT =
+            get('beneficiariesLeadershipGroupsLGBT')(data) || [];
+        const beneficiariesLeadershipGroupsDisabledPeople =
+            get('beneficiariesLeadershipGroupsDisabledPeople')(data) || [];
+        const beneficiariesLeadershipGroupsReligion =
+            get('beneficiariesLeadershipGroupsReligion')(data) || [];
+        const beneficiariesLeadershipGroupsMigrant =
+            get('beneficiariesLeadershipGroupsMigrant')(data) || [];
+
+        if (beneficiariesLeadershipGroupsEthnicBackground.includes('other-ethnicity') ||
+            beneficiariesLeadershipGroupsLGBT.includes('other-lgbt') ||
+            beneficiariesLeadershipGroupsDisabledPeople.includes('other-disability') ||
+            beneficiariesLeadershipGroupsReligion.includes('other-faith') ||
+            beneficiariesLeadershipGroupsMigrant.includes('other-migrant')) {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
     function stepProjectName() {
         return new Step({
             title: localise({
@@ -675,7 +724,6 @@ module.exports = function ({
 
     // Leadership EDI
     function stepBeneficiariesLeadershipEdi() {
-        const groupsCheck = get('beneficiariesGroupsCheck')(data);
         return new Step({
             title: localise({
                 en: 'Leadership of the organisation',
@@ -700,7 +748,6 @@ module.exports = function ({
                         return conditionalFields(
                             beneficiariesLeadershipFields,
                             compact([
-                                groupsCheck === 'yes' &&
                                     allFields.beneficiariesLeadershipGroups,
                             ])
                         );
@@ -1387,7 +1434,7 @@ module.exports = function ({
                 stepWelshLanguage(),
                 stepNorthernIrelandCommunity(),
             );
-            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && anyOtherGroupsCheck()) {
                 steps.push(
                     stepBeneficiariesAnyGroupsOther(),
                 );
@@ -1405,6 +1452,10 @@ module.exports = function ({
             if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
                 steps.push(
                     stepLeadershipOtherBeneficiaryGroups(),
+                );
+            }
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesLeadershipGroups && anyOtherGroupsLeadershipCheck()) {
+                steps.push(
                     stepBeneficiariesLeadershipAnyGroupsOther(),
                 );
             }

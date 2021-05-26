@@ -110,7 +110,7 @@ module.exports = {
                     
                     <p>For example, if the group you’re supporting is made up of at least 75% female refugees,
                     this would qualify as supporting a specific group - that specific group would be women who are refugees.
-                    And they would share two characteristics - women + refugees.</p>
+                    And they'd share two characteristics - women + refugees.</p>
 
                     <p>This figure of 75% - or 3 in 4 people - was decided on after working with a wide range of groups.</p>
                     
@@ -418,7 +418,7 @@ module.exports = {
                         {
                             value: 'mixed-groups',
                             label: localise({
-                                en: 'Mixed Groups',
+                                en: 'Mixed groups',
                                 cy: 'Grwpiau cymysg',
                             }),
                         },
@@ -512,7 +512,7 @@ module.exports = {
                         {
                             value: 'gypsy-roma-traveller',
                             label: localise({
-                                en: 'Gypsy, Roma and Traveller Communities',
+                                en: 'Gypsy, Roma and Traveller communities',
                                 cy: 'Cymunedau Sipsiwn, Roma a Theithwyr',
                             }),
                         },

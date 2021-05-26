@@ -1576,6 +1576,12 @@ function standardApplication({
             submitStep();
         }
 
+        cy.findByLabelText(
+            'Prefer not to say'
+        ).click();
+
+        submitStep();
+
         if (mock.country === 'Wales') {
             cy.findByLabelText('More than half').click();
             submitStep();
