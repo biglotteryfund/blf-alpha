@@ -993,8 +993,12 @@ module.exports = {
             ],
             isRequired: true,
             get schema() {
-                return Joi.when('projectCountries', {
-                    is: 'northern-ireland',
+                const isNISelected = Joi.array().items(
+                    Joi.string().valid('northern-ireland').required(),
+                    Joi.any()
+                );
+                return Joi.when(Joi.ref('projectCountries'), {
+                    is: isNISelected,
                     then: Joi.string()
                         .valid(...this.options.map((option) => option.value))
                         .required(),
