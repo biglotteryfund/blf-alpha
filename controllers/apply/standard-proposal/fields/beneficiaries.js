@@ -60,7 +60,7 @@ function othersIdsToText(id, lang) {
                 ? '<li>Any other mixed / multiple ethnic background</li>'
                 : '<li>Unrhyw gefndir ethnig cymysg / lluosog arall</li>';
     if (id.includes(OTHER_GROUPS.OTHER_ASIAN))
-        list += lang === 'en' ? '<li>Any other asian background</li>' : '<li>Unrhyw gefndir Asiaidd arall</li>';
+        list += lang === 'en' ? '<li>Any other Asian background</li>' : '<li>Unrhyw gefndir Asiaidd arall</li>';
     if (id.includes(OTHER_GROUPS.OTHER_ETHNICITY))
         list += lang === 'en' ? '<li>Any other ethnic background</li>' : '<li>Unrhyw grŵp ethnig arall</li>';
     if (id.includes(OTHER_GROUPS.OTHER_LGBT))
@@ -1935,7 +1935,7 @@ module.exports = {
                           'en'
                       )}
                       ${othersIdsToText(beneficiariesGroupsLGBT, 'en')}</ul>
-                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                     <p>Tell us more about who they are.</p>`,
                 cy: `<p>Fe ddywedoch wrthym y bydd eich prosiect yn elwa:</p>
                       <ul>${othersIdsToText(
                     beneficiariesGroupsEthnicBackground,
@@ -1947,7 +1947,7 @@ module.exports = {
                     'cy'
                 )}
                       ${othersIdsToText(beneficiariesGroupsLGBT, 'cy')}</ul>
-                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
+                     <p>Dywedwch fwy wrthym am bwy ydyn nhw.</p>`,
             }),
             minWords: 0,
             maxWords: 100,
@@ -2005,7 +2005,7 @@ module.exports = {
                           beneficiariesLeadershipGroupsLGBT,
                           'en'
                       )}</ul>
-                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                     <p>Tell us more about who they are.</p>`,
                 cy: ``,
             }),
             minWords: 0,

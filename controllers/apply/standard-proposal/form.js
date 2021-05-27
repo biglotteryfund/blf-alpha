@@ -789,8 +789,8 @@ module.exports = function ({
     function stepBeneficiariesAnyGroupsOther() {
         return new Step({
             title: localise({
-                en: 'Any groups other',
-                cy: 'Unrhyw grŵp arall',
+                en: 'Any other groups',
+                cy: 'unrhyw grwpiau arall',
             }),
             fieldsets: [
                 {
@@ -943,7 +943,7 @@ module.exports = function ({
     function stepBeneficiariesLeadershipAnyGroupsOther() {
         return new Step({
             title: localise({
-                en: 'Any leadership groups other',
+                en: 'Any other leadership groups',
                 cy: '',
             }),
             fieldsets: [
