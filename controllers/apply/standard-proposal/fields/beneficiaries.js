@@ -473,8 +473,15 @@ module.exports = {
                         {
                             value: 'mixed-asian',
                             label: localise({
-                                en: 'Mixed Asian / Asian British',
-                                cy: 'Asiaidd Cymysg / Asiaidd Prydeinig',
+                                en: 'Mixed Asian',
+                                cy: 'Asiaidd Cymysg',
+                            }),
+                        },
+                        {
+                            value: 'asian-british',
+                            label: localise({
+                                en: 'Asian British',
+                                cy: 'Asiaidd Prydeinig',
                             }),
                         },
                         {
@@ -1388,7 +1395,14 @@ module.exports = {
                         {
                             value: 'mixed-asian',
                             label: localise({
-                                en: 'Mixed Asian / Asian British',
+                                en: 'Mixed Asian',
+                                cy: '',
+                            }),
+                        },
+                        {
+                            value: 'asian-british',
+                            label: localise({
+                                en: 'Asian British',
                                 cy: '',
                             }),
                         },
