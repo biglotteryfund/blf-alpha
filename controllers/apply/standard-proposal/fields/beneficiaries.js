@@ -473,8 +473,15 @@ module.exports = {
                         {
                             value: 'mixed-asian',
                             label: localise({
-                                en: 'Mixed Asian / Asian British',
-                                cy: 'Asiaidd Cymysg / Asiaidd Prydeinig',
+                                en: 'Mixed Asian',
+                                cy: 'Asiaidd Cymysg',
+                            }),
+                        },
+                        {
+                            value: 'asian-british',
+                            label: localise({
+                                en: 'Asian British',
+                                cy: 'Asiaidd Prydeinig',
                             }),
                         },
                         {
@@ -993,8 +1000,12 @@ module.exports = {
             ],
             isRequired: true,
             get schema() {
-                return Joi.when('projectCountries', {
-                    is: 'northern-ireland',
+                const isNISelected = Joi.array().items(
+                    Joi.string().valid('northern-ireland').required(),
+                    Joi.any()
+                );
+                return Joi.when(Joi.ref('projectCountries'), {
+                    is: isNISelected,
                     then: Joi.string()
                         .valid(...this.options.map((option) => option.value))
                         .required(),
@@ -1384,7 +1395,14 @@ module.exports = {
                         {
                             value: 'mixed-asian',
                             label: localise({
-                                en: 'Mixed Asian / Asian British',
+                                en: 'Mixed Asian',
+                                cy: '',
+                            }),
+                        },
+                        {
+                            value: 'asian-british',
+                            label: localise({
+                                en: 'Asian British',
                                 cy: '',
                             }),
                         },
