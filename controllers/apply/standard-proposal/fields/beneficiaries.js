@@ -979,15 +979,15 @@ module.exports = {
                 {
                     value: 'mainly-protestant',
                     label: localise({
-                        en: `Mainly Protestant (more than 60 per cent)`,
-                        cy: `Protestanaidd yn bennaf (dros 60 y cant)`,
+                        en: `Mainly Protestant (more than 60%)`,
+                        cy: `Protestanaidd yn bennaf (dros 60%`,
                     }),
                 },
                 {
                     value: 'mainly-catholic',
                     label: localise({
-                        en: `Mainly Catholic (more than 60 per cent)`,
-                        cy: `Catholig yn bennaf (dros 60 y cant)`,
+                        en: `Mainly Catholic (more than 60%)`,
+                        cy: `Catholig yn bennaf (dros 60%)`,
                     }),
                 },
                 {
@@ -1086,13 +1086,14 @@ module.exports = {
                 en: `<p>You told us that your project mostly benefits people from specific 
                       groups that we had not listed.</p>
                      <p>Tell us who they are - you can choose more than one category.</p>
-                     <p>Examples include: men and boys, care-experienced young people, people recovering from alcohol 
-                     addiction, people with experience of the criminal justice system, and sex workers.</p>`,
+                     <p>Examples include: men and boys, care experienced young people, carers,
+                     people recovering from alcohol addiction, sex workers,
+                     people whose first language is not English or who have problems reading.</p>`,
                 cy: `<p>Fe ddywedoch wrthym fod eich prosiect yn bennaf o fudd i bobl o grwpiau penodol nad oeddem wedi'u rhestru.</p>
                      <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>
-                     <p>Mae enghreifftiau'n cynnwys: dynion a bechgyn, pobl ifanc sydd â phrofiad o ofal,
-                     pobl sy'n gwella o gaethiwed alcohol, pobl sydd â phrofiad o'r system cyfiawnder troseddol,
-                     a gweithwyr rhyw.</p>`,
+                     <p>Mae enghreifftiau'n cynnwys: dynion a bechgyn, pobl ifanc sydd â phrofiad o ofal, gofalwyr,
+                     pobl sy'n gwella ar ôl dibyniaeth ar alcohol, gweithwyr rhyw,
+                     pobl nad Saesneg yw eu hiaith gyntaf neu sy'n cael problemau darllen.</p>`,
             }),
             minWords: 0,
             maxWords: 100,
@@ -1879,8 +1880,9 @@ module.exports = {
                 en: `<p>You told us that the leadership of your organisation self-identify coming from specific groups 
                       that are not included already. Tell us which groups these are.</p>
                      <p>Tell us who they are - you can choose more than one category.</p>
-                     <p>Examples include: men and boys, care-experienced young people, people recovering from alcohol 
-                     addiction, people with experience of the criminal justice system, and sex workers.</p>`,
+                     <p>Examples include: men and boys, care experienced young people, carers,
+                     people recovering from alcohol addiction, sex workers,
+                     people whose first language is not English or who have problems reading.</p>`,
                 cy: ``,
             }),
             minWords: 0,
