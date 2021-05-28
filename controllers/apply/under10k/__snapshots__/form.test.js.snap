@@ -61,12 +61,6 @@ Object {
       "statusLabel": "Not started",
     },
     Object {
-      "label": "Equity, Diversity and Inclusion (EDI) monitoring information",
-      "slug": "beneficiaries",
-      "status": "empty",
-      "statusLabel": "Not started",
-    },
-    Object {
       "label": "Your organisation",
       "slug": "organisation",
       "status": "empty",
@@ -93,6 +87,12 @@ Object {
     Object {
       "label": "Terms and conditions",
       "slug": "terms-and-conditions",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Equity, Diversity and Inclusion (EDI) monitoring information",
+      "slug": "beneficiaries",
       "status": "empty",
       "statusLabel": "Not started",
     },

@@ -1662,12 +1662,12 @@ module.exports = function ({
         forSalesforce: forSalesforce,
         sections: [
             sectionYourProject(),
-            sectionBeneficiaries(),
             sectionOrganisation(),
             sectionSeniorContact(),
             sectionMainContact(),
             sectionBankDetails(),
             sectionTerms(),
+            sectionBeneficiaries(),
         ],
     };
 
