@@ -145,15 +145,7 @@ const DOTDIGITAL_API = {
  * */
 
 const SALESFORCE_SANDBOX_DOMAIN =
-    process.env.SALESFORCE_SANDBOX_DOMAIN ||
-    getParameter('sandbox.test.domain');
-
-/**
- * Allowed IP Range for Dev Site
- * Used to block
- * */
-
-const IP_RANGE = process.env.IP_RANGE || getParameter('internal.ips');
+    process.env.SALESFORCE_SANDBOX_DOMAIN || getParameter('sandbox.test.domain');
 
 module.exports = {
     AZURE_AUTH,
@@ -164,7 +156,6 @@ module.exports = {
     DOTDIGITAL_API,
     EMAIL_EXPIRY_SECRET,
     EMAIL_EXPIRY_TEST_ADDRESS,
-    IP_RANGE,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
