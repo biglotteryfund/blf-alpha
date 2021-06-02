@@ -90,6 +90,8 @@ router.use('/covid-19-resources/*', flexibleContentPage());
 
 router.use('/grantmaking-practice/*', flexibleContentPage());
 
+router.use('/difference-we-make/*', flexibleContentPage());
+
 router.get('/:slug/:child_slug?', async function (req, res, next) {
     try {
         const entry = await ContentApi.init({
