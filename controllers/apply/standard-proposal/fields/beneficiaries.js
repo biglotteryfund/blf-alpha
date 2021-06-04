@@ -103,7 +103,7 @@ module.exports = {
                     type: 'base',
                     message: localise({
                         en: 'Check this box to show you understand',
-                        cy: 'Dewis opsiwnDewiswch o leiaf un opsiwn',
+                        cy: 'Dewiswch o leiaf un opsiwn',
                     }),
                 },
             ],
