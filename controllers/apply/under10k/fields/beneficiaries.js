@@ -245,7 +245,7 @@ module.exports = {
                     explanation: localise({
                         en: oneLine`Examples include: migrants, asylum seekers, refugees, 
                                     undocumented people, other migrants`,
-                        cy: oneLine`Mae enghreifftiau'n cynnwys: mudwyr, ceiswyr lloches, ffoaduriaid, Pobl heb eu cofnodipobl, mudwyr eraill`,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: mudwyr, ceiswyr lloches, ffoaduriaid, Pobl heb eu cofnodi, mudwyr eraill`,
                     }),
                 },
                 {
@@ -321,9 +321,9 @@ module.exports = {
                         en: oneLine`Examples include: care experienced young people, carers,
                         people recovering from alcohol addiction, sex workers,
                         people whose first language is not English or who have problems reading, men and boys`,
-                        cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc â phrofiad o ofal, gofalwyr,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc gyda phrofiad o ofal, gofalwyr,
                         pobl sy'n gwella o ddibyniaeth alcohol, gweithwyr rhyw,
-                        pobl nad Saesneg na Chymraeg yw eu hiaith gyntaf neu sy'n cael problemau darllen, dynion a bechgyn`,
+                        pobl nad Saesneg na Chymraeg yw eu hiaith gyntaf neu bobl sy'n cael problemau darllen, dynion a bechgyn`,
                     }),
                 },
             ],
