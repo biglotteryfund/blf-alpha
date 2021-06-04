@@ -103,7 +103,7 @@ module.exports = {
                     type: 'base',
                     message: localise({
                         en: 'Check this box to show you understand',
-                        cy: 'Dewis opsiwn',
+                        cy: 'Dewis opsiwnDewiswch o leiaf un opsiwn',
                     }),
                 },
             ],
@@ -174,7 +174,7 @@ module.exports = {
                     type: 'base',
                     message: localise({
                         en: 'Select an option',
-                        cy: 'Dewis opsiwn',
+                        cy: 'Dewiswch o leiaf un opsiwn',
                     }),
                 },
             ],
@@ -237,12 +237,12 @@ module.exports = {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
                         en:
-                            'Communities experiencing ethnic or racial inequity, discrimation or inequality',
+                            'Communities experiencing ethnic or racial inequity, discrimination or inequality',
                         cy: 'Cymunedau sy\'n profi annhegwch ethnig neu hiliol, ymwadiad neu anghydraddoldeb',
                     }),
                     explanation: localise({
-                        en: oneLine`Examples include: Black, Mixed, Asian and Roma`,
-                        cy: oneLine`Mae enghreifftiau'n cynnwys: Du, Cymysg, Asiaidd a Roma`,
+                        en: oneLine`Examples include: Black, Mixed, Asian, Roma, Jewish or Arab`,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: Du, Cymysg, Asiaidd, Roma, Iddewig neu Arabaidd`,
                     }),
                 },
                 {
@@ -340,10 +340,10 @@ module.exports = {
                     explanation: localise({
                         en: oneLine`Examples include: care experienced young people, carers,
                         people recovering from alcohol addiction, sex workers,
-                        people whose first language is not English or who have problems reading`,
-                        cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc profiadol o ofal,
-                        gofalwyr, pobl sy'n gwella o gaethiwed alcohol, gweithwyr rhyw,
-                        pobl nad Saesneg yw eu hiaith gyntaf neu sy'n cael problemau darllen`,
+                        people whose first language is not English or who have problems reading, men and boys`,
+                        cy: oneLine`Mae enghreifftiau'n cynnwys: pobl ifanc â phrofiad o ofal, gofalwyr,
+                        pobl sy'n gwella o ddibyniaeth alcohol, gweithwyr rhyw,
+                        pobl nad Saesneg na Chymraeg yw eu hiaith gyntaf neu sy'n cael problemau darllen, dynion a bechgyn`,
                     }),
                 },
             ],
@@ -379,9 +379,9 @@ module.exports = {
                 en: `<p>You told us that your project mostly benefits people from communities who are experiencing 
                         ethnic or racial inequity.</p>
                         
-                        <p>Tell us who they are - you can choose more than one category.</p>`,
+                        <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: `<p>Fe ddywedoch wrthym fod eich prosiect yn bennaf o fudd i bobl o gymunedau sy'n profi annhegwch ethnig neu hiliol.</p>
-                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
+                     <p>Dywedwch wrthym pwy ydynt – os yn bosibl, dewiswch un categori yn unig o'r rhestr hon.</p>`,
             }),
             optgroups: [
                 {
@@ -390,13 +390,6 @@ module.exports = {
                         cy: 'Du / Affricanaidd / Caribiaidd / Du Brydeinig',
                     }),
                     options: [
-                        {
-                            value: 'mixed-black',
-                            label: localise({
-                                en: 'Mixed Black',
-                                cy: 'Du Cymysg',
-                            }),
-                        },
                         {
                             value: 'black-british',
                             label: localise({
@@ -434,13 +427,6 @@ module.exports = {
                     }),
                     options: [
                         {
-                            value: 'mixed-groups',
-                            label: localise({
-                                en: 'Mixed groups',
-                                cy: 'Grwpiau cymysg',
-                            }),
-                        },
-                        {
                             value: 'white-black',
                             label: localise({
                                 en: 'White and Black',
@@ -470,13 +456,6 @@ module.exports = {
                         cy: 'Asiaidd / Asiaidd Brydeinig',
                     }),
                     options: [
-                        {
-                            value: 'mixed-asian',
-                            label: localise({
-                                en: 'Mixed Asian',
-                                cy: 'Asiaidd Cymysg',
-                            }),
-                        },
                         {
                             value: 'asian-british',
                             label: localise({
@@ -654,18 +633,18 @@ module.exports = {
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits younger people.</p>
-                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                     <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: `<p>Fe ddywedoch wrthym fod eich prosiect o fudd i bobl iau ar y cyfan.</p>
-                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
+                     <p>Dywedwch wrthym pwy ydynt – os yn bosibl, dewiswch un categori yn unig o'r rhestr hon.</p>`,
             }),
             options: [
                 { value: '19-25', label: '19-25' },
                 { value: '16-18', label: '16-18' },
                 { value: '8-15', label: '8-15' },
-                { value: '3-7', label: '3-7' },
+                { value: '2-7', label: '2-7' },
                 {
-                    value: '0-2',
-                    label: localise({ en: 'Under 2 years of age', cy: 'Dan 2 oed' }),
+                    value: 'under-2',
+                    label: localise({ en: 'Under 2 years of age', cy: 'Dan ddau oed' }),
                 },
             ],
             get schema() {
@@ -696,13 +675,13 @@ module.exports = {
                     You told us that your project mostly benefits disabled people.
                 </p>
                 <p>
-                    Tell us who they are - you can choose more than one category.
+                    Tell us who they are – if possible, please select just one category from this list.
                 </p>`,
                 cy: `<p>
                     Fe ddywedoch wrthym fod eich prosiect o fudd i bobl anabl yn bennaf.
                 </p>
                 <p>
-                    Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.
+                    Dywedwch wrthym pwy ydynt – os yn bosibl, dewiswch un categori yn unig o'r rhestr hon.
                 </p>`,
             }),
             options: [
@@ -834,9 +813,9 @@ module.exports = {
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits people from faith communities.</p>
-                    <p>Tell us who they are - you can choose more than one category.</p>`,
+                    <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: `<p>Fe ddywedoch wrthym fod eich prosiect o fudd i bobl o gymunedau ffydd yn bennaf.</p>
-                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
+                     <p>Dywedwch wrthym pwy ydynt – os yn bosibl, dewiswch un categori yn unig o'r rhestr hon.</p>`,
             }),
             options: [
                 {
@@ -1034,9 +1013,9 @@ module.exports = {
             }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits migrants.</p>
-                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                     <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: `<p>Fe ddywedoch wrthym fod eich prosiect o fudd i fudwyr yn bennaf.</p>
-                     <p>Dywedwch wrthym pwy ydynt - gallwch ddewis mwy nag un categori.</p>`,
+                     <p>Dywedwch wrthym pwy ydynt – os yn bosibl, dewiswch un categori yn unig o'r rhestr hon.</p>`,
             }),
             options: [
                 {
@@ -1097,7 +1076,7 @@ module.exports = {
             }),
             minWords: 0,
             maxWords: 100,
-            isRequired: false,
+            isRequired: true,
             get schema() {
                 return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.OTHER,
@@ -1134,7 +1113,7 @@ module.exports = {
                     <p>We'd like to know if most of the people who lead or make the key decisions in your 
                     organisation belong to <strong>one</strong> specific group. 
                     For example, <strong>75% or more</strong> of your board of trustees or management committee might 
-                    be from a specific group. <strong>Or 50%</strong> or more of senior staff self-identify 
+                    be from a specific group. <strong>And 50%</strong> or more of senior staff self-identify 
                     as from a specific community or having a characteristic.</p>
                     
                     <p>If they do, tell us who they are - you can choose more than one category. <br />
@@ -1146,11 +1125,11 @@ module.exports = {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
                         en:
-                            'Communities experiencing ethnic or racial inequity, discrimation or inequality',
+                            'Communities experiencing ethnic or racial inequity, discrimination or inequality',
                         cy: '',
                     }),
                     explanation: localise({
-                        en: oneLine`Examples include: Black, Mixed, Asian and Roma`,
+                        en: oneLine`Examples include: Black, Mixed, Asian, Roma, Jewish or Arab`,
                         cy: oneLine``,
                     }),
                 },
@@ -1247,7 +1226,7 @@ module.exports = {
                     explanation: localise({
                         en: oneLine`Examples include: care experienced young people, carers,
                         people recovering from alcohol addiction, sex workers,
-                        people whose first language is not English or who have problems reading`,
+                        people whose first language is not English or who have problems reading, men and boys`,
                         cy: oneLine``,
                     }),
                 },
@@ -1303,7 +1282,7 @@ module.exports = {
             explanation: localise({
                 en: `<p>You told us that the leadership of your organisation self-identify coming from communities 
                     experiencing racial inequity.</p>
-                    <p>Tell us who they are - you can choose more than one category.</p>`,
+                    <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: ``,
             }),
             optgroups: [
@@ -1313,13 +1292,6 @@ module.exports = {
                         cy: 'Du / Affricanaidd / Caribiaidd / Du Brydeinig',
                     }),
                     options: [
-                        {
-                            value: 'mixed-black',
-                            label: localise({
-                                en: 'Mixed Black',
-                                cy: '',
-                            }),
-                        },
                         {
                             value: 'black-british',
                             label: localise({
@@ -1357,13 +1329,6 @@ module.exports = {
                     }),
                     options: [
                         {
-                            value: 'mixed-groups',
-                            label: localise({
-                                en: 'Mixed groups',
-                                cy: '',
-                            }),
-                        },
-                        {
                             value: 'white-black',
                             label: localise({
                                 en: 'White and Black',
@@ -1393,13 +1358,6 @@ module.exports = {
                         cy: 'Asiaidd / Asiaidd Brydeinig',
                     }),
                     options: [
-                        {
-                            value: 'mixed-asian',
-                            label: localise({
-                                en: 'Mixed Asian',
-                                cy: '',
-                            }),
-                        },
                         {
                             value: 'asian-british',
                             label: localise({
@@ -1507,7 +1465,7 @@ module.exports = {
             explanation: localise({
                 en: `<p>You told us that the leadership of your organisation self-identify coming from
                       faith communities.</p>
-                    <p>Tell us who they are - you can choose more than one category.</p>`,
+                    <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: ``,
             }),
             options: [
@@ -1587,7 +1545,7 @@ module.exports = {
             }),
             explanation: localise({
                 en: `<p>You told us that the leadership of your organisation self-identify as migrants.</p>
-                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                     <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: ``,
             }),
             options: [
@@ -1633,7 +1591,7 @@ module.exports = {
             label: localise({ en: `Disabled people`, cy: 'Pobl anabl' }),
             explanation: localise({
                 en: `<p>You told us that the leadership of your organisation self-identify as disabled people.</p>
-                <p>Tell us who they are - you can choose more than one category.</p>`,
+                <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: ``,
             }),
             options: [
@@ -1768,16 +1726,16 @@ module.exports = {
             explanation: localise({
                 en: `<p>You told us that the leadership of your organisation self-identify 
                      as younger people.</p>
-                     <p>Tell us who they are - you can choose more than one category.</p>`,
+                     <p>Tell us who they are – if possible, please select just one category from this list.</p>`,
                 cy: ``,
             }),
             options: [
                 { value: '19-25', label: '19-25' },
                 { value: '16-18', label: '16-18' },
                 { value: '8-15', label: '8-15' },
-                { value: '3-7', label: '3-7' },
+                { value: '2-7', label: '2-7' },
                 {
-                    value: '0-2',
+                    value: 'under-2',
                     label: localise({ en: 'Under 2 years of age', cy: '' }),
                 },
             ],

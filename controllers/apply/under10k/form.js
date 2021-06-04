@@ -251,9 +251,9 @@ module.exports = function ({
                             This includes the opinions of the communities we’re trying to reach. This will make our communities
                             and our society stronger.</p>
                             
-                            <p>We need to find out who you’re trying to help, and who’s making the decisions,
-                            so we can understand who our funding reaches. It’ll help us to shape our funding to be fairer. </p>
-                            
+                            <p>We need to find out who you’re trying to help so we can understand who our funding reaches. 
+                            It’ll help us to shape our funding to be fairer. </p>       
+                                                 
                             <h3>How we'll use your information</h3>
                             
                             <p>The information in this section is only to find out if we’re reaching all the people we’re trying to.
@@ -266,11 +266,7 @@ module.exports = function ({
                             
                             <p>We will <strong>not</strong> use your answers in this EDI section to assess your 
                             application.</p>`,
-                        cy: `<p>
-                            Efallai eich bod wedi clywed am 'EDI' o'r blaen yn golygu '<strong>cydraddoldeb</strong>, amrywiaeth a chynhwysiant'. Credwn fod 'tegwch' yn well.
-                            </p>
-
-                            <p>Gwyddom fod gan bobl fannau cychwyn gwahanol ac rydym am deilwra ein grantiau i osgoi unrhyw 'wahaniaeth' - hynny yw, unrhyw ddiffyg tegwch.</p>
+                        cy: `<p>Gwyddom fod gan bobl fannau cychwyn gwahanol ac rydym am deilwra ein grantiau i osgoi unrhyw wahaniaeth - hynny yw, unrhyw ddiffyg tegwch.</p>
 
                             <p>Mae 'cydraddoldeb' yn ymwneud â thrin pobl yn yr un ffordd. Ond mae '<strong>tegwch</strong>' yn ymwneud â bod <strong>yn deg</strong>.
                             Os ydym yn trin pawb yn yr un ffordd, ni fydd rhaglenni ariannu yn cyrraedd pobl mewn ffordd gyfartal neu deg.</p>
@@ -298,20 +294,16 @@ module.exports = function ({
                             Mae hyn yn cynnwys barn y cymunedau rydym yn ceisio'u cyrraedd. Bydd hyn yn gwneud ein cymunedau
                             a'n cymdeithas yn gryfach. </p>
                             
-                            <p>Mae angen i ni ddarganfod pwy rydych chi'n ceisio'u helpu, a phwy sy'n gwneud y penderfyniadau,
-                            fel y gallwn ddeall pwy mae ein grantiau yn ei gyrraedd. Bydd yn ein helpu i lunio ein grantiau i fod yn decach.</p>
+                            <p>Mae angen i ni ddarganfod pwy rydych chi'n ceisio'u helpu fel y gallwn ddeall pwy mae ein grant yn ei gyrraedd.
+                            Bydd yn ein helpu i lunio ein grantiau i fod yn decach.</p>
                             
                             <h3>Sut y byddwn yn defnyddio eich gwybodaeth</h3>
                             
-                            <p>Dim ond os ydym yn cyrraedd yr holl bobl rydym yn ceisio gwneud hynny y dylid darganfod y wybodaeth yn yr adran hon.
-                            Ni fyddwn yn defnyddio eich atebion i benderfynu a ydym yn dyfarnu grant i chi.</p>
+                            <p>Dim ond i wybod os ydym yn cyrraedd yr holl bobl yr ydym yn ceisio eu cyrraedd y mae’r wybodaeth yn yr adran yma.
+                            Ni fyddwn yn defnyddio eich atebion i benderfynu i roi grant i chi ai peidio.</p>
 
                             <p>Efallai y byddwn yn defnyddio'r atebion hyn mewn gwybodaeth a gyhoeddir gennym am grantiau a ddyfarnwyd,
                             gan gynnwys ar wefannau eraill fel <a href='http://grantnav.threesixtygiving.org/'>360 Giving GrantNav</a>.</p>
-                            
-                            <p>Os yw'n anodd ateb y cwestiynau yn y rhan arweinyddiaeth, byddwn yn rhoi cyfle i chi optio allan o'u hateb.</p>
-                            
-                            <p>Rhaid i chi gwblhau'r rhannau eraill.</p>
 
                             <h3>Asesu eich cais</h3>
                             
@@ -355,11 +347,9 @@ module.exports = function ({
                             Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.
                         </p>
                         <p>
-                            Mae’n bwysig bod mor gywir â phosibl gyda’ch atebion. 
-                            Byddwn yn defnyddio’r wybodaeth hyn i wneud gwell benderfyniadau am 
-                            sut mae ein hariannu yn cefnogi pobl a chymunedau i ffynnu. 
-                            Byddwn hefyd yn ei ddefnyddio i ddweud wrth bobl am effaith 
-                            ein hariannu a phwy mae’n ei gyrraedd.
+                            Mae'n bwysig bod mor gywir â phosibl yn eich atebion.
+                            Byddwn yn defnyddio'r wybodaeth hon i wneud penderfyniadau gwell am sut mae ein grantiau yn cefnogi pobl a chymunedau i ffynnu.
+                            Byddwn hefyd yn ei ddefnyddio i ddweud wrth bobl am effaith ein grantiau a phwy y mae'n ei gyrraedd.
                         </p>
                         <p>
                             Fodd bynnag, <strong>nid yw'r</strong> wybodaeth a roddwch yma yn cael ei hasesu ac <strong>ni chaiff</strong>

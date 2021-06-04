@@ -58,7 +58,7 @@ function mockResponse(overrides = {}) {
             'socioeconomic',
             'other',
         ],
-        beneficiariesGroupsEthnicBackground: ['mixed-black', 'chinese'],
+        beneficiariesGroupsEthnicBackground: ['black-british', 'chinese'],
         beneficiariesGroupsAge: ['16-18'],
         beneficiariesGroupsDisabledPeople: ['mental-health'],
         beneficiariesGroupsReligion: ['sikh'],
@@ -67,7 +67,7 @@ function mockResponse(overrides = {}) {
         beneficiariesGroupsOther: faker.lorem.words(random(20, 100)),
         beneficiariesLeadershipGroups: ['ethnic-background', 'lgbt'],
         beneficiariesLeadershipGroupsEthnicBackground: [
-            'mixed-black',
+            'black-british',
             'chinese',
         ],
         beneficiariesLeadershipGroupsLGBT: ['non-binary'],
