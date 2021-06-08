@@ -131,9 +131,7 @@ module.exports = function (
              */
             if (
                 (config.get('features.enableSalesforceConnector') === true &&
-                    !appData.isTestServer) ||
-                (config.get('features.enableSalesforceConnector') === true &&
-                    !appData.isDevServer)
+                    !appData.isTestServer )
             ) {
                 let salesforce = {};
                 if (res.locals.USE_GMS_SANDBOX) {
