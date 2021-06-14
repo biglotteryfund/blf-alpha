@@ -28,6 +28,15 @@ module.exports = {
             });
         }
 
+        function showEDIChangesNotice() {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2021-06-14';
+            return pendingApplications.some(function (application) {
+                return moment(application.createdAt).isBefore(goLiveDate);
+            });
+        }
+
         const notices = [];
 
         if (showEnglandPrioritiesNotice()) {
@@ -53,6 +62,21 @@ module.exports = {
             });
         }
 
+        if (showEDIChangesNotice()) {
+            notices.push({
+                title: localise({
+                    en: oneLine`We've added new questions to the application form`,
+                    cy: oneLine`Rydym wedi ychwanegu cwestiynau newydd at y ffurflen gais`,
+                }),
+                body: localise({
+                    en: `<p>We've added some new Equity, Diversity and Inclusion (EDI) questions to our online application form.
+                            You may see some new questions if you return to complete an application that you've already started.</p>`,
+                    cy: `<p>Rydym wedi ychwanegu rhai cwestiynau Tegwch, Amrywiaeth a Chynhwysiant newydd i'n ffurflen gais ar-lein.
+                            Efallai y byddwch yn gweld rhai cwestiynau newydd os byddwch yn dychwelyd i gwblhau cais yr ydych eisoes wedi'i ddechrau.</p>`,
+                }),
+            });
+        }
+
         return notices;
     },
     getNoticesSingle(locale, application = []) {
@@ -62,6 +86,8 @@ module.exports = {
          * @TODO this can be removed after 2020-09-04 as any applications
          * which were created before this will have expired
          */
+        const localise = get(locale);
+
         const projectDurationCutoffDate = '2020-06-04';
         const isEnglandStandard =
             application.formId === 'standard-enquiry' &&
@@ -72,6 +98,15 @@ module.exports = {
             moment(application.createdAt).isBefore(projectDurationCutoffDate);
 
         const notices = [];
+
+        function showEDIChangesSummaryNotice() {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2021-06-15';
+
+            return moment(application.createdAt).isBefore(goLiveDate);
+
+        }
 
         if (enableStandardEnglandAutoProjectDuration && isEnglandStandard) {
             notices.push(
@@ -93,6 +128,21 @@ module.exports = {
                         six months.`,
                 }
             );
+        }
+
+        if (showEDIChangesSummaryNotice()) {
+            notices.push({
+                title: localise({
+                    en: oneLine`We've added new questions to the application form`,
+                    cy: oneLine`Rydym wedi ychwanegu cwestiynau newydd at y ffurflen gais`,
+                }),
+                body: localise({
+                    en: `<p>We've added some new Equity, Diversity and Inclusion (EDI) questions to our online application form.
+                            You may see some new questions if you return to complete an application that you've already started.</p>`,
+                    cy: `<p>Rydym wedi ychwanegu rhai cwestiynau Tegwch, Amrywiaeth a Chynhwysiant newydd i'n ffurflen gais ar-lein.
+                            Efallai y byddwch yn gweld rhai cwestiynau newydd os byddwch yn dychwelyd i gwblhau cais yr ydych eisoes wedi'i ddechrau.</p>`,
+                }),
+            });
         }
 
         return notices;
