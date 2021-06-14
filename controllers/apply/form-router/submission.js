@@ -130,8 +130,8 @@ module.exports = function (
              * Store submission in salesforce if enabled
              */
             if (
-                config.get('features.enableSalesforceConnector') === true &&
-                !appData.isTestServer
+                (config.get('features.enableSalesforceConnector') === true &&
+                    !appData.isTestServer )
             ) {
                 let salesforce = {};
                 if (res.locals.USE_GMS_SANDBOX) {

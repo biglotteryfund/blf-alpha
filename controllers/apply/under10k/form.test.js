@@ -650,19 +650,9 @@ test('strip beneficiary data when check is "no"', () => {
     });
 
     expect(form.validation.value).toEqual({
+        beneficiariesPreflightCheck: [ 'yes' ],
         beneficiariesGroupsCheck: 'no',
     });
-});
-
-test('allow only "other" option for beneficiary groups', () => {
-    const data = mockResponse({
-        beneficiariesGroupsCheck: 'yes',
-        beneficiariesGroups: undefined,
-        beneficiariesGroupsOther: 'this should be valid',
-    });
-
-    const form = formBuilder({ data });
-    expect(form.validation.error).toBeUndefined();
 });
 
 test('finance details required if organisation is over 15 months old', function () {

@@ -25,25 +25,42 @@ function mockAddress() {
 }
 
 function mockBeneficiaries(checkAnswer = 'yes') {
-    return {
-        beneficiariesGroupsCheck: checkAnswer,
-        beneficiariesGroups: [
-            'ethnic-background',
-            'gender',
-            'age',
-            'disabled-people',
-            'religion',
-            'lgbt',
-            'caring-responsibilities',
-        ],
-        beneficiariesGroupsOther: 'Other value',
-        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
-        beneficiariesGroupsGender: ['non-binary'],
-        beneficiariesGroupsAge: ['0-12', '13-24'],
-        beneficiariesGroupsDisabledPeople: ['sensory'],
-        beneficiariesGroupsReligion: ['sikh'],
-        beneficiariesGroupsReligionOther: undefined,
-    };
+    if (checkAnswer === 'yes') {
+        return {
+            beneficiariesPreflightCheck: 'yes',
+            beneficiariesGroupsCheck: checkAnswer,
+            beneficiariesGroups: [
+                'ethnic-background',
+                'gender',
+                'age',
+                'disabled-people',
+                'religion',
+                'lgbt',
+                'migrant',
+                'socioeconomic',
+                'other',
+            ],
+            beneficiariesGroupsEthnicBackground: ['black-british', 'chinese'],
+            beneficiariesGroupsAge: ['16-18'],
+            beneficiariesGroupsDisabledPeople: ['mental-health'],
+            beneficiariesGroupsReligion: ['sikh'],
+            beneficiariesGroupsMigrant: ['asylum-seeker'],
+            beneficiariesGroupsLGBT: ['other-lgbt'],
+            beneficiariesGroupsOther: checkAnswer === 'yes' ? faker.lorem.words(random(20, 100)) : "",
+            beneficiariesLeadershipGroups: ['ethnic-background', 'lgbt'],
+            beneficiariesLeadershipGroupsEthnicBackground: [
+                'mixed-black',
+                'chinese',
+            ],
+            beneficiariesLeadershipGroupsLGBT: ['non-binary'],
+            beneficiariesLeadershipGroupsOther: checkAnswer === 'yes' ? 'Example specific group' : "",
+        };
+    } else {
+        return {
+            beneficiariesPreflightCheck: 'yes',
+            beneficiariesGroupsCheck: checkAnswer,
+        };
+    }
 }
 
 function mockResponse(overrides = {}) {
@@ -66,6 +83,7 @@ function mockResponse(overrides = {}) {
             };
         }),
         projectTotalCosts: 20000,
+        beneficiariesPreflightCheck: 'yes',
         beneficiariesGroupsCheck: 'yes',
         beneficiariesGroups: [
             'ethnic-background',
@@ -74,15 +92,24 @@ function mockResponse(overrides = {}) {
             'disabled-people',
             'religion',
             'lgbt',
-            'caring-responsibilities',
+            'migrant',
+            'socioeconomic',
+            'other',
         ],
-        beneficiariesGroupsOther: undefined,
-        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
-        beneficiariesGroupsGender: ['non-binary'],
-        beneficiariesGroupsAge: ['0-12', '13-24'],
-        beneficiariesGroupsDisabledPeople: ['sensory'],
+        beneficiariesGroupsEthnicBackground: ['black-british', 'chinese'],
+        beneficiariesGroupsAge: ['16-18'],
+        beneficiariesGroupsDisabledPeople: ['mental-health'],
         beneficiariesGroupsReligion: ['sikh'],
-        beneficiariesGroupsReligionOther: undefined,
+        beneficiariesGroupsMigrant: ['asylum-seeker'],
+        beneficiariesGroupsLGBT: ['other-lgbt'],
+        beneficiariesGroupsOther: faker.lorem.words(random(20, 100)),
+        beneficiariesLeadershipGroups: ['ethnic-background', 'lgbt'],
+        beneficiariesLeadershipGroupsEthnicBackground: [
+            'mixed-black',
+            'chinese',
+        ],
+        beneficiariesLeadershipGroupsLGBT: ['non-binary'],
+        beneficiariesLeadershipGroupsOther: 'Example specific group',
         organisationLegalName: faker.company.companyName(),
         organisationHasDifferentTradingName: 'yes',
         organisationTradingName: faker.company.companyName(),
