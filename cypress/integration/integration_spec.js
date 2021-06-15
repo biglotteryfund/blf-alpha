@@ -5,7 +5,6 @@ const includes = require('lodash/includes');
 const partition = require('lodash/partition');
 const random = require('lodash/random');
 const sample = require('lodash/sample');
-const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
 
@@ -590,86 +589,6 @@ function under10KApplication(mock) {
         stepProjectCosts(mock);
     }
 
-    function sectionBeneficiaries(mock) {
-        cy.checkA11y();
-
-        if (mock.beneficiariesGroups.length > 0) {
-            cy.findByLabelText(
-                'My project is aimed at a specific group of people'
-            ).click();
-
-            submitStep();
-
-            cy.log(
-                `Beneficiary groups: ${mock.beneficiariesGroups.join(', ')}`
-            );
-
-            cy.checkA11y();
-
-            mock.beneficiariesGroups.forEach((label) => {
-                cy.findByLabelText(label).click();
-            });
-
-            submitStep();
-
-            if (
-                includes(
-                    mock.beneficiariesGroups,
-                    'People from a particular ethnic background'
-                )
-            ) {
-                cy.checkA11y();
-                cy.findByLabelText('Caribbean').click();
-                cy.findByLabelText('African').click();
-                submitStep();
-            }
-
-            if (
-                includes(
-                    mock.beneficiariesGroups,
-                    'People of a particular gender'
-                )
-            ) {
-                cy.checkA11y();
-                cy.findByLabelText('Non-binary').click();
-                submitStep();
-            }
-
-            if (
-                includes(mock.beneficiariesGroups, 'People of a particular age')
-            ) {
-                cy.checkA11y();
-                cy.findByLabelText('25-64').click();
-                submitStep();
-            }
-
-            if (includes(mock.beneficiariesGroups, 'Disabled people')) {
-                cy.checkA11y();
-                cy.findByLabelText(
-                    'Disabled people with learning or mental difficulties',
-                    { exact: false }
-                ).click();
-                submitStep();
-            }
-        } else {
-            cy.findByLabelText(
-                'My project is open to everyone and isn’t aimed at a specific group of people'
-            ).click();
-
-            submitStep();
-        }
-
-        if (mock.country === 'Wales') {
-            cy.findByLabelText('More than half').click();
-            submitStep();
-        }
-
-        if (mock.country === 'Northern Ireland') {
-            cy.findByLabelText('Both Catholic and Protestant').click();
-            submitStep();
-        }
-    }
-
     function sectionOrganisation(mock) {
         cy.checkA11y();
 
@@ -929,6 +848,90 @@ function under10KApplication(mock) {
         submitStep();
     }
 
+    function sectionBeneficiaries(mock) {
+        cy.checkA11y();
+
+        cy.findByLabelText('Yes, I understand you will not use my answers in this section to assess my application').click();
+
+        submitStep();
+
+        if (mock.beneficiariesGroups.length > 0) {
+            cy.findByLabelText(
+                'My project is aimed at a specific group of people'
+            ).click();
+
+            submitStep();
+
+            cy.log(
+                `Beneficiary groups: ${mock.beneficiariesGroups.join(', ')}`
+            );
+
+            cy.checkA11y();
+
+            mock.beneficiariesGroups.forEach((label) => {
+                cy.findByLabelText(label).click();
+            });
+
+            submitStep();
+
+            if (
+                includes(
+                    mock.beneficiariesGroups,
+                    'People from a particular ethnic background'
+                )
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('Caribbean').click();
+                cy.findByLabelText('African').click();
+                submitStep();
+            }
+
+            if (
+                includes(
+                    mock.beneficiariesGroups,
+                    'People of a particular gender'
+                )
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('Non-binary').click();
+                submitStep();
+            }
+
+            if (
+                includes(mock.beneficiariesGroups, 'People of a particular age')
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('25-64').click();
+                submitStep();
+            }
+
+            if (includes(mock.beneficiariesGroups, 'Disabled people')) {
+                cy.checkA11y();
+                cy.findByLabelText(
+                    'Disabled people with learning or mental difficulties',
+                    { exact: false }
+                ).click();
+                submitStep();
+            }
+        } else {
+            cy.findByLabelText(
+                'My project is open to everyone and is not aimed at a specific group of people'
+            ).click();
+
+            submitStep();
+        }
+
+        if (mock.country === 'Wales') {
+            cy.findByLabelText('More than half').click();
+            submitStep();
+        }
+
+        if (mock.country === 'Northern Ireland') {
+            cy.findByLabelText('Both Catholic and Protestant').click();
+            submitStep();
+        }
+    }
+
     function submitApplication() {
         cy.checkA11y();
         cy.get('h1').should('contain', 'Summary');
@@ -954,7 +957,6 @@ function under10KApplication(mock) {
         cy.findAllByText('Start your application').first().click();
 
         sectionYourProject(mock);
-        sectionBeneficiaries(mock);
         sectionOrganisation(mock);
 
         sectionSeniorContact(mock);
@@ -962,6 +964,8 @@ function under10KApplication(mock) {
 
         sectionBankDetails(mock);
         sectionTermsAndConditions(mock);
+
+        sectionBeneficiaries(mock);
 
         submitApplication();
     });
@@ -1020,16 +1024,9 @@ it('should submit full application for under £10,000 outside England', () => {
             endDate: moment().add(6, 'months'),
         },
         country: sample(['Northern Ireland', 'Scotland', 'Wales']),
-        beneficiariesGroups: sampleSize(
+        beneficiariesGroups:
             [
-                'People from a particular ethnic background',
-                'People of a particular gender',
-                'People of a particular age',
-                'Disabled people',
-                'Lesbian, gay, or bisexual people',
             ],
-            2
-        ),
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Registered charity (unincorporated)',
@@ -1307,87 +1304,6 @@ function standardApplication({
             submitStep();
         }
 
-        if (mock.projectCountries.includes('England')) {
-            if (mock.beneficiariesGroups.length > 0) {
-                cy.findByLabelText(
-                    'My project is aimed at a specific group of people'
-                ).click();
-
-                submitStep();
-
-                cy.log(
-                    `Beneficiary groups: ${mock.beneficiariesGroups.join(', ')}`
-                );
-
-                cy.checkA11y();
-
-                mock.beneficiariesGroups.forEach((label) => {
-                    cy.findByLabelText(label).click();
-                });
-
-                submitStep();
-
-                if (
-                    includes(
-                        mock.beneficiariesGroups,
-                        'People from a particular ethnic background'
-                    )
-                ) {
-                    cy.checkA11y();
-                    cy.findByLabelText('Caribbean').click();
-                    cy.findByLabelText('African').click();
-                    submitStep();
-                }
-
-                if (
-                    includes(
-                        mock.beneficiariesGroups,
-                        'People of a particular gender'
-                    )
-                ) {
-                    cy.checkA11y();
-                    cy.findByLabelText('Non-binary').click();
-                    submitStep();
-                }
-
-                if (
-                    includes(
-                        mock.beneficiariesGroups,
-                        'People of a particular age'
-                    )
-                ) {
-                    cy.checkA11y();
-                    cy.findByLabelText('25-64').click();
-                    submitStep();
-                }
-
-                if (includes(mock.beneficiariesGroups, 'Disabled people')) {
-                    cy.checkA11y();
-                    cy.findByLabelText(
-                        'Disabled people with learning or mental difficulties',
-                        { exact: false }
-                    ).click();
-                    submitStep();
-                }
-            } else {
-                cy.findByLabelText(
-                    'My project is open to everyone and isn’t aimed at a specific group of people'
-                ).click();
-
-                submitStep();
-            }
-
-            if (mock.country === 'Wales') {
-                cy.findByLabelText('More than half').click();
-                submitStep();
-            }
-
-            if (mock.country === 'Northern Ireland') {
-                cy.findByLabelText('Both Catholic and Protestant').click();
-                submitStep();
-            }
-        }
-
         cy.findByLabelText(
             'What is the full legal name of your organisation?'
         ).type(mock.organisationName);
@@ -1586,6 +1502,96 @@ function standardApplication({
             );
             submitStep();
         }
+
+        cy.findByLabelText('Yes, I understand you will not use my answers in this section to assess my application').click();
+
+        submitStep();
+
+        if (mock.beneficiariesGroups.length > 0) {
+            cy.findByLabelText(
+                'My project is aimed at a specific group of people'
+            ).click();
+
+            submitStep();
+
+            cy.log(
+                `Beneficiary groups: ${mock.beneficiariesGroups.join(', ')}`
+            );
+
+            cy.checkA11y();
+
+            mock.beneficiariesGroups.forEach((label) => {
+                cy.findByLabelText(label).click();
+            });
+
+            submitStep();
+
+            if (
+                includes(
+                    mock.beneficiariesGroups,
+                    'People from a particular ethnic background'
+                )
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('Caribbean').click();
+                cy.findByLabelText('African').click();
+                submitStep();
+            }
+
+            if (
+                includes(
+                    mock.beneficiariesGroups,
+                    'People of a particular gender'
+                )
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('Non-binary').click();
+                submitStep();
+            }
+
+            if (
+                includes(
+                    mock.beneficiariesGroups,
+                    'People of a particular age'
+                )
+            ) {
+                cy.checkA11y();
+                cy.findByLabelText('25-64').click();
+                submitStep();
+            }
+
+            if (includes(mock.beneficiariesGroups, 'Disabled people')) {
+                cy.checkA11y();
+                cy.findByLabelText(
+                    'Disabled people with learning or mental difficulties',
+                    { exact: false }
+                ).click();
+                submitStep();
+            }
+        } else {
+
+            cy.findByLabelText(
+                'My project is open to everyone and is not aimed at a specific group of people'
+            ).click();
+
+            submitStep();
+        }
+
+        if (mock.projectCountry === 'Wales') {
+            cy.findByLabelText('More than half').click();
+            submitStep();
+        }
+
+        if (mock.projectCountry === 'Northern Ireland') {
+            cy.findByLabelText('Both Catholic and Protestant').click();
+            submitStep();
+        }
+
+        cy.findByLabelText(
+            'Prefer not to say'
+        ).click();
+
+        submitStep();
 
         cy.findAllByText('Nearly done', { exact: false })
             .first()
