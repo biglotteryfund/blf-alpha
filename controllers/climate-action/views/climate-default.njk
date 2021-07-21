@@ -1,0 +1,329 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/icons.njk" import iconClose, iconDownload, iconTickPlain %}
+
+{% set copy = __('insights.documents') %}
+{% set basePageUrl = localify('/insights/documents') %}
+
+{% block content %}
+    <main role="main" id="content">
+        {{ hero(title, pageHero.image) }}
+
+        <div class="nudge-up">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            {% call contentBox() %}
+                {{ copy.intro | safe }}
+            {% endcall %}
+        </div>
+
+        <form class="u-inner" method="get" action="">
+
+            {% if entriesMeta.activeTag %}
+                <input type="hidden" name="tag" value="{{ entriesMeta.activeTag.value }}" />
+            {% endif %}
+
+            <div class="search-bar">
+                <label class="ff-label"
+                       for="search-query">
+                    {{ copy.search.cta }}
+                </label>
+                <div class="form-field-addon u-margin-bottom-s">
+                    <input
+                        class="form-field-addon__input"
+                        type="search"
+                        id="search-query"
+                        name="q"
+                        value="{{ queryParams.q }}"
+                        autocomplete="off"
+                        data-hj-whitelist
+                    />
+                    <input
+                        class="form-field-addon__action"
+                        type="submit"
+                        value="{{ copy.search.submit }}"
+                    />
+                </div>
+                <p class="ff-help u-no-margin">
+                    {{ copy.search.explanation }}
+                </p>
+            </div>
+
+            <div class="search">
+
+                {# Search totals #}
+                    <div class="search__meta">
+                        <h2 class="search__total t--underline" role="alert">
+                            {% if entriesMeta.pagination.total > 0 %}
+                                {{ __n('insights.documents.search.totals', entriesMeta.pagination.total) }}
+                            {% else %}
+                                {{ copy.search.noResultsTotal }}
+                            {% endif %}
+                        </h2>
+                    </div>
+
+                <div class="search__meta">
+                    {# Filter summary #}
+
+                    <ul class="filter-list">
+                        {% if entriesMeta.activeProgramme or entriesMeta.activePortfolio or entriesMeta.activeDocType or entriesMeta.activeTag or queryParams.q or documentSlug %}
+
+                            {% macro filterField(fieldName, param, customLink = false) %}
+                                {% if fieldName %}
+                                    {% set url = '?' + queryParams | removeQueryParam(param) if not customLink else customLink %}
+                                    <li class="filter-list__item">
+                                        <a class="active-filter"
+                                           title="{{ fieldName }}"
+                                           href="{{ url }}">
+                                            {{ fieldName }}
+                                            {{ iconClose() }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endmacro %}
+
+                            {{ filterField(queryParams.q, 'q') }}
+
+                            {% if documentSlug %}
+                                {{ filterField(documentSlug, false, './') }}
+                            {% endif %}
+
+                            {{ filterField(entriesMeta.activeProgramme.label, 'programme') }}
+                            {{ filterField(entriesMeta.activePortfolio.label, 'portfolio') }}
+                            {{ filterField(entriesMeta.activeDocType.label, 'doctype') }}
+                            {{ filterField(entriesMeta.activeTag.label, 'tag') }}
+
+                            <li class="filter-list__item">
+                                <a class="btn-link" href="{{ basePageUrl }}">
+                                    {{ copy.search.filters.clearAllFilters }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    {# Sort controls #}
+                    <div class="search__sort">
+
+                        <ul class="link-filters">
+                            {% set sortOptions = [
+                                {
+                                    key: 'score',
+                                    title: copy.search.sortBy.relevancy
+                                },
+                                {
+                                    key: 'newest',
+                                    title: copy.search.sortBy.newest
+                                },
+                                {
+                                    key: 'oldest',
+                                    title: copy.search.sortBy.oldest
+                                }
+                            ] %}
+
+                            {% macro makeLinkFilterItem(item) %}
+                                {% set isSelected = queryParams.sort === item.key or not queryParams.sort and queryParams.q and item.key === 'score' %}
+                                <li class="link-filters__item{% if isSelected %} link-filters__item--selected{% endif %}">
+                                    {% if isSelected %}
+                                        {{ iconTickPlain() }}
+                                    {% else %}
+                                        <a href="?{{ queryParams | addQueryParam('sort', item.key) }}">
+                                    {% endif %}
+                                    {{ item.title }}
+                                    {% if not isSelected %}</a>{% endif %}
+                                </li>
+                            {% endmacro %}
+
+                            <li class="link-filters__item">{{ copy.search.sortBy.orderedBy }}</li>
+                            {% for item in sortOptions %}
+                                {{ makeLinkFilterItem(item) }}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="search__content">
+<div class="search__controls">
+
+                        <fieldset class="search-filters">
+                            <div class="search-filters__header">
+                                <legend class="search-filters__title">{{ copy.search.filters.filterBy }}</legend>
+                                <button tabindex="0" role="link" class="search-filters__clear-all btn-link" href="{{ basePageUrl }}">
+                                    {{ copy.search.filters.clearAll }}
+                                </button>
+                            </div>
+
+                            <div class="facet-group is-open">
+                                <div class="facet-group__body">
+
+                                    {# Programme #}
+                                    <div class="facet-group__item">
+                                        <label class="facet-field-label" for="field-programme">
+                                            {{ copy.search.filters.programme.title }}
+                                        </label>
+                                        <select id="field-programme" name="programme">
+                                            {% for option in (entriesMeta.programmes.unshift({
+                                                'label': copy.search.filters.programme.label,
+                                                'value': ''
+                                            }), entriesMeta.programmes) %}
+                                                <option value="{{ option.value }}"
+                                                    {% if option.value === entriesMeta.activeProgramme.value %} selected{% endif %}>
+                                                    {{ option.label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    {# Region #}
+                                    <div class="facet-group__item facet-field">
+                                        <label class="facet-field-label" for="field-portfolio">
+                                            {{ copy.search.filters.region.title }}
+                                        </label>
+                                        <select id="field-portfolio" name="portfolio">
+                                            {% for option in (entriesMeta.portfolios.unshift({
+                                                'label': copy.search.filters.region.label,
+                                                'value': ''
+                                            }), entriesMeta.portfolios) %}
+                                                <option value="{{ option.value }}"
+                                                    {% if option.value === entriesMeta.activePortfolio.value %} selected{% endif %}>
+                                                    {{ option.label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    {# Document type #}
+                                    <fieldset>
+                                        <legend class="facet-field-label">
+                                            {{ copy.search.filters.docType.title }}
+                                        </legend>
+                                        <ul class="facet-field-radios">
+                                            {% for option in (entriesMeta.docTypes.unshift({
+                                                'label': copy.search.filters.docType.label,
+                                                'value': ''
+                                            }), entriesMeta.docTypes) %}
+                                                <li class="facet-field-radios__option">
+                                                    <div class="facet-field-radios__input">
+                                                        <input
+                                                            type="radio"
+                                                            id="field-doctype-{{ loop.index }}"
+                                                            name="doctype"
+                                                            value="{{ option.value }}"
+                                                            {% if entriesMeta.activeDocType.value === option.value %}checked{% endif %}
+                                                        />
+                                                    </div>
+                                                    <label class="facet-field-radios__label"
+                                                           for="field-doctype-{{ loop.index }}">
+                                                        {{ option.label }}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <div class="search-filters__actions">
+                                <input type="submit" value="{{ copy.search.filters.applyFilters }}" class="btn btn--medium">
+                                <a class="btn-link" href="{{ basePageUrl }}">{{ copy.search.filters.clearAllFilters }}</a>
+                            </div>
+
+                        </fieldset>
+
+                    </div>
+                    <div class="search__results">
+
+                        {% if researchEntries.length > 0 %}
+
+                            {% for entry in researchEntries %}
+                                <div class="u-margin-bottom-s">
+                                    {% set subtitle %}
+                                        {% if entry.relatedFundingProgrammes.length > 0 %}
+                                            {% for programme in entry.relatedFundingProgrammes %}
+                                                {{ programme.title }}
+                                            {% endfor %}
+                                            &mdash;
+                                        {% endif %}
+                                        <time datetime="{{ props.postDate.date }}">
+                                            {{ formatDate(entry.postDate.date, 'YYYY') }}
+                                        </time>
+                                    {% endset %}
+                                    {% call promoCard({
+                                        "title": entry.title,
+                                        "subtitle": subtitle | safe,
+                                        "summary": entry.summary
+                                    }) %}
+                                        {% set docTitle = (entry.documentType.title or copy.search.download)  + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
+                                        <p>
+                                            {% if entry.relatedInsightsPage %}
+                                                <a class="btn btn--outline btn--small" href="{{ entry.relatedInsightsPage.linkUrl }}">
+                                                    {{ copy.readSummary }}
+                                                </a>
+                                            {% endif %}
+                                            {% if entry.document %}
+                                                <a class="btn btn--small"
+                                                   href="{{ entry.document.url }}"
+                                                   data-ga-on="click"
+                                                   data-ga-event-category="Insight Documents"
+                                                   data-ga-event-action="Downloaded a document"
+                                                   data-ga-event-label="{{ entry.document.url }}">
+                                                    <span aria-hidden="true">{{ iconDownload() }}</span>
+                                                    {{ docTitle }}
+                                                </a>
+                                            {% endif %}
+                                        </p>
+                                        <dl class="o-definition-list o-definition-list--compact u-border-top--thin u-padded-top">
+                                            {% if entry.portfolio.length > 0 %}
+                                                <dt>{{ copy.region }}</dt>
+                                                {% for region in entry.portfolio %}
+                                                    <dd>{{ region.title }}</dd>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            {% if entry.partnershipName %}
+                                                <dt>{{ copy.partner }}</dt>
+                                                <dd>{{ entry.partnershipName }}</dd>
+                                            {% endif %}
+
+                                            {% if entry.tags.length > 0 %}
+                                                {% set comma = joiner() %}
+                                                <dt>{{ copy.tags }}</dt>
+                                                <dd>
+                                                    {%- for tag in entry.tags -%}
+                                                        {{ comma() }} <a href="?tag={{ tag.slug }}">{{ tag.title }}</a>
+                                                    {%- endfor -%}
+                                                </dd>
+                                            {% endif %}
+
+                                        </dl>
+                                    {% endcall %}
+                                </div>
+                            {% endfor %}
+
+                            {% if pagination %}
+                                {{ splitNav(
+                                    prevLink = {
+                                        "label": __('global.misc.pagination.prev'),
+                                        "url": pagination.prevLink
+                                    },
+                                    nextLink = {
+                                        "label": __('global.misc.pagination.next'),
+                                        "url": pagination.nextLink
+                                    }
+                                ) }}
+                            {% endif %}
+                        {% else %}
+                            <p>{{ copy.search.noResults }}</p>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+            </div>
+
+        </form>
+
+    </main>
+{% endblock %}
