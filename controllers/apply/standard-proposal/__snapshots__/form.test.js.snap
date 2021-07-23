@@ -16,6 +16,10 @@ Array [
   "Select a type of organisation",
   "Enter first and last name",
   "Enter an email address",
+  "Check this box to show you understand",
+  "Select an option",
+  "Select the community that the people who will benefit from your project belong to",
+  "Select the specific group(s) of people your leadership identifies in",
 ]
 `;
 
@@ -36,5 +40,8 @@ Array [
   "Select a type of organisation",
   "Enter first and last name",
   "Enter an email address",
+  "Check this box to show you understand",
+  "Select an option",
+  "Select the specific group(s) of people your leadership identifies in",
 ]
 `;

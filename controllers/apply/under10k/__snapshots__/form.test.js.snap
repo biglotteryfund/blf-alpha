@@ -14,6 +14,7 @@ Array [
   "yourIdeaCommunity: Tell us how your project involves your community",
   "projectBudget: Enter a project budget",
   "projectTotalCosts: Enter a total cost for your project",
+  "beneficiariesPreflightCheck: Check this box to show you understand",
   "beneficiariesGroupsCheck: Select an option",
   "organisationHasDifferentTradingName: Select an option",
   "organisationLegalName: Enter the full legal name of the organisation",
@@ -60,12 +61,6 @@ Object {
       "statusLabel": "Not started",
     },
     Object {
-      "label": "Who will benefit",
-      "slug": "beneficiaries",
-      "status": "empty",
-      "statusLabel": "Not started",
-    },
-    Object {
       "label": "Your organisation",
       "slug": "organisation",
       "status": "empty",
@@ -92,6 +87,12 @@ Object {
     Object {
       "label": "Terms and conditions",
       "slug": "terms-and-conditions",
+      "status": "empty",
+      "statusLabel": "Not started",
+    },
+    Object {
+      "label": "Equity, Diversity and Inclusion (EDI) monitoring information",
+      "slug": "beneficiaries",
       "status": "empty",
       "statusLabel": "Not started",
     },
@@ -139,10 +140,10 @@ Array [
 
 exports[`require additional beneficiary questions based on groups 1`] = `
 Array [
+  "Select the specific group(s) of people your project is aimed at",
   "Select the ethnic background(s) of the people that will benefit from your project",
-  "Select the gender(s) of the people that will benefit from your project",
   "Select the age group(s) of the people that will benefit from your project",
-  "Select the disabled people that will benefit from your project",
+  "Select the group(s) of people that will benefit from your project",
   "Select the religion(s) or belief(s) of the people that will benefit from your project",
 ]
 `;

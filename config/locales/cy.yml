@@ -315,6 +315,7 @@ insights:
   covidInsights: Dysg a mewnwelediad ynghylch COVID-19
   civilSociety: Dull Trydydd Sector
   grantmakingPractice: Arfer gwneud grantiau
+  differenceWeMake: Y gwahaniaeth rydyn ni'n ei wneud
   detail:
     documents: Dogfennau
     relatedProgrammes: Rhaglenni cysylltiedig
@@ -903,7 +904,8 @@ apply:
     submitted: Wedi’i gyflwyno
     sectionsCompleted: "%s rhan o %s wedi’i gwblhau"
     lastUpdated: Wedi’i ddiweddaru diwethaf
-    continue: Parhau â’r cais hwn
+    continue: Parhau
+    continueIncomplete: Parhau â’r cais hwn
     delete: Dileu
     createdAt: Wedi’i greu ar %s am %s
     expiresAt: Mae gennych nes <strong>%s</strong> i gwblhau eich cais

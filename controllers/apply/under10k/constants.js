@@ -53,10 +53,25 @@ const BENEFICIARY_GROUPS = {
     ETHNIC_BACKGROUND: 'ethnic-background',
     GENDER: 'gender',
     AGE: 'age',
+    OLDER_PEOPLE: 'older-people',
     DISABLED_PEOPLE: 'disabled-people',
     RELIGION: 'religion',
     LGBT: 'lgbt',
     CARING: 'caring-responsibilities',
+    MIGRANT: 'migrant',
+    SOCIOECONOMIC: 'socioeconomic',
+    OTHER: 'other',
+};
+
+const OTHER_GROUPS = {
+    OTHER_BLACK: 'other-black',
+    OTHER_MIXED: 'other-mixed',
+    OTHER_ASIAN: 'other-asian',
+    OTHER_ETHNICITY: 'other-ethnicity',
+    OTHER_LGBT: 'other-lgbt',
+    OTHER_MIGRANT: 'other-migrant',
+    OTHER_FAITH: 'other-faith',
+    OTHER_DISABILITY: 'other-disability',
 };
 
 const COMPANY_NUMBER_TYPES = [
@@ -106,6 +121,7 @@ const EXPIRY_EMAIL_REMINDERS = [
 
 module.exports = {
     BENEFICIARY_GROUPS,
+    OTHER_GROUPS,
     COMPANY_NUMBER_TYPES,
     CONTACT_EXCLUDED_TYPES,
     MAX_BUDGET_TOTAL_GBP,
