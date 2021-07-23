@@ -4,7 +4,6 @@ const { oneLine } = require('common-tags');
 
 function newTerms(locale, projectCountry) {
     const localise = get(locale);
-    console.log(projectCountry);
 
     if (projectCountry === 'northern-ireland')
     {
