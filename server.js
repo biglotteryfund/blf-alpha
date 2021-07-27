@@ -176,15 +176,19 @@ app.use('/', require('./controllers/archived'));
 const sections = {
     funding: {
         path: '/funding',
-        router: require('./controllers/funding'),
+        router: require('./controllers/funding')
+    },
+    keyInitiatives: {
+        path: '/key-initiatives',
+        router: require('./controllers/key-initiatives')
     },
     insights: {
         path: '/insights',
-        router: require('./controllers/insights'),
+        router: require('./controllers/insights')
     },
     about: {
         path: '/about',
-        router: require('./controllers/about'),
+        router: require('./controllers/about')
     },
     updates: {
         path: '/news',
