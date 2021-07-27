@@ -178,6 +178,10 @@ const sections = {
         path: '/funding',
         router: require('./controllers/funding'),
     },
+    keyInitiatives: {
+        path: '/key-initiatives',
+        router: require('./controllers/key-initiatives')
+    },
     insights: {
         path: '/insights',
         router: require('./controllers/insights'),
