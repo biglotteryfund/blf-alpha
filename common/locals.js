@@ -92,6 +92,7 @@ module.exports = function (req, res, next) {
         },
         primaryLinks: [
             { label: navCopy.funding, url: localify(locale)('/funding') },
+            { label: navCopy.keyInitiatives, url: localify(locale)('/key-initiatives') },
             { label: navCopy.updates, url: localify(locale)('/news') },
             { label: navCopy.insights, url: localify(locale)('/insights') },
             { label: navCopy.contact, url: localify(locale)('/contact') },
