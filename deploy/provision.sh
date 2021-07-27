@@ -55,9 +55,11 @@ apt-get install -y nodejs
 # Used to fetch secrets from parameter store
 
 rm -rf awscli-bundle.zip awscli-bundle
-curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-unzip awscli-bundle.zip
-./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+#curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+#unzip awscli-bundle.zip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install -i /usr/local/aws -b /usr/local/bin/aws
 
 #################################################
 # CloudWatch agent
