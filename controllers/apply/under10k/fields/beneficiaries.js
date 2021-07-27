@@ -308,7 +308,7 @@ module.exports = {
                         which might have a long-term impact on their life, and/or people experiencing 
                         financial difficulties just now`,
                         cy: oneLine`Enghreifftiau yw pobl o gefndir incwm isel a/neu dan anfantais addysgol a allai gael effaith hirdymor
-                        ar eu bywyd, a/neu bobl sy'n cael anawsterau ariannol yn awr`,
+                        ar eu bywyd, a/neu bobl sy'n cael anawsterau ariannol`,
                     }),
                 },
                 {

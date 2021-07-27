@@ -31,7 +31,7 @@ module.exports = {
         function showEDIChangesNotice() {
             // Only show notice for applications created before this date
             // which were created before this will have expired
-            const goLiveDate = '2021-06-14';
+            const goLiveDate = '2021-06-15';
             return pendingApplications.some(function (application) {
                 return moment(application.createdAt).isBefore(goLiveDate);
             });
