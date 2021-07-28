@@ -225,9 +225,9 @@ toplevel:
     under10k: Apply for funding under £10,000
     over10k: Apply for funding over £10,000
   keyInitiatives:
-    title: Key Initiatives
+    title: Key initiatives
     sectionLinks:
-      - label: Climate action hub
+      - label: Climate Action Hub
         href: "/key-initiatives/climate-action-hub"
   cookies:
     title: Cookies
