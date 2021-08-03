@@ -503,4 +503,3 @@ if the application and grant award are made electronically, the agreement betwee
 | Text      | Additional information (Optional)                  |
 | Help Text | You told us that your project will benefit: (*Dynamic bullet points based on what was selected in previous questions*) |
 | Options   |                                                    |
-
