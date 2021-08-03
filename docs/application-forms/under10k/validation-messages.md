@@ -32,6 +32,26 @@
 | ---- | --------------------- |
 | base | Enter a real postcode |
 
+
+## projectStartDate
+
+| Rule              | Message                                                   |
+| ----------------- | --------------------------------------------------------- |
+| any.invalid       | Enter a real date                                         |
+| base              | Enter a project start date                                |
+| dateParts.minDate | Date you start the project must be on or after 14 09 2020 |
+
+## projectEndDate
+
+| Rule                 | Message                                               |
+| -------------------- | ----------------------------------------------------- |
+| any.invalid          | Enter a real date                                     |
+| base                 | Enter a project end date                              |
+| dateParts.minDate    | Date must not be in the past                          |
+| dateParts.maxDate    | Date must be no more than 12 months away              |
+| dateParts.minDateRef | Date you end the project must be after the start date |
+| dateParts.rangeLimit | Date must be within 12 months
+
 ## yourIdeaProject
 
 | Rule            | Message                               |
@@ -79,71 +99,6 @@
 | number.integer | Total cost must be a whole number (eg. no decimal point)                          |
 | number.min     | Total cost must be the same as or higher than the amount you’re asking us to fund |
 
-## beneficiariesGroupsCheck
-
-| Rule | Message          |
-| ---- | ---------------- |
-| base | Select an option |
-
-## beneficiariesGroups
-
-| Rule | Message                                                         |
-| ---- | --------------------------------------------------------------- |
-| base | Select the specific group(s) of people your project is aimed at |
-
-## beneficiariesGroupsOther
-
-| Rule       | Message                                              |
-| ---------- | ---------------------------------------------------- |
-| string.max | Other specific groups must be 255 characters or less |
-
-## beneficiariesGroupsEthnicBackground
-
-| Rule | Message                                                                           |
-| ---- | --------------------------------------------------------------------------------- |
-| base | Select the ethnic background(s) of the people that will benefit from your project |
-
-## beneficiariesGroupsGender
-
-| Rule | Message                                                                |
-| ---- | ---------------------------------------------------------------------- |
-| base | Select the gender(s) of the people that will benefit from your project |
-
-## beneficiariesGroupsAge
-
-| Rule | Message                                                                   |
-| ---- | ------------------------------------------------------------------------- |
-| base | Select the age group(s) of the people that will benefit from your project |
-
-## beneficiariesGroupsDisabledPeople
-
-| Rule | Message                                                        |
-| ---- | -------------------------------------------------------------- |
-| base | Select the disabled people that will benefit from your project |
-
-## beneficiariesGroupsReligion
-
-| Rule | Message                                                                               |
-| ---- | ------------------------------------------------------------------------------------- |
-| base | Select the religion(s) or belief(s) of the people that will benefit from your project |
-
-## beneficiariesGroupsReligionOther
-
-| Rule       | Message                                                   |
-| ---------- | --------------------------------------------------------- |
-| string.max | Other religions or beliefs must be 255 characters or less |
-
-## beneficiariesWelshLanguage
-
-| Rule | Message                                                                         |
-| ---- | ------------------------------------------------------------------------------- |
-| base | Select the amount of people who speak Welsh that will benefit from your project |
-
-## beneficiariesNorthernIrelandCommunity
-
-| Rule | Message                                                                           |
-| ---- | --------------------------------------------------------------------------------- |
-| base | Select the community that the people who will benefit from your project belong to |
 
 ## organisationHasDifferentTradingName
 
@@ -491,33 +446,89 @@
 | base       | Enter the position of the person completing this form   |
 | string.max | Position in organisation must be 255 characters or less |
 
-## supportingCOVID19
+## beneficiariesEDICheck
+
+| Rule | Message          |
+| ---- | ---------------- |
+| base | Check this box to show you understand |
+
+## beneficiariesGroupsCheck
 
 | Rule | Message          |
 | ---- | ---------------- |
 | base | Select an option |
 
-## projectStartDateCheck
+## beneficiariesGroups
 
-| Rule | Message          |
-| ---- | ---------------- |
+| Rule | Message                                                         |
+| ---- | --------------------------------------------------------------- |
+| base | Select the specific group(s) of people your project is aimed at |
+
+## beneficiariesGroupsOther
+
+| Rule       | Message                                              |
+| ---------- | ---------------------------------------------------- |
+| string.max | Other specific groups must be 255 characters or less |
+
+## beneficiariesGroupsEthnicBackground
+
+| Rule | Message                                                                           |
+| ---- | --------------------------------------------------------------------------------- |
+| base | Select the ethnic background(s) of the people that will benefit from your project |
+
+##
+## beneficiariesGroupsAge
+
+| Rule | Message                                                                   |
+| ---- | ------------------------------------------------------------------------- |
+| base | Select the age group(s) of the people that will benefit from your project |
+
+## beneficiariesGroupsDisabledPeople
+
+| Rule | Message                                                        |
+| ---- | -------------------------------------------------------------- |
+| base | Select the group(s) of people that will benefit from your project |
+
+## beneficiariesGroupsReligion
+
+| Rule | Message                                                                               |
+| ---- | ------------------------------------------------------------------------------------- |
+| base | Select the religion(s) or belief(s) of the people that will benefit from your project |
+
+## beneficiariesGroupsMigrant
+
+| Rule | Message                                                                               |
+| ---- | ------------------------------------------------------------------------------------- |
+| base | Select the group(s) of the people that will benefit from your project |
+
+## beneficiariesGroupsLGBT
+
+| Rule | Message                                                                               |
+| ---- | ------------------------------------------------------------------------------------- |
 | base | Select an option |
 
-## projectStartDate
 
-| Rule              | Message                                                   |
-| ----------------- | --------------------------------------------------------- |
-| any.invalid       | Enter a real date                                         |
-| base              | Enter a project start date                                |
-| dateParts.minDate | Date you start the project must be on or after 14 09 2020 |
+## beneficiariesGroupsSpecificPeople
 
-## projectEndDate
+| Rule | Message                                                                               |
+| ---- | ------------------------------------------------------------------------------------- |
+| base | Please tell us the people that will benefit from your project |
+| length.max | Answer must be no more than 100 words |
 
-| Rule                 | Message                                               |
-| -------------------- | ----------------------------------------------------- |
-| any.invalid          | Enter a real date                                     |
-| base                 | Enter a project end date                              |
-| dateParts.minDate    | Date must not be in the past                          |
-| dateParts.maxDate    | Date must be no more than 12 months away              |
-| dateParts.minDateRef | Date you end the project must be after the start date |
-| dateParts.rangeLimit | Date must be within 12 months of the start date.      |
+## beneficiariesGroupsOther
+
+| Rule       | Message                                                   |
+| ---------- | --------------------------------------------------------- |
+| string.max | Answer must be no more than 100 words |
+    
+## beneficiariesWelshLanguage
+
+| Rule | Message                                                                         |
+| ---- | ------------------------------------------------------------------------------- |
+| base | Select the amount of people who speak Welsh that will benefit from your project |
+
+## beneficiariesNorthernIrelandCommunity
+
+| Rule | Message                                                                           |
+| ---- | --------------------------------------------------------------------------------- |
+| base | Select the community that the people who will benefit from your project belong to |
