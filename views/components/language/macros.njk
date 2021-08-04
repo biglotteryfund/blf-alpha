@@ -11,13 +11,16 @@
 {% endmacro %}
 
 {% macro languageSwitcher(currentLocale) %}
-    {% for item in [{ "id": "en", "label": "English" }, { "id": "cy", "label": "Cymraeg" }] %}
+    {% for item in [{ "id": "en", "label": "English", "lang": "language selected" }, { "id": "cy", "label": "Cymraeg", "lang": "dewis iaith" }] %}
         {% if item.id === currentLocale %}
-            <span class="language-control is-current">
+            <span class="language-control is-current" >
                 {{ iconTick() }} {{ item.label }}
+                <span class="u-visually-hidden ">
+                    {{ item.lang }}
+                </span>
             </span>
         {% else %}
-            <a href="{{ getCurrentUrl(item.id) }}"
+            <a lang="{{ item.id }}"href="{{ getCurrentUrl(item.id) }}"
                 class="language-control">
                 {{ item.label }}
             </a>

@@ -4,7 +4,7 @@
 /* https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/#scope-namespaces-s- */
 
 .s-prose {
-    h2::after {
+    h2:not(.u-tone-brand-primary):after {
         @include underlined();
     }
 
@@ -102,13 +102,10 @@
         padding: 0;
 
         tr {
-            background-color: get-color('background', 'light-neutral');
+            background-color: get-color('background', 'light-neutral-table');
 
             &:nth-child(even) {
-                background-color: darken(
-                    get-color('background', 'light-neutral'),
-                    3%
-                );
+                background-color: get-color('background', 'light-neutral-table-dark');
             }
 
             td {

@@ -16,6 +16,15 @@ export default {
         'handleActiveFilter',
         'trackUi',
     ],
+    data() {
+        return { grantKey: 0,  orgKey: 1};
+    },
+    created() {
+        window.addEventListener("resize", this.forceRerender);
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.forceRerender);
+    },
     methods: {
         isActiveFacet(name) {
             return has(this.filters, name);
@@ -24,6 +33,13 @@ export default {
             // Prevent this from updating the window history, which triggers a search
             event.preventDefault();
             $('#feedback summary').click().get(0).scrollIntoView();
+        },
+        openByDefault(){
+            return window.innerWidth > 640;
+        },
+        forceRerender(){
+            this.grantKey += 1;
+            this.orgKey += 1;
         },
     },
 };
@@ -38,15 +54,19 @@ export default {
             <legend class="search-filters__title">
                 {{ copy.filters.title }}
             </legend>
-            <a
-                class="search-filters__clear-all"
+            <button
+                tabindex="0"
+                role="link"
+                class="search-filters__clear-all btn-link"
                 @click="$emit('clear-filters')"
             >
                 {{ copy.filters.reset }}
-            </a>
+            </button>
         </div>
 
         <FacetGroup
+            :key="this.grantKey"
+            :open-by-default="openByDefault()"
             :legend="copy.filters.grantLegend"
             :toggle-label="copy.filters.toggle"
             :track-ui="trackUi"
@@ -91,6 +111,8 @@ export default {
         </FacetGroup>
 
         <FacetGroup
+            :key="this.orgKey"
+            :open-by-default="openByDefault()"
             :legend="copy.filters.organisationLegend"
             :toggle-label="copy.filters.toggle"
             :track-ui="trackUi"

@@ -54,13 +54,6 @@
                     </div>
                 </div>
 
-                <div class="form-header">
-                    <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
-                    <p class="form-header__suffix">
-                        <strong>{{ step.title }}</strong> ({{ stepCount }})
-                    </p>
-                </div>
-
                 {% if step.introduction %}
                     <div class="form-fieldset__intro s-prose">{{ step.introduction | safe }}</div>
                 {% endif %}
@@ -71,11 +64,12 @@
 
                     {% set singleFieldset = step.fieldsets.length === 1 %}
                     {% for fieldset in step.fieldsets %}
-                        <fieldset class="form-fieldset{% if not singleFieldset %} form-fieldset--multi{% endif %} u-constrained-wide">
-                            <legend
-                                class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
-                                {{ fieldset.legend }}
-                            </legend>
+                            <div class="form-header">
+                                <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
+                                <h2 class="t3 form-header__suffix">
+                                    <strong>{{ step.title }}</strong><span> ({{ stepCount }})</span>
+                                </h2>
+                            </div>
 
                             {% if fieldset.introduction %}
                                 <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
@@ -90,9 +84,7 @@
                             {% if fieldset.footer %}
                                 <div class="form-fieldset__intro s-prose">{{ fieldset.footer | safe }}</div>
                             {% endif %}
-                        </fieldset>
                     {% endfor %}
-
                 {% endblock %}
 
                 {% if csrfToken %}

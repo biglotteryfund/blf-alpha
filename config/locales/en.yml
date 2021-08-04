@@ -111,8 +111,8 @@ global:
     title: Cookies
     intro: <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
       <p>We use cookies to store information about how you use the our website, such as the pages you visit.</p>
-    neccessaryCookies:
-      title: Neccessary cookies
+    necessaryCookies:
+      title: Necessary cookies
       description: <p>These essential cookies do things like allow you to log into your account and remember your progress through an application form.</p>
         <p>They always need to be on.</p>
     websiteUse:
@@ -131,7 +131,6 @@ global:
     actionFail: Cookie preferences not updated
     messageAll: Use cookies which measure my website use
     messageEssential: Do not use cookies which measure my website use
-  covidMessage: Funding during COVID-19
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address
@@ -230,8 +229,8 @@ toplevel:
     title: Funding
     latestTitle: Latest Programmes & Partnerships
     sectionLinks:
-    - label: Funding during COVID-19
-      href: "/funding/covid-19"
+    - label: Thinking of applying for funding?
+      href: "/funding/thinking-of-applying-for-funding"
     - label: Apply for funding under £10,000
       href: "/funding/under10k"
     - label: Apply for funding above £10,000
@@ -246,8 +245,6 @@ toplevel:
       href: "/funding/grants"
     - label: Help with managing your funding
       href: "/funding/managing-your-grant"
-    - label: Thinking of applying for funding?
-      href: "/funding/thinking-of-applying-for-funding"
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
@@ -327,6 +324,7 @@ insights:
   covidInsights: Learning and insight about COVID-19
   civilSociety: Civil Society Approach
   grantmakingPractice: Grantmaking practice
+  differenceWeMake: The difference we make
   detail:
     documents: Documents
     relatedProgrammes: Related programmes

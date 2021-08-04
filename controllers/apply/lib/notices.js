@@ -28,6 +28,15 @@ module.exports = {
             });
         }
 
+        function showEDIChangesNotice() {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2021-06-15';
+            return pendingApplications.some(function (application) {
+                return moment(application.createdAt).isBefore(goLiveDate);
+            });
+        }
+
         const notices = [];
 
         if (showEnglandPrioritiesNotice()) {
@@ -53,31 +62,17 @@ module.exports = {
             });
         }
 
-        function showFormChangesNotice() {
-            // Only show notice for applications created before this date
-            // which were created before this will have expired
-            const goLiveDate = '2020-11-16';
-            return pendingApplications.some(function (application) {
-                return moment(application.createdAt).isBefore(goLiveDate);
-            });
-        }
-
-        if (showFormChangesNotice()) {
+        if (showEDIChangesNotice()) {
             notices.push({
                 title: localise({
-                    en: oneLine`We’ve made changes to our online application forms`,
-                    cy: oneLine`Rydym wedi gwneud newidiadau i'n ffurflenni cais ar-lein`,
+                    en: oneLine`We've added new questions to the application form`,
+                    cy: oneLine`Rydym wedi ychwanegu cwestiynau newydd at y ffurflen gais`,
                 }),
                 body: localise({
-                    en: `<p>We hope to improve the experience of applying for funding. These 
-                        changes might mean you have to answer more questions or change your answers 
-                        before submitting your application. But we have given you an extra two weeks 
-                        to complete your application if your application was close to expiring when 
-                        we made the changes.</p>`,
-                    cy: `<p>Gobeithiwn wella'r profiad o wneud cais am grant. Gallai'r newidiadau 
-                        hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn 
-                        cyflwyno'ch cais. Ond rydym wedi rhoi pythefnos ychwanegol i chi gwblhau eich 
-                        cais os oedd eich cais yn agos at ddod i ben pan wnaethom y newidiadau.</p>`,
+                    en: `<p>We've added some new Equity, Diversity and Inclusion (EDI) questions to our online application form.
+                            You may see some new questions if you return to complete an application that you've already started.</p>`,
+                    cy: `<p>Rydym wedi ychwanegu rhai cwestiynau Tegwch, Amrywiaeth a Chynhwysiant newydd i'n ffurflen gais ar-lein.
+                            Efallai y byddwch yn gweld rhai cwestiynau newydd os byddwch yn dychwelyd i gwblhau cais yr ydych eisoes wedi'i ddechrau.</p>`,
                 }),
             });
         }
@@ -85,17 +80,15 @@ module.exports = {
         return notices;
     },
     getNoticesSingle(locale, application = []) {
-        const localise = get(locale);
-
         /*
          * Only show notice for applications created before this date
          * when the projectDurationYears field was removed for England apps
          * @TODO this can be removed after 2020-09-04 as any applications
          * which were created before this will have expired
          */
+        const localise = get(locale);
+
         const projectDurationCutoffDate = '2020-06-04';
-        const isStandard = application.formId === 'standard-enquiry';
-        const isSimple = application.formId === 'awards-for-all';
         const isEnglandStandard =
             application.formId === 'standard-enquiry' &&
             getOr(
@@ -105,6 +98,15 @@ module.exports = {
             moment(application.createdAt).isBefore(projectDurationCutoffDate);
 
         const notices = [];
+
+        function showEDIChangesSummaryNotice() {
+            // Only show notice for applications created before this date
+            // which were created before this will have expired
+            const goLiveDate = '2021-06-15';
+
+            return moment(application.createdAt).isBefore(goLiveDate);
+
+        }
 
         if (enableStandardEnglandAutoProjectDuration && isEnglandStandard) {
             notices.push(
@@ -128,75 +130,17 @@ module.exports = {
             );
         }
 
-        function showFormChangesNotice(formId) {
-            // Only show notice for applications created before this date
-            // which were created before this will have expired
-            const goLiveDate = '2020-11-16';
-            return (
-                application.formId === formId &&
-                moment(application.createdAt).isBefore(goLiveDate)
-            );
-        }
-
-        if (isStandard && showFormChangesNotice('standard-enquiry')) {
+        if (showEDIChangesSummaryNotice()) {
             notices.push({
                 title: localise({
-                    en: oneLine`We’ve made changes to this online application form`,
-                    cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
+                    en: oneLine`We've added new questions to the application form`,
+                    cy: oneLine`Rydym wedi ychwanegu cwestiynau newydd at y ffurflen gais`,
                 }),
                 body: localise({
-                    en: `<p>We hope these improve the experience of applying for funding. These changes might 
-                                  mean you have to answer more questions or change your answers before submitting your 
-                                  application. This includes where you tell us what 
-                                  <a href="/apply/your-funding-proposal/your-project/8?edit#form-field-yourIdeaProject">your project</a> 
-                                   is about. But we’ve highlighted new questions to you, and given you an extra two 
-                                   weeks to complete your application if your application is close to expiring. Read 
-                                   about our 
-                                  <a href="/funding/over10k">over £10,000</a> to find out more about what's changed.</p>`,
-                    cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
-                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion cyn 
-                            cyflwyno'ch cais. Mae hyn yn cynnwys ble rydych chi'n dweud wrthym beth yw 
-                            <a href="/apply/your-funding-proposal/your-project/8?edit#form-field-yourIdeaProject">eich prosiect</a>
-                            . Ond rydym wedi tynnu ei sylw atoch, ac wedi rhoi pythefnos ychwanegol i chi gwblhau eich 
-                            cais os yw eich cais yn agos at ddod i ben. Darllenwch am ein 
-                            <a href="/welsh/funding/over10k">grantiau dros £10,000</a> i gael gwybod mwy am yr hyn sydd 
-                            wedi newid.</p>`,
-                }),
-            });
-        } else if (isSimple && showFormChangesNotice('awards-for-all')) {
-            notices.push({
-                title: localise({
-                    en: oneLine`We’ve made changes to this online application form`,
-                    cy: oneLine`Rydym wedi gwneud newidiadau i'r ffurflen gais ar-lein hon`,
-                }),
-                body: localise({
-                    en: `<p>We hope these improve the experience of applying for funding. These 
-                            changes might mean you have to answer more questions or change your answers before 
-                            submitting your application. But we have given you an extra two weeks to complete 
-                            your application if your application is close to expiring. Have a look at our website 
-                            for the latest information about funding 
-                                  <a href="/funding/under10k">under £10,000</a>.</p>`,
-                    cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
-                            newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau neu newid eich atebion 
-                            cyn cyflwyno'ch cais. Ond rydym wedi rhoi pythefnos ychwanegol i chi gwblhau eich cais 
-                            os yw eich cais yn agos at ddod i ben. Edrychwch ar ein gwefan am y wybodaeth ddiweddaraf 
-                            am grantiau 
-                            <a href="/welsh/funding/under10k">dan £10,000</a>.</p>`,
-                }),
-            });
-        } else {
-            notices.push({
-                title: localise({
-                    en: oneLine`We’ve made some changes to our application form`,
-                    cy: oneLine`Rydym yn mynd i wneud newidiadau i'r ffurflen gais ar-lein hon yn fuan`,
-                }),
-                body: localise({
-                    en: `<p>We hope these improve the experience of applying for funding. These changes 
-                        might mean you have to answer more questions and may want to change any answers you 
-                        might have prepared.</p>`,
-                    cy: `<p>Gobeithiwn y bydd y rhain yn gwella'r profiad o wneud cais am grant. Gallai'r 
-                        newidiadau hyn olygu bod yn rhaid i chi ateb mwy o gwestiynau ac efallai y byddwch am 
-                        newid unrhyw atebion y gallech fod wedi'u paratoi.</p>`,
+                    en: `<p>We've added some new Equity, Diversity and Inclusion (EDI) questions to our online application form.
+                            You may see some new questions if you return to complete an application that you've already started.</p>`,
+                    cy: `<p>Rydym wedi ychwanegu rhai cwestiynau Tegwch, Amrywiaeth a Chynhwysiant newydd i'n ffurflen gais ar-lein.
+                            Efallai y byddwch yn gweld rhai cwestiynau newydd os byddwch yn dychwelyd i gwblhau cais yr ydych eisoes wedi'i ddechrau.</p>`,
                 }),
             });
         }

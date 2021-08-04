@@ -810,6 +810,10 @@ $inputOutline: $inputOutlineWidth solid $inputOutlineColour;
             outline: $inputOutline;
             outline-offset: 0;
         }
+
+        @media all and (max-width: 320px){
+            width: 5px;
+        }
     }
 
     .form-field-addon__action {

@@ -134,6 +134,7 @@ function addAriaStates($tabs) {
         if ($pane.length > 0 && id) {
             $pane.attr('aria-labelledby', $(this).attr('id'));
         }
+        $(this).parents('li').attr('aria-controls', $(this).attr('href').substring(1));
     });
 }
 

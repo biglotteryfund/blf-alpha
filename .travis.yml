@@ -30,7 +30,7 @@ cache:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
 script:
-  - shellcheck deploy/*.sh
+  #- shellcheck deploy/*.sh
   - npm audit --production --audit-level=moderate
   - npm run lint
   - npm run build-production
@@ -59,6 +59,9 @@ deploy:
     acl: public_read
     cache_control: 'max-age=31536000'
     skip_cleanup: true
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(master|dev)$
   - provider: s3
     region: eu-west-2
     bucket: blf-deployments
@@ -68,6 +71,8 @@ deploy:
     skip_cleanup: true
     on:
       repo: biglotteryfund/blf-alpha
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(master|dev)$
   - provider: codedeploy
     region: eu-west-2
     access_key_id: $AWS_ACCESS_KEY_ID
@@ -79,6 +84,19 @@ deploy:
     deployment_group: Test_Fleet
     on:
       tags: false
+      branch: master
+  - provider: codedeploy
+    region: eu-west-2
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: blf-deployments
+    key: build-$TRAVIS_BUILD_NUMBER.zip
+    bundle_type: zip
+    application: BLF_WWW
+    deployment_group: Dev_Fleet
+    on:
+      tags: false
+      branch: dev
 
 # Notifications
 notifications:

@@ -34,17 +34,28 @@ const {
 const fieldProjectLocationPostcode = require('./fields/project-postcode');
 
 const {
+    fieldBeneficiariesPreflightCheck,
     fieldBeneficiariesGroups,
     fieldBeneficiariesGroupsAge,
     fieldBeneficiariesGroupsCheck,
     fieldBeneficiariesGroupsDisabledPeople,
     fieldBeneficiariesEthnicBackground,
-    fieldBeneficiariesGroupsGender,
-    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesGroupsLGBT,
     fieldBeneficiariesGroupsReligion,
-    fieldBeneficiariesGroupsReligionOther,
     fieldBeneficiariesNorthernIrelandCommunity,
     fieldBeneficiariesWelshLanguage,
+    fieldBeneficiariesGroupsMigrant,
+    fieldBeneficiariesGroupsOther,
+    fieldBeneficiariesLeadershipGroups,
+    fieldBeneficiariesLeadershipGroupsEthnicBackground,
+    fieldBeneficiariesLeadershipGroupsReligion,
+    fieldBeneficiariesLeadershipGroupsMigrant,
+    fieldBeneficiariesLeadershipGroupsDisabledPeople,
+    fieldBeneficiariesLeadershipGroupsAge,
+    fieldBeneficiariesLeadershipGroupsLGBT,
+    fieldBeneficiariesLeadershipGroupsOther,
+    fieldBeneficiariesAnyGroupsOther,
+    fieldBeneficiariesLeadershipAnyGroupsOther,
 } = require('./fields/beneficiaries');
 
 const {
@@ -81,6 +92,60 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     const projectCountries = getOr([], 'projectCountries')(data);
     const projectTotalCost = get('projectTotalCost')(data);
+    const mainContactPhone = get('mainContactPhone')(data);
+    const seniorContactPhone = get('seniorContactPhone')(data);
+    const beneficiariesGroupCheck = get('beneficiariesGroupsCheck')(data);
+    const beneficiariesGroups = get('beneficiariesGroups')(data);
+    const beneficiariesLeadershipGroups = get('beneficiariesLeadershipGroups')(data);
+
+    function anyOtherGroupsCheck(){
+        const beneficiariesGroupsEthnicBackground =
+            get('beneficiariesGroupsEthnicBackground')(data) || [];
+        const beneficiariesGroupsLGBT =
+            get('beneficiariesGroupsLGBT')(data) || [];
+        const beneficiariesGroupsDisabledPeople =
+            get('beneficiariesGroupsDisabledPeople')(data) || [];
+        const beneficiariesGroupsReligion =
+            get('beneficiariesGroupsReligion')(data) || [];
+        const beneficiariesGroupsMigrant =
+            get('beneficiariesGroupsMigrant')(data) || [];
+
+        if (beneficiariesGroupsEthnicBackground.includes('other-ethnicity') ||
+            beneficiariesGroupsLGBT.includes('other-lgbt') ||
+            beneficiariesGroupsDisabledPeople.includes('other-disability') ||
+            beneficiariesGroupsReligion.includes('other-faith') ||
+            beneficiariesGroupsMigrant.includes('other-migrant')) {
+
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    function anyOtherGroupsLeadershipCheck(){
+        const beneficiariesLeadershipGroupsEthnicBackground =
+            get('beneficiariesLeadershipGroupsEthnicBackground')(data) || [];
+        const beneficiariesLeadershipGroupsLGBT =
+            get('beneficiariesLeadershipGroupsLGBT')(data) || [];
+        const beneficiariesLeadershipGroupsDisabledPeople =
+            get('beneficiariesLeadershipGroupsDisabledPeople')(data) || [];
+        const beneficiariesLeadershipGroupsReligion =
+            get('beneficiariesLeadershipGroupsReligion')(data) || [];
+        const beneficiariesLeadershipGroupsMigrant =
+            get('beneficiariesLeadershipGroupsMigrant')(data) || [];
+
+        if (beneficiariesLeadershipGroupsEthnicBackground.includes('other-ethnicity') ||
+            beneficiariesLeadershipGroupsLGBT.includes('other-lgbt') ||
+            beneficiariesLeadershipGroupsDisabledPeople.includes('other-disability') ||
+            beneficiariesLeadershipGroupsReligion.includes('other-faith') ||
+            beneficiariesLeadershipGroupsMigrant.includes('other-migrant')) {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
 
     function fieldProjectName() {
         const maxLength = 80;
@@ -162,7 +227,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectCountries',
             label: localise({
                 en: `Confirm the country your project will be based in`,
-                cy: ``,
+                cy: `Cadarnhewch y wlad y bydd eich prosiect wedi'i lleoli ynddi`,
             }),
             explanation: localise({
                 en: oneLine`We work in different ways in each country, to meet local needs and rules.`,
@@ -1061,14 +1126,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a number.',
+                        en: "Enter a number that's less than 70,000,000.",
                         cy: '',
                     }),
                 },
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: 'Enter a number.',
+                        en: "Enter a number that's less than 70,000,000.",
                         cy: '',
                     }),
                 },
@@ -1082,7 +1147,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.max',
                     message: localise({
-                        en: 'Enter a number smaller than 70,000,000.',
+                        en: "Enter a number that's less than 70,000,000.",
                         cy: '',
                     }),
                 },
@@ -1584,16 +1649,63 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
+    function fieldMainContactPhone() {
+        if (mainContactPhone) {
+            if (
+                mainContactPhone.toString().replace(/[^\d]/g, '') ===
+                seniorContactPhone
+            ) {
+                return new Field({
+                    locale: locale,
+                    name: 'mainContactPhone',
+                    label: 'Telephone number',
+                    schema: Joi.number().max(0).precision(2),
+                    messages: [
+                        {
+                            type: 'base',
+                            message: localise({
+                                en: `Main contact phone number must be different from the senior contact's phone number`,
+                                cy: `Rhaid i'r prif rif ffôn cyswllt fod yn wahanol i rif ffôn yr uwch gyswllt`,
+                            }),
+                        },
+                    ],
+                });
+            } else {
+                return new PhoneField({
+                    locale: locale,
+                    name: 'mainContactPhone',
+                    schema: Joi.string()
+                        .required()
+                        .phoneNumber()
+                        .invalid(Joi.ref('seniorContactPhone')),
+                });
+            }
+        } else {
+            return new PhoneField({
+                locale: locale,
+                name: 'mainContactPhone',
+                schema: Joi.string()
+                    .required()
+                    .phoneNumber()
+                    .invalid(Joi.ref('seniorContactPhone')),
+            });
+        }
+    }
+
     function allFields() {
         let fields = {};
+        fields = {
+            projectName: fieldProjectName(),
+            projectCountries: fieldProjectCountries(),
+            projectRegions: fieldProjectRegions(),
+            projectLocation: fieldProjectLocation(),
+            projectLocationDescription: fieldProjectLocationDescription(),
+            projectLocationPostcode: fieldProjectLocationPostcode(
+                locale
+            ),
+        };
         if (projectCountries.includes('england')) {
-            fields = {
-                projectName: fieldProjectName(),
-                projectCountries: fieldProjectCountries(),
-                projectRegions: fieldProjectRegions(),
-                projectLocation: fieldProjectLocation(),
-                projectLocationDescription: fieldProjectLocationDescription(),
-                projectLocationPostcode: fieldProjectLocationPostcode(locale),
+            Object.assign(fields, {
                 projectTotalCost: fieldProjectTotalCost(),
                 projectCosts: fieldProjectCosts(),
                 projectSpend: fieldProjectSpend(),
@@ -1601,16 +1713,32 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 projectDurationYears: fieldProjectDurationYears(),
                 projectWebsite: fieldProjectWebsite(),
                 projectOrganisation: fieldProjectOrganisation(),
-                yourIdeaProject: fieldYourIdeaProject(),
-                yourIdeaCommunity: fieldYourIdeaCommunity(),
-                yourIdeaActivities: fieldYourIdeaActivities(),
-                beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(locale),
+            });
+        } else {
+            Object.assign(fields, {
+                projectCosts: fieldProjectCosts(),
+                projectDurationYears: fieldProjectDurationYears(),
+                projectWebsite: fieldProjectWebsite(),
+            });
+        }
+        Object.assign(fields, {
+            yourIdeaProject: fieldYourIdeaProject(),
+            yourIdeaCommunity: fieldYourIdeaCommunity(),
+            yourIdeaActivities: fieldYourIdeaActivities(),
+        });
+        if (projectCountries.includes('england')) {
+            Object.assign(fields, {
+                beneficiariesPreflightCheck: fieldBeneficiariesPreflightCheck(
+                    locale
+                ),
+                beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(
+                    locale
+                ),
                 beneficiariesGroups: fieldBeneficiariesGroups(locale),
-                beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(locale),
                 beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
                     locale
                 ),
-                beneficiariesGroupsGender: fieldBeneficiariesGroupsGender(
+                beneficiariesGroupsLGBT: fieldBeneficiariesGroupsLGBT(
                     locale
                 ),
                 beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
@@ -1620,19 +1748,78 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
                     locale
                 ),
-                beneficiariesGroupsReligionOther: fieldBeneficiariesGroupsReligionOther(
-                    locale
-                ),
                 beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
                     locale
                 ),
                 beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
                     locale
                 ),
-                organisationLegalName: fieldOrganisationLegalName(),
-                organisationDifferentName: fieldOrganisationDifferentName(),
-                organisationTradingName: fieldOrganisationTradingName(),
-                organisationAddress: fieldOrganisationAddress(),
+                beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(
+                    locale
+                ),
+            });
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
+                Object.assign(fields, {
+                    beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
+                        locale
+                    ),
+                });
+            }
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && anyOtherGroupsCheck()) {
+                Object.assign(fields, {
+                    beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
+                        locale,
+                        data
+                    ),
+                });
+            }
+            Object.assign(fields, {
+                beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsEthnicBackground: fieldBeneficiariesLeadershipGroupsEthnicBackground(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsReligion: fieldBeneficiariesLeadershipGroupsReligion(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsMigrants: fieldBeneficiariesLeadershipGroupsMigrant(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsAge: fieldBeneficiariesLeadershipGroupsAge(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsDisabledPeople: fieldBeneficiariesLeadershipGroupsDisabledPeople(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(
+                    locale
+                ),
+            });
+            if (beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
+                Object.assign(fields, {
+                    beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
+                        locale
+                    ),
+                });
+            }
+            if (beneficiariesLeadershipGroups && anyOtherGroupsLeadershipCheck()) {
+                Object.assign(fields, {
+                    beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
+                        locale,
+                        data
+                    ),
+                });
+            }
+        }
+        Object.assign(fields, {
+            organisationLegalName: fieldOrganisationLegalName(),
+            organisationDifferentName: fieldOrganisationDifferentName(),
+            organisationTradingName: fieldOrganisationTradingName(),
+            organisationAddress: fieldOrganisationAddress(),
+        });
+        if (projectCountries.includes('england')) {
+            Object.assign(fields, {
                 organisationStartDate: fieldOrganisationStartDate(),
                 organisationSupport: fieldOrganisationSupport(),
                 organisationVolunteers: fieldOrganisationVolunteers(),
@@ -1641,7 +1828,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 organisationType: fieldOrganisationType(),
                 organisationSubType: fieldOrganisationSubType(),
                 accountingYearDate: fieldAccountingYearDate(locale, data),
-                totalIncomeYear: fieldTotalIncomeYear(locale, data),
+                totalIncomeYear: fieldTotalIncomeYear(locale),
                 mainContactName: new NameField({
                     locale: locale,
                     name: 'mainContactName',
@@ -1656,14 +1843,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     get warnings() {
                         let result = [];
 
-                        const seniorSurname = get('seniorContactName.lastName')(
-                            data
-                        );
+                        const seniorSurname = get(
+                            'seniorContactName.lastName'
+                        )(data);
 
                         const lastNamesMatch =
                             seniorSurname &&
                             seniorSurname ===
-                                get('mainContactName.lastName')(data);
+                            get('mainContactName.lastName')(data);
 
                         if (lastNamesMatch) {
                             result.push(
@@ -1726,9 +1913,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         },
                     ],
                 }),
-                mainContactAddressHistory: fieldContactAddressHistory(locale, {
-                    name: 'mainContactAddressHistory',
-                }),
+                mainContactAddressHistory: fieldContactAddressHistory(
+                    locale,
+                    {
+                        name: 'mainContactAddressHistory',
+                    }
+                ),
                 mainContactEmail: new EmailField({
                     locale: locale,
                     name: 'mainContactEmail',
@@ -1751,10 +1941,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         },
                     ],
                 }),
-                mainContactPhone: new PhoneField({
-                    locale: locale,
-                    name: 'mainContactPhone',
-                }),
+                mainContactPhone: fieldMainContactPhone(),
                 mainContactLanguagePreference: fieldContactLanguagePreference(
                     locale,
                     {
@@ -1815,10 +2002,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     }),
                     schema: Joi.string().required().email().lowercase(),
                 }),
-                seniorContactPhone: new PhoneField({
-                    locale: locale,
-                    name: 'seniorContactPhone',
-                }),
                 seniorContactLanguagePreference: fieldContactLanguagePreference(
                     locale,
                     {
@@ -1839,25 +2022,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 termsAgreement6: fieldTermsAgreement6(locale),
                 termsPersonName: fieldTermsPersonName(locale),
                 termsPersonPosition: fieldTermsPersonPosition(locale),
-            };
+                seniorContactPhone: new PhoneField({
+                    locale: locale,
+                    name: 'seniorContactPhone',
+                    schema: Joi.string()
+                        .required()
+                        .phoneNumber()
+                        .replace(/[^\d]/g, '')
+                        .invalid(
+                            Joi.ref('seniorContactLanguagePreference')
+                        ),
+                }),
+
+            });
         } else {
-            fields = {
-                projectName: fieldProjectName(),
-                projectCountries: fieldProjectCountries(),
-                projectRegions: fieldProjectRegions(),
-                projectLocation: fieldProjectLocation(),
-                projectLocationDescription: fieldProjectLocationDescription(),
-                projectLocationPostcode: fieldProjectLocationPostcode(locale),
-                projectCosts: fieldProjectCosts(),
-                projectDurationYears: fieldProjectDurationYears(),
-                projectWebsite: fieldProjectWebsite(),
-                yourIdeaProject: fieldYourIdeaProject(),
-                yourIdeaCommunity: fieldYourIdeaCommunity(),
-                yourIdeaActivities: fieldYourIdeaActivities(),
-                organisationLegalName: fieldOrganisationLegalName(),
-                organisationDifferentName: fieldOrganisationDifferentName(),
-                organisationTradingName: fieldOrganisationTradingName(),
-                organisationAddress: fieldOrganisationAddress(),
+            Object.assign(fields, {
                 organisationType: fieldOrganisationType(),
                 organisationSubType: fieldOrganisationSubType(),
                 contactName: fieldContactName(),
@@ -1865,7 +2044,83 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 contactPhone: fieldContactPhone(),
                 contactLanguagePreference: fieldContactLanguagePreference(),
                 contactCommunicationNeeds: fieldContactCommunicationNeeds(),
-            };
+                beneficiariesPreflightCheck: fieldBeneficiariesPreflightCheck(
+                    locale
+                ),
+                beneficiariesGroupsCheck: fieldBeneficiariesGroupsCheck(
+                    locale
+                ),
+                beneficiariesGroups: fieldBeneficiariesGroups(locale),
+                beneficiariesEthnicBackground: fieldBeneficiariesEthnicBackground(
+                    locale
+                ),
+                beneficiariesGroupsLGBT: fieldBeneficiariesGroupsLGBT(
+                    locale
+                ),
+                beneficiariesGroupsAge: fieldBeneficiariesGroupsAge(locale),
+                beneficiariesGroupsDisabledPeople: fieldBeneficiariesGroupsDisabledPeople(
+                    locale
+                ),
+                beneficiariesGroupsReligion: fieldBeneficiariesGroupsReligion(
+                    locale
+                ),
+                beneficiariesWelshLanguage: fieldBeneficiariesWelshLanguage(
+                    locale
+                ),
+                beneficiariesNorthernIrelandCommunity: fieldBeneficiariesNorthernIrelandCommunity(
+                    locale
+                ),
+                beneficiariesGroupsMigrant: fieldBeneficiariesGroupsMigrant(
+                    locale
+                ),
+            });
+            if (beneficiariesGroupCheck === 'yes' && beneficiariesGroups && beneficiariesGroups.includes('other')) {
+                Object.assign(fields, {
+                    beneficiariesGroupsOther: fieldBeneficiariesGroupsOther(
+                        locale
+                    ),
+                });
+            }
+            Object.assign(fields, {
+                beneficiariesAnyGroupsOther: fieldBeneficiariesAnyGroupsOther(
+                    locale,
+                    data
+                ),
+                beneficiariesLeadershipGroups: fieldBeneficiariesLeadershipGroups(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsEthnicBackground: fieldBeneficiariesLeadershipGroupsEthnicBackground(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsReligion: fieldBeneficiariesLeadershipGroupsReligion(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsMigrants: fieldBeneficiariesLeadershipGroupsMigrant(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsAge: fieldBeneficiariesLeadershipGroupsAge(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsDisabledPeople: fieldBeneficiariesLeadershipGroupsDisabledPeople(
+                    locale
+                ),
+                beneficiariesLeadershipGroupsLGBT: fieldBeneficiariesLeadershipGroupsLGBT(
+                    locale
+                ),
+            });
+            if (beneficiariesLeadershipGroups && beneficiariesLeadershipGroups.includes('other')) {
+                Object.assign(fields, {
+                    beneficiariesLeadershipGroupsOther: fieldBeneficiariesLeadershipGroupsOther(
+                        locale
+                    ),
+                });
+            }
+            Object.assign(fields, {
+                beneficiariesLeadershipAnyGroupsOther: fieldBeneficiariesLeadershipAnyGroupsOther(
+                    locale,
+                    data
+                )
+            });
         }
         return fields;
     }

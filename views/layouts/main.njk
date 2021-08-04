@@ -7,7 +7,7 @@
         {% block extraHead %}{% endblock %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
-        <nav class="accessibility-nav">
+        <nav class="accessibility-nav" role="navigation" aria-label="accessibility">
             {% set a11yCopy = __('global.accessibility') %}
             <ul>
                 <li><a href="#content" tabindex="0">{{ a11yCopy.skipToContent | safe }}</a></li>
@@ -18,12 +18,12 @@
         <div class="global-container">
             {# Status and announcement banners #}
             {% if previewStatus.isPreview %}
-                <aside class="announcement-banner announcement-banner--info" aria-label="page draft banner">
+                <aside class="announcement-banner announcement-banner--info">
                     ✋ You are viewing a draft (last updated {{ previewStatus.lastUpdated }}).
                     Please do not share this page. <a href="{{ getCurrentUrl() }}">View original</a>
                 </aside>
             {% elseif appData.isNotProduction and not appData.isDev %}
-                <aside class="announcement-banner announcement-banner--info" aria-label="test environment banner">
+                <aside class="announcement-banner announcement-banner--info">
                     ✋ This is a test environment. Please do not share this page.
                 </aside>
             {% endif %}
@@ -41,14 +41,6 @@
             </div>
 
             {% include "includes/global-header.njk" %}
-
-            {% if showCOVID19AnnouncementBanner %}
-                <aside class="announcement-banner announcement-banner--major" aria-label="announcement banner">
-                    <a href="{{ localify('/funding/covid-19') }}">
-                        {{ __('global.covidMessage') }}
-                    </a>
-                </aside>
-            {% endif %}
 
             {% block content %}{% endblock %}
 

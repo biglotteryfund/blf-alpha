@@ -442,4 +442,8 @@ $breakpointLarge: 840px;
         height: auto;
         background: none;
     }
+
+    @media all and (max-width: 320px) {
+        background-size: 130px 32px;
+    }
 }

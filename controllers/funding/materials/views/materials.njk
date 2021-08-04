@@ -35,7 +35,7 @@
                     name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
                     v-bind:disabled="getQuantity('{{ product.id }}') == 0"
                     v-on:click.prevent="changeQuantity($event)"
-                    aria-label="Decrease quantity">-
+                    aria-label="Decrease quantity of {% if product.name %} {{ product.name | trim()}} {% else %} {{ material.title | trim() }} {% endif %}">-
             </button>
 
             <div aria-label="Quantity" class="step-control__quantity js-material-count">
@@ -49,7 +49,7 @@
                     name="action"{% if material.maximum == quantity %} disabled="disabled"{% endif %}
                     v-bind:disabled="getQuantity('{{ product.id }}') == {{ material.maximum }}"
                     v-on:click.prevent="changeQuantity($event)"
-                    aria-label="Increase quantity">+
+                    aria-label="Increase quantity of {% if product.name %} {{ product.name | trim() }} {% else %} {{ material.title | trim() }} {% endif %}">+
             </button>
         </form>
     {% endif %}

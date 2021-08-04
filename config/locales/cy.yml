@@ -110,7 +110,7 @@ global:
     title: Cwcis
     intro: <p>Mae cwcis yn ffeiliau sydd wedi'u cadw ar eich ffôn, tabled neu gyfrifiadur pan fyddwch yn ymweld â gwefan.</p>
       <p>Rydym yn defnyddio cwcis i storio gwybodaeth am sut rydych chi'n defnyddio'r wefan, fel y tudalennau rydych chi'n ymweld â nhw.</p>
-    neccessaryCookies:
+    necessaryCookies:
       title: Cwcis angenrheidiol
       description: <p>Mae'r cwcis hanfodol hyn yn gwneud pethau fel eich galluogi i fewngofnodi i'ch cyfrif a chofio eich cynnydd drwy ffurflen gais.</p>
         <p>Mae angen iddynt fod ymlaen bob amser.</p>
@@ -130,7 +130,6 @@ global:
     actionFail: Dewisiadau cwci heb eu diweddaru
     messageAll: Defnyddiwch cwcis sy'n mesur fy nefnydd ar y wefan
     messageEssential: Peidiwch â defnyddio cwcis sy'n mesur fy nefnydd ar y wefan
-  covidMessage: Ariannu yn ystod COVID-19
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
@@ -226,8 +225,8 @@ toplevel:
     title: Ariannu
     latestTitle: Rhaglenni a phartneriaethau diweddaraf
     sectionLinks:
-    - label: Ariannu yn ystod COVID-19
-      href: "/welsh/funding/covid-19"
+    - label: Meddwl am ymgeisio am arian grant?
+      href: "/welsh/funding/thinking-of-applying-for-funding"
     - label: Ymgeisio am grantiau o dan £10,000
       href: "/welsh/funding/under10k"
     - label: Ymgeisio am grantiau dros £10,000
@@ -240,8 +239,6 @@ toplevel:
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
       href: "/welsh/funding/managing-your-grant"
-    - label: "Meddwl am ymgeisio am arian grant?"
-      href: "/welsh/funding/thinking-of-applying-for-funding"
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
@@ -318,6 +315,7 @@ insights:
   covidInsights: Dysg a mewnwelediad ynghylch COVID-19
   civilSociety: Dull Trydydd Sector
   grantmakingPractice: Arfer gwneud grantiau
+  differenceWeMake: Y gwahaniaeth rydyn ni'n ei wneud
   detail:
     documents: Dogfennau
     relatedProgrammes: Rhaglenni cysylltiedig
@@ -906,7 +904,8 @@ apply:
     submitted: Wedi’i gyflwyno
     sectionsCompleted: "%s rhan o %s wedi’i gwblhau"
     lastUpdated: Wedi’i ddiweddaru diwethaf
-    continue: Parhau â’r cais hwn
+    continue: Parhau
+    continueIncomplete: Parhau â’r cais hwn
     delete: Dileu
     createdAt: Wedi’i greu ar %s am %s
     expiresAt: Mae gennych nes <strong>%s</strong> i gwblhau eich cais

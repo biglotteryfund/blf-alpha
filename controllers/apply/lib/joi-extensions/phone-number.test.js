@@ -13,16 +13,15 @@ test('return error for invalid phone numbers', () => {
     });
 });
 
-test('format valid phone numbers', () => {
+test('check valid phone numbers', () => {
     const validUkPhoneNumbers = [
-        ['028 9 5 68 0143', '028 9568 0143'],
-        ['028 4378 00 03', '028 4378 0003'],
-        ['01418460447', '0141 846 0447'],
-        ['02921680214', '029 2168 0214'],
+        ['028 9 5 68 0143'],
+        ['028 4378 00 03'],
+        ['01418460447'],
+        ['02921680214'],
     ];
-    validUkPhoneNumbers.forEach(function ([input, expected]) {
+    validUkPhoneNumbers.forEach(function ([input]) {
         const result = Joi.string().phoneNumber().required().validate(input);
-        expect(result.value).toEqual(expected);
         expect(result.error).toBeUndefined();
     });
 });

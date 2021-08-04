@@ -136,6 +136,14 @@
                             </div>
 
                         </article>
+                        {% elseif part.type === 'lastUpdatedDateBlock' %}
+                            {% if part.lastUpdatedField %}
+                                <div class="message message--minor">
+                                    <strong>{{ __('global.misc.lastUpdated') }}</strong>:
+                                    {{ formatDate(part.lastUpdatedField.date, "dddd D MMMM, YYYY") }}
+                                </div>
+                        {% endif %}
+
                     {% elseif part.type === 'tableOfContents' %}
                         {% if part.content %}
                             <div class="s-prose u-constrained-content-wide">
@@ -150,6 +158,8 @@
                             </div>
                         {% endif %}
 
+
+
                         {{ tableOfContents(flexibleContent, anchor = flexAnchor, hideDivider = not part.content) }}
                     {% else %}
                         <div class="s-prose u-constrained-content-wide">
@@ -160,6 +170,10 @@
                                     <img src="{{ part.photo }}" alt="{{ part.caption }}">
                                     <figcaption>{{ part.photoCaption }}</figcaption>
                                 </figure>
+                            {% elseif part.type === 'alertBox' %}
+                                <div class="s-prose u-constrained-content-wide alertbox__container">
+                                    {{ part.content | safe }}
+                                </div>
                             {% elseif part.type === 'quote' %}
                                 <blockquote class="blockquote">
                                     <div class="blockquote__text">

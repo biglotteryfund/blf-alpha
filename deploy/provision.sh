@@ -25,10 +25,20 @@ apt-get install -y clamav clamav-daemon
 
 # Initial update of antivirus databases
 # We do this so that we can start clamav-daemon without an arbitrary `sleep`
-wget -O /var/lib/clamav/main.cvd https://database.clamav.net/main.cvd && \
-wget -O /var/lib/clamav/daily.cvd https://database.clamav.net/daily.cvd && \
-wget -O /var/lib/clamav/bytecode.cvd https://database.clamav.net/bytecode.cvd
+curl -o --user-agent 'Chrome/79' /var/lib/clamav/main.cvd https://database.clamav.net/main.cvd && \
+curl -o --user-agent 'Chrome/79' /var/lib/clamav/daily.cvd https://database.clamav.net/daily.cvd && \
+curl -o --user-agent 'Chrome/79' /var/lib/clamav/bytecode.cvd https://database.clamav.net/bytecode.cvd
 
+# Check the virus database has been downloaded
+# This was experiencing an issue where it would return 403
+# and no files would be downloaded causing errors.
+if [ "$(ls -1 /var/lib/clamav/*.cvd 2>/dev/null | wc -l )" -lt 3 ];
+then
+	service clamav-freshclam restart
+	sleep 300 # sleep for 5 minutes
+fi
+
+# Start the service.
 service clamav-daemon start
 service clamav-daemon status
 
@@ -45,9 +55,11 @@ apt-get install -y nodejs
 # Used to fetch secrets from parameter store
 
 rm -rf awscli-bundle.zip awscli-bundle
-curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-unzip awscli-bundle.zip
-./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+#curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+#unzip awscli-bundle.zip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install -i /usr/local/aws -b /usr/local/bin/aws
 
 #################################################
 # CloudWatch agent

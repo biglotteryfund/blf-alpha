@@ -3,7 +3,7 @@
 
 {% macro formErrors(title, errors) %}
     {% if errors.length > 0 %}
-        <div class="form-errors" data-testid="form-errors">
+        <div class="form-errors" data-testid="form-errors" tabindex="0" id="error-container" role="alert">
             <h2 class="form-errors__title">{{ title }}</h2>
             <div class="form-errors__body">
                 <ol class="form-errors__list">
@@ -447,7 +447,7 @@
             {{ caller() }}
         {% endif %}
 
-        <fieldset class="ff-address{% if isNested %} ff-address--nested{% endif %}" id="field-{{ field.name }}">
+        <div class="ff-address{% if isNested %} ff-address--nested{% endif %}" id="field-{{ field.name }}">
 
             <address-lookup
                 label="{{ field.label }}"
@@ -460,16 +460,15 @@
 
             {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
             {# (this will be removed by our Vue component when mounted) #}
-            <div class="js-fallback-only">
+            <fieldset class="js-fallback-only">
                 <legend class="ff-label ff-address__legend">
                     {{ labelFor(field) }}
                 </legend>
-
                 {{ explanationFor(field) }}
                 {{ fallbackFields | safe }}
-            </div>
+            </fieldset>
 
-        </fieldset>
+        </div>
     </div>
 {% endmacro %}
 
