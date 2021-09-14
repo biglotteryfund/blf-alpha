@@ -507,7 +507,7 @@ test('maintain backwards compatibility for date schema', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
-        projectStartDate: { day: 3, month: 12, year: 2021 },
+        projectStartDate: { day: 25, month: 12, year: 2021 },
         projectEndDate: { day: 3, month: 5, year: 2022 },
     });
 
