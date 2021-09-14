@@ -522,7 +522,7 @@ test('maintain backwards compatibility for date schema', function () {
     expect(salesforceResult.projectStartDate).toBe('2021-12-25');
     expect(salesforceResult.projectEndDate).toBe('2022-05-03');
     expect(salesforceResult.projectDateRange).toEqual({
-        startDate: '2021-12-03',
+        startDate: '2021-12-25',
         endDate: '2022-05-03',
     });
 });
