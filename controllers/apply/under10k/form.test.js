@@ -519,7 +519,7 @@ test('maintain backwards compatibility for date schema', function () {
 
     // Maintain backwards compatibility with salesforce schema
     const salesforceResult = form.forSalesforce();
-    expect(salesforceResult.projectStartDate).toBe('2021-12-03');
+    expect(salesforceResult.projectStartDate).toBe('2021-12-25');
     expect(salesforceResult.projectEndDate).toBe('2022-05-03');
     expect(salesforceResult.projectDateRange).toEqual({
         startDate: '2021-12-03',
