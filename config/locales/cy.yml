@@ -32,16 +32,16 @@ global:
     email: ymholiadau.cymru@cronfagymunedolylg.org.uk
     regions:
     - label: Lloegr ac DU gyfan
-      phone: 028 9568 0143
+      phone: 0345 410 2030
       email: general.enquiries@tnlcommunityfund.org.uk
     - label: Gogledd Iwerddon
-      phone: 028 4378 0003
+      phone: 0289 055 1455
       email: enquiries.ni@tnlcommunityfund.org.uk
     - label: Yr Alban
-      phone: 0141 846 0447
+      phone: 0300 123 7110
       email: advicescotland@tnlcommunityfund.org.uk
     - label: Cymru
-      phone: 029 2168 0214
+      phone: 0300 123 0735
       email: cymru@cronfagymunedolylg.org.uk
     press:
       title: Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am y wasg?
@@ -583,7 +583,7 @@ funding:
         agor prosiectau, ac mewn ardaloedd y gall eich ymwelwyr eu gweld.</p><h2>Sut
         i gael deunyddiau â'n brand arnynt</h2><p>Mae'r dudalen hon yn dangos yr holl
         eitemau sydd ar gael i'w harchebu. <a href="/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads">Gallwch
-        lawrlwytho'r logo yma hefyd</a>.</p><p>Bydd eich archeb yn cymryd hyd at 6
+        lawrlwytho'r logo yma hefyd</a>.</p><p>Bydd eich archeb yn cymryd hyd at 14
         niwrnod gwaith, os bydd ei angen arnoch cyn hynny neu mae gennych unrhyw ymholiadau
         pellach, cysylltwch â <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>
         neu <a href="tel:020 7211 1728">020 7211 1728</a>.</p>
@@ -596,7 +596,7 @@ funding:
       orderSubmitted:
         success:
           title: Diolch am eich archeb.
-          subtitle: Bydd eich nwyddau gyda chi o fewn 6 niwrnod gwaith.
+          subtitle: Bydd eich nwyddau gyda chi o fewn 14 niwrnod gwaith.
           body: <a href="mailto:branding@tnlcommunityfund.org.uk">Cysylltwch â'n tîm
             brandio</a> os oes gennych unrhyw gwestiynau neu ymholiadau am eich archeb.
         failure:
@@ -719,7 +719,7 @@ materials:
   orderEmail: >
     <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
 
-    <p>Diolch am eich archeb. Bydd y nwyddau gyda chi o fewn chwe niwrnod gwaith. Rydym yn gwybod eich bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>
+    <p>Diolch am eich archeb. Bydd y nwyddau gyda chi cyn pen pedwar diwrnod ar ddeg. Rydym yn gwybod eich bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>
 
     <h2>Digwyddiadau/Cyfle tynnu lluniau</h2>
     <p>Mawr hoffem weld lluniau o'ch prosiect. Nid oes angen camera drud arnoch - mae ffôn clyfar yn berffaith i gofnodi'r achlysur.</p>
