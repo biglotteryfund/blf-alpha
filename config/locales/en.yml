@@ -33,16 +33,16 @@ global:
     email: general.enquiries@tnlcommunityfund.org.uk
     regions:
     - label: England and UK-wide
-      phone: 028 9568 0143
+      phone: 0345 410 2030
       email: general.enquiries@tnlcommunityfund.org.uk
     - label: Northern Ireland
-      phone: 028 4378 0003
+      phone: 0289 055 1455
       email: enquiries.ni@tnlcommunityfund.org.uk
     - label: Scotland
-      phone: 0141 846 0447
+      phone: 0300 123 7110
       email: advicescotland@tnlcommunityfund.org.uk
     - label: Wales
-      phone: 029 2168 0214
+      phone: 0300 123 0735
       email: wales@tnlcommunityfund.org.uk
     press:
       title: How do I get in contact if I have a press query?
@@ -591,7 +591,7 @@ funding:
         Lottery funding, you can use them at events, project openings, and in areas
         seen by your visitors.</p><h2>How to get branded materials</h2><p>This page
         shows all items available to order. You can also <a href="/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads">download
-        the logo here</a>.</p><p>Your order will take up to 6 working days, if you
+        the logo here</a>.</p><p>Your order will take up to 14 working days, if you
         need it before then or have any further queries please contact <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>
         or <a href="tel:020 7211 1728">020 7211 1728</a>.</p><p>If you have received
         a Building Better Opportunities grant then visit the resources page for information
@@ -605,7 +605,7 @@ funding:
       orderSubmitted:
         success:
           title: Thank you for your order.
-          subtitle: Your delivery will be with you within 6 working days.
+          subtitle: Your delivery will be with you within 14 working days.
           body: If you have any questions or queries about your order, please <a href="mailto:branding@tnlcommunityfund.org.uk">get
             in touch with our branding team</a>.
         failure:
