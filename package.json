@@ -181,7 +181,7 @@
     "nodemon": "2.0.4",
     "picturefill": "3.0.3",
     "postcss": "8.3.9",
-    "postcss-cli": "7.1.1",
+    "postcss-cli": "8.3.1",
     "postcss-foft-classes": "1.0.4",
     "prettier": "2.0.5",
     "prompt": "1.0.0",
