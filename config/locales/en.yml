@@ -247,6 +247,8 @@ toplevel:
         href: "/funding/programmes/all"
       - label: Strategic investments in England
         href: "/funding/strategic-investments"
+      - label: Help with managing your funding
+        href: "/funding/managing-your-grant"
       - label: Search all grants
         href: "/funding/grants"
   data:

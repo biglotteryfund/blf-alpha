@@ -56,7 +56,7 @@ export default {
                     :checked="getCookiePref('all')"
                 />
                 <label class="ff-choice__label" label for="cookie-all">
-                    {{ messageall}}
+                    {{ messageall }}
                 </label>
             </li>
             <li class="ff-choice__option ff-choice__option--radio" style="margin-left: 0px">
@@ -68,7 +68,7 @@ export default {
                     @click="changeCookiePref('essential')"
                     :checked="getCookiePref('essential')"
                 />
-                <label class="ff-choice__label" label for="cookie-essential" >
+                <label class="ff-choice__label" label for="cookie-essential">
                     {{ messageessential }}
                 </label>
             </li>
@@ -80,7 +80,6 @@ export default {
         </button>
         <p style="display: none; border-left: green 4px solid; padding-left: 10px;" class="cookie-success-text">{{ actionsuccess }}</p>
         <p style="display: none; border-left: red 4px solid; padding-left: 10px;" class="cookie-fail-text">{{ actionfail }}</p>
-
     </div>
 </template>
 
