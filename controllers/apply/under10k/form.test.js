@@ -501,13 +501,13 @@ test('valid form for different trading names', function () {
     );
 });
 
-// TODO: this needs to be fixed so it doesn't break every 3 months.
+// aTODO: this needs to be fixed so it doesn't break every 3 months.
 test('maintain backwards compatibility for date schema', function () {
     const mock = mockResponse({
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
-        projectStartDate: { day: 25, month: 12, year: 2021 },
+        projectStartDate: { day: 25, month: 2, year: 2022 },
         projectEndDate: { day: 3, month: 5, year: 2022 },
     });
 
@@ -519,10 +519,10 @@ test('maintain backwards compatibility for date schema', function () {
 
     // Maintain backwards compatibility with salesforce schema
     const salesforceResult = form.forSalesforce();
-    expect(salesforceResult.projectStartDate).toBe('2021-12-25');
+    expect(salesforceResult.projectStartDate).toBe('2022-02-25');
     expect(salesforceResult.projectEndDate).toBe('2022-05-03');
     expect(salesforceResult.projectDateRange).toEqual({
-        startDate: '2021-12-25',
+        startDate: '2022-02-25',
         endDate: '2022-05-03',
     });
 });
