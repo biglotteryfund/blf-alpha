@@ -27,5 +27,8 @@ module.exports = {
         'node/no-unpublished-require': 'off',
         'node/shebang': 'off',
         'lodash/import-scope': ['warn', 'method'],
+
+        // Stuff that's suddenly failing in new version
+        'vue/no-mutating-props': 'off'
     },
 };

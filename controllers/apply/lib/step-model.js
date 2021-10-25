@@ -49,7 +49,7 @@ class Step {
 
     set fieldsets(fieldsets) {
         this._fieldsets = fieldsets;
-        return this;
+        //return this;
     }
 
     get slug() {
@@ -58,7 +58,7 @@ class Step {
 
     set slug(slug) {
         this._slug = slug;
-        return this;
+        //return this;
     }
 
     getCurrentFields() {
