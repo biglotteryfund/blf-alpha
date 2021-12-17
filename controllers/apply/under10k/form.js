@@ -1139,16 +1139,9 @@ module.exports = function ({
                     introduction: localise({
                         en: `<p>
                             We need your bank details to pay the funding into your account - if your application is successful. 
-                        </p>
-                        <p><strong>We can't pay into all bank accounts</strong>:
-                            We can't transfer money into certain types of bank
-                            accounts like Tide, Cashplus and Paypal.
                         </p>`,
                         cy: `<p>
                             Rydym angen eich manylion banc i dalu’r arian i’ch cyfrif – os yw eich cais yn llwyddiannus. 
-                        </p>
-                        <p><strong>Ni allwn dalu i mewn i bob cyfrif banc</strong>:
-                            Ni allwn drosglwyddo arian i fathau penodol o gyfrifon fel Tide, Cashplush a Paypal.
                         </p>`,
                     }),
                     fields: [
