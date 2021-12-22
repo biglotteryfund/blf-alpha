@@ -27,22 +27,23 @@ function newTerms(locale, projectCountry) {
                     project or use of the grant and let us know promptly about any fraud, other 
                     impropriety, mismanagement or misuse in relation to the grant;`,
 
-                        oneLine`acknowledge National Lottery funding using the common lottery branding 
-                    in accordance with relevant brand guidelines;`,
+                        oneLine`acknowledge National Lottery funding using our logo in accordance with the 
+                        relevant guidelines for recognising your grant, which can be found on
+                        <a href="https://www.tnlcommunityfund.org.uk/">Our website</a>;`,
 
-                        oneLine`hold the grant in a UK based bank or building society account which satisfies 
-                    our requirements as set out in guidelines and requires at least two unconnected people 
-                    to approve all transactions and withdrawals;`,
+                        oneLine`hold the grant in a UK based account or building society account, which is in the legal 
+                        name of the organisation that is applying for funding from The National Lottery Community Fund;`,
+
+                        oneLine`adhere to <a href="https://www.tnlcommunityfund.org.uk/funding/financial-governance">our guidance</a>  
+                        on financial controls and banking arrangements, ensuring that no single individual has sole 
+                        responsibility for any single transaction from authorisation to review and completion, and that 
+                        the account is managed by at least two unrelated and authorised individuals in your organisation;`,
 
                         oneLine`immediately return any part of the grant that is not used for your project or 
                     which constitutes unlawful state aid or subsidy;`,
 
-                        oneLine`where your project involves working with children, young people or adults at risk, 
-                    adopt and implement an appropriate written safeguarding policy, obtain written consent from 
-                    legal carers or guardians and carry out background checks for all employees, volunteers, 
-                    trustees or contractors as required by law or our Guidance to Grantholders on Safeguarding the 
-                    Vulnerable People We Support which is available on our 
-                    <a href="https://www.tnlcommunityfund.org.uk/media/documents/corporate-documents/Grantholder-policy-safeguarding-children-and-adults-at-risk.docx?mtime=20191029110035">website</a>;`,
+                        oneLine`comply with our safeguarding policy for grant holders, which is available on 
+                        <a href="https://www.tnlcommunityfund.org.uk/about/customer-service/national-lottery-community-fund-policy-for-grantholders">our website</a>;`,
 
                         oneLine`We may commission research into and/or evaluation of your funding. You confirm that 
                     you will co-operate with any research or evaluation-related activities which we carry out 
@@ -53,8 +54,9 @@ function newTerms(locale, projectCountry) {
                     us and you to receive and process their personal information and contact them;`,
 
                         oneLine`keep accurate and comprehensive records about your project both during the project 
-                    and for seven years afterwards and provide us on request with copies of those records and 
-                    evidence of expenditure of the grant, such as original receipts and bank statements;`,
+                        and for seven years afterwards and provide us on request with copies of those records and 
+                        evidence of expenditure of the grant, such as original paper or electronic receipts, invoices, 
+                        and bank statements;`,
 
                         oneLine`allow us and/or the Comptroller and Auditor General reasonable access to your 
                     premises and systems to inspect project and grant records;`,
@@ -117,10 +119,10 @@ function newTerms(locale, projectCountry) {
                     parties that arise directly or indirectly from the project, nor from non-payment or 
                     withdrawal of the grant, save to the extent required by law;`,
 
-                        oneLine`these Terms and Conditions will continue to apply for one year after the grant 
-                    is paid or until the project has been completed, whichever is later. Clauses 1.2, 1.4, 
-                    1.6, 1.8, 1.9, 1.10, 1.11, 1.12, 3.4 and 3.5 shall survive expiry of these Terms and 
-                    Conditions; and`,
+                        oneLine`these Terms and Conditions will continue to apply for one year after the grant is 
+                        paid or until the project has been completed, whichever is later. Clauses 1.2, 1.4, 1.5, 1.6, 
+                        1.7, 1.9, 1.10, 1.11, 1.12, 1.13, 3.4 and 3.5 shall survive expiry of these Terms and 
+                        Conditions; and`,
 
                         oneLine`if the application and grant award are made electronically, the agreement 
                     between us shall be deemed to be in writing and your online acceptance of these 
@@ -135,59 +137,62 @@ function newTerms(locale, projectCountry) {
                 a enwir yn y cais (y cyfeirir ato fel "chi" yn y Telerau ac Amodau hyn) yn cytuno, os rhoddir 
                 grant iddo, i:`,
                     clauses: [
-                        oneLine`ddal y grant ar ymddiriedaeth ar gyfer Cronfa Gymunedol y Loteri Genedlaethol 
-                    (y cyfeirir ati fel 'ni') a'i ddefnyddio ar gyfer eich prosiect yn unig fel y disgrifir yn 
-                    eich cais neu y cytunwyd arno fel arall gyda ni, a dim ond ar gyfer gwariant a dynnwyd ar ôl 
-                    dyddiad eich dyfarniad grant;`,
+                        oneLine`dal y grant ar ymddiriedaeth i Gronfa Gymunedol y Loteri Genedlaethol 
+                        (y cyfeirir ato fel 'ni' neu 'ni') a'i ddefnyddio ar gyfer eich prosiect yn unig fel y 
+                        disgrifir yn eich cais neu y cytunwyd arno fel arall gyda ni, a dim ond ar gyfer gwariant a 
+                        dynnwyd ar ôl dyddiad eich dyfarniad grant;`,
 
-                        oneLine`rhoi unrhyw wybodaeth ac adroddiadau sydd eu hangen arnom am y prosiect a'i 
-                    effaith, yn ystod ac ar ôl diwedd y prosiect;`,
+                        oneLine`rhoi unrhyw wybodaeth ac adroddiadau sydd eu hangen arnom yn brydlon am y prosiect 
+                        a'i effaith, yn ystod ac ar ôl diwedd y prosiect;`,
 
                         oneLine`gweithredu'n gyfreithlon wrth gyflawni eich prosiect yn unol ag arfer gorau ac arweiniad 
-                    gan eich rheoleiddwyr, a dilyn unrhyw ganllawiau a gyhoeddwyd gennym am y prosiect neu'r defnydd 
-                    o'r grant a rhoi gwybod i ni'n brydlon am unrhyw dwyll, amhriodoldeb arall, camreoli neu gamddefnydd 
-                    mewn perthynas â'r grant;`,
+                        gan eich rheolyddion, a dilyn unrhyw ganllawiau a gyhoeddwyd gennym am y prosiect neu'r defnydd 
+                        o'r grant a rhoi gwybod i ni'n brydlon am unrhyw dwyll, amhriodoldeb arall, camreoli neu 
+                        gamddefnyddio mewn perthynas â'r grant;`,
 
-                        oneLine`cydnabod arian y Loteri Genedlaethol gan ddefnyddio brand cyffredin y loteri yn unol 
-                    â chanllawiau brand perthnasol;`,
+                        oneLine`cydnabod arian y Loteri Genedlaethol gan ddefnyddio ein logo yn unol â'r canllawiau 
+                        perthnasol ar gyfer cydnabod eich grant, sydd i'w weld ar  
+                        <a href="https://www.tnlcommunityfund.org.uk/welsh/">ein gwefan</a>`,
 
-                        oneLine`dal y grant mewn cyfrif banc neu gymdeithas adeiladu yn y DU sy'n bodloni ein gofynion 
-                    fel y'u nodir mewn canllawiau ac sy'n ei gwneud yn ofynnol i o leiaf ddau berson heb gysylltiad 
-                    gymeradwyo'r holl drafodion a thynnu'n ôl;`,
+                        oneLine`dal y grant mewn cyfrif yn y DU neu gyfrif cymdeithas adeiladu, sydd yn enw cyfreithiol 
+                        y sefydliad, sydd yn ymgeisio am arian gan Gronfa Cymunedol y Loteri Genedlaethol.`,
+
+                        oneLine`cadw at ein canllawiau sydd ar gael ar 
+                        <a href="https://www.tnlcommunityfund.org.uk/welsh/funding/financial-governance">ein gwefan</a>;  
+                        ar reolaethau ariannol a threfniadau bancio, gan sicrhau nad oes gan unrhyw unigolyn unigol gyfrifoldeb llwyr am unrhyw 
+                        drafodiad unigol o awdurdodiad i adolygu a chwblhau, a bod y cyfrif yn cael ei reoli gan o leiaf 
+                        ddau unigolyn anghysylltiedig ac awdurdodedig yn eich sefydliad.`,
 
                         oneLine`dychwelyd ar unwaith unrhyw ran o'r grant nad yw'n cael ei ddefnyddio ar gyfer eich 
-                    prosiect neu sy'n gymhorthdal anghyfreithlon;`,
+                        prosiect neu sy'n gymhorthdal anghyfreithlon;`,
 
-                        oneLine`os yw eich prosiect yn cynnwys gweithio gyda phlant, pobl ifanc neu oedolion sydd mewn perygl, 
-                    mabwysiadwch a gweithredwch bolisi diogelu ysgrifenedig priodol, cael caniatâd ysgrifenedig gan ofalwyr 
-                    cyfreithiol neu warcheidwaid a chynnal gwiriadau cefndir ar gyfer pob cyflogai, gwirfoddolwr, 
-                    ymddiriedolwr neu gontractwr fel sy'n ofynnol yn ôl y gyfraith neu ein Canllawiau i Ddeiliaid Grantiau 
-                    ar Ddiogelu'r Bobl Agored i Niwed rydym yn cefnogi, sydd ar gael ar ein 
-                    <a href="https://www.tnlcommunityfund.org.uk/media/documents/corporate-documents/Grantholder-policy-safeguarding-children-and-adults-at-risk.docx?mtime=20191029110035">gwefan</a>;`,
+                        oneLine`cydymffurfio â'n polisi diogelu ar gyfer deiliaid grantiau, sydd ar gael ar  
+                        <a href="https://www.tnlcommunityfund.org.uk/welsh/about/customer-service/national-lottery-community-fund-policy-for-grantholders">ein gwefan</a>;`,
 
-                        oneLine`gallwn gomisiynu ymchwil i'ch grantiau a/neu ei werthuso. Rydych yn cadarnhau y byddwch yn 
-                    cydweithredu ag unrhyw weithgareddau ymchwil neu werthuso a gyflawnir gennym ac yn cadarnhau ymhellach 
-                    y gallwn ddefnyddio unrhyw ran o'ch cais a/neu wybodaeth am brosiect at ddibenion ymchwil neu werthuso.`,
+                        oneLine`Efallai y byddwn yn comisiynu ymchwil i'ch arian grant a/neu ei werthuso. Rydych yn 
+                        cadarnhau y byddwch yn cydweithredu ag unrhyw weithgareddau ymchwil neu werthuso yr ydym yn eu 
+                        cynnal ac yn cadarnhau ymhellach y gallwn ddefnyddio unrhyw ran o'ch cais a/neu wybodaeth am 
+                        brosiectau at ddibenion ymchwil neu werthuso`,
 
                         oneLine`cydymffurfio â chyfreithiau diogelu data a chael caniatâd eich buddiolwyr i ni a chi 
                     dderbyn a phrosesu eu gwybodaeth bersonol a chysylltu â nhw;`,
 
                         oneLine`cadw cofnodion cywir a chynhwysfawr am eich prosiect yn ystod y prosiect ac am saith 
-                    mlynedd wedyn a rhowch gopïau o'r cofnodion hynny a thystiolaeth o wariant y grant i ni ar 
-                    gais, megis derbyniadau gwreiddiol a datganiadau banc;`,
+                        mlynedd wedyn a rhoi copïau i ni ar gais o'r cofnodion hynny a thystiolaeth o wariant y grant, 
+                        megis derbyniadau gwreiddiol a datganiadau banc;`,
 
-                        oneLine`caniatáu i ni a/neu'r Rheolwr a'r Archwilydd Cyffredinol gael mynediad rhesymol i'ch 
-                    safleoedd a'ch systemau i archwilio cofnodion prosiectau a grant;`,
+                        oneLine`caniatáu i ni a/neu'r Rheolwr ac Archwilydd Cyffredinol gael mynediad rhesymol i'ch safle 
+                        a'ch systemau i archwilio cofnodion prosiectau a grantiau;`,
 
-                        oneLine`mae Cronfa Gymunedol y Loteri Genedlaethol yn rhoi cyhoeddusrwydd i wybodaeth amdanoch 
-                    chi a'ch prosiect ac yn ei rhannu, gan gynnwys eich enw a'ch delweddau o weithgareddau'r prosiect. 
-                    Rydych drwy hyn yn rhoi trwydded i ni atgynhyrchu a chyhoeddi unrhyw wybodaeth am brosiectau a 
-                    roddwch inni. Byddwch yn rhoi gwybod i ni pryd y byddwch yn darparu'r wybodaeth os nad oes 
-                    gennych ganiatâd i ni ei defnyddio fel hyn; A`,
+                        oneLine`Cronfa Gymunedol y Loteri Genedlaethol yn rhoi cyhoeddusrwydd i a rhannu gwybodaeth 
+                        amdanoch chi a'ch prosiect gan gynnwys eich enw a'ch delweddau o weithgareddau'r prosiect. Drwy hyn, 
+                        rydych yn rhoi trwydded ddi-freindal i ni atgynhyrchu a chyhoeddi unrhyw wybodaeth am brosiect a 
+                        roddwch i ni. Byddwch yn rhoi gwybod i ni pan fyddwch yn darparu'r wybodaeth os nad oes gennych ganiatâd i 
+                        ni ei defnyddio fel hyn; a`,
 
-                        oneLine`Os yw eich prosiect yn cael ei gyflawni yng Nghymru, rhaid galluogi pobl i gymryd rhan 
-                    yn y Gymraeg a'r Saesneg, gan drin y ddwy iaith yn gyfartal.  Rhaid i siaradwyr Cymraeg allu cael 
-                    gafael ar wybodaeth a gwasanaethau yn Gymraeg a rhaid cynhyrchu'r holl ddeunyddiau'n ddwyieithog.`,
+                        oneLine`os yw eich prosiect yn cael ei gyflawni yng Nghymru, galluogi pobl i gymryd rhan yn y 
+                        Gymraeg a'r Saesneg, gan drin y ddwy iaith yn gyfartal. Rhaid i siaradwyr Cymraeg allu cael gafael 
+                        ar wybodaeth a gwasanaethau yn Gymraeg a rhaid cynhyrchu pob deunydd yn ddwyieithog.`,
                     ],
                 },
                 {
@@ -198,19 +203,21 @@ function newTerms(locale, projectCountry) {
                         oneLine`Rydych yn defnyddio'r grant mewn unrhyw ffordd heblaw fel y'i cymeradwywyd gennym neu'n 
                     methu â chydymffurfio ag unrhyw un o'r Telerau ac Amodau hyn.`,
 
-                        oneLine`os byddwch yn methu â gwneud cynnydd da gyda'ch prosiect neu'n annhebygol yn ein barn ni o 
-                    gwblhau'r prosiect neu gyflawni'r amcanion y cytunwyd arnynt gyda ni.`,
+                        oneLine`Rydych yn methu â gwneud cynnydd da gyda'ch prosiect neu'n annhebygol o gwblhau'r 
+                        prosiect neu gyflawni'r amcanion y cytunwyd arnynt gyda ni.`,
 
-                        oneLine`cewch arian dyblyg ar gyfer yr un costau prosiect ag a ariennir gan y grant.`,
+                        oneLine`Mae gennych arian cyfatebol ar gyfer y prosiect wedi'i dynnu'n ôl neu'n derbyn neu'n 
+                        methu â datgan unrhyw gyllid dyblyg ar gyfer yr un costau prosiect ag a ariennir gan y grant.`,
 
-                        oneLine`rydych yn rhoi gwybodaeth anwir neu gamarweiniol i ni naill ai ar gais neu ar ôl dyfarnu'r grant, 
+                        oneLine`Rydych yn rhoi gwybodaeth anwir neu gamarweiniol i ni naill ai ar gais neu ar ôl dyfarnu'r grant, 
                     yn gweithredu'n anonest neu'n destun ymchwiliad gennym ni, corff rheoleiddio neu'r heddlu, neu os ystyriwn 
                     am unrhyw reswm arall fod arian cyhoeddus mewn perygl neu os ydych yn gwneud unrhyw beth i ddwyn anfri 
                     arnom ni neu'r Loteri Genedlaethol.`,
 
-                        oneLine`rydych yn mynd i neu’n debygol o weinyddu, diddymu, neu dod i ben am reswm penodol.`,
+                        oneLine`Rydych yn ymrwymo i weinyddu, diddymu, neu, yn yr Alban, yn debygol o ymrwymo i weinyddu, 
+                        diddymu, diddymu neu, yn yr Alban, atafaelu ystâd eich sefydliad.`,
 
-                        oneLine`rydych yn derbyn unrhyw arian grant yn anghywir naill ai o ganlyniad i gamgymeriad 
+                        oneLine`Rydych yn derbyn unrhyw arian grant yn anghywir naill ai o ganlyniad i gamgymeriad 
                     gweinyddol neu fel arall. Mae hyn yn cynnwys lle cewch eich talu mewn camgymeriad cyn i chi 
                     gydymffurfio â'ch rhwymedigaethau o dan y telerau a'r amodau hyn a'r Llythyr Cynnig. Bydd unrhyw 
                     swm, sy'n ddyledus o dan y paragraff 2.6 hwn, yn ddyledus ar unwaith. Os byddwch yn methu 
@@ -221,26 +228,25 @@ function newTerms(locale, projectCountry) {
                 {
                     title: `Rydych yn cydnabod:`,
                     clauses: [
-                        oneLine`mae'r grant at eich defnydd chi yn unig ac efallai y byddwn yn ei gwneud yn ofynnol 
-                    i chi dalu cyfran o unrhyw elw o waredu asedau a brynwyd neu a wellwyd gyda'r grant;`,
+                        oneLine`bod y grant at eich defnydd chi yn unig ac efallai y bydd angen i chi dalu cyfran i ni 
+                        o unrhyw elw o waredu asedau a brynwyd neu a wellwyd gyda'r grant;`,
 
-                        oneLine`ni fyddwn yn cynyddu'r grant os ydych yn gwario mwy na'r gyllideb y cytunwyd arni 
-                    ac ni allwn ond gwarantu'r grant cyn belled â bod y Loteri Genedlaethol yn parhau i weithredu 
-                    a'n bod yn cael digon o arian arnoch;`,
+                        oneLine`ni fyddwn yn cynyddu'r grant os byddwch yn gwario mwy na'r gyllideb y cytunwyd arni 
+                        ac ni allwn ond gwarantu'r grant cyn belled â bod y Loteri Genedlaethol yn parhau i weithredu 
+                        a'n bod yn derbyn digon o arian ganddo;`,
 
-                        oneLine`nid yw'r grant yn ystyriaeth i unrhyw gyflenwad trethadwy at ddibenion TAW;`,
+                        oneLine`nid yw'r grant yn cael ei ystyried ar gyfer unrhyw gyflenwad trethadwy at ddibenion TAW;`,
 
-                        oneLine`nid oes gennym unrhyw atebolrwydd am unrhyw gostau neu ganlyniadau a ysgwyddwyd gennych 
-                    chi neu drydydd partïon sy'n codi'n uniongyrchol nac yn anuniongyrchol o'r prosiect, nac o beidio 
-                    â thalu neu dynnu'r grant yn ôl, ac eithrio i'r graddau sy'n ofynnol yn ôl y gyfraith;`,
+                        oneLine`nid oes gennym unrhyw atebolrwydd am unrhyw gostau neu ganlyniadau a ysgwyddir gennych 
+                        chi neu drydydd partïon sy'n codi'n uniongyrchol neu'n anuniongyrchol o'r prosiect, nac o beidio 
+                        â thalu neu dynnu'r grant yn ôl, ac eithrio i'r graddau sy'n ofynnol yn ôl y gyfraith;`,
 
-                        oneLine`bydd y Telerau ac Amodau hyn yn parhau i fod yn gymwys am flwyddyn ar ôl i'r grant gael ei 
-                    dalu neu hyd nes y bydd y prosiect wedi'i gwblhau, pa un bynnag yw'r diweddaraf. Bydd cymalau 1.2, 
-                    1.4, 1.6, 1.8, 1.9, 1.10, 1.11, 1.12, 3.4 a 3.5 yn goroesi'r Telerau ac Amodau hyn; A`,
+                        oneLine`bydd y Telerau ac Amodau hyn yn parhau i fod yn gymwys am flwyddyn ar ôl i'r grant gael 
+                        ei dalu neu hyd nes y bydd y prosiect wedi'i gwblhau, pa un bynnag sydd hwyraf. Cymalau 1.2, 1.4, 
+                        1.5, 1.6, 1.7, 1.9, 1.10, 1.11, 1.12, 1.13, 3.4 a 3.5 yn goroesi i'r Telerau ac Amodau hyn ddod i ben; a`,
 
-                        oneLine`os caiff y cais a'r dyfarniad grant eu gwneud yn electronig, ystyrir bod y cytundeb rhyngom 
-                    yn ysgrifenedig a bernir bod eich derbyniad ar-lein o'r Telerau ac Amodau hyn yn cyfateb i'ch llofnod 
-                    ar y cytundeb hwnnw.`,
+                        oneLine`3.6\t os gwneir y cais a'r dyfarniad grant yn electronig, ystyrir bod y cytundeb rhyngom 
+                        yn ysgrifenedig a bernir bod eich derbyniad ar-lein o'r Telerau ac Amodau hyn yn cyfateb i'ch llofnod ar y cytundeb hwnnw.`,
                     ],
                 },
             ],
@@ -266,22 +272,24 @@ function newTerms(locale, projectCountry) {
                     project or use of the grant and let us know promptly about any fraud, other 
                     impropriety, mismanagement or misuse in relation to the grant;`,
 
-                        oneLine`acknowledge National Lottery funding using the common lottery branding 
-                    in accordance with relevant brand guidelines;`,
+                        oneLine`acknowledge National Lottery funding using our logo in accordance with the 
+                        relevant guidelines for recognising your grant, which can be found on  
+                        <a href="https://www.tnlcommunityfund.org.uk/">our website</a>;`,
 
-                        oneLine`hold the grant in a UK based bank or building society account which satisfies 
-                    our requirements as set out in guidelines and requires at least two unconnected people 
-                    to approve all transactions and withdrawals;`,
+                        oneLine`hold the grant in a UK based account or building society account, which is 
+                        in the legal name of the organisation that is applying for funding from The National 
+                        Lottery Community Fund;`,
+
+                        oneLine`adhere to <a href="https://www.tnlcommunityfund.org.uk/funding/financial-governance">our guidance</a>  
+                        on financial controls and banking arrangements, ensuring that no single individual has sole 
+                        responsibility for any single transaction from authorisation to review and completion, and that 
+                        the account is managed by at least two unrelated and authorised individuals in your organisation;`,
 
                         oneLine`immediately return any part of the grant that is not used for your project or 
                     which constitutes an unlawful subsidy;`,
 
-                        oneLine`where your project involves working with children, young people or adults at risk, 
-                    adopt and implement an appropriate written safeguarding policy, obtain written consent from 
-                    legal carers or guardians and carry out background checks for all employees, volunteers, 
-                    trustees or contractors as required by law or our Guidance to Grantholders on Safeguarding the 
-                    Vulnerable People We Support which is available on our 
-                    <a href="https://www.tnlcommunityfund.org.uk/media/documents/corporate-documents/Grantholder-policy-safeguarding-children-and-adults-at-risk.docx?mtime=20191029110035">website</a>;`,
+                        oneLine`comply with our safeguarding policy for grant holders, which is available on  
+                        <a href="https://www.tnlcommunityfund.org.uk/about/customer-service/national-lottery-community-fund-policy-for-grantholders">our website</a>;`,
 
                         oneLine`We may commission research into and/or evaluation of your funding. You confirm that 
                     you will co-operate with any research or evaluation-related activities which we carry out 
@@ -291,9 +299,9 @@ function newTerms(locale, projectCountry) {
                         oneLine`comply with data protection laws and obtain the consent of your beneficiaries for 
                     us and you to receive and process their personal information and contact them;`,
 
-                        oneLine`keep accurate and comprehensive records about your project both during the project 
-                    and for seven years afterwards and provide us on request with copies of those records and 
-                    evidence of expenditure of the grant, such as original receipts and bank statements;`,
+                        oneLine`keep accurate and comprehensive records about your project both during the project and 
+                        for seven years afterwards and provide us on request with copies of those records and evidence 
+                        of expenditure of the grant, such as original paper or electronic receipts, invoices, and bank statement;`,
 
                         oneLine`allow us and/or the Comptroller and Auditor General reasonable access to your 
                     premises and systems to inspect project and grant records;`,
@@ -357,9 +365,8 @@ function newTerms(locale, projectCountry) {
                     withdrawal of the grant, save to the extent required by law;`,
 
                         oneLine`these Terms and Conditions will continue to apply for one year after the grant 
-                    is paid or until the project has been completed, whichever is later. Clauses 1.2, 1.4, 
-                    1.6, 1.8, 1.9, 1.10, 1.11, 1.12, 3.4 and 3.5 shall survive expiry of these Terms and 
-                    Conditions; and`,
+                        is paid or until the project has been completed, whichever is later. Clauses 1.2, 1.4, 1.5, 1.6, 
+                        1.7, 1.9, 1.10, 1.11, 1.12, 1.13, 3.4 and 3.5 shall survive expiry of these Terms and Conditions; and`,
 
                         oneLine`if the application and grant award are made electronically, the agreement 
                     between us shall be deemed to be in writing and your online acceptance of these 
@@ -374,59 +381,62 @@ function newTerms(locale, projectCountry) {
                 a enwir yn y cais (y cyfeirir ato fel "chi" yn y Telerau ac Amodau hyn) yn cytuno, os rhoddir 
                 grant iddo, i:`,
                     clauses: [
-                        oneLine`ddal y grant ar ymddiriedaeth ar gyfer Cronfa Gymunedol y Loteri Genedlaethol 
-                    (y cyfeirir ati fel 'ni') a'i ddefnyddio ar gyfer eich prosiect yn unig fel y disgrifir yn 
-                    eich cais neu y cytunwyd arno fel arall gyda ni, a dim ond ar gyfer gwariant a dynnwyd ar ôl 
-                    dyddiad eich dyfarniad grant;`,
+                        oneLine`dal y grant ar ymddiriedaeth i Gronfa Gymunedol y Loteri Genedlaethol 
+                        (y cyfeirir ato fel 'ni' neu 'ni') a'i ddefnyddio ar gyfer eich prosiect yn unig fel y 
+                        disgrifir yn eich cais neu y cytunwyd arno fel arall gyda ni, a dim ond ar gyfer gwariant a 
+                        dynnwyd ar ôl dyddiad eich dyfarniad grant;`,
 
-                        oneLine`rhoi unrhyw wybodaeth ac adroddiadau sydd eu hangen arnom am y prosiect a'i 
-                    effaith, yn ystod ac ar ôl diwedd y prosiect;`,
+                        oneLine`rhoi unrhyw wybodaeth ac adroddiadau sydd eu hangen arnom yn brydlon am y prosiect 
+                        a'i effaith, yn ystod ac ar ôl diwedd y prosiect;`,
 
                         oneLine`gweithredu'n gyfreithlon wrth gyflawni eich prosiect yn unol ag arfer gorau ac arweiniad 
-                    gan eich rheoleiddwyr, a dilyn unrhyw ganllawiau a gyhoeddwyd gennym am y prosiect neu'r defnydd 
-                    o'r grant a rhoi gwybod i ni'n brydlon am unrhyw dwyll, amhriodoldeb arall, camreoli neu gamddefnydd 
-                    mewn perthynas â'r grant;`,
+                        gan eich rheolyddion, a dilyn unrhyw ganllawiau a gyhoeddwyd gennym am y prosiect neu'r defnydd 
+                        o'r grant a rhoi gwybod i ni'n brydlon am unrhyw dwyll, amhriodoldeb arall, camreoli neu gamddefnyddio 
+                        mewn perthynas â'r grant;`,
 
-                        oneLine`cydnabod arian y Loteri Genedlaethol gan ddefnyddio brand cyffredin y loteri yn unol 
-                    â chanllawiau brand perthnasol;`,
+                        oneLine`cydnabod arian y Loteri Genedlaethol gan ddefnyddio ein logo yn unol â'r canllawiau 
+                        perthnasol ar gyfer cydnabod eich grant, sydd i'w weld ar  
+                        <a href="https://www.tnlcommunityfund.org.uk/welsh">ein gwefan</a>;`,
 
-                        oneLine`dal y grant mewn cyfrif banc neu gymdeithas adeiladu yn y DU sy'n bodloni ein gofynion 
-                    fel y'u nodir mewn canllawiau ac sy'n ei gwneud yn ofynnol i o leiaf ddau berson heb gysylltiad 
-                    gymeradwyo'r holl drafodion a thynnu'n ôl;`,
+                        oneLine`dal y grant mewn cyfrif yn y DU neu gyfrif cymdeithas adeiladu, sydd yn enw cyfreithiol 
+                        y sefydliad, sydd yn ymgeisio am arian gan Gronfa Cymunedol y Loteri Genedlaethol.`,
+
+                        oneLine`cadw at ein canllawiau sydd ar gael ar  
+                        <a href="https://www.tnlcommunityfund.org.uk/welsh/funding/financial-governance">ein gwefan</a>; 
+                        ar reolaethau ariannol a threfniadau bancio, gan sicrhau nad oes gan unrhyw unigolyn unigol 
+                        gyfrifoldeb llwyr am unrhyw drafodiad unigol o awdurdodiad i adolygu a chwblhau, a bod y cyfrif 
+                        yn cael ei reoli gan o leiaf ddau unigolyn anghysylltiedig ac awdurdodedig yn eich sefydliad.`,
 
                         oneLine`dychwelyd ar unwaith unrhyw ran o'r grant nad yw'n cael ei ddefnyddio ar gyfer eich 
-                    prosiect neu sy'n gymhorthdal anghyfreithlon;`,
+                        prosiect neu sy'n gymhorthdal anghyfreithlon; `,
 
-                        oneLine`os yw eich prosiect yn cynnwys gweithio gyda phlant, pobl ifanc neu oedolion sydd mewn perygl, 
-                    mabwysiadwch a gweithredwch bolisi diogelu ysgrifenedig priodol, cael caniatâd ysgrifenedig gan ofalwyr 
-                    cyfreithiol neu warcheidwaid a chynnal gwiriadau cefndir ar gyfer pob cyflogai, gwirfoddolwr, 
-                    ymddiriedolwr neu gontractwr fel sy'n ofynnol yn ôl y gyfraith neu ein Canllawiau i Ddeiliaid Grantiau 
-                    ar Ddiogelu'r Bobl Agored i Niwed rydym yn cefnogi, sydd ar gael ar ein 
-                    <a href="https://www.tnlcommunityfund.org.uk/media/documents/corporate-documents/Grantholder-policy-safeguarding-children-and-adults-at-risk.docx?mtime=20191029110035">gwefan</a>;`,
+                        oneLine`cydymffurfio â'n polisi diogelu ar gyfer deiliaid grantiau, sydd ar gael ar  
+                        <a href="https://www.tnlcommunityfund.org.uk/welsh/about/customer-service/national-lottery-community-fund-policy-for-grantholders">ein gwefan</a>;`,
 
-                        oneLine`gallwn gomisiynu ymchwil i'ch grantiau a/neu ei werthuso. Rydych yn cadarnhau y byddwch yn 
-                    cydweithredu ag unrhyw weithgareddau ymchwil neu werthuso a gyflawnir gennym ac yn cadarnhau ymhellach 
-                    y gallwn ddefnyddio unrhyw ran o'ch cais a/neu wybodaeth am brosiect at ddibenion ymchwil neu werthuso.`,
+                        oneLine`Efallai y byddwn yn comisiynu ymchwil i'ch arian grant a/neu ei werthuso. Rydych yn 
+                        cadarnhau y byddwch yn cydweithredu ag unrhyw weithgareddau ymchwil neu werthuso yr ydym yn eu 
+                        cynnal ac yn cadarnhau ymhellach y gallwn ddefnyddio unrhyw ran o'ch cais a/neu wybodaeth am 
+                        brosiectau at ddibenion ymchwil neu werthuso`,
 
                         oneLine`cydymffurfio â chyfreithiau diogelu data a chael caniatâd eich buddiolwyr i ni a chi 
                     dderbyn a phrosesu eu gwybodaeth bersonol a chysylltu â nhw;`,
 
                         oneLine`cadw cofnodion cywir a chynhwysfawr am eich prosiect yn ystod y prosiect ac am saith 
-                    mlynedd wedyn a rhowch gopïau o'r cofnodion hynny a thystiolaeth o wariant y grant i ni ar 
-                    gais, megis derbyniadau gwreiddiol a datganiadau banc;`,
+                        mlynedd wedyn a rhoi copïau i ni ar gais o'r cofnodion hynny a thystiolaeth o wariant y grant, 
+                        megis derbyniadau gwreiddiol a datganiadau banc;`,
 
-                        oneLine`caniatáu i ni a/neu'r Rheolwr a'r Archwilydd Cyffredinol gael mynediad rhesymol i'ch 
-                    safleoedd a'ch systemau i archwilio cofnodion prosiectau a grant;`,
+                        oneLine`caniatáu i ni a/neu'r Rheolwr ac Archwilydd Cyffredinol gael mynediad rhesymol i'ch safle 
+                        a'ch systemau i archwilio cofnodion prosiectau a grantiau;`,
 
-                        oneLine`mae Cronfa Gymunedol y Loteri Genedlaethol yn rhoi cyhoeddusrwydd i wybodaeth amdanoch 
-                    chi a'ch prosiect ac yn ei rhannu, gan gynnwys eich enw a'ch delweddau o weithgareddau'r prosiect. 
-                    Rydych drwy hyn yn rhoi trwydded i ni atgynhyrchu a chyhoeddi unrhyw wybodaeth am brosiectau a 
-                    roddwch inni. Byddwch yn rhoi gwybod i ni pryd y byddwch yn darparu'r wybodaeth os nad oes 
-                    gennych ganiatâd i ni ei defnyddio fel hyn; A`,
+                        oneLine`Cronfa Gymunedol y Loteri Genedlaethol yn rhoi cyhoeddusrwydd i a rhannu gwybodaeth 
+                        amdanoch chi a'ch prosiect gan gynnwys eich enw a'ch delweddau o weithgareddau'r prosiect. Drwy hyn, 
+                        rydych yn rhoi trwydded ddi-freindal i ni atgynhyrchu a chyhoeddi unrhyw wybodaeth am brosiect a 
+                        roddwch i ni. Byddwch yn rhoi gwybod i ni pan fyddwch yn darparu'r wybodaeth os nad oes gennych ganiatâd i 
+                        ni ei defnyddio fel hyn; a`,
 
-                        oneLine`Os yw eich prosiect yn cael ei gyflawni yng Nghymru, rhaid galluogi pobl i gymryd rhan 
-                    yn y Gymraeg a'r Saesneg, gan drin y ddwy iaith yn gyfartal.  Rhaid i siaradwyr Cymraeg allu cael 
-                    gafael ar wybodaeth a gwasanaethau yn Gymraeg a rhaid cynhyrchu'r holl ddeunyddiau'n ddwyieithog.`,
+                        oneLine`os yw eich prosiect yn cael ei gyflawni yng Nghymru, galluogi pobl i gymryd rhan yn y 
+                        Gymraeg a'r Saesneg, gan drin y ddwy iaith yn gyfartal. Rhaid i siaradwyr Cymraeg allu cael gafael 
+                        ar wybodaeth a gwasanaethau yn Gymraeg a rhaid cynhyrchu pob deunydd yn ddwyieithog.`,
                     ],
                 },
                 {
@@ -434,22 +444,24 @@ function newTerms(locale, projectCountry) {
                 i chi ad-dalu'r grant cyfan neu unrhyw ran ohono yn unrhyw un o'r sefyllfaoedd canlynol. Rhaid i chi roi 
                 gwybod i ni os oes unrhyw un o'r sefyllfaoedd hyn wedi digwydd neu'n debygol o ddigwydd.`,
                     clauses: [
-                        oneLine`Rydych yn defnyddio'r grant mewn unrhyw ffordd heblaw fel y'i cymeradwywyd gennym neu'n 
-                    methu â chydymffurfio ag unrhyw un o'r Telerau ac Amodau hyn.`,
+                        oneLine`Rydych yn defnyddio'r grant mewn unrhyw ffordd ac eithrio fel y'i cymeradwywyd gennym ni 
+                        neu'n methu â chydymffurfio ag unrhyw un o'r Telerau ac Amodau hyn.`,
 
-                        oneLine`os byddwch yn methu â gwneud cynnydd da gyda'ch prosiect neu'n annhebygol yn ein barn ni o 
-                    gwblhau'r prosiect neu gyflawni'r amcanion y cytunwyd arnynt gyda ni.`,
+                        oneLine`Rydych yn methu â gwneud cynnydd da gyda'ch prosiect neu'n annhebygol o gwblhau'r 
+                        prosiect neu gyflawni'r amcanion y cytunwyd arnynt gyda ni.`,
 
-                        oneLine`cewch arian dyblyg ar gyfer yr un costau prosiect ag a ariennir gan y grant.`,
+                        oneLine`Mae gennych arian cyfatebol ar gyfer y prosiect wedi'i dynnu'n ôl neu'n derbyn neu'n 
+                        methu â datgan unrhyw gyllid dyblyg ar gyfer yr un costau prosiect ag a ariennir gan y grant.`,
 
-                        oneLine`rydych yn rhoi gwybodaeth anwir neu gamarweiniol i ni naill ai ar gais neu ar ôl dyfarnu'r grant, 
+                        oneLine`Rydych yn rhoi gwybodaeth anwir neu gamarweiniol i ni naill ai ar gais neu ar ôl dyfarnu'r grant, 
                     yn gweithredu'n anonest neu'n destun ymchwiliad gennym ni, corff rheoleiddio neu'r heddlu, neu os ystyriwn 
                     am unrhyw reswm arall fod arian cyhoeddus mewn perygl neu os ydych yn gwneud unrhyw beth i ddwyn anfri 
                     arnom ni neu'r Loteri Genedlaethol.`,
 
-                        oneLine`rydych yn mynd i neu’n debygol o weinyddu, diddymu, neu dod i ben am reswm penodol.`,
+                        oneLine`Rydych yn ymrwymo i weinyddu, diddymu, neu, yn yr Alban, yn debygol o ymrwymo i weinyddu, 
+                        diddymu, diddymu neu, yn yr Alban, atafaelu ystâd eich sefydliad.`,
 
-                        oneLine`rydych yn derbyn unrhyw arian grant yn anghywir naill ai o ganlyniad i gamgymeriad 
+                        oneLine`Rydych yn derbyn unrhyw arian grant yn anghywir naill ai o ganlyniad i gamgymeriad 
                     gweinyddol neu fel arall. Mae hyn yn cynnwys lle cewch eich talu mewn camgymeriad cyn i chi 
                     gydymffurfio â'ch rhwymedigaethau o dan y telerau a'r amodau hyn a'r Llythyr Cynnig. Bydd unrhyw 
                     swm, sy'n ddyledus o dan y paragraff 2.6 hwn, yn ddyledus ar unwaith. Os byddwch yn methu 
@@ -460,26 +472,25 @@ function newTerms(locale, projectCountry) {
                 {
                     title: `Rydych yn cydnabod:`,
                     clauses: [
-                        oneLine`mae'r grant at eich defnydd chi yn unig ac efallai y byddwn yn ei gwneud yn ofynnol 
-                    i chi dalu cyfran o unrhyw elw o waredu asedau a brynwyd neu a wellwyd gyda'r grant;`,
+                        oneLine`bod y grant at eich defnydd chi yn unig ac efallai y bydd angen i chi dalu cyfran i ni 
+                        o unrhyw elw o waredu asedau a brynwyd neu a wellwyd gyda'r grant;`,
 
-                        oneLine`ni fyddwn yn cynyddu'r grant os ydych yn gwario mwy na'r gyllideb y cytunwyd arni 
-                    ac ni allwn ond gwarantu'r grant cyn belled â bod y Loteri Genedlaethol yn parhau i weithredu 
-                    a'n bod yn cael digon o arian arnoch;`,
+                        oneLine`ni fyddwn yn cynyddu'r grant os byddwch yn gwario mwy na'r gyllideb y cytunwyd arni 
+                        ac ni allwn ond gwarantu'r grant cyn belled â bod y Loteri Genedlaethol yn parhau i weithredu 
+                        a'n bod yn derbyn digon o arian ganddo;`,
 
-                        oneLine`nid yw'r grant yn ystyriaeth i unrhyw gyflenwad trethadwy at ddibenion TAW;`,
+                        oneLine`nid yw'r grant yn cael ei ystyried ar gyfer unrhyw gyflenwad trethadwy at ddibenion TAW;`,
 
-                        oneLine`nid oes gennym unrhyw atebolrwydd am unrhyw gostau neu ganlyniadau a ysgwyddwyd gennych 
-                    chi neu drydydd partïon sy'n codi'n uniongyrchol nac yn anuniongyrchol o'r prosiect, nac o beidio 
-                    â thalu neu dynnu'r grant yn ôl, ac eithrio i'r graddau sy'n ofynnol yn ôl y gyfraith;`,
+                        oneLine`nid oes gennym unrhyw atebolrwydd am unrhyw gostau neu ganlyniadau a ysgwyddir gennych 
+                        chi neu drydydd partïon sy'n codi'n uniongyrchol neu'n anuniongyrchol o'r prosiect, nac o beidio 
+                        â thalu neu dynnu'r grant yn ôl, ac eithrio i'r graddau sy'n ofynnol yn ôl y gyfraith;`,
 
-                        oneLine`bydd y Telerau ac Amodau hyn yn parhau i fod yn gymwys am flwyddyn ar ôl i'r grant gael ei 
-                    dalu neu hyd nes y bydd y prosiect wedi'i gwblhau, pa un bynnag yw'r diweddaraf. Bydd cymalau 1.2, 
-                    1.4, 1.6, 1.8, 1.9, 1.10, 1.11, 1.12, 3.4 a 3.5 yn goroesi'r Telerau ac Amodau hyn; A`,
+                        oneLine`bydd y Telerau ac Amodau hyn yn parhau i fod yn gymwys am flwyddyn ar ôl i'r grant gael 
+                        ei dalu neu hyd nes y bydd y prosiect wedi'i gwblhau, pa un bynnag sydd hwyraf. Cymalau 1.2, 1.4, 
+                        1.5, 1.6, 1.7, 1.9, 1.10, 1.11, 1.12, 1.13, 3.4 a 3.5 yn goroesi i'r Telerau ac Amodau hyn ddod i ben; a`,
 
-                        oneLine`os caiff y cais a'r dyfarniad grant eu gwneud yn electronig, ystyrir bod y cytundeb rhyngom 
-                    yn ysgrifenedig a bernir bod eich derbyniad ar-lein o'r Telerau ac Amodau hyn yn cyfateb i'ch llofnod 
-                    ar y cytundeb hwnnw.`,
+                        oneLine`3.6\t os gwneir y cais a'r dyfarniad grant yn electronig, ystyrir bod y cytundeb rhyngom 
+                        yn ysgrifenedig a bernir bod eich derbyniad ar-lein o'r Telerau ac Amodau hyn yn cyfateb i'ch llofnod ar y cytundeb hwnnw.`,
                     ],
                 },
             ],

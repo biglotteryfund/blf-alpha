@@ -646,9 +646,7 @@ funding:
           dunno: Don't know
       dataProtection:
         title: Data Protection
-        text: "<p>The data you submitted within this form will be collected by PSL
-          Print Management LTD in order to process and ship your order.</p><p>PSL
-          Print Management LTD shall share your data with The National Lottery Community Fund for
+        text: "<p>The data you submitted within this form will be collected by APS Group in order to process and ship your order.</p><p>APS Group shall share your data with The National Lottery Community Fund for
           data analysis purposes. The National Lottery Community Fund will use your data to analyse
           ordering patterns to inform The National Lottery Community Fund of future needs. Your personal
           data will not be shared with any other parties. Your personal data shall
