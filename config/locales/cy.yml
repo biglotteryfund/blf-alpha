@@ -1154,16 +1154,39 @@ awardsForAll:
             <strong>Os nad oes gennych gyfrifon blynyddol (gan bod eich mudiad yn llai na 15 mis oed).</strong><br/>
             Mae hynny’n iawn. Gallwn dal edrych ar eich cais.
         </p>
-        <h3>4. Cyfriflen banc o’r 3 mis diwethaf</h3>
-        <p>Dylai ddangos:</p>
-        <ul>
-            <li>enw cyfreithiol eich mudiad</li>
-            <li>y cyfeiriad mae’r cyfriflenni’n cael eu hanfon</li>
-            <li>enw eich banc</li>
-            <li>cod y cyfrif a’r rhif didoli</li>
-            <li>y dyddiad cafodd y datganiad ei gyhoeddi.</li>
+        <h3>4. Anfonwch eich datganiad banc atom</h3>
+        <h4><u>Beth rydym angen</u></h4>
+
+        <p>Gofynnwn am un datganiad banc dyddiedig o fewn y tri mis diwethaf.
+        Er mwyn i ni allu gwirio'r cyfrif rydych am i ni dalu'r grant iddo.</p>
+
+        <p>Ni fyddwn yn gallu asesu eich cais os nad oes gennych gyfrif banc a datganiad
+        banc sy'n bodloni ein gofynion isod a bydd angen i chi ailymgeisio ar ôl i chi sefydlu'r rhain.
+        Os nad ydych yn siŵr, <a href="https://www.tnlcommunityfund.org.uk/welsh/about/contact-us">cysylltwch â ni</a></p>
+
+        <p>Rydym angen:</p>
+        <ul type="i">
+            <li><a href"https://www.tnlcommunityfund.org.uk/welsh/funding/financial-governance">
+            Cyfrif banc sy'n bodloni ein hanghenion yn ein Canllawiau Rheolaethau Ariannol a Llywodraethu Ariannol</a></li>
+            <li><a href="https://www.tnlcommunityfund.org.uk/media/funding-guidance/Bank-account-guidance/TF21_170_NLA4A_Bank-statementW-2022.pdf?mtime=20220111121428&focal=none">
+            Datganiad banc sy’n bodloni ein hanghenion.</a></li>
         </ul>
-        <p>Dyma <a href="/assets/images/apply/under-10k-bank-statement-example-welsh.jpg">lun defnyddiol o'r math o gyfriflen banc rydym yn chwilio amdano.</a></p>
+
+        <h4><u>Ein hanghenion Cyfrif Banc</u></h4>
+        <p>Dylai ddangos:</p>
+
+        <ul>
+            <li>logo’r banc</li>
+            <li>enw cyfreithiol eich sefydliad </li>
+            <li>y cyfeiriad yr anfonir y datganiadau ato</li>
+            <li>enw’r banc</li>
+            <li>rhif y cyfrif a’r cod</li>
+            <li>y dyddiad y cyhoeddwyd y llythyr/datganiad</li>
+        </ul>
+
+        <p><a href="https://www.tnlcommunityfund.org.uk/media/funding-guidance/Bank-account-guidance/TF21_170_NLA4A_Bank-statementW-2022.pdf?mtime=20220111121428&focal=none">
+        Dyma lun o’r math o ddatganiad banc rydyn ni’n chwilio amdano.</a></p>
+
         <h3>5. Rydym yn gofyn am wybodaeth am ba fath o brosiect hoffech ei wneud</h3>
         <p>A sut fydd eich prosiect yn helpu a chynnwys eich cymuned.</p>
         <h3>6. Os nad ydych yn siŵr am y mathau o bethau rydym yn gofyn amdano wrth i chi ymgeisio</h3>
