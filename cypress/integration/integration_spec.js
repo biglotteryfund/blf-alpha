@@ -41,13 +41,13 @@ it('should test common interactions', () => {
 
 it('should serve welsh language versions of pages', function () {
     cy.visit('/');
-    cy.findByText('When people are in the lead, communities thrive').should(
+    cy.contains('The National Lottery Community Fund distributes over £600m a year to communities across the UK, raised by players of The National Lottery').should(
         'be.visible'
     );
 
     cy.visit('/welsh');
 
-    cy.findByText('Rydym yn cefnogi pobl a chymunedau i ffynnu').should(
+    cy.contains('Diolch i chwaraewyr y Loteri Genedlaethol sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na £500 miliwn i gymunedau ledled y Deyrnas Unedig bob blwyddyn').should(
         'be.visible'
     );
     //
