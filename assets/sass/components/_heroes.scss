@@ -161,6 +161,10 @@
     }
 }
 
+.blackout-banner {
+    background-color: #000000 !important;
+}
+
 .homepage-banner {
     font-family: font-stack('display');
     color: white;
@@ -226,6 +230,14 @@
    Miniature Heroes
    ========================================================================= */
 /* e.g /funding/funding-guidance/managing-your-funding */
+
+.blackout-hero {
+    padding-top: 10px;
+}
+
+.blackout-hero .miniature-hero .miniature-hero__title {
+    background-color: #000000 !important;
+}
 
 .miniature-hero {
     display: block;

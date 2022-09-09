@@ -154,6 +154,12 @@ $buttonColorDarker: #db0079; // Passes contrast a11y tests for use with smaller 
     outline: black solid 2px;
 }
 
+.btn.btn--blackout {
+    background-color: #c0c0c0 !important;
+    color: #000000 !important;
+    font-weight: 700;
+}
+
 /**
  * Button: Outline variant
  */
