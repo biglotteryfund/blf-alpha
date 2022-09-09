@@ -19,12 +19,10 @@ module.exports = async function (req, res, next) {
                 medium: '/assets/images/home/blackout_hero_medium.png',
                 large: '/assets/images/home/blackout_hero_large.png',
                 default: '/assets/images/home/blackout_hero_medium.png',
-                //caption: 'Superstars Club',
+                // caption: 'Superstars Club',
             },
         });
     } catch (error) {
         next(error);
     }
 };
-
-// This comment exists only to cause a code change.
