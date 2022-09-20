@@ -26,18 +26,18 @@
             </figure>
         </section>
 
-        <div class="nudge-up homepage-banner blackout-banner">
+        <div class="nudge-up homepage-banner">
             <div class="homepage-banner__header">
                 <div class="homepage-banner__intro">
                     {{ __(copy.intro.description, 'https://www.national-lottery.co.uk/') | safe }}
                 </div>
                 <div class="o-button-group">
-                    <a class="btn btn--medium btn--reversed btn--blackout"
+                    <a class="btn btn--medium btn--reversed"
                        href="{{ localify('/funding/under10k') }}"
                        id="qa-button-under10k">
                         {{ copy.under10k }}
                     </a>
-                    <a class="btn btn--medium btn--reversed btn--blackout"
+                    <a class="btn btn--medium btn--reversed"
                        href="{{ localify('/funding/over10k') }}"
                        id="qa-button-over10k">
                         {{ copy.over10k }}
@@ -55,7 +55,7 @@
         {% endif %}
 
         {# Featured sections #}
-        <section class="u-inner u-margin-bottom blackout-hero">
+        <section class="u-inner u-margin-bottom">
             <ul class="flex-grid flex-grid--3up">
                 {% for item in featuredLinks %}
                     <li class="flex-grid__item">
@@ -101,7 +101,7 @@
                 </section>
             </div>
         {% endif %}
-        <div class="blackout-social">
+        <div class="">
             {{ socialBar() }}
         </div>
     </main>
