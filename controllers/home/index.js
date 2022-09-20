@@ -15,11 +15,11 @@ module.exports = async function (req, res, next) {
             featuredLinks: entry.featuredLinks,
             promotedUpdates: entry.promotedUpdates,
             heroImage: {
-                small: '/assets/images/home/blackout_hero_small.png',
-                medium: '/assets/images/home/blackout_hero_medium.png',
-                large: '/assets/images/home/blackout_hero_large.png',
-                default: '/assets/images/home/blackout_hero_medium.png',
-                // caption: 'Superstars Club',
+                small: '/assets/images/home/superhero-shallow-small.jpg',
+                medium: '/assets/images/home/superhero-shallow-medium.jpg',
+                large: '/assets/images/home/superhero-shallow-large.jpg',
+                default: '/assets/images/home/superhero-shallow-medium.jpg',
+                caption: 'Superstars Club',
             },
         });
     } catch (error) {
