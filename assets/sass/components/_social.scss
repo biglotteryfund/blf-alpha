@@ -2,6 +2,10 @@
    Social
    ========================================================================= */
 
+.blackout-social .social-bar {
+    background-color: #000000 !important;
+}
+
 .social-bar {
     font-size: 16px;
     background-color: get-color('brand', 'secondary-burgundy');

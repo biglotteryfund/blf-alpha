@@ -507,8 +507,8 @@ test('maintain backwards compatibility for date schema', function () {
         projectCountry: 'scotland',
         projectLocation: 'fife',
         supportingCOVID19: 'no',
-        projectStartDate: { day: 25, month: 4, year: 2022 },
-        projectEndDate: { day: 3, month: 7, year: 2022 },
+        projectStartDate: { day: 31, month: 12, year: 2022 },
+        projectEndDate: { day: 1, month: 4, year: 2023 },
     });
 
     const form = formBuilder({
@@ -519,11 +519,11 @@ test('maintain backwards compatibility for date schema', function () {
 
     // Maintain backwards compatibility with salesforce schema
     const salesforceResult = form.forSalesforce();
-    expect(salesforceResult.projectStartDate).toBe('2022-04-25');
-    expect(salesforceResult.projectEndDate).toBe('2022-07-03');
+    expect(salesforceResult.projectStartDate).toBe('2022-12-31');
+    expect(salesforceResult.projectEndDate).toBe('2023-04-01');
     expect(salesforceResult.projectDateRange).toEqual({
-        startDate: '2022-04-25',
-        endDate: '2022-07-03',
+        startDate: '2022-12-31',
+        endDate: '2023-04-01',
     });
 });
 

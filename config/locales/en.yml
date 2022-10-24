@@ -217,8 +217,6 @@ toplevel:
   home:
     title: Home
     intro:
-      prefix: We are here and ready to help you through COVID-19.
-      title: When people are in the lead, communities thrive
       description: >
         <p>The National Lottery Community Fund distributes over £600m a year to communities across the UK,
         raised by players of <a href="%s">The National Lottery</a></p>
@@ -229,6 +227,8 @@ toplevel:
     sectionLinks:
       - label: Climate Action Hub
         href: "/key-initiatives/climate-action-hub"
+      - label: Platinum Jubilee Hub
+        href: "/key-initiatives/platinum-jubilee-hub"
   cookies:
     title: Cookies
   funding:
@@ -461,7 +461,7 @@ news:
     blog: >
       Looking for colour, context and perspective about the work of The National Lottery Community Fund, its impact on communities and topics currently in the news? It’s all here. This blog will explain, explore, showcase and examine the ways in which civil society, and as a result the sector, is changing. Read about what people in communities across the UK and sector thought leaders have to say and form your own opinion.
     people-stories: >
-      We believe that when people are in the lead, communities thrive. Here you can read real-life stories about people who have benefited from National Lottery funding; taking part in projects that have broadened their horizons, improved their communities, and changed their lives for the better.
+      Our mission is to support people and communities to prosper and thrive. Here you can read real-life stories about people who have benefited from National Lottery funding; taking part in projects that have broadened their horizons, improved their communities, and changed their lives for the better.
   filters:
     viewPostsTagged: Viewing all posts tagged
     viewPostsIn: Viewing all posts in
@@ -1157,16 +1157,36 @@ awardsForAll:
             <strong>If you don’t have yearly accounts (because your organisation is less than 15 months old).</strong><br/>
             That’s okay. We can still look at your application.
         </p>
-        <h3>4. A bank statement from the last 3 months</h3>
+
+        <h3>4. Send us your bank statement</h3>
+        <h4><u>What we need</u></h4>
+
+        <p>One bank statement dated within the last three months. So
+        we can check the account you want us to pay the grant into.</p>
+
+        <p>We'll not be able to assess your application if you do not have a bank account
+        and bank statement that meet our requirements below and you’ll need to reapply
+        once you have these set up. If you’re not sure <a href="https://www.tnlcommunityfund.org.uk/about/contact-us">contact us</a></p>
+
+        <p>We need:</p>
+        <ul type="i">
+            <li>A bank account that meets <a href="https://www.tnlcommunityfund.org.uk/funding/financial-governance">
+            our needs in our Financial Controls and Financial Governance Guidance</a></li>
+            <li><a href="https://www.tnlcommunityfund.org.uk/media/funding-guidance/Bank-account-guidance/TF21_170_NLA4A_Bank-statementE-2022-1.pdf?mtime=20220117131356&focal=none">
+            A bank statement that meets our needs.</a></li>
+        </ul>
+
+        <h4><u>Our bank statement needs</u></h4>
         <p>It should show:</p>
         <ul>
-            <li>your organisation’s legal name</li>
-            <li>address the statements are sent to</li>
-            <li>your bank’s name</li>
+            <li>the bank logo</li>
+            <li>your organisation's legal name</li>
+            <li>the address the statements are sent to</li>
+            <li>your bank's name</li>
             <li>the account number and sort code</li>
             <li>date the statement was issued.</li>
         </ul>
-        <p>Here’s <a href="/assets/images/apply/under-10k-bank-statement-example.png">a handy picture of the kind of bank statement we’re looking for.</a></p>
+        <p>Here’s <a href="https://www.tnlcommunityfund.org.uk/media/funding-guidance/Bank-account-guidance/TF21_170_NLA4A_Bank-statementE-2022-1.pdf?mtime=20220117131356&focal=none">a handy picture of the kind of bank statement we’re looking for.</a></p>
         <h3>5. We ask for information about what sort of project you’d like to do</h3>
         <p>And how your project will help and involve your community.</p>
         <h3>6. If you’re not sure about the sort of things we ask for when you apply</h3>
