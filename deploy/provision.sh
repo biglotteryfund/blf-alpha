@@ -39,6 +39,7 @@ service clamav-daemon status
 #################################################
 # Node.js
 #################################################
+touch nodeinstall.txt
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 apt-get install -y nodejs
@@ -47,6 +48,7 @@ apt-get install -y nodejs
 # AWS CLI
 #################################################
 # Used to fetch secrets from parameter store
+touch awscli.txt
 
 rm -rf awscli-bundle.zip awscli-bundle
 #curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
