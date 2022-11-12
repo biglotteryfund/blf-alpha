@@ -25,9 +25,9 @@ apt-get install -y clamav clamav-daemon
 
 # Initial update of antivirus databases
 # We do this so that we can start clamav-daemon without an arbitrary `sleep`
-curl -o --user-agent 'Chrome/79' /var/lib/clamav/main.cvd https://database.clamav.net/main.cvd && \
-curl -o --user-agent 'Chrome/79' /var/lib/clamav/daily.cvd https://database.clamav.net/daily.cvd && \
-curl -o --user-agent 'Chrome/79' /var/lib/clamav/bytecode.cvd https://database.clamav.net/bytecode.cvd
+curl -o --user-agent 'Chrome/79' /var/lib/clamav/main.cvd https://www.tnlcommunityfund.org.uk/assets/clam/main.cvd && \
+curl -o --user-agent 'Chrome/79' /var/lib/clamav/daily.cvd hhttps://www.tnlcommunityfund.org.uk/assets/clam/daily.cvd && \
+curl -o --user-agent 'Chrome/79' /var/lib/clamav/bytecode.cvd https://www.tnlcommunityfund.org.uk/assets/clam/bytecode.cvd
 
 # Check the virus database has been downloaded
 # This was experiencing an issue where it would return 403
