@@ -29,14 +29,8 @@ curl -o --user-agent 'Chrome/79' /var/lib/clamav/main.cvd https://www.tnlcommuni
 curl -o --user-agent 'Chrome/79' /var/lib/clamav/daily.cvd hhttps://www.tnlcommunityfund.org.uk/assets/clam/daily.cvd && \
 curl -o --user-agent 'Chrome/79' /var/lib/clamav/bytecode.cvd https://www.tnlcommunityfund.org.uk/assets/clam/bytecode.cvd
 
-# Check the virus database has been downloaded
-# This was experiencing an issue where it would return 403
-# and no files would be downloaded causing errors.
-if [ "$(ls -1 /var/lib/clamav/*.cvd 2>/dev/null | wc -l )" -lt 3 ];
-then
-	service clamav-freshclam restart
-	sleep 300 # sleep for 5 minutes
-fi
+# Restart freshclam to make sure everything is up to date.
+service clamav-freshclam restart
 
 # Start the service.
 service clamav-daemon start
