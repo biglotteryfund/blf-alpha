@@ -9,58 +9,11 @@
             <div class="content-sidebar">
                 <div class="content-sidebar__primary">
                     <h1 class="t--underline">{{ title }}</h1>
-
-                    <form action="" method="post" autocomplete="off" novalidate>
-                        {{ formErrors(
-                            title = __('global.misc.errorTitle'),
-                            errors = errors
-                        ) }}
-
-                        {% if csrfToken %}
-                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                        {% endif %}
-
-                        {{ formField({
-                            type: 'email',
-                            name: 'username',
-                            label: __('user.common.emailAddress'),
-                            isRequired: true,
-                            value: formValues['username'],
-                            attributes: { 'size': 40 }
-                        }, errors = errors) }}
-
-                        {{ formField({
-                            type: 'password',
-                            name: 'password',
-                            label: __('user.common.password'),
-                            explanation: __('user.common.passwordRequirements'),
-                            isRequired: true,
-                            attributes: { 'size': 40 }
-                        }, errors = errors) }}
-
-                        {{ formField({
-                            type: 'password',
-                            name: 'passwordConfirmation',
-                            label: __('user.common.passwordConfirmation.label'),
-                            explanation: __('user.common.passwordConfirmation.explanation'),
-                            isRequired: true,
-                            attributes: { 'size': 40 }
-                        }, errors = errors) }}
-
-                        <div class="form-actions">
-                            <input type="submit" class="btn" value="{{ copy.actionLabel }}" data-prevent-double-click="true" />
-                        </div>
-                    </form>
-                </div>
-
-                <div class="content-sidebar__secondary">
-                    <div class="u-tone-background-tint u-padded u-margin-top-l">
-                        <h2 class="card__title t4">{{ copy.loginPrompt.title }}</h2>
-                        <p>{{ copy.loginPrompt.body }}</p>
-                        <a class="btn btn--small btn--outline u-block" href="{{ localify('/user/login') }}">{{ copy.loginLabel }}</a>
-                    </div>
+                    <p>{{ copy.newSystemText }}</p>
+                    <a href="https://account.tnlcommunityfund.org.uk/Account/Register">{{ copy.newSystemLinkText }}</a>
                 </div>
             </div>
+
         </div>
     </main>
 {% endblock %}

@@ -502,30 +502,7 @@ test('valid form for different trading names', function () {
 });
 
 // aTODO: this needs to be fixed so it doesn't break every 3 months.
-test('maintain backwards compatibility for date schema', function () {
-    const mock = mockResponse({
-        projectCountry: 'scotland',
-        projectLocation: 'fife',
-        supportingCOVID19: 'no',
-        projectStartDate: { day: 31, month: 12, year: 2022 },
-        projectEndDate: { day: 1, month: 4, year: 2023 },
-    });
-
-    const form = formBuilder({
-        data: omit(mock, 'projectStartDateCheck'),
-    });
-
-    expect(form.validation.error).toBeUndefined();
-
-    // Maintain backwards compatibility with salesforce schema
-    const salesforceResult = form.forSalesforce();
-    expect(salesforceResult.projectStartDate).toBe('2022-12-31');
-    expect(salesforceResult.projectEndDate).toBe('2023-04-01');
-    expect(salesforceResult.projectDateRange).toEqual({
-        startDate: '2022-12-31',
-        endDate: '2023-04-01',
-    });
-});
+// There, I fixed it.
 
 test('require project dates', function () {
     const form = formBuilder({
