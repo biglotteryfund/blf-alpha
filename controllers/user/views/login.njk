@@ -6,74 +6,15 @@
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
 
-
             <div class="content-sidebar">
                 <div class="content-sidebar__primary">
                     <h1 class="t--underline">{{ title }}</h1>
-
-                    {% if alertMessage %}
-                        <div class="message" role="alert">
-                            {{ alertMessage }}
-                        </div>
-                    {% endif %}
-
-                    <form action="" method="post" novalidate>
-                        <div class="s-prose u-constrained-wide">
-                            {{ copy.introduction | safe }}
-                        </div>
-
-                        {{ formErrors(
-                            title = __('global.misc.errorTitle'),
-                            errors = errors
-                        ) }}
-
-                        {% if csrfToken %}
-                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                        {% endif %}
-
-                        {{ formField({
-                            type: 'email',
-                            name: 'username',
-                            label: __('user.common.emailAddress'),
-                            isRequired: true,
-                            value: formValues['username'],
-                            attributes: { 'size' : 40 }
-                        }, errors = errors) }}
-
-                        {{ formField({
-                            type: 'password',
-                            name: 'password',
-                            label: __('user.common.password'),
-                            isRequired: true,
-                            attributes: { 'size' : 40 }
-                        }, errors = errors) }}
-
-                        <p>
-                            <small>
-                                <a href="{{ localify('/user/password/forgot') }}">
-                                    {{ copy.forgottenPasswordPrompt }}
-                                </a>
-                            </small>
-                        </p>
-
-                        <div class="form-actions">
-                            <input type="submit" class="btn" value="{{ copy.actionLabel }}" />
-                        </div>
-
-                    </form>
-
-                </div>
-
-                <div class="content-sidebar__secondary">
-                    <div class="u-tone-background-tint u-padded u-margin-top-l">
-                        <h2 class="card__title t4">{{ copy.registerPrompt.title }}</h2>
-                        <p>{{ copy.registerPrompt.body }}</p>
-                        <a class="btn btn--small btn--outline u-block" href="{{ localify('/user/register') }}">{{ copy.registerLabel }}</a>
-                    </div>
+                    <p>All our applications have moved to a new system, you can find them <a href="https://account.tnlcommunityfund.org.uk/">here</a></p>
+                    <p>Your current log in details will work on the new system</p>
                 </div>
             </div>
-        </div>
 
+        </div>
     </main>
 {% endblock %}
 

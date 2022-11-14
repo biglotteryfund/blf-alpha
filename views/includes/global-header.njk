@@ -25,24 +25,6 @@
         <div class="global-header__extra">
             <ul class="global-header__navigation-secondary">
 
-                {# Login / logout links (toggled via JS) #}
-                <li class="js-toggle-login js-hidden">
-                    <a href="{{ globalNavigation.login.url }}" class="global-header__account-link global-header__account-link--cta">
-                        {{ iconLogin() }}
-                        <span data-testid="global-login">
-                            {{ globalNavigation.login.label }}
-                        </span>
-                    </a>
-                </li>
-                <li class="js-toggle-logout js-hidden u-hidden">
-                    <a href="{{ globalNavigation.logout.url }}" class="global-header__account-link">
-                        {{ iconLogout() }}
-                        <span data-testid="global-logout">
-                            {{ globalNavigation.logout.label }}
-                        </span>
-                    </a>
-                </li>
-
                 {# Application dashboard link (toggled via JS) #}
                 <li class="js-toggle-logout js-hidden u-hidden">
                     <a href="{{ globalNavigation.myApplications.url }}" class="global-header__account-link global-header__account-link--cta">
