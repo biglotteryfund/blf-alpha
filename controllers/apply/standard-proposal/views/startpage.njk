@@ -2,97 +2,18 @@
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 
-{% set copy = __('yourFundingProposal.startPage') %}
-{% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
+{% set copy = __('user.login') %}
 
 {% block content %}
     <main role="main" id="content">
-        {% call contentBox(skipProse = true) %}
-            {{ formHeader(
-                backUrl = sectionUrl if user else localify('/funding/over10k'),
-                title = formTitle,
-                prefix = globalCopy.brand.title
-            )}}
-
-            <div class="s-prose">
-
-                <h2>{{ copy.beforeYouStart.title }}</h2>
-
-                <ul>
-                    {% for item in copy.beforeYouStart.items %}
-                        <li>{{ item | safe}}</li>
-                    {% endfor %}
-                </ul>
-
-                <h2>{{ copy.ready.title }}</h2>
-                {{ copy.ready.introV2 | safe}}
-
-                <div id="js-vue" class="no-vue">
-                    <div>
-                        <div class="o-button-group-flex">
-                            {% for country in copy.ready.countries %}
-                                <a href="#{{ country.id }}"
-                                   class="btn btn--small"
-                                   v-on:click.prevent="toggleItemCountry({{ country.toggle }})">
-                                    {{ country.title }}
-                                </a>
-                            {% endfor %}
-                        </div>
-                        <p>
-                            <a href="#no-country"
-                               class="span-hyperlink"
-                               v-on:click.prevent="toggleItemCountry('no-country')">
-                                {{ copy.ready.noCountry.title }}
-                            </a>
-                        </p>
-                    </div>
-
-                    <div v-show="itemCountry !== null">
-                        <div>
-                            {% for country in copy.ready.countries %}
-                                <div class="o-details__content" v-show="itemCountry === {{ country.toggle }}" id="{{ country.id }}">
-                                    <h2 class="t2 form-header__title u-tone-brand-primary">{{ country.header }}</h2>
-
-                                    {% if country.subheader %}
-                                        <h2>{{ country.subheader }}</h2>
-                                    {% endif %}
-
-                                    <p>{{ country.content | safe }}</p>
-
-                                    {% if country.start %}
-                                        <p>
-                                            <a href="{{ country.start.href }}" class="btn">
-                                                {{ country.start.title }}
-                                            </a>
-                                        </p>
-                                    {% endif %}
-
-                                    {% if country.whatNext %}
-                                        <h2>{{ country.whatNext.title }}</h2>
-
-                                        <ul>
-                                            {% for item in country.whatNext.checklist %}
-                                                <li>
-                                                    {{ item }}
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                        <p>{% if country.whatNext.descripton %}{{ country.whatNext.description }}{% endif %}</p>
-                                    {% endif %}
-                                </div>
-                            {% endfor %}
-                            <div v-show="itemCountry === 'no-country'" id="no-country">
-                                <h2 class="t2 form-header__title u-tone-brand-primary">{{ copy.ready.noCountry.header }}</h2>
-                                <p>{{ copy.ready.noCountry.content | safe }}</p>
-                            </div>
-                        </div>
-                    </div>
+        <div class="content-box u-inner-wide-only">
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    <h1 class="t--underline">{{ copy.title }}</h1>
+                    <p>{{ copy.newSystemText }}</p>
+                    <a href="https://account.tnlcommunityfund.org.uk/Account/Login">{{ copy.newSystemLinkText }}</a>
                 </div>
-
             </div>
-
-        {% endcall %}
-
-
+        </div>
     </main>
 {% endblock %}
