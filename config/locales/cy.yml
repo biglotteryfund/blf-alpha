@@ -793,7 +793,9 @@ user:
     - label: Allgofnodi
       href: /welsh/user/logout
   login:
-    title: Mewngofnodi
+    title: Rydym wedi symud i system newydd
+    newSystemText: Mae ein holl geisiadau wedi symud i system newydd
+    newSystemLinkText: Gallwch fewngofnodi yma
     introduction: >
       <p>Mae hon yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
     actionLabel: Mewngofnodi
@@ -810,7 +812,9 @@ user:
       Arhoswch am ychydig a thrio eto’n fuan.
     minutesLeft: Gallwch drio eto mewn <strong>%s munud</strong>.
   register:
-    title: Creu cyfrif
+    title: Rydym wedi symud i system newydd
+    newSystemText: Mae ein holl geisiadau wedi symud i system newydd
+    newSystemLinkText: Gallwch gofrestru yma
     actionLabel: Creu cyfrif
     loginLabel: Mewngofnodi
     loginPrompt:

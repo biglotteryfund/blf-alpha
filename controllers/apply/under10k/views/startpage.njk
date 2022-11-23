@@ -3,44 +3,18 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/process-map/macro.njk" import processMap %}
 
-{% set copy = __('awardsForAll.startPage') %}
-{% block title %}{{ copy.title }} | {{ formTitle }} | {% endblock %}
+{% set copy = __('user.login') %}
 
 {% block content %}
     <main role="main" id="content">
-        {% call contentBox(skipProse = true) %}
-            {{ formHeader(
-                backUrl = sectionUrl if user else localify('/funding/under10k'),
-                title = copy.title,
-                prefix = formTitle
-            )}}
-
-            <div class="s-prose">
-                {{ copy.beforeYouStart.body | safe }}
-
-                <h2>{{ copy.whatInformation.title }}</h2>
-                    {{ copy.whatInformation.body | safe }}
-
-                <h2>{{ copy.readyToApply.title }}</h2>
+        <div class="content-box u-inner-wide-only">
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    <h1 class="t--underline">{{ copy.title }}</h1>
+                    <p>{{ copy.newSystemText }}</p>
+                    <a href="https://account.tnlcommunityfund.org.uk/Account/Login">{{ copy.newSystemLinkText }}</a>
+                </div>
             </div>
-
-            {% set processItemsSource = copy.readyToApply.processMap.processNew %}
-
-            {% set processItems = [] %}
-            {% for item in processItemsSource %}
-                {% set processItems = (processItems.push({
-                    type: item.type,
-                    title: item.title,
-                    description: item.description,
-                    isCompleted: loop.index === 1,
-                    isCurrent: loop.index === 1
-                }), processItems) %}
-            {% endfor %}
-            {{ processMap(processItems, copy.readyToApply.processMap.indicatorLabel) }}
-
-            <p class="form-actions u-margin-bottom-l">
-                <a href="{{ nextPageUrl }}" class="btn">{{ copy.readyToApply.startAction }}</a>
-            </p>
-        {% endcall %}
+        </div>
     </main>
 {% endblock %}

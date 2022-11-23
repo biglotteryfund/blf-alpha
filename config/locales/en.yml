@@ -805,7 +805,9 @@ user:
     - label: Log out
       href: /user/logout
   login:
-    title: Log in
+    title: We have moved to a new system
+    newSystemText: All our applications have moved to a new system
+    newSystemLinkText: You can log in here
     introduction: >
       <p>This is a new application form. If you haven't logged in here before, you might not have an account with us - and will need to <a href="/user/register">create a new account</a> to apply.</p>
     actionLabel: Log in
@@ -822,7 +824,9 @@ user:
       Please wait for a while and try again soon.
     minutesLeft: You can try again in <strong>%s minutes</strong>.
   register:
-    title: Create an account
+    title: We have moved to a new system
+    newSystemText: All our applications have moved to a new system
+    newSystemLinkText: You can register here
     actionLabel: Create an account
     loginLabel: Log in
     loginPrompt:
