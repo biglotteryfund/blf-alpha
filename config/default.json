@@ -37,7 +37,7 @@
     "enableEnglandAutoProjectDuration": true
   },
   "session": {
-    "cookie": "blf-alpha-session1",
+    "cookie": "blf-alpha-session",
     "cookieLogin": "blf-auth-state1",
     "expiryInSeconds": 1
   },
