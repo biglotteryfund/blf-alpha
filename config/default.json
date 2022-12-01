@@ -39,7 +39,7 @@
   "session": {
     "cookie": "blf-alpha-session",
     "cookieLogin": "blf-auth-state1",
-    "expiryInSeconds": 1
+    "expiryInSeconds": 7200
   },
   "hotjarId": null,
   "googleAnalyticsCode": "UA-98908627-1"
