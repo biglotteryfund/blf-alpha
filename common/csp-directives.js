@@ -26,8 +26,6 @@ module.exports = function cspDirectives() {
         '*.bootstrapcdn.com',
         '*.soundcloud.com',
         'emails-tnlcommunityfund.org.uk',
-        'api.reciteme.com',
-        'stats.reciteme.com',
         new URL(CONTENT_API_URL).host,
     ];
 
