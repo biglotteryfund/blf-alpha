@@ -13,8 +13,7 @@
                     window.navigator.doNotTrack === '1' ||
                     window.navigator.msDoNotTrack === '1';
 
-            if(localStorage.getItem('tnlcommunityfund:cookie-consent') == 'all'){
-                console.log("DOIN AN ANALYTICS")
+            if(!isDoNotTrack && localStorage.getItem('tnlcommunityfund:cookie-consent') == 'all'){
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
