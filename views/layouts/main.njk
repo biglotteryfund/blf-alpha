@@ -5,6 +5,22 @@
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}
         {% block extraHead %}{% endblock %}
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TG8VNZC6YT"></script>
+        <script>
+            const isDoNotTrack =
+                    window.doNotTrack === '1' ||
+                    window.navigator.doNotTrack === '1' ||
+                    window.navigator.msDoNotTrack === '1';
+
+            if(!isDoNotTrack && localStorage.getItem('tnlcommunityfund:cookie-consent') == 'all'){
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-TG8VNZC6YT');
+            }
+        </script>
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
         <nav class="accessibility-nav" role="navigation" aria-label="accessibility">
