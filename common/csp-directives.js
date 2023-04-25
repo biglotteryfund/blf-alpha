@@ -26,6 +26,8 @@ module.exports = function cspDirectives() {
         '*.bootstrapcdn.com',
         '*.soundcloud.com',
         'emails-tnlcommunityfund.org.uk',
+        'www.googletagmanager.com',
+        '*.google-analytics.com',
         new URL(CONTENT_API_URL).host,
     ];
 

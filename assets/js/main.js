@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { Vue as SentryVue } from '@sentry/integrations';
 import Vue from 'vue';
 import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.standalone.js';
-import analytics from './analytics';
+// import analytics from './analytics';
 
 Sentry.init({
     dsn: 'https://53aa5923a25c43cd9a645d9207ae5b6c@sentry.io/226416',
@@ -56,30 +56,3 @@ import(/* webpackChunkName: "vue-apps" */ './vue-apps/index').then(
     }
 );
 
-function shouldInitAnalytics() {
-    const isDoNotTrack =
-        window.doNotTrack === '1' ||
-        window.navigator.doNotTrack === '1' ||
-        window.navigator.msDoNotTrack === '1';
-
-    // If the user hasn't consented to all cookies, we don't enable GA or other tracking.
-    if(localStorage.getItem('tnlcommunityfund:cookie-consent') != 'all')
-        return false;
-
-    if (window.AppConfig.environment === 'production') {
-        /*
-         * In production, disable analytics outside
-         * of the real domain to avoid polluting data.
-         */
-        return (
-            window.location.hostname === 'www.tnlcommunityfund.org.uk' &&
-            isDoNotTrack === false
-        );
-    } else {
-        return isDoNotTrack === false;
-    }
-}
-
-if (shouldInitAnalytics() === true) {
-    analytics.init();
-}
