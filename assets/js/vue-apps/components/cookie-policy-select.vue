@@ -8,7 +8,7 @@ const STORAGE_KEY = 'tnlcommunityfund:cookie-consent';
 let newCookiePref = null;
 
 export default {
-    props: ['actionsave', 'title', 'message', 'actionsuccess', 'actionfail', 'messageall', 'messageessential' ],
+    props: ['actionsave', 'title', 'message', 'actionsuccess', 'messageall', 'messageessential' ],
     data() {
 
         const hasAccepted =
@@ -17,17 +17,10 @@ export default {
     },
     methods: {
         saveChanges() {
-            canStore && window.localStorage.setItem(STORAGE_KEY, newCookiePref);
             if(newCookiePref !== null) {
-                document.querySelector(".cookie-success-text").style.display = "block";
-                document.querySelector(".cookie-fail-text").style.display = "none";
+                canStore && window.localStorage.setItem(STORAGE_KEY, newCookiePref);
             }
-            else {
-                document.querySelector(".cookie-fail-text").style.display = "block";
-                document.querySelector(".cookie-success-text").style.display = "none";
-            }
-
-
+            document.querySelector(".cookie-success-text").style.display = "block";
         },
         changeCookiePref(cookiePref)
         {
@@ -79,7 +72,6 @@ export default {
             {{ actionsave }}
         </button>
         <p style="display: none; border-left: green 4px solid; padding-left: 10px;" class="cookie-success-text">{{ actionsuccess }}</p>
-        <p style="display: none; border-left: red 4px solid; padding-left: 10px;" class="cookie-fail-text">{{ actionfail }}</p>
     </div>
 </template>
 
