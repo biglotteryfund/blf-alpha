@@ -127,6 +127,41 @@ global:
         <li>what you click on while you're visiting the site</li>
         <li>how you navigate through pages and content on the site</li>
         </ul></p>
+    cookieList:
+    - name: _ga
+      expiry: 2 years
+    - name: _ga_[property-id]
+      expiry: 2 years
+    - name: _hjSessionUser_{site_id}
+      expiry: 1 year
+    - name: _hjid
+      expiry: 1 year
+    - name: _hjFirstSeen
+      expiry: 30 minutes
+    - name: _hjHasCachedUserAttributes
+      expiry: Session
+    - name: _hjUserAttributesHash
+      expiry: 2 minutes
+    - name: _hjSession_{site_id}
+      expiry: 30 minutes
+    - name: _hjSessionTooLarge
+      expiry: 1 hour
+    - name: _hjSessionResumed
+      expiry: Session
+    - name: _hjCookieTest
+      expiry: Under 100ms
+    - name: _hjLocalStorageTest
+      expiry: Under 100ms
+    - name: _hjSessionStorageTest
+      expiry: Under 100ms
+    - name: _hjIncludedInPageviewSample
+      expiry: 2 minutes
+    - name: _hjIncludedInSessionSample_{site_id}
+      expiry: 2 minutes
+    - name: _hjAbsoluteSessionInProgress
+      expiry: 30 minutes
+    - name: _hjTLDTest
+      expiry: Session
     actionSave: Save changes
     actionSuccess: Cookie preferences updated
     actionFail: Cookie preferences not updated

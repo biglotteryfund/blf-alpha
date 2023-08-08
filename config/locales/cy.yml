@@ -126,6 +126,41 @@ global:
         <li>beth rydych chi'n clicio arno tra byddwch chi'n ymweld â'r safle</li>
         <li>sut rydych chi'n llywio drwy dudalennau a chynnwys ar y safle</li>
         </ul></p>
+    cookieList:
+    - name: _ga
+      expiry: 2 flynedd
+    - name: _ga_[property-id]
+      expiry: 2 flynedd
+    - name: _hjSessionUser_{site_id}
+      expiry: 1 flwyddyn
+    - name: _hjid
+      expiry: 1 flwyddyn
+    - name: _hjFirstSeen
+      expiry: 30 munud
+    - name: _hjHasCachedUserAttributes
+      expiry: sesiwn
+    - name: _hjUserAttributesHash
+      expiry: 2 funud
+    - name: _hjSession_{site_id}
+      expiry: 30 munud
+    - name: _hjSessionTooLarge
+      expiry: 1 awr
+    - name: _hjSessionResumed
+      expiry: sesiwn
+    - name: _hjCookieTest
+      expiry: dan  100ms
+    - name: _hjLocalStorageTest
+      expiry: dan  100ms
+    - name: _hjSessionStorageTest
+      expiry: dan  100ms
+    - name: _hjIncludedInPageviewSample
+      expiry: 2 funud
+    - name: _hjIncludedInSessionSample_{site_id}
+      expiry: 2 funud
+    - name: _hjAbsoluteSessionInProgress
+      expiry: 30 munud
+    - name: _hjTLDTest
+      expiry: sesiwn
     actionSave: Arbed newidiadau
     actionSuccess: Diweddaru dewisiadau cwci
     actionFail: Dewisiadau cwci heb eu diweddaru
