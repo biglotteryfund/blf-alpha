@@ -18,12 +18,28 @@
 
             <div class="s-prose">
             {{ copy.intro | safe}}
-
                 <h2>{{copy.necessaryCookies.title}}</h2>
                 {{copy.necessaryCookies.description | safe}}
 
                 <h2>{{copy.websiteUse.title}}</h2>
                 {{copy.websiteUse.description | safe}}
+
+                 <table class="table table-sm table-striped preview-table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Expiry</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cookie in __("global.cookiePolicy.cookieList") %}
+                            <tr>
+                                <td>{{cookie.name}}</td>
+                                <td>{{cookie.expiry}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
                 {% set cookieLang = __('global.cookiePolicy') %}
                 <div id="js-cookie-policy-select">
@@ -34,11 +50,7 @@
                         messageessential='{{ cookieLang.messageEssential }}'
                     ></cookie-policy-select>
                 </div>
-
-
             </div>
-
-
         </section>
     </main>
 {% endblock %}
