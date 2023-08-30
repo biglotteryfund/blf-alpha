@@ -217,7 +217,7 @@ toplevel:
     intro:
       description: <p>Diolch i chwaraewyr y Loteri Genedlaethol sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ledled y Deyrnas Unedig bob blwyddyn</p>
     under10k: Ymgeisio am grant o dan £20,000
-    over10k: Ymgeisio am grant dros £20,000
+    over10k: Ymgeisio am grant dros £20,001
   keyInitiatives:
     title: Mentrau allweddol
     sectionLinks:
@@ -235,7 +235,7 @@ toplevel:
         href: "/welsh/funding/thinking-of-applying-for-funding"
       - label: Ymgeisio am grantiau o dan £20,000
         href: "/welsh/funding/under10k"
-      - label: Ymgeisio am grantiau dros £20,000
+      - label: Ymgeisio am grantiau dros £20,001
         href: "/welsh/funding/over10k"
       - label: Gweld pob rhaglen grantiau agored
         href: "/welsh/funding/programmes"
@@ -633,7 +633,7 @@ funding:
           grantAcknowledgment: Chydnabyddiaeth Grant
         grantSizes:
           under10k: Dan £20,000
-          over10k: Dros £20,000
+          over10k: Dros £20,001
           dunno: Ddim yn gwybod
       dataProtection:
         title: Diogelu Data
@@ -700,7 +700,7 @@ funding:
   programmes:
     title: Rhaglenni ariannu
     under10k: Grantiau dan £20,000
-    over10k: Grantiau dros £20,000
+    over10k: Grantiau dros £20,001
     allProgrammes: Gweld pob rhaglen grantiau
     noResults: Dim canlyniadau
   archivedProgramme:
@@ -937,8 +937,8 @@ apply:
           url: /welsh/apply/under-10k/start
           label: Dechrau cais newydd
       standard:
-        title: "Ariannu dros £20,000: Dywedwch wrthym eich cynnig"
-        description: "Os oes arnoch angen mwy na £20,000 o arian gennym - dywedwch wrthym eich cynnig ar gyfer prosiect i helpu eich cymuned i ffynnu"
+        title: "Ariannu dros £20,001: Dywedwch wrthym eich cynnig"
+        description: "Os oes arnoch angen mwy na £20,001 o arian gennym - dywedwch wrthym eich cynnig ar gyfer prosiect i helpu eich cymuned i ffynnu"
         link:
           url: /welsh/apply/your-funding-proposal/start
           label: Dechrau eich cynnig
@@ -1120,8 +1120,8 @@ awardsForAll:
         <ul>
           <li>Cymrwch olwg ar ein gwefan am
             <a href="/welsh/funding/under10k">wybodaeth am ein harian grant o dan £20,000</a></li>
-          <li>Os oes angen mwy na £20,000 arnoch, cymrwch olwg ar ein gwefan am
-            <a href="/welsh/funding/over10k">wybodaeth am ein harian grant dros £20,000</a></li>
+          <li>Os oes angen mwy na £20,001 arnoch, cymrwch olwg ar ein gwefan am
+            <a href="/welsh/funding/over10k">wybodaeth am ein harian grant dros £20,001</a></li>
         </ul>
     whatInformation:
       title: Pa wybodaeth rydych ei angen i ymgeisio
