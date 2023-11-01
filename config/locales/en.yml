@@ -255,8 +255,8 @@ toplevel:
       description: >
         <p>The National Lottery Community Fund distributes over £600m a year to communities across the UK,
         raised by players of <a href="%s">The National Lottery</a></p>
-    under10k: Apply for funding under £10,000
-    over10k: Apply for funding over £10,000
+    under10k: Apply for funding under £20,000
+    over10k: Apply for funding over £20,001
   keyInitiatives:
     title: Key initiatives
     sectionLinks:
@@ -272,9 +272,9 @@ toplevel:
     sectionLinks:
       - label: Thinking of applying for funding?
         href: "/funding/thinking-of-applying-for-funding"
-      - label: Apply for funding under £10,000
+      - label: Apply for funding under £20,000
         href: "/funding/under10k"
-      - label: Apply for funding above £10,000
+      - label: Apply for funding above £20,001
         href: "/funding/over10k"
       - label: View all open funding programmes
         href: "/funding/programmes"
@@ -676,8 +676,8 @@ funding:
           mpVisit: MP Visit
           grantAcknowledgment: Grant acknowledgment
         grantSizes:
-          under10k: £10,000 and under
-          over10k: Over £10,000
+          under10k: £20,000 and under
+          over10k: Over £20,001
           dunno: Don't know
       dataProtection:
         title: Data Protection
@@ -745,8 +745,8 @@ funding:
               the full range and order here</a>.
   programmes:
     title: Funding programmes
-    under10k: Awards under £10,000
-    over10k: Awards over £10,000
+    under10k: Awards under £20,000
+    over10k: Awards over £20,001
     allProgrammes: View all funding programmes
     noResults: No results
   strategics:
@@ -977,14 +977,14 @@ apply:
     applicationDeleted: Your application was successfully deleted
     actions:
       simple:
-        title: "Funding under £10,000: Start an application"
-        description: A quick way to apply for smaller amounts of funding between £300 and £10,000.
+        title: "Funding under £20,000: Start an application"
+        description: A quick way to apply for smaller amounts of funding between £300 and £20,000.
         link:
           url: /apply/under-10k/start
           label: Start a new application
       standard:
-        title: "Funding over £10,000: Tell us your proposal"
-        description: "If you need more than £10,000 funding from us—tell us your proposal for a project to help your community thrive."
+        title: "Funding over £20,001: Tell us your proposal"
+        description: "If you need more than £20,001 funding from us—tell us your proposal for a project to help your community thrive."
         link:
           url: /apply/your-funding-proposal/start
           label: Start your proposal
@@ -1162,8 +1162,8 @@ awardsForAll:
       title: Before you start
       body: >
         <ul>
-          <li>Have a look at our website for <a href="/funding/under10k">information about funding under £10,000</a></li>
-          <li>If you need more than £10,000, have a look at our website for <a href="/funding/over10k">information about funding over £10,000</a></li>
+          <li>Have a look at our website for <a href="/funding/under10k">information about funding under £20,000</a></li>
+          <li>If you need more than £20,001, have a look at our website for <a href="/funding/over10k">information about funding over £20,001</a></li>
         </ul>
     whatInformation:
       title: What information you need to apply
@@ -1297,13 +1297,13 @@ yourFundingProposal:
       - title: Applying for a project in England or Northern Ireland?
         message: Great—you're in the right place.
       - title: Applying for a project in Wales or Scotland? Or right across the UK?
-        message: You'll need to <a href="/funding/over10k">look at our programme pages for funding over £10,000</a> to find out how to apply.
+        message: You'll need to <a href="/funding/over10k">look at our programme pages for funding over £20,001</a> to find out how to apply.
     beforeYouStart:
       title: Before you start
       items:
-        - Have a look at our website for <a href="/funding/over10k">information about funding over £10,000</a>
+        - Have a look at our website for <a href="/funding/over10k">information about funding over £20,001</a>
         - If you have any questions—<a href="/contact">contact us</a>
-        - If you <a href="/funding/under10k">need less than £10,000 you can apply straight away</a>
+        - If you <a href="/funding/under10k">need less than £20,000 you can apply straight away</a>
     whatInformation:
       title: What information will you need handy for this form?
       checklist:
@@ -1443,8 +1443,8 @@ yourFundingProposal:
           id: scotland
           header: Projects in Scotland
           content: >
-            <p>You do not need an an online account with us to apply for over £10,000 in Scotland.</p>
-            <p>To find funding that might suit your project, read our list of available <a href="/funding/programmes?min=10000&location=scotland">funding in Scotland for over £10,000</a>.</p>
+            <p>You do not need an an online account with us to apply for over £20,001 in Scotland.</p>
+            <p>To find funding that might suit your project, read our list of available <a href="/funding/programmes?min=10000&location=scotland">funding in Scotland for over £20,001</a>.</p>
             <p></p>If you’re ready to apply for one of our programmes, please contact one of our team on <a href="mailto:advicescotland@tnlcommunityfund.org.uk">advicescotland@tnlcommunityfund.org.uk</a> or <a href="">0141 846 0447</a>.</p>
             <p></p>We’ll have an informal chat with you about the idea you need funding for, and can send you an application form.</p>
         - title: Wales
@@ -1452,8 +1452,8 @@ yourFundingProposal:
           id: wales
           header: Projects in Wales
           content: >
-            <p>You do not need an an online account with us to apply for over £10,000 in Wales.</p>
-            <p>To find funding that might suit your project, read our list of available <a href="/funding/programmes?min=10000&location=wales">funding in Wales for over £10,000</a>.</p>
+            <p>You do not need an an online account with us to apply for over £20,001 in Wales.</p>
+            <p>To find funding that might suit your project, read our list of available <a href="/funding/programmes?min=10000&location=wales">funding in Wales for over £20,001</a>.</p>
             <p>We're asking applicants to contact us by phone or email before we send you an application form. This is not an assessment – we're here to support you to develop your project idea and talk through any questions you have.</p>
             <p>You can contact our Advice team by emailing <a href="mailto:wales@tnlcommunityfund.org.uk">wales@tnlcommunityfund.org.uk</a> or calling <a href="">0300 123 0735</a> between 9.00am and 5.00pm, Monday to Friday.</p>
       noCountry:
@@ -1461,7 +1461,7 @@ yourFundingProposal:
           hyperlink: /apply
           header: Projects across the UK
           content: >
-            <p>You do not need an an online account with us to apply for over £10,000 for a UK wide project.</p>
+            <p>You do not need an an online account with us to apply for over £20,001 for a UK wide project.</p>
             <p>Our application process depends on which of our funding programmes you’d like to apply for. Read our list of available <a href="/funding/programmes?min=10000&&location=ukWide">funding across the UK</a>.</p>
     processMap:
       indicatorLabel: You are here
