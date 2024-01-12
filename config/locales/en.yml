@@ -28,6 +28,7 @@ global:
     updates: News
     contact: Contact us
     jobs: Jobs
+    accessibility: Accessibility
   contact:
     address: 1 Plough Place, London, EC4A 1DE
     email: general.enquiries@tnlcommunityfund.org.uk
