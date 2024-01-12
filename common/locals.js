@@ -100,6 +100,7 @@ module.exports = function (req, res, next) {
         secondaryLinks: [
             { label: navCopy.about, url: localify(locale)('/about') },
             { label: navCopy.jobs, url: localify(locale)('/jobs') },
+            { label: navCopy.accessibility, url: localify(locale)('/about/customer-service/accessibility')}
         ],
     };
 
